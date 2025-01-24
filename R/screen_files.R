@@ -65,8 +65,8 @@ screen_files <- function(
     "results_table" = rbind(
       stage_1_results
     ),
-    "stage" = "Passed",
-    "message" = "Passed all checks"
+    "overall_stage" = "Passed",
+    "overall_message" = "Passed all checks"
   )
 
   return(output)
