@@ -36,7 +36,7 @@
 <p>Ideas for eesyscreener should first be raised as a <a href="https://github.com/dfe-analytical-services/eesyscreener/issues" class="external-link">GitHub issue</a> after which anyone is free to write the code and create a pull request for review.</p>
 <div class="section level2">
 <h2 id="notes-to-tidy-later">Notes to tidy later<a class="anchor" aria-label="anchor" href="#notes-to-tidy-later"></a></h2>
-<p>TODO: add workflows TODO: setup pages site TODO: add issue templates TODO: default GitHub settings TODO: add pkgdown</p>
+<p>TODO: add issue templates</p>
 <p>Info on EES</p>
 <p>Scope for package</p>
 <p>Structure of package - stages contain functions for checking files - screen_files pulls it all together - required output from functions - utils for internal functions - priority of efficiency, we need to keep it light and fast - avoid heavy dependencies - performance profile and use the fastest available functions</p>
@@ -55,10 +55,16 @@
 <h2 id="questions">Questions<a class="anchor" aria-label="anchor" href="#questions"></a></h2>
 <ol style="list-style-type: decimal"><li>File structure…</li>
 </ol><p>Break up scripts like - stage_1 - stage_2 - stage_3 - stage_4-geography - stage_4-time - stage_4-filters - stage_4-indicators - stage_4-meta - stage_api</p>
-<p>Or just one script and test per function…</p>
-<ol start="2" style="list-style-type: decimal"><li><p>I think we can drop the stage wrapper functions?</p></li>
+<p>Or just one script and test per function</p>
+<p>Answer - go for one script and test per function for now, with potential to combine later. Some tidy up to do as we go.</p>
+<ol start="2" style="list-style-type: decimal"><li><p>We should drop the test wrapper functions</p></li>
 <li><p>Tests?</p></li>
-</ol><ul><li>Any thoughts on the most efficient way to do the test data without bloating the package?</li>
+</ol><ul><li><p>Any thoughts on the most efficient way to do the test data without bloating the package?</p></li>
+<li><p>Try using rda for the test data and being as efficient as we can</p></li>
+</ul><ol start="4" style="list-style-type: decimal"><li>Think about the stages and dependencies between them</li>
+</ol><ul><li>Can we pass the results of any pre-requisites into other functions
+<ul><li>Allow us to avoid rerunning earlier checks in the package but make the functions themselves useable in isolation as an export</li>
+</ul></li>
 </ul></div>
 </div>
 
