@@ -1,0 +1,44 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# eesyscreener <a href="https://dfe-analytical-services.github.io/eesyscreener/"><img src="man/figures/logo.png" align="right" height="138" /></a>
+
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/dfe-analytical-services/eesyscreener/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/dfe-analytical-services/eesyscreener/actions/workflows/R-CMD-check.yaml)
+[![pkgdown](https://github.com/dfe-analytical-services/eesyscreener/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/dfe-analytical-services/eesyscreener/actions/workflows/pkgdown.yaml)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+<!-- badges: end -->
+
+Quality assurance checks used to screen files against the standards required for official statistics files on the explore education statistics (EES) platform.
+
+## Installation
+
+dfeshiny is not currently available on CRAN. For the time being you can
+install the development version from GitHub.
+
+If you are using
+[renv](https://rstudio.github.io/renv/articles/renv.html) in your
+project (recommended):
+
+``` r
+renv::install("dfe-analytical-services/dfeshiny")
+```
+
+Otherwise:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("dfe-analytical-services/dfeshiny")
+```

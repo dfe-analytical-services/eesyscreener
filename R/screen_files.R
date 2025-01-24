@@ -1,4 +1,4 @@
-#' Screen files
+#' Run all checks against files
 #'
 #' Run all of the checks in the eesyscreener package against your data file and
 #' associated metadata file. It parses the files and runs the checks in four

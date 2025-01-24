@@ -23,6 +23,7 @@
 #'   \item Ensures mandatory columns are present in the data and metadata files.
 #' }
 #'
+#' @keywords internal
 #' @examples
 #' \dontrun{
 #' datafile <- read.csv("data.csv")
@@ -30,8 +31,6 @@
 #' result <- fileValidation("data.csv", "meta.csv", ",", ",", datafile, metafile)
 #' print(result)
 #' }
-#'
-#' @export
 fileValidation <- function(datafilename, metafilename, dataseparator, metaseparator, datafile, metafile) {
   as_tibble(t(rbind(
     cbind(

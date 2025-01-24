@@ -35,14 +35,14 @@ This function performs a series of validation checks on data and metadata files.
 \details{
 The function performs the following validation checks:
 \itemize{
-  \item Checks for spaces in the data and metadata filenames.
-  \item Checks for special characters in the data and metadata filenames.
-  \item Ensures naming conventions are followed for the data and metadata filenames.
-  \item Converts rows to columns for comparison between data and metadata files.
-  \item Validates the file separators used in the data and metadata files.
-  \item Checks for empty rows in the data and metadata files.
-  \item Checks for empty columns in the data file.
-  \item Ensures mandatory columns are present in the data and metadata files.
+\item Checks for spaces in the data and metadata filenames.
+\item Checks for special characters in the data and metadata filenames.
+\item Ensures naming conventions are followed for the data and metadata filenames.
+\item Converts rows to columns for comparison between data and metadata files.
+\item Validates the file separators used in the data and metadata files.
+\item Checks for empty rows in the data and metadata files.
+\item Checks for empty columns in the data file.
+\item Ensures mandatory columns are present in the data and metadata files.
 }
 }
 \examples{
@@ -52,5 +52,5 @@ metafile <- read.csv("meta.csv")
 result <- fileValidation("data.csv", "meta.csv", ",", ",", datafile, metafile)
 print(result)
 }
-
 }
+\keyword{internal}

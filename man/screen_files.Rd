@@ -22,10 +22,10 @@ screen_files(
 \value{
 A table containing the full results of the checks with four columns:
 \itemize{
-  \item result of the check (PASS / FAIL / ADVISORY)
-  \item message giving feedback about the check
-  \item stage that the check belongs to
-  \item name of the check
+\item result of the check (PASS / FAIL / ADVISORY)
+\item message giving feedback about the check
+\item stage that the check belongs to
+\item name of the check
 }
 }
 \description{

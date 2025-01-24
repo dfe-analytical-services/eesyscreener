@@ -1,0 +1,11 @@
+url: https://dfe-analytical-services.github.io/eesyscreener/
+template:
+  bootstrap: 5
+
+reference:
+- title: Screen files
+  contents:
+  - screen_files
+- title: Checks - stage 1
+  contents:
+  - check_filename_spaces

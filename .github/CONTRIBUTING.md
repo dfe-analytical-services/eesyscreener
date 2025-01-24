@@ -4,6 +4,12 @@ Ideas for eesyscreener should first be raised as a [GitHub issue](https://github
 
 ## Notes to tidy later
 
+TODO: add workflows
+TODO: setup pages site
+TODO: add issue templates
+TODO: default GitHub settings
+TODO: add pkgdown
+
 Info on EES
 
 Scope for package
