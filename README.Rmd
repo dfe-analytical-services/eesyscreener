@@ -25,7 +25,7 @@ Quality assurance checks used to screen files against the standards required for
 
 ## Installation
 
-dfeshiny is not currently available on CRAN. For the time being you can
+eesyscreener is not currently available on CRAN. For the time being you can
 install the development version from GitHub.
 
 If you are using
@@ -33,12 +33,12 @@ If you are using
 project (recommended):
 
 ``` r
-renv::install("dfe-analytical-services/dfeshiny")
+renv::install("dfe-analytical-services/eesyscreener")
 ```
 
 Otherwise:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("dfe-analytical-services/dfeshiny")
+devtools::install_github("dfe-analytical-services/eesyscreener")
 ```
