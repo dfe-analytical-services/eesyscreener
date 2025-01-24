@@ -6,6 +6,12 @@ reference:
 - title: Screen files
   contents:
   - screen_files
+
+- title: Example data
+  contents:
+  - example_data
+  - example_data.meta
+
 - title: Checks - stage 1
   contents:
   - check_filename_spaces
