@@ -2,21 +2,19 @@
 % Please edit documentation in R/screen_files.R
 \name{screen_files}
 \alias{screen_files}
-\title{Screen files}
+\title{Run all checks against files}
 \usage{
-screen_files(
-  datafilename,
-  metafilename,
-  dataseparator,
-  metaseparator,
-  data_character,
-  meta_character,
-  datafile,
-  metafile,
-  api_only = FALSE
-)
+screen_files(datafilename, metafilename, datafile, metafile, api_only = FALSE)
 }
 \arguments{
+\item{datafilename}{The name of the data file.}
+
+\item{metafilename}{The name of the metadata file.}
+
+\item{datafile}{The path to the data file.}
+
+\item{metafile}{The path to the metadata file.}
+
 \item{api_only}{Logical value indicating whether to run only the API checks.}
 }
 \value{
@@ -34,8 +32,10 @@ associated metadata file. It parses the files and runs the checks in four
 stages, the function will return early if any check in a stage fails.
 }
 \examples{
-eesyscreener::screen_files(
-  eesyscreener::example_data,
-  eesyscreener::example_metadata
+screen_files(
+  "data.csv",
+  "data.meta.csv",
+  example_data,
+  example_data.meta
 )
 }

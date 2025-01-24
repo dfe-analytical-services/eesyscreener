@@ -2,7 +2,9 @@
 #'
 #' This function checks if the provided filename contains any spaces.
 #'
-#' @param data A character string representing the data filename.
+#' @param filename A character string representing the data filename.
+#' @param file_type A character string representing the type of file, usually
+#' either "data" or "metadata"
 #' @return A list containing:
 #' \describe{
 #'   \item{result}{Character string, either "PASS", "FAIL" or "ADVISORY".}
@@ -10,9 +12,9 @@
 #'   \item{check}{Character string with the stage that the check belongs to.}
 #' }
 #' @examples
-#' filename_spaces("datafile.csv", "data")
-#' filename_spaces("data file.csv", "data")
-#' filename_spaces("data_file.meta.csv", "metadata")
+#' check_filename_spaces("datafile.csv", "data")
+#' check_filename_spaces("data file.csv", "data")
+#' check_filename_spaces("data_file.meta.csv", "metadata")
 #' @export
 check_filename_spaces <- function(filename, file_type) {
   output <- list("check" = paste0(file_type, "filename_spaces"))

@@ -4,6 +4,10 @@
 #' associated metadata file. It parses the files and runs the checks in four
 #' stages, the function will return early if any check in a stage fails.
 #'
+#' @param datafilename The name of the data file.
+#' @param metafilename The name of the metadata file.
+#' @param datafile The path to the data file.
+#' @param metafile The path to the metadata file.
 #' @param api_only Logical value indicating whether to run only the API checks.
 #' @return A table containing the full results of the checks with four columns:
 #' \itemize{
@@ -14,18 +18,16 @@
 #' }
 #'
 #' @examples
-#' eesyscreener::screen_files(
-#'   eesyscreener::example_data,
-#'   eesyscreener::example_metadata
+#' screen_files(
+#'   "data.csv",
+#'   "data.meta.csv",
+#'   example_data,
+#'   example_data.meta
 #' )
 #' @export
 screen_files <- function(
     datafilename,
     metafilename,
-    dataseparator,
-    metaseparator,
-    data_character,
-    meta_character,
     datafile,
     metafile,
     api_only = FALSE) {
@@ -64,7 +66,7 @@ screen_files <- function(
       stage_1_results
     ),
     "stage" = "Passed",
-    "message" = "Passed all checks",
+    "message" = "Passed all checks"
   )
 
   return(output)

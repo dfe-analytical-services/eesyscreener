@@ -14,6 +14,7 @@ URL: https://dfe-analytical-services.github.io/eesyscreener/,
     https://github.com/dfe-analytical-services/eesyscreener
 BugReports: https://github.com/dfe-analytical-services/eesyscreener/issues
 Suggests:
+    knitr,
     testthat (>= 3.0.0)
 VignetteBuilder: 
     knitr
@@ -23,3 +24,7 @@ Language: en-GB
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
+Depends: 
+    R (>= 3.5)
+Imports: 
+    data.table

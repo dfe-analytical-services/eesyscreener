@@ -20,17 +20,20 @@ statistics (EES) platform.
 eesyscreener is not currently available on CRAN. For the time being you
 can install the development version from GitHub.
 
-If you are using
-[renv](https://rstudio.github.io/renv/articles/renv.html) in your
-project (recommended):
-
-``` r
-renv::install("dfe-analytical-services/eesyscreener")
-```
-
-Otherwise:
-
 ``` r
 # install.packages("devtools")
 devtools::install_github("dfe-analytical-services/eesyscreener")
+```
+
+## Minimal example
+
+``` r
+library(eesyscreener)
+
+screen_files(
+   "data.csv",
+   "data.meta.csv",
+   example_data,
+   example_data.meta
+)
 ```
