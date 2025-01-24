@@ -6,17 +6,19 @@
 #'
 #' @param datafilename The name of the data file.
 #' @param metafilename The name of the metadata file.
-#' @param datafile The path to the data file.
-#' @param metafile The path to the metadata file.
+#' @param datafile A data frame containing the data file contents.
+#' @param metafile A data frame containing the metadata file contents.
 #' @param api_only Logical value indicating whether to run only the API checks.
-#' @return A table containing the full results of the checks with four columns:
+#' @return A list containing
+#' 1. A table with the full results of the checks with four columns:
 #' \itemize{
 #'   \item result of the check (PASS / FAIL / ADVISORY)
 #'   \item message giving feedback about the check
 #'   \item stage that the check belongs to
 #'   \item name of the check
 #' }
-#'
+#' 2. Overall stage the checks reached
+#' 3. Overall message to give back to the user
 #' @examples
 #' screen_files(
 #'   "data.csv",
@@ -31,11 +33,14 @@ screen_files <- function(
     datafile,
     metafile,
     api_only = FALSE) {
+  # TODO: Work out if the file reading comes in here or is handled separately
 
   # Stage 1 -----------------------------------------------------------------
   stage_1_results <- rbind(
     eesyscreener::check_filename_spaces(datafilename, "data"),
-    eesyscreener::check_filename_spaces(metafilename, "metadata")
+    eesyscreener::check_filename_spaces(metafilename, "metadata"),
+    eesyscreener::check_empty_rows(datafile, "data"),
+    eesyscreener::check_empty_rows(metafile, "metadata")
   ) |>
     cbind(
       "stage" = 1
@@ -43,7 +48,7 @@ screen_files <- function(
 
   if (any(stage_1_results[["result"]] == "FAIL")) {
     output <- list(
-      "results_table" = stage_1_results,
+      "results_table" = as.data.frame(stage_1_results),
       "stage" = "1",
       "message" = "Failed at stage 1"
     )
@@ -52,19 +57,11 @@ screen_files <- function(
   }
 
   # Stage 2 -----------------------------------------------------------------
-
-
-  # Stage 3 -----------------------------------------------------------------
-
-
-  # Stage 4 -----------------------------------------------------------------
-
+  # Up for debate whether we keep the stages or change the approach!
 
   # Success -----------------------------------------------------------------
   output <- list(
-    "results_table" = rbind(
-      stage_1_results
-    ),
+    "results_table" = as.data.frame(stage_1_results),
     "overall_stage" = "Passed",
     "overall_message" = "Passed all checks"
   )

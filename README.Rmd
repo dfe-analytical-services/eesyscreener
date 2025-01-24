@@ -35,13 +35,13 @@ devtools::install_github("dfe-analytical-services/eesyscreener")
 
 ## Minimal example
 
-``` r
+```{r}
 library(eesyscreener)
 
 screen_files(
-   "data.csv",
-   "data.meta.csv",
-   example_data,
-   example_data.meta
+  "data.csv",
+  "data.meta.csv",
+  example_data, # replace with your data file
+  example_data.meta # replace with your meta file
 )
 ```

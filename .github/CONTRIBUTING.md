@@ -4,11 +4,7 @@ Ideas for eesyscreener should first be raised as a [GitHub issue](https://github
 
 ## Notes to tidy later
 
-TODO: add workflows
-TODO: setup pages site
 TODO: add issue templates
-TODO: default GitHub settings
-TODO: add pkgdown
 
 Info on EES
 
@@ -50,9 +46,17 @@ Break up scripts like
 - stage_4-meta
 - stage_api
 
-Or just one script and test per function...
+Or just one script and test per function
 
-2. I think we can drop the stage wrapper functions?
+Answer - go for one script and test per function for now, with potential to combine later. Some tidy up to do as we go.
+
+2. We should drop the test wrapper functions
 
 3. Tests?
 - Any thoughts on the most efficient way to do the test data without bloating the package?
+
+- Try using rda for the test data and being as efficient as we can
+
+4. Think about the stages and dependencies between them 
+- Can we pass the results of any pre-requisites into other functions
+  - Allow us to avoid rerunning earlier checks in the package but make the functions themselves useable in isolation as an export

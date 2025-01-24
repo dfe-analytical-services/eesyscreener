@@ -9,9 +9,9 @@ reference:
 
 - title: Example data
   contents:
-  - example_data
-  - example_data.meta
+  - starts_with("example_")
+
 
 - title: Checks - stage 1
   contents:
-  - check_filename_spaces
+  - starts_with("check_")

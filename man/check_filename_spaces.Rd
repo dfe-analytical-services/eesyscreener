@@ -4,7 +4,7 @@
 \alias{check_filename_spaces}
 \title{Check for spaces in filename}
 \usage{
-check_filename_spaces(filename, file_type)
+check_filename_spaces(filename, file_type = NULL)
 }
 \arguments{
 \item{filename}{A character string representing the data filename.}
@@ -15,9 +15,9 @@ either "data" or "metadata"}
 \value{
 A list containing:
 \describe{
+\item{check}{Character string with the stage that the check belongs to.}
 \item{result}{Character string, either "PASS", "FAIL" or "ADVISORY".}
 \item{message}{Character string with feedback about the check.}
-\item{check}{Character string with the stage that the check belongs to.}
 }
 }
 \description{
