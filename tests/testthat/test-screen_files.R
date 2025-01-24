@@ -18,7 +18,7 @@ test_that("Output structure is as expected", {
     c("check", "result", "message", "stage")
   )
 
-  expect_type(output$results_table, "data.frame")
+  expect_equal(class(output$results_table), "data.frame")
 
   expect_equal(output$overall_stage, "Passed")
   expect_equal(output$overall_message, "Passed all checks")
