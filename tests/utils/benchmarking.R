@@ -1,0 +1,38 @@
+# Some example starter benchmarking code here
+# Generate test data ==========================================================
+small_data <- eesyscreener::example_data
+small_meta <- eesyscreener::example_meta
+
+bigger_files <- generate_test_files(
+  years = c(1980:2025),
+  pcon_codes = dfeR::fetch_pcons(countries = "England")$pcon_code,
+  pcon_names = dfeR::fetch_pcons(countries = "England")$pcon_name,
+  num_filters = 15,
+  num_indicators = 45
+)
+
+bigger_data <- bigger_files$data
+bigger_meta <- bigger_files$meta
+
+bigger_files <- NULL # Clean up env space
+
+data.table::fwrite(bigger_data, "big_data.csv") # just to see the raw size
+
+# Benchmarking ================================================================
+# Create benchmarking test
+benchmark <- function(data, reps = 10) {
+  microbenchmark::microbenchmark(
+    nrow(data) - nrow(
+      janitor::remove_empty(data, which = "rows", quiet = TRUE)
+    ),
+    sum(apply(data, 1, function(row) all(is.na(row) | row == ""))),
+    sum(rowSums(is.na(data) | data == "") == ncol(data)),
+    times = reps
+  )
+}
+
+# Check small file ------------------------------------------------------------
+benchmark(small_data)
+
+# Check big file --------------------------------------------------------------
+benchmark(bigger_data)

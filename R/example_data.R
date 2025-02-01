@@ -32,4 +32,4 @@
 #'   \item{filter_grouping_column}{Grouping column showing a filter hierachy}
 #' }
 #' @source maintained by explore.statistics@@education.gov.uk
-"example_data.meta"
+"example_meta"

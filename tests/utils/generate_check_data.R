@@ -6,8 +6,13 @@
 # 2. View the 'raw'
 # 3. Copy that URL into the below
 
-test_data <- read.csv("https://raw.githubusercontent.com/dfe-analytical-services/dfe-published-data-qa/refs/heads/main/tests/testthat/fileValidation/data_empty_rows.csv")
-test_meta <- read.csv("https://raw.githubusercontent.com/dfe-analytical-services/dfe-published-data-qa/refs/heads/main/tests/testthat/fileValidation/data_empty_rows.meta.csv")
+dom <- "https://raw.githubusercontent.com/dfe-analytical-services/"
+repo <- "dfe-published-data-qa/refs/heads/main/"
+path_data <- "tests/testthat/fileValidation/data_empty_rows.csv"
+path_meta <- "tests/testthat/fileValidation/data_empty_rows.meta.csv"
+
+test_data <- read.csv(paste0(dom, repo, path_data))
+test_meta <- read.csv(paste0(dom, repo, path_meta))
 
 # Do some processing - really prune the file as small as you can!
 test_data_pruned <- test_data |>
@@ -15,7 +20,15 @@ test_data_pruned <- test_data |>
 
 test_meta_pruned <- test_meta[-c(1:51), ] |>
   # add some blank rows
-  rbind(data.frame(matrix(ncol = ncol(test_meta), nrow = 5, dimnames = list(NULL, names(test_meta)))))
+  rbind(
+    data.frame(
+      matrix(
+        ncol = ncol(test_meta),
+        nrow = 5,
+        dimnames = list(NULL, names(test_meta))
+      )
+    )
+  )
 
 # Save into the tests/testthat/test_data folder
 # - Make sure the name relates to the function name you're using it to test

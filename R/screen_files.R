@@ -24,7 +24,7 @@
 #'   "data.csv",
 #'   "data.meta.csv",
 #'   example_data,
-#'   example_data.meta
+#'   example_meta
 #' )
 #' @export
 screen_files <- function(
@@ -34,13 +34,14 @@ screen_files <- function(
     metafile,
     api_only = FALSE) {
   # TODO: Work out if the file reading comes in here or is handled separately
+  # TODO: Look into making the separate checks run asynchronously
 
   # Stage 1 -----------------------------------------------------------------
   stage_1_results <- rbind(
-    eesyscreener::check_filename_spaces(datafilename, "data"),
-    eesyscreener::check_filename_spaces(metafilename, "metadata"),
-    eesyscreener::check_empty_rows(datafile, "data"),
-    eesyscreener::check_empty_rows(metafile, "metadata")
+    eesyscreener::check_filename_spaces(datafilename),
+    eesyscreener::check_filename_spaces(metafilename),
+    eesyscreener::check_empty_rows(datafile, datafilename),
+    eesyscreener::check_empty_rows(metafile, metafilename)
   ) |>
     cbind(
       "stage" = 1

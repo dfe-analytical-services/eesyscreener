@@ -34,19 +34,19 @@ screen_files(
   "data.csv",
   "data.meta.csv",
   example_data, # replace with your data file
-  example_data.meta # replace with your meta file
+  example_meta # replace with your meta file
 )
 #> $results_table
-#>                            check result
-#> 1     check_data_filename_spaces   PASS
-#> 2 check_metadata_filename_spaces   PASS
-#> 3          check_data_empty_rows   PASS
-#> 4      check_metadata_empty_rows   PASS
-#>                                           message stage
-#> 1         The data filename does not have spaces.     1
-#> 2     The metadata filename does not have spaces.     1
-#> 3     The data file does not have any blank rows.     1
-#> 4 The metadata file does not have any blank rows.     1
+#>                   check result
+#> 1 check_filename_spaces   PASS
+#> 2 check_filename_spaces   PASS
+#> 3      check_empty_rows   PASS
+#> 4      check_empty_rows   PASS
+#>                                                 message stage
+#> 1      'data.csv' does not have spaces in the filename.     1
+#> 2 'data.meta.csv' does not have spaces in the filename.     1
+#> 3              'data.csv' does not have any blank rows.     1
+#> 4         'data.meta.csv' does not have any blank rows.     1
 #> 
 #> $overall_stage
 #> [1] "Passed"

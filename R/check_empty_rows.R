@@ -1,11 +1,12 @@
-#' Check for empty rows in data
+#' Check for empty rows
 #'
-#' This function checks for empty rows in a given data set and returns a list
+#' This function checks for empty rows in a given data frame and returns a list
 #' with the check result and a message.
 #'
-#' @param data A data frame to be checked for empty rows.
-#' @param file_type An optional string indicating the type of file being
-#' checked. This will be included in the output check name.
+#' Filename is optional and is used to populate the feedback message.
+#'
+#' @param df The data frame to be check
+#' @inheritParams check_filename_spaces
 #'
 #' @return A list containing:
 #' \describe{
@@ -14,33 +15,44 @@
 #'   \item{message}{Character string with feedback about the check.}
 #' }
 #' @examples
-#' data <- data.frame(a = c(1, 2, NA, 4), b = c(NA, 2, 3, 4))
-#' check_empty_rows(data)
+#' df <- eesyscreener::example_data
+#' check_empty_rows(df, "datafile.csv")
+#' check_empty_rows(df)
 #'
 #' @export
-check_empty_rows <- function(data, file_type = NULL) {
-  output <- list("check" = paste0("check_", file_type, "_empty_rows"))
+check_empty_rows <- function(df, filename = NULL) {
+  output <- list("check" = paste0("check_empty_rows"))
 
-  blank_rows <- sum(apply(data, 1, function(row) all(is.na(row) | row == "")))
+  # blank_rows <- nrow(data) - nrow(
+  #   janitor::remove_empty(data, which = "rows", quiet = TRUE)
+  # )
+
+  blank_rows <- sum(rowSums(is.na(df) | df == "") == ncol(df))
+
+  filename <- ifelse(
+    is.null(filename),
+    "the tested data frame",
+    paste0("'", filename, "'")
+  )
 
   if (blank_rows == 0) {
     output$result <- "PASS"
     output$message <- paste(
-      "The", file_type, "file does not have any blank rows."
+      filename, "does not have any blank rows."
     )
   } else {
     if (blank_rows == 1) {
       output$result <- "FAIL"
-      output$message <- paste(
-        "There is 1 blank row in the", file_type, "file. Try opening the CSV",
+      output$message <- paste0(
+        "There is 1 blank row in ", filename, ". Try opening the CSV ",
         "in notepad if you're not sure where the blank rows are."
       )
     } else {
       output$result <- "FAIL"
-      output$message <- paste(
-        "There are", format(blank_rows, big.mark = ","), "blank rows in the",
-        file_type, "file. Try opening the CSV in notepad if you're not sure",
-        "where the blank rows are."
+      output$message <- paste0(
+        "There are ", format(blank_rows, big.mark = ","), " blank rows in ",
+        filename, ". Try opening the CSV in notepad if you're not ",
+        "sure where the blank rows are."
       )
     }
   }

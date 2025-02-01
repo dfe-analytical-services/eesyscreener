@@ -41,6 +41,6 @@ screen_files(
   "data.csv",
   "data.meta.csv",
   example_data,
-  example_data.meta
+  example_meta
 )
 }

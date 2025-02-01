@@ -4,13 +4,10 @@
 \alias{check_filename_spaces}
 \title{Check for spaces in filename}
 \usage{
-check_filename_spaces(filename, file_type = NULL)
+check_filename_spaces(filename)
 }
 \arguments{
-\item{filename}{A character string representing the data filename.}
-
-\item{file_type}{A character string representing the type of file, usually
-either "data" or "metadata"}
+\item{filename}{A character string of the filename to check}
 }
 \value{
 A list containing:
@@ -24,7 +21,6 @@ A list containing:
 This function checks if the provided filename contains any spaces.
 }
 \examples{
-check_filename_spaces("datafile.csv", "data")
-check_filename_spaces("data file.csv", "data")
-check_filename_spaces("data_file.meta.csv", "metadata")
+check_filename_spaces("datafile.csv")
+check_filename_spaces("data file.meta.csv")
 }

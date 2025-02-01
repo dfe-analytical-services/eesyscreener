@@ -42,6 +42,6 @@ screen_files(
   "data.csv",
   "data.meta.csv",
   example_data, # replace with your data file
-  example_data.meta # replace with your meta file
+  example_meta # replace with your meta file
 )
 ```

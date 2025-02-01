@@ -3,7 +3,7 @@ test_that("Output structure is as expected", {
     "data.csv",
     "data.meta.csv",
     example_data,
-    example_data.meta
+    example_meta
   )
 
   expect_type(output, "list")

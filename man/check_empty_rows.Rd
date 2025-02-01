@@ -2,15 +2,14 @@
 % Please edit documentation in R/check_empty_rows.R
 \name{check_empty_rows}
 \alias{check_empty_rows}
-\title{Check for empty rows in data}
+\title{Check for empty rows}
 \usage{
-check_empty_rows(data, file_type = NULL)
+check_empty_rows(df, filename = NULL)
 }
 \arguments{
-\item{data}{A data frame to be checked for empty rows.}
+\item{df}{The data frame to be check}
 
-\item{file_type}{An optional string indicating the type of file being
-checked. This will be included in the output check name.}
+\item{filename}{A character string of the filename to check}
 }
 \value{
 A list containing:
@@ -21,11 +20,15 @@ A list containing:
 }
 }
 \description{
-This function checks for empty rows in a given data set and returns a list
+This function checks for empty rows in a given data frame and returns a list
 with the check result and a message.
 }
+\details{
+Filename is optional and is used to populate the feedback message.
+}
 \examples{
-data <- data.frame(a = c(1, 2, NA, 4), b = c(NA, 2, 3, 4))
-check_empty_rows(data)
+df <- eesyscreener::example_data
+check_empty_rows(df, "datafile.csv")
+check_empty_rows(df)
 
 }

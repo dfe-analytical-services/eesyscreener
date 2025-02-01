@@ -1,4 +1,4 @@
-example_data.meta <- data.frame(
+example_meta <- data.frame(
   col_name = c("sex", "establishment_type", "enrolment_count"),
   col_type = c("Filter", "Filter", "Indicator"),
   label = c("Sex of pupil", "Type of establishment", "Number of enrolments"),
@@ -9,4 +9,4 @@ example_data.meta <- data.frame(
   filter_grouping_column = c("", "", "")
 )
 
-usethis::use_data(example_data.meta, overwrite = TRUE)
+usethis::use_data(example_meta, overwrite = TRUE)
