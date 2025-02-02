@@ -24,11 +24,13 @@ We expect the package to serve the following purposes:
 - File structure - one script per `check_*` function (except R/utils.R)
 - `R/utils.R` contains all internal functions
 - `R/data-raw.R` contains the source code for example data and hardcoded variables
-- Use RDS as the main format to shrink test data
+- Use RDS as the main format to shrink test data (beware it automatically does some cleaning!), use CSV or make the data.frame() in code if needed
 - Think about dependencies between functions - can we pass the results of any pre-requisites into other functions?
 - Big priority on efficiency, we need to keep it light and fast
   - avoid heavy dependencies
   - performance profile and use the fastest available functions
+  
+TODO: At the end of moving checks over we should set up tests for `screen_tests()` that run over all the example test data
 
 ## Process for moving in functions from app
 
@@ -53,10 +55,10 @@ There will be a lot of functions in this package, so we want to minimise the amo
 Use @inheritParams function_name to copy in param definitions from another
 
 Functions to check for standard param definitions:
-- `check_empty_rows`
+- `check_empty_cols`
 - `check_filename_spaces`
 
-Use `#' @inherit check_empty_rows return`  to copy the return documentation for functions
+Use `#' @inherit check_empty_cols return`  to copy the return documentation for functions
 
 7. Once setup, review and improve the code 
 
@@ -74,6 +76,10 @@ microbenchmark::microbenchmark(
   sum(rowSums(is.na(data) | data == "") == ncol(data)),
   times = 100000
 )
+
+## NOTE: This particular check was removed as other checks will cover it
+## - check_time_periods
+## - check_meta_col_type
 ```
 
 In this example, the first line requires the janitor package. It is slightly faster with a mean of 115ms, the second line mean was 184ms, and the third line mean was 121ms, as there's a minimal amount between 1 and 3, usually we'd go for option 3 to avoid needing to call in the janitor package as a dependency, keeping this package more lightweight.

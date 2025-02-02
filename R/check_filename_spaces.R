@@ -4,7 +4,7 @@
 #'
 #' @param filename A character string of the filename to check
 #'
-#' @inherit check_empty_rows return
+#' @inherit check_empty_cols return
 #'
 #' @examples
 #' check_filename_spaces("datafile.csv")
