@@ -23,6 +23,7 @@
 check_empty_cols <- function(df, filename = NULL) {
   output <- list("check" = paste0("check_empty_cols"))
 
+  # Check only for NA cols, as "" is ridiculously slow to check for large files
   blank_cols <- setdiff(
     names(df),
     names(janitor::remove_empty(df, which = "cols", quiet = TRUE))

@@ -3,6 +3,8 @@
 small_data <- eesyscreener::example_data
 small_meta <- eesyscreener::example_meta
 
+source("tests/utils/generate_utils.R")
+
 bigger_files <- generate_test_files(
   years = c(1980:2025),
   pcon_codes = dfeR::fetch_pcons(countries = "England")$pcon_code,
@@ -11,7 +13,7 @@ bigger_files <- generate_test_files(
   num_indicators = 45
 )
 
-bigger_data <- bigger_files$data
+df <- bigger_files$data
 bigger_meta <- bigger_files$meta
 
 bigger_files <- NULL # Clean up env space
@@ -20,19 +22,42 @@ data.table::fwrite(bigger_data, "big_data.csv") # just to see the raw size
 
 # Benchmarking ================================================================
 # Create benchmarking test
-benchmark <- function(data, reps = 10) {
+
+microbenchmark::microbenchmark(
+  for (col in names(df)) {
+    y <- is.na(df[[col]][1])
+    z <- df[[col]][1] == ""
+
+    c(y, z)
+  },
+  lapply(names(df), function(col) {
+    y <- is.na(df[[col]][1])
+    z <- df[[col]][1] == ""
+
+    c(y, z)
+  }),
+  vapply(names(df), function(col) {
+    y <- is.na(df[[col]][1])
+    z <- df[[col]][1] == ""
+
+    c(y, z)
+  }, logical(2)),
+  times = 100000
+)
+
+
+benchmark <- function(df, reps = 10) {
   microbenchmark::microbenchmark(
-    nrow(data) - nrow(
-      janitor::remove_empty(data, which = "rows", quiet = TRUE)
+    setdiff(
+      names(df),
+      names(janitor::remove_empty(df, which = "cols", quiet = TRUE))
     ),
-    sum(apply(data, 1, function(row) all(is.na(row) | row == ""))),
-    sum(rowSums(is.na(data) | data == "") == ncol(data)),
     times = reps
   )
 }
 
 # Check small file ------------------------------------------------------------
-benchmark(small_data)
+benchmark(small_data, 500)
 
 # Check big file --------------------------------------------------------------
-benchmark(bigger_data)
+benchmark(bigger_data, 2)
