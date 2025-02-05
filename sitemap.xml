@@ -6,12 +6,19 @@
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/PULL_REQUEST_TEMPLATE.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/authors.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/index.html</loc></url>
-<url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/check_empty_rows.html</loc></url>
+<url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/check_empty_cols.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/check_filename_spaces.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/example_data.html</loc></url>
-<url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/example_data.meta.html</loc></url>
+<url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/example_filter_group.html</loc></url>
+<url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/example_filter_group_meta.html</loc></url>
+<url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/example_filter_group_wrow.html</loc></url>
+<url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/example_filter_group_wrow_meta.html</loc></url>
+<url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/example_meta.html</loc></url>
+<url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/generate_data_file.html</loc></url>
+<url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/generate_meta_file.html</loc></url>
+<url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/generate_test_dfs.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/index.html</loc></url>
+<url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/null_filename.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/screen_files.html</loc></url>
-<url><loc>https://dfe-analytical-services.github.io/eesyscreener/screener_app_migration_notes.html</loc></url>
 </urlset>
 
