@@ -51,29 +51,35 @@ generate_data_file <- function(
     num_filters,
     num_indicators) {
   test_data <- data.frame(
-    time_period = rep(years, each = length(pcon_codes) * (num_filters * 8)),
+    time_period = rep(years, each = length(pcon_codes) * 8),
     time_identifier = "Calendar year",
     geographic_level = "Parliamentary constituency",
     country_name = "England",
     country_code = "E92000001",
-    pcon_name = rep(pcon_names, times = length(years * (num_filters * 8))),
-    pcon_code = rep(pcon_codes, times = length(years * (num_filters * 8)))
+    pcon_name = rep(pcon_names, times = length(years) * 8),
+    pcon_code = rep(pcon_codes, times = length(years) * 8)
   )
 
-  filter_multiplier <- ifelse(num_filters == 1, 1, (num_filters - 1) * 8)
+  filter_values <- c(
+    "Alpha", "Bravo", "Charlie", "Delta", "Echo", "Foxtrot", "Golf", "Hotel"
+  )
 
   for (i in 1:num_filters) {
-    test_data[[paste0("filter", i)]] <- sample(
-      rep(
-        c(
-          "Alpha", "Bravo", "Charlie", "Delta",
-          "Echo", "Foxtrot", "Golf", "Hotel"
+    if (i == 1) {
+      test_data$filter1 <- filter_values
+    } else {
+      test_data <- merge(
+        test_data,
+        setNames(
+          data.frame(
+            filter_values,
+            stringsAsFactors = FALSE
+          ),
+          paste0("filter", i)
         ),
-        times = length(years) * length(pcon_codes) * filter_multiplier
-      ),
-      nrow(test_data),
-      replace = TRUE
-    )
+        by = NULL
+      )
+    }
   }
 
   for (i in 1:num_indicators) {
