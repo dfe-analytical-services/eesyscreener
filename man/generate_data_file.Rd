@@ -4,7 +4,14 @@
 \alias{generate_data_file}
 \title{Generate a data file for testing}
 \usage{
-generate_data_file(years, pcon_names, pcon_codes, num_filters, num_indicators)
+generate_data_file(
+  years,
+  pcon_names,
+  pcon_codes,
+  num_filters,
+  num_indicators,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{years}{A vector of 4 digit years}
@@ -14,10 +21,13 @@ generate_data_file(years, pcon_names, pcon_codes, num_filters, num_indicators)
 \item{pcon_codes}{A vector of PCon codes}
 
 \item{num_filters}{The number of filters to generate, currently
-will give each filter 8 items}
+will give each filter 5 items}
 
 \item{num_indicators}{The number of indicators to generate, currently
 generates random numbers between 100 and 1000}
+
+\item{verbose}{Optional console messages highlighting the number of
+rows being created}
 }
 \value{
 A data frame following the EES data standards

@@ -9,7 +9,8 @@ generate_test_dfs(
   pcon_names = "Sheffield Central",
   pcon_codes = "E14000919",
   num_filters = 1,
-  num_indicators = 1
+  num_indicators = 1,
+  verbose = FALSE
 )
 }
 \arguments{
@@ -20,10 +21,13 @@ generate_test_dfs(
 \item{pcon_codes}{A vector of PCon codes}
 
 \item{num_filters}{The number of filters to generate, currently
-will give each filter 8 items}
+will give each filter 5 items}
 
 \item{num_indicators}{The number of indicators to generate, currently
 generates random numbers between 100 and 1000}
+
+\item{verbose}{Optional console messages highlighting the number of
+rows being created}
 }
 \value{
 A list containing two data frames, one data and associated meta

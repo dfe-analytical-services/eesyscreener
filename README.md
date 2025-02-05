@@ -77,12 +77,11 @@ Other available example files can be found on the documentation site
 under examples. Use `write.csv()` as in the examples above to generate
 CSVs from them.
 
-## Developers only - generate big test files
+## Generate big test files
 
-If as a package developer you want to generate larger files for testing
-with, you can use the `generate_test_dfs()` functions from
-`tests/utils/generate_test_dfs.R` to create files with any number of
-time periods, locations, filters and indicators.
+If you want to generate larger files for testing with, you can use the
+`generate_test_dfs()` function to create files with any number of time
+periods, locations, filters and indicators.
 
 ``` r
 files <- eesyscreener::generate_test_dfs(
@@ -105,7 +104,9 @@ vectors of Parliamentary Constituencies, and then
 CSV creation.
 
 The following example creates an example data and metadata pair with a
-data set of just under 6 million rows:
+data set of just over 6 million rows. Formula to calculate rows is:
+
+- length(years) \* length(pcon_codes) \* (5 ^ num_filters)
 
 ``` r
 # Load this eesyscreener package
@@ -123,8 +124,9 @@ beefy <- eesyscreener::generate_test_dfs(
   years = c(1980:2025),
   pcon_codes = pcons$pcon_code,
   pcon_names = pcons$pcon_name,
-  num_filters = 15,
-  num_indicators = 45
+  num_filters = 3,
+  num_indicators = 45,
+  verbose = TRUE
 )
 
 # Then to create CSVs, use data.table as it's much faster

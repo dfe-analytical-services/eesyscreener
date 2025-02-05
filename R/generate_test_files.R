@@ -7,9 +7,11 @@
 #' @param pcon_names A vector of PCon names
 #' @param pcon_codes A vector of PCon codes
 #' @param num_filters The number of filters to generate, currently
-#' will give each filter 8 items
+#' will give each filter 5 items
 #' @param num_indicators The number of indicators to generate, currently
 #' generates random numbers between 100 and 1000
+#' @param verbose Optional console messages highlighting the number of
+#' rows being created
 #'
 #' @export
 #' @return A list containing two data frames, one data and associated meta
@@ -21,10 +23,12 @@ generate_test_dfs <- function(
     pcon_names = "Sheffield Central",
     pcon_codes = "E14000919",
     num_filters = 1,
-    num_indicators = 1) {
+    num_indicators = 1,
+    verbose = FALSE) {
   file_pair <- list(
     data = generate_data_file(
-      years, pcon_names, pcon_codes, num_filters, num_indicators
+      years, pcon_names, pcon_codes, num_filters, num_indicators,
+      verbose = verbose
     ),
     meta = generate_meta_file(num_filters, num_indicators)
   )
@@ -49,20 +53,29 @@ generate_data_file <- function(
     pcon_names,
     pcon_codes,
     num_filters,
-    num_indicators) {
+    num_indicators,
+    verbose = FALSE) {
+  filter_values <- c(
+    "Alpha", "Bravo", "Charlie", "Delta", "Echo"
+  )
+
+  toggle_message(
+    "Expecting to generate ",
+    length(years) * length(pcon_codes) * (length(filter_values)^num_filters),
+    " rows...",
+    verbose = verbose
+  )
+
+  num_filter_values <- length(filter_values)
+
   test_data <- data.frame(
-    time_period = rep(years, each = length(pcon_codes) * 8),
+    time_period = rep(years, each = length(pcon_codes) * num_filter_values),
     time_identifier = "Calendar year",
     geographic_level = "Parliamentary constituency",
     country_name = "England",
     country_code = "E92000001",
-    pcon_name = rep(pcon_names, times = length(years) * 8),
-    pcon_code = rep(pcon_codes, times = length(years) * 8)
-  )
-
-  filter_values <- c(
-    "Alpha", "Bravo", "Charlie", "Delta",
-    "Echo", "Foxtrot", "Golf", "Hotel"
+    pcon_name = rep(pcon_names, times = length(years) * num_filter_values),
+    pcon_code = rep(pcon_codes, times = length(years) * num_filter_values)
   )
 
   for (i in 1:num_filters) {
@@ -83,6 +96,8 @@ generate_data_file <- function(
         temp_data,
         by = NULL
       )
+
+      toggle_message(nrow(test_data), " rows generated...", verbose = verbose)
     }
   }
 
@@ -93,6 +108,12 @@ generate_data_file <- function(
       replace = TRUE
     )
   }
+
+  toggle_message(
+    "Final dataframe has ", nrow(test_data), " rows and ",
+    ncol(test_data), " columns",
+    verbose = verbose
+  )
 
   return(test_data)
 }

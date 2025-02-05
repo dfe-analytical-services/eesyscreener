@@ -70,12 +70,12 @@ test_that("columns are as expected", {
 test_that("number of rows is expected", {
   expect_equal(
     nrow(generate_data_file(2010:2015, "Sheffield Central", "E14000919", 2, 3)),
-    6 * 1 * (8^2)
+    6 * 1 * (5^2)
   )
   expect_equal(
     generate_data_file(2015, "Sheffield Central", "E14000919", 1, 3) |>
       nrow(),
-    8
+    5
   )
   expect_equal(
     nrow(generate_meta_file(2, 3)),
@@ -87,7 +87,7 @@ test_that("single filter only generates unique values", {
   expect_equal(
     generate_data_file(2015, "Sheffield Central", "E14000919", 1, 3)$filter1,
     c(
-      "Alpha", "Bravo", "Charlie", "Delta", "Echo", "Foxtrot", "Golf", "Hotel"
+      "Alpha", "Bravo", "Charlie", "Delta", "Echo"
     )
   )
 })
