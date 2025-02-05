@@ -67,7 +67,7 @@
 <ol style="list-style-type: decimal"><li><p>Tackle one screening check at a time (unless you can create one function that covers multiple repeated checks)</p></li>
 <li><p>Set up a new script and test script for the check, copy over the relevant code from <a href="https://github.com/dfe-analytical-services/dfe-published-data-qa" class="external-link uri">https://github.com/dfe-analytical-services/dfe-published-data-qa</a></p></li>
 <li><p>Add test data that should fail the function</p></li>
-</ol><ol style="list-style-type: lower-alpha"><li>Make use of the <code>tests/utils/generate_check_data.R</code> script to copy over CSVs from the screener repo and save as RDS files in the tests folder</li>
+</ol><ol style="list-style-type: lower-alpha"><li>Make use of the <code>tests/utils/copy_check_data.R</code> script to copy over CSVs from the screener repo and save as RDS files in the tests folder</li>
 <li>There should be a collection of unit tests and at least one example data file with an expected failure for every function</li>
 </ol><ol start="4" style="list-style-type: decimal"><li><p>Adapt the function so that the input arguments and outputs match existing <code>check_*</code> functions</p></li>
 <li><p>Integrate the new <code>check_*</code> into the <code><a href="reference/screen_files.html">screen_files()</a></code> function</p></li>

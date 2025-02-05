@@ -105,9 +105,9 @@
 <p>Other available example files can be found on the documentation site under examples. Use <code><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv()</a></code> as in the examples above to generate CSVs from them.</p>
 </div>
 <div class="section level2">
-<h2 id="developers-only---generate-big-test-files">Developers only - generate big test files<a class="anchor" aria-label="anchor" href="#developers-only---generate-big-test-files"></a>
+<h2 id="generate-big-test-files">Generate big test files<a class="anchor" aria-label="anchor" href="#generate-big-test-files"></a>
 </h2>
-<p>If as a package developer you want to generate larger files for testing with, you can use the <code><a href="reference/generate_test_dfs.html">generate_test_dfs()</a></code> functions from <code>tests/utils/generate_test_dfs.R</code> to create files with any number of time periods, locations, filters and indicators.</p>
+<p>If you want to generate larger files for testing with, you can use the <code><a href="reference/generate_test_dfs.html">generate_test_dfs()</a></code> function to create files with any number of time periods, locations, filters and indicators.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">files</span> <span class="op">&lt;-</span> <span class="fu">eesyscreener</span><span class="fu">::</span><span class="fu"><a href="reference/generate_test_dfs.html">generate_test_dfs</a></span><span class="op">(</span></span>
 <span>  years <span class="op">=</span> <span class="fl">2013</span><span class="op">:</span><span class="fl">2015</span>, </span>
@@ -121,7 +121,10 @@
 <span><span class="va">df</span> <span class="op">&lt;-</span> <span class="va">files</span><span class="op">$</span><span class="va">data</span></span>
 <span><span class="va">df_meta</span> <span class="op">&lt;-</span> <span class="va">files</span><span class="op">$</span><span class="va">meta</span></span></code></pre></div>
 <p>If you want to go really big, combine with the <a href="https://dfe-analytical-services.github.io/dfeR/" class="external-link">dfeR package</a>, to pass in vectors of Parliamentary Constituencies, and then <a href="https://rdatatable.gitlab.io/data.table/" class="external-link">data.table</a> for much faster CSV creation.</p>
-<p>The following example creates an example data and metadata pair with a data set of just under 6 million rows:</p>
+<p>The following example creates an example data and metadata pair with a data set of just over 6 million rows. Formula to calculate rows is:</p>
+<ul>
+<li>length(years) * length(pcon_codes) * (5 ^ num_filters)</li>
+</ul>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load this eesyscreener package</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">load_all</span><span class="op">(</span><span class="op">)</span></span>
@@ -138,8 +141,9 @@
 <span>  years <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1980</span><span class="op">:</span><span class="fl">2025</span><span class="op">)</span>,</span>
 <span>  pcon_codes <span class="op">=</span> <span class="va">pcons</span><span class="op">$</span><span class="va">pcon_code</span>,</span>
 <span>  pcon_names <span class="op">=</span> <span class="va">pcons</span><span class="op">$</span><span class="va">pcon_name</span>,</span>
-<span>  num_filters <span class="op">=</span> <span class="fl">15</span>,</span>
-<span>  num_indicators <span class="op">=</span> <span class="fl">45</span></span>
+<span>  num_filters <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  num_indicators <span class="op">=</span> <span class="fl">45</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Then to create CSVs, use data.table as it's much faster</span></span>
