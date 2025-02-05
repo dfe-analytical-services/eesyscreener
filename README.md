@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# eesyscreener <a href="https://dfe-analytical-services.github.io/eesyscreener/"><img src="man/figures/logo.png" align="right" height="138" /></a>
+# eesyscreener <a href="https://dfe-analytical-services.github.io/eesyscreener/"><img src="" align="right" height="138" /></a>
 
 <!-- badges: start -->
 
@@ -80,13 +80,18 @@ CSVs from them.
 ## Developers only - generate big test files
 
 If as a package developer you want to generate larger files for testing
-with, you can use the `generate_test_files()` functions from
-`tests/utils/generate_test_files.R` to create files as beefy as you’d
-like! For example:
+with, you can use the `generate_test_dfs()` functions from
+`tests/utils/generate_test_dfs.R` to create files with any number of
+time periods, locations, filters and indicators.
 
 ``` r
-source("tests/utils/generate_utils.R")
-files <- generate_test_files(2010:2015, "Sheffield Central", "E14000919", 2, 3)
+files <- eesyscreener::generate_test_dfs(
+  years = 2013:2015, 
+  pcon_names = "Sheffield Central", 
+  pcon_codes = "E14000919", 
+  num_filters = 2, 
+  num_indicators = 3
+)
 
 # Data and metadata are returned in a list, to extract:
 df <- files$data
@@ -95,18 +100,34 @@ df_meta <- files$meta
 
 If you want to go really big, combine with the [dfeR
 package](https://dfe-analytical-services.github.io/dfeR/), to pass in
-vectors of Parliamentary Constituencies, the follow example creates an
-example data and metadata pair with a dataset of just under 6 million
-rows.
+vectors of Parliamentary Constituencies, and then
+[data.table](https://rdatatable.gitlab.io/data.table/) for much faster
+CSV creation.
+
+The following example creates an example data and metadata pair with a
+data set of just under 6 million rows:
 
 ``` r
+# Load this eesyscreener package
+devtools::load_all()
+
+# Additional dependencies
+library("dfeR")
+library("data.table")
+
+# Get a data frame of all Parliamentary Constituencies in England
 pcons <- dfeR::fetch_pcons(countries = "England")
 
-beefy <- generate_test_files(
+# As this is generating a big file, and isn't overly optimised, it may take a minute or two
+beefy <- eesyscreener::generate_test_dfs(
   years = c(1980:2025),
   pcon_codes = pcons$pcon_code,
   pcon_names = pcons$pcon_name,
   num_filters = 15,
   num_indicators = 45
 )
+
+# Then to create CSVs, use data.table as it's much faster
+data.table::fwrite(beefy$data, "beefy_data.csv")
+data.table::fwrite(beefy$meta, "beefy_data.meta.csv")
 ```

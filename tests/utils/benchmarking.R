@@ -3,9 +3,7 @@
 small_data <- eesyscreener::example_data
 small_meta <- eesyscreener::example_meta
 
-source("tests/utils/generate_utils.R")
-
-bigger_files <- generate_test_files(
+bigger_files <- eesyscreener::generate_test_dfs(
   years = c(1980:2025),
   pcon_codes = dfeR::fetch_pcons(countries = "England")$pcon_code,
   pcon_names = dfeR::fetch_pcons(countries = "England")$pcon_name,
@@ -13,45 +11,17 @@ bigger_files <- generate_test_files(
   num_indicators = 45
 )
 
-df <- bigger_files$data
+bigger_data <- bigger_files$data
 bigger_meta <- bigger_files$meta
 
 bigger_files <- NULL # Clean up env space
 
-data.table::fwrite(bigger_data, "big_data.csv") # just to see the raw size
-
 # Benchmarking ================================================================
 # Create benchmarking test
-
-microbenchmark::microbenchmark(
-  for (col in names(df)) {
-    y <- is.na(df[[col]][1])
-    z <- df[[col]][1] == ""
-
-    c(y, z)
-  },
-  lapply(names(df), function(col) {
-    y <- is.na(df[[col]][1])
-    z <- df[[col]][1] == ""
-
-    c(y, z)
-  }),
-  vapply(names(df), function(col) {
-    y <- is.na(df[[col]][1])
-    z <- df[[col]][1] == ""
-
-    c(y, z)
-  }, logical(2)),
-  times = 100000
-)
-
-
 benchmark <- function(df, reps = 10) {
   microbenchmark::microbenchmark(
-    setdiff(
-      names(df),
-      names(janitor::remove_empty(df, which = "cols", quiet = TRUE))
-    ),
+    # Option 1,
+    # Option 2,
     times = reps
   )
 }
