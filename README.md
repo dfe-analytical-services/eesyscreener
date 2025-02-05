@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# eesyscreener <a href="https://dfe-analytical-services.github.io/eesyscreener/"><img src="man/figures/logo.png" align="right" height="138" /></a>
+# eesyscreener <a href="https://dfe-analytical-services.github.io/eesyscreener/"><img src="" align="right" height="138" /></a>
 
 <!-- badges: start -->
 
@@ -27,6 +27,10 @@ devtools::install_github("dfe-analytical-services/eesyscreener")
 
 ## Minimal example
 
+This shows a quick reproducible example you can run in the console to
+test with. It also shows an example of the output structure from the
+core `screen_files()` function.
+
 ``` r
 library(eesyscreener)
 
@@ -34,23 +38,96 @@ screen_files(
   "data.csv",
   "data.meta.csv",
   example_data, # replace with your data file
-  example_data.meta # replace with your meta file
+  example_meta # replace with your meta file
 )
 #> $results_table
-#>                            check result
-#> 1     check_data_filename_spaces   PASS
-#> 2 check_metadata_filename_spaces   PASS
-#> 3          check_data_empty_rows   PASS
-#> 4      check_metadata_empty_rows   PASS
-#>                                           message stage
-#> 1         The data filename does not have spaces.     1
-#> 2     The metadata filename does not have spaces.     1
-#> 3     The data file does not have any blank rows.     1
-#> 4 The metadata file does not have any blank rows.     1
+#>                   check result
+#> 1 check_filename_spaces   PASS
+#> 2 check_filename_spaces   PASS
+#> 3      check_empty_cols   PASS
+#>                                                 message stage
+#> 1      'data.csv' does not have spaces in the filename.     1
+#> 2 'data.meta.csv' does not have spaces in the filename.     1
+#> 3           'data.csv' does not have any blank columns.     1
 #> 
 #> $overall_stage
 #> [1] "Passed"
 #> 
 #> $overall_message
 #> [1] "Passed all checks"
+```
+
+## Example CSVs
+
+Quick examples of how to make use of the data within the package to
+generate CSVs for testing:
+
+``` r
+library(eesyscreener)
+
+write.csv(example_data, "example_data.csv", row.names = FALSE)
+write.csv(example_meta, "example_data.meta.csv", row.names = FALSE)
+
+# Generate a file pairing that will fail the tests (spaces in filename)
+write.csv(example_data, "example data.csv", row.names = FALSE)
+write.csv(example_meta, "example data.meta.csv", row.names = FALSE)
+```
+
+Other available example files can be found on the documentation site
+under examples. Use `write.csv()` as in the examples above to generate
+CSVs from them.
+
+## Developers only - generate big test files
+
+If as a package developer you want to generate larger files for testing
+with, you can use the `generate_test_dfs()` functions from
+`tests/utils/generate_test_dfs.R` to create files with any number of
+time periods, locations, filters and indicators.
+
+``` r
+files <- eesyscreener::generate_test_dfs(
+  years = 2013:2015, 
+  pcon_names = "Sheffield Central", 
+  pcon_codes = "E14000919", 
+  num_filters = 2, 
+  num_indicators = 3
+)
+
+# Data and metadata are returned in a list, to extract:
+df <- files$data
+df_meta <- files$meta
+```
+
+If you want to go really big, combine with the [dfeR
+package](https://dfe-analytical-services.github.io/dfeR/), to pass in
+vectors of Parliamentary Constituencies, and then
+[data.table](https://rdatatable.gitlab.io/data.table/) for much faster
+CSV creation.
+
+The following example creates an example data and metadata pair with a
+data set of just under 6 million rows:
+
+``` r
+# Load this eesyscreener package
+devtools::load_all()
+
+# Additional dependencies
+library("dfeR")
+library("data.table")
+
+# Get a data frame of all Parliamentary Constituencies in England
+pcons <- dfeR::fetch_pcons(countries = "England")
+
+# As this is generating a big file, and isn't overly optimised, it may take a minute or two
+beefy <- eesyscreener::generate_test_dfs(
+  years = c(1980:2025),
+  pcon_codes = pcons$pcon_code,
+  pcon_names = pcons$pcon_name,
+  num_filters = 15,
+  num_indicators = 45
+)
+
+# Then to create CSVs, use data.table as it's much faster
+data.table::fwrite(beefy$data, "beefy_data.csv")
+data.table::fwrite(beefy$meta, "beefy_data.meta.csv")
 ```

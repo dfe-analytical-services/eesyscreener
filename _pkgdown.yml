@@ -10,6 +10,7 @@ reference:
 - title: Example data
   contents:
   - starts_with("example_")
+  - starts_with("generate_")
 
 
 - title: Checks - stage 1
