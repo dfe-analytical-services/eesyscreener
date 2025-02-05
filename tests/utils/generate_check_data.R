@@ -15,10 +15,9 @@ test_data <- read.csv(paste0(dom, repo, path_data))
 test_meta <- read.csv(paste0(dom, repo, path_meta))
 
 # Do some processing - really prune the file as small as you can!
-test_data_pruned <- test_data |>
-  subset(select = -c(14:ncol(test_data))) |>
-  head(3) |>
-  subset(select = -c(11))
+test_data_pruned <- test_data[, -c(14:ncol(test_data))]
+test_data_pruned <- test_data_pruned[1:3, ]
+test_data_pruned <- test_data_pruned[, -11]
 
 test_meta_pruned <- test_meta[-c(2:7), ]
 

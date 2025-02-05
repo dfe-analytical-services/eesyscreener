@@ -61,22 +61,26 @@ generate_data_file <- function(
   )
 
   filter_values <- c(
-    "Alpha", "Bravo", "Charlie", "Delta", "Echo", "Foxtrot", "Golf", "Hotel"
+    "Alpha", "Bravo", "Charlie", "Delta",
+    "Echo", "Foxtrot", "Golf", "Hotel"
   )
 
   for (i in 1:num_filters) {
     if (i == 1) {
       test_data$filter1 <- filter_values
     } else {
+      num_filter_values <- paste0(filter_values, i)
+
+      temp_data <- data.frame(
+        num_filter_values,
+        stringsAsFactors = FALSE
+      )
+
+      names(temp_data) <- paste0("filter", i)
+
       test_data <- merge(
         test_data,
-        setNames(
-          data.frame(
-            filter_values,
-            stringsAsFactors = FALSE
-          ),
-          paste0("filter", i)
-        ),
+        temp_data,
         by = NULL
       )
     }
