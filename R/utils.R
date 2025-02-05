@@ -24,25 +24,7 @@ null_filename <- function(string = NULL) {
 #'
 #' @return No return value, called for side effects
 #'
-#' @export
-#'
-#' @examples
-#' # Usually used in a function
-#' my_function <- function(count_fingers, verbose) {
-#'   toggle_message("I have ", count_fingers, " fingers", verbose = verbose)
-#'   fingers_thumbs <- count_fingers + 2
-#'   toggle_message("I have ", fingers_thumbs, " digits", verbose = verbose)
-#' }
-#'
-#' my_function(5, verbose = FALSE)
-#' my_function(5, verbose = TRUE)
-#'
-#' # Can be used in isolation
-#' toggle_message("I want the world to read this!", verbose = TRUE)
-#' toggle_message("I ain't gonna show this message!", verbose = FALSE)
-#'
-#' count_fingers <- 5
-#' toggle_message("I have ", count_fingers, " fingers", verbose = TRUE)
+#' @keywords internal
 toggle_message <- function(..., verbose) {
   if (verbose) {
     message(...)

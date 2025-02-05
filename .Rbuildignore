@@ -12,6 +12,5 @@
 ^doc$
 ^Meta$
 ^cran-comments\.md$
-^tests/utils/generate_utils\.R$
 ^tests/utils/benchmarking\.R$
-^tests/utils/generate_check_data\.R$
+^tests/utils/copy_check_data\.R$

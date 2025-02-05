@@ -43,7 +43,7 @@ Example of adding a new check available in [PR XX]()
 2. Set up a new script and test script for the check, copy over the relevant code from https://github.com/dfe-analytical-services/dfe-published-data-qa
 
 3. Add test data that should fail the function
-  a. Make use of the `tests/utils/generate_check_data.R` script to copy over CSVs from the screener repo and save as RDS files in the tests folder
+  a. Make use of the `tests/utils/copy_check_data.R` script to copy over CSVs from the screener repo and save as RDS files in the tests folder
   b. There should be a collection of unit tests and at least one example data file with an expected failure for every function
 
 4. Adapt the function so that the input arguments and outputs match existing `check_*` functions
