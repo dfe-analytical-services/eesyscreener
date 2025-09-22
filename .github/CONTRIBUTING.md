@@ -27,7 +27,7 @@ We expect the package to serve the following purposes:
 - All `check_*` functions must return a consistent list structure
 - File structure - one script per `check_*` or `precheck_*` function (except if internal and in R/utils.R)
 - `R/utils.R` contains all internal functions
-- `R/data-raw.R` contains the source code for example data and hardcoded variables
+- `data-raw/` contains the source code for example data and hardcoded variables
 - Use RDS as the main format to shrink test data (beware it automatically does some cleaning!), use CSV or make the data.frame() in code if needed
 - Think about dependencies between functions - can we pass the results of any pre-requisites into other functions?
 - Big priority on efficiency, we need to keep it light and fast
