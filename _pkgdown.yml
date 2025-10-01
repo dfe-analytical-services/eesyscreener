@@ -12,33 +12,31 @@ reference:
   - starts_with("example_")
   - starts_with("generate_")
 
-- title: General checks
-  description: |
-    These can be run on any file, regardless of type or structure.
-  contents:
-  - starts_with("check_general_")
-
 - title: Filename checks
   contents:
   - starts_with("check_filename_")
 
-- title: Pre-checks on data file
-  description: |
-    These checks are run before any other checks on data files to allow later checks to make assumptions about the structure.
-  contents:
-  - starts_with("precheck_data_")
-
 - title: Pre-checks on metadata
+  description: |
+    These checks should be run before any other metadata checks, as they validate core assumptions about the metadata file itself.
+  contents:
+  - starts_with("precheck_meta_")
 
 - title: Metadata checks
   contents:
-  - starts_with("check_metadata_")
+  - starts_with("check_meta_")
 
 - title: Core data file structure
   contents:
   - starts_with("check_data_")
 
 - title: Checks on column names
+
+- title: General checks
+  description: |
+    These can be run on any file, regardless of type or structure.
+  contents:
+  - starts_with("check_general_")
 
 - title: Pre-checks on filters
 
