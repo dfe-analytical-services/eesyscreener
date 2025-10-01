@@ -4,7 +4,14 @@
 \alias{screen_files}
 \title{Run all checks against files}
 \usage{
-screen_files(datafilename, metafilename, datafile, metafile, api_only = FALSE)
+screen_files(
+  datafilename,
+  metafilename,
+  datafile,
+  metafile,
+  verbose = FALSE,
+  api_only = FALSE
+)
 }
 \arguments{
 \item{datafilename}{The name of the data file}
@@ -15,10 +22,13 @@ screen_files(datafilename, metafilename, datafile, metafile, api_only = FALSE)
 
 \item{metafile}{A data frame containing the metadata file contents}
 
+\item{verbose}{Logical value indicating whether to print messages to the
+console or return a structured output}
+
 \item{api_only}{Logical value indicating whether to run only the API checks}
 }
 \value{
-A list containing
+Console messages or a list containing
 \enumerate{
 \item A table with the full results of the checks with four columns:
 \itemize{

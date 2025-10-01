@@ -134,7 +134,6 @@ library("data.table")
 # Get a data frame of all Parliamentary Constituencies in England
 pcons <- dfeR::fetch_pcons(countries = "England")
 
-# As this is generating a big file, and isn't overly optimised, it may take a minute or two
 beefy <- eesyscreener::generate_test_dfs(
   years = c(1980:2025),
   pcon_codes = pcons$pcon_code,
