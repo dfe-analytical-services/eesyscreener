@@ -69,12 +69,20 @@ generate_data_file <- function(
     "Echo"
   )
 
-  toggle_message(
-    "Expecting to generate ",
-    length(years) * length(pcon_codes) * (length(filter_values)^num_filters),
-    " rows...",
-    verbose = verbose
-  )
+  if (verbose) {
+    cli::cli_alert_info(
+      paste(
+        "Expecting to generate",
+        format(
+          length(years) *
+            length(pcon_codes) *
+            (length(filter_values)^num_filters),
+          big.mark = ","
+        ),
+        "rows..."
+      )
+    )
+  }
 
   num_filter_values <- length(filter_values)
 
@@ -106,8 +114,6 @@ generate_data_file <- function(
         temp_data,
         by = NULL
       )
-
-      toggle_message(nrow(test_data), " rows generated...", verbose = verbose)
     }
   }
 
@@ -119,14 +125,17 @@ generate_data_file <- function(
     )
   }
 
-  toggle_message(
-    "Final dataframe has ",
-    nrow(test_data),
-    " rows and ",
-    ncol(test_data),
-    " columns",
-    verbose = verbose
-  )
+  if (verbose) {
+    cli::cli_alert_success(
+      paste(
+        "Final dataframe has",
+        format(nrow(test_data), big.mark = ","),
+        "rows and",
+        format(ncol(test_data), big.mark = ","),
+        "columns"
+      )
+    )
+  }
 
   return(test_data)
 }

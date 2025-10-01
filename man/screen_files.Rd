@@ -7,15 +7,15 @@
 screen_files(datafilename, metafilename, datafile, metafile, api_only = FALSE)
 }
 \arguments{
-\item{datafilename}{The name of the data file.}
+\item{datafilename}{The name of the data file}
 
-\item{metafilename}{The name of the metadata file.}
+\item{metafilename}{The name of the metadata file}
 
-\item{datafile}{A data frame containing the data file contents.}
+\item{datafile}{A data frame containing the data file contents}
 
-\item{metafile}{A data frame containing the metadata file contents.}
+\item{metafile}{A data frame containing the metadata file contents}
 
-\item{api_only}{Logical value indicating whether to run only the API checks.}
+\item{api_only}{Logical value indicating whether to run only the API checks}
 }
 \value{
 A list containing
@@ -24,7 +24,7 @@ A list containing
 \itemize{
 \item result of the check (PASS / FAIL / ADVISORY)
 \item message giving feedback about the check
-\item stage that the check belongs to
+\item group that the check belongs to
 \item name of the check
 }
 \item Overall stage the checks reached
