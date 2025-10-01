@@ -5,9 +5,7 @@
 #' @param filename A character string of the filename to check
 #' @param custom_name An optional character string to customize the test name
 #' in the output
-#' @param verbose Logical, if TRUE then messages are printed to the console,
-#' otherwise a data frame is returned so multiple results can be combined into
-#' a single table. Default is TRUE
+#' @param output "table", "error-only", or "console". Default is "console"
 #'
 #' @family filename
 #'
@@ -16,13 +14,13 @@
 #'
 #' @examples
 #' check_filename_spaces("datafile.csv")
-#' check_filename_spaces("data file.csv", verbose = FALSE)
+#' check_filename_spaces("data file.csv", output = "table")
 #' check_filename_spaces("datafile.meta.csv", custom_name = "meta")
 #' @export
 check_filename_spaces <- function(
   filename,
   custom_name = NULL,
-  verbose = TRUE
+  output = "console"
 ) {
   test_name <- paste0("check_filename_", custom_name, "_spaces")
 
@@ -36,7 +34,7 @@ check_filename_spaces <- function(
           filename,
           "' (filename)."
         ),
-        console = verbose
+        output = output
       )
     )
   } else {
@@ -44,7 +42,7 @@ check_filename_spaces <- function(
       test_name,
       "PASS",
       paste0("'", filename, "' does not have spaces in the filename."),
-      console = verbose
+      output = output
     )
   }
 }

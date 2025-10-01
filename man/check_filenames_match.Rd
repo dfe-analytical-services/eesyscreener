@@ -4,16 +4,14 @@
 \alias{check_filenames_match}
 \title{Check filenames line up between data and metadata files}
 \usage{
-check_filenames_match(datafilename, metafilename, verbose = TRUE)
+check_filenames_match(datafilename, metafilename, output = "console")
 }
 \arguments{
 \item{datafilename}{A character string of the data filename to check}
 
 \item{metafilename}{A character string of the metadata filename to check}
 
-\item{verbose}{Logical, if TRUE then messages are printed to the console,
-otherwise a data frame is returned so multiple results can be combined into
-a single table. Default is TRUE}
+\item{output}{"table", "error-only", or "console". Default is "console"}
 }
 \value{
 a console message with feedback from the check or a single row data
@@ -28,7 +26,7 @@ Making sure the data and metadata file follow the pattern of:
 }
 \examples{
 check_filenames_match("datafile.csv", "datafile.meta.csv")
-check_filenames_match("datafile.csv", "metafile.csv", verbose = FALSE)
+check_filenames_match("datafile.csv", "metafile.csv", output = "table")
 }
 \seealso{
 Other filename: 

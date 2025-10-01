@@ -5,7 +5,7 @@ test_that("check_filenames_match passes correctly", {
     check_filenames_match(
       "datafile.csv",
       "datafile.meta.csv",
-      verbose = FALSE
+      output = "table"
     )$result,
     "PASS"
   )
@@ -16,7 +16,7 @@ test_that("check_filenames_match fails as expected", {
     check_filenames_match(
       "datafile.txt",
       "datafile.meta.csv",
-      verbose = FALSE
+      output = "table"
     )$result,
     "FAIL"
   )
@@ -24,7 +24,7 @@ test_that("check_filenames_match fails as expected", {
     check_filenames_match(
       "datafile.csv",
       "datafile.meta.txt",
-      verbose = FALSE
+      output = "table"
     )$result,
     "FAIL"
   )
@@ -32,7 +32,7 @@ test_that("check_filenames_match fails as expected", {
     check_filenames_match(
       "datafile.txt",
       "datafile.meta.txt",
-      verbose = FALSE
+      output = "table"
     )$result,
     "FAIL"
   )
@@ -40,7 +40,7 @@ test_that("check_filenames_match fails as expected", {
     check_filenames_match(
       "datafile.csv",
       "metafile.csv",
-      verbose = FALSE
+      output = "table"
     )$result,
     "FAIL"
   )
@@ -48,8 +48,21 @@ test_that("check_filenames_match fails as expected", {
     check_filenames_match(
       "datafile.csv",
       "datafile.csv",
-      verbose = FALSE
+      output = "table"
     )$result,
     "FAIL"
+  )
+  expect_error(
+    check_filenames_match(
+      "datafile.csv",
+      "datafile.csv"
+    )
+  )
+  expect_error(
+    check_filenames_match(
+      "datafile.csv",
+      "datafile.csv",
+      output = "error-only"
+    )
   )
 })

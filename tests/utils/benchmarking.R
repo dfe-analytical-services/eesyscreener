@@ -21,8 +21,8 @@ bigger_files <- NULL # Clean up env space
 # Create benchmarking test
 benchmark <- function(df, reps = 10) {
   microbenchmark::microbenchmark(
-    check_empty_cols(df, verbose = FALSE),
-    check_empty_cols2(df, verbose = FALSE),
+    # option 1,
+    # option 2,
     times = reps
   )
 }

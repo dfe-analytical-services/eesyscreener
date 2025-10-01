@@ -9,7 +9,7 @@ screen_files(
   metafilename,
   datafile,
   metafile,
-  verbose = FALSE,
+  output = "table",
   api_only = FALSE
 )
 }
@@ -22,8 +22,8 @@ screen_files(
 
 \item{metafile}{A data frame containing the metadata file contents}
 
-\item{verbose}{Logical value indicating whether to print messages to the
-console or return a structured output}
+\item{output}{Control the format of output, either 'table', 'error-only', or
+'console'}
 
 \item{api_only}{Logical value indicating whether to run only the API checks}
 }

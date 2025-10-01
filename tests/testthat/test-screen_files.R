@@ -55,3 +55,5 @@ test_that("Example file passes", {
     "Passed"
   )
 })
+
+# TODO: add tests for different output types

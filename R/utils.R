@@ -24,23 +24,24 @@ null_filename <- function(string = NULL) {
 #' @param result result of the test being run
 #' @param message message to be returned
 #' @param guidance_url optional url for more information
-#' @param console (optional) if FALSE, will return a single row data frame for
-#' combining multiple test outputs, otherwise prints feedback messages to
-#' console, default is TRUE
+#' @param output "table" will return a single row data frame for
+#' combining multiple test outputs, "console" prints feedback messages to
+#' console, "error-only" will only return errors or warnings if there's an
+#' issue
 #'
 #' @keywords internal
 #' @noRd
 #'
 #' @returns messages to the console giving feedback to the user or a single
-#' row data frame if console = FALSE
+#' row data frame
 test_output <- function(
   test_name,
   result,
   message,
   guidance_url = NA,
-  console = TRUE
+  output
 ) {
-  if (!console) {
+  if (output == "table") {
     return(
       data.frame(
         "check" = test_name,
@@ -51,13 +52,13 @@ test_output <- function(
         row.names = NULL
       )
     )
-  } else {
-    if (result == "PASS") {
+  } else if (result == "PASS") {
+    if (output == "console") {
       cli::cli_alert_success(message)
-    } else if (result == "WARNING") {
-      cli::cli_warn(message)
-    } else {
-      cli::cli_abort(message)
     }
+  } else if (result == "WARNING") {
+    cli::cli_warn(message)
+  } else if (result == "FAIL") {
+    cli::cli_abort(message)
   }
 }

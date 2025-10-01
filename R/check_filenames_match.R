@@ -6,9 +6,7 @@
 #'
 #' @param datafilename A character string of the data filename to check
 #' @param metafilename A character string of the metadata filename to check
-#' @param verbose Logical, if TRUE then messages are printed to the console,
-#' otherwise a data frame is returned so multiple results can be combined into
-#' a single table. Default is TRUE
+#' @param output "table", "error-only", or "console". Default is "console"
 #'
 #' @inherit check_filename_spaces return
 #'
@@ -16,12 +14,12 @@
 #'
 #' @examples
 #' check_filenames_match("datafile.csv", "datafile.meta.csv")
-#' check_filenames_match("datafile.csv", "metafile.csv", verbose = FALSE)
+#' check_filenames_match("datafile.csv", "metafile.csv", output = "table")
 #' @export
 check_filenames_match <- function(
   datafilename,
   metafilename,
-  verbose = TRUE
+  output = "console"
 ) {
   test_name <- "check_filenames_match"
 
@@ -37,7 +35,7 @@ check_filenames_match <- function(
           "Neither file is saved as a CSV. Please save your files as CSV's",
           "and re-upload."
         ),
-        console = verbose
+        output = output
       )
     )
   } else {
@@ -50,7 +48,7 @@ check_filenames_match <- function(
             "The data file is not a CSV. Please save the file as a CSV and",
             "re-upload."
           ),
-          console = verbose
+          output = output
         )
       )
     } else {
@@ -63,7 +61,7 @@ check_filenames_match <- function(
               "The metadata file is not a CSV. Please save the file as a CSV",
               "and re-upload."
             ),
-            console = verbose
+            output = output
           )
         )
       } else {
@@ -79,7 +77,7 @@ check_filenames_match <- function(
                 "The names of the files follow the recommended naming",
                 "convention."
               ),
-              console = verbose
+              output = output
             )
           )
         } else {
@@ -93,7 +91,7 @@ check_filenames_match <- function(
               stringr::str_replace(datafilename, ".csv", ".meta.csv'"),
               "'."
             ),
-            console = verbose
+            output = output
           )
         }
       }

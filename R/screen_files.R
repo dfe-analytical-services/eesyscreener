@@ -8,8 +8,8 @@
 #' @param metafilename The name of the metadata file
 #' @param datafile A data frame containing the data file contents
 #' @param metafile A data frame containing the metadata file contents
-#' @param verbose Logical value indicating whether to print messages to the
-#' console or return a structured output
+#' @param output Control the format of output, either 'table', 'error-only', or
+#' 'console'
 #' @param api_only Logical value indicating whether to run only the API checks
 #' @return Console messages or a list containing
 #' 1. A table with the full results of the checks with four columns:
@@ -34,55 +34,37 @@ screen_files <- function(
   metafilename,
   datafile,
   metafile,
-  verbose = FALSE, # TODO: Create 3 levels of verbosity
-  # (table, errors only, full console)
+  output = "table",
   api_only = FALSE # TODO: Do we still need this?
 ) {
   # TODO: Look into making the separate checks / stages run asynchronously
 
   # Filename stage ------------------------------------------------------------
   filename_results <- rbind(
-    check_filename_spaces(datafilename, "data", verbose = verbose),
-    check_filename_spaces(metafilename, "metadata", verbose = verbose),
-    check_filename_special(datafilename, "data", verbose = verbose),
-    check_filename_special(metafilename, "metadata", verbose = verbose),
-    check_filenames_match(datafilename, metafilename, verbose = verbose)
-  ) |>
-    cbind(
-      "stage" = "Filename tests"
-    )
+    check_filename_spaces(datafilename, "data", output = output),
+    check_filename_spaces(metafilename, "metadata", output = output),
+    check_filename_special(datafilename, "data", output = output),
+    check_filename_special(metafilename, "metadata", output = output),
+    check_filenames_match(datafilename, metafilename, output = output)
+  )
 
-  # TODO: Create a grouping function to simplify the verbosity handling
-  if (!verbose && any(filename_results[["result"]] == "FAIL")) {
-    output <- list(
-      "results_table" = as.data.frame(filename_results),
-      "stage" = "Filename checks",
-      "message" = "Failed filename checks"
-    )
+  if (nrow(filename_results) > 0) {
+    filename_results <- filename_results |>
+      cbind(
+        "stage" = "Filename tests"
+      )
 
-    return(output)
+    # TODO: Create a grouping function to simplify the verbosity handling
+    if (output == "table" && any(filename_results[["result"]] == "FAIL")) {
+      return(
+        list(
+          "results_table" = as.data.frame(filename_results),
+          "stage" = "Filename checks",
+          "message" = "Failed filename checks"
+        )
+      )
+    }
   }
-
-  # Precheck metadata ---------------------------------------------------------
-  #pre_meta_results <- rbind(
-  #precheck_meta_col_type(metafile, verbose = FALSE),
-  #precheck_meta_ob_unit(metafile, verbose = FALSE),
-  #precheck_meta_invalid_cols(metafile, verbose = FALSE),
-  #precheck_meta_col_name(metafile, verbose = FALSE),
-  #) |>
-  #  cbind(
-  #    "stage" = "Metadata prechecks"
-  #  )
-
-  #if (any(pre_meta_results[["result"]] == "FAIL")) {
-  #  output <- list(
-  #    "results_table" = as.data.frame(pre_meta_results),
-  #    "stage" = "Metadata prechecks",
-  #    "message" = "Failed metadata prechecks"
-  #  )
-  #
-  #  return(output)
-  #}
 
   # General stage -------------------------------------------------------------
   general_results <- rbind(
@@ -100,19 +82,19 @@ screen_files <- function(
     )
 
   if (any(general_results[["result"]] == "FAIL")) {
-    output <- list(
-      "results_table" = as.data.frame(general_results),
-      "stage" = "General file checks",
-      "message" = "Failed general file checks"
+    return(
+      list(
+        "results_table" = as.data.frame(general_results), # TODO: stack others
+        "stage" = "General file checks",
+        "message" = "Failed general file checks"
+      )
     )
-
-    return(output)
   }
 
   # Success -------------------------------------------------------------------
-  if (verbose) {
+  if (output == "console") {
     cli::cli_alert_success("Passed all checks")
-  } else {
+  } else if (output == "table") {
     list(
       "results_table" = as.data.frame(
         rbind(
