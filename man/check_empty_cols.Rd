@@ -4,20 +4,22 @@
 \alias{check_empty_cols}
 \title{Check for empty columns}
 \usage{
-check_empty_cols(df, filename = NULL)
+check_empty_cols(df, filename = NULL, verbose = TRUE, custom_name = NULL)
 }
 \arguments{
 \item{df}{The data frame to check}
 
 \item{filename}{A character string of the filename to check}
+
+\item{verbose}{Logical, if TRUE then messages are printed to the console,
+otherwise a data frame is returned so multiple results can be combined into
+a single table. Default is TRUE}
+
+\item{custom_name}{An optional character string to customize the test name
+in the output}
 }
 \value{
-A list containing:
-\describe{
-\item{check}{Character string with the stage that the check belongs to.}
-\item{result}{Character string, either "PASS", "FAIL" or "ADVISORY".}
-\item{message}{Character string with feedback about the check.}
-}
+the output from \code{test_output()}
 }
 \description{
 This function checks for empty cols in a given data frame and returns a list
@@ -28,7 +30,6 @@ Filename is optional and is used to populate the feedback message.
 }
 \examples{
 df <- eesyscreener::example_data
-check_empty_cols(df, "datafile.csv")
 check_empty_cols(df)
-
+check_empty_cols(df, verbose = FALSE)
 }

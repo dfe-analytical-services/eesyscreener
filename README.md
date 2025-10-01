@@ -21,8 +21,8 @@ eesyscreener is not currently available on CRAN. For the time being you
 can install the development version from GitHub.
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("dfe-analytical-services/eesyscreener")
+# install.packages("pak")
+pak::pak("dfe-analytical-services/eesyscreener")
 ```
 
 ## Minimal example
@@ -40,15 +40,17 @@ screen_files(
   example_data, # replace with your data file
   example_meta # replace with your meta file
 )
+#> ✔ 'data.csv' does not have spaces in the filename.
+#> ✔ 'data.meta.csv' does not have spaces in the filename.
 #> $results_table
-#>                   check result
-#> 1 check_filename_spaces   PASS
-#> 2 check_filename_spaces   PASS
-#> 3      check_empty_cols   PASS
-#>                                                 message stage
-#> 1      'data.csv' does not have spaces in the filename.     1
-#> 2 'data.meta.csv' does not have spaces in the filename.     1
-#> 3           'data.csv' does not have any blank columns.     1
+#>              check      result                                     message
+#> 1      cli-42872-1 cli-42872-1                                 cli-42872-1
+#> 2      cli-42872-5 cli-42872-5                                 cli-42872-5
+#> 3 check_empty_cols        PASS 'data.csv' does not have any blank columns.
+#>   stage
+#> 1     1
+#> 2     1
+#> 3     1
 #> 
 #> $overall_stage
 #> [1] "Passed"

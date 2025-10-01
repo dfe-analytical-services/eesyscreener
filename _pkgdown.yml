@@ -12,7 +12,48 @@ reference:
   - starts_with("example_")
   - starts_with("generate_")
 
-
-- title: Checks - stage 1
+- title: General checks
+  description: |
+    These can be run on any file, regardless of type or structure.
   contents:
-  - starts_with("check_")
+  - starts_with("check_general_")
+
+- title: Filename checks
+  contents:
+  - starts_with("check_filename_")
+
+- title: Pre-checks on data file
+  description: |
+    These checks are run before any other checks on data files to allow later checks to make assumptions about the structure.
+  contents:
+  - starts_with("precheck_data_")
+
+- title: Pre-checks on metadata
+
+- title: Metadata checks
+  contents:
+  - starts_with("check_metadata_")
+
+- title: Core data file structure
+  contents:
+  - starts_with("check_data_")
+
+- title: Checks on column names
+
+- title: Pre-checks on filters
+
+- title: Pre-checks on time columns
+
+- title: Pre-checks on geography columns
+
+- title: General data file checks
+
+- title: Filter checks
+
+- title: Indicator checks
+
+- title: Geography checks
+
+- title: Time checks
+
+- title: API specific checks

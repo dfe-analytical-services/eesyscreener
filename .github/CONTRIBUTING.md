@@ -18,10 +18,14 @@ We expect the package to serve the following purposes:
 
 ## Package structure
 
-- `screen_files()` pulls it all together and currently is the main export
-- All individual checks copied from the screener should be named `check_*`
+- `screen_files()` pulls it all together and currently is the main export, this has 3 intended uses:
+  - for use in the plumber API (EES integration)
+  - for use in the R Shiny app
+  - for use by analysts in their own R scripts
+
+- All individual checks copied from the screener should be named in accordance with the naming conventions in the `_pkgdown.yml` file
 - All `check_*` functions must return a consistent list structure
-- File structure - one script per `check_*` function (except R/utils.R)
+- File structure - one script per `check_*` or `precheck_*` function (except if internal and in R/utils.R)
 - `R/utils.R` contains all internal functions
 - `R/data-raw.R` contains the source code for example data and hardcoded variables
 - Use RDS as the main format to shrink test data (beware it automatically does some cleaning!), use CSV or make the data.frame() in code if needed
@@ -91,6 +95,61 @@ However, when testing with a bigger file (~6million rows), the 2nd and 3rd optio
 You can use the `tests/utils/benchmarking.R` script as a starting point, it includes code to generate big tables and run benchmarking. Sometimes the fastest on small files will not be the fastest on bigger ones. Prioritise the bigger files as that's where the biggest impact will be felt.
 
 If it's a particularly big function running over a whole data file, also consider using `future.apply` or other parallel processing approaches if they swap in easily.
+
+## Notes / questions
+
+Gone for verbose by default (i.e. console warnings), and then we turn that off in the API / Shiny app
+
+Radical - would we want to ditch warnings? Just have TRUE / FALSE for pass / fail?
+
+Guidance URL? / being able to feedback to users? Not 100% on, wondering if a first version could be to ditch, simply the feedback to the user and instead and go for an accompanying vignette guide to specific checks - e.g. with instructions for running checks in isolation to investigate issues (thinking of duplicate rows?)
+
+Long feedback messages - how do we handle more neatly / give ourselves ability to still edit those later
+
+Feels a little odd to make all the code available as individual functions
+- Issues with assumptions in the code
+  - When do we check it's actually a CSV file?
+  - pre-check are required for many of the main checks, feels like too much to build in to each function? Thinking we create a vignette explaining this a bit more just so it's clear to users
+
+## Structure
+
+- Screening function that runs everything in order (can be wrapped with batching functions later)
+  - Takes in file names (data and meta) and the data.frames of the files
+    
+    [DO WE WANT TO STANDARDISE THE FUNCTIONS FOR READING THE FILES?]
+    - Plumber: reads in CSVs prior to passing to the function
+    - Shiny: reads in CSVs prior to passing to the function
+    
+    - Analysts: reads in CSVs within the function [DO WE NEED AN ARGUMENT FOR THEM TO HAVE THIS?]
+
+- Where do we catch that a file is a CSV or not?
+
+- Runs all of the checks in order
+ - Stages are changed from the existing app.
+   - Now checks will be grouped by area / topic instead
+ - Pre-checks are run first as the main checks for each area depend on them passing
+ - Do in a way that can be parrallelised if a users machine can do so
+
+- Each check returns a consistent data frame structure
+  - If a key stage is failed, the checks stop early?
+
+For each check:
+- Two options - print to console verbosely, or return a data.frame of results
+
+- test_output function controls this
+  - Fails cause errors in console
+  - Can add additional verbose console messages before the main failure output if needed
+
+Standard pattern:
+```r
+test_output(
+  test_name, # name of check
+  "PASS", # result of check, one of 'PASS', 'FAIL', 'WARNING'
+  paste0("'", filename, "' does not contain any special characters."), # feedback message for user
+  "https://dfe-analytical-services.github.io/analysts-guide/", # optional URL for guidance, can just not include as will default to NA
+  console = verbose # control for whether to print to console or silently return data frame (TRUE/FALSE)
+)
+```
 
 ## Other things to add to the package
 

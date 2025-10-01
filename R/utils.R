@@ -5,6 +5,7 @@
 #'
 #' @param string filename in to be transformed
 #' @keywords internal
+#' @noRd
 #' @returns string
 null_filename <- function(string = NULL) {
   ifelse(is.null(string), "the tested data frame", paste0("'", string, "'"))
@@ -23,7 +24,7 @@ null_filename <- function(string = NULL) {
 #' using this within
 #'
 #' @return No return value, called for side effects
-#'
+#' @noRd
 #' @keywords internal
 toggle_message <- function(..., verbose) {
   if (verbose) {

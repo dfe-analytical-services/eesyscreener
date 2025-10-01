@@ -150,7 +150,7 @@ generate_meta_file <- function(
     paste0("indicator", 1:num_indicators)
   )
 
-  meta <- data.frame(
+  data.frame(
     col_name = cols,
     col_type = ifelse(grepl("^filter", cols), "Filter", "Indicator"),
     label = toupper(cols),
@@ -160,6 +160,4 @@ generate_meta_file <- function(
     filter_hint = NA,
     filter_grouping_column = NA
   )
-
-  return(meta)
 }

@@ -2,5 +2,6 @@
 
 export(check_empty_cols)
 export(check_filename_spaces)
+export(check_filename_special)
 export(generate_test_dfs)
 export(screen_files)

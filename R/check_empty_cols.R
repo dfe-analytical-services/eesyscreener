@@ -8,20 +8,20 @@
 #' @param df The data frame to check
 #' @inheritParams check_filename_spaces
 #'
-#' @return A list containing:
-#' \describe{
-#'   \item{check}{Character string with the stage that the check belongs to.}
-#'   \item{result}{Character string, either "PASS", "FAIL" or "ADVISORY".}
-#'   \item{message}{Character string with feedback about the check.}
-#' }
+#' @return the output from `test_output()`
 #' @examples
 #' df <- eesyscreener::example_data
-#' check_empty_cols(df, "datafile.csv")
 #' check_empty_cols(df)
-#'
+#' check_empty_cols(df, verbose = FALSE)
 #' @export
-check_empty_cols <- function(df, filename = NULL) {
-  output <- list("check" = paste0("check_empty_cols"))
+check_empty_cols <- function(
+  df,
+  filename = NULL,
+  verbose = TRUE,
+  custom_name = NULL
+) {
+  test_name <- paste0("check_empty_cols_", custom_name)
+  filename <- null_filename(filename)
 
   # Check only for NA cols, as "" is ridiculously slow to check for large files
   blank_cols <- setdiff(
@@ -29,36 +29,54 @@ check_empty_cols <- function(df, filename = NULL) {
     names(janitor::remove_empty(df, which = "cols", quiet = TRUE))
   )
 
-  filename <- null_filename(filename)
+  # Get the unique values for each column and check if any only has ""
+  col_uniques <- lapply(df, function(col) unique(col))
+  names(col_uniques) <- names(df)
+  blank_cols <- c(
+    blank_cols,
+    names(Filter(function(x) length(x) == 1 && identical(x, ""), col_uniques))
+  )
+
   blank_cols_len <- length(blank_cols)
 
   if (blank_cols_len == 0) {
-    output$result <- "PASS"
-    output$message <- paste(
-      filename,
-      "does not have any blank columns."
+    return(
+      test_output(
+        test_name,
+        "PASS",
+        paste(filename, "does not have any blank columns."),
+        console = verbose
+      )
     )
   } else {
     if (blank_cols_len == 1) {
-      output$result <- "FAIL"
-      output$message <- paste0(
-        "The following column in ",
-        filename,
-        " is empty: '",
-        blank_cols,
-        "'."
+      return(
+        test_output(
+          test_name,
+          "FAIL",
+          paste0(
+            "The following column in ",
+            filename,
+            " is empty: '",
+            blank_cols,
+            "'."
+          ),
+          console = verbose
+        )
       )
     } else {
-      output$result <- "FAIL"
-      output$message <- paste0(
-        "The following columns in ",
-        filename,
-        " are empty: '",
-        paste0(blank_cols, collapse = "', '"),
-        "'."
+      test_output(
+        test_name,
+        "FAIL",
+        paste0(
+          "The following columns in ",
+          filename,
+          " are empty: '",
+          paste0(blank_cols, collapse = "', '"),
+          "'."
+        ),
+        console = verbose
       )
     }
   }
-
-  return(output)
 }
