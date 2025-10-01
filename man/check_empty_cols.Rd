@@ -19,7 +19,8 @@ a single table. Default is TRUE}
 in the output}
 }
 \value{
-the output from \code{test_output()}
+a console message with feedback from the check or the output from
+\code{test_output()}
 }
 \description{
 This function checks for empty cols in a given data frame and returns a list
@@ -33,3 +34,4 @@ df <- eesyscreener::example_data
 check_empty_cols(df)
 check_empty_cols(df, verbose = FALSE)
 }
+\keyword{internal}

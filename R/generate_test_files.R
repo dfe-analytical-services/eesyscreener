@@ -69,14 +69,31 @@ generate_data_file <- function(
     "Echo"
   )
 
-  if (verbose) {
+  expected_rows <- length(years) *
+    length(pcon_codes) *
+    (length(filter_values)^num_filters)
+
+  if (expected_rows > 7500000) {
+    user_choice <- utils::menu(
+      choices = c("Continue", "Cancel"),
+      title = paste(
+        "You are about to generate",
+        format(expected_rows, big.mark = ","),
+        "rows. Are you sure you want to continue?"
+      )
+    )
+    if (user_choice == 2) {
+      cli::cli_alert_danger("Operation cancelled by user.")
+      return(invisible())
+    } else if (user_choice == 1) {
+      cli::cli_alert_info("Continuing with data generation...")
+    }
+  } else if (verbose) {
     cli::cli_alert_info(
       paste(
         "Expecting to generate",
         format(
-          length(years) *
-            length(pcon_codes) *
-            (length(filter_values)^num_filters),
+          expected_rows,
           big.mark = ","
         ),
         "rows..."
@@ -88,6 +105,7 @@ generate_data_file <- function(
   if (verbose) {
     cli::cli_alert_info("Preparing filter combinations...")
   }
+
   filter_values_list <- replicate(num_filters, filter_values, simplify = FALSE)
   filter_combinations <- expand.grid(
     filter_values_list,

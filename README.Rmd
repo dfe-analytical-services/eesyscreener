@@ -39,12 +39,19 @@ This shows a quick reproducible example you can run in the console to test with.
 ```{r}
 library(eesyscreener)
 
-screen_files(
+result <- screen_files(
   "data.csv",
   "data.meta.csv",
   example_data, # replace with your data file
   example_meta # replace with your meta file
 )
+
+result$results_table |>
+  head()
+
+result$overall_stage
+
+result$overall_message
 ```
 
 ## Example CSVs
@@ -98,7 +105,6 @@ library("data.table")
 # Get a data frame of all Parliamentary Constituencies in England
 pcons <- dfeR::fetch_pcons(countries = "England")
 
-# As this is generating a big file, and isn't overly optimised, it may take a minute or two
 beefy <- eesyscreener::generate_test_dfs(
   years = c(1980:2025),
   pcon_codes = pcons$pcon_code,

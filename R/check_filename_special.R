@@ -5,7 +5,9 @@
 #'
 #' @inheritParams check_filename_spaces
 #'
-#' @inherit check_empty_cols return
+#' @inherit check_filename_spaces return
+#'
+#' @family filename
 #'
 #' @examples
 #' check_filename_special("datafile.csv")

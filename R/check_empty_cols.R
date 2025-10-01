@@ -10,11 +10,12 @@
 #' with the check result and a message.
 #'
 #' Filename is optional and is used to populate the feedback message.
-#'
+#' @keywords internal
 #' @param df The data frame to check
 #' @inheritParams check_filename_spaces
 #'
-#' @return the output from `test_output()`
+#' @return a console message with feedback from the check or the output from
+#' `test_output()`
 #' @examples
 #' df <- eesyscreener::example_data
 #' check_empty_cols(df)
@@ -97,7 +98,7 @@ check_empty_cols <- function(
 #'
 #' @param df The data frame to check
 #' @inheritParams check_filename_spaces
-#'
+#' @keywords internal
 #' @return the output from `test_output()`
 #' @examples
 #' df <- eesyscreener::example_data

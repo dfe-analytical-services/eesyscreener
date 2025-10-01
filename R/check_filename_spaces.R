@@ -9,7 +9,10 @@
 #' otherwise a data frame is returned so multiple results can be combined into
 #' a single table. Default is TRUE
 #'
-#' @inherit check_empty_cols return
+#' @family filename
+#'
+#' @return a console message with feedback from the check or a single row data
+#' frame if verbose = FALSE
 #'
 #' @examples
 #' check_filename_spaces("datafile.csv")

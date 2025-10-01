@@ -16,7 +16,8 @@ otherwise a data frame is returned so multiple results can be combined into
 a single table. Default is TRUE}
 }
 \value{
-the output from \code{test_output()}
+a console message with feedback from the check or a single row data
+frame if verbose = FALSE
 }
 \description{
 Making sure the data and metadata file follow the pattern of:
@@ -29,3 +30,9 @@ Making sure the data and metadata file follow the pattern of:
 check_filenames_match("datafile.csv", "datafile.meta.csv")
 check_filenames_match("datafile.csv", "metafile.csv", verbose = FALSE)
 }
+\seealso{
+Other filename: 
+\code{\link{check_filename_spaces}()},
+\code{\link{check_filename_special}()}
+}
+\concept{filename}

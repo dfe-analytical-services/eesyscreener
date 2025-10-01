@@ -14,7 +14,7 @@ reference:
 
 - title: Filename checks
   contents:
-  - starts_with("check_filename_")
+  - starts_with("check_filename")
 
 - title: Pre-checks on metadata
   description: |

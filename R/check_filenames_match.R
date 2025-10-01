@@ -10,7 +10,9 @@
 #' otherwise a data frame is returned so multiple results can be combined into
 #' a single table. Default is TRUE
 #'
-#' @inherit check_empty_cols return
+#' @inherit check_filename_spaces return
+#'
+#' @family filename
 #'
 #' @examples
 #' check_filenames_match("datafile.csv", "datafile.meta.csv")

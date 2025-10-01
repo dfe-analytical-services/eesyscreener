@@ -17,7 +17,8 @@ otherwise a data frame is returned so multiple results can be combined into
 a single table. Default is TRUE}
 }
 \value{
-the output from \code{test_output()}
+a console message with feedback from the check or a single row data
+frame if verbose = FALSE
 }
 \description{
 This function checks if the provided filename contains any spaces.
@@ -27,3 +28,9 @@ check_filename_spaces("datafile.csv")
 check_filename_spaces("data file.csv", verbose = FALSE)
 check_filename_spaces("datafile.meta.csv", custom_name = "meta")
 }
+\seealso{
+Other filename: 
+\code{\link{check_filename_special}()},
+\code{\link{check_filenames_match}()}
+}
+\concept{filename}

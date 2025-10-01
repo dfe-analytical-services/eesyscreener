@@ -33,3 +33,4 @@ df <- eesyscreener::example_data
 check_empty_cols2(df)
 check_empty_cols2(df, verbose = FALSE)
 }
+\keyword{internal}

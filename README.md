@@ -34,28 +34,41 @@ core `screen_files()` function.
 ``` r
 library(eesyscreener)
 
-screen_files(
+result <- screen_files(
   "data.csv",
   "data.meta.csv",
   example_data, # replace with your data file
   example_meta # replace with your meta file
 )
-#> ✔ 'data.csv' does not have spaces in the filename.
-#> ✔ 'data.meta.csv' does not have spaces in the filename.
-#> $results_table
-#>              check      result                                     message
-#> 1      cli-42872-1 cli-42872-1                                 cli-42872-1
-#> 2      cli-42872-5 cli-42872-5                                 cli-42872-5
-#> 3 check_empty_cols        PASS 'data.csv' does not have any blank columns.
-#>   stage
-#> 1     1
-#> 2     1
-#> 3     1
-#> 
-#> $overall_stage
+
+result$results_table |>
+  head()
+#>                             check result
+#> 1      check_filename_data_spaces   PASS
+#> 2  check_filename_metadata_spaces   PASS
+#> 3     check_filename_data_special   PASS
+#> 4 check_filename_metadata_special   PASS
+#> 5           check_filenames_match   PASS
+#> 6             placeholder_general   PASS
+#>                                                            message guidance_url
+#> 1                 'data.csv' does not have spaces in the filename.           NA
+#> 2            'data.meta.csv' does not have spaces in the filename.           NA
+#> 3              'data.csv' does not contain any special characters.           NA
+#> 4         'data.meta.csv' does not contain any special characters.           NA
+#> 5 The names of the files follow the recommended naming convention.           NA
+#> 6                                                      Placeholder           NA
+#>                stage
+#> 1     Filename tests
+#> 2     Filename tests
+#> 3     Filename tests
+#> 4     Filename tests
+#> 5     Filename tests
+#> 6 General file tests
+
+result$overall_stage
 #> [1] "Passed"
-#> 
-#> $overall_message
+
+result$overall_message
 #> [1] "Passed all checks"
 ```
 
