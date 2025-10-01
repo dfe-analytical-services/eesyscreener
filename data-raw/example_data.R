@@ -1,19 +1,40 @@
 example_data <- data.frame(
   time_period = c(
-    "201718", "201718", "201718", "201718", "201718",
-    "201718", "201718", "201718", "201718"
+    "201718",
+    "201718",
+    "201718",
+    "201718",
+    "201718",
+    "201718",
+    "201718",
+    "201718",
+    "201718"
   ),
   time_identifier = "Academic year",
   geographic_level = "National",
   country_code = "E92000001",
   country_name = "England",
   sex = c(
-    "All pupils", "All pupils", "All pupils",
-    "Male", "Female", "Male", "Female", "Male", "Female"
+    "All pupils",
+    "All pupils",
+    "All pupils",
+    "Male",
+    "Female",
+    "Male",
+    "Female",
+    "Male",
+    "Female"
   ),
   education_phase = c(
-    "All phases", "Primary", "Secondary", "All phases", "All phases",
-    "Primary", "Primary", "Secondary", "Secondary"
+    "All phases",
+    "Primary",
+    "Secondary",
+    "All phases",
+    "All phases",
+    "Primary",
+    "Primary",
+    "Secondary",
+    "Secondary"
   ),
   enrolment_count = c(1000, 300, 700, 450, 460, 200, 205, 250, 255)
 )

@@ -1,10 +1,12 @@
 # check_filename_spaces -------------------------------------------------------
 test_that("check_filename_spaces passes correctly", {
   expect_equal(
-    check_filename_spaces("passes.csv")$result, "PASS"
+    check_filename_spaces("passes.csv")$result,
+    "PASS"
   )
   expect_equal(
-    check_filename_spaces("passes.meta.csv")$result, "PASS"
+    check_filename_spaces("passes.meta.csv")$result,
+    "PASS"
   )
 })
 

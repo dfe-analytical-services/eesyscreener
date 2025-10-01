@@ -23,7 +23,9 @@ check_filename_spaces <- function(filename) {
   } else {
     output$result <- "PASS"
     output$message <- paste0(
-      "'", filename, "' does not have spaces in the filename."
+      "'",
+      filename,
+      "' does not have spaces in the filename."
     )
   }
 

@@ -7,13 +7,22 @@ example_filter_group <- data.frame(
   country_code = rep("E92000001", 7),
   country_name = rep("England", 7),
   establishment_type_group = c(
-    "Local authority maintained", "Local authority maintained",
-    "Local authority maintained", "Non-maintained", "Non-maintained",
-    "Non-maintained", "All establishment types"
+    "Local authority maintained",
+    "Local authority maintained",
+    "Local authority maintained",
+    "Non-maintained",
+    "Non-maintained",
+    "Non-maintained",
+    "All establishment types"
   ),
   education_phase = c(
-    "All phases", "Primary", "Secondary",
-    "All phases", "Special", "Independent school", "All phases"
+    "All phases",
+    "Primary",
+    "Secondary",
+    "All phases",
+    "Special",
+    "Independent school",
+    "All phases"
   ),
   enrolment_count = c(1000, 300, 700, 910, 450, 460, 1910)
 )

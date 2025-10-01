@@ -35,20 +35,27 @@ check_empty_cols <- function(df, filename = NULL) {
   if (blank_cols_len == 0) {
     output$result <- "PASS"
     output$message <- paste(
-      filename, "does not have any blank columns."
+      filename,
+      "does not have any blank columns."
     )
   } else {
     if (blank_cols_len == 1) {
       output$result <- "FAIL"
       output$message <- paste0(
-        "The following column in ", filename, " is empty: '", blank_cols,
+        "The following column in ",
+        filename,
+        " is empty: '",
+        blank_cols,
         "'."
       )
     } else {
       output$result <- "FAIL"
       output$message <- paste0(
-        "The following columns in ", filename, " are empty: '",
-        paste0(blank_cols, collapse = "', '"), "'."
+        "The following columns in ",
+        filename,
+        " are empty: '",
+        paste0(blank_cols, collapse = "', '"),
+        "'."
       )
     }
   }

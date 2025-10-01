@@ -87,7 +87,11 @@ test_that("single filter only generates unique values", {
   expect_equal(
     generate_data_file(2015, "Sheffield Central", "E14000919", 1, 3)$filter1,
     c(
-      "Alpha", "Bravo", "Charlie", "Delta", "Echo"
+      "Alpha",
+      "Bravo",
+      "Charlie",
+      "Delta",
+      "Echo"
     )
   )
 })

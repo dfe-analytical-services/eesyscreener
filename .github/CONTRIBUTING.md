@@ -92,6 +92,11 @@ You can use the `tests/utils/benchmarking.R` script as a starting point, it incl
 
 If it's a particularly big function running over a whole data file, also consider using `future.apply` or other parallel processing approaches if they swap in easily.
 
+## Other things to add to the package
+
+TODO: Add test coverage workflow
+TODO: Add trello card workflow
+
 ## List of notes for the main screener
 
 TODO: Move the images out of screenFiles and into the server part of the app

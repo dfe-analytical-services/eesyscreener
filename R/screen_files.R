@@ -28,11 +28,12 @@
 #' )
 #' @export
 screen_files <- function(
-    datafilename,
-    metafilename,
-    datafile,
-    metafile,
-    api_only = FALSE) {
+  datafilename,
+  metafilename,
+  datafile,
+  metafile,
+  api_only = FALSE
+) {
   # TODO: Look into making the separate checks run asynchronously
 
   # Stage 1 -----------------------------------------------------------------

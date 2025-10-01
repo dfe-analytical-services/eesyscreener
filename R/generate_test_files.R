@@ -19,15 +19,20 @@
 #' @examples
 #' generate_test_dfs(2010:2015, "Sheffield Central", "E14000919", 2, 3)
 generate_test_dfs <- function(
-    years = 3000,
-    pcon_names = "Sheffield Central",
-    pcon_codes = "E14000919",
-    num_filters = 1,
-    num_indicators = 1,
-    verbose = FALSE) {
+  years = 3000,
+  pcon_names = "Sheffield Central",
+  pcon_codes = "E14000919",
+  num_filters = 1,
+  num_indicators = 1,
+  verbose = FALSE
+) {
   file_pair <- list(
     data = generate_data_file(
-      years, pcon_names, pcon_codes, num_filters, num_indicators,
+      years,
+      pcon_names,
+      pcon_codes,
+      num_filters,
+      num_indicators,
       verbose = verbose
     ),
     meta = generate_meta_file(num_filters, num_indicators)
@@ -49,14 +54,19 @@ generate_test_dfs <- function(
 #'
 #' @returns A data frame following the EES data standards
 generate_data_file <- function(
-    years,
-    pcon_names,
-    pcon_codes,
-    num_filters,
-    num_indicators,
-    verbose = FALSE) {
+  years,
+  pcon_names,
+  pcon_codes,
+  num_filters,
+  num_indicators,
+  verbose = FALSE
+) {
   filter_values <- c(
-    "Alpha", "Bravo", "Charlie", "Delta", "Echo"
+    "Alpha",
+    "Bravo",
+    "Charlie",
+    "Delta",
+    "Echo"
   )
 
   toggle_message(
@@ -110,8 +120,11 @@ generate_data_file <- function(
   }
 
   toggle_message(
-    "Final dataframe has ", nrow(test_data), " rows and ",
-    ncol(test_data), " columns",
+    "Final dataframe has ",
+    nrow(test_data),
+    " rows and ",
+    ncol(test_data),
+    " columns",
     verbose = verbose
   )
 
@@ -129,8 +142,9 @@ generate_data_file <- function(
 #' @keywords internal
 #' @returns A data frame following the EES metadata standards
 generate_meta_file <- function(
-    num_filters,
-    num_indicators) {
+  num_filters,
+  num_indicators
+) {
   cols <- c(
     paste0("filter", 1:num_filters),
     paste0("indicator", 1:num_indicators)
