@@ -84,43 +84,74 @@ generate_data_file <- function(
     )
   }
 
-  num_filter_values <- length(filter_values)
+  # Prepare all combinations of years, pcon_names, pcon_codes, and filter values
+  if (verbose) {
+    cli::cli_alert_info("Preparing filter combinations...")
+  }
+  filter_values_list <- replicate(num_filters, filter_values, simplify = FALSE)
+  filter_combinations <- expand.grid(
+    filter_values_list,
+    stringsAsFactors = FALSE
+  )
+  names(filter_combinations) <- paste0("filter", seq_len(num_filters))
 
+  total_rows <- 0
+  test_data <- data.frame()
+
+  # Vectorized approach for speed
+  n_years <- length(years)
+  n_pcon <- length(pcon_codes)
+  n_filters <- nrow(filter_combinations)
+  total_rows <- n_years * n_pcon * n_filters
+
+  if (verbose) {
+    cli::cli_alert_info(
+      "Expanding all combinations of years, pcon_codes, and filters..."
+    )
+  }
+  df <- expand.grid(
+    year = years,
+    pcon_idx = seq_along(pcon_codes),
+    filter_row = seq_len(n_filters),
+    KEEP.OUT.ATTRS = FALSE,
+    stringsAsFactors = FALSE
+  )
+
+  if (verbose) {
+    cli::cli_alert_info("Assigning core columns...")
+  }
   test_data <- data.frame(
-    time_period = rep(years, each = length(pcon_codes) * num_filter_values),
+    time_period = df$year,
     time_identifier = "Calendar year",
     geographic_level = "Parliamentary constituency",
     country_name = "England",
     country_code = "E92000001",
-    pcon_name = rep(pcon_names, times = length(years) * num_filter_values),
-    pcon_code = rep(pcon_codes, times = length(years) * num_filter_values)
+    pcon_name = pcon_names[df$pcon_idx],
+    pcon_code = pcon_codes[df$pcon_idx],
+    stringsAsFactors = FALSE
   )
 
-  for (i in 1:num_filters) {
-    if (i == 1) {
-      test_data$filter1 <- filter_values
-    } else {
-      num_filter_values <- paste0(filter_values, i)
-
-      temp_data <- data.frame(
-        num_filter_values,
-        stringsAsFactors = FALSE
-      )
-
-      names(temp_data) <- paste0("filter", i)
-
-      test_data <- merge(
-        test_data,
-        temp_data,
-        by = NULL
-      )
-    }
+  if (verbose) {
+    cli::cli_alert_info("Adding filter columns...")
+  }
+  for (f in seq_len(num_filters)) {
+    test_data[[paste0("filter", f)]] <- filter_combinations[df$filter_row, f]
   }
 
-  for (i in 1:num_indicators) {
+  if (verbose) {
+    cli::cli_progress_bar(
+      "Randomly populating indicator columns...",
+      total = num_indicators
+    )
+  }
+  for (i in seq_len(num_indicators)) {
+    if (verbose) {
+      cli::cli_progress_update()
+    }
+
     test_data[[paste0("indicator", i)]] <- sample(
       100:1000,
-      nrow(test_data),
+      total_rows,
       replace = TRUE
     )
   }
