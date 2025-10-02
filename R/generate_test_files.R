@@ -26,17 +26,25 @@ generate_test_dfs <- function(
   num_indicators = 1,
   verbose = FALSE
 ) {
-  file_pair <- list(
-    data = generate_data_file(
-      years,
-      pcon_names,
-      pcon_codes,
-      num_filters,
-      num_indicators,
-      verbose = verbose
-    ),
-    meta = generate_meta_file(num_filters, num_indicators)
+  data <- generate_data_file(
+    years,
+    pcon_names,
+    pcon_codes,
+    num_filters,
+    num_indicators,
+    verbose = verbose
   )
+
+  if (isFALSE(data)) {
+    return(invisible())
+  }
+
+  meta <- generate_meta_file(
+    num_filters,
+    num_indicators
+  )
+
+  file_pair <- list(data = data, meta = meta)
 
   return(file_pair)
 }
@@ -84,7 +92,7 @@ generate_data_file <- function(
     )
     if (user_choice == 2) {
       cli::cli_alert_danger("Operation cancelled by user.")
-      return(invisible())
+      return(FALSE)
     } else if (user_choice == 1) {
       cli::cli_alert_info("Continuing with data generation...")
     }
