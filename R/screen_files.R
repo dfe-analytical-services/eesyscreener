@@ -10,7 +10,6 @@
 #' @param metafile A data frame containing the metadata file contents
 #' @param output Control the format of output, either 'table', 'error-only', or
 #' 'console'
-#' @param api_only Logical value indicating whether to run only the API checks
 #' @return Console messages or a list containing
 #' 1. A table with the full results of the checks with four columns:
 #' \itemize{
@@ -29,14 +28,34 @@
 #'   example_meta
 #' )
 #' @export
+
+# TODO: Break out filenames checks separate?
+
 screen_files <- function(
   datafilename,
   metafilename,
   datafile,
   metafile,
-  output = "table",
-  api_only = FALSE # TODO: Do we still need this?
+  output = "table"
 ) {
+  if (!is.character(datafilename) || length(datafilename) != 1) {
+    cli::cli_abort("`datafilename` must be a single string.")
+  }
+  if (!is.character(metafilename) || length(metafilename) != 1) {
+    cli::cli_abort("`metafilename` must be a single string.")
+  }
+  if (!is.data.frame(datafile)) {
+    cli::cli_abort("`datafile` must be a data.frame.")
+  }
+  if (!is.data.frame(metafile)) {
+    cli::cli_abort("`metafile` must be a data.frame.")
+  }
+  if (!(output %in% c("table", "console", "error-only"))) {
+    cli::cli_abort(
+      "`output` must be one of 'table', 'console', or 'error-only'."
+    )
+  }
+
   # TODO: Look into making the separate checks / stages run asynchronously
 
   # Filename stage ------------------------------------------------------------
@@ -61,6 +80,29 @@ screen_files <- function(
           "results_table" = as.data.frame(filename_results),
           "overall_stage" = "Filename checks",
           "overall_message" = "Failed filename checks"
+        )
+      )
+    }
+  }
+
+  # Precheck meta -------------------------------------------------------------
+  precheck_meta_results <- rbind(
+    precheck_meta_col_type(metafile, output = output)
+  )
+
+  # If output is table there will be rows
+  if (nrow(precheck_meta_results) > 0) {
+    precheck_meta_results <- precheck_meta_results |>
+      cbind(
+        "stage" = "Precheck meta"
+      )
+
+    if (any(precheck_meta_results[["result"]] == "FAIL")) {
+      return(
+        list(
+          "results_table" = as.data.frame(precheck_meta_results),
+          "overall_stage" = "Meta prechecks",
+          "overall_message" = "Failed meta prechecks"
         )
       )
     }

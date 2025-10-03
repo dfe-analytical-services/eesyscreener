@@ -4,14 +4,7 @@
 \alias{screen_files}
 \title{Run all checks against files}
 \usage{
-screen_files(
-  datafilename,
-  metafilename,
-  datafile,
-  metafile,
-  output = "table",
-  api_only = FALSE
-)
+screen_files(datafilename, metafilename, datafile, metafile, output = "table")
 }
 \arguments{
 \item{datafilename}{The name of the data file}
@@ -24,8 +17,6 @@ screen_files(
 
 \item{output}{Control the format of output, either 'table', 'error-only', or
 'console'}
-
-\item{api_only}{Logical value indicating whether to run only the API checks}
 }
 \value{
 Console messages or a list containing

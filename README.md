@@ -49,21 +49,18 @@ result$results_table |>
 #> 3     check_filename_data_special   PASS
 #> 4 check_filename_metadata_special   PASS
 #> 5           check_filenames_match   PASS
-#> 6             placeholder_general   PASS
 #>                                                            message guidance_url
 #> 1                 'data.csv' does not have spaces in the filename.           NA
 #> 2            'data.meta.csv' does not have spaces in the filename.           NA
 #> 3              'data.csv' does not contain any special characters.           NA
 #> 4         'data.meta.csv' does not contain any special characters.           NA
 #> 5 The names of the files follow the recommended naming convention.           NA
-#> 6                                                      Placeholder           NA
-#>                stage
-#> 1     Filename tests
-#> 2     Filename tests
-#> 3     Filename tests
-#> 4     Filename tests
-#> 5     Filename tests
-#> 6 General file tests
+#>            stage
+#> 1 Filename tests
+#> 2 Filename tests
+#> 3 Filename tests
+#> 4 Filename tests
+#> 5 Filename tests
 
 result$overall_stage
 #> [1] "Passed"
