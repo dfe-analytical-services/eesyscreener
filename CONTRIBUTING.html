@@ -43,11 +43,14 @@
 <div class="section level2">
 <h2 id="package-structure">Package structure<a class="anchor" aria-label="anchor" href="#package-structure"></a></h2>
 <ul><li>
-<code><a href="reference/screen_files.html">screen_files()</a></code> pulls it all together and currently is the main export</li>
-<li>All individual checks copied from the screener should be named <code>check_*</code>
-</li>
+<code><a href="reference/screen_files.html">screen_files()</a></code> pulls it all together and currently is the main export, this has 3 intended uses:
+<ul><li>for use in the plumber API (EES integration)</li>
+<li>for use in the R Shiny app</li>
+<li>for use by analysts in their own R scripts</li>
+</ul></li>
+<li>All individual checks copied from the screener should be named in accordance with the naming conventions in the <code>_pkgdown.yml</code> file</li>
 <li>All <code>check_*</code> functions must return a consistent list structure</li>
-<li>File structure - one script per <code>check_*</code> function (except R/utils.R)</li>
+<li>File structure - one script per <code>check_*</code> or <code>precheck_*</code> function (except if internal and in R/utils.R)</li>
 <li>
 <code>R/utils.R</code> contains all internal functions</li>
 <li>
@@ -85,7 +88,7 @@
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_data.html">example_data</a></span></span>
 <span></span>
 <span><span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu">microbenchmark</span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="fu">janitor</span><span class="fu">::</span><span class="fu"><a href="https://sfirke.github.io/janitor/reference/remove_empty.html" class="external-link">remove_empty</a></span><span class="op">(</span><span class="va">data</span>, which <span class="op">=</span> <span class="st">"rows"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="fu">janitor</span><span class="fu">::</span><span class="fu">remove_empty</span><span class="op">(</span><span class="va">data</span>, which <span class="op">=</span> <span class="st">"rows"</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">data</span>, <span class="fl">1</span>, <span class="kw">function</span><span class="op">(</span><span class="va">row</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">row</span><span class="op">)</span> <span class="op">|</span> <span class="va">row</span> <span class="op">==</span> <span class="st">""</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">|</span> <span class="va">data</span> <span class="op">==</span> <span class="st">""</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  times <span class="op">=</span> <span class="fl">100000</span></span>
@@ -98,6 +101,72 @@
 <p>However, when testing with a bigger file (~6million rows), the 2nd and 3rd options were so slow to run that microbenchmark was taking too long to produce a result. Clearly using janitor in option 1 has a massive impact when there’s more rows, so the decision was made to import the janitor package as the speed benefit was worth the extra dependency.</p>
 <p>You can use the <code>tests/utils/benchmarking.R</code> script as a starting point, it includes code to generate big tables and run benchmarking. Sometimes the fastest on small files will not be the fastest on bigger ones. Prioritise the bigger files as that’s where the biggest impact will be felt.</p>
 <p>If it’s a particularly big function running over a whole data file, also consider using <code>future.apply</code> or other parallel processing approaches if they swap in easily.</p>
+</div>
+<div class="section level2">
+<h2 id="notes--questions">Notes / questions<a class="anchor" aria-label="anchor" href="#notes--questions"></a></h2>
+<p>Gone for verbose by default (i.e. console warnings), and then we turn that off in the API / Shiny app</p>
+<p>Radical - would we want to ditch warnings? Just have TRUE / FALSE for pass / fail?</p>
+<p>Guidance URL? / being able to feedback to users? Not 100% on, wondering if a first version could be to ditch, simply the feedback to the user and instead and go for an accompanying vignette guide to specific checks - e.g. with instructions for running checks in isolation to investigate issues (thinking of duplicate rows?)</p>
+<p>Long feedback messages - how do we handle more neatly / give ourselves ability to still edit those later</p>
+<p>Feels a little odd to make all the code available as individual functions - Issues with assumptions in the code - When do we check it’s actually a CSV file? - pre-check are required for many of the main checks, feels like too much to build in to each function? Thinking we create a vignette explaining this a bit more just so it’s clear to users</p>
+</div>
+<div class="section level2">
+<h2 id="structure">Structure<a class="anchor" aria-label="anchor" href="#structure"></a></h2>
+<ul><li>
+<p>Screening function that runs everything in order (can be wrapped with batching functions later)</p>
+<ul><li>
+<p>Takes in file names (data and meta) and the data.frames of the files</p>
+<p>[DO WE WANT TO STANDARDISE THE FUNCTIONS FOR READING THE FILES?]</p>
+<ul><li><p>Plumber: reads in CSVs prior to passing to the function</p></li>
+<li><p>Shiny: reads in CSVs prior to passing to the function</p></li>
+<li><p>Analysts: reads in CSVs within the function [DO WE NEED AN ARGUMENT FOR THEM TO HAVE THIS?]</p></li>
+</ul></li>
+</ul></li>
+<li><p>Where do we catch that a file is a CSV or not?</p></li>
+<li><p>Runs all of the checks in order</p></li>
+<li>
+<p>Stages are changed from the existing app.</p>
+<ul><li>Now checks will be grouped by area / topic instead</li>
+</ul></li>
+<li><p>Pre-checks are run first as the main checks for each area depend on them passing</p></li>
+<li><p>Do in a way that can be parrallelised if a users machine can do so</p></li>
+<li>
+<p>Each check returns a consistent data frame structure</p>
+<ul><li>If a key stage is failed, the checks stop early?</li>
+</ul></li>
+</ul><p>For each check: - Two options - print to console verbosely, or return a data.frame of results</p>
+<ul><li>test_output function controls this
+<ul><li>Fails cause errors in console</li>
+<li>Can add additional verbose console messages before the main failure output if needed</li>
+</ul></li>
+</ul><p>Standard pattern:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">test_output</span><span class="op">(</span></span>
+<span>  <span class="va">test_name</span>, <span class="co"># name of check</span></span>
+<span>  <span class="st">"PASS"</span>, <span class="co"># result of check, one of 'PASS', 'FAIL', 'WARNING'</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"'"</span>, <span class="va">filename</span>, <span class="st">"' does not contain any special characters."</span><span class="op">)</span>, <span class="co"># feedback message for user</span></span>
+<span>  <span class="st">"https://dfe-analytical-services.github.io/analysts-guide/"</span>, <span class="co"># optional URL for guidance, can just not include as will default to NA</span></span>
+<span>  console <span class="op">=</span> <span class="va">verbose</span> <span class="co"># control for whether to print to console or silently return data frame (TRUE/FALSE)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="next-tests-to-migrate-in">Next tests to migrate in<a class="anchor" aria-label="anchor" href="#next-tests-to-migrate-in"></a></h2>
+<div class="section level3">
+<h3 id="pre-meta">Pre-meta<a class="anchor" aria-label="anchor" href="#pre-meta"></a></h3>
+<p>col_type ob_unit_meta invalid_meta_cols col_name_completed</p>
+</div>
+<div class="section level3">
+<h3 id="pre-time">Pre-time<a class="anchor" aria-label="anchor" href="#pre-time"></a></h3>
+<p>time_identifier_mix time_identifier time_validation</p>
+</div>
+<div class="section level3">
+<h3 id="time">Time<a class="anchor" aria-label="anchor" href="#time"></a></h3>
+<p>time_period time_period_six</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="other-things-to-add-to-the-package">Other things to add to the package<a class="anchor" aria-label="anchor" href="#other-things-to-add-to-the-package"></a></h2>
+<p>TODO: Add test coverage workflow TODO: Add trello card workflow</p>
 </div>
 <div class="section level2">
 <h2 id="list-of-notes-for-the-main-screener">List of notes for the main screener<a class="anchor" aria-label="anchor" href="#list-of-notes-for-the-main-screener"></a></h2>

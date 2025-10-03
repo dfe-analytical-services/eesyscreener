@@ -44,7 +44,14 @@ stages, the function will return early if any check in a stage fails.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">screen_files</span><span class="op">(</span><span class="va">datafilename</span>, <span class="va">metafilename</span>, <span class="va">datafile</span>, <span class="va">metafile</span>, api_only <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">screen_files</span><span class="op">(</span></span>
+<span>  <span class="va">datafilename</span>,</span>
+<span>  <span class="va">metafilename</span>,</span>
+<span>  <span class="va">datafile</span>,</span>
+<span>  <span class="va">metafile</span>,</span>
+<span>  output <span class="op">=</span> <span class="st">"table"</span>,</span>
+<span>  api_only <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -52,30 +59,35 @@ stages, the function will return early if any check in a stage fails.</p>
 
 
 <dl><dt id="arg-datafilename">datafilename<a class="anchor" aria-label="anchor" href="#arg-datafilename"></a></dt>
-<dd><p>The name of the data file.</p></dd>
+<dd><p>The name of the data file</p></dd>
 
 
 <dt id="arg-metafilename">metafilename<a class="anchor" aria-label="anchor" href="#arg-metafilename"></a></dt>
-<dd><p>The name of the metadata file.</p></dd>
+<dd><p>The name of the metadata file</p></dd>
 
 
 <dt id="arg-datafile">datafile<a class="anchor" aria-label="anchor" href="#arg-datafile"></a></dt>
-<dd><p>A data frame containing the data file contents.</p></dd>
+<dd><p>A data frame containing the data file contents</p></dd>
 
 
 <dt id="arg-metafile">metafile<a class="anchor" aria-label="anchor" href="#arg-metafile"></a></dt>
-<dd><p>A data frame containing the metadata file contents.</p></dd>
+<dd><p>A data frame containing the metadata file contents</p></dd>
+
+
+<dt id="arg-output">output<a class="anchor" aria-label="anchor" href="#arg-output"></a></dt>
+<dd><p>Control the format of output, either 'table', 'error-only', or
+'console'</p></dd>
 
 
 <dt id="arg-api-only">api_only<a class="anchor" aria-label="anchor" href="#arg-api-only"></a></dt>
-<dd><p>Logical value indicating whether to run only the API checks.</p></dd>
+<dd><p>Logical value indicating whether to run only the API checks</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A list containing</p><ol><li><p>A table with the full results of the checks with four columns:</p><ul><li><p>result of the check (PASS / FAIL / ADVISORY)</p></li>
+    <p>Console messages or a list containing</p><ol><li><p>A table with the full results of the checks with four columns:</p><ul><li><p>result of the check (PASS / FAIL / ADVISORY)</p></li>
 <li><p>message giving feedback about the check</p></li>
-<li><p>stage that the check belongs to</p></li>
+<li><p>group that the check belongs to</p></li>
 <li><p>name of the check</p></li>
 </ul></li>
 <li><p>Overall stage the checks reached</p></li>
@@ -91,14 +103,27 @@ stages, the function will return early if any check in a stage fails.</p>
 <span class="r-in"><span>  <span class="va">example_meta</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $results_table</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                   check result</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 check_filename_spaces   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 check_filename_spaces   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3      check_empty_cols   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                 message stage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1      'data.csv' does not have spaces in the filename.     1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 'data.meta.csv' does not have spaces in the filename.     1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3           'data.csv' does not have any blank columns.     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                             check result</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1      check_filename_data_spaces   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  check_filename_metadata_spaces   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3     check_filename_data_special   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 check_filename_metadata_special   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5           check_filenames_match   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6             placeholder_general   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                            message guidance_url</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                 'data.csv' does not have spaces in the filename.           NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2            'data.meta.csv' does not have spaces in the filename.           NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3              'data.csv' does not contain any special characters.           NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4         'data.meta.csv' does not contain any special characters.           NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 The names of the files follow the recommended naming convention.           NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                      Placeholder           NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                stage</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     Filename tests</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2     Filename tests</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3     Filename tests</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4     Filename tests</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5     Filename tests</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 General file tests</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $overall_stage</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Passed"</span>

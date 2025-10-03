@@ -57,8 +57,8 @@
 </h2>
 <p>eesyscreener is not currently available on CRAN. For the time being you can install the development version from GitHub.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"dfe-analytical-services/eesyscreener"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"dfe-analytical-services/eesyscreener"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="minimal-example">Minimal example<a class="anchor" aria-label="anchor" href="#minimal-example"></a>
@@ -67,26 +67,41 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dfe-analytical-services.github.io/eesyscreener/">eesyscreener</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="reference/screen_files.html">screen_files</a></span><span class="op">(</span></span>
+<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/screen_files.html">screen_files</a></span><span class="op">(</span></span>
 <span>  <span class="st">"data.csv"</span>,</span>
 <span>  <span class="st">"data.meta.csv"</span>,</span>
 <span>  <span class="va">example_data</span>, <span class="co"># replace with your data file</span></span>
 <span>  <span class="va">example_meta</span> <span class="co"># replace with your meta file</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; $results_table</span></span>
-<span><span class="co">#&gt;                   check result</span></span>
-<span><span class="co">#&gt; 1 check_filename_spaces   PASS</span></span>
-<span><span class="co">#&gt; 2 check_filename_spaces   PASS</span></span>
-<span><span class="co">#&gt; 3      check_empty_cols   PASS</span></span>
-<span><span class="co">#&gt;                                                 message stage</span></span>
-<span><span class="co">#&gt; 1      'data.csv' does not have spaces in the filename.     1</span></span>
-<span><span class="co">#&gt; 2 'data.meta.csv' does not have spaces in the filename.     1</span></span>
-<span><span class="co">#&gt; 3           'data.csv' does not have any blank columns.     1</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $overall_stage</span></span>
+<span></span>
+<span><span class="va">result</span><span class="op">$</span><span class="va">results_table</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                             check result</span></span>
+<span><span class="co">#&gt; 1      check_filename_data_spaces   PASS</span></span>
+<span><span class="co">#&gt; 2  check_filename_metadata_spaces   PASS</span></span>
+<span><span class="co">#&gt; 3     check_filename_data_special   PASS</span></span>
+<span><span class="co">#&gt; 4 check_filename_metadata_special   PASS</span></span>
+<span><span class="co">#&gt; 5           check_filenames_match   PASS</span></span>
+<span><span class="co">#&gt; 6             placeholder_general   PASS</span></span>
+<span><span class="co">#&gt;                                                            message guidance_url</span></span>
+<span><span class="co">#&gt; 1                 'data.csv' does not have spaces in the filename.           NA</span></span>
+<span><span class="co">#&gt; 2            'data.meta.csv' does not have spaces in the filename.           NA</span></span>
+<span><span class="co">#&gt; 3              'data.csv' does not contain any special characters.           NA</span></span>
+<span><span class="co">#&gt; 4         'data.meta.csv' does not contain any special characters.           NA</span></span>
+<span><span class="co">#&gt; 5 The names of the files follow the recommended naming convention.           NA</span></span>
+<span><span class="co">#&gt; 6                                                      Placeholder           NA</span></span>
+<span><span class="co">#&gt;                stage</span></span>
+<span><span class="co">#&gt; 1     Filename tests</span></span>
+<span><span class="co">#&gt; 2     Filename tests</span></span>
+<span><span class="co">#&gt; 3     Filename tests</span></span>
+<span><span class="co">#&gt; 4     Filename tests</span></span>
+<span><span class="co">#&gt; 5     Filename tests</span></span>
+<span><span class="co">#&gt; 6 General file tests</span></span>
+<span></span>
+<span><span class="va">result</span><span class="op">$</span><span class="va">overall_stage</span></span>
 <span><span class="co">#&gt; [1] "Passed"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $overall_message</span></span>
+<span></span>
+<span><span class="va">result</span><span class="op">$</span><span class="va">overall_message</span></span>
 <span><span class="co">#&gt; [1] "Passed all checks"</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -136,7 +151,6 @@
 <span><span class="co"># Get a data frame of all Parliamentary Constituencies in England</span></span>
 <span><span class="va">pcons</span> <span class="op">&lt;-</span> <span class="fu">dfeR</span><span class="fu">::</span><span class="fu">fetch_pcons</span><span class="op">(</span>countries <span class="op">=</span> <span class="st">"England"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># As this is generating a big file, and isn't overly optimised, it may take a minute or two</span></span>
 <span><span class="va">beefy</span> <span class="op">&lt;-</span> <span class="fu">eesyscreener</span><span class="fu">::</span><span class="fu"><a href="reference/generate_test_dfs.html">generate_test_dfs</a></span><span class="op">(</span></span>
 <span>  years <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1980</span><span class="op">:</span><span class="fl">2025</span><span class="op">)</span>,</span>
 <span>  pcon_codes <span class="op">=</span> <span class="va">pcons</span><span class="op">$</span><span class="va">pcon_code</span>,</span>
