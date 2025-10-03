@@ -56,4 +56,27 @@ test_that("Example file passes", {
   )
 })
 
+test_that("Example file fails with filename", {
+  expect_equal(
+    screen_files(
+      "data.csv",
+      "meta.csv",
+      example_data,
+      example_meta
+    )$overall_stage,
+    "Filename checks"
+  )
+
+  expect_error(
+    screen_files(
+      "data.csv",
+      "meta.csv",
+      example_data,
+      example_meta,
+      output = "console"
+    ),
+    "The filenames do not follow the recommended naming convention"
+  )
+})
+
 # TODO: add tests for different output types

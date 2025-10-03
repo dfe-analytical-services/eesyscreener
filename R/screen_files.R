@@ -48,47 +48,22 @@ screen_files <- function(
     check_filenames_match(datafilename, metafilename, output = output)
   )
 
+  # If output is table there will be rows
   if (nrow(filename_results) > 0) {
     filename_results <- filename_results |>
       cbind(
         "stage" = "Filename tests"
       )
 
-    # TODO: Create a grouping function to simplify the verbosity handling
-    if (output == "table" && any(filename_results[["result"]] == "FAIL")) {
+    if (any(filename_results[["result"]] == "FAIL")) {
       return(
         list(
           "results_table" = as.data.frame(filename_results),
-          "stage" = "Filename checks",
-          "message" = "Failed filename checks"
+          "overall_stage" = "Filename checks",
+          "overall_message" = "Failed filename checks"
         )
       )
     }
-  }
-
-  # General stage -------------------------------------------------------------
-  general_results <- rbind(
-    # Placeholder data frame to allow rbind
-    data.frame(
-      "check" = "placeholder_general",
-      "result" = "PASS",
-      "message" = "Placeholder",
-      "guidance_url" = NA,
-      stringsAsFactors = FALSE
-    )
-  ) |>
-    cbind(
-      "stage" = "General file tests"
-    )
-
-  if (any(general_results[["result"]] == "FAIL")) {
-    return(
-      list(
-        "results_table" = as.data.frame(general_results), # TODO: stack others
-        "stage" = "General file checks",
-        "message" = "Failed general file checks"
-      )
-    )
   }
 
   # Success -------------------------------------------------------------------
@@ -98,8 +73,7 @@ screen_files <- function(
     list(
       "results_table" = as.data.frame(
         rbind(
-          filename_results,
-          general_results
+          filename_results
         )
       ),
       "overall_stage" = "Passed",

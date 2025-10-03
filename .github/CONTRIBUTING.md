@@ -71,8 +71,11 @@ Use `#' @inherit check_empty_cols return`  to copy the return documentation for 
 Make sure the tests are passing and you've commited before this point to ensure you don't inadvertently break anything!
 
 a. Create and use helper functions (if you haven't already), place any helper functions in `R/utils.R`, mark as @keywords internal
+
 b. Avoid bringing in too many new dependencies, try rewriting in base R where possible
+
 c. Use `microbenchmark` to experiment to find the most efficient approach (speed is king here) e.g.
+
 ``` r
 data <- eesyscreener::example_data
 
@@ -99,6 +102,8 @@ If it's a particularly big function running over a whole data file, also conside
 ## Notes / questions
 
 Gone for verbose by default (i.e. console warnings), and then we turn that off in the API / Shiny app
+
+When console messages are on would we still want the data.frame returned?
 
 Radical - would we want to ditch warnings? Just have TRUE / FALSE for pass / fail?
 
@@ -143,7 +148,7 @@ For each check:
 Standard pattern:
 ```r
 test_output(
-  test_name, # name of check
+  "test_name", # name of check
   "PASS", # result of check, one of 'PASS', 'FAIL', 'WARNING'
   paste0("'", filename, "' does not contain any special characters."), # feedback message for user
   "https://dfe-analytical-services.github.io/analysts-guide/", # optional URL for guidance, can just not include as will default to NA
