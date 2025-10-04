@@ -1,0 +1,39 @@
+---
+title: "check_assumptions"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{check_assumptions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+## What assumptions?
+
+Within all of the the `screen_*()` functions, individual checks are placed in a specific order, and broken up by stages. 
+
+This means the tests can fail early, giving quicker feedback if there's fundamental issues, and also means the later checks can be more lightweight and 'assume' certain things about the data.frame that is being tested.
+
+For example, `precheck_meta_col_type()` requires the `col_type` column to be present, though as this is already checked for in `...` we minimise duplicating that check by not rechecking that column is present.
+
+## Filenames
+
+All of the filename checks are isolated from the tests on the data and meta files, and don't have any dependencies or relation to other checks. 
+Therefore we export the `screen_filenames()` function so they can be ran in a single line where needed.
+
+## Starting assumptions
+
+...
+
+## Precheck versus check
+
+Most groups have a `precheck_*()` grouping, e.g. `precheck_time_*()` and `check_time_*()`. If the `precheck_*()` functions are not ran first, there is every chance that you could get unexpected errors in the `check_*()` functions.
+
+For example
+
+...

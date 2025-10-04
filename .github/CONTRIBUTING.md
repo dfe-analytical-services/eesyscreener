@@ -116,53 +116,12 @@ Feels a little odd to make all the code available as individual functions
   - When do we check it's actually a CSV file?
   - pre-check are required for many of the main checks, feels like too much to build in to each function? Thinking we create a vignette explaining this a bit more just so it's clear to users
 
-## Structure
-
-- Screening function that runs everything in order (can be wrapped with batching functions later)
-  - Takes in file names (data and meta) and the data.frames of the files
-    
-    [DO WE WANT TO STANDARDISE THE FUNCTIONS FOR READING THE FILES?]
-    - Plumber: reads in CSVs prior to passing to the function
-    - Shiny: reads in CSVs prior to passing to the function
-    
-    - Analysts: reads in CSVs within the function [DO WE NEED AN ARGUMENT FOR THEM TO HAVE THIS?]
-
-- Where do we catch that a file is a CSV or not?
-
-- Runs all of the checks in order
- - Stages are changed from the existing app.
-   - Now checks will be grouped by area / topic instead
- - Pre-checks are run first as the main checks for each area depend on them passing
- - Do in a way that can be parrallelised if a users machine can do so
-
-- Each check returns a consistent data frame structure
-  - If a key stage is failed, the checks stop early?
-
-For each check:
-- Two options - print to console verbosely, or return a data.frame of results
-
-- test_output function controls this
-  - Fails cause errors in console
-  - Can add additional verbose console messages before the main failure output if needed
-
-Standard pattern:
-```r
-test_output(
-  "test_name", # name of check
-  "PASS", # result of check, one of 'PASS', 'FAIL', 'WARNING'
-  paste0("'", filename, "' does not contain any special characters."), # feedback message for user
-  "https://dfe-analytical-services.github.io/analysts-guide/", # optional URL for guidance, can just not include as will default to NA
-  console = verbose # control for whether to print to console or silently return data frame (TRUE/FALSE)
-)
-```
-
 ## Next tests to migrate in
 
 ### Pre-meta
-
-col_type
-ob_unit_meta
 invalid_meta_cols
+col_type # dependency on col_type existing
+ob_unit_meta
 col_name_completed
 
 ### Pre-time

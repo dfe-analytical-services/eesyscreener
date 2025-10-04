@@ -1,0 +1,83 @@
+---
+title: "eesyscreener"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{eesyscreener}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## An overview
+
+This is a package designed to provide documentation and reusable code supprting the data standards for the explore education statistics (EES) platform. There may be other uses for the code in this package, however, supprting explore education statistics is it's primary purpose.
+
+The package contains:
+
+- A core `screen_csv()` function, built from `screen_dfs()`, and `screen_filenames()` and the constituent individual checks, as well as a related wrapper function `screen_zip()`
+- Functions to generate test data
+- Example datasets to aid testing and demonstration
+- Additional functions to aid in screening / preparing data for EES
+
+There are three main use cases:
+
+- Providing the logic behind the R Shiny app data screener, used to check files before upload
+- Using that logic within EES itself through a plumber API, screening uploads into the service directly
+- Analysts using the R functions within their own pipelines as pre-emptive quality assurance
+
+### `screen_csv()`
+`screen_csv()` core function that reads the CSV files, and then runs all checks from `screen_filenames()` and `screen_dfs()`, providing full screening for a given pair of CSV files. 
+
+This function is the key function that will be used in both the plumber API and the R Shiny app.
+
+- Returns one of the following outputs:
+  - Structured list, including data.frame of results / feedback
+  - Console messages [Rich Q - should this be a verbosity option instead / still return structured list]
+  - Errors only - intended to be used within pipelines as a QA function. If all passes nothing is returned (maybe an invisible TRUE?)
+    
+### `screen_zip()`
+Future expansion to screen ZIP files, batching multiple file pairs as a wrapper around `screen_csv()`.
+
+Probably not required in the plumber API, but will be helpful for the R Shiny app and users more generally for batching of files.
+
+`check_zip()` does the validation that the ZIP folder structure is appropriate prior to batching the file pairs through `screen_csv()`.
+
+### `screen_filenames()`
+
+Runs all of the filename screening checks in one go. Exported so it can be used in it's own right to check file name pairings. Used within `screen_csv()`.
+
+### `screen_dfs()`
+
+Runs all of the checks against the data and metadata data.frames, once read in from the CSV files. Used within `screen_csv()`.
+
+The ordering is important as later tests carry assumptions that earlier tests have passed. This is to prevent duplication / unecessary processing of data, as well as simplifying the logic in the later tests. This does introduce some overall complexity, particularly for package maintainers and any users wanting to use individual tests, and therefore there is a vignette that walks through this ordering in greater detail - ....
+
+There are a number of stages, which are mirrored in the documentation for the individual functions, the `_pkgdown.yml` file shows this, in the order the tests are ran, including the naming conventions.
+
+- Stages are grouped by area of the data they relate to
+  - If a 
+- Pre-checks are run first as the main checks for each area depend on them passing
+- TODO: We should do in a way that can be parrallelised, so users can speed up the screening for larger files if their machine allows (particularly helpful for the API and Shiny app)
+
+Each individual precheck / check:
+- Returns a single row data.frame of results, or console messages / errors
+  - `test_output()` function controls this
+    - Fails cause errors in console
+    - Can add additional verbose console messages before the main failure output if needed
+
+Standard pattern:
+```r
+test_output(
+  "test_name", # name of check
+  "PASS", # result of check, one of 'PASS', 'FAIL', 'WARNING'
+  paste0("'", filename, "' does not contain any special characters."), # feedback message for user, avoid HTML, keep to a simple string
+  "https://dfe-analytical-services.github.io/analysts-guide/", # optional URL for guidance, can just not include as will default to NA
+  console = verbose # control for whether to print to console or silently return data frame (TRUE/FALSE)
+)
+```
