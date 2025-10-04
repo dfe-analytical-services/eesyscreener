@@ -13,12 +13,12 @@ We expect the package to serve the following purposes:
   - file validation on EES, and the documentation for that validation
   - the checks used in the [R Shiny screener app](https://github.com/dfe-analytical-services/dfe-published-data-qa) used by analysts to check files
 - Allow analysts...
-  - to check their files in R using `screen_files()`
+  - to check their files in R using `screen_csv()`
   - to reuse some of the individual `check_*` functions in their QA pipelines
 
 ## Package structure
 
-- `screen_files()` pulls it all together and currently is the main export, this has 3 intended uses:
+- `screen_csv()` pulls it all together and currently is the main export, this has 3 intended uses:
   - for use in the plumber API (EES integration)
   - for use in the R Shiny app
   - for use by analysts in their own R scripts
@@ -52,7 +52,7 @@ Example of adding a new check available in [PR XX]()
 
 4. Adapt the function so that the input arguments and outputs match existing `check_*` functions
 
-5. Integrate the new `check_*` into the `screen_files()` function
+5. Integrate the new `check_*` into the `screen_csv()` function
 
 6. Document the code inheriting documentation from existing functions where possible
 
@@ -85,10 +85,6 @@ microbenchmark::microbenchmark(
   sum(rowSums(is.na(data) | data == "") == ncol(data)),
   times = 100000
 )
-
-## NOTE: This particular check was removed as other checks will cover it
-## - check_time_periods
-## - check_meta_col_type
 ```
 
 In this example, the first line requires the janitor package. It is slightly faster with a mean of 115ms, the second line mean was 184ms, and the third line mean was 121ms, as there's a minimal amount between 1 and 3, usually we'd go for option 3 to avoid needing to call in the janitor package as a dependency, keeping this package more lightweight.

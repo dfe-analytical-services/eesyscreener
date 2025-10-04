@@ -5,11 +5,14 @@ template:
 reference:
 - title: Screen files
   contents:
-  - screen_files
+  - starts_with("screen_")
 
-- title: Example data
+- title: Example datasets
   contents:
   - starts_with("example_")
+
+- title: Generate test files
+  contents:
   - starts_with("generate_")
 
 - title: Filename checks

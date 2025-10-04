@@ -29,16 +29,23 @@ pak::pak("dfe-analytical-services/eesyscreener")
 
 This shows a quick reproducible example you can run in the console to
 test with. It also shows an example of the output structure from the
-core `screen_files()` function.
+core `screen_csv()` function.
 
 ``` r
 library(eesyscreener)
 
-result <- screen_files(
+# Create example temporary CSV files
+data_file <- tempfile(fileext = ".csv")
+meta_file <- tempfile(fileext = ".meta.csv")
+
+data.table::fwrite(example_data, data_file)
+data.table::fwrite(example_meta, meta_file)
+
+result <- screen_csv(
+  data_file,
+  meta_file,
   "data.csv",
-  "data.meta.csv",
-  example_data, # replace with your data file
-  example_meta # replace with your meta file
+  "data.meta.csv"
 )
 
 result$results_table |>
@@ -67,6 +74,12 @@ result$overall_stage
 
 result$overall_message
 #> [1] "Passed all checks"
+
+# Clean up temporary CSV files
+file.remove(data_file)
+#> [1] TRUE
+file.remove(meta_file)
+#> [1] TRUE
 ```
 
 ## Example CSVs
