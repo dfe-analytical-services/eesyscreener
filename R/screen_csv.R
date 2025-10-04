@@ -49,6 +49,8 @@ screen_csv <- function(
   metafilename,
   output = "table"
 ) {
+  # TODO: Look into making the separate checks / stages run asynchronously
+
   # Validate inputs -----------------------------------------------------------
   # Set the filenames from the filepath if not given
   if (!is.character(datapath) || length(datapath) != 1) {
@@ -63,20 +65,14 @@ screen_csv <- function(
   if (missing(metafilename) || is.null(metafilename)) {
     metafilename <- basename(metapath)
   }
-  if (!is.character(datafilename) || length(datafilename) != 1) {
-    cli::cli_abort("`datafilename` must be a single string.")
-  }
-  if (!is.character(metafilename) || length(metafilename) != 1) {
-    cli::cli_abort("`metafilename` must be a single string.")
-  }
+  validate_arg_filenames(datafilename, metafilename)
   if (!(output %in% c("table", "console", "error-only"))) {
     cli::cli_abort(
       "`output` must be one of 'table', 'console', or 'error-only'."
     )
   }
 
-  # Read in the CSV files -----------------------------------------------------
-  # Check if files exist before reading
+  # Check if files exist
   if (!file.exists(datapath)) {
     cli::cli_abort(sprintf("No file found at %s", datapath))
   }
@@ -95,32 +91,15 @@ screen_csv <- function(
   }
   if (!identical(meta_mime, "text/csv")) {
     cli::cli_abort(
-      sprintf("Meta file at %s does not have a CSV MIME type.", metapath)
+      sprintf("Metadata file at %s does not have a CSV MIME type.", metapath)
     )
   }
 
-  # Lazy reading of files for speed
-  datafile <- duckplyr::read_csv_duckdb(datapath)
-
-  # Meta files are small enough it's faster to read straight to memory
-  metafile <- data.table::fread(
-    metapath,
-    sep = ",",
-    header = TRUE,
-    encoding = "UTF-8",
-    strip.white = FALSE,
-    showProgress = FALSE
-  )
-
-  # TODO: Look into making the separate checks / stages run asynchronously
-
-  # Filename stage ------------------------------------------------------------
-  filename_results <- rbind(
-    check_filename_spaces(datafilename, "data", output = output),
-    check_filename_spaces(metafilename, "metadata", output = output),
-    check_filename_special(datafilename, "data", output = output),
-    check_filename_special(metafilename, "metadata", output = output),
-    check_filenames_match(datafilename, metafilename, output = output)
+  # Check the filenames -------------------------------------------------------
+  filename_results <- screen_filenames(
+    datafilename,
+    metafilename,
+    output = output
   )
 
   # If output is table there will be rows
@@ -140,6 +119,20 @@ screen_csv <- function(
       )
     }
   }
+
+  # Read in the CSV files -----------------------------------------------------
+  # Lazy reading of data for speed
+  datafile <- duckplyr::read_csv_duckdb(datapath)
+
+  # Meta files are small enough it's faster to read straight to memory
+  metafile <- data.table::fread(
+    metapath,
+    sep = ",",
+    header = TRUE,
+    encoding = "UTF-8",
+    strip.white = FALSE,
+    showProgress = FALSE
+  )
 
   # Precheck meta -------------------------------------------------------------
   precheck_meta_results <- rbind(

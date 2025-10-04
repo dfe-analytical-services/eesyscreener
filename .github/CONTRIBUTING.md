@@ -93,12 +93,20 @@ TODO: At the end of the migration, we should then plan how to migrate the test d
 ## Notes / questions
 
 1. When console messages are on would we still want the data.frame returned? - should the console option be a verbosity option instead?
+
 2. Is the console option the right default to set (thinking easiest for users, Shiny and API are easy to set as "table" output)
+
 3. Radical - would we want to ditch warnings? Just have TRUE / FALSE for pass / fail?
 
 4. Guidance URL? / being able to feedback to users? Not 100% on, wondering if a first version could be to ditch, simply the feedback to the user and instead and go for an accompanying vignette guide to specific checks - e.g. with instructions for running checks in isolation to investigate issues (thinking of duplicate rows?)
 
 5. Long feedback messages - how do we handle more neatly / give ourselves ability to still edit those later
+
+6. Generally, how intuitive (or not) is the approach to the package and docs?
+
+- Is there anything missing?
+
+- Is there anything that could be improved?
 
 ## Next tests to migrate in
 

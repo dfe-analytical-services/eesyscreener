@@ -72,9 +72,20 @@ test_that("Fails gracefully if it's not a CSV", {
   writeLines(c("This is not a CSV file"), txt_file)
   writeLines(c("This is not a CSV file"), txt_meta)
 
-  expect_error(screen_csv(txt_file, txt_meta), "Data file")
+  expect_error(
+    screen_csv(txt_file, txt_meta, output = "error-only"),
+    "Data file"
+  )
   # Data file created at top and cleaned at bottom of script
-  expect_error(screen_csv(data_file, txt_meta), "Meta file")
+  expect_error(
+    screen_csv(txt_file, meta_file, output = "error-only"),
+    "Data file"
+  )
+  # Meta file created at top and cleaned at bottom of script
+  expect_error(
+    screen_csv(data_file, txt_meta, output = "error-only"),
+    "Metadata file"
+  )
 
   # Remove temp files
   file.remove(txt_file)

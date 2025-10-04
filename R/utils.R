@@ -64,3 +64,21 @@ test_output <- function(
     cli::cli_abort(message)
   }
 }
+
+#' Validate filenames in function arguments
+#'
+#' Helper function to validate filename arguments are correct format
+#'
+#' @param datafilename data file filename
+#' @param metafilename metadata file filename
+#' @keywords internal
+#' @noRd
+#' @returns silently, error if filename is incorrectly supplied
+validate_arg_filenames <- function(datafilename, metafilename) {
+  if (!is.character(datafilename) || length(datafilename) != 1) {
+    cli::cli_abort("`datafilename` must be a single string.")
+  }
+  if (!is.character(metafilename) || length(metafilename) != 1) {
+    cli::cli_abort("`metafilename` must be a single string.")
+  }
+}
