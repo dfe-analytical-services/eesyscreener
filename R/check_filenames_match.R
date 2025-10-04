@@ -24,77 +24,31 @@ check_filenames_match <- function(
   test_name <- "check_filenames_match"
 
   if (
-    tools::file_ext(datafilename) != "csv" &&
-      tools::file_ext(metafilename) != "csv"
+    metafilename == stringr::str_replace(datafilename, "\\.csv", "\\.meta.csv")
   ) {
     return(
       test_output(
         test_name,
-        "FAIL",
+        "PASS",
         paste(
-          "Neither file is saved as a CSV. Please save your files as CSV's",
-          "and re-upload."
+          "The names of the files follow the recommended naming",
+          "convention."
         ),
         output = output
       )
     )
   } else {
-    if (tools::file_ext(datafilename) != "csv") {
-      return(
-        test_output(
-          test_name,
-          "FAIL",
-          paste(
-            "The data file is not a CSV. Please save the file as a CSV and",
-            "re-upload."
-          ),
-          output = output
-        )
-      )
-    } else {
-      if (tools::file_ext(metafilename) != "csv") {
-        return(
-          test_output(
-            test_name,
-            "FAIL",
-            paste(
-              "The metadata file is not a CSV. Please save the file as a CSV",
-              "and re-upload."
-            ),
-            output = output
-          )
-        )
-      } else {
-        if (
-          metafilename ==
-            stringr::str_replace(datafilename, "\\.csv", "\\.meta.csv")
-        ) {
-          return(
-            test_output(
-              test_name,
-              "PASS",
-              paste(
-                "The names of the files follow the recommended naming",
-                "convention."
-              ),
-              output = output
-            )
-          )
-        } else {
-          test_output(
-            test_name,
-            "FAIL",
-            paste0(
-              "The filenames do not follow the recommended naming convention.",
-              " Based on the given data filename, the metadata filename is ",
-              "expected to be '",
-              stringr::str_replace(datafilename, ".csv", ".meta.csv'"),
-              "'."
-            ),
-            output = output
-          )
-        }
-      }
-    }
+    test_output(
+      test_name,
+      "FAIL",
+      paste0(
+        "The filenames do not follow the recommended naming convention.",
+        " Based on the given data filename, the metadata filename is ",
+        "expected to be '",
+        stringr::str_replace(datafilename, ".csv", ".meta.csv'"),
+        "'."
+      ),
+      output = output
+    )
   }
 }
