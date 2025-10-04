@@ -21,12 +21,24 @@ knitr::opts_chunk$set(
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-Quality assurance checks used to screen files against the standards required for official statistics files on the explore education statistics (EES) platform.
+This is a package designed to provide documentation and reusable code supprting the data standards for the explore education statistics (EES) platform.
+
+The package contains:
+
+- A core `screen_csv()` function, built from `screen_dfs()`, and `screen_filenames()` and the constituent individual checks, as well as a related wrapper function `screen_zip()`
+- Functions to generate test data
+- Example datasets to aid testing and demonstration
+- Additional functions to aid in screening / preparing data for EES
+
+There are three main use cases:
+
+- Providing the logic behind the [data screener R Shiny app](https://github.com/dfe-analytical-services/dfe-published-data-qa), used to check files before upload
+- Using that logic within EES itself through a [plumber API implementation](https://github.com/dfe-analytical-services/ees-screener-api), screening uploads into the service directly
+- Analysts using the R functions within their own pipelines as pre-emptive quality assurance
 
 ## Installation
 
-eesyscreener is not currently available on CRAN. For the time being you can
-install the development version from GitHub.
+eesyscreener is not currently available on CRAN. For the time being you can install the development version from GitHub.
 
 ``` r
 # install.packages("pak")
@@ -129,3 +141,14 @@ beefy <- eesyscreener::generate_test_dfs(
 data.table::fwrite(beefy$data, "beefy_data.csv")
 data.table::fwrite(beefy$meta, "beefy_data.meta.csv")
 ```
+
+------------------------------------------------------------------------
+
+## Contributing
+
+Ideas for eesyscreener should first be raised as a [GitHub
+issue](https://github.com/dfe-analytical-services/eesyscreener/issues/new/choose) after which
+anyone is free to write the code and create a pull request for review.
+
+For more details on contributing to eesyscreener, see our [contributing
+guidelines](https://dfe-analytical-services.github.io/eesyscreener/CONTRIBUTING.html).
