@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# eesyscreener \[IN DEVELOPMENT\] <a href="https://dfe-analytical-services.github.io/eesyscreener/"><img src="" align="right" height="138" /></a>
+# eesyscreener <a href="https://dfe-analytical-services.github.io/eesyscreener/"><img src="" align="right" height="138" /></a>
 
 <!-- badges: start -->
 
@@ -13,6 +13,8 @@ coverage](https://codecov.io/gh/dfe-analytical-services/eesyscreener/graph/badge
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
+
+\[IN DEVELOPMENT\]
 
 This is a package designed to provide documentation and reusable code
 supporting the data standards for the [explore education statistics

@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# eesyscreener [IN DEVELOPMENT] <a href="https://dfe-analytical-services.github.io/eesyscreener/"><img src="" align="right" height="138" /></a>
+# eesyscreener <a href="https://dfe-analytical-services.github.io/eesyscreener/"><img src="" align="right" height="138" /></a>
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/dfe-analytical-services/eesyscreener/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/dfe-analytical-services/eesyscreener/actions/workflows/R-CMD-check.yaml)
@@ -22,6 +22,8 @@ knitr::opts_chunk$set(
 [![Codecov test coverage](https://codecov.io/gh/dfe-analytical-services/eesyscreener/graph/badge.svg)](https://app.codecov.io/gh/dfe-analytical-services/eesyscreener)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
+
+[IN DEVELOPMENT]
 
 This is a package designed to provide documentation and reusable code supporting the data standards for the [explore education statistics (EES) platform](https://explore-education-statistics.service.gov.uk/). 
 

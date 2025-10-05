@@ -23,6 +23,7 @@ reference:
   - starts_with("req_")
   - starts_with("optional_")
   - starts_with("acceptable_")
+  - geography_df
 
 - title: Filename checks
   contents:
