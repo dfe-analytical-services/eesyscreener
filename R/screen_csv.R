@@ -25,22 +25,25 @@
 #' 3. Overall message to give back to the user
 #' @examples
 #' # Create temp files for the example
-#' data_file <- tempfile(fileext = ".csv")
-#' meta_file <- tempfile(fileext = ".meta.csv")
+#' data_path <- paste0(tempdir(), "\\example.csv")
+#' meta_path <- paste0(tempdir(), "\\example.meta.csv")
 #'
-#' data.table::fwrite(example_data, data_file)
-#' data.table::fwrite(example_meta, meta_file)
+#' data.table::fwrite(example_data, data_path)
+#' data.table::fwrite(example_meta, meta_path)
+#'
+#' screen_csv(data_path, meta_path)
 #'
 #' screen_csv(
-#'   data_file,
-#'   meta_file,
+#'   data_path,
+#'   meta_path,
 #'   "data.csv",
-#'   "data.meta.csv"
+#'   "data.meta.csv",
+#'   output = "console"
 #' )
 #'
 #' # Clean up temp files
-#' file.remove(data_file)
-#' file.remove(meta_file)
+#' file.remove(data_path)
+#' file.remove(meta_path)
 #' @export
 screen_csv <- function(
   datapath,
@@ -99,9 +102,11 @@ screen_csv <- function(
   }
 
   # Screen data.frames --------------------------------------------------------
-  dataframe_results <- screen_dfs(datafile, metafile, output = output)
+  dataframe_results_full <- screen_dfs(datafile, metafile, output = output)
 
   if (output == "table") {
+    dataframe_results <- dataframe_results_full$results_table
+
     all_results <- rbind(
       filename_results,
       dataframe_results

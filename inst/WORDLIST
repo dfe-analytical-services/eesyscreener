@@ -1,5 +1,6 @@
 CMD
 CSVs
+Codecov
 EES
 Lifecycle
 PCon
@@ -10,6 +11,7 @@ dfeR
 duckplyr
 gov
 ily
+lintr
 myfile
 num
 pcon

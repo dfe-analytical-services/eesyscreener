@@ -19,8 +19,8 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/dfe-analytical-services/eesyscreener/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/dfe-analytical-services/eesyscreener/actions/workflows/R-CMD-check.yaml)
 [![lintr](https://github.com/dfe-analytical-services/eesyscreener/actions/workflows/lint.yaml/badge.svg?branch=main)](https://github.com/dfe-analytical-services/eesyscreener/actions/workflows/lint.yaml)
 [![pkgdown](https://github.com/dfe-analytical-services/eesyscreener/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/dfe-analytical-services/eesyscreener/actions/workflows/pkgdown.yaml)
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![Codecov test coverage](https://codecov.io/gh/dfe-analytical-services/eesyscreener/graph/badge.svg)](https://app.codecov.io/gh/dfe-analytical-services/eesyscreener)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
 This is a package designed to provide documentation and reusable code supporting the data standards for the [explore education statistics (EES) platform](https://explore-education-statistics.service.gov.uk/). 

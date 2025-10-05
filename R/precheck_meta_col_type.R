@@ -32,7 +32,8 @@ precheck_meta_col_type <- function(meta, output = "console") {
         paste0(
           "The following invalid col_type value was found in the metadata",
           " file: '",
-          invalid_types
+          invalid_types,
+          "'"
         ),
         output = output
       )
@@ -43,7 +44,8 @@ precheck_meta_col_type <- function(meta, output = "console") {
         paste0(
           "The following invalid col_type values were found in the metadata",
           " file: '",
-          paste0(invalid_types, collapse = "', '")
+          paste0(invalid_types, collapse = "', '"),
+          "'"
         ),
         output = output
       )

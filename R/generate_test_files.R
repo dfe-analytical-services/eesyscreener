@@ -92,7 +92,7 @@ generate_data_file <- function(
     )
     if (user_choice == 2) {
       cli::cli_alert_danger("Operation cancelled by user.")
-      return(FALSE)
+      return(invisible(FALSE))
     } else if (user_choice == 1) {
       cli::cli_alert_info("Continuing with data generation...")
     }

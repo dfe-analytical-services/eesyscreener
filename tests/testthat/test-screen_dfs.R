@@ -2,6 +2,8 @@
 
 test_that("passes for example files", {
   expect_no_error(screen_dfs(example_data, example_meta, output = "error-only"))
+  expect_no_error(screen_dfs(example_data, example_meta, output = "console"))
+  expect_no_error(screen_dfs(example_data, example_meta))
 })
 
 test_that("fails col prechecks", {
@@ -12,12 +14,10 @@ test_that("fails col prechecks", {
     "required columns are missing"
   )
 
+  res_table <- screen_dfs(example_data, missing_meta)$results_table
+
   expect_equal(
-    screen_dfs(example_data, missing_meta)$results_table[
-      screen_dfs(example_data, missing_meta)$results_table$check ==
-        "col_req_meta",
-      "result"
-    ],
+    res_table[res_table$check == "col_req_meta", "result"],
     "FAIL"
   )
 })
@@ -29,5 +29,12 @@ test_that("fails meta prechecks", {
   expect_error(
     screen_dfs(example_data, gunsnroses_meta, output = "error-only"),
     "invalid col_type"
+  )
+
+  res_table <- screen_dfs(example_data, gunsnroses_meta)$results_table
+
+  expect_equal(
+    res_table[res_table$check == "meta_col_type", "result"],
+    "FAIL"
   )
 })

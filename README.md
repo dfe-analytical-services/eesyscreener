@@ -8,10 +8,10 @@
 [![R-CMD-check](https://github.com/dfe-analytical-services/eesyscreener/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/dfe-analytical-services/eesyscreener/actions/workflows/R-CMD-check.yaml)
 [![lintr](https://github.com/dfe-analytical-services/eesyscreener/actions/workflows/lint.yaml/badge.svg?branch=main)](https://github.com/dfe-analytical-services/eesyscreener/actions/workflows/lint.yaml)
 [![pkgdown](https://github.com/dfe-analytical-services/eesyscreener/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/dfe-analytical-services/eesyscreener/actions/workflows/pkgdown.yaml)
-[![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![Codecov test
 coverage](https://codecov.io/gh/dfe-analytical-services/eesyscreener/graph/badge.svg)](https://app.codecov.io/gh/dfe-analytical-services/eesyscreener)
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
 This is a package designed to provide documentation and reusable code
@@ -89,21 +89,18 @@ result$results_table |>
 #> 3     check_filename_data_special   PASS
 #> 4 check_filename_metadata_special   PASS
 #> 5           check_filenames_match   PASS
-#> 6                   meta_col_type   PASS
 #>                                                            message guidance_url
 #> 1                 'data.csv' does not have spaces in the filename.           NA
 #> 2            'data.meta.csv' does not have spaces in the filename.           NA
 #> 3              'data.csv' does not contain any special characters.           NA
 #> 4         'data.meta.csv' does not contain any special characters.           NA
 #> 5 The names of the files follow the recommended naming convention.           NA
-#> 6                      col_type is always 'Filter' or 'Indicator'.           NA
-#>           stage
-#> 1      filename
-#> 2      filename
-#> 3      filename
-#> 4      filename
-#> 5      filename
-#> 6 Precheck meta
+#>      stage
+#> 1 filename
+#> 2 filename
+#> 3 filename
+#> 4 filename
+#> 5 filename
 
 result$overall_stage
 #> [1] "Passed"
