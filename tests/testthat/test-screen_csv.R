@@ -96,6 +96,26 @@ test_that("Example file passes", {
     )
   )
 
+  expect_no_error(
+    screen_csv(
+      data_file,
+      meta_file,
+      "data.csv",
+      "data.meta.csv",
+      output = "console"
+    )
+  )
+
+  expect_no_error(
+    screen_csv(
+      data_file,
+      meta_file,
+      "data.csv",
+      "data.meta.csv",
+      output = "error-only"
+    )
+  )
+
   file.remove(data_file)
   file.remove(meta_file)
 })

@@ -95,3 +95,25 @@ test_that("single filter only generates unique values", {
     )
   )
 })
+
+test_that("runs without error", {
+  expect_no_error(
+    generate_test_dfs(
+      2010:2015,
+      "Sheffield Central",
+      "E14000919",
+      2,
+      3
+    )
+  )
+  expect_no_error(
+    generate_test_dfs(
+      2010:2015,
+      "Sheffield Central",
+      "E14000919",
+      2,
+      3,
+      verbose = TRUE
+    )
+  )
+})

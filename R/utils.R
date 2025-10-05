@@ -139,7 +139,6 @@ validate_arg_output <- function(output) {
 #' data.table::fwrite(example_meta, meta_file)
 #'
 #' files <- read_files(data_file, meta_file)
-#'
 #' files
 #'
 #' # Clean up temp files
@@ -187,4 +186,57 @@ read_files <- function(datapath, metapath) {
   )
 
   list(data = datafile, meta = metafile)
+}
+
+#' Get all column names referenced in metadata
+#'
+#' Get the names of all indicators, filters, and filter groups that are
+#' referenced in the metadata.
+#'
+#' Assumes the col_name, and filter_grouping_column are present in the
+#' metadata.
+#'
+#' @param meta data.frame of the metadata
+#' @param grouping_cols logical, if TRUE will include filter grouping columns
+#' @keywords internal
+#' @noRd
+#' @returns character vector of column names
+get_cols_meta <- function(meta, grouping_cols = FALSE) {
+  cols <- meta$col_name
+  if (grouping_cols) {
+    cols <- c(cols, meta$filter_grouping_column)
+  }
+  unique(cols[!is.na(cols) & cols != ""])
+}
+
+#' Get all column names referenced in metadata
+#'
+#' Get the names of all indicators, filters, and filter groups that are
+#' referenced in the metadata.
+#'
+#' Assumes the col_name, and filter_grouping_column are present in the
+#' metadata.
+#'
+#' @param meta data.frame of the metadata
+#' @param grouping_cols logical, if TRUE will include filter grouping columns
+#' @keywords internal
+#' @noRd
+#' @returns character vector of column names
+get_acceptable_ob_units <- function() {
+  geography_cols <- unlist(
+    eesyscreener::geography_df[, c(
+      "code_field",
+      "name_field",
+      "code_field_secondary"
+    )],
+    use.names = FALSE
+  ) |>
+    stats::na.omit()
+
+  c(
+    "time_period",
+    "time_identifier",
+    "geographic_level",
+    geography_cols
+  )
 }

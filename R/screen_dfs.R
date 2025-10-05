@@ -45,7 +45,8 @@ screen_dfs <- function(data, meta, output = "table") {
 
   # Precheck meta -------------------------------------------------------------
   precheck_meta_results <- rbind(
-    precheck_meta_col_type(meta, output = output)
+    precheck_meta_col_type(meta, output = output),
+    precheck_meta_ob_unit(meta, output = output)
   )
 
   if (output == "table") {

@@ -22,4 +22,8 @@ Make sure that all col_type values are either 'Filter' or 'Indicator'
 precheck_meta_col_type(example_meta)
 precheck_meta_col_type(example_meta, output = "table")
 }
+\seealso{
+Other precheck_meta: 
+\code{\link{precheck_meta_ob_unit}()}
+}
 \concept{precheck_meta}

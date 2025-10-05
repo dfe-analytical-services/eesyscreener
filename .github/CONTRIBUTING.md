@@ -38,6 +38,11 @@ This package has a big priority on efficiency, we need to keep it fast so the Sh
 
 Example of adding a new check available in [PR XX]()
 
+Other commits showing checks being added:
+- `precheck_col_req_data()`, also showing adding the req_data_cols data object - ...
+- ?
+- Adding in both time functions, includes added a new time checks stage - ...
+
 1. Tackle one screening check at a time (unless you can create utility functions that cover multiple repeated checks)
 
 2. Set up a new script and test script for the check, copy over the relevant code from https://github.com/dfe-analytical-services/dfe-published-data-qa
@@ -119,8 +124,7 @@ b. There should be a collection of unit tests and at least one example data file
 ## Next tests to migrate in
 
 ### Pre-meta
-invalid_meta_cols # moved to precheck_col
-col_type # dependency on col_type existing
+
 ob_unit_meta
 col_name_completed
 

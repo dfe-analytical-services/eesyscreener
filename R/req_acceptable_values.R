@@ -18,3 +18,10 @@
 #' @format A vector of the required data column names
 #' @source maintained by explore.statistics@@education.gov.uk
 "req_data_cols"
+
+# Geographic levels and columns ====
+#' Acceptable geographic levels and their associated columns
+#'
+#' @format data.frame
+#' @source maintained by explore.statistics@@education.gov.uk
+"geography_df"
