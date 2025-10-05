@@ -138,8 +138,6 @@ time_period_six
 
 ## Other things to add to the package
 
-TODO: Add test coverage workflow
-
 TODO: Add trello card workflow
 
 ## List of notes for the main screener when migrating over
