@@ -25,6 +25,7 @@ precheck_meta_ob_unit(example_meta, output = "table")
 }
 \seealso{
 Other precheck_meta: 
+\code{\link{precheck_meta_col_name}()},
 \code{\link{precheck_meta_col_type}()}
 }
 \concept{precheck_meta}
