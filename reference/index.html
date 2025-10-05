@@ -3,7 +3,7 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+    <nav class="navbar navbar-expand-lg fixed-top bg-primary" data-bs-theme="dark" aria-label="Site navigation"><div class="container">
 
     <a class="navbar-brand me-2" href="../index.html">eesyscreener</a>
 
@@ -15,7 +15,13 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/eesyscreener.html">Get started</a></li>
+<li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/assumptions_in_checks.html">Assumptions in checks</a></li>
+    <li><a class="dropdown-item" href="../articles/common_file_failures.html">Common file failures</a></li>
+  </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/dfe-analytical-services/eesyscreener/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -43,12 +49,24 @@
 
       <dl><dt>
 
-          <code><a href="screen_files.html">screen_files()</a></code>
+          <code><a href="screen_csv.html">screen_csv()</a></code>
 
         </dt>
         <dd>Run all checks against files</dd>
+      </dl><dl><dt>
+
+          <code><a href="screen_dfs.html">screen_dfs()</a></code>
+
+        </dt>
+        <dd>Run all checks against data and metadata</dd>
+      </dl><dl><dt>
+
+          <code><a href="screen_filenames.html">screen_filenames()</a></code>
+
+        </dt>
+        <dd>Run all checks against filenames</dd>
       </dl></div><div class="section level2">
-      <h2 id="example-data">Example data<a class="anchor" aria-label="anchor" href="#example-data"></a></h2>
+      <h2 id="example-datasets">Example datasets<a class="anchor" aria-label="anchor" href="#example-datasets"></a></h2>
 
 
 
@@ -94,12 +112,46 @@
 
         </dt>
         <dd>Example metadata</dd>
-      </dl><dl><dt>
+      </dl></div><div class="section level2">
+      <h2 id="generate-test-files">Generate test files<a class="anchor" aria-label="anchor" href="#generate-test-files"></a></h2>
+
+
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
 
           <code><a href="generate_test_dfs.html">generate_test_dfs()</a></code>
 
         </dt>
         <dd>EES-ily generate some beefy test files</dd>
+      </dl></div><div class="section level2">
+      <h2 id="required-and-acceptable-values">Required and acceptable values<a class="anchor" aria-label="anchor" href="#required-and-acceptable-values"></a></h2>
+
+      <div class="section-desc"><p>Objects containing required or acceptable values, e.g. mandatory column names</p></div>
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="req_meta_cols.html">req_meta_cols</a></code>
+
+        </dt>
+        <dd>Required metadata columns</dd>
+      </dl><dl><dt>
+
+          <code><a href="optional_meta_cols.html">optional_meta_cols</a></code>
+
+        </dt>
+        <dd>Optional metadata columns</dd>
       </dl></div><div class="section level2">
       <h2 id="filename-checks">Filename checks<a class="anchor" aria-label="anchor" href="#filename-checks"></a></h2>
 
@@ -130,6 +182,29 @@
         </dt>
         <dd>Check filenames line up between data and metadata files</dd>
       </dl></div><div class="section level2">
+      <h2 id="pre-check-necessary-columns-exist">Pre-check necessary columns exist<a class="anchor" aria-label="anchor" href="#pre-check-necessary-columns-exist"></a></h2>
+
+      <div class="section-desc"><p>Ensure the mandatory columns are present before running other checks on the files.</p></div>
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="precheck_col_invalid_meta.html">precheck_col_invalid_meta()</a></code>
+
+        </dt>
+        <dd>Check there are no invalid columns in the metadata</dd>
+      </dl><dl><dt>
+
+          <code><a href="precheck_col_req_meta.html">precheck_col_req_meta()</a></code>
+
+        </dt>
+        <dd>Check all required columns are present in metadata</dd>
+      </dl></div><div class="section level2">
       <h2 id="pre-checks-on-metadata">Pre-checks on metadata<a class="anchor" aria-label="anchor" href="#pre-checks-on-metadata"></a></h2>
 
       <div class="section-desc"><p>These checks should be run before any other metadata checks, as they validate core assumptions about the metadata file itself.</p></div>
@@ -140,8 +215,13 @@
 
 
 
+      <dl><dt>
 
-    </div><div class="section level2">
+          <code><a href="precheck_meta_col_type.html">precheck_meta_col_type()</a></code>
+
+        </dt>
+        <dd>Check col_type entries are valid</dd>
+      </dl></div><div class="section level2">
       <h2 id="metadata-checks">Metadata checks<a class="anchor" aria-label="anchor" href="#metadata-checks"></a></h2>
 
 

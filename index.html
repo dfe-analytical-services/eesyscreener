@@ -18,7 +18,7 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+    <nav class="navbar navbar-expand-lg fixed-top bg-primary" data-bs-theme="dark" aria-label="Site navigation"><div class="container">
 
     <a class="navbar-brand me-2" href="index.html">eesyscreener</a>
 
@@ -31,7 +31,15 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
+<li class="nav-item"><a class="nav-link" href="articles/eesyscreener.html">Get started</a></li>
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="articles/assumptions_in_checks.html">Assumptions in checks</a></li>
+    <li><a class="dropdown-item" href="articles/common_file_failures.html">Common file failures</a></li>
+  </ul>
+</li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -46,12 +54,27 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="eesyscreener-">eesyscreener <a href="https://dfe-analytical-services.github.io/eesyscreener/"><img src="" align="right" height="138"></a>
-<a class="anchor" aria-label="anchor" href="#eesyscreener-"></a>
+<div class="page-header"><h1 id="eesyscreener-in-development-">eesyscreener [IN DEVELOPMENT] <a href="https://dfe-analytical-services.github.io/eesyscreener/"><img src="" align="right" height="138"></a>
+<a class="anchor" aria-label="anchor" href="#eesyscreener-in-development-"></a>
 </h1></div>
 <!-- badges: start -->
 
-<p>Quality assurance checks used to screen files against the standards required for official statistics files on the explore education statistics (EES) platform.</p>
+<p>This is a package designed to provide documentation and reusable code supporting the data standards for the <a href="https://explore-education-statistics.service.gov.uk/" class="external-link">explore education statistics (EES) platform</a>.</p>
+<p>This is the current form and single source of truth for the checks that have steadily evolved over the years, from initial R code replacing manual checking of CSV files in Excel, to a <a href="https://github.com/dfe-analytical-services/ees-data-screener" class="external-link">screening report generator using rmarkdown</a>, to the <a href="https://github.com/dfe-analytical-services/dfe-published-data-qa" class="external-link">R Shiny app</a>, right through to this fully documented R package that has three main use cases:</p>
+<ul>
+<li>Providing the logic behind the <a href="https://github.com/dfe-analytical-services/dfe-published-data-qa" class="external-link">data screener R Shiny app</a>, used to check files before upload</li>
+<li>Using that logic within EES itself through a <a href="https://github.com/dfe-analytical-services/ees-screener-api" class="external-link">plumber API implementation</a>, screening uploads into the service directly</li>
+<li>Analysts using the R functions within their own pipelines as pre-emptive quality assurance</li>
+</ul>
+<p>The package contains:</p>
+<ul>
+<li>A core <code><a href="reference/screen_csv.html">screen_csv()</a></code> function, built from <code><a href="reference/screen_dfs.html">screen_dfs()</a></code>, and <code><a href="reference/screen_filenames.html">screen_filenames()</a></code> and the constituent individual checks, as well as a related wrapper function <code>screen_zip()</code>
+</li>
+<li>Data objects containing required, optional, and acceptable values for use within explore education statistics</li>
+<li>Functions to generate test data</li>
+<li>Example datasets to aid testing and demonstration</li>
+<li>Additional functions to aid in screening / preparing data for EES</li>
+</ul>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -63,15 +86,22 @@
 <div class="section level2">
 <h2 id="minimal-example">Minimal example<a class="anchor" aria-label="anchor" href="#minimal-example"></a>
 </h2>
-<p>This shows a quick reproducible example you can run in the console to test with. It also shows an example of the output structure from the core <code><a href="reference/screen_files.html">screen_files()</a></code> function.</p>
+<p>This shows a quick reproducible example you can run in the console to test with. It also shows an example of the output structure from the core <code><a href="reference/screen_csv.html">screen_csv()</a></code> function.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dfe-analytical-services.github.io/eesyscreener/">eesyscreener</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/screen_files.html">screen_files</a></span><span class="op">(</span></span>
+<span><span class="co"># Create example temporary CSV files</span></span>
+<span><span class="va">data_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".csv"</span><span class="op">)</span></span>
+<span><span class="va">meta_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".meta.csv"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">fwrite</a></span><span class="op">(</span><span class="va">example_data</span>, <span class="va">data_file</span><span class="op">)</span></span>
+<span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">fwrite</a></span><span class="op">(</span><span class="va">example_meta</span>, <span class="va">meta_file</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/screen_csv.html">screen_csv</a></span><span class="op">(</span></span>
+<span>  <span class="va">data_file</span>,</span>
+<span>  <span class="va">meta_file</span>,</span>
 <span>  <span class="st">"data.csv"</span>,</span>
-<span>  <span class="st">"data.meta.csv"</span>,</span>
-<span>  <span class="va">example_data</span>, <span class="co"># replace with your data file</span></span>
-<span>  <span class="va">example_meta</span> <span class="co"># replace with your meta file</span></span>
+<span>  <span class="st">"data.meta.csv"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">result</span><span class="op">$</span><span class="va">results_table</span> <span class="op">|&gt;</span></span>
@@ -82,27 +112,33 @@
 <span><span class="co">#&gt; 3     check_filename_data_special   PASS</span></span>
 <span><span class="co">#&gt; 4 check_filename_metadata_special   PASS</span></span>
 <span><span class="co">#&gt; 5           check_filenames_match   PASS</span></span>
-<span><span class="co">#&gt; 6             placeholder_general   PASS</span></span>
+<span><span class="co">#&gt; 6                   meta_col_type   PASS</span></span>
 <span><span class="co">#&gt;                                                            message guidance_url</span></span>
 <span><span class="co">#&gt; 1                 'data.csv' does not have spaces in the filename.           NA</span></span>
 <span><span class="co">#&gt; 2            'data.meta.csv' does not have spaces in the filename.           NA</span></span>
 <span><span class="co">#&gt; 3              'data.csv' does not contain any special characters.           NA</span></span>
 <span><span class="co">#&gt; 4         'data.meta.csv' does not contain any special characters.           NA</span></span>
 <span><span class="co">#&gt; 5 The names of the files follow the recommended naming convention.           NA</span></span>
-<span><span class="co">#&gt; 6                                                      Placeholder           NA</span></span>
-<span><span class="co">#&gt;                stage</span></span>
-<span><span class="co">#&gt; 1     Filename tests</span></span>
-<span><span class="co">#&gt; 2     Filename tests</span></span>
-<span><span class="co">#&gt; 3     Filename tests</span></span>
-<span><span class="co">#&gt; 4     Filename tests</span></span>
-<span><span class="co">#&gt; 5     Filename tests</span></span>
-<span><span class="co">#&gt; 6 General file tests</span></span>
+<span><span class="co">#&gt; 6                      col_type is always 'Filter' or 'Indicator'.           NA</span></span>
+<span><span class="co">#&gt;           stage</span></span>
+<span><span class="co">#&gt; 1      filename</span></span>
+<span><span class="co">#&gt; 2      filename</span></span>
+<span><span class="co">#&gt; 3      filename</span></span>
+<span><span class="co">#&gt; 4      filename</span></span>
+<span><span class="co">#&gt; 5      filename</span></span>
+<span><span class="co">#&gt; 6 Precheck meta</span></span>
 <span></span>
 <span><span class="va">result</span><span class="op">$</span><span class="va">overall_stage</span></span>
 <span><span class="co">#&gt; [1] "Passed"</span></span>
 <span></span>
 <span><span class="va">result</span><span class="op">$</span><span class="va">overall_message</span></span>
-<span><span class="co">#&gt; [1] "Passed all checks"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "Passed all checks"</span></span>
+<span></span>
+<span><span class="co"># Clean up temporary CSV files</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.remove</a></span><span class="op">(</span><span class="va">data_file</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.remove</a></span><span class="op">(</span><span class="va">meta_file</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="example-csvs">Example CSVs<a class="anchor" aria-label="anchor" href="#example-csvs"></a>
@@ -114,10 +150,9 @@
 <span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">example_data</span>, <span class="st">"example_data.csv"</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">example_meta</span>, <span class="st">"example_data.meta.csv"</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Generate a file pairing that will fail the tests (spaces in filename)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">example_data</span>, <span class="st">"example data.csv"</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">example_meta</span>, <span class="st">"example data.meta.csv"</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p>Other available example files can be found on the documentation site under examples. Use <code><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv()</a></code> as in the examples above to generate CSVs from them.</p>
+<span><span class="co"># Generate a file pairing that will fail the tests by dropping a key column</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">example_data</span>, <span class="st">"example_data.csv"</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">example_meta</span><span class="op">[</span> , <span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="st">"example_data.meta.csv"</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="generate-big-test-files">Generate big test files<a class="anchor" aria-label="anchor" href="#generate-big-test-files"></a>
@@ -161,8 +196,15 @@
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Then to create CSVs, use data.table as it's much faster</span></span>
-<span><span class="fu">data.table</span><span class="fu">::</span><span class="fu">fwrite</span><span class="op">(</span><span class="va">beefy</span><span class="op">$</span><span class="va">data</span>, <span class="st">"beefy_data.csv"</span><span class="op">)</span></span>
-<span><span class="fu">data.table</span><span class="fu">::</span><span class="fu">fwrite</span><span class="op">(</span><span class="va">beefy</span><span class="op">$</span><span class="va">meta</span>, <span class="st">"beefy_data.meta.csv"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">fwrite</a></span><span class="op">(</span><span class="va">beefy</span><span class="op">$</span><span class="va">data</span>, <span class="st">"beefy_data.csv"</span><span class="op">)</span></span>
+<span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">fwrite</a></span><span class="op">(</span><span class="va">beefy</span><span class="op">$</span><span class="va">meta</span>, <span class="st">"beefy_data.meta.csv"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="contributing">Contributing<a class="anchor" aria-label="anchor" href="#contributing"></a>
+</h2>
+<p>Ideas for eesyscreener should first be raised as a <a href="https://github.com/dfe-analytical-services/eesyscreener/issues/new/choose" class="external-link">GitHub issue</a> after which anyone is free to write the code and create a pull request for review.</p>
+<p>For more details on contributing to eesyscreener, see our <a href="https://dfe-analytical-services.github.io/eesyscreener/CONTRIBUTING.html">contributing guidelines</a>.</p>
+<p>Any questions regarding the package or wider service should be directed to <a href="mailto:explore.statistics@education.gov.uk" class="email">explore.statistics@education.gov.uk</a>.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
@@ -208,8 +250,10 @@
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://github.com/dfe-analytical-services/eesyscreener/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/dfe-analytical-services/eesyscreener/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://github.com/dfe-analytical-services/eesyscreener/actions/workflows/lint.yaml" class="external-link"><img src="https://github.com/dfe-analytical-services/eesyscreener/actions/workflows/lint.yaml/badge.svg?branch=main" alt="lintr"></a></li>
 <li><a href="https://github.com/dfe-analytical-services/eesyscreener/actions/workflows/pkgdown.yaml" class="external-link"><img src="https://github.com/dfe-analytical-services/eesyscreener/actions/workflows/pkgdown.yaml/badge.svg" alt="pkgdown"></a></li>
 <li><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
+<li><a href="https://app.codecov.io/gh/dfe-analytical-services/eesyscreener" class="external-link"><img src="https://codecov.io/gh/dfe-analytical-services/eesyscreener/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>
 </div>
 

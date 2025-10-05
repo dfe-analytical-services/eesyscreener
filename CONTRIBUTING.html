@@ -3,7 +3,7 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+    <nav class="navbar navbar-expand-lg fixed-top bg-primary" data-bs-theme="dark" aria-label="Site navigation"><div class="container">
 
     <a class="navbar-brand me-2" href="index.html">eesyscreener</a>
 
@@ -15,7 +15,13 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="articles/eesyscreener.html">Get started</a></li>
+<li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="articles/assumptions_in_checks.html">Assumptions in checks</a></li>
+    <li><a class="dropdown-item" href="articles/common_file_failures.html">Common file failures</a></li>
+  </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/dfe-analytical-services/eesyscreener/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -38,52 +44,48 @@
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a></h2>
 <p><a href="https://explore-education-statistics.service.gov.uk/" class="external-link">Explore education statistics (EES)</a> is our bespoke statistics publishing platform, for it to work we rely on standardising the structure of our data files.</p>
 <p>This package contains the checks used to enforce our <a href="https://dfe-analytical-services.github.io/analysts-guide/statistics-production/ud.html" class="external-link">open data standards</a>.</p>
-<p>We expect the package to serve the following purposes: - Provide.. - file validation on EES, and the documentation for that validation - the checks used in the <a href="https://github.com/dfe-analytical-services/dfe-published-data-qa" class="external-link">R Shiny screener app</a> used by analysts to check files - Allow analysts… - to check their files in R using <code><a href="reference/screen_files.html">screen_files()</a></code> - to reuse some of the individual <code>check_*</code> functions in their QA pipelines</p>
+<p>Before contributing to the package, you should read this, and the vignettes describing the package, to understand all of the logic and decisions made. Particularly the <code>assumptions_in_checks.Rmd</code> vignette as that provides crucial information about interdependencies between functions within the package.</p>
 </div>
 <div class="section level2">
 <h2 id="package-structure">Package structure<a class="anchor" aria-label="anchor" href="#package-structure"></a></h2>
-<ul><li>
-<code><a href="reference/screen_files.html">screen_files()</a></code> pulls it all together and currently is the main export, this has 3 intended uses:
-<ul><li>for use in the plumber API (EES integration)</li>
-<li>for use in the R Shiny app</li>
-<li>for use by analysts in their own R scripts</li>
-</ul></li>
-<li>All individual checks copied from the screener should be named in accordance with the naming conventions in the <code>_pkgdown.yml</code> file</li>
-<li>All <code>check_*</code> functions must return a consistent list structure</li>
-<li>File structure - one script per <code>check_*</code> or <code>precheck_*</code> function (except if internal and in R/utils.R)</li>
+<p>The <code>screen_*()</code> functions are the key user facing exports of the package.</p>
+<p><code><a href="reference/screen_csv.html">screen_csv()</a></code> is expected to be the primary function used, it takes a pair of CSV files and screens them.</p>
+<ul><li>One script per exported function (except for data objects or if internal and in <code>R/utils.R</code>)</li>
+<li>All individual checks should be named in accordance with the naming conventions in the <code>_pkgdown.yml</code> file</li>
+<li>Due to the extensive use of check / test in this package, internal functions handling argument validation should follow the <code>validate_arg_*()</code> convention</li>
+<li>All <code>check_*()</code> functions must return a consistent list structure</li>
 <li>
 <code>R/utils.R</code> contains all internal functions</li>
 <li>
 <code>data-raw/</code> contains the source code for example data and hardcoded variables</li>
-<li>Use RDS as the main format to shrink test data (beware it automatically does some cleaning!), use CSV or make the data.frame() in code if needed</li>
-<li>Think about dependencies between functions - can we pass the results of any pre-requisites into other functions?</li>
-<li>Big priority on efficiency, we need to keep it light and fast
-<ul><li>avoid heavy dependencies</li>
-<li>performance profile and use the fastest available functions</li>
-</ul></li>
-</ul><p>TODO: At the end of moving checks over we should set up tests for <code>screen_tests()</code> that run over all the example test data</p>
-</div>
+<li>Use RDS as the main format for permanent test data (beware it automatically does some cleaning!), make temp CSV files or create a data.frame in code if needed</li>
+<li>Think about dependencies between functions - explain any in the <code>assumptions_in_checks.Rmd</code> vignette</li>
+</ul><p>This package has a big priority on efficiency, we need to keep it fast so the Shiny app and API endpoint are responsive even with larger files</p>
+<ul><li>performance profile and use the fastest available functions</li>
+<li>test on large files (5 million rows and above), and prioritise large file performance over small file performance if necessary</li>
+<li>avoid duplication between functions</li>
+<li>don’t validate arguments in individual <code>precheck_*()</code> or <code>check_*()</code> functions</li>
+</ul></div>
 <div class="section level2">
 <h2 id="process-for-moving-in-functions-from-app">Process for moving in functions from app<a class="anchor" aria-label="anchor" href="#process-for-moving-in-functions-from-app"></a></h2>
 <p><a href="https://educationgovuk.sharepoint.com/:x:/r/sites/lveesfa00074/Data%20Insights%20and%20Statistics%20Division/Statistics%20Services%20Unit/Explore%20education%20statistics%20platforms/Screening%20tests%20migration%20tracking.xlsx?d=wdc9cf9ce356b47c6a1d1f11aba8bb96d&amp;csf=1&amp;web=1&amp;e=PSIk6I" class="external-link">Tracking spreadsheet set up in sharepoint</a>, this contains a table of all checks, thoughts on new groupings and notes about the migration (including the progress).</p>
 <p>Example of adding a new check available in <a href="">PR XX</a></p>
-<ol style="list-style-type: decimal"><li><p>Tackle one screening check at a time (unless you can create one function that covers multiple repeated checks)</p></li>
+<ol style="list-style-type: decimal"><li><p>Tackle one screening check at a time (unless you can create utility functions that cover multiple repeated checks)</p></li>
 <li><p>Set up a new script and test script for the check, copy over the relevant code from <a href="https://github.com/dfe-analytical-services/dfe-published-data-qa" class="external-link uri">https://github.com/dfe-analytical-services/dfe-published-data-qa</a></p></li>
-<li><p>Add test data that should fail the function</p></li>
-</ol><ol style="list-style-type: lower-alpha"><li>Make use of the <code>tests/utils/copy_check_data.R</code> script to copy over CSVs from the screener repo and save as RDS files in the tests folder</li>
-<li>There should be a collection of unit tests and at least one example data file with an expected failure for every function</li>
-</ol><ol start="4" style="list-style-type: decimal"><li><p>Adapt the function so that the input arguments and outputs match existing <code>check_*</code> functions</p></li>
-<li><p>Integrate the new <code>check_*</code> into the <code><a href="reference/screen_files.html">screen_files()</a></code> function</p></li>
+<li><p>Add unit tests for the the function</p></li>
+<li><p>Adapt the function so that the input arguments and outputs match existing <code>check_*</code> functions</p></li>
+<li><p>Integrate the new <code>check_*</code> into the appropriate <code><a href="reference/screen_dfs.html">screen_dfs()</a></code></p></li>
 <li><p>Document the code inheriting documentation from existing functions where possible</p></li>
 </ol><p>There will be a lot of functions in this package, so we want to minimise the amount of duplicated code.</p>
 <p>Use @inheritParams function_name to copy in param definitions from another</p>
-<p>Functions to check for standard param definitions: - <code>check_empty_cols</code> - <code>check_filename_spaces</code></p>
-<p>Use <code>#' @inherit check_empty_cols return</code> to copy the return documentation for functions</p>
+<p>Use <code>#' @inherit check_filename_spaces return</code> to copy the return documentation for functions</p>
 <ol start="7" style="list-style-type: decimal"><li>Once setup, review and improve the code</li>
 </ol><p>Make sure the tests are passing and you’ve commited before this point to ensure you don’t inadvertently break anything!</p>
-<ol style="list-style-type: lower-alpha"><li>Create and use helper functions (if you haven’t already), place any helper functions in <code>R/utils.R</code>, mark as @keywords internal</li>
-<li>Avoid bringing in too many new dependencies, try rewriting in base R where possible</li>
-<li>Use <code>microbenchmark</code> to experiment to find the most efficient approach (speed is king here) e.g.</li>
+<ol style="list-style-type: lower-alpha"><li>Have a look through examples of simplifying the code to see if anything could apply to the function you’re working on, e.g. </li>
+</ol><p>Simplifying a check for missing values, where previously it used a pre_check object and sapply - <a href="https://github.com/dfe-analytical-services/eesyscreener/commit/290679711d82529a7d0c54b63cac61ae92a350d8" class="external-link uri">https://github.com/dfe-analytical-services/eesyscreener/commit/290679711d82529a7d0c54b63cac61ae92a350d8</a></p>
+<ol start="2" style="list-style-type: lower-alpha"><li><p>Create and use helper functions (if you haven’t already), place any helper functions in <code>R/utils.R</code>, mark as @keywords internal</p></li>
+<li><p>Avoid bringing in too many new dependencies, try rewriting in base R where possible</p></li>
+<li><p>Use <code>microbenchmark</code> to experiment to find the most efficient approach, look at <code>data.table</code> and <code>duckplyr</code> for speedier alternatives (speed is king here) e.g.</p></li>
 </ol><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_data.html">example_data</a></span></span>
 <span></span>
@@ -92,68 +94,33 @@
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">data</span>, <span class="fl">1</span>, <span class="kw">function</span><span class="op">(</span><span class="va">row</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">row</span><span class="op">)</span> <span class="op">|</span> <span class="va">row</span> <span class="op">==</span> <span class="st">""</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">|</span> <span class="va">data</span> <span class="op">==</span> <span class="st">""</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  times <span class="op">=</span> <span class="fl">100000</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">## NOTE: This particular check was removed as other checks will cover it</span></span>
-<span><span class="co">## - check_time_periods</span></span>
-<span><span class="co">## - check_meta_col_type</span></span></code></pre></div>
+<span><span class="op">)</span></span></code></pre></div>
 <p>In this example, the first line requires the janitor package. It is slightly faster with a mean of 115ms, the second line mean was 184ms, and the third line mean was 121ms, as there’s a minimal amount between 1 and 3, usually we’d go for option 3 to avoid needing to call in the janitor package as a dependency, keeping this package more lightweight.</p>
 <p>However, when testing with a bigger file (~6million rows), the 2nd and 3rd options were so slow to run that microbenchmark was taking too long to produce a result. Clearly using janitor in option 1 has a massive impact when there’s more rows, so the decision was made to import the janitor package as the speed benefit was worth the extra dependency.</p>
 <p>You can use the <code>tests/utils/benchmarking.R</code> script as a starting point, it includes code to generate big tables and run benchmarking. Sometimes the fastest on small files will not be the fastest on bigger ones. Prioritise the bigger files as that’s where the biggest impact will be felt.</p>
 <p>If it’s a particularly big function running over a whole data file, also consider using <code>future.apply</code> or other parallel processing approaches if they swap in easily.</p>
-</div>
+<p>TODO: At the end of the migration, we should then plan how to migrate the test data over, so that all of the existing edge cases tested in the R Shiny app can be covered here.</p>
+<ol style="list-style-type: lower-alpha"><li><p>Make use of the <code>tests/utils/copy_check_data.R</code> script to copy over CSVs from the screener repo and save as RDS files in the tests folder</p></li>
+<li><p>There should be a collection of unit tests and at least one example data file with an expected failure for every function</p></li>
+</ol></div>
 <div class="section level2">
 <h2 id="notes--questions">Notes / questions<a class="anchor" aria-label="anchor" href="#notes--questions"></a></h2>
-<p>Gone for verbose by default (i.e. console warnings), and then we turn that off in the API / Shiny app</p>
-<p>Radical - would we want to ditch warnings? Just have TRUE / FALSE for pass / fail?</p>
-<p>Guidance URL? / being able to feedback to users? Not 100% on, wondering if a first version could be to ditch, simply the feedback to the user and instead and go for an accompanying vignette guide to specific checks - e.g. with instructions for running checks in isolation to investigate issues (thinking of duplicate rows?)</p>
-<p>Long feedback messages - how do we handle more neatly / give ourselves ability to still edit those later</p>
-<p>Feels a little odd to make all the code available as individual functions - Issues with assumptions in the code - When do we check it’s actually a CSV file? - pre-check are required for many of the main checks, feels like too much to build in to each function? Thinking we create a vignette explaining this a bit more just so it’s clear to users</p>
-</div>
-<div class="section level2">
-<h2 id="structure">Structure<a class="anchor" aria-label="anchor" href="#structure"></a></h2>
-<ul><li>
-<p>Screening function that runs everything in order (can be wrapped with batching functions later)</p>
-<ul><li>
-<p>Takes in file names (data and meta) and the data.frames of the files</p>
-<p>[DO WE WANT TO STANDARDISE THE FUNCTIONS FOR READING THE FILES?]</p>
-<ul><li><p>Plumber: reads in CSVs prior to passing to the function</p></li>
-<li><p>Shiny: reads in CSVs prior to passing to the function</p></li>
-<li><p>Analysts: reads in CSVs within the function [DO WE NEED AN ARGUMENT FOR THEM TO HAVE THIS?]</p></li>
-</ul></li>
-</ul></li>
-<li><p>Where do we catch that a file is a CSV or not?</p></li>
-<li><p>Runs all of the checks in order</p></li>
-<li>
-<p>Stages are changed from the existing app.</p>
-<ul><li>Now checks will be grouped by area / topic instead</li>
-</ul></li>
-<li><p>Pre-checks are run first as the main checks for each area depend on them passing</p></li>
-<li><p>Do in a way that can be parrallelised if a users machine can do so</p></li>
-<li>
-<p>Each check returns a consistent data frame structure</p>
-<ul><li>If a key stage is failed, the checks stop early?</li>
-</ul></li>
-</ul><p>For each check: - Two options - print to console verbosely, or return a data.frame of results</p>
-<ul><li>test_output function controls this
-<ul><li>Fails cause errors in console</li>
-<li>Can add additional verbose console messages before the main failure output if needed</li>
-</ul></li>
-</ul><p>Standard pattern:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">test_output</span><span class="op">(</span></span>
-<span>  <span class="va">test_name</span>, <span class="co"># name of check</span></span>
-<span>  <span class="st">"PASS"</span>, <span class="co"># result of check, one of 'PASS', 'FAIL', 'WARNING'</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"'"</span>, <span class="va">filename</span>, <span class="st">"' does not contain any special characters."</span><span class="op">)</span>, <span class="co"># feedback message for user</span></span>
-<span>  <span class="st">"https://dfe-analytical-services.github.io/analysts-guide/"</span>, <span class="co"># optional URL for guidance, can just not include as will default to NA</span></span>
-<span>  console <span class="op">=</span> <span class="va">verbose</span> <span class="co"># control for whether to print to console or silently return data frame (TRUE/FALSE)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-</div>
+<ol style="list-style-type: decimal"><li><p>When console messages are on would we still want the data.frame returned? - should the console option be a verbosity option instead?</p></li>
+<li><p>Is the console option the right default to set (thinking easiest for users, Shiny and API are easy to set as “table” output)</p></li>
+<li><p>Radical - would we want to ditch warnings? Just have TRUE / FALSE for pass / fail?</p></li>
+<li><p>Guidance URL? / being able to feedback to users? Not 100% on, wondering if a first version could be to ditch, simply the feedback to the user and instead and go for an accompanying vignette guide to specific checks - e.g. with instructions for running checks in isolation to investigate issues (thinking of duplicate rows?)</p></li>
+<li><p>Long feedback messages - how do we handle more neatly / give ourselves ability to still edit those later</p></li>
+<li><p>How should errors be handled? (partly a Q for the API)</p></li>
+</ol><ul><li>6a. Should whether the file is a CSV or not be a standard check function rather than file validation that throws an error?</li>
+</ul><ol start="7" style="list-style-type: decimal"><li>Generally, how intuitive (or not) is the approach to the package and docs?</li>
+</ol><ul><li><p>Is there anything missing?</p></li>
+<li><p>Is there anything that could be improved?</p></li>
+</ul></div>
 <div class="section level2">
 <h2 id="next-tests-to-migrate-in">Next tests to migrate in<a class="anchor" aria-label="anchor" href="#next-tests-to-migrate-in"></a></h2>
 <div class="section level3">
 <h3 id="pre-meta">Pre-meta<a class="anchor" aria-label="anchor" href="#pre-meta"></a></h3>
-<p>col_type ob_unit_meta invalid_meta_cols col_name_completed</p>
+<p>invalid_meta_cols # moved to precheck_col col_type # dependency on col_type existing ob_unit_meta col_name_completed</p>
 </div>
 <div class="section level3">
 <h3 id="pre-time">Pre-time<a class="anchor" aria-label="anchor" href="#pre-time"></a></h3>
@@ -166,11 +133,13 @@
 </div>
 <div class="section level2">
 <h2 id="other-things-to-add-to-the-package">Other things to add to the package<a class="anchor" aria-label="anchor" href="#other-things-to-add-to-the-package"></a></h2>
-<p>TODO: Add test coverage workflow TODO: Add trello card workflow</p>
+<p>TODO: Add trello card workflow</p>
 </div>
 <div class="section level2">
-<h2 id="list-of-notes-for-the-main-screener">List of notes for the main screener<a class="anchor" aria-label="anchor" href="#list-of-notes-for-the-main-screener"></a></h2>
-<p>TODO: Move the images out of screenFiles and into the server part of the app TODO: Move the character forcing of columns to within the screen files function TODO: Update the test data and testing approach</p>
+<h2 id="list-of-notes-for-the-main-screener-when-migrating-over">List of notes for the main screener when migrating over<a class="anchor" aria-label="anchor" href="#list-of-notes-for-the-main-screener-when-migrating-over"></a></h2>
+<p>TODO: Move the images out of screenFiles and into the server part of the app</p>
+<p>TODO: Move the character forcing of columns to within the screen files function</p>
+<p>TODO: Update the test data and testing approach</p>
 </div>
 </div>
 
