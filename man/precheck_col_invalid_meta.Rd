@@ -26,6 +26,7 @@ precheck_col_invalid_meta(example_meta, output = "table")
 \seealso{
 Other precheck_col: 
 \code{\link{precheck_col_req_data}()},
-\code{\link{precheck_col_req_meta}()}
+\code{\link{precheck_col_req_meta}()},
+\code{\link{precheck_col_to_rows}()}
 }
 \concept{precheck_col}
