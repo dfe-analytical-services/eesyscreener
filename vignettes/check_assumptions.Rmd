@@ -34,9 +34,13 @@ For example, `precheck_meta_col_type()` requires the `col_type` column to be pre
 
 ## Starting assumptions
 
-Filename checks can be carried out in isolation from other checks. The `screen_filenames()` function can be ran in a single line on two simple strings where needed.
+1. Filename checks can be carried out in isolation from other checks. The `screen_filenames()` function can be ran in a single line on two simple strings where needed.
 
-Metadata files are checked first, as they are fast and can give immediate feedback, though they are also crucial for understanding and checking the data file, so we need to have a passing metadata file before we can test the data file.
+2. Mandatory columns are checked before anything else about the files. Many of the other checks rely on assumptions that key columns exist.
+
+3. Metadata files are checked first, they are fast and can give immediate feedback, plus they are crucial for understanding and checking the data file, so we need to have a passing metadata file before we can test the data file.
+
+?
 
 ## Precheck versus check
 

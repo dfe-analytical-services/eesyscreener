@@ -19,6 +19,28 @@ screen_dfs <- function(data, meta, output = "table") {
   validate_arg_dfs(data, meta)
   validate_arg_output(output)
 
+  # Precheck columns ----------------------------------------------------------
+  precheck_col_results <- rbind(
+    precheck_col_req_meta(meta, output = output)
+  )
+
+  if (output == "table") {
+    precheck_meta_results <- precheck_meta_results |>
+      cbind(
+        "stage" = "Precheck columns"
+      )
+
+    if (any(precheck_meta_results[["result"]] == "FAIL")) {
+      return(
+        list(
+          "results_table" = as.data.frame(precheck_meta_results),
+          "overall_stage" = "Column prechecks",
+          "overall_message" = "Failed column prechecks"
+        )
+      )
+    }
+  }
+
   # Precheck meta -------------------------------------------------------------
   precheck_meta_results <- rbind(
     precheck_meta_col_type(meta, output = output)

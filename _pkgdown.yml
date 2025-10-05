@@ -15,9 +15,22 @@ reference:
   contents:
   - starts_with("generate_")
 
+- title: Required and acceptable values
+  description: |
+    Objects containing required or acceptable values, e.g. mandatory column names
+  contents:
+  - starts_with("req_")
+  - starts_with("acceptable_")
+
 - title: Filename checks
   contents:
   - starts_with("check_filename")
+
+- title: Pre-check necessary columns exist
+  description: |
+    Ensure the mandatory columns are present before running other checks on the files.
+  contents:
+  - starts_with("precheck_cols_")
 
 - title: Pre-checks on metadata
   description: |
