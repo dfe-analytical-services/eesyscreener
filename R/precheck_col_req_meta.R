@@ -1,6 +1,6 @@
 #' Check all required columns are present in metadata
 #'
-#' Using the `mandatory_meta_cols` object.
+#' Using the `req_meta_cols` object.
 #'
 #' @inheritParams precheck_col_invalid_meta
 #'
@@ -13,17 +13,9 @@
 #' precheck_col_req_meta(example_meta, output = "table")
 #' @export
 precheck_col_req_meta <- function(meta, output = "console") {
-  meta_col_check <- function(i) {
-    if (i %in% names(meta)) {
-      return("PASS")
-    } else {
-      return("FAIL")
-    }
-  }
+  missing_cols <- req_meta_cols[!req_meta_cols %in% names(meta)]
 
-  pre_result <- stack(sapply(req_meta_cols, meta_col_check))
-
-  if (all(pre_result$values == "PASS")) {
+  if (length(missing_cols) == 0) {
     test_output(
       "col_req_meta",
       "PASS",
@@ -31,9 +23,6 @@ precheck_col_req_meta <- function(meta, output = "console") {
       output = output
     )
   } else {
-    missing_cols <- filter(pre_result, values == "FAIL") |>
-      dplyr::pull(ind)
-
     if (length(missing_cols) == 1) {
       test_output(
         "col_req_meta",
