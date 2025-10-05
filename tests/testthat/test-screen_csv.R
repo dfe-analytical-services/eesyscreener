@@ -172,8 +172,8 @@ test_that("Example file fails with filename", {
   file.remove(meta_file)
 
   # Run again but with implied filenames
-  data_path <- paste0(tempdir(), "\\nonono.csv")
-  meta_path <- paste0(tempdir(), "\\nonono-meta.csv")
+  data_path <- file.path(tempdir(), "nonono.csv")
+  meta_path <- file.path(tempdir(), "nonono-meta.csv")
 
   data.table::fwrite(example_data, data_path)
   data.table::fwrite(example_meta, meta_path)
