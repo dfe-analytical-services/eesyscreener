@@ -72,10 +72,12 @@ screen_csv <- function(
 
   # Check the filenames -------------------------------------------------------
   if (is.null(datafilename)) {
-    datafilename <- basename(datapath)
+    datafilename <- normalizePath(datapath) |>
+      basename()
   }
   if (is.null(metafilename)) {
-    metafilename <- basename(metapath)
+    metafilename <- normalizePath(metapath) |>
+      basename()
   }
 
   validate_arg_filenames(datafilename, metafilename)
