@@ -8,7 +8,7 @@ Ideas for eesyscreener should first be raised as a [GitHub issue](https://github
 
 This package contains the checks used to enforce our [open data standards](https://dfe-analytical-services.github.io/analysts-guide/statistics-production/ud.html).
 
-Before contributing to the package, you should read this, and the vignettes describing the package, to understand all of the logic and decisions made. Particularly the `check_assumptions.Rmd` vignette as that provides crucial information about interdependencies between functions within the package.
+Before contributing to the package, you should read this, and the vignettes describing the package, to understand all of the logic and decisions made. Particularly the `assumptions_in_checks.Rmd` vignette as that provides crucial information about interdependencies between functions within the package.
 
 ## Package structure
 
@@ -16,23 +16,17 @@ The `screen_*()` functions are the key user facing exports of the package.
 
 `screen_csv()` is expected to be the primary function used, it takes a pair of CSV files and screens them.
 
-File structure - one script per exported function (except if internal and in `R/utils.R`)
+- One script per exported function (except for data objects or if internal and in `R/utils.R`)
+- All individual checks should be named in accordance with the naming conventions in the `_pkgdown.yml` file
+- Due to the extensive use of check / test in this package, internal functions handling argument validation should follow the `validate_arg_*()` convention
+- All `check_*()` functions must return a consistent list structure
+- `R/utils.R` contains all internal functions
+- `data-raw/` contains the source code for example data and hardcoded variables
+- Use RDS as the main format for permanent test data (beware it automatically does some cleaning!), make temp CSV files or create a data.frame in code if needed
+- Think about dependencies between functions - explain any in the `assumptions_in_checks.Rmd` vignette
 
-All individual checks should be named in accordance with the naming conventions in the `_pkgdown.yml` file
+This package has a big priority on efficiency, we need to keep it fast so the Shiny app and API endpoint are responsive even with larger files
 
-Due to the extensive use of check / test in this package, internal functions handling argument validation should follow the `validate_arg_*()` convention
-
-All `check_*()` functions must return a consistent list structure
-
-`R/utils.R` contains all internal functions
-
-`data-raw/` contains the source code for example data and hardcoded variables
-
-Use RDS as the main format for permanent test data (beware it automatically does some cleaning!), make temp CSV files or create a data.frame in code if needed
-
-Think about dependencies between functions - explain any in the `check_assumptions.Rmd` vignette
-
-Big priority on efficiency, we need to keep it fast so the Shiny app and API endpoint are responsive even with larger files
 - performance profile and use the fastest available functions
 - test on large files (5 million rows and above), and prioritise large file performance over small file performance if necessary
 - avoid duplication between functions
@@ -66,11 +60,15 @@ Use `#' @inherit check_filename_spaces return`  to copy the return documentation
 
 Make sure the tests are passing and you've commited before this point to ensure you don't inadvertently break anything!
 
-a. Create and use helper functions (if you haven't already), place any helper functions in `R/utils.R`, mark as @keywords internal
+a. Have a look through examples of simplifying the code to see if anything could apply to the function you're working on, e.g. 
+  
+Simplifying a check for missing values, where previously it used a pre_check object and sapply - https://github.com/dfe-analytical-services/eesyscreener/commit/290679711d82529a7d0c54b63cac61ae92a350d8
 
-b. Avoid bringing in too many new dependencies, try rewriting in base R where possible
+b. Create and use helper functions (if you haven't already), place any helper functions in `R/utils.R`, mark as @keywords internal
 
-c. Use `microbenchmark` to experiment to find the most efficient approach, look at `data.table` and `duckplyr` for speedier alternatives (speed is king here) e.g.
+c. Avoid bringing in too many new dependencies, try rewriting in base R where possible
+
+d. Use `microbenchmark` to experiment to find the most efficient approach, look at `data.table` and `duckplyr` for speedier alternatives (speed is king here) e.g.
 
 ``` r
 data <- eesyscreener::example_data
@@ -92,8 +90,10 @@ You can use the `tests/utils/benchmarking.R` script as a starting point, it incl
 If it's a particularly big function running over a whole data file, also consider using `future.apply` or other parallel processing approaches if they swap in easily.
 
 TODO: At the end of the migration, we should then plan how to migrate the test data over, so that all of the existing edge cases tested in the R Shiny app can be covered here.
-  a. Make use of the `tests/utils/copy_check_data.R` script to copy over CSVs from the screener repo and save as RDS files in the tests folder
-  b. There should be a collection of unit tests and at least one example data file with an expected failure for every function
+
+a. Make use of the `tests/utils/copy_check_data.R` script to copy over CSVs from the screener repo and save as RDS files in the tests folder
+
+b. There should be a collection of unit tests and at least one example data file with an expected failure for every function
 
 ## Notes / questions
 
@@ -119,7 +119,7 @@ TODO: At the end of the migration, we should then plan how to migrate the test d
 ## Next tests to migrate in
 
 ### Pre-meta
-invalid_meta_cols
+invalid_meta_cols # moved to precheck_col
 col_type # dependency on col_type existing
 ob_unit_meta
 col_name_completed
@@ -139,10 +139,13 @@ time_period_six
 ## Other things to add to the package
 
 TODO: Add test coverage workflow
+
 TODO: Add trello card workflow
 
 ## List of notes for the main screener when migrating over
 
 TODO: Move the images out of screenFiles and into the server part of the app
+
 TODO: Move the character forcing of columns to within the screen files function
+
 TODO: Update the test data and testing approach

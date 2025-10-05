@@ -21,19 +21,20 @@ screen_dfs <- function(data, meta, output = "table") {
 
   # Precheck columns ----------------------------------------------------------
   precheck_col_results <- rbind(
-    precheck_col_req_meta(meta, output = output)
+    precheck_col_req_meta(meta, output = output),
+    precheck_col_invalid_meta(meta, output = output)
   )
 
   if (output == "table") {
-    precheck_meta_results <- precheck_meta_results |>
+    precheck_col_results <- precheck_col_results |>
       cbind(
         "stage" = "Precheck columns"
       )
 
-    if (any(precheck_meta_results[["result"]] == "FAIL")) {
+    if (any(precheck_col_results[["result"]] == "FAIL")) {
       return(
         list(
-          "results_table" = as.data.frame(precheck_meta_results),
+          "results_table" = as.data.frame(precheck_col_results),
           "overall_stage" = "Column prechecks",
           "overall_message" = "Failed column prechecks"
         )

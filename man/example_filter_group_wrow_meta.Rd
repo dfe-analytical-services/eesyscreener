@@ -8,13 +8,13 @@
 A data frame with 3 rows and 8 columns:
 \describe{
 \item{col_name}{Name of column in data file}
-\item{col_type}{Type of colummn in data file}
+\item{col_type}{Type of column in data file}
 \item{label}{Human readable label for column}
 \item{indicator_grouping}{Grouping for indicator columns}
 \item{indicator_unit}{Unit prefix or suffix}
 \item{indicator_dp}{Number of decimal places}
 \item{filter_hint}{Optional hint text to accompany filter}
-\item{filter_grouping_column}{Grouping column showing a filter hierachy}
+\item{filter_grouping_column}{Grouping column showing a filter hierarchy}
 }
 }
 \source{

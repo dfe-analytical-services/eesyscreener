@@ -6,15 +6,24 @@
 \usage{
 precheck_col_req_meta(meta, output = "console")
 }
+\arguments{
+\item{meta}{A data frame of the metadata file}
+
+\item{output}{"table", "error-only", or "console". Default is "console"}
+}
 \value{
 a console message with feedback from the check or a single row data
 frame if verbose = FALSE
 }
 \description{
-Using the \code{mandatory_meta_cols} object.
+Using the \code{req_meta_cols} object.
 }
 \examples{
 precheck_col_req_meta(example_meta)
 precheck_col_req_meta(example_meta, output = "table")
+}
+\seealso{
+Other precheck_col: 
+\code{\link{precheck_col_invalid_meta}()}
 }
 \concept{precheck_col}

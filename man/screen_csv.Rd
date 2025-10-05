@@ -54,7 +54,7 @@ meta_file <- tempfile(fileext = ".meta.csv")
 data.table::fwrite(example_data, data_file)
 data.table::fwrite(example_meta, meta_file)
 
-output <- screen_csv(
+screen_csv(
   data_file,
   meta_file,
   "data.csv",

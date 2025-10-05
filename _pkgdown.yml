@@ -1,6 +1,7 @@
 url: https://dfe-analytical-services.github.io/eesyscreener/
 template:
   bootstrap: 5
+  bootswatch: united
 
 reference:
 - title: Screen files
@@ -20,6 +21,7 @@ reference:
     Objects containing required or acceptable values, e.g. mandatory column names
   contents:
   - starts_with("req_")
+  - starts_with("optional_")
   - starts_with("acceptable_")
 
 - title: Filename checks
@@ -30,7 +32,7 @@ reference:
   description: |
     Ensure the mandatory columns are present before running other checks on the files.
   contents:
-  - starts_with("precheck_cols_")
+  - starts_with("precheck_col_")
 
 - title: Pre-checks on metadata
   description: |

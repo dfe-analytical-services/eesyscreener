@@ -13,28 +13,30 @@ knitr::opts_chunk$set(
 )
 ```
 
-# eesyscreener <a href="https://dfe-analytical-services.github.io/eesyscreener/"><img src="" align="right" height="138" /></a>
+# eesyscreener [IN DEVELOPMENT] <a href="https://dfe-analytical-services.github.io/eesyscreener/"><img src="" align="right" height="138" /></a>
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/dfe-analytical-services/eesyscreener/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/dfe-analytical-services/eesyscreener/actions/workflows/R-CMD-check.yaml)
+[![lintr](https://github.com/dfe-analytical-services/eesyscreener/actions/workflows/lint.yaml/badge.svg?branch=main)](https://github.com/dfe-analytical-services/eesyscreener/actions/workflows/lint.yaml)
 [![pkgdown](https://github.com/dfe-analytical-services/eesyscreener/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/dfe-analytical-services/eesyscreener/actions/workflows/pkgdown.yaml)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-This is a package designed to provide documentation and reusable code supprting the data standards for the explore education statistics (EES) platform.
+This is a package designed to provide documentation and reusable code supporting the data standards for the [explore education statistics (EES) platform](https://explore-education-statistics.service.gov.uk/). 
 
-The package contains:
-
-- A core `screen_csv()` function, built from `screen_dfs()`, and `screen_filenames()` and the constituent individual checks, as well as a related wrapper function `screen_zip()`
-- Functions to generate test data
-- Example datasets to aid testing and demonstration
-- Additional functions to aid in screening / preparing data for EES
-
-There are three main use cases:
+This is the current form and single source of truth for the checks that have steadily evolved over the years, from initial R code replacing manual checking of CSV files in Excel, to a [screening report generator using rmarkdown](https://github.com/dfe-analytical-services/ees-data-screener), to the [R Shiny app](https://github.com/dfe-analytical-services/dfe-published-data-qa), right through to this fully documented R package that has three main use cases:
 
 - Providing the logic behind the [data screener R Shiny app](https://github.com/dfe-analytical-services/dfe-published-data-qa), used to check files before upload
 - Using that logic within EES itself through a [plumber API implementation](https://github.com/dfe-analytical-services/ees-screener-api), screening uploads into the service directly
 - Analysts using the R functions within their own pipelines as pre-emptive quality assurance
+
+The package contains:
+
+- A core `screen_csv()` function, built from `screen_dfs()`, and `screen_filenames()` and the constituent individual checks, as well as a related wrapper function `screen_zip()`
+- Data objects containing required, optional, and acceptable values for use within explore education statistics
+- Functions to generate test data
+- Example datasets to aid testing and demonstration
+- Additional functions to aid in screening / preparing data for EES
 
 ## Installation
 
@@ -86,12 +88,10 @@ library(eesyscreener)
 write.csv(example_data, "example_data.csv", row.names = FALSE)
 write.csv(example_meta, "example_data.meta.csv", row.names = FALSE)
 
-# Generate a file pairing that will fail the tests (spaces in filename)
-write.csv(example_data, "example data.csv", row.names = FALSE)
-write.csv(example_meta, "example data.meta.csv", row.names = FALSE)
+# Generate a file pairing that will fail the tests by dropping a key column
+write.csv(example_data, "example_data.csv", row.names = FALSE)
+write.csv(example_meta[ , -1], "example_data.meta.csv", row.names = FALSE)
 ```
-
-Other available example files can be found on the documentation site under examples. Use `write.csv()` as in the examples above to generate CSVs from them.
 
 ## Generate big test files
 
@@ -142,13 +142,10 @@ data.table::fwrite(beefy$data, "beefy_data.csv")
 data.table::fwrite(beefy$meta, "beefy_data.meta.csv")
 ```
 
-------------------------------------------------------------------------
-
 ## Contributing
 
-Ideas for eesyscreener should first be raised as a [GitHub
-issue](https://github.com/dfe-analytical-services/eesyscreener/issues/new/choose) after which
-anyone is free to write the code and create a pull request for review.
+Ideas for eesyscreener should first be raised as a [GitHub issue](https://github.com/dfe-analytical-services/eesyscreener/issues/new/choose) after which anyone is free to write the code and create a pull request for review.
 
-For more details on contributing to eesyscreener, see our [contributing
-guidelines](https://dfe-analytical-services.github.io/eesyscreener/CONTRIBUTING.html).
+For more details on contributing to eesyscreener, see our [contributing guidelines](https://dfe-analytical-services.github.io/eesyscreener/CONTRIBUTING.html).
+
+Any questions regarding the package or wider service should be directed to explore.statistics@education.gov.uk.

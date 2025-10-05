@@ -27,6 +27,8 @@ The package contains:
 - Example datasets to aid testing and demonstration
 - Additional functions to aid in screening / preparing data for EES
 
+If you've come here because your data is failing the screening and you want help in figuring out why, start off with our `Common file failures` article.
+
 ### `screen_csv()`
 `screen_csv()` core function that reads the CSV files, and then runs all checks from `screen_filenames()` and `screen_dfs()`, providing full screening for a given pair of CSV files. 
 
@@ -52,7 +54,7 @@ Runs all of the filename screening checks in one go. Exported so it can be used 
 
 Runs all of the checks against the data and metadata data.frames, once read in from the CSV files. Used within `screen_csv()`.
 
-The ordering is important as later tests carry assumptions that earlier tests have passed. This is to prevent duplication / unecessary processing of data, as well as simplifying the logic in the later tests. This does introduce some overall complexity, particularly for package maintainers and any users wanting to use individual tests, and therefore there is a vignette that walks through this ordering in greater detail - ....
+The ordering is important as later tests carry assumptions that earlier tests have passed. This is to prevent duplication / unnecessary processing of data, as well as simplifying the logic in the later tests. This does introduce some overall complexity, particularly for package maintainers and any users wanting to use individual tests, and therefore there is a vignette that walks through this ordering in greater detail - ....
 
 There are a number of stages, which are mirrored in the documentation for the individual functions, the `_pkgdown.yml` file shows this, in the order the tests are ran, including the naming conventions.
 

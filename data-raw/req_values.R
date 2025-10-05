@@ -10,3 +10,9 @@ req_meta_cols <- c(
 )
 
 usethis::use_data(req_meta_cols, overwrite = TRUE)
+
+optional_meta_cols <- c(
+  "filter_default"
+)
+
+usethis::use_data(optional_meta_cols, overwrite = TRUE)

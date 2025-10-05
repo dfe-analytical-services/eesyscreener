@@ -13,13 +13,15 @@
 #' precheck_col_req_meta(example_meta, output = "table")
 #' @export
 precheck_col_req_meta <- function(meta, output = "console") {
-  missing_cols <- req_meta_cols[!req_meta_cols %in% names(meta)]
+  missing_cols <- eesyscreener::req_meta_cols[
+    !eesyscreener::req_meta_cols %in% names(meta)
+  ]
 
   if (length(missing_cols) == 0) {
     test_output(
       "col_req_meta",
       "PASS",
-      "All of the mandatory columns are present in the metadata file.",
+      "All of the required columns are present in the metadata file.",
       output = output
     )
   } else {
@@ -28,7 +30,7 @@ precheck_col_req_meta <- function(meta, output = "console") {
         "col_req_meta",
         "FAIL",
         paste0(
-          "The following mandatory column is missing from the metadata file: '",
+          "The following required column is missing from the metadata file: '",
           paste(missing_cols, collapse = "', '"),
           "'."
         ),
@@ -39,7 +41,8 @@ precheck_col_req_meta <- function(meta, output = "console") {
         "col_req_meta",
         "FAIL",
         paste0(
-          "The following mandatory columns are missing from the metadata file: '",
+          "The following required columns are missing from the metadata file:",
+          " '",
           paste(missing_cols, collapse = "', '"),
           "'."
         ),
