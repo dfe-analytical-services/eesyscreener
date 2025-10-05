@@ -196,8 +196,8 @@ test_that("fails check dfs", {
   gunsnroses_meta <- example_meta
   gunsnroses_meta$col_type <- "November rain"
 
-  data_path <- paste0(tempdir(), "\\gnr.csv")
-  meta_path <- paste0(tempdir(), "\\gnr.meta.csv")
+  data_path <- file.path(tempdir(), "gnr.csv")
+  meta_path <- file.path(tempdir(), "gnr.meta.csv")
 
   data.table::fwrite(example_data, data_path)
   data.table::fwrite(gunsnroses_meta, meta_path)
