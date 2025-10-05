@@ -72,11 +72,11 @@ screen_csv <- function(
 
   # Check the filenames -------------------------------------------------------
   if (is.null(datafilename)) {
-    datafilename <- normalizePath(datapath) |>
+    datafilename <- normalizePath(datapath, winslash = "/") |>
       basename()
   }
   if (is.null(metafilename)) {
-    metafilename <- normalizePath(metapath) |>
+    metafilename <- normalizePath(metapath, winslash = "/") |>
       basename()
   }
 
