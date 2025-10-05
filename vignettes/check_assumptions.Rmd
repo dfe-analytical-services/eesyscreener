@@ -20,20 +20,23 @@ If you are the latter, using any checks individually outside of a `screen_*()` w
 
 ## What assumptions?
 
-Within all of the the `screen_*()` functions, individual checks are placed in a specific order, and broken up by stages. 
+1. Only the `screen_*()` functions have argument validation
+
+At the time the package was first developed there were already 90+ checks in the screener. It would be inefficient to revalidate the arguments in every check, for example checking that the datafile is a data.frame 90+ times.
+
+Therefore we only provide argument validation for the top level `screen_*()` functions.
+
+2. Within all of the the `screen_*()` functions, individual checks are placed in a specific order, and broken up by stages. 
 
 This means the tests can fail early, giving quicker feedback if there's fundamental issues, and also means the later checks can be more lightweight and 'assume' certain things about the data.frame that is being tested.
 
 For example, `precheck_meta_col_type()` requires the `col_type` column to be present, though as this is already checked for in `...` we minimise duplicating that check by not rechecking that column is present.
 
-## Filenames
-
-All of the filename checks are isolated from the tests on the data and meta files, and don't have any dependencies or relation to other checks. 
-Therefore we export the `screen_filenames()` function so they can be ran in a single line where needed.
-
 ## Starting assumptions
 
-...
+Filename checks can be carried out in isolation from other checks. The `screen_filenames()` function can be ran in a single line on two simple strings where needed.
+
+Metadata files are checked first, as they are fast and can give immediate feedback, though they are also crucial for understanding and checking the data file, so we need to have a passing metadata file before we can test the data file.
 
 ## Precheck versus check
 

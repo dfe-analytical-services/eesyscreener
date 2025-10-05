@@ -45,113 +45,82 @@
 screen_csv <- function(
   datapath,
   metapath,
-  datafilename,
-  metafilename,
+  datafilename = NULL,
+  metafilename = NULL,
   output = "table"
 ) {
   # TODO: Look into making the separate checks / stages run asynchronously
 
   # Validate inputs -----------------------------------------------------------
-  # Set the filenames from the filepath if not given
   if (!is.character(datapath) || length(datapath) != 1) {
     cli::cli_abort("`datapath` must be a single string.")
   }
   if (!is.character(metapath) || length(metapath) != 1) {
     cli::cli_abort("`metapath` must be a single string.")
   }
-  if (missing(datafilename) || is.null(datafilename)) {
-    datafilename <- basename(datapath)
-  }
-  if (missing(metafilename) || is.null(metafilename)) {
-    metafilename <- basename(metapath)
-  }
-  validate_arg_filenames(datafilename, metafilename)
-  if (!(output %in% c("table", "console", "error-only"))) {
-    cli::cli_abort(
-      "`output` must be one of 'table', 'console', or 'error-only'."
-    )
-  }
 
-  # Check if files exist
-  if (!file.exists(datapath)) {
-    cli::cli_abort(sprintf("No file found at %s", datapath))
-  }
-  if (!file.exists(metapath)) {
-    cli::cli_abort(sprintf("No file found at %s", metapath))
-  }
+  validate_arg_output(output)
 
-  # Check if files are CSV files based on MIME type (if possible)
-  # Use 'mime' package if available, otherwise fall back to extension check
-  data_mime <- mime::guess_type(datapath)
-  meta_mime <- mime::guess_type(metapath)
-  if (!identical(data_mime, "text/csv")) {
-    cli::cli_abort(
-      sprintf("Data file at %s does not have a CSV MIME type.", datapath)
-    )
-  }
-  if (!identical(meta_mime, "text/csv")) {
-    cli::cli_abort(
-      sprintf("Metadata file at %s does not have a CSV MIME type.", metapath)
-    )
-  }
+  # Read in CSV files ---------------------------------------------------------
+  files <- read_files(datapath, metapath)
+
+  datafile <- files$data
+  metafile <- files$meta
 
   # Check the filenames -------------------------------------------------------
+  if (is.null(datafilename)) {
+    datafilename <- basename(datapath)
+  }
+  if (is.null(metafilename)) {
+    metafilename <- basename(metapath)
+  }
+
+  validate_arg_filenames(datafilename, metafilename)
+
   filename_results <- screen_filenames(
     datafilename,
     metafilename,
     output = output
   )
 
-  # If output is table there will be rows
-  if (nrow(filename_results) > 0) {
-    filename_results <- filename_results |>
-      cbind(
-        "stage" = "Filename tests"
-      )
-
+  if (output == "table") {
     if (any(filename_results[["result"]] == "FAIL")) {
+      stage <- filename_results[["stage"]] |>
+        unique()
+
       return(
         list(
           "results_table" = as.data.frame(filename_results),
-          "overall_stage" = "Filename checks",
-          "overall_message" = "Failed filename checks"
+          "overall_stage" = paste(stage, "checks"),
+          "overall_message" = paste("Failed", stage, "checks")
         )
       )
     }
   }
 
-  # Read in the CSV files -----------------------------------------------------
-  # Lazy reading of data for speed
-  datafile <- duckplyr::read_csv_duckdb(datapath)
+  # Screen data.frames --------------------------------------------------------
+  dataframe_results <- screen_dfs(datafile, metafile, output = output)
 
-  # Meta files are small enough it's faster to read straight to memory
-  metafile <- data.table::fread(
-    metapath,
-    sep = ",",
-    header = TRUE,
-    encoding = "UTF-8",
-    strip.white = FALSE,
-    showProgress = FALSE
-  )
+  if (output == "table") {
+    all_results <- rbind(
+      filename_results,
+      dataframe_results
+    )
 
-  # Precheck meta -------------------------------------------------------------
-  precheck_meta_results <- rbind(
-    precheck_meta_col_type(metafile, output = output)
-  )
+    if (any(all_results[["result"]] == "FAIL")) {
+      # We know only one group can fail at a time
+      # Grab the group that has a fail
+      stage <- all_results[
+        all_results[["result"]] == "FAIL",
+        "stage"
+      ] |>
+        unique()
 
-  # If output is table there will be rows
-  if (nrow(precheck_meta_results) > 0) {
-    precheck_meta_results <- precheck_meta_results |>
-      cbind(
-        "stage" = "Precheck meta"
-      )
-
-    if (any(precheck_meta_results[["result"]] == "FAIL")) {
       return(
         list(
-          "results_table" = as.data.frame(precheck_meta_results),
-          "overall_stage" = "Meta prechecks",
-          "overall_message" = "Failed meta prechecks"
+          "results_table" = as.data.frame(all_results),
+          "overall_stage" = paste(stage, "checks"),
+          "overall_message" = paste("Failed", stage, "checks")
         )
       )
     }
@@ -162,11 +131,7 @@ screen_csv <- function(
     cli::cli_alert_success("Passed all checks")
   } else if (output == "table") {
     list(
-      "results_table" = as.data.frame(
-        rbind(
-          filename_results
-        )
-      ),
+      "results_table" = all_results,
       "overall_stage" = "Passed",
       "overall_message" = "Passed all checks"
     )

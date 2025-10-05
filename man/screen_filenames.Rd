@@ -15,18 +15,7 @@ screen_filenames(datafilename, metafilename, output = "console")
 'console'}
 }
 \value{
-Console messages or a list containing
-\enumerate{
-\item A table with the full results of the checks with four columns:
-\itemize{
-\item result of the check (PASS / FAIL / ADVISORY)
-\item message giving feedback about the check
-\item group that the check belongs to
-\item name of the check
-}
-\item Overall stage the checks reached
-\item Overall message to give back to the user
-}
+data.frame containing the results of the screening
 }
 \description{
 Run all of the checks from the package that relate to the names of the files

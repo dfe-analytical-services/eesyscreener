@@ -8,31 +8,36 @@ Ideas for eesyscreener should first be raised as a [GitHub issue](https://github
 
 This package contains the checks used to enforce our [open data standards](https://dfe-analytical-services.github.io/analysts-guide/statistics-production/ud.html).
 
+Before contributing to the package, you should read this, and the vignettes describing the package, to understand all of the logic and decisions made. Particularly the `check_assumptions.Rmd` vignette as that provides crucial information about interdependencies between functions within the package.
+
 ## Package structure
 
-`screen_csv()` pulls it all together and currently is the main export, this has 3 intended uses:
-- for use in the plumber API (EES integration)
-- for use in the R Shiny app
-- for use by analysts in their own R scripts
+The `screen_*()` functions are the key user facing exports of the package.
 
-All individual checks copied from the screener should be named in accordance with the naming conventions in the `_pkgdown.yml` file
+`screen_csv()` is expected to be the primary function used, it takes a pair of CSV files and screens them.
+
+File structure - one script per exported function (except if internal and in `R/utils.R`)
+
+All individual checks should be named in accordance with the naming conventions in the `_pkgdown.yml` file
+
+Due to the extensive use of check / test in this package, internal functions handling argument validation should follow the `validate_arg_*()` convention
 
 All `check_*()` functions must return a consistent list structure
-
-File structure - one script per `check_*()` or `precheck_*()` function (except if internal and in `R/utils.R`)
 
 `R/utils.R` contains all internal functions
 
 `data-raw/` contains the source code for example data and hardcoded variables
 
-Use RDS as the main format to shrink test data (beware it automatically does some cleaning!), use CSV or make the data.frame in code if needed
+Use RDS as the main format for permanent test data (beware it automatically does some cleaning!), make temp CSV files or create a data.frame in code if needed
 
 Think about dependencies between functions - explain any in the `check_assumptions.Rmd` vignette
 
 Big priority on efficiency, we need to keep it fast so the Shiny app and API endpoint are responsive even with larger files
 - performance profile and use the fastest available functions
 - test on large files (5 million rows and above), and prioritise large file performance over small file performance if necessary
-  
+- avoid duplication between functions
+- don't validate arguments in individual `precheck_*()` or `check_*()` functions
+
 ## Process for moving in functions from app
 
 [Tracking spreadsheet set up in sharepoint](https://educationgovuk.sharepoint.com/:x:/r/sites/lveesfa00074/Data%20Insights%20and%20Statistics%20Division/Statistics%20Services%20Unit/Explore%20education%20statistics%20platforms/Screening%20tests%20migration%20tracking.xlsx?d=wdc9cf9ce356b47c6a1d1f11aba8bb96d&csf=1&web=1&e=PSIk6I), this contains a table of all checks, thoughts on new groupings and notes about the migration (including the progress).
@@ -102,7 +107,10 @@ TODO: At the end of the migration, we should then plan how to migrate the test d
 
 5. Long feedback messages - how do we handle more neatly / give ourselves ability to still edit those later
 
-6. Generally, how intuitive (or not) is the approach to the package and docs?
+6. How should errors be handled? (partly a Q for the API)
+- 6a. Should whether the file is a CSV or not be a standard check function rather than file validation that throws an error?
+
+7. Generally, how intuitive (or not) is the approach to the package and docs?
 
 - Is there anything missing?
 

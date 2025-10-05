@@ -4,7 +4,13 @@
 \alias{screen_csv}
 \title{Run all checks against files}
 \usage{
-screen_csv(datapath, metapath, datafilename, metafilename, output = "table")
+screen_csv(
+  datapath,
+  metapath,
+  datafilename = NULL,
+  metafilename = NULL,
+  output = "table"
+)
 }
 \arguments{
 \item{datapath}{Path to the data CSV file}

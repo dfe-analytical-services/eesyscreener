@@ -17,18 +17,12 @@ bigger_meta <- bigger_files$meta
 
 bigger_files <- NULL # Clean up env space
 
-data.table::fwrite(bigger_data, "beefy_data.csv")
-data.table::fwrite(bigger_meta, "beefy_data.meta.csv")
-data.table::fwrite(small_data, "small_data.csv")
-data.table::fwrite(small_meta, "small_data.meta.csv")
-
-
 # Benchmarking ================================================================
 # Create benchmarking test
 benchmark <- function(df, reps = 10) {
   microbenchmark::microbenchmark(
-    x <- data.table::fread("beefy_data.csv"),
-    x <- vroom::vroom("beefy_data.csv"),
+    data.table::fread("beefy_data.csv"),
+    vroom::vroom("beefy_data.csv"),
     times = reps
   )
 }
@@ -38,20 +32,3 @@ benchmark(small_data, 500)
 
 # Check big file --------------------------------------------------------------
 benchmark(bigger_data, 2)
-
-
-filename <- "small_data.csv" # "beefy_data.csv"
-
-microbenchmark::microbenchmark(
-  x <- data.table::fread(filename),
-  x <- data.table::fread(
-    filename,
-    sep = ",",
-    header = TRUE,
-    encoding = "UTF-8",
-    strip.white = FALSE,
-    showProgress = FALSE
-  ),
-  x <- duckplyr::read_csv_duckdb(filename),
-  times = 50
-)

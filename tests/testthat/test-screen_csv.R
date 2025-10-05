@@ -100,7 +100,7 @@ test_that("Example file fails with filename", {
       "data.csv",
       "meta.csv",
     )$overall_stage,
-    "Filename checks"
+    "filename checks"
   )
 
   expect_error(
