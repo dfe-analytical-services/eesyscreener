@@ -16,3 +16,13 @@ optional_meta_cols <- c(
 )
 
 usethis::use_data(optional_meta_cols, overwrite = TRUE)
+
+req_data_cols <- c(
+  "geographic_level",
+  "time_period",
+  "time_identifier",
+  "country_code",
+  "country_name"
+)
+
+usethis::use_data(req_data_cols, overwrite = TRUE)

@@ -48,8 +48,8 @@ will return early if any check in a stage fails.
 }
 \examples{
 # Create temp files for the example
-data_path <- paste0(tempdir(), "\\\\example.csv")
-meta_path <- paste0(tempdir(), "\\\\example.meta.csv")
+data_path <- file.path(tempdir(), "example.csv")
+meta_path <- file.path(tempdir(), "example.meta.csv")
 
 data.table::fwrite(example_data, data_path)
 data.table::fwrite(example_meta, meta_path)

@@ -22,7 +22,8 @@ screen_dfs <- function(data, meta, output = "table") {
   # Precheck columns ----------------------------------------------------------
   precheck_col_results <- rbind(
     precheck_col_req_meta(meta, output = output),
-    precheck_col_invalid_meta(meta, output = output)
+    precheck_col_invalid_meta(meta, output = output),
+    precheck_col_req_data(data, output = output)
   )
 
   if (output == "table") {
