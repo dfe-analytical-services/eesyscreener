@@ -66,7 +66,9 @@ For the eesyscreener::example_data, a tiny file, results were different, though 
 - dplyr ~ 1,865 microseconds
 - duckplr ~ 4,774 microseconds
 
-If Frederick hadn't already told us enough times, duck is king.
+If Frederick hadn't already told us enough times, duck is king. We can write nice readable dplyr code, but utilise the power of the duck. Best of both worlds.
+
+If you have issues with linting and dplyr variables showing no visible binding, follow the [guide to using dplyr in packages](https://cran.r-project.org/web/packages/dplyr/vignettes/in-packages.html).
 
 ## Process for moving in functions from app
 

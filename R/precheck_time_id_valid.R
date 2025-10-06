@@ -7,14 +7,13 @@
 #' @inherit check_filename_spaces return
 #'
 #' @family precheck_time
-#'
 #' @examples
 #' precheck_time_id_valid(example_data, example_meta)
 #' precheck_time_id_valid(example_data, example_meta, output = "table")
 #' @export
 precheck_time_id_valid <- function(data, meta, output = "console") {
   invalid_identifiers <- data |>
-    dplyr::distinct(data["time_identifier"]) |>
+    dplyr::distinct(.data$time_identifier) |>
     dplyr::anti_join(
       data.frame("time_identifier" = eesyscreener::acceptable_time_ids),
       by = "time_identifier"
@@ -30,21 +29,20 @@ precheck_time_id_valid <- function(data, meta, output = "console") {
     )
   } else {
     if (length(invalid_identifiers) == 1) {
-      if (invalid_identifiers == "") {
+      if (is.na(invalid_identifiers) || invalid_identifiers == "") {
         test_output(
           "time_id_valid",
           "FAIL",
-          "At least one of the time_identifier values is blank.",
+          "At least one of the time_identifier values is blank or missing.",
           output = output
         )
       } else {
         test_output(
           "time_id_valid",
           "FAIL",
-          paste0(
-            "The following invalid time_identifier was found in the file: '",
-            invalid_identifiers,
-            "'."
+          sprintf(
+            "The following invalid time_identifier was found: '%s'.",
+            invalid_identifiers
           ),
           output = output
         )
@@ -53,10 +51,9 @@ precheck_time_id_valid <- function(data, meta, output = "console") {
       test_output(
         "time_id_valid",
         "FAIL",
-        paste0(
-          "The following invalid time_identifiers were found in the file: '",
-          paste(invalid_identifiers, collapse = "', '"),
-          "'."
+        sprintf(
+          "The following invalid time_identifiers were found: '%s'.",
+          paste(invalid_identifiers, collapse = "', '")
         ),
         output = output
       )
