@@ -25,3 +25,10 @@
 #' @format data.frame
 #' @source maintained by explore.statistics@@education.gov.uk
 "geography_df"
+
+# Acceptable time identifiers ====
+#' Acceptable time identifiers
+#'
+#' @format A vector of acceptable time identifier values
+#' @source maintained by explore.statistics@@education.gov.uk
+"acceptable_time_ids"

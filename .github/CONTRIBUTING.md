@@ -25,12 +25,48 @@ The `screen_*()` functions are the key user facing exports of the package.
 - Use RDS as the main format for permanent test data (beware it automatically does some cleaning!), make temp CSV files or create a data.frame in code if needed
 - Think about dependencies between functions - explain any in the `assumptions_in_checks.Rmd` vignette
 
+## Stylistic preferences
+
 This package has a big priority on efficiency, we need to keep it fast so the Shiny app and API endpoint are responsive even with larger files
 
 - performance profile and use the fastest available functions
-- test on large files (5 million rows and above), and prioritise large file performance over small file performance if necessary
+- test on large files (5 million rows and above), and prioritise large file performance over small file performance
 - avoid duplication between functions
 - don't validate arguments in individual `precheck_*()` or `check_*()` functions
+
+duckplyr seems to be the fastest approach, take the following example code, just aimed at checking if the time_identifier values are valid
+``` r
+# Base R
+setdiff(
+  unique(as.character(data$time_identifier)),
+  eesyscreener::acceptable_time_ids
+)
+
+# dplyr / duckplr (methods_overwrite / methods_restore)
+data |>
+  dplyr::distinct(.data$time_identifier) |>
+  dplyr::anti_join(
+    data.frame("time_identifier" = eesyscreener::acceptable_time_ids),
+    by = "time_identifier"
+  ) |>
+  dplyr::pull(time_identifier)
+```
+
+Initially the base R looks simpler, less code, so likely faster...
+
+Ran through microbenchmark the results on a ~6 million row data.frame in milliseconds were:
+
+- base R ~ 3,231 ms
+- dplyr ~ 61.6 ms
+- duckplyr ~ 5.7 ms
+
+For the eesyscreener::example_data, a tiny file, results were different, though as mentioned above, we should prioritise the larger files as that is where the greatest impact is felt:
+
+- base R ~ 62.6 microseconds
+- dplyr ~ 1,865 microseconds
+- duckplr ~ 4,774 microseconds
+
+If Frederick hadn't already told us enough times, duck is king.
 
 ## Process for moving in functions from app
 
@@ -39,9 +75,10 @@ This package has a big priority on efficiency, we need to keep it fast so the Sh
 Example of adding a new check available in [PR XX]()
 
 Other commits showing checks being added:
+
 - `precheck_col_req_data()`, also showing adding the req_data_cols data object - ...
 - `precheck_meta_col_name()`, simple one that simplifies the original function - ...
-- Adding in both `precheck_time()` functions, includes added a new time checks stage - ...
+- Adding in first `precheck_time()` functions, includes added a new time prechecks stage - ...
 
 1. Tackle one screening check at a time (unless you can create utility functions that cover multiple repeated checks)
 

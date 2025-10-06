@@ -29,6 +29,7 @@ Depends:
 Imports: 
     cli,
     data.table,
+    dplyr,
     duckplyr,
     mime,
     stringr

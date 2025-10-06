@@ -82,6 +82,8 @@ result <- screen_csv(
   "data.csv",
   "data.meta.csv"
 )
+#> ✔ Overwriting dplyr methods with duckplyr methods.
+#> ℹ Turn off with `duckplyr::methods_restore()`.
 
 result$results_table |>
   head()

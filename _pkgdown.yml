@@ -60,6 +60,10 @@ reference:
 - title: Pre-checks on filters
 
 - title: Pre-checks on time columns
+  description: |
+    These checks should be run before any other time checks, as they validate core assumptions about the time columns.
+  contents:
+  - starts_with("precheck_time_")
 
 - title: Pre-checks on geography columns
 
