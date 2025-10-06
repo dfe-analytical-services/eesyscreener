@@ -76,9 +76,8 @@ Example of adding a new check available in [PR XX]()
 
 Other commits showing checks being added:
 
-- `precheck_col_req_data()`, also showing adding the req_data_cols data object - ...
-- `precheck_meta_col_name()`, simple one that simplifies the original function - ...
-- Adding in first `precheck_time()` functions, includes added a new time prechecks stage - ...
+- `precheck_col_req_data()`, also showing adding the req_data_cols data object - https://github.com/dfe-analytical-services/eesyscreener/commit/98a84e3e7733e99c0fefc90ddb7d876f793ae780
+- `precheck_meta_col_name()`, simple one that simplifies the original function - https://github.com/dfe-analytical-services/eesyscreener/commit/7e1908f76d5a14d29363fbba45452da8dba60775
 
 1. Tackle one screening check at a time (unless you can create utility functions that cover multiple repeated checks)
 
