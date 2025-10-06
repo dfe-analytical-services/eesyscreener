@@ -93,7 +93,8 @@
 <ul><li>base R ~ 62.6 microseconds</li>
 <li>dplyr ~ 1,865 microseconds</li>
 <li>duckplr ~ 4,774 microseconds</li>
-</ul><p>If Frederick hadn’t already told us enough times, duck is king.</p>
+</ul><p>If Frederick hadn’t already told us enough times, duck is king. We can write nice readable dplyr code, but utilise the power of the duck. Best of both worlds.</p>
+<p>If you have issues with linting and dplyr variables showing no visible binding, follow the <a href="https://cran.r-project.org/web/packages/dplyr/vignettes/in-packages.html" class="external-link">guide to using dplyr in packages</a>.</p>
 </div>
 <div class="section level2">
 <h2 id="process-for-moving-in-functions-from-app">Process for moving in functions from app<a class="anchor" aria-label="anchor" href="#process-for-moving-in-functions-from-app"></a></h2>
@@ -101,10 +102,11 @@
 <p>Example of adding a new check available in <a href="">PR XX</a></p>
 <p>Other commits showing checks being added:</p>
 <ul><li>
-<code><a href="reference/precheck_col_req_data.html">precheck_col_req_data()</a></code>, also showing adding the req_data_cols data object - …</li>
+<code><a href="reference/precheck_col_req_data.html">precheck_col_req_data()</a></code>, also showing adding the req_data_cols data object - <a href="https://github.com/dfe-analytical-services/eesyscreener/commit/98a84e3e7733e99c0fefc90ddb7d876f793ae780" class="external-link uri">https://github.com/dfe-analytical-services/eesyscreener/commit/98a84e3e7733e99c0fefc90ddb7d876f793ae780</a>
+</li>
 <li>
-<code><a href="reference/precheck_meta_col_name.html">precheck_meta_col_name()</a></code>, simple one that simplifies the original function - …</li>
-<li>Adding in first <code>precheck_time()</code> functions, includes added a new time prechecks stage - …</li>
+<code><a href="reference/precheck_meta_col_name.html">precheck_meta_col_name()</a></code>, simple one that simplifies the original function - <a href="https://github.com/dfe-analytical-services/eesyscreener/commit/7e1908f76d5a14d29363fbba45452da8dba60775" class="external-link uri">https://github.com/dfe-analytical-services/eesyscreener/commit/7e1908f76d5a14d29363fbba45452da8dba60775</a>
+</li>
 </ul><ol style="list-style-type: decimal"><li><p>Tackle one screening check at a time (unless you can create utility functions that cover multiple repeated checks)</p></li>
 <li><p>Set up a new script and test script for the check, copy over the relevant code from <a href="https://github.com/dfe-analytical-services/dfe-published-data-qa" class="external-link uri">https://github.com/dfe-analytical-services/dfe-published-data-qa</a></p></li>
 <li><p>Add unit tests for the the function</p></li>
