@@ -142,6 +142,12 @@
 
       <dl><dt>
 
+          <code><a href="req_data_cols.html">req_data_cols</a></code>
+
+        </dt>
+        <dd>Required data columns</dd>
+      </dl><dl><dt>
+
           <code><a href="req_meta_cols.html">req_meta_cols</a></code>
 
         </dt>
@@ -152,6 +158,18 @@
 
         </dt>
         <dd>Optional metadata columns</dd>
+      </dl><dl><dt>
+
+          <code><a href="acceptable_time_ids.html">acceptable_time_ids</a></code>
+
+        </dt>
+        <dd>Acceptable time identifiers</dd>
+      </dl><dl><dt>
+
+          <code><a href="geography_df.html">geography_df</a></code>
+
+        </dt>
+        <dd>Acceptable geographic levels and their associated columns</dd>
       </dl></div><div class="section level2">
       <h2 id="filename-checks">Filename checks<a class="anchor" aria-label="anchor" href="#filename-checks"></a></h2>
 
@@ -200,10 +218,22 @@
         <dd>Check there are no invalid columns in the metadata</dd>
       </dl><dl><dt>
 
+          <code><a href="precheck_col_req_data.html">precheck_col_req_data()</a></code>
+
+        </dt>
+        <dd>Check all required columns are present in data</dd>
+      </dl><dl><dt>
+
           <code><a href="precheck_col_req_meta.html">precheck_col_req_meta()</a></code>
 
         </dt>
         <dd>Check all required columns are present in metadata</dd>
+      </dl><dl><dt>
+
+          <code><a href="precheck_col_to_rows.html">precheck_col_to_rows()</a></code>
+
+        </dt>
+        <dd>Quick check of data columns vs metadata rows</dd>
       </dl></div><div class="section level2">
       <h2 id="pre-checks-on-metadata">Pre-checks on metadata<a class="anchor" aria-label="anchor" href="#pre-checks-on-metadata"></a></h2>
 
@@ -217,10 +247,22 @@
 
       <dl><dt>
 
+          <code><a href="precheck_meta_col_name.html">precheck_meta_col_name()</a></code>
+
+        </dt>
+        <dd>Check col_name is completed for all rows</dd>
+      </dl><dl><dt>
+
           <code><a href="precheck_meta_col_type.html">precheck_meta_col_type()</a></code>
 
         </dt>
         <dd>Check col_type entries are valid</dd>
+      </dl><dl><dt>
+
+          <code><a href="precheck_meta_ob_unit.html">precheck_meta_ob_unit()</a></code>
+
+        </dt>
+        <dd>Check there are no observational units with rows in the metadata</dd>
       </dl></div><div class="section level2">
       <h2 id="metadata-checks">Metadata checks<a class="anchor" aria-label="anchor" href="#metadata-checks"></a></h2>
 
@@ -272,10 +314,21 @@
     </div><div class="section level2">
       <h2 id="pre-checks-on-time-columns">Pre-checks on time columns<a class="anchor" aria-label="anchor" href="#pre-checks-on-time-columns"></a></h2>
 
-
+      <div class="section-desc"><p>These checks should be run before any other time checks, as they validate core assumptions about the time columns.</p></div>
 
 
     </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="precheck_time_id_valid.html">precheck_time_id_valid()</a></code>
+
+        </dt>
+        <dd>Check all time_identifier values are valid</dd>
+      </dl></div><div class="section level2">
       <h2 id="pre-checks-on-geography-columns">Pre-checks on geography columns<a class="anchor" aria-label="anchor" href="#pre-checks-on-geography-columns"></a></h2>
 
 

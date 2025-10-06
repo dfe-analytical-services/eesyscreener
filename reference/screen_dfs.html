@@ -80,10 +80,35 @@ lazy duckplyr data.frame</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">screen_dfs</span><span class="op">(</span><span class="va">example_data</span>, <span class="va">example_meta</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           check result                                     message guidance_url</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 meta_col_type   PASS col_type is always 'Filter' or 'Indicator'.           NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           stage</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Precheck meta</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Overwriting <span style="color: #0000BB;">dplyr</span> methods with <span style="color: #0000BB;">duckplyr</span> methods.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Turn off with `duckplyr::methods_restore()`.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              check result</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    time_id_valid   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    meta_col_type   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3     meta_ob_unit   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4    meta_col_name   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5     col_req_meta   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 col_invalid_meta   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7     col_req_data   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8      col_to_rows   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                      message</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                                  The time_identifier values are all valid.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                                col_type is always 'Filter' or 'Indicator'.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                            No observational units have been included in the metadata file.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                            The col_name column is completed for every row in the metadata.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                              All of the required columns are present in the metadata file.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                         There are no invalid columns in the metadata file.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7                                                  All of the required columns are present in the data file.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8 There are an equal number of rows in the metadata file (3) and non-mandatory columns in the data file (3).</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   guidance_url            stage</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1           NA    Precheck time</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2           NA    Precheck meta</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3           NA    Precheck meta</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4           NA    Precheck meta</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5           NA Precheck columns</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6           NA Precheck columns</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7           NA Precheck columns</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8           NA Precheck columns</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

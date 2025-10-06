@@ -60,17 +60,52 @@
 <code>data-raw/</code> contains the source code for example data and hardcoded variables</li>
 <li>Use RDS as the main format for permanent test data (beware it automatically does some cleaning!), make temp CSV files or create a data.frame in code if needed</li>
 <li>Think about dependencies between functions - explain any in the <code>assumptions_in_checks.Rmd</code> vignette</li>
-</ul><p>This package has a big priority on efficiency, we need to keep it fast so the Shiny app and API endpoint are responsive even with larger files</p>
+</ul></div>
+<div class="section level2">
+<h2 id="stylistic-preferences">Stylistic preferences<a class="anchor" aria-label="anchor" href="#stylistic-preferences"></a></h2>
+<p>This package has a big priority on efficiency, we need to keep it fast so the Shiny app and API endpoint are responsive even with larger files</p>
 <ul><li>performance profile and use the fastest available functions</li>
-<li>test on large files (5 million rows and above), and prioritise large file performance over small file performance if necessary</li>
+<li>test on large files (5 million rows and above), and prioritise large file performance over small file performance</li>
 <li>avoid duplication between functions</li>
 <li>don’t validate arguments in individual <code>precheck_*()</code> or <code>check_*()</code> functions</li>
-</ul></div>
+</ul><p>duckplyr seems to be the fastest approach, take the following example code, just aimed at checking if the time_identifier values are valid</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Base R</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">setdiff</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">time_identifier</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/acceptable_time_ids.html">acceptable_time_ids</a></span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># dplyr / duckplr (methods_overwrite / methods_restore)</span></span>
+<span><span class="va">data</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">time_identifier</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter-joins.html" class="external-link">anti_join</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="st">"time_identifier"</span> <span class="op">=</span> <span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/acceptable_time_ids.html">acceptable_time_ids</a></span><span class="op">)</span>,</span>
+<span>    by <span class="op">=</span> <span class="st">"time_identifier"</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">time_identifier</span><span class="op">)</span></span></code></pre></div>
+<p>Initially the base R looks simpler, less code, so likely faster…</p>
+<p>Ran through microbenchmark the results on a ~6 million row data.frame in milliseconds were:</p>
+<ul><li>base R ~ 3,231 ms</li>
+<li>dplyr ~ 61.6 ms</li>
+<li>duckplyr ~ 5.7 ms</li>
+</ul><p>For the eesyscreener::example_data, a tiny file, results were different, though as mentioned above, we should prioritise the larger files as that is where the greatest impact is felt:</p>
+<ul><li>base R ~ 62.6 microseconds</li>
+<li>dplyr ~ 1,865 microseconds</li>
+<li>duckplr ~ 4,774 microseconds</li>
+</ul><p>If Frederick hadn’t already told us enough times, duck is king.</p>
+</div>
 <div class="section level2">
 <h2 id="process-for-moving-in-functions-from-app">Process for moving in functions from app<a class="anchor" aria-label="anchor" href="#process-for-moving-in-functions-from-app"></a></h2>
 <p><a href="https://educationgovuk.sharepoint.com/:x:/r/sites/lveesfa00074/Data%20Insights%20and%20Statistics%20Division/Statistics%20Services%20Unit/Explore%20education%20statistics%20platforms/Screening%20tests%20migration%20tracking.xlsx?d=wdc9cf9ce356b47c6a1d1f11aba8bb96d&amp;csf=1&amp;web=1&amp;e=PSIk6I" class="external-link">Tracking spreadsheet set up in sharepoint</a>, this contains a table of all checks, thoughts on new groupings and notes about the migration (including the progress).</p>
 <p>Example of adding a new check available in <a href="">PR XX</a></p>
-<ol style="list-style-type: decimal"><li><p>Tackle one screening check at a time (unless you can create utility functions that cover multiple repeated checks)</p></li>
+<p>Other commits showing checks being added:</p>
+<ul><li>
+<code><a href="reference/precheck_col_req_data.html">precheck_col_req_data()</a></code>, also showing adding the req_data_cols data object - …</li>
+<li>
+<code><a href="reference/precheck_meta_col_name.html">precheck_meta_col_name()</a></code>, simple one that simplifies the original function - …</li>
+<li>Adding in first <code>precheck_time()</code> functions, includes added a new time prechecks stage - …</li>
+</ul><ol style="list-style-type: decimal"><li><p>Tackle one screening check at a time (unless you can create utility functions that cover multiple repeated checks)</p></li>
 <li><p>Set up a new script and test script for the check, copy over the relevant code from <a href="https://github.com/dfe-analytical-services/dfe-published-data-qa" class="external-link uri">https://github.com/dfe-analytical-services/dfe-published-data-qa</a></p></li>
 <li><p>Add unit tests for the the function</p></li>
 <li><p>Adapt the function so that the input arguments and outputs match existing <code>check_*</code> functions</p></li>
@@ -86,7 +121,7 @@
 <ol start="2" style="list-style-type: lower-alpha"><li><p>Create and use helper functions (if you haven’t already), place any helper functions in <code>R/utils.R</code>, mark as @keywords internal</p></li>
 <li><p>Avoid bringing in too many new dependencies, try rewriting in base R where possible</p></li>
 <li><p>Use <code>microbenchmark</code> to experiment to find the most efficient approach, look at <code>data.table</code> and <code>duckplyr</code> for speedier alternatives (speed is king here) e.g.</p></li>
-</ol><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+</ol><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_data.html">example_data</a></span></span>
 <span></span>
 <span><span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu">microbenchmark</span><span class="op">(</span></span>
@@ -118,10 +153,6 @@
 </ul></div>
 <div class="section level2">
 <h2 id="next-tests-to-migrate-in">Next tests to migrate in<a class="anchor" aria-label="anchor" href="#next-tests-to-migrate-in"></a></h2>
-<div class="section level3">
-<h3 id="pre-meta">Pre-meta<a class="anchor" aria-label="anchor" href="#pre-meta"></a></h3>
-<p>invalid_meta_cols # moved to precheck_col col_type # dependency on col_type existing ob_unit_meta col_name_completed</p>
-</div>
 <div class="section level3">
 <h3 id="pre-time">Pre-time<a class="anchor" aria-label="anchor" href="#pre-time"></a></h3>
 <p>time_identifier_mix time_identifier time_validation</p>
