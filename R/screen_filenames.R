@@ -8,35 +8,64 @@
 #'
 #' @param datafilename Character string, name of the data file
 #' @param metafilename Character string, name of the metadata file
-#' @param output Control the format of output, either 'table', 'error-only', or
-#' 'console'
+#' @param verbose Logical, if TRUE prints feedback messages to console for
+#' every test, if FALSE run silently
+#' @param stop_on_error Logical, if TRUE will stop with an error if the result
+#' is "FAIL", and will throw genuine warning if result is "WARNING"
 #'
 #' @return data.frame containing the results of the screening
 #'
 #' @examples
 #' screen_filenames("myfile.csv", "myfile.meta.csv")
-#' screen_filenames("myfile.csv", "mymeta.csv", output = "table")
+#' screen_filenames("myfile.csv", "mymeta.csv", verbose = TRUE)
 #' @export
 screen_filenames <- function(
   datafilename,
   metafilename,
-  output = "console"
+  verbose = FALSE,
+  stop_on_error = FALSE
 ) {
   validate_arg_filenames(datafilename, metafilename)
-  validate_arg_output(output)
+  validate_arg_logical(verbose, "verbose")
+  validate_arg_logical(stop_on_error, "stop_on_error")
 
   results <- rbind(
-    check_filename_spaces(datafilename, "data", output = output),
-    check_filename_spaces(metafilename, "metadata", output = output),
-    check_filename_special(datafilename, "data", output = output),
-    check_filename_special(metafilename, "metadata", output = output),
-    check_filenames_match(datafilename, metafilename, output = output)
+    check_filename_spaces(
+      datafilename,
+      "data",
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    ),
+    check_filename_spaces(
+      metafilename,
+      "metadata",
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    ),
+    check_filename_special(
+      datafilename,
+      "data",
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    ),
+    check_filename_special(
+      metafilename,
+      "metadata",
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    ),
+    check_filenames_match(
+      datafilename,
+      metafilename,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    )
   )
 
-  if (output == "console") {
+  if (verbose) {
     cli::cli_alert_success("Filenames passed all checks")
-  } else if (output == "table") {
-    results |>
-      cbind(stage = "filename")
   }
+
+  results |>
+    cbind(stage = "filename")
 }

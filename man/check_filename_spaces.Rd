@@ -4,7 +4,12 @@
 \alias{check_filename_spaces}
 \title{Check for spaces in filename}
 \usage{
-check_filename_spaces(filename, custom_name = NULL, output = "console")
+check_filename_spaces(
+  filename,
+  custom_name = NULL,
+  verbose = FALSE,
+  stop_on_error = FALSE
+)
 }
 \arguments{
 \item{filename}{A character string of the filename to check}
@@ -12,18 +17,21 @@ check_filename_spaces(filename, custom_name = NULL, output = "console")
 \item{custom_name}{An optional character string to customize the test name
 in the output}
 
-\item{output}{"table", "error-only", or "console". Default is "console"}
+\item{verbose}{logical, if TRUE prints feedback messages to console for
+every test, if FALSE run silently}
+
+\item{stop_on_error}{logical, if TRUE will stop with an error if the result
+is "FAIL", and will throw genuine warning if result is "WARNING"}
 }
 \value{
-a console message with feedback from the check or a single row data
-frame if verbose = FALSE
+a single row data frame
 }
 \description{
 This function checks if the provided filename contains any spaces.
 }
 \examples{
 check_filename_spaces("datafile.csv")
-check_filename_spaces("data file.csv", output = "table")
+check_filename_spaces("data file.csv", verbose = TRUE)
 check_filename_spaces("datafile.meta.csv", custom_name = "meta")
 }
 \seealso{

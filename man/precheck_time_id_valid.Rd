@@ -4,24 +4,27 @@
 \alias{precheck_time_id_valid}
 \title{Check all time_identifier values are valid}
 \usage{
-precheck_time_id_valid(data, meta, output = "console")
+precheck_time_id_valid(data, meta, verbose = FALSE, stop_on_error = FALSE)
 }
 \arguments{
 \item{data}{A data frame of the data file}
 
 \item{meta}{A data frame of the metadata file}
 
-\item{output}{"table", "error-only", or "console". Default is "console"}
+\item{verbose}{logical, if TRUE prints feedback messages to console for
+every test, if FALSE run silently}
+
+\item{stop_on_error}{logical, if TRUE will stop with an error if the result
+is "FAIL", and will throw genuine warning if result is "WARNING"}
 }
 \value{
-a console message with feedback from the check or a single row data
-frame if verbose = FALSE
+a single row data frame
 }
 \description{
 Checks against the \code{acceptable_time_identifiers} object.
 }
 \examples{
 precheck_time_id_valid(example_data, example_meta)
-precheck_time_id_valid(example_data, example_meta, output = "table")
+precheck_time_id_valid(example_data, example_meta, verbose = TRUE)
 }
 \concept{precheck_time}

@@ -3,7 +3,10 @@
 #' Make sure that all col_type values are either 'Filter' or 'Indicator'
 #'
 #' @param meta A data frame of the metadata file
-#' @param output "table", "error-only", or "console". Default is "console"
+#' @param verbose logical, if TRUE prints feedback messages to console for
+#' every test, if FALSE run silently
+#' @param stop_on_error logical, if TRUE will stop with an error if the result
+#' is "FAIL", and will throw genuine warning if result is "WARNING"
 #'
 #' @inherit check_filename_spaces return
 #'
@@ -11,9 +14,13 @@
 #'
 #' @examples
 #' precheck_meta_col_type(example_meta)
-#' precheck_meta_col_type(example_meta, output = "table")
+#' precheck_meta_col_type(example_meta, verbose = TRUE)
 #' @export
-precheck_meta_col_type <- function(meta, output = "console") {
+precheck_meta_col_type <- function(
+  meta,
+  verbose = FALSE,
+  stop_on_error = FALSE
+) {
   unique_types <- unique(meta$col_type)
   invalid_types <- setdiff(unique_types, c("Filter", "Indicator"))
 
@@ -22,7 +29,8 @@ precheck_meta_col_type <- function(meta, output = "console") {
       "meta_col_type",
       "PASS",
       "col_type is always 'Filter' or 'Indicator'.",
-      output = output
+      verbose = verbose,
+      stop_on_error = stop_on_error
     )
   } else {
     if (length(invalid_types) == 1) {
@@ -35,7 +43,8 @@ precheck_meta_col_type <- function(meta, output = "console") {
           invalid_types,
           "'"
         ),
-        output = output
+        verbose = verbose,
+        stop_on_error = stop_on_error
       )
     } else {
       test_output(
@@ -47,7 +56,8 @@ precheck_meta_col_type <- function(meta, output = "console") {
           paste0(invalid_types, collapse = "', '"),
           "'"
         ),
-        output = output
+        verbose = verbose,
+        stop_on_error = stop_on_error
       )
     }
   }

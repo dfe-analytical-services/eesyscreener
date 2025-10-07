@@ -63,10 +63,7 @@ There are a number of stages, which are mirrored in the documentation for the in
 - TODO: We should do in a way that can be parallelised, so users can speed up the screening for larger files if their machine allows (particularly helpful for the API and Shiny app)
 
 Each individual precheck / check:
-- Returns a single row data.frame of results, or console messages / errors
-  - `test_output()` function controls this
-    - Fails cause errors in console
-    - Can add additional verbose console messages before the main failure output if needed
+- Returns a single row data.frame of results, with optional console output and error triggers
 
 Standard pattern:
 ```r
@@ -75,6 +72,7 @@ test_output(
   "PASS", # result of check, one of 'PASS', 'FAIL', 'WARNING'
   paste0("'", filename, "' does not contain any special characters."), # feedback message for user, avoid HTML, keep to a simple string
   "https://dfe-analytical-services.github.io/analysts-guide/", # optional URL for guidance, can just not include as will default to NA
-  console = verbose # control for whether to print to console or silently return data frame (TRUE / FALSE)
+  verbose = FALSE # whether to print messages to console
+  stop_on_error = FALSE # whether to stop execution and throw error if FAIL, and throw warning if WARNING
 )
 ```

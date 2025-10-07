@@ -9,9 +9,14 @@
 #' @family precheck_time
 #' @examples
 #' precheck_time_id_valid(example_data, example_meta)
-#' precheck_time_id_valid(example_data, example_meta, output = "table")
+#' precheck_time_id_valid(example_data, example_meta, verbose = TRUE)
 #' @export
-precheck_time_id_valid <- function(data, meta, output = "console") {
+precheck_time_id_valid <- function(
+  data,
+  meta,
+  verbose = FALSE,
+  stop_on_error = FALSE
+) {
   invalid_identifiers <- data |>
     dplyr::distinct(.data$time_identifier) |>
     dplyr::anti_join(
@@ -25,7 +30,8 @@ precheck_time_id_valid <- function(data, meta, output = "console") {
       "time_id_valid",
       "PASS",
       "The time_identifier values are all valid.",
-      output = output
+      verbose = verbose,
+      stop_on_error = stop_on_error
     )
   } else {
     if (length(invalid_identifiers) == 1) {
@@ -38,7 +44,8 @@ precheck_time_id_valid <- function(data, meta, output = "console") {
             "https://dfe-analytical-services.github.io/analysts-guide/",
             "statistics-production/ud.html#list-of-allowable-time-values"
           ),
-          output = output
+          verbose = verbose,
+          stop_on_error = stop_on_error
         )
       } else {
         test_output(
@@ -52,7 +59,8 @@ precheck_time_id_valid <- function(data, meta, output = "console") {
             "https://dfe-analytical-services.github.io/analysts-guide/",
             "statistics-production/ud.html#list-of-allowable-time-values"
           ),
-          output = output
+          verbose = verbose,
+          stop_on_error = stop_on_error
         )
       }
     } else {
@@ -67,7 +75,8 @@ precheck_time_id_valid <- function(data, meta, output = "console") {
           "https://dfe-analytical-services.github.io/analysts-guide/",
           "statistics-production/ud.html#list-of-allowable-time-values"
         ),
-        output = output
+        verbose = verbose,
+        stop_on_error = stop_on_error
       )
     }
   }

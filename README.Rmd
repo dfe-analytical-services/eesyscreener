@@ -195,7 +195,6 @@ invisible(file.remove(meta_file))
 ### Passing with warning
 
 ``` {r warning}
-
 ```
 
 ### Failing with warning

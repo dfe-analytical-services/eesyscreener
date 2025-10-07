@@ -11,9 +11,13 @@
 #'
 #' @examples
 #' precheck_meta_ob_unit(example_meta)
-#' precheck_meta_ob_unit(example_meta, output = "table")
+#' precheck_meta_ob_unit(example_meta, verbose = TRUE)
 #' @export
-precheck_meta_ob_unit <- function(meta, output = "console") {
+precheck_meta_ob_unit <- function(
+  meta,
+  verbose = FALSE,
+  stop_on_error = FALSE
+) {
   cols_in_meta <- get_cols_meta(meta, grouping_cols = TRUE)
 
   acceptable_ob_exc_sch_prov <- setdiff(
@@ -34,7 +38,8 @@ precheck_meta_ob_unit <- function(meta, output = "console") {
         "No observational units have been included in the metadata",
         "file."
       ),
-      output = output
+      verbose = verbose,
+      stop_on_error = stop_on_error
     )
   } else if (length(ob_units_in_meta) == 1) {
     test_output(
@@ -46,7 +51,8 @@ precheck_meta_ob_unit <- function(meta, output = "console") {
         paste(ob_units_in_meta, collapse = "', '"),
         "'."
       ),
-      output = output
+      verbose = verbose,
+      stop_on_error = stop_on_error
     )
   } else {
     test_output(
@@ -58,7 +64,8 @@ precheck_meta_ob_unit <- function(meta, output = "console") {
         paste(ob_units_in_meta, collapse = "', '"),
         "'."
       ),
-      output = output
+      verbose = verbose,
+      stop_on_error = stop_on_error
     )
   }
 }

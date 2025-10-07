@@ -1,8 +1,8 @@
 # TODO: Add more robust structure tests
 
 test_that("passes for example files", {
-  expect_no_error(screen_dfs(example_data, example_meta, output = "error-only"))
-  expect_no_error(screen_dfs(example_data, example_meta, output = "console"))
+  expect_no_error(screen_dfs(example_data, example_meta, stop_on_error = TRUE))
+  expect_no_error(screen_dfs(example_data, example_meta, verbose = TRUE))
   expect_no_error(screen_dfs(example_data, example_meta))
 })
 
@@ -10,7 +10,7 @@ test_that("fails col prechecks", {
   missing_meta <- example_meta[, -1:-2]
 
   expect_error(
-    screen_dfs(example_data, missing_meta, output = "error-only"),
+    screen_dfs(example_data, missing_meta, stop_on_error = TRUE),
     "required columns are missing"
   )
 
@@ -27,7 +27,7 @@ test_that("fails meta prechecks", {
   gunsnroses_meta$col_type <- "November rain"
 
   expect_error(
-    screen_dfs(example_data, gunsnroses_meta, output = "error-only"),
+    screen_dfs(example_data, gunsnroses_meta, stop_on_error = TRUE),
     "invalid col_type"
   )
 

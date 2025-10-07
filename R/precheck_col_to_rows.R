@@ -6,7 +6,10 @@
 #'
 #' @param data A data frame of the data file
 #' @param meta A data frame of the metadata file
-#' @param output "table", "error-only", or "console". Default is "console"
+#' @param verbose logical, if TRUE prints feedback messages to console for
+#' every test, if FALSE run silently
+#' @param stop_on_error logical, if TRUE will stop with an error if the result
+#' is "FAIL", and will throw genuine warning if result is "WARNING"
 #'
 #' @inherit check_filename_spaces return
 #'
@@ -14,9 +17,14 @@
 #'
 #' @examples
 #' precheck_col_to_rows(example_data, example_meta)
-#' precheck_col_to_rows(example_data, example_meta, output = "table")
+#' precheck_col_to_rows(example_data, example_meta, verbose = TRUE)
 #' @export
-precheck_col_to_rows <- function(data, meta, output = "console") {
+precheck_col_to_rows <- function(
+  data,
+  meta,
+  verbose = FALSE,
+  stop_on_error = FALSE
+) {
   data_cols <- ncol(data) - 5
   meta_rows <- nrow(meta)
 
@@ -32,7 +40,8 @@ precheck_col_to_rows <- function(data, meta, output = "console") {
         "). This is not expected, please check the csv files. It can often",
         " be helpful open them in a text editor such as wordpad to investigate."
       ),
-      output = output
+      verbose = verbose,
+      stop_on_error = stop_on_error
     )
   } else {
     if (data_cols == meta_rows) {
@@ -46,7 +55,8 @@ precheck_col_to_rows <- function(data, meta, output = "console") {
           paste(format(data_cols, big.mark = ",")),
           ")."
         ),
-        output = output
+        verbose = verbose,
+        stop_on_error = stop_on_error
       )
     } else {
       test_output(
@@ -59,7 +69,8 @@ precheck_col_to_rows <- function(data, meta, output = "console") {
           paste(format(data_cols, big.mark = ",")),
           ")."
         ),
-        output = output
+        verbose = verbose,
+        stop_on_error = stop_on_error
       )
     }
   }

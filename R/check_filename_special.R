@@ -11,13 +11,14 @@
 #'
 #' @examples
 #' check_filename_special("datafile.csv")
-#' check_filename_special("data+file.meta.csv", output = "table")
+#' check_filename_special("data+file.meta.csv", verbose = TRUE)
 #' check_filename_special("datafile.meta.csv", custom_name = "meta")
 #' @export
 check_filename_special <- function(
   filename,
   custom_name = NULL,
-  output = "console"
+  verbose = FALSE,
+  stop_on_error = FALSE
 ) {
   test_name <- paste0("check_filename_", custom_name, "_special")
 
@@ -47,7 +48,8 @@ check_filename_special <- function(
           ". Filenames must only contain numbers, letters, hyphens or",
           " underscores."
         ),
-        output = output
+        verbose = verbose,
+        stop_on_error = stop_on_error
       )
     )
   } else {
@@ -55,7 +57,8 @@ check_filename_special <- function(
       test_name,
       "PASS",
       paste0("'", filename, "' does not contain any special characters."),
-      output = output
+      verbose = verbose,
+      stop_on_error = stop_on_error
     )
   }
 }

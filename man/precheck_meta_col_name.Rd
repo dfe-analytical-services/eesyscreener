@@ -4,23 +4,26 @@
 \alias{precheck_meta_col_name}
 \title{Check col_name is completed for all rows}
 \usage{
-precheck_meta_col_name(meta, output = "console")
+precheck_meta_col_name(meta, verbose = FALSE, stop_on_error = FALSE)
 }
 \arguments{
 \item{meta}{A data frame of the metadata file}
 
-\item{output}{"table", "error-only", or "console". Default is "console"}
+\item{verbose}{logical, if TRUE prints feedback messages to console for
+every test, if FALSE run silently}
+
+\item{stop_on_error}{logical, if TRUE will stop with an error if the result
+is "FAIL", and will throw genuine warning if result is "WARNING"}
 }
 \value{
-a console message with feedback from the check or a single row data
-frame if verbose = FALSE
+a single row data frame
 }
 \description{
 Ensure there are no blank cells for col_name in the metafile.
 }
 \examples{
 precheck_meta_col_name(example_meta)
-precheck_meta_col_name(example_meta, output = "table")
+precheck_meta_col_name(example_meta, verbose = TRUE)
 }
 \seealso{
 Other precheck_meta: 

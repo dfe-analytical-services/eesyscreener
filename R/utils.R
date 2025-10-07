@@ -24,45 +24,50 @@ null_filename <- function(string = NULL) {
 #' @param result result of the test being run
 #' @param message message to be returned
 #' @param guidance_url optional url for more information
-#' @param output "table" will return a single row data frame for
-#' combining multiple test outputs, "console" prints feedback messages to
-#' console, "error-only" will only return errors or warnings if there's an
-#' issue
+#' @param verbose logical, if TRUE prints feedback messages to console for
+#' every test, if FALSE run silently
+#' @param stop_on_error logical, if TRUE will stop with an error if the result
+#' is "FAIL", and will throw genuine warning if result is "WARNING"
 #'
 #' @keywords internal
 #' @noRd
 #'
-#' @returns messages to the console giving feedback to the user or a single
-#' row data frame
+#' @returns a single row data frame
 test_output <- function(
   test_name,
   result,
   message,
   guidance_url = NA,
-  output
+  verbose,
+  stop_on_error
 ) {
-  if (output == "table") {
-    return(
-      data.frame(
-        "check" = test_name,
-        "result" = result,
-        "message" = message,
-        "guidance_url" = guidance_url,
-        stringsAsFactors = FALSE,
-        row.names = NULL
-      )
-    )
-  } else if (result == "PASS") {
-    if (output == "console") {
+  show_message <- (verbose) || (stop_on_error && result != "PASS")
+
+  if (show_message) {
+    if (result == "PASS") {
       cli::cli_alert_success(message)
-      return(invisible(NULL))
+    } else if (result == "WARNING") {
+      if (stop_on_error) {
+        cli::cli_warn(message)
+      } else {
+        cli::cli_alert_warning(message)
+      }
+    } else if (result == "FAIL") {
+      if (stop_on_error) {
+        cli::cli_abort(message)
+      } else {
+        cli::cli_alert_danger(message)
+      }
     }
-  } else if (result == "WARNING") {
-    cli::cli_warn(message)
-    return(invisible(NULL))
-  } else if (result == "FAIL") {
-    cli::cli_abort(message)
   }
+
+  data.frame(
+    "check" = test_name,
+    "result" = result,
+    "message" = message,
+    "guidance_url" = guidance_url,
+    row.names = NULL
+  )
 }
 
 #' Validate filenames in function arguments
@@ -101,23 +106,18 @@ validate_arg_dfs <- function(datafile, metafile) {
   }
 }
 
-#' Validate output argument
+#' Validate logical argument
 #'
-#' Helper function to validate output argument is one of the expected values
+#' Helper function to validate logical argument is logical
 #'
-#' @param output string representing the output type
+#' @param logical logical argument to validate
 #' @keywords internal
 #' @noRd
-#' @returns silently, error if output option is incorrectly supplied
-validate_arg_output <- function(output) {
-  if (is.null(output)) {
+#' @returns silently, error if logical option is incorrectly supplied
+validate_arg_logical <- function(logical, name) {
+  if (!is.logical(logical) || length(logical) != 1) {
     cli::cli_abort(
-      "`output` must be one of 'table', 'console', or 'error-only'."
-    )
-  }
-  if (!(output %in% c("table", "console", "error-only"))) {
-    cli::cli_abort(
-      "`output` must be one of 'table', 'console', or 'error-only'."
+      sprintf("`%s` must be a single logical value.", name)
     )
   }
 }

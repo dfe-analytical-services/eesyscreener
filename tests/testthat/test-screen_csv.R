@@ -104,7 +104,7 @@ test_that("Example file passes", {
       meta_file,
       "data.csv",
       "data.meta.csv",
-      output = "console"
+      verbose = TRUE
     )
   )
 
@@ -114,7 +114,7 @@ test_that("Example file passes", {
       meta_file,
       "data.csv",
       "data.meta.csv",
-      output = "error-only"
+      stop_on_error = TRUE
     )
   )
 
@@ -144,15 +144,15 @@ test_that("Fails gracefully if it's not a CSV", {
   writeLines(c("This is not a CSV file"), txt_meta)
 
   expect_error(
-    screen_csv(txt_file, txt_meta, output = "error-only"),
+    screen_csv(txt_file, txt_meta, stop_on_error = TRUE),
     "Data file"
   )
   expect_error(
-    screen_csv(txt_file, meta_file, output = "error-only"),
+    screen_csv(txt_file, meta_file, stop_on_error = TRUE),
     "Data file"
   )
   expect_error(
-    screen_csv(data_file, txt_meta, output = "error-only"),
+    screen_csv(data_file, txt_meta, stop_on_error = TRUE),
     "Metadata file"
   )
 
@@ -185,7 +185,8 @@ test_that("Example file fails with filename", {
       meta_file,
       "data.csv",
       "meta.csv",
-      output = "console"
+      verbose = TRUE,
+      stop_on_error = TRUE
     ),
     "The filenames do not follow the recommended naming convention"
   )
@@ -206,7 +207,7 @@ test_that("Example file fails with filename", {
   )
 
   expect_error(
-    screen_csv(data_path, meta_path, output = "console"),
+    screen_csv(data_path, meta_path, stop_on_error = TRUE),
     "The filenames do not follow the recommended naming convention"
   )
 
@@ -225,7 +226,7 @@ test_that("fails check dfs", {
   data.table::fwrite(gunsnroses_meta, meta_path)
 
   expect_error(
-    screen_csv(data_path, meta_path, output = "error-only"),
+    screen_csv(data_path, meta_path, stop_on_error = TRUE),
     "invalid col_type"
   )
 

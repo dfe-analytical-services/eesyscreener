@@ -1,11 +1,11 @@
 test_that("passes when all valid", {
-  expect_no_error(precheck_meta_col_type(example_meta, output = "error-only"))
+  expect_no_error(precheck_meta_col_type(example_meta, stop_on_error = TRUE))
 
   meta <- data.frame(
     col_type = c("Filter", "Indicator", "Filter"),
     stringsAsFactors = FALSE
   )
-  expect_equal(precheck_meta_col_type(meta, output = "table")$result, "PASS")
+  expect_equal(precheck_meta_col_type(meta)$result, "PASS")
 })
 
 test_that("fails with one invalid value", {
@@ -13,8 +13,8 @@ test_that("fails with one invalid value", {
     col_type = c("Filter", "Indicator", "BadType"),
     stringsAsFactors = FALSE
   )
-  expect_equal(precheck_meta_col_type(meta, output = "table")$result, "FAIL")
-  expect_error(precheck_meta_col_type(meta))
+  expect_equal(precheck_meta_col_type(meta)$result, "FAIL")
+  expect_error(precheck_meta_col_type(meta, stop_on_error = TRUE))
 })
 
 test_that("fails with multiple invalid values", {
@@ -22,7 +22,7 @@ test_that("fails with multiple invalid values", {
     col_type = c("Filter", "Wrong", "Indicator", "Other"),
     stringsAsFactors = FALSE
   )
-  expect_equal(precheck_meta_col_type(meta, output = "table")$result, "FAIL")
+  expect_equal(precheck_meta_col_type(meta)$result, "FAIL")
 })
 
 test_that("fails with blank col_type", {
@@ -30,5 +30,5 @@ test_that("fails with blank col_type", {
     col_type = c("Filter", "", "Indicator"),
     stringsAsFactors = FALSE
   )
-  expect_equal(precheck_meta_col_type(meta, output = "table")$result, "FAIL")
+  expect_equal(precheck_meta_col_type(meta)$result, "FAIL")
 })

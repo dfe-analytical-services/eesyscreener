@@ -11,9 +11,12 @@
 #' will be assumed from the path
 #' @param metafilename Optional - the name of the metadata file, if not given
 #' it will be assumed from the path
-#' @param output Control the format of output, either 'table', 'error-only', or
-#' 'console'
-#' @return Console messages or a list containing
+#' @param verbose Logical, if TRUE prints feedback messages to console for
+#' every test, if FALSE run silently
+#' @param stop_on_error Logical, if TRUE will stop with an error if the result
+#' is "FAIL", and will throw genuine warning if result is "WARNING"
+#'
+#' @return A list containing
 #' 1. A table with the full results of the checks with four columns:
 #' \itemize{
 #'   \item result of the check (PASS / FAIL / ADVISORY)
@@ -38,7 +41,7 @@
 #'   meta_path,
 #'   "data.csv",
 #'   "data.meta.csv",
-#'   output = "console"
+#'   verbose = TRUE
 #' )
 #'
 #' # Clean up temp files
@@ -50,7 +53,8 @@ screen_csv <- function(
   metapath,
   datafilename = NULL,
   metafilename = NULL,
-  output = "table"
+  verbose = FALSE,
+  stop_on_error = FALSE
 ) {
   # TODO: Look into making the separate checks / stages run asynchronously
 
@@ -62,7 +66,8 @@ screen_csv <- function(
     cli::cli_abort("`metapath` must be a single string.")
   }
 
-  validate_arg_output(output)
+  validate_arg_logical(verbose, "verbose")
+  validate_arg_logical(stop_on_error, "stop_on_error")
 
   # Read in CSV files ---------------------------------------------------------
   files <- read_ees_files(datapath, metapath)
@@ -85,57 +90,59 @@ screen_csv <- function(
   filename_results <- screen_filenames(
     datafilename,
     metafilename,
-    output = output
+    verbose = verbose,
+    stop_on_error = stop_on_error
   )
 
-  if (output == "table") {
-    if (any(filename_results[["result"]] == "FAIL")) {
-      stage <- filename_results[["stage"]] |>
-        unique()
+  if (any(filename_results[["result"]] == "FAIL")) {
+    stage <- filename_results[["stage"]] |>
+      unique()
 
-      return(
-        list(
-          "results_table" = as.data.frame(filename_results),
-          "overall_stage" = paste(stage, "checks"),
-          "overall_message" = paste("Failed", stage, "checks")
-        )
+    return(
+      list(
+        "results_table" = as.data.frame(filename_results),
+        "overall_stage" = paste(stage, "checks"),
+        "overall_message" = paste("Failed", stage, "checks")
       )
-    }
+    )
   }
 
   # Screen data.frames --------------------------------------------------------
-  dataframe_results <- screen_dfs(datafile, metafile, output = output)
+  dataframe_results <- screen_dfs(
+    datafile,
+    metafile,
+    verbose = verbose,
+    stop_on_error = stop_on_error
+  )
 
-  if (output == "table") {
-    all_results <- rbind(filename_results, dataframe_results)
+  all_results <- rbind(filename_results, dataframe_results)
 
-    if (any(all_results[["result"]] == "FAIL")) {
-      # We know only one group can fail at a time
-      # Grab the group that has a fail
-      stage <- all_results[
-        all_results[["result"]] == "FAIL",
-        "stage"
-      ] |>
-        unique()
+  if (any(all_results[["result"]] == "FAIL")) {
+    # We know only one group can fail at a time
+    # Grab the group that has a fail
+    stage <- all_results[
+      all_results[["result"]] == "FAIL",
+      "stage"
+    ] |>
+      unique()
 
-      return(
-        list(
-          "results_table" = as.data.frame(all_results),
-          "overall_stage" = paste(stage, "checks"),
-          "overall_message" = paste("Failed", stage, "checks")
-        )
+    return(
+      list(
+        "results_table" = as.data.frame(all_results),
+        "overall_stage" = paste(stage, "checks"),
+        "overall_message" = paste("Failed", stage, "checks")
       )
-    }
+    )
   }
 
   # Success -------------------------------------------------------------------
-  if (output == "console") {
+  if (verbose) {
     cli::cli_alert_success("Passed all checks")
-  } else if (output == "table") {
-    list(
-      "results_table" = all_results,
-      "overall_stage" = "Passed",
-      "overall_message" = "Passed all checks"
-    )
   }
+
+  list(
+    "results_table" = all_results,
+    "overall_stage" = "Passed",
+    "overall_message" = "Passed all checks"
+  )
 }

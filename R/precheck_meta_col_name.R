@@ -10,9 +10,13 @@
 #'
 #' @examples
 #' precheck_meta_col_name(example_meta)
-#' precheck_meta_col_name(example_meta, output = "table")
+#' precheck_meta_col_name(example_meta, verbose = TRUE)
 #' @export
-precheck_meta_col_name <- function(meta, output = "console") {
+precheck_meta_col_name <- function(
+  meta,
+  verbose = FALSE,
+  stop_on_error = FALSE
+) {
   blank_col_names <- sum(is.na(meta$col_name) | trimws(meta$col_name) == "")
 
   if (blank_col_names == 0) {
@@ -20,7 +24,8 @@ precheck_meta_col_name <- function(meta, output = "console") {
       "meta_col_name",
       "PASS",
       "The col_name column is completed for every row in the metadata.",
-      output = output
+      verbose = verbose,
+      stop_on_error = stop_on_error
     )
   } else {
     if (blank_col_names == 1) {
@@ -28,7 +33,8 @@ precheck_meta_col_name <- function(meta, output = "console") {
         "meta_col_name",
         "FAIL",
         "There is a col_name missing in 1 row of the metadata file.",
-        output = output
+        verbose = verbose,
+        stop_on_error = stop_on_error
       )
     } else {
       test_output(
@@ -39,7 +45,8 @@ precheck_meta_col_name <- function(meta, output = "console") {
           blank_col_names,
           " rows of the metadata file."
         ),
-        output = output
+        verbose = verbose,
+        stop_on_error = stop_on_error
       )
     }
   }

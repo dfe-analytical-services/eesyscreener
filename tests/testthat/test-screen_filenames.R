@@ -1,14 +1,15 @@
 test_that("passes for valid filenames", {
   res <- screen_filenames(
     "datafile.csv",
-    "datafile.meta.csv",
-    output = "table"
+    "datafile.meta.csv"
   )
   expect_true(all(res$result == "PASS"))
   expect_no_error(
     screen_filenames(
       "datafile.csv",
-      "datafile.meta.csv"
+      "datafile.meta.csv",
+      verbose = TRUE,
+      stop_on_error = TRUE
     )
   )
 })
@@ -18,21 +19,21 @@ test_that("fails for bad filenames", {
     screen_filenames(
       "datafile.csv",
       "wrong.meta.csv",
-      output = "error-only"
+      stop_on_error = TRUE
     )
   )
   expect_error(
     screen_filenames(
       "data+file.csv",
       "datafile.meta.csv",
-      output = "error-only"
+      stop_on_error = TRUE
     )
   )
   expect_error(
     screen_filenames(
       "data file.csv",
       "datafile.meta.csv",
-      output = "error-only"
+      stop_on_error = TRUE
     )
   )
 })

@@ -4,23 +4,26 @@
 \alias{precheck_col_req_meta}
 \title{Check all required columns are present in metadata}
 \usage{
-precheck_col_req_meta(meta, output = "console")
+precheck_col_req_meta(meta, verbose = FALSE, stop_on_error = FALSE)
 }
 \arguments{
 \item{meta}{A data frame of the metadata file}
 
-\item{output}{"table", "error-only", or "console". Default is "console"}
+\item{verbose}{logical, if TRUE prints feedback messages to console for
+every test, if FALSE run silently}
+
+\item{stop_on_error}{logical, if TRUE will stop with an error if the result
+is "FAIL", and will throw genuine warning if result is "WARNING"}
 }
 \value{
-a console message with feedback from the check or a single row data
-frame if verbose = FALSE
+a single row data frame
 }
 \description{
 Using the \code{req_meta_cols} object.
 }
 \examples{
 precheck_col_req_meta(example_meta)
-precheck_col_req_meta(example_meta, output = "table")
+precheck_col_req_meta(example_meta, verbose = TRUE)
 }
 \seealso{
 Other precheck_col: 

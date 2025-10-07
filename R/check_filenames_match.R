@@ -6,7 +6,10 @@
 #'
 #' @param datafilename A character string of the data filename to check
 #' @param metafilename A character string of the metadata filename to check
-#' @param output "table", "error-only", or "console". Default is "console"
+#' @param verbose logical, if TRUE prints feedback messages to console for
+#' every test, if FALSE run silently
+#' @param stop_on_error logical, if TRUE will stop with an error if the result
+#' is "FAIL", and will throw genuine warning if result is "WARNING"
 #'
 #' @inherit check_filename_spaces return
 #'
@@ -14,12 +17,13 @@
 #'
 #' @examples
 #' check_filenames_match("datafile.csv", "datafile.meta.csv")
-#' check_filenames_match("datafile.csv", "metafile.csv", output = "table")
+#' check_filenames_match("datafile.csv", "metafile.csv", verbose = TRUE)
 #' @export
 check_filenames_match <- function(
   datafilename,
   metafilename,
-  output = "console"
+  verbose = FALSE,
+  stop_on_error = FALSE
 ) {
   test_name <- "check_filenames_match"
 
@@ -34,7 +38,8 @@ check_filenames_match <- function(
           "The names of the files follow the recommended naming",
           "convention."
         ),
-        output = output
+        verbose = verbose,
+        stop_on_error = stop_on_error
       )
     )
   } else {
@@ -48,7 +53,8 @@ check_filenames_match <- function(
         stringr::str_replace(datafilename, ".csv", ".meta.csv'"),
         "'."
       ),
-      output = output
+      verbose = verbose,
+      stop_on_error = stop_on_error
     )
   }
 }

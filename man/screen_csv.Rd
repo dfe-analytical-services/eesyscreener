@@ -9,7 +9,8 @@ screen_csv(
   metapath,
   datafilename = NULL,
   metafilename = NULL,
-  output = "table"
+  verbose = FALSE,
+  stop_on_error = FALSE
 )
 }
 \arguments{
@@ -23,11 +24,14 @@ will be assumed from the path}
 \item{metafilename}{Optional - the name of the metadata file, if not given
 it will be assumed from the path}
 
-\item{output}{Control the format of output, either 'table', 'error-only', or
-'console'}
+\item{verbose}{Logical, if TRUE prints feedback messages to console for
+every test, if FALSE run silently}
+
+\item{stop_on_error}{Logical, if TRUE will stop with an error if the result
+is "FAIL", and will throw genuine warning if result is "WARNING"}
 }
 \value{
-Console messages or a list containing
+A list containing
 \enumerate{
 \item A table with the full results of the checks with four columns:
 \itemize{
@@ -61,7 +65,7 @@ screen_csv(
   meta_path,
   "data.csv",
   "data.meta.csv",
-  output = "console"
+  verbose = TRUE
 )
 
 # Clean up temp files

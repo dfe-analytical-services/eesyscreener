@@ -10,9 +10,13 @@
 #'
 #' @examples
 #' precheck_col_req_meta(example_meta)
-#' precheck_col_req_meta(example_meta, output = "table")
+#' precheck_col_req_meta(example_meta, verbose = TRUE)
 #' @export
-precheck_col_req_meta <- function(meta, output = "console") {
+precheck_col_req_meta <- function(
+  meta,
+  verbose = FALSE,
+  stop_on_error = FALSE
+) {
   missing_cols <- eesyscreener::req_meta_cols[
     !eesyscreener::req_meta_cols %in% names(meta)
   ]
@@ -22,7 +26,8 @@ precheck_col_req_meta <- function(meta, output = "console") {
       "col_req_meta",
       "PASS",
       "All of the required columns are present in the metadata file.",
-      output = output
+      verbose = verbose,
+      stop_on_error = stop_on_error
     )
   } else {
     if (length(missing_cols) == 1) {
@@ -34,7 +39,8 @@ precheck_col_req_meta <- function(meta, output = "console") {
           paste(missing_cols, collapse = "', '"),
           "'."
         ),
-        output = output
+        verbose = verbose,
+        stop_on_error = stop_on_error
       )
     } else {
       test_output(
@@ -46,7 +52,8 @@ precheck_col_req_meta <- function(meta, output = "console") {
           paste(missing_cols, collapse = "', '"),
           "'."
         ),
-        output = output
+        verbose = verbose,
+        stop_on_error = stop_on_error
       )
     }
   }

@@ -4,15 +4,23 @@
 \alias{screen_filenames}
 \title{Run all checks against filenames}
 \usage{
-screen_filenames(datafilename, metafilename, output = "console")
+screen_filenames(
+  datafilename,
+  metafilename,
+  verbose = FALSE,
+  stop_on_error = FALSE
+)
 }
 \arguments{
 \item{datafilename}{Character string, name of the data file}
 
 \item{metafilename}{Character string, name of the metadata file}
 
-\item{output}{Control the format of output, either 'table', 'error-only', or
-'console'}
+\item{verbose}{Logical, if TRUE prints feedback messages to console for
+every test, if FALSE run silently}
+
+\item{stop_on_error}{Logical, if TRUE will stop with an error if the result
+is "FAIL", and will throw genuine warning if result is "WARNING"}
 }
 \value{
 data.frame containing the results of the screening
@@ -27,5 +35,5 @@ will check they follow the filename conventions.
 }
 \examples{
 screen_filenames("myfile.csv", "myfile.meta.csv")
-screen_filenames("myfile.csv", "mymeta.csv", output = "table")
+screen_filenames("myfile.csv", "mymeta.csv", verbose = TRUE)
 }

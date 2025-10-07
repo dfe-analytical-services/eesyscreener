@@ -45,27 +45,26 @@ test_that("validate_arg_dfs errors for non data frames", {
   expect_error(validate_arg_dfs(df, "not a df"), "metafile.*data frame")
 })
 
-test_that("validate_arg_output passes for valid options", {
-  expect_no_error(validate_arg_output("table"))
-  expect_no_error(validate_arg_output("console"))
-  expect_no_error(validate_arg_output("error-only"))
+test_that("validate_arg_logical passes for valid options", {
+  expect_no_error(validate_arg_logical(TRUE, "test_arg"))
+  expect_no_error(validate_arg_logical(FALSE, "test_arg"))
 })
 
-test_that("validate_arg_output errors for invalid options", {
+test_that("validate_arg_logical errors for invalid options", {
   expect_error(
-    validate_arg_output("invalid"),
-    "output.*one of."
+    validate_arg_logical("invalid", "test_arg"),
+    "test_arg.*single logical."
   )
   expect_error(
-    validate_arg_output(123),
-    "output.*one of."
+    validate_arg_logical(123, "test_arg"),
+    "test_arg.*single logical."
   )
   expect_error(
-    validate_arg_output(NA),
-    "output.*one of."
+    validate_arg_logical(c(TRUE, TRUE), "test_arg"),
+    "test_arg.*single logical."
   )
   expect_error(
-    validate_arg_output(NULL),
-    "output.*one of."
+    validate_arg_logical(NULL, "test_arg"),
+    "test_arg.*single logical."
   )
 })
