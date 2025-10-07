@@ -78,8 +78,8 @@ result$overall_stage
 result$overall_message
 
 # Clean up temporary CSV files
-file.remove(data_file)
-file.remove(meta_file)
+invisible(file.remove(data_file))
+invisible(file.remove(meta_file))
 ```
 
 ## Example CSVs
@@ -144,6 +144,67 @@ beefy <- eesyscreener::generate_test_dfs(
 data.table::fwrite(beefy$data, "beefy_data.csv")
 data.table::fwrite(beefy$meta, "beefy_data.meta.csv")
 ```
+
+## Examples of behaviour
+
+### Passing file
+
+``` {r passing}
+data_file <- tempfile(fileext = ".csv")
+meta_file <- tempfile(fileext = ".meta.csv")
+data.table::fwrite(eesyscreener::example_data, data_file)
+data.table::fwrite(eesyscreener::example_meta, meta_file)
+
+eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
+
+invisible(file.remove(data_file))
+invisible(file.remove(meta_file))
+```
+
+### Failing file
+
+``` {r failing}
+data_file <- tempfile(fileext = ".csv")
+meta_file <- tempfile(fileext = ".meta.csv")
+data.table::fwrite(eesyscreener::example_data, data_file)
+data.table::fwrite(eesyscreener::example_meta[, -1], meta_file)
+
+eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
+
+invisible(file.remove(data_file))
+invisible(file.remove(meta_file))
+```
+
+### Failed test with guidance URL
+
+``` {r guidance}
+data_file <- tempfile(fileext = ".csv")
+meta_file <- tempfile(fileext = ".meta.csv")
+data.table::fwrite(
+  eesyscreener::example_data |> dplyr::mutate(time_identifier = "parsec"),
+  data_file
+)
+data.table::fwrite(eesyscreener::example_meta, meta_file)
+
+eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
+
+invisible(file.remove(data_file))
+invisible(file.remove(meta_file))
+```
+
+### Passing with warning
+
+``` {r warning}
+
+```
+
+### Failing with warning
+
+
+### Passing but failing API checks
+
+
+
 
 ## Contributing
 

@@ -104,15 +104,10 @@ screen_csv <- function(
   }
 
   # Screen data.frames --------------------------------------------------------
-  dataframe_results_full <- screen_dfs(datafile, metafile, output = output)
+  dataframe_results <- screen_dfs(datafile, metafile, output = output)
 
   if (output == "table") {
-    dataframe_results <- dataframe_results_full$results_table
-
-    all_results <- rbind(
-      filename_results,
-      dataframe_results
-    )
+    all_results <- rbind(filename_results, dataframe_results)
 
     if (any(all_results[["result"]] == "FAIL")) {
       # We know only one group can fail at a time

@@ -20,7 +20,7 @@ screen_dfs <- function(data, meta, output = "table") {
   validate_arg_output(output)
 
   data <- duckplyr::as_duckdb_tibble(data)
-  duckplyr::methods_overwrite()
+  suppressMessages(duckplyr::methods_overwrite())
 
   # Precheck columns ----------------------------------------------------------
   precheck_col_results <- rbind(
@@ -35,13 +35,7 @@ screen_dfs <- function(data, meta, output = "table") {
       cbind("stage" = "Precheck columns")
 
     if (any(precheck_col_results[["result"]] == "FAIL")) {
-      return(
-        list(
-          "results_table" = as.data.frame(precheck_col_results),
-          "overall_stage" = "Column prechecks",
-          "overall_message" = "Failed column prechecks"
-        )
-      )
+      return(as.data.frame(precheck_col_results))
     }
   }
 
@@ -53,18 +47,14 @@ screen_dfs <- function(data, meta, output = "table") {
   )
 
   if (output == "table") {
-    precheck_meta_results <- precheck_meta_results |>
-      cbind("stage" = "Precheck meta") |>
-      rbind(precheck_col_results)
+    precheck_meta_results <- precheck_col_results |>
+      rbind(
+        precheck_meta_results |>
+          cbind("stage" = "Precheck meta")
+      )
 
     if (any(precheck_meta_results[["result"]] == "FAIL")) {
-      return(
-        list(
-          "results_table" = as.data.frame(precheck_meta_results),
-          "overall_stage" = "Meta prechecks",
-          "overall_message" = "Failed meta prechecks"
-        )
-      )
+      return(as.data.frame(precheck_meta_results))
     }
   }
 
@@ -78,18 +68,14 @@ screen_dfs <- function(data, meta, output = "table") {
   )
 
   if (output == "table") {
-    precheck_time_results <- precheck_time_results |>
-      cbind("stage" = "Precheck time") |>
-      rbind(precheck_meta_results) # TODO - update when more tests are in
+    precheck_time_results <- precheck_meta_results |>
+      rbind(
+        precheck_time_results |>
+          cbind("stage" = "Precheck time")
+      )
 
     if (any(precheck_time_results[["result"]] == "FAIL")) {
-      return(
-        list(
-          "results_table" = as.data.frame(precheck_time_results),
-          "overall_stage" = "Time prechecks",
-          "overall_message" = "Failed time prechecks"
-        )
-      )
+      return(as.data.frame(precheck_time_results))
     }
   }
 

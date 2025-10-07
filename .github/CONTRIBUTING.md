@@ -138,41 +138,6 @@ a. Make use of the `tests/utils/copy_check_data.R` script to copy over CSVs from
 
 b. There should be a collection of unit tests and at least one example data file with an expected failure for every function
 
-## Notes / questions
-
-1. When console messages are on would we still want the data.frame returned? - should the console option be a verbosity option instead?
-
-2. Is the console option the right default to set (thinking easiest for users, Shiny and API are easy to set as "table" output)
-
-3. Radical - would we want to ditch warnings? Just have TRUE / FALSE for pass / fail?
-
-4. Guidance URL? / being able to feedback to users? Not 100% on, wondering if a first version could be to ditch, simply the feedback to the user and instead and go for an accompanying vignette guide to specific checks - e.g. with instructions for running checks in isolation to investigate issues (thinking of duplicate rows?)
-
-5. Long feedback messages - how do we handle more neatly / give ourselves ability to still edit those later
-
-6. How should errors be handled? (partly a Q for the API)
-- 6a. Should whether the file is a CSV or not be a standard check function rather than file validation that throws an error?
-
-7. Generally, how intuitive (or not) is the approach to the package and docs?
-
-- Is there anything missing?
-
-- Is there anything that could be improved?
-
-## Next tests to migrate in
-
-### Pre-time
-
-time_identifier_mix
-time_identifier
-time_validation
-
-### Time
-
-time_period
-time_period_six
-
-
 ## Other things to add to the package
 
 TODO: Add trello card workflow

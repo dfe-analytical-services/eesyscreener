@@ -34,6 +34,10 @@ precheck_time_id_valid <- function(data, meta, output = "console") {
           "time_id_valid",
           "FAIL",
           "At least one of the time_identifier values is blank or missing.",
+          paste0(
+            "https://dfe-analytical-services.github.io/analysts-guide/",
+            "statistics-production/ud.html#list-of-allowable-time-values"
+          ),
           output = output
         )
       } else {
@@ -43,6 +47,10 @@ precheck_time_id_valid <- function(data, meta, output = "console") {
           sprintf(
             "The following invalid time_identifier was found: '%s'.",
             invalid_identifiers
+          ),
+          paste0(
+            "https://dfe-analytical-services.github.io/analysts-guide/",
+            "statistics-production/ud.html#list-of-allowable-time-values"
           ),
           output = output
         )
@@ -54,6 +62,10 @@ precheck_time_id_valid <- function(data, meta, output = "console") {
         sprintf(
           "The following invalid time_identifiers were found: '%s'.",
           paste(invalid_identifiers, collapse = "', '")
+        ),
+        paste0(
+          "https://dfe-analytical-services.github.io/analysts-guide/",
+          "statistics-production/ud.html#list-of-allowable-time-values"
         ),
         output = output
       )

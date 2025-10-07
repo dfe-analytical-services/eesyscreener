@@ -14,7 +14,7 @@ test_that("fails col prechecks", {
     "required columns are missing"
   )
 
-  res_table <- screen_dfs(example_data, missing_meta)$results_table
+  res_table <- screen_dfs(example_data, missing_meta)
 
   expect_equal(
     res_table[res_table$check == "col_req_meta", "result"],
@@ -31,7 +31,7 @@ test_that("fails meta prechecks", {
     "invalid col_type"
   )
 
-  res_table <- screen_dfs(example_data, gunsnroses_meta)$results_table
+  res_table <- screen_dfs(example_data, gunsnroses_meta)
 
   expect_equal(
     res_table[res_table$check == "meta_col_type", "result"],
