@@ -138,7 +138,7 @@ validate_arg_output <- function(output) {
 #' data.table::fwrite(example_data, data_file)
 #' data.table::fwrite(example_meta, meta_file)
 #'
-#' files <- read_files(data_file, meta_file)
+#' files <- read_ees_files(data_file, meta_file)
 #' files
 #'
 #' # Clean up temp files
@@ -146,7 +146,7 @@ validate_arg_output <- function(output) {
 #' file.remove(meta_file)
 #' @keywords internal
 #' @noRd
-read_files <- function(datapath, metapath) {
+read_ees_files <- function(datapath, metapath) {
   # Check if files exist
   if (!file.exists(datapath)) {
     cli::cli_abort(sprintf("No file found at %s", datapath))

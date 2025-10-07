@@ -65,7 +65,7 @@ screen_csv <- function(
   validate_arg_output(output)
 
   # Read in CSV files ---------------------------------------------------------
-  files <- read_files(datapath, metapath)
+  files <- read_ees_files(datapath, metapath)
 
   datafile <- files$data
   metafile <- files$meta
