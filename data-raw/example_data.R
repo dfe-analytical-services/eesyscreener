@@ -52,3 +52,29 @@ example_meta <- data.frame(
 
 usethis::use_data(example_data, overwrite = TRUE)
 usethis::use_data(example_meta, overwrite = TRUE)
+
+example_api_long <- example_data |>
+  data.frame(
+    mahoooooooooooooooooooooooooooooooooooooooooooooooooooosive = c(
+      "Testing",
+      "Testing",
+      "One two"
+    )
+  )
+
+example_api_long_meta <- example_meta |>
+  rbind(
+    data.frame(
+      col_name = "mahoooooooooooooooooooooooooooooooooooooooooooooooooooosive",
+      col_type = "Filter",
+      label = "A very long column name",
+      indicator_grouping = "",
+      indicator_unit = "",
+      indicator_dp = "",
+      filter_hint = "",
+      filter_grouping_column = ""
+    )
+  )
+
+usethis::use_data(example_api_long, overwrite = TRUE)
+usethis::use_data(example_api_long_meta, overwrite = TRUE)

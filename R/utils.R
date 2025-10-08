@@ -240,3 +240,25 @@ get_acceptable_ob_units <- function() {
     geography_cols
   )
 }
+
+#' Check if any values are longer than a specified length
+#'
+#' Helper function to check if any values in a vector exceed a specified
+#' length. Used for validating column names and values within columns.
+#'
+#' @param values character vector of values to check
+#' @param max_length maximum allowed character length for values
+#'
+#' @returns a data.frame with columns 'value', 'length', and 'exceeds_max'
+#' @keywords internal
+#' @noRd
+char_limits <- function(values, max_length) {
+  lengths <- nchar(values)
+  exceeds_max <- lengths > max_length
+
+  data.frame(
+    value = values,
+    length = lengths,
+    exceeds_max = exceeds_max
+  )
+}

@@ -26,6 +26,7 @@
 #' }
 #' 2. Overall stage the checks reached
 #' 3. Overall message to give back to the user
+#' 4. Boolean indicating if the data is suitable for the API
 #' @examples
 #' # Create temp files for the example
 #' data_path <- file.path(tempdir(), "example.csv")
@@ -102,7 +103,8 @@ screen_csv <- function(
       list(
         "results_table" = as.data.frame(filename_results),
         "overall_stage" = paste(stage, "checks"),
-        "overall_message" = paste("Failed", stage, "checks")
+        "overall_message" = paste("Failed", stage, "checks"),
+        "api_suitable" = FALSE
       )
     )
   }
@@ -130,19 +132,32 @@ screen_csv <- function(
       list(
         "results_table" = as.data.frame(all_results),
         "overall_stage" = paste(stage, "checks"),
-        "overall_message" = paste("Failed", stage, "checks")
+        "overall_message" = paste("Failed", stage, "checks"),
+        "api_suitable" = FALSE
       )
     )
   }
 
   # Success -------------------------------------------------------------------
-  if (verbose) {
-    cli::cli_alert_success("Passed all checks")
+  api_pass <- all(
+    all_results[all_results[["stage"]] == "Check API", "result"] == "PASS"
+  )
+
+  if (api_pass && verbose) {
+    cli::cli_alert_success("Data and metadata passed all checks")
+  } else if (verbose) {
+    cli::cli_alert_info(
+      paste(
+        "Data and metadata passed, but warnings prevent it being suitable for",
+        "the API"
+      )
+    )
   }
 
   list(
     "results_table" = all_results,
     "overall_stage" = "Passed",
-    "overall_message" = "Passed all checks"
+    "overall_message" = "Passed all checks",
+    "api_suitable" = api_pass
   )
 }

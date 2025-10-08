@@ -124,10 +124,40 @@ screen_dfs <- function(data, meta, verbose = FALSE, stop_on_error = FALSE) {
     return(as.data.frame(precheck_time_results))
   }
 
-  # Success return ------------------------------------------------------------
-  if (verbose) {
-    cli::cli_alert_success("Data and metadata passed all checks")
+  # Check API -----------------------------------------------------------------
+  check_api_results <- rbind(
+    check_api_char_limit(
+      meta[["col_name"]],
+      "column-name",
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    )
+    # TODO: Add extra variations here
+  )
+
+  api_pass <- all(check_api_results[["result"]] == "PASS")
+
+  final_results <- precheck_time_results |>
+    rbind(
+      check_api_results |>
+        cbind("stage" = "Check API")
+    )
+
+  if (any(final_results[["result"]] == "FAIL")) {
+    return(as.data.frame(final_results))
   }
 
-  precheck_time_results
+  # Success return ------------------------------------------------------------
+  if (api_pass && verbose) {
+    cli::cli_alert_success("Data and metadata passed all checks")
+  } else if (verbose) {
+    cli::cli_alert_info(
+      paste(
+        "Data and metadata passed, but warnings prevent it being suitable for",
+        "the API"
+      )
+    )
+  }
+
+  final_results
 }

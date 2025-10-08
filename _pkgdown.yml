@@ -16,14 +16,15 @@ reference:
   contents:
   - starts_with("generate_")
 
-- title: Required and acceptable values
+- title: Reference values
   description: |
-    Objects containing required or acceptable values, e.g. mandatory column names
+    Objects containing required, acceptable, or reference values, e.g. mandatory column names
   contents:
   - starts_with("req_")
   - starts_with("optional_")
   - starts_with("acceptable_")
   - geography_df
+  - api_char_limits
 
 - title: Filename checks
   contents:

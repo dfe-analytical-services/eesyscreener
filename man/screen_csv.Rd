@@ -42,6 +42,7 @@ A list containing
 }
 \item Overall stage the checks reached
 \item Overall message to give back to the user
+\item Boolean indicating if the data is suitable for the API
 }
 }
 \description{

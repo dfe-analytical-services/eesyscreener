@@ -18,10 +18,10 @@ test_that("Output structure is as expected", {
   file.remove(meta_file)
 
   expect_type(output, "list")
-  expect_length(output, 3)
+  expect_length(output, 4)
   expect_equal(
     names(output),
-    c("results_table", "overall_stage", "overall_message")
+    c("results_table", "overall_stage", "overall_message", "api_suitable")
   )
 
   expect_equal(
@@ -43,6 +43,8 @@ test_that("Output structure is as expected", {
     expect_false(any(is.na(output$results_table[[col]])))
     expect_false(any(output$results_table[[col]] == ""))
   }
+
+  expect_type(output$api_suitable, "logical")
 })
 
 test_that("Fails with invalid args", {
@@ -235,6 +237,30 @@ test_that("fails check dfs", {
   expect_equal(
     res_table[res_table$check == "meta_col_type", "result"],
     "FAIL"
+  )
+
+  file.remove(data_path)
+  file.remove(meta_path)
+})
+
+test_that("api_suitable returns FALSE for unsuitable files", {
+  data_path <- tempfile(fileext = ".csv")
+  meta_path <- tempfile(fileext = ".meta.csv")
+  data.table::fwrite(example_api_long, data_path)
+  data.table::fwrite(example_api_long_meta, meta_path)
+
+  result <- screen_csv(data_path, meta_path, "api.csv", "api.meta.csv")
+  expect_true(!is.null(result$api_suitable))
+  expect_false(result$api_suitable)
+
+  expect_warning(
+    screen_csv(
+      data_path,
+      meta_path,
+      "api.csv",
+      "api.meta.csv",
+      stop_on_error = TRUE
+    )
   )
 
   file.remove(data_path)
