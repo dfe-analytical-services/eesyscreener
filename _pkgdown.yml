@@ -79,3 +79,5 @@ reference:
 - title: Time checks
 
 - title: API specific checks
+  contents:
+  - starts_with("check_api_")
