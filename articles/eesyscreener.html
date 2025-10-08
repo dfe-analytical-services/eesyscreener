@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">eesyscreener</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -158,19 +158,16 @@ speed up the screening for larger files if their machine allows
 (particularly helpful for the API and Shiny app)</li>
 </ul>
 <p>Each individual precheck / check: - Returns a single row data.frame
-of results, or console messages / errors - <code>test_output()</code>
-function controls this - Fails cause errors in console - Can add
-additional verbose console messages before the main failure output if
-needed</p>
+of results, with optional console output and error triggers</p>
 <p>Standard pattern:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">test_output</span><span class="op">(</span></span>
-<span>  <span class="st">"test_name"</span>, <span class="co"># name of check</span></span>
-<span>  <span class="st">"PASS"</span>, <span class="co"># result of check, one of 'PASS', 'FAIL', 'WARNING'</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"'"</span>, <span class="va">filename</span>, <span class="st">"' does not contain any special characters."</span><span class="op">)</span>, <span class="co"># feedback message for user, avoid HTML, keep to a simple string</span></span>
-<span>  <span class="st">"https://dfe-analytical-services.github.io/analysts-guide/"</span>, <span class="co"># optional URL for guidance, can just not include as will default to NA</span></span>
-<span>  console <span class="op">=</span> <span class="va">verbose</span> <span class="co"># control for whether to print to console or silently return data frame (TRUE / FALSE)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">test_output</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="st">"test_name"</span>, <span class="co"># name of check</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="st">"PASS"</span>, <span class="co"># result of check, one of 'PASS', 'FAIL', 'WARNING'</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>  <span class="fu">paste0</span>(<span class="st">"'"</span>, filename, <span class="st">"' does not contain any special characters."</span>), <span class="co"># feedback message for user, avoid HTML, keep to a simple string</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>  <span class="st">"https://dfe-analytical-services.github.io/analysts-guide/"</span>, <span class="co"># optional URL for guidance, can just not include as will default to NA</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">FALSE</span> <span class="co"># whether to print messages to console</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>  <span class="at">stop_on_error =</span> <span class="cn">FALSE</span> <span class="co"># whether to stop execution and throw error if FAIL, and throw warning if </span><span class="al">WARNING</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>)</span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

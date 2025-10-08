@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">eesyscreener</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -104,8 +104,6 @@
 <span>  <span class="st">"data.csv"</span>,</span>
 <span>  <span class="st">"data.meta.csv"</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; ✔ Overwriting dplyr methods with duckplyr methods.</span></span>
-<span><span class="co">#&gt; ℹ Turn off with `duckplyr::methods_restore()`.</span></span>
 <span></span>
 <span><span class="va">result</span><span class="op">$</span><span class="va">results_table</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -115,18 +113,21 @@
 <span><span class="co">#&gt; 3     check_filename_data_special   PASS</span></span>
 <span><span class="co">#&gt; 4 check_filename_metadata_special   PASS</span></span>
 <span><span class="co">#&gt; 5           check_filenames_match   PASS</span></span>
+<span><span class="co">#&gt; 6                    col_req_meta   PASS</span></span>
 <span><span class="co">#&gt;                                                            message guidance_url</span></span>
 <span><span class="co">#&gt; 1                 'data.csv' does not have spaces in the filename.           NA</span></span>
 <span><span class="co">#&gt; 2            'data.meta.csv' does not have spaces in the filename.           NA</span></span>
 <span><span class="co">#&gt; 3              'data.csv' does not contain any special characters.           NA</span></span>
 <span><span class="co">#&gt; 4         'data.meta.csv' does not contain any special characters.           NA</span></span>
 <span><span class="co">#&gt; 5 The names of the files follow the recommended naming convention.           NA</span></span>
-<span><span class="co">#&gt;      stage</span></span>
-<span><span class="co">#&gt; 1 filename</span></span>
-<span><span class="co">#&gt; 2 filename</span></span>
-<span><span class="co">#&gt; 3 filename</span></span>
-<span><span class="co">#&gt; 4 filename</span></span>
-<span><span class="co">#&gt; 5 filename</span></span>
+<span><span class="co">#&gt; 6    All of the required columns are present in the metadata file.           NA</span></span>
+<span><span class="co">#&gt;              stage</span></span>
+<span><span class="co">#&gt; 1         filename</span></span>
+<span><span class="co">#&gt; 2         filename</span></span>
+<span><span class="co">#&gt; 3         filename</span></span>
+<span><span class="co">#&gt; 4         filename</span></span>
+<span><span class="co">#&gt; 5         filename</span></span>
+<span><span class="co">#&gt; 6 Precheck columns</span></span>
 <span></span>
 <span><span class="va">result</span><span class="op">$</span><span class="va">overall_stage</span></span>
 <span><span class="co">#&gt; [1] "Passed"</span></span>
@@ -135,10 +136,8 @@
 <span><span class="co">#&gt; [1] "Passed all checks"</span></span>
 <span></span>
 <span><span class="co"># Clean up temporary CSV files</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.remove</a></span><span class="op">(</span><span class="va">data_file</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] TRUE</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.remove</a></span><span class="op">(</span><span class="va">meta_file</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.remove</a></span><span class="op">(</span><span class="va">data_file</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.remove</a></span><span class="op">(</span><span class="va">meta_file</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="example-csvs">Example CSVs<a class="anchor" aria-label="anchor" href="#example-csvs"></a>
@@ -198,6 +197,479 @@
 <span><span class="co"># Then to create CSVs, use data.table as it's much faster</span></span>
 <span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">fwrite</a></span><span class="op">(</span><span class="va">beefy</span><span class="op">$</span><span class="va">data</span>, <span class="st">"beefy_data.csv"</span><span class="op">)</span></span>
 <span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">fwrite</a></span><span class="op">(</span><span class="va">beefy</span><span class="op">$</span><span class="va">meta</span>, <span class="st">"beefy_data.meta.csv"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="examples-of-behaviour">Examples of behaviour<a class="anchor" aria-label="anchor" href="#examples-of-behaviour"></a>
+</h2>
+<div class="section level3">
+<h3 id="passing-file">Passing file<a class="anchor" aria-label="anchor" href="#passing-file"></a>
+</h3>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".csv"</span><span class="op">)</span></span>
+<span><span class="va">meta_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".meta.csv"</span><span class="op">)</span></span>
+<span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">fwrite</a></span><span class="op">(</span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_data.html">example_data</a></span>, <span class="va">data_file</span><span class="op">)</span></span>
+<span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">fwrite</a></span><span class="op">(</span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_meta.html">example_meta</a></span>, <span class="va">meta_file</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="fu"><a href="reference/screen_csv.html">screen_csv</a></span><span class="op">(</span><span class="va">data_file</span>, <span class="va">meta_file</span>, <span class="st">"data.csv"</span>, <span class="st">"data.meta.csv"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $results_table</span></span>
+<span><span class="co">#&gt;                               check result</span></span>
+<span><span class="co">#&gt; 1        check_filename_data_spaces   PASS</span></span>
+<span><span class="co">#&gt; 2    check_filename_metadata_spaces   PASS</span></span>
+<span><span class="co">#&gt; 3       check_filename_data_special   PASS</span></span>
+<span><span class="co">#&gt; 4   check_filename_metadata_special   PASS</span></span>
+<span><span class="co">#&gt; 5             check_filenames_match   PASS</span></span>
+<span><span class="co">#&gt; 6                      col_req_meta   PASS</span></span>
+<span><span class="co">#&gt; 7                  col_invalid_meta   PASS</span></span>
+<span><span class="co">#&gt; 8                      col_req_data   PASS</span></span>
+<span><span class="co">#&gt; 9                       col_to_rows   PASS</span></span>
+<span><span class="co">#&gt; 10                    meta_col_type   PASS</span></span>
+<span><span class="co">#&gt; 11                     meta_ob_unit   PASS</span></span>
+<span><span class="co">#&gt; 12                    meta_col_name   PASS</span></span>
+<span><span class="co">#&gt; 13                    meta_col_name   PASS</span></span>
+<span><span class="co">#&gt; 14                    time_id_valid   PASS</span></span>
+<span><span class="co">#&gt; 15 check_api_char_limit_column-name   PASS</span></span>
+<span><span class="co">#&gt;                                                                                                       message</span></span>
+<span><span class="co">#&gt; 1                                                            'data.csv' does not have spaces in the filename.</span></span>
+<span><span class="co">#&gt; 2                                                       'data.meta.csv' does not have spaces in the filename.</span></span>
+<span><span class="co">#&gt; 3                                                         'data.csv' does not contain any special characters.</span></span>
+<span><span class="co">#&gt; 4                                                    'data.meta.csv' does not contain any special characters.</span></span>
+<span><span class="co">#&gt; 5                                            The names of the files follow the recommended naming convention.</span></span>
+<span><span class="co">#&gt; 6                                               All of the required columns are present in the metadata file.</span></span>
+<span><span class="co">#&gt; 7                                                          There are no invalid columns in the metadata file.</span></span>
+<span><span class="co">#&gt; 8                                                   All of the required columns are present in the data file.</span></span>
+<span><span class="co">#&gt; 9  There are an equal number of rows in the metadata file (3) and non-mandatory columns in the data file (3).</span></span>
+<span><span class="co">#&gt; 10                                                                col_type is always 'Filter' or 'Indicator'.</span></span>
+<span><span class="co">#&gt; 11                                            No observational units have been included in the metadata file.</span></span>
+<span><span class="co">#&gt; 12                                            The col_name column is completed for every row in the metadata.</span></span>
+<span><span class="co">#&gt; 13                                                   The indicator_dp column is completed for all indicators.</span></span>
+<span><span class="co">#&gt; 14                                                                  The time_identifier values are all valid.</span></span>
+<span><span class="co">#&gt; 15                          All filter / indicator names are less than or equal to the character limit of 50.</span></span>
+<span><span class="co">#&gt;    guidance_url            stage</span></span>
+<span><span class="co">#&gt; 1            NA         filename</span></span>
+<span><span class="co">#&gt; 2            NA         filename</span></span>
+<span><span class="co">#&gt; 3            NA         filename</span></span>
+<span><span class="co">#&gt; 4            NA         filename</span></span>
+<span><span class="co">#&gt; 5            NA         filename</span></span>
+<span><span class="co">#&gt; 6            NA Precheck columns</span></span>
+<span><span class="co">#&gt; 7            NA Precheck columns</span></span>
+<span><span class="co">#&gt; 8            NA Precheck columns</span></span>
+<span><span class="co">#&gt; 9            NA Precheck columns</span></span>
+<span><span class="co">#&gt; 10           NA    Precheck meta</span></span>
+<span><span class="co">#&gt; 11           NA    Precheck meta</span></span>
+<span><span class="co">#&gt; 12           NA    Precheck meta</span></span>
+<span><span class="co">#&gt; 13           NA       Check meta</span></span>
+<span><span class="co">#&gt; 14           NA    Precheck time</span></span>
+<span><span class="co">#&gt; 15           NA        Check API</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $overall_stage</span></span>
+<span><span class="co">#&gt; [1] "Passed"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $overall_message</span></span>
+<span><span class="co">#&gt; [1] "Passed all checks"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $api_suitable</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.remove</a></span><span class="op">(</span><span class="va">data_file</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.remove</a></span><span class="op">(</span><span class="va">meta_file</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="failing-file">Failing file<a class="anchor" aria-label="anchor" href="#failing-file"></a>
+</h3>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".csv"</span><span class="op">)</span></span>
+<span><span class="va">meta_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".meta.csv"</span><span class="op">)</span></span>
+<span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">fwrite</a></span><span class="op">(</span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_data.html">example_data</a></span>, <span class="va">data_file</span><span class="op">)</span></span>
+<span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">fwrite</a></span><span class="op">(</span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_meta.html">example_meta</a></span><span class="op">[</span>, <span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="va">meta_file</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="fu"><a href="reference/screen_csv.html">screen_csv</a></span><span class="op">(</span><span class="va">data_file</span>, <span class="va">meta_file</span>, <span class="st">"data.csv"</span>, <span class="st">"data.meta.csv"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $results_table</span></span>
+<span><span class="co">#&gt;                             check result</span></span>
+<span><span class="co">#&gt; 1      check_filename_data_spaces   PASS</span></span>
+<span><span class="co">#&gt; 2  check_filename_metadata_spaces   PASS</span></span>
+<span><span class="co">#&gt; 3     check_filename_data_special   PASS</span></span>
+<span><span class="co">#&gt; 4 check_filename_metadata_special   PASS</span></span>
+<span><span class="co">#&gt; 5           check_filenames_match   PASS</span></span>
+<span><span class="co">#&gt; 6                    col_req_meta   FAIL</span></span>
+<span><span class="co">#&gt; 7                col_invalid_meta   PASS</span></span>
+<span><span class="co">#&gt; 8                    col_req_data   PASS</span></span>
+<span><span class="co">#&gt; 9                     col_to_rows   PASS</span></span>
+<span><span class="co">#&gt;                                                                                                      message</span></span>
+<span><span class="co">#&gt; 1                                                           'data.csv' does not have spaces in the filename.</span></span>
+<span><span class="co">#&gt; 2                                                      'data.meta.csv' does not have spaces in the filename.</span></span>
+<span><span class="co">#&gt; 3                                                        'data.csv' does not contain any special characters.</span></span>
+<span><span class="co">#&gt; 4                                                   'data.meta.csv' does not contain any special characters.</span></span>
+<span><span class="co">#&gt; 5                                           The names of the files follow the recommended naming convention.</span></span>
+<span><span class="co">#&gt; 6                               The following required column is missing from the metadata file: 'col_name'.</span></span>
+<span><span class="co">#&gt; 7                                                         There are no invalid columns in the metadata file.</span></span>
+<span><span class="co">#&gt; 8                                                  All of the required columns are present in the data file.</span></span>
+<span><span class="co">#&gt; 9 There are an equal number of rows in the metadata file (3) and non-mandatory columns in the data file (3).</span></span>
+<span><span class="co">#&gt;   guidance_url            stage</span></span>
+<span><span class="co">#&gt; 1           NA         filename</span></span>
+<span><span class="co">#&gt; 2           NA         filename</span></span>
+<span><span class="co">#&gt; 3           NA         filename</span></span>
+<span><span class="co">#&gt; 4           NA         filename</span></span>
+<span><span class="co">#&gt; 5           NA         filename</span></span>
+<span><span class="co">#&gt; 6           NA Precheck columns</span></span>
+<span><span class="co">#&gt; 7           NA Precheck columns</span></span>
+<span><span class="co">#&gt; 8           NA Precheck columns</span></span>
+<span><span class="co">#&gt; 9           NA Precheck columns</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $overall_stage</span></span>
+<span><span class="co">#&gt; [1] "Precheck columns checks"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $overall_message</span></span>
+<span><span class="co">#&gt; [1] "Failed Precheck columns checks"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $api_suitable</span></span>
+<span><span class="co">#&gt; [1] FALSE</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.remove</a></span><span class="op">(</span><span class="va">data_file</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.remove</a></span><span class="op">(</span><span class="va">meta_file</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="failed-test-with-guidance-url">Failed test with guidance URL<a class="anchor" aria-label="anchor" href="#failed-test-with-guidance-url"></a>
+</h3>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".csv"</span><span class="op">)</span></span>
+<span><span class="va">meta_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".meta.csv"</span><span class="op">)</span></span>
+<span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">fwrite</a></span><span class="op">(</span></span>
+<span>  <span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_data.html">example_data</a></span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>time_identifier <span class="op">=</span> <span class="st">"parsec"</span><span class="op">)</span>,</span>
+<span>  <span class="va">data_file</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">fwrite</a></span><span class="op">(</span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_meta.html">example_meta</a></span>, <span class="va">meta_file</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="fu"><a href="reference/screen_csv.html">screen_csv</a></span><span class="op">(</span><span class="va">data_file</span>, <span class="va">meta_file</span>, <span class="st">"data.csv"</span>, <span class="st">"data.meta.csv"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $results_table</span></span>
+<span><span class="co">#&gt;                              check result</span></span>
+<span><span class="co">#&gt; 1       check_filename_data_spaces   PASS</span></span>
+<span><span class="co">#&gt; 2   check_filename_metadata_spaces   PASS</span></span>
+<span><span class="co">#&gt; 3      check_filename_data_special   PASS</span></span>
+<span><span class="co">#&gt; 4  check_filename_metadata_special   PASS</span></span>
+<span><span class="co">#&gt; 5            check_filenames_match   PASS</span></span>
+<span><span class="co">#&gt; 6                     col_req_meta   PASS</span></span>
+<span><span class="co">#&gt; 7                 col_invalid_meta   PASS</span></span>
+<span><span class="co">#&gt; 8                     col_req_data   PASS</span></span>
+<span><span class="co">#&gt; 9                      col_to_rows   PASS</span></span>
+<span><span class="co">#&gt; 10                   meta_col_type   PASS</span></span>
+<span><span class="co">#&gt; 11                    meta_ob_unit   PASS</span></span>
+<span><span class="co">#&gt; 12                   meta_col_name   PASS</span></span>
+<span><span class="co">#&gt; 13                   meta_col_name   PASS</span></span>
+<span><span class="co">#&gt; 14                   time_id_valid   FAIL</span></span>
+<span><span class="co">#&gt;                                                                                                       message</span></span>
+<span><span class="co">#&gt; 1                                                            'data.csv' does not have spaces in the filename.</span></span>
+<span><span class="co">#&gt; 2                                                       'data.meta.csv' does not have spaces in the filename.</span></span>
+<span><span class="co">#&gt; 3                                                         'data.csv' does not contain any special characters.</span></span>
+<span><span class="co">#&gt; 4                                                    'data.meta.csv' does not contain any special characters.</span></span>
+<span><span class="co">#&gt; 5                                            The names of the files follow the recommended naming convention.</span></span>
+<span><span class="co">#&gt; 6                                               All of the required columns are present in the metadata file.</span></span>
+<span><span class="co">#&gt; 7                                                          There are no invalid columns in the metadata file.</span></span>
+<span><span class="co">#&gt; 8                                                   All of the required columns are present in the data file.</span></span>
+<span><span class="co">#&gt; 9  There are an equal number of rows in the metadata file (3) and non-mandatory columns in the data file (3).</span></span>
+<span><span class="co">#&gt; 10                                                                col_type is always 'Filter' or 'Indicator'.</span></span>
+<span><span class="co">#&gt; 11                                            No observational units have been included in the metadata file.</span></span>
+<span><span class="co">#&gt; 12                                            The col_name column is completed for every row in the metadata.</span></span>
+<span><span class="co">#&gt; 13                                                   The indicator_dp column is completed for all indicators.</span></span>
+<span><span class="co">#&gt; 14                                                 The following invalid time_identifier was found: 'parsec'.</span></span>
+<span><span class="co">#&gt;                                                                                                            guidance_url</span></span>
+<span><span class="co">#&gt; 1                                                                                                                  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2                                                                                                                  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 3                                                                                                                  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 4                                                                                                                  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 5                                                                                                                  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 6                                                                                                                  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 7                                                                                                                  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 8                                                                                                                  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 9                                                                                                                  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 10                                                                                                                 &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 11                                                                                                                 &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 12                                                                                                                 &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 13                                                                                                                 &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 14 https://dfe-analytical-services.github.io/analysts-guide/statistics-production/ud.html#list-of-allowable-time-values</span></span>
+<span><span class="co">#&gt;               stage</span></span>
+<span><span class="co">#&gt; 1          filename</span></span>
+<span><span class="co">#&gt; 2          filename</span></span>
+<span><span class="co">#&gt; 3          filename</span></span>
+<span><span class="co">#&gt; 4          filename</span></span>
+<span><span class="co">#&gt; 5          filename</span></span>
+<span><span class="co">#&gt; 6  Precheck columns</span></span>
+<span><span class="co">#&gt; 7  Precheck columns</span></span>
+<span><span class="co">#&gt; 8  Precheck columns</span></span>
+<span><span class="co">#&gt; 9  Precheck columns</span></span>
+<span><span class="co">#&gt; 10    Precheck meta</span></span>
+<span><span class="co">#&gt; 11    Precheck meta</span></span>
+<span><span class="co">#&gt; 12    Precheck meta</span></span>
+<span><span class="co">#&gt; 13       Check meta</span></span>
+<span><span class="co">#&gt; 14    Precheck time</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $overall_stage</span></span>
+<span><span class="co">#&gt; [1] "Precheck time checks"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $overall_message</span></span>
+<span><span class="co">#&gt; [1] "Failed Precheck time checks"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $api_suitable</span></span>
+<span><span class="co">#&gt; [1] FALSE</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.remove</a></span><span class="op">(</span><span class="va">data_file</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.remove</a></span><span class="op">(</span><span class="va">meta_file</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="passing-with-warning">Passing with warning<a class="anchor" aria-label="anchor" href="#passing-with-warning"></a>
+</h3>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".csv"</span><span class="op">)</span></span>
+<span><span class="va">meta_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".meta.csv"</span><span class="op">)</span></span>
+<span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">fwrite</a></span><span class="op">(</span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_data.html">example_data</a></span>, <span class="va">data_file</span><span class="op">)</span></span>
+<span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">fwrite</a></span><span class="op">(</span></span>
+<span>  <span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_meta.html">example_meta</a></span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>indicator_dp <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>,</span>
+<span>  <span class="va">meta_file</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="fu"><a href="reference/screen_csv.html">screen_csv</a></span><span class="op">(</span><span class="va">data_file</span>, <span class="va">meta_file</span>, <span class="st">"data.csv"</span>, <span class="st">"data.meta.csv"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $results_table</span></span>
+<span><span class="co">#&gt;                               check  result</span></span>
+<span><span class="co">#&gt; 1        check_filename_data_spaces    PASS</span></span>
+<span><span class="co">#&gt; 2    check_filename_metadata_spaces    PASS</span></span>
+<span><span class="co">#&gt; 3       check_filename_data_special    PASS</span></span>
+<span><span class="co">#&gt; 4   check_filename_metadata_special    PASS</span></span>
+<span><span class="co">#&gt; 5             check_filenames_match    PASS</span></span>
+<span><span class="co">#&gt; 6                      col_req_meta    PASS</span></span>
+<span><span class="co">#&gt; 7                  col_invalid_meta    PASS</span></span>
+<span><span class="co">#&gt; 8                      col_req_data    PASS</span></span>
+<span><span class="co">#&gt; 9                       col_to_rows    PASS</span></span>
+<span><span class="co">#&gt; 10                    meta_col_type    PASS</span></span>
+<span><span class="co">#&gt; 11                     meta_ob_unit    PASS</span></span>
+<span><span class="co">#&gt; 12                    meta_col_name    PASS</span></span>
+<span><span class="co">#&gt; 13                    meta_col_name WARNING</span></span>
+<span><span class="co">#&gt; 14                    time_id_valid    PASS</span></span>
+<span><span class="co">#&gt; 15 check_api_char_limit_column-name    PASS</span></span>
+<span><span class="co">#&gt;                                                                                                                                      message</span></span>
+<span><span class="co">#&gt; 1                                                                                           'data.csv' does not have spaces in the filename.</span></span>
+<span><span class="co">#&gt; 2                                                                                      'data.meta.csv' does not have spaces in the filename.</span></span>
+<span><span class="co">#&gt; 3                                                                                        'data.csv' does not contain any special characters.</span></span>
+<span><span class="co">#&gt; 4                                                                                   'data.meta.csv' does not contain any special characters.</span></span>
+<span><span class="co">#&gt; 5                                                                           The names of the files follow the recommended naming convention.</span></span>
+<span><span class="co">#&gt; 6                                                                              All of the required columns are present in the metadata file.</span></span>
+<span><span class="co">#&gt; 7                                                                                         There are no invalid columns in the metadata file.</span></span>
+<span><span class="co">#&gt; 8                                                                                  All of the required columns are present in the data file.</span></span>
+<span><span class="co">#&gt; 9                                 There are an equal number of rows in the metadata file (3) and non-mandatory columns in the data file (3).</span></span>
+<span><span class="co">#&gt; 10                                                                                               col_type is always 'Filter' or 'Indicator'.</span></span>
+<span><span class="co">#&gt; 11                                                                           No observational units have been included in the metadata file.</span></span>
+<span><span class="co">#&gt; 12                                                                           The col_name column is completed for every row in the metadata.</span></span>
+<span><span class="co">#&gt; 13 enrolment_count does not have a specified number of decimal places in the metadata file, this should be explicitly stated where possible.</span></span>
+<span><span class="co">#&gt; 14                                                                                                 The time_identifier values are all valid.</span></span>
+<span><span class="co">#&gt; 15                                                         All filter / indicator names are less than or equal to the character limit of 50.</span></span>
+<span><span class="co">#&gt;    guidance_url            stage</span></span>
+<span><span class="co">#&gt; 1            NA         filename</span></span>
+<span><span class="co">#&gt; 2            NA         filename</span></span>
+<span><span class="co">#&gt; 3            NA         filename</span></span>
+<span><span class="co">#&gt; 4            NA         filename</span></span>
+<span><span class="co">#&gt; 5            NA         filename</span></span>
+<span><span class="co">#&gt; 6            NA Precheck columns</span></span>
+<span><span class="co">#&gt; 7            NA Precheck columns</span></span>
+<span><span class="co">#&gt; 8            NA Precheck columns</span></span>
+<span><span class="co">#&gt; 9            NA Precheck columns</span></span>
+<span><span class="co">#&gt; 10           NA    Precheck meta</span></span>
+<span><span class="co">#&gt; 11           NA    Precheck meta</span></span>
+<span><span class="co">#&gt; 12           NA    Precheck meta</span></span>
+<span><span class="co">#&gt; 13           NA       Check meta</span></span>
+<span><span class="co">#&gt; 14           NA    Precheck time</span></span>
+<span><span class="co">#&gt; 15           NA        Check API</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $overall_stage</span></span>
+<span><span class="co">#&gt; [1] "Passed"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $overall_message</span></span>
+<span><span class="co">#&gt; [1] "Passed all checks"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $api_suitable</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.remove</a></span><span class="op">(</span><span class="va">data_file</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.remove</a></span><span class="op">(</span><span class="va">meta_file</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="failing-with-warning">Failing with warning<a class="anchor" aria-label="anchor" href="#failing-with-warning"></a>
+</h3>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".csv"</span><span class="op">)</span></span>
+<span><span class="va">meta_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".meta.csv"</span><span class="op">)</span></span>
+<span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">fwrite</a></span><span class="op">(</span></span>
+<span>  <span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_data.html">example_data</a></span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>time_identifier <span class="op">=</span> <span class="st">"parsec"</span><span class="op">)</span>,</span>
+<span>  <span class="va">data_file</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">fwrite</a></span><span class="op">(</span></span>
+<span>  <span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_meta.html">example_meta</a></span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>indicator_dp <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>,</span>
+<span>  <span class="va">meta_file</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="fu"><a href="reference/screen_csv.html">screen_csv</a></span><span class="op">(</span><span class="va">data_file</span>, <span class="va">meta_file</span>, <span class="st">"data.csv"</span>, <span class="st">"data.meta.csv"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $results_table</span></span>
+<span><span class="co">#&gt;                              check  result</span></span>
+<span><span class="co">#&gt; 1       check_filename_data_spaces    PASS</span></span>
+<span><span class="co">#&gt; 2   check_filename_metadata_spaces    PASS</span></span>
+<span><span class="co">#&gt; 3      check_filename_data_special    PASS</span></span>
+<span><span class="co">#&gt; 4  check_filename_metadata_special    PASS</span></span>
+<span><span class="co">#&gt; 5            check_filenames_match    PASS</span></span>
+<span><span class="co">#&gt; 6                     col_req_meta    PASS</span></span>
+<span><span class="co">#&gt; 7                 col_invalid_meta    PASS</span></span>
+<span><span class="co">#&gt; 8                     col_req_data    PASS</span></span>
+<span><span class="co">#&gt; 9                      col_to_rows    PASS</span></span>
+<span><span class="co">#&gt; 10                   meta_col_type    PASS</span></span>
+<span><span class="co">#&gt; 11                    meta_ob_unit    PASS</span></span>
+<span><span class="co">#&gt; 12                   meta_col_name    PASS</span></span>
+<span><span class="co">#&gt; 13                   meta_col_name WARNING</span></span>
+<span><span class="co">#&gt; 14                   time_id_valid    FAIL</span></span>
+<span><span class="co">#&gt;                                                                                                                                      message</span></span>
+<span><span class="co">#&gt; 1                                                                                           'data.csv' does not have spaces in the filename.</span></span>
+<span><span class="co">#&gt; 2                                                                                      'data.meta.csv' does not have spaces in the filename.</span></span>
+<span><span class="co">#&gt; 3                                                                                        'data.csv' does not contain any special characters.</span></span>
+<span><span class="co">#&gt; 4                                                                                   'data.meta.csv' does not contain any special characters.</span></span>
+<span><span class="co">#&gt; 5                                                                           The names of the files follow the recommended naming convention.</span></span>
+<span><span class="co">#&gt; 6                                                                              All of the required columns are present in the metadata file.</span></span>
+<span><span class="co">#&gt; 7                                                                                         There are no invalid columns in the metadata file.</span></span>
+<span><span class="co">#&gt; 8                                                                                  All of the required columns are present in the data file.</span></span>
+<span><span class="co">#&gt; 9                                 There are an equal number of rows in the metadata file (3) and non-mandatory columns in the data file (3).</span></span>
+<span><span class="co">#&gt; 10                                                                                               col_type is always 'Filter' or 'Indicator'.</span></span>
+<span><span class="co">#&gt; 11                                                                           No observational units have been included in the metadata file.</span></span>
+<span><span class="co">#&gt; 12                                                                           The col_name column is completed for every row in the metadata.</span></span>
+<span><span class="co">#&gt; 13 enrolment_count does not have a specified number of decimal places in the metadata file, this should be explicitly stated where possible.</span></span>
+<span><span class="co">#&gt; 14                                                                                The following invalid time_identifier was found: 'parsec'.</span></span>
+<span><span class="co">#&gt;                                                                                                            guidance_url</span></span>
+<span><span class="co">#&gt; 1                                                                                                                  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2                                                                                                                  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 3                                                                                                                  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 4                                                                                                                  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 5                                                                                                                  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 6                                                                                                                  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 7                                                                                                                  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 8                                                                                                                  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 9                                                                                                                  &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 10                                                                                                                 &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 11                                                                                                                 &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 12                                                                                                                 &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 13                                                                                                                 &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 14 https://dfe-analytical-services.github.io/analysts-guide/statistics-production/ud.html#list-of-allowable-time-values</span></span>
+<span><span class="co">#&gt;               stage</span></span>
+<span><span class="co">#&gt; 1          filename</span></span>
+<span><span class="co">#&gt; 2          filename</span></span>
+<span><span class="co">#&gt; 3          filename</span></span>
+<span><span class="co">#&gt; 4          filename</span></span>
+<span><span class="co">#&gt; 5          filename</span></span>
+<span><span class="co">#&gt; 6  Precheck columns</span></span>
+<span><span class="co">#&gt; 7  Precheck columns</span></span>
+<span><span class="co">#&gt; 8  Precheck columns</span></span>
+<span><span class="co">#&gt; 9  Precheck columns</span></span>
+<span><span class="co">#&gt; 10    Precheck meta</span></span>
+<span><span class="co">#&gt; 11    Precheck meta</span></span>
+<span><span class="co">#&gt; 12    Precheck meta</span></span>
+<span><span class="co">#&gt; 13       Check meta</span></span>
+<span><span class="co">#&gt; 14    Precheck time</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $overall_stage</span></span>
+<span><span class="co">#&gt; [1] "Precheck time checks"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $overall_message</span></span>
+<span><span class="co">#&gt; [1] "Failed Precheck time checks"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $api_suitable</span></span>
+<span><span class="co">#&gt; [1] FALSE</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.remove</a></span><span class="op">(</span><span class="va">data_file</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.remove</a></span><span class="op">(</span><span class="va">meta_file</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="passing-but-issues-on-api-checks">Passing but issues on API checks<a class="anchor" aria-label="anchor" href="#passing-but-issues-on-api-checks"></a>
+</h3>
+<p>Currently the API checks will only give warnings, as they are a warning for all files and don’t stop upload. However, any warnings in the API checks will prevent a dataset from being able to be published through the API.</p>
+<p>A api_suitable boolean is returned to allow for easy determination of suitability for publishing through the API.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".csv"</span><span class="op">)</span></span>
+<span><span class="va">meta_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".meta.csv"</span><span class="op">)</span></span>
+<span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">fwrite</a></span><span class="op">(</span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_api_long.html">example_api_long</a></span>, <span class="va">data_file</span><span class="op">)</span></span>
+<span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">fwrite</a></span><span class="op">(</span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_api_long_meta.html">example_api_long_meta</a></span>, <span class="va">meta_file</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="fu"><a href="reference/screen_csv.html">screen_csv</a></span><span class="op">(</span><span class="va">data_file</span>, <span class="va">meta_file</span>, <span class="st">"data.csv"</span>, <span class="st">"data.meta.csv"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $results_table</span></span>
+<span><span class="co">#&gt;                               check  result</span></span>
+<span><span class="co">#&gt; 1        check_filename_data_spaces    PASS</span></span>
+<span><span class="co">#&gt; 2    check_filename_metadata_spaces    PASS</span></span>
+<span><span class="co">#&gt; 3       check_filename_data_special    PASS</span></span>
+<span><span class="co">#&gt; 4   check_filename_metadata_special    PASS</span></span>
+<span><span class="co">#&gt; 5             check_filenames_match    PASS</span></span>
+<span><span class="co">#&gt; 6                      col_req_meta    PASS</span></span>
+<span><span class="co">#&gt; 7                  col_invalid_meta    PASS</span></span>
+<span><span class="co">#&gt; 8                      col_req_data    PASS</span></span>
+<span><span class="co">#&gt; 9                       col_to_rows    PASS</span></span>
+<span><span class="co">#&gt; 10                    meta_col_type    PASS</span></span>
+<span><span class="co">#&gt; 11                     meta_ob_unit    PASS</span></span>
+<span><span class="co">#&gt; 12                    meta_col_name    PASS</span></span>
+<span><span class="co">#&gt; 13                    meta_col_name    PASS</span></span>
+<span><span class="co">#&gt; 14                    time_id_valid    PASS</span></span>
+<span><span class="co">#&gt; 15 check_api_char_limit_column-name WARNING</span></span>
+<span><span class="co">#&gt;                                                                                                                                                           message</span></span>
+<span><span class="co">#&gt; 1                                                                                                                'data.csv' does not have spaces in the filename.</span></span>
+<span><span class="co">#&gt; 2                                                                                                           'data.meta.csv' does not have spaces in the filename.</span></span>
+<span><span class="co">#&gt; 3                                                                                                             'data.csv' does not contain any special characters.</span></span>
+<span><span class="co">#&gt; 4                                                                                                        'data.meta.csv' does not contain any special characters.</span></span>
+<span><span class="co">#&gt; 5                                                                                                The names of the files follow the recommended naming convention.</span></span>
+<span><span class="co">#&gt; 6                                                                                                   All of the required columns are present in the metadata file.</span></span>
+<span><span class="co">#&gt; 7                                                                                                              There are no invalid columns in the metadata file.</span></span>
+<span><span class="co">#&gt; 8                                                                                                       All of the required columns are present in the data file.</span></span>
+<span><span class="co">#&gt; 9                                                      There are an equal number of rows in the metadata file (4) and non-mandatory columns in the data file (4).</span></span>
+<span><span class="co">#&gt; 10                                                                                                                    col_type is always 'Filter' or 'Indicator'.</span></span>
+<span><span class="co">#&gt; 11                                                                                                No observational units have been included in the metadata file.</span></span>
+<span><span class="co">#&gt; 12                                                                                                The col_name column is completed for every row in the metadata.</span></span>
+<span><span class="co">#&gt; 13                                                                                                       The indicator_dp column is completed for all indicators.</span></span>
+<span><span class="co">#&gt; 14                                                                                                                      The time_identifier values are all valid.</span></span>
+<span><span class="co">#&gt; 15 The following filter / indicator names exceed the character limit of 50 for type 'column-name': "mahoooooooooooooooooooooooooooooooooooooooooooooooooooosive".</span></span>
+<span><span class="co">#&gt;                                                                                                                                              guidance_url</span></span>
+<span><span class="co">#&gt; 1                                                                                                                                                    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2                                                                                                                                                    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 3                                                                                                                                                    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 4                                                                                                                                                    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 5                                                                                                                                                    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 6                                                                                                                                                    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 7                                                                                                                                                    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 8                                                                                                                                                    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 9                                                                                                                                                    &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 10                                                                                                                                                   &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 11                                                                                                                                                   &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 12                                                                                                                                                   &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 13                                                                                                                                                   &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 14                                                                                                                                                   &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 15 https://dfe-analytical-services.github.io/analysts-guide/statistics-production/api-data-standards.html#character-limits-for-col_names-and-filter-items</span></span>
+<span><span class="co">#&gt;               stage</span></span>
+<span><span class="co">#&gt; 1          filename</span></span>
+<span><span class="co">#&gt; 2          filename</span></span>
+<span><span class="co">#&gt; 3          filename</span></span>
+<span><span class="co">#&gt; 4          filename</span></span>
+<span><span class="co">#&gt; 5          filename</span></span>
+<span><span class="co">#&gt; 6  Precheck columns</span></span>
+<span><span class="co">#&gt; 7  Precheck columns</span></span>
+<span><span class="co">#&gt; 8  Precheck columns</span></span>
+<span><span class="co">#&gt; 9  Precheck columns</span></span>
+<span><span class="co">#&gt; 10    Precheck meta</span></span>
+<span><span class="co">#&gt; 11    Precheck meta</span></span>
+<span><span class="co">#&gt; 12    Precheck meta</span></span>
+<span><span class="co">#&gt; 13       Check meta</span></span>
+<span><span class="co">#&gt; 14    Precheck time</span></span>
+<span><span class="co">#&gt; 15        Check API</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $overall_stage</span></span>
+<span><span class="co">#&gt; [1] "Passed"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $overall_message</span></span>
+<span><span class="co">#&gt; [1] "Passed all checks"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $api_suitable</span></span>
+<span><span class="co">#&gt; [1] FALSE</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.remove</a></span><span class="op">(</span><span class="va">data_file</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.remove</a></span><span class="op">(</span><span class="va">meta_file</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
 </div>
 <div class="section level2">
 <h2 id="contributing">Contributing<a class="anchor" aria-label="anchor" href="#contributing"></a>

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="index.html">eesyscreener</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -140,30 +140,6 @@
 <ol style="list-style-type: lower-alpha"><li><p>Make use of the <code>tests/utils/copy_check_data.R</code> script to copy over CSVs from the screener repo and save as RDS files in the tests folder</p></li>
 <li><p>There should be a collection of unit tests and at least one example data file with an expected failure for every function</p></li>
 </ol></div>
-<div class="section level2">
-<h2 id="notes--questions">Notes / questions<a class="anchor" aria-label="anchor" href="#notes--questions"></a></h2>
-<ol style="list-style-type: decimal"><li><p>When console messages are on would we still want the data.frame returned? - should the console option be a verbosity option instead?</p></li>
-<li><p>Is the console option the right default to set (thinking easiest for users, Shiny and API are easy to set as “table” output)</p></li>
-<li><p>Radical - would we want to ditch warnings? Just have TRUE / FALSE for pass / fail?</p></li>
-<li><p>Guidance URL? / being able to feedback to users? Not 100% on, wondering if a first version could be to ditch, simply the feedback to the user and instead and go for an accompanying vignette guide to specific checks - e.g. with instructions for running checks in isolation to investigate issues (thinking of duplicate rows?)</p></li>
-<li><p>Long feedback messages - how do we handle more neatly / give ourselves ability to still edit those later</p></li>
-<li><p>How should errors be handled? (partly a Q for the API)</p></li>
-</ol><ul><li>6a. Should whether the file is a CSV or not be a standard check function rather than file validation that throws an error?</li>
-</ul><ol start="7" style="list-style-type: decimal"><li>Generally, how intuitive (or not) is the approach to the package and docs?</li>
-</ol><ul><li><p>Is there anything missing?</p></li>
-<li><p>Is there anything that could be improved?</p></li>
-</ul></div>
-<div class="section level2">
-<h2 id="next-tests-to-migrate-in">Next tests to migrate in<a class="anchor" aria-label="anchor" href="#next-tests-to-migrate-in"></a></h2>
-<div class="section level3">
-<h3 id="pre-time">Pre-time<a class="anchor" aria-label="anchor" href="#pre-time"></a></h3>
-<p>time_identifier_mix time_identifier time_validation</p>
-</div>
-<div class="section level3">
-<h3 id="time">Time<a class="anchor" aria-label="anchor" href="#time"></a></h3>
-<p>time_period time_period_six</p>
-</div>
-</div>
 <div class="section level2">
 <h2 id="other-things-to-add-to-the-package">Other things to add to the package<a class="anchor" aria-label="anchor" href="#other-things-to-add-to-the-package"></a></h2>
 <p>TODO: Add trello card workflow</p>

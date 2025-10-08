@@ -15,7 +15,7 @@ datafile.meta.csv (metadata file)
 
     <a class="navbar-brand me-2" href="../index.html">eesyscreener</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,7 +53,12 @@ datafile.meta.csv (metadata file)
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">check_filenames_match</span><span class="op">(</span><span class="va">datafilename</span>, <span class="va">metafilename</span>, output <span class="op">=</span> <span class="st">"console"</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">check_filenames_match</span><span class="op">(</span></span>
+<span>  <span class="va">datafilename</span>,</span>
+<span>  <span class="va">metafilename</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  stop_on_error <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -68,14 +73,19 @@ datafile.meta.csv (metadata file)
 <dd><p>A character string of the metadata filename to check</p></dd>
 
 
-<dt id="arg-output">output<a class="anchor" aria-label="anchor" href="#arg-output"></a></dt>
-<dd><p>"table", "error-only", or "console". Default is "console"</p></dd>
+<dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
+<dd><p>logical, if TRUE prints feedback messages to console for
+every test, if FALSE run silently</p></dd>
+
+
+<dt id="arg-stop-on-error">stop_on_error<a class="anchor" aria-label="anchor" href="#arg-stop-on-error"></a></dt>
+<dd><p>logical, if TRUE will stop with an error if the result
+is "FAIL", and will throw genuine warning if result is "WARNING"</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>a console message with feedback from the check or a single row data
-frame if verbose = FALSE</p>
+    <p>a single row data frame</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -87,8 +97,12 @@ frame if verbose = FALSE</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">check_filenames_match</span><span class="op">(</span><span class="st">"datafile.csv"</span>, <span class="st">"datafile.meta.csv"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> The names of the files follow the recommended naming convention.</span>
-<span class="r-in"><span><span class="fu">check_filenames_match</span><span class="op">(</span><span class="st">"datafile.csv"</span>, <span class="st">"metafile.csv"</span>, output <span class="op">=</span> <span class="st">"table"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   check result</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 check_filenames_match   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                            message guidance_url</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 The names of the files follow the recommended naming convention.           NA</span>
+<span class="r-in"><span><span class="fu">check_filenames_match</span><span class="op">(</span><span class="st">"datafile.csv"</span>, <span class="st">"metafile.csv"</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> The filenames do not follow the recommended naming convention. Based on the given data filename, the metadata filename is expected to be 'datafile.meta.csv''.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   check result</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 check_filenames_match   FAIL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                                                          message</span>

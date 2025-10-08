@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">eesyscreener</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -78,6 +78,18 @@
 
       <dl><dt>
 
+          <code><a href="example_api_long.html">example_api_long</a></code>
+
+        </dt>
+        <dd>Example data that has a column name too long for the API</dd>
+      </dl><dl><dt>
+
+          <code><a href="example_api_long_meta.html">example_api_long_meta</a></code>
+
+        </dt>
+        <dd>Example metadata that has a column name too long for the API</dd>
+      </dl><dl><dt>
+
           <code><a href="example_data.html">example_data</a></code>
 
         </dt>
@@ -130,9 +142,9 @@
         </dt>
         <dd>EES-ily generate some beefy test files</dd>
       </dl></div><div class="section level2">
-      <h2 id="required-and-acceptable-values">Required and acceptable values<a class="anchor" aria-label="anchor" href="#required-and-acceptable-values"></a></h2>
+      <h2 id="reference-values">Reference values<a class="anchor" aria-label="anchor" href="#reference-values"></a></h2>
 
-      <div class="section-desc"><p>Objects containing required or acceptable values, e.g. mandatory column names</p></div>
+      <div class="section-desc"><p>Objects containing required, acceptable, or reference values, e.g. mandatory column names</p></div>
 
 
     </div><div class="section level2">
@@ -170,6 +182,12 @@
 
         </dt>
         <dd>Acceptable geographic levels and their associated columns</dd>
+      </dl><dl><dt>
+
+          <code><a href="api_char_limits.html">api_char_limits</a></code>
+
+        </dt>
+        <dd>API character limits</dd>
       </dl></div><div class="section level2">
       <h2 id="filename-checks">Filename checks<a class="anchor" aria-label="anchor" href="#filename-checks"></a></h2>
 
@@ -274,8 +292,13 @@
 
 
 
+      <dl><dt>
 
-    </div><div class="section level2">
+          <code><a href="check_meta_ind_dp_set.html">check_meta_ind_dp_set()</a></code>
+
+        </dt>
+        <dd>Check indicator_dp is set for all indicator rows</dd>
+      </dl></div><div class="section level2">
       <h2 id="core-data-file-structure">Core data file structure<a class="anchor" aria-label="anchor" href="#core-data-file-structure"></a></h2>
 
 
@@ -370,7 +393,18 @@
 
 
 
-    </div>
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="check_api_char_limit.html">check_api_char_limit()</a></code>
+
+        </dt>
+        <dd>Check if values exceed a character limit</dd>
+      </dl></div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 
