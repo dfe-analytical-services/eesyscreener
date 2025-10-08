@@ -124,10 +124,10 @@
 #'   \item{geographic_level}{Geographic level of row}
 #'   \item{country_code}{Country code (9 digits)}
 #'   \item{country_name}{Country name}
-#'   \item{establishment_type_group}{Type of establishment}
-#'   \item{mahoooooooooooooooooooooooooooooooooooooooooooooooooooosive}{Long}
 #'   \item{sex}{Sex of pupil}
+#'   \item{education_phase}{Phase of education}
 #'   \item{enrolment_count}{Number of enrolments}
+#'   \item{mahoooooooooooooooooooooooooooooooooooooooooooooooooooosive}{Long}
 #' }
 #' @source maintained by explore.statistics@@education.gov.uk
 "example_api_long"
