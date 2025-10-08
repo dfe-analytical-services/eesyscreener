@@ -88,6 +88,19 @@ screen_dfs <- function(data, meta, verbose = FALSE, stop_on_error = FALSE) {
   }
 
   # Check meta ----------------------------------------------------------------
+  check_meta_results <- rbind(
+    check_meta_ind_dp_set(meta, verbose, stop_on_error)
+  )
+
+  check_meta_results <- precheck_meta_results |>
+    rbind(
+      check_meta_results |>
+        cbind("stage" = "Check meta")
+    )
+
+  if (any(check_meta_results[["result"]] == "FAIL")) {
+    return(as.data.frame(check_meta_results))
+  }
 
   # Some other bits -----------------------------------------------------------
 
@@ -101,7 +114,7 @@ screen_dfs <- function(data, meta, verbose = FALSE, stop_on_error = FALSE) {
     )
   )
 
-  precheck_time_results <- precheck_meta_results |>
+  precheck_time_results <- check_meta_results |>
     rbind(
       precheck_time_results |>
         cbind("stage" = "Precheck time")
