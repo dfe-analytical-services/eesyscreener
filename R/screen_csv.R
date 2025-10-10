@@ -61,10 +61,20 @@ screen_csv <- function(
 
   # Validate inputs -----------------------------------------------------------
   if (!is.character(datapath) || length(datapath) != 1) {
-    cli::cli_abort("`datapath` must be a single string.")
+    cli::cli_abort(
+      sprintf(
+        "`datapath` must be a single string: %s.",
+        paste(datapath, collapse = ", ")
+      )
+    )
   }
   if (!is.character(metapath) || length(metapath) != 1) {
-    cli::cli_abort("`metapath` must be a single string.")
+    cli::cli_abort(
+      sprintf(
+        "`metapath` must be a single string: %s.",
+        paste(metapath, collapse = ", ")
+      )
+    )
   }
 
   validate_arg_logical(verbose, "verbose")
