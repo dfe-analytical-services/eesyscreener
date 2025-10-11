@@ -70,6 +70,20 @@ If Frederick hadn't already told us enough times, duck is king. We can write nic
 
 If you have issues with linting and dplyr variables showing no visible binding, follow the [guide to using dplyr in packages](https://cran.r-project.org/web/packages/dplyr/vignettes/in-packages.html).
 
+### duckplyr messages
+
+duckplyr is particularly verbose, and will tell you when it's falling back to dplyr, often you may get messages like the following:
+
+> The duckplyr package is configured to fall back to dplyr when it encounters an incompatibility. Fallback events can be collected and uploaded for analysis to guide future development. By default, data will be collected but no data will be uploaded.
+> i Automatic fallback uploading is not controlled and therefore disabled, see `?duckplyr::fallback()`.
+> v Number of reports ready for upload: 1.
+
+These are safe to ignore, though detail out the places where duckplyr has tried and failed to run, often if you investigate through `duckplyr::fallback_review()` you can pinpoint where in the code you tried to get duckplyr to do something it didn't want.
+
+Uploading the reports using `duckplyr::fallback_upload()` will clear them from your machine and submit to the maintainers.
+
+If you don't care for looking at them more, you can set them to auto upload (and stop shouting at you) with `duckplyr::fallback_config(autoupload = TRUE)`.
+
 ## Process for moving in functions from app
 
 [Tracking spreadsheet set up in sharepoint](https://educationgovuk.sharepoint.com/:x:/r/sites/lveesfa00074/Data%20Insights%20and%20Statistics%20Division/Statistics%20Services%20Unit/Explore%20education%20statistics%20platforms/Screening%20tests%20migration%20tracking.xlsx?d=wdc9cf9ce356b47c6a1d1f11aba8bb96d&csf=1&web=1&e=PSIk6I), this contains a table of all checks, thoughts on new groupings and notes about the migration (including the progress).
@@ -111,7 +125,7 @@ b. Create and use helper functions (if you haven't already), place any helper fu
 
 c. Avoid bringing in too many new dependencies, try rewriting in base R where possible
 
-d. Use `microbenchmark` to experiment to find the most efficient approach, look at `data.table` and `duckplyr` for speedier alternatives (speed is king here) e.g.
+d. Use `microbenchmark` to experiment to find the most efficient approach (speed is king here) e.g.
 
 ``` r
 data <- eesyscreener::example_data
@@ -130,7 +144,7 @@ However, when testing with a bigger file (~6million rows), the 2nd and 3rd optio
 
 You can use the `tests/utils/benchmarking.R` script as a starting point, it includes code to generate big tables and run benchmarking. Sometimes the fastest on small files will not be the fastest on bigger ones. Prioritise the bigger files as that's where the biggest impact will be felt.
 
-If it's a particularly big function running over a whole data file, also consider using `future.apply` or other parallel processing approaches if they swap in easily.
+In particular look at using `dplyr` verbs that can use `duckplyr` for speedier alternatives as we enable duckplyr within the `screen_dfs()`. `data.table` probably isn't necessary and would cause us to need to switch between a data.frame and a data.table costing time. 
 
 TODO: At the end of the migration, we should then plan how to migrate the test data over, so that all of the existing edge cases tested in the R Shiny app can be covered here.
 

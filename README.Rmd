@@ -112,7 +112,7 @@ df <- files$data
 df_meta <- files$meta
 ```
 
-If you want to go really big, combine with the [dfeR package](https://dfe-analytical-services.github.io/dfeR/), to pass in vectors of Parliamentary Constituencies, and then [data.table](https://rdatatable.gitlab.io/data.table/) for much faster CSV creation.
+If you want to go bigger, combine with the [dfeR package](https://dfe-analytical-services.github.io/dfeR/), to pass in vectors of Parliamentary Constituencies.
 
 The following example creates an example data and metadata pair with a data set of just over 6 million rows. Formula to calculate rows is:
 
@@ -144,8 +144,8 @@ write.csv(beefy$meta, "beefy_data.meta.csv", row.names = FALSE)
 ``` {r passing}
 data_file <- tempfile(fileext = ".csv")
 meta_file <- tempfile(fileext = ".meta.csv")
-data.table::fwrite(eesyscreener::example_data, data_file)
-data.table::fwrite(eesyscreener::example_meta, meta_file)
+write.csv(eesyscreener::example_data, data_file, row.names = FALSE)
+write.csv(eesyscreener::example_meta, meta_file, row.names = FALSE)
 
 eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 
@@ -158,8 +158,8 @@ invisible(file.remove(meta_file))
 ``` {r failing}
 data_file <- tempfile(fileext = ".csv")
 meta_file <- tempfile(fileext = ".meta.csv")
-data.table::fwrite(eesyscreener::example_data, data_file)
-data.table::fwrite(eesyscreener::example_meta[, -1], meta_file)
+write.csv(eesyscreener::example_data, data_file, row.names = FALSE)
+write.csv(eesyscreener::example_meta[, -1], meta_file, row.names = FALSE)
 
 eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 
@@ -172,11 +172,12 @@ invisible(file.remove(meta_file))
 ``` {r guidance}
 data_file <- tempfile(fileext = ".csv")
 meta_file <- tempfile(fileext = ".meta.csv")
-data.table::fwrite(
+write.csv(
   eesyscreener::example_data |> dplyr::mutate(time_identifier = "parsec"),
-  data_file
+  data_file,
+  row.names = FALSE
 )
-data.table::fwrite(eesyscreener::example_meta, meta_file)
+write.csv(eesyscreener::example_meta, meta_file, row.names = FALSE)
 
 eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 
@@ -189,11 +190,12 @@ invisible(file.remove(meta_file))
 ``` {r warning}
 data_file <- tempfile(fileext = ".csv")
 meta_file <- tempfile(fileext = ".meta.csv")
-data.table::fwrite(eesyscreener::example_data, data_file)
-data.table::fwrite(
+write.csv(eesyscreener::example_data, data_file, row.names = FALSE)
+write.csv(
   eesyscreener::example_meta |>
     dplyr::mutate(indicator_dp = NA),
-  meta_file
+  meta_file, 
+  row.names = FALSE
 )
 
 eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
@@ -207,14 +209,16 @@ invisible(file.remove(meta_file))
 ``` {r failwarn}
 data_file <- tempfile(fileext = ".csv")
 meta_file <- tempfile(fileext = ".meta.csv")
-data.table::fwrite(
+write.csv(
   eesyscreener::example_data |> dplyr::mutate(time_identifier = "parsec"),
-  data_file
+  data_file, 
+  row.names = FALSE
 )
-data.table::fwrite(
+write.csv(
   eesyscreener::example_meta |>
     dplyr::mutate(indicator_dp = NA),
-  meta_file
+  meta_file,
+  row.names = FALSE
 )
 eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 
@@ -231,8 +235,8 @@ A api_suitable boolean is returned to allow for easy determination of suitabilit
 ``` {r apichecks}
 data_file <- tempfile(fileext = ".csv")
 meta_file <- tempfile(fileext = ".meta.csv")
-data.table::fwrite(eesyscreener::example_api_long, data_file)
-data.table::fwrite(eesyscreener::example_api_long_meta, meta_file)
+write.csv(eesyscreener::example_api_long, data_file, row.names = FALSE)
+write.csv(eesyscreener::example_api_long_meta, meta_file, row.names = FALSE)
 
 eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 

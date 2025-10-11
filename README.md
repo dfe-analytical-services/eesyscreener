@@ -80,6 +80,16 @@ result <- eesyscreener::screen_csv(
   "data.csv",
   "data.meta.csv"
 )
+#> The duckplyr package is configured to fall back to dplyr when it encounters an
+#> incompatibility. Fallback events can be collected and uploaded for analysis to
+#> guide future development. By default, data will be collected but no data will
+#> be uploaded.
+#> ℹ Automatic fallback uploading is not controlled and therefore disabled, see
+#>   `?duckplyr::fallback()`.
+#> ✔ Number of reports ready for upload: 1.
+#> → Review with `duckplyr::fallback_review()`, upload with
+#>   `duckplyr::fallback_upload()`.
+#> ℹ Configure automatic uploading with `duckplyr::fallback_config()`.
 
 result$results_table |>
   head()
@@ -112,7 +122,7 @@ result$overall_message
 #> [1] "Passed all checks"
 
 result$api_suitable
-#> NULL
+#> [1] TRUE
 
 # Clean up temporary CSV files
 invisible(file.remove(data_file))
@@ -153,11 +163,9 @@ df <- files$data
 df_meta <- files$meta
 ```
 
-If you want to go really big, combine with the [dfeR
+If you want to go bigger, combine with the [dfeR
 package](https://dfe-analytical-services.github.io/dfeR/), to pass in
-vectors of Parliamentary Constituencies, and then
-[data.table](https://rdatatable.gitlab.io/data.table/) for much faster
-CSV creation.
+vectors of Parliamentary Constituencies.
 
 The following example creates an example data and metadata pair with a
 data set of just over 6 million rows. Formula to calculate rows is:
@@ -190,8 +198,8 @@ write.csv(beefy$meta, "beefy_data.meta.csv", row.names = FALSE)
 ``` r
 data_file <- tempfile(fileext = ".csv")
 meta_file <- tempfile(fileext = ".meta.csv")
-data.table::fwrite(eesyscreener::example_data, data_file)
-data.table::fwrite(eesyscreener::example_meta, meta_file)
+write.csv(eesyscreener::example_data, data_file, row.names = FALSE)
+write.csv(eesyscreener::example_meta, meta_file, row.names = FALSE)
 
 eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> $results_table
@@ -262,8 +270,8 @@ invisible(file.remove(meta_file))
 ``` r
 data_file <- tempfile(fileext = ".csv")
 meta_file <- tempfile(fileext = ".meta.csv")
-data.table::fwrite(eesyscreener::example_data, data_file)
-data.table::fwrite(eesyscreener::example_meta[, -1], meta_file)
+write.csv(eesyscreener::example_data, data_file, row.names = FALSE)
+write.csv(eesyscreener::example_meta[, -1], meta_file, row.names = FALSE)
 
 eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> $results_table
@@ -316,11 +324,12 @@ invisible(file.remove(meta_file))
 ``` r
 data_file <- tempfile(fileext = ".csv")
 meta_file <- tempfile(fileext = ".meta.csv")
-data.table::fwrite(
+write.csv(
   eesyscreener::example_data |> dplyr::mutate(time_identifier = "parsec"),
-  data_file
+  data_file,
+  row.names = FALSE
 )
-data.table::fwrite(eesyscreener::example_meta, meta_file)
+write.csv(eesyscreener::example_meta, meta_file, row.names = FALSE)
 
 eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> $results_table
@@ -403,11 +412,12 @@ invisible(file.remove(meta_file))
 ``` r
 data_file <- tempfile(fileext = ".csv")
 meta_file <- tempfile(fileext = ".meta.csv")
-data.table::fwrite(eesyscreener::example_data, data_file)
-data.table::fwrite(
+write.csv(eesyscreener::example_data, data_file, row.names = FALSE)
+write.csv(
   eesyscreener::example_meta |>
     dplyr::mutate(indicator_dp = NA),
-  meta_file
+  meta_file, 
+  row.names = FALSE
 )
 
 eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
@@ -479,14 +489,16 @@ invisible(file.remove(meta_file))
 ``` r
 data_file <- tempfile(fileext = ".csv")
 meta_file <- tempfile(fileext = ".meta.csv")
-data.table::fwrite(
+write.csv(
   eesyscreener::example_data |> dplyr::mutate(time_identifier = "parsec"),
-  data_file
+  data_file, 
+  row.names = FALSE
 )
-data.table::fwrite(
+write.csv(
   eesyscreener::example_meta |>
     dplyr::mutate(indicator_dp = NA),
-  meta_file
+  meta_file,
+  row.names = FALSE
 )
 eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> $results_table
@@ -577,8 +589,8 @@ suitability for publishing through the API.
 ``` r
 data_file <- tempfile(fileext = ".csv")
 meta_file <- tempfile(fileext = ".meta.csv")
-data.table::fwrite(eesyscreener::example_api_long, data_file)
-data.table::fwrite(eesyscreener::example_api_long_meta, meta_file)
+write.csv(eesyscreener::example_api_long, data_file, row.names = FALSE)
+write.csv(eesyscreener::example_api_long_meta, meta_file, row.names = FALSE)
 
 eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> $results_table

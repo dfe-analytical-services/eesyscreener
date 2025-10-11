@@ -135,8 +135,8 @@ validate_arg_logical <- function(logical, name) {
 #' # Create temp files for the example
 #' data_file <- tempfile(fileext = ".csv")
 #' meta_file <- tempfile(fileext = ".meta.csv")
-#' data.table::fwrite(example_data, data_file)
-#' data.table::fwrite(example_meta, meta_file)
+#' write.csv(example_data, data_file, row.names = FALSE)
+#' write.csv(example_meta, meta_file, row.names = FALSE)
 #'
 #' files <- read_ees_files(data_file, meta_file)
 #' files

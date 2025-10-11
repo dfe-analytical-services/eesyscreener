@@ -21,8 +21,8 @@ bigger_files <- NULL # Clean up env space
 # Create benchmarking test
 benchmark <- function(df, reps = 10) {
   microbenchmark::microbenchmark(
-    data.table::fread("beefy_data.csv"),
-    vroom::vroom("beefy_data.csv"),
+    1,
+    2,
     times = reps
   )
 }

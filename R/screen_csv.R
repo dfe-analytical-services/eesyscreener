@@ -32,8 +32,8 @@
 #' data_path <- file.path(tempdir(), "example.csv")
 #' meta_path <- file.path(tempdir(), "example.meta.csv")
 #'
-#' data.table::fwrite(example_data, data_path)
-#' data.table::fwrite(example_meta, meta_path)
+#' write.csv(example_data, data_path, row.names = FALSE)
+#' write.csv(example_meta, meta_path, row.names = FALSE)
 #'
 #' screen_csv(data_path, meta_path)
 #'
