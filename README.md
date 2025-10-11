@@ -406,7 +406,7 @@ write.csv(eesyscreener::example_data, data_file, row.names = FALSE)
 write.csv(
   eesyscreener::example_meta |>
     dplyr::mutate(indicator_dp = NA),
-  meta_file, 
+  meta_file,
   row.names = FALSE
 )
 
@@ -481,7 +481,7 @@ data_file <- tempfile(fileext = ".csv")
 meta_file <- tempfile(fileext = ".meta.csv")
 write.csv(
   eesyscreener::example_data |> dplyr::mutate(time_identifier = "parsec"),
-  data_file, 
+  data_file,
   row.names = FALSE
 )
 write.csv(
