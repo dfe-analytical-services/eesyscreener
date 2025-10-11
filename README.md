@@ -67,16 +67,14 @@ test with. It also shows an example of the output structure from the
 core `screen_csv()` function.
 
 ``` r
-library(eesyscreener)
-
 # Create example temporary CSV files
 data_file <- tempfile(fileext = ".csv")
 meta_file <- tempfile(fileext = ".meta.csv")
 
-data.table::fwrite(example_data, data_file)
-data.table::fwrite(example_meta, meta_file)
+write.csv(eesyscreener::example_data, data_file, row.names = FALSE)
+write.csv(eesyscreener::example_meta, meta_file, row.names = FALSE)
 
-result <- screen_csv(
+result <- eesyscreener::screen_csv(
   data_file,
   meta_file,
   "data.csv",
@@ -113,6 +111,9 @@ result$overall_stage
 result$overall_message
 #> [1] "Passed all checks"
 
+result$api_suitable
+#> NULL
+
 # Clean up temporary CSV files
 invisible(file.remove(data_file))
 invisible(file.remove(meta_file))
@@ -124,14 +125,12 @@ Quick examples of how to make use of the data within the package to
 generate CSVs for testing:
 
 ``` r
-library(eesyscreener)
-
-write.csv(example_data, "example_data.csv", row.names = FALSE)
-write.csv(example_meta, "example_data.meta.csv", row.names = FALSE)
+write.csv(eesyscreener::example_data, "example_data.csv", row.names = FALSE)
+write.csv(eesyscreener::example_meta, "example_data.meta.csv", row.names = FALSE)
 
 # Generate a file pairing that will fail the tests by dropping a key column
-write.csv(example_data, "example_data.csv", row.names = FALSE)
-write.csv(example_meta[ , -1], "example_data.meta.csv", row.names = FALSE)
+write.csv(eesyscreener::example_data, "example_data.csv", row.names = FALSE)
+write.csv(eesyscreener::example_meta[ , -1], "example_data.meta.csv", row.names = FALSE)
 ```
 
 ## Generate big test files
@@ -166,13 +165,6 @@ data set of just over 6 million rows. Formula to calculate rows is:
 - length(years) \* length(pcon_codes) \* (5 ^ num_filters)
 
 ``` r
-# Load this eesyscreener package
-devtools::load_all()
-
-# Additional dependencies
-library("dfeR")
-library("data.table")
-
 # Get a data frame of all Parliamentary Constituencies in England
 pcons <- dfeR::fetch_pcons(countries = "England")
 
@@ -185,9 +177,10 @@ beefy <- eesyscreener::generate_test_dfs(
   verbose = TRUE
 )
 
-# Then to create CSVs, use data.table as it's much faster
-data.table::fwrite(beefy$data, "beefy_data.csv")
-data.table::fwrite(beefy$meta, "beefy_data.meta.csv")
+# Then to create CSVs, use duckplyr as it's a lot faster than base R
+# roughly ~20 seconds compared to ~6 minutes
+duckplyr::compute_csv(beefy$data, "beefy_data.csv")
+write.csv(beefy$meta, "beefy_data.meta.csv", row.names = FALSE)
 ```
 
 ## Examples of behaviour
