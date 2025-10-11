@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">eesyscreener</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -89,16 +89,14 @@
 </h2>
 <p>This shows a quick reproducible example you can run in the console to test with. It also shows an example of the output structure from the core <code><a href="reference/screen_csv.html">screen_csv()</a></code> function.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dfe-analytical-services.github.io/eesyscreener/">eesyscreener</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Create example temporary CSV files</span></span>
+<code class="sourceCode R"><span><span class="co"># Create example temporary CSV files</span></span>
 <span><span class="va">data_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".csv"</span><span class="op">)</span></span>
 <span><span class="va">meta_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".meta.csv"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">fwrite</a></span><span class="op">(</span><span class="va">example_data</span>, <span class="va">data_file</span><span class="op">)</span></span>
-<span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">fwrite</a></span><span class="op">(</span><span class="va">example_meta</span>, <span class="va">meta_file</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_data.html">example_data</a></span>, <span class="va">data_file</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_meta.html">example_meta</a></span>, <span class="va">meta_file</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/screen_csv.html">screen_csv</a></span><span class="op">(</span></span>
+<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">eesyscreener</span><span class="fu">::</span><span class="fu"><a href="reference/screen_csv.html">screen_csv</a></span><span class="op">(</span></span>
 <span>  <span class="va">data_file</span>,</span>
 <span>  <span class="va">meta_file</span>,</span>
 <span>  <span class="st">"data.csv"</span>,</span>
@@ -132,8 +130,11 @@
 <span><span class="va">result</span><span class="op">$</span><span class="va">overall_stage</span></span>
 <span><span class="co">#&gt; [1] "Passed"</span></span>
 <span></span>
-<span><span class="va">result</span><span class="op">$</span><span class="va">overall_message</span></span>
-<span><span class="co">#&gt; [1] "Passed all checks"</span></span>
+<span><span class="va">result</span><span class="op">$</span><span class="va">passed</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span></span>
+<span><span class="va">result</span><span class="op">$</span><span class="va">api_suitable</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
 <span></span>
 <span><span class="co"># Clean up temporary CSV files</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.remove</a></span><span class="op">(</span><span class="va">data_file</span><span class="op">)</span><span class="op">)</span></span>
@@ -144,14 +145,12 @@
 </h2>
 <p>Quick examples of how to make use of the data within the package to generate CSVs for testing:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dfe-analytical-services.github.io/eesyscreener/">eesyscreener</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">example_data</span>, <span class="st">"example_data.csv"</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">example_meta</span>, <span class="st">"example_data.meta.csv"</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_data.html">example_data</a></span>, <span class="st">"example_data.csv"</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_meta.html">example_meta</a></span>, <span class="st">"example_data.meta.csv"</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Generate a file pairing that will fail the tests by dropping a key column</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">example_data</span>, <span class="st">"example_data.csv"</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">example_meta</span><span class="op">[</span> , <span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="st">"example_data.meta.csv"</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_data.html">example_data</a></span>, <span class="st">"example_data.csv"</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_meta.html">example_meta</a></span><span class="op">[</span> , <span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="st">"example_data.meta.csv"</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="generate-big-test-files">Generate big test files<a class="anchor" aria-label="anchor" href="#generate-big-test-files"></a>
@@ -169,20 +168,13 @@
 <span><span class="co"># Data and metadata are returned in a list, to extract:</span></span>
 <span><span class="va">df</span> <span class="op">&lt;-</span> <span class="va">files</span><span class="op">$</span><span class="va">data</span></span>
 <span><span class="va">df_meta</span> <span class="op">&lt;-</span> <span class="va">files</span><span class="op">$</span><span class="va">meta</span></span></code></pre></div>
-<p>If you want to go really big, combine with the <a href="https://dfe-analytical-services.github.io/dfeR/" class="external-link">dfeR package</a>, to pass in vectors of Parliamentary Constituencies, and then <a href="https://rdatatable.gitlab.io/data.table/" class="external-link">data.table</a> for much faster CSV creation.</p>
+<p>If you want to go bigger, combine with the <a href="https://dfe-analytical-services.github.io/dfeR/" class="external-link">dfeR package</a>, to pass in vectors of Parliamentary Constituencies.</p>
 <p>The following example creates an example data and metadata pair with a data set of just over 6 million rows. Formula to calculate rows is:</p>
 <ul>
 <li>length(years) * length(pcon_codes) * (5 ^ num_filters)</li>
 </ul>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Load this eesyscreener package</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">load_all</span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Additional dependencies</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://dfe-analytical-services.github.io/dfeR/" class="external-link">"dfeR"</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://r-datatable.com" class="external-link">"data.table"</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Get a data frame of all Parliamentary Constituencies in England</span></span>
+<code class="sourceCode R"><span><span class="co"># Get a data frame of all Parliamentary Constituencies in England</span></span>
 <span><span class="va">pcons</span> <span class="op">&lt;-</span> <span class="fu">dfeR</span><span class="fu">::</span><span class="fu">fetch_pcons</span><span class="op">(</span>countries <span class="op">=</span> <span class="st">"England"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">beefy</span> <span class="op">&lt;-</span> <span class="fu">eesyscreener</span><span class="fu">::</span><span class="fu"><a href="reference/generate_test_dfs.html">generate_test_dfs</a></span><span class="op">(</span></span>
@@ -194,9 +186,10 @@
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Then to create CSVs, use data.table as it's much faster</span></span>
-<span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">fwrite</a></span><span class="op">(</span><span class="va">beefy</span><span class="op">$</span><span class="va">data</span>, <span class="st">"beefy_data.csv"</span><span class="op">)</span></span>
-<span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">fwrite</a></span><span class="op">(</span><span class="va">beefy</span><span class="op">$</span><span class="va">meta</span>, <span class="st">"beefy_data.meta.csv"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="co"># Then to create CSVs, use duckplyr as it's a lot faster than base R</span></span>
+<span><span class="co"># roughly ~20 seconds compared to ~6 minutes</span></span>
+<span><span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://duckplyr.tidyverse.org/reference/compute_csv.html" class="external-link">compute_csv</a></span><span class="op">(</span><span class="va">beefy</span><span class="op">$</span><span class="va">data</span>, <span class="st">"beefy_data.csv"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">beefy</span><span class="op">$</span><span class="va">meta</span>, <span class="st">"beefy_data.meta.csv"</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="examples-of-behaviour">Examples of behaviour<a class="anchor" aria-label="anchor" href="#examples-of-behaviour"></a>
@@ -207,8 +200,8 @@
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".csv"</span><span class="op">)</span></span>
 <span><span class="va">meta_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".meta.csv"</span><span class="op">)</span></span>
-<span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">fwrite</a></span><span class="op">(</span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_data.html">example_data</a></span>, <span class="va">data_file</span><span class="op">)</span></span>
-<span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">fwrite</a></span><span class="op">(</span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_meta.html">example_meta</a></span>, <span class="va">meta_file</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_data.html">example_data</a></span>, <span class="va">data_file</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_meta.html">example_meta</a></span>, <span class="va">meta_file</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="fu"><a href="reference/screen_csv.html">screen_csv</a></span><span class="op">(</span><span class="va">data_file</span>, <span class="va">meta_file</span>, <span class="st">"data.csv"</span>, <span class="st">"data.meta.csv"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $results_table</span></span>
@@ -264,8 +257,8 @@
 <span><span class="co">#&gt; $overall_stage</span></span>
 <span><span class="co">#&gt; [1] "Passed"</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $overall_message</span></span>
-<span><span class="co">#&gt; [1] "Passed all checks"</span></span>
+<span><span class="co">#&gt; $passed</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $api_suitable</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span>
@@ -279,8 +272,8 @@
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".csv"</span><span class="op">)</span></span>
 <span><span class="va">meta_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".meta.csv"</span><span class="op">)</span></span>
-<span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">fwrite</a></span><span class="op">(</span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_data.html">example_data</a></span>, <span class="va">data_file</span><span class="op">)</span></span>
-<span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">fwrite</a></span><span class="op">(</span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_meta.html">example_meta</a></span><span class="op">[</span>, <span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="va">meta_file</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_data.html">example_data</a></span>, <span class="va">data_file</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_meta.html">example_meta</a></span><span class="op">[</span>, <span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="va">meta_file</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="fu"><a href="reference/screen_csv.html">screen_csv</a></span><span class="op">(</span><span class="va">data_file</span>, <span class="va">meta_file</span>, <span class="st">"data.csv"</span>, <span class="st">"data.meta.csv"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $results_table</span></span>
@@ -318,8 +311,8 @@
 <span><span class="co">#&gt; $overall_stage</span></span>
 <span><span class="co">#&gt; [1] "Precheck columns checks"</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $overall_message</span></span>
-<span><span class="co">#&gt; [1] "Failed Precheck columns checks"</span></span>
+<span><span class="co">#&gt; $passed</span></span>
+<span><span class="co">#&gt; [1] FALSE</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $api_suitable</span></span>
 <span><span class="co">#&gt; [1] FALSE</span></span>
@@ -333,11 +326,12 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".csv"</span><span class="op">)</span></span>
 <span><span class="va">meta_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".meta.csv"</span><span class="op">)</span></span>
-<span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">fwrite</a></span><span class="op">(</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span></span>
 <span>  <span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_data.html">example_data</a></span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>time_identifier <span class="op">=</span> <span class="st">"parsec"</span><span class="op">)</span>,</span>
-<span>  <span class="va">data_file</span></span>
+<span>  <span class="va">data_file</span>,</span>
+<span>  row.names <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
-<span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">fwrite</a></span><span class="op">(</span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_meta.html">example_meta</a></span>, <span class="va">meta_file</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_meta.html">example_meta</a></span>, <span class="va">meta_file</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="fu"><a href="reference/screen_csv.html">screen_csv</a></span><span class="op">(</span><span class="va">data_file</span>, <span class="va">meta_file</span>, <span class="st">"data.csv"</span>, <span class="st">"data.meta.csv"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $results_table</span></span>
@@ -405,8 +399,8 @@
 <span><span class="co">#&gt; $overall_stage</span></span>
 <span><span class="co">#&gt; [1] "Precheck time checks"</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $overall_message</span></span>
-<span><span class="co">#&gt; [1] "Failed Precheck time checks"</span></span>
+<span><span class="co">#&gt; $passed</span></span>
+<span><span class="co">#&gt; [1] FALSE</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $api_suitable</span></span>
 <span><span class="co">#&gt; [1] FALSE</span></span>
@@ -420,11 +414,12 @@
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".csv"</span><span class="op">)</span></span>
 <span><span class="va">meta_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".meta.csv"</span><span class="op">)</span></span>
-<span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">fwrite</a></span><span class="op">(</span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_data.html">example_data</a></span>, <span class="va">data_file</span><span class="op">)</span></span>
-<span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">fwrite</a></span><span class="op">(</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_data.html">example_data</a></span>, <span class="va">data_file</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span></span>
 <span>  <span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_meta.html">example_meta</a></span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>indicator_dp <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>,</span>
-<span>  <span class="va">meta_file</span></span>
+<span>  <span class="va">meta_file</span>,</span>
+<span>  row.names <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="fu"><a href="reference/screen_csv.html">screen_csv</a></span><span class="op">(</span><span class="va">data_file</span>, <span class="va">meta_file</span>, <span class="st">"data.csv"</span>, <span class="st">"data.meta.csv"</span><span class="op">)</span></span>
@@ -481,8 +476,8 @@
 <span><span class="co">#&gt; $overall_stage</span></span>
 <span><span class="co">#&gt; [1] "Passed"</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $overall_message</span></span>
-<span><span class="co">#&gt; [1] "Passed all checks"</span></span>
+<span><span class="co">#&gt; $passed</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $api_suitable</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span>
@@ -496,14 +491,16 @@
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".csv"</span><span class="op">)</span></span>
 <span><span class="va">meta_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".meta.csv"</span><span class="op">)</span></span>
-<span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">fwrite</a></span><span class="op">(</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span></span>
 <span>  <span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_data.html">example_data</a></span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>time_identifier <span class="op">=</span> <span class="st">"parsec"</span><span class="op">)</span>,</span>
-<span>  <span class="va">data_file</span></span>
+<span>  <span class="va">data_file</span>,</span>
+<span>  row.names <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
-<span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">fwrite</a></span><span class="op">(</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span></span>
 <span>  <span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_meta.html">example_meta</a></span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>indicator_dp <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>,</span>
-<span>  <span class="va">meta_file</span></span>
+<span>  <span class="va">meta_file</span>,</span>
+<span>  row.names <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="fu"><a href="reference/screen_csv.html">screen_csv</a></span><span class="op">(</span><span class="va">data_file</span>, <span class="va">meta_file</span>, <span class="st">"data.csv"</span>, <span class="st">"data.meta.csv"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $results_table</span></span>
@@ -571,8 +568,8 @@
 <span><span class="co">#&gt; $overall_stage</span></span>
 <span><span class="co">#&gt; [1] "Precheck time checks"</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $overall_message</span></span>
-<span><span class="co">#&gt; [1] "Failed Precheck time checks"</span></span>
+<span><span class="co">#&gt; $passed</span></span>
+<span><span class="co">#&gt; [1] FALSE</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $api_suitable</span></span>
 <span><span class="co">#&gt; [1] FALSE</span></span>
@@ -588,8 +585,8 @@
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".csv"</span><span class="op">)</span></span>
 <span><span class="va">meta_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".meta.csv"</span><span class="op">)</span></span>
-<span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">fwrite</a></span><span class="op">(</span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_api_long.html">example_api_long</a></span>, <span class="va">data_file</span><span class="op">)</span></span>
-<span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">fwrite</a></span><span class="op">(</span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_api_long_meta.html">example_api_long_meta</a></span>, <span class="va">meta_file</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_api_long.html">example_api_long</a></span>, <span class="va">data_file</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_api_long_meta.html">example_api_long_meta</a></span>, <span class="va">meta_file</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="fu"><a href="reference/screen_csv.html">screen_csv</a></span><span class="op">(</span><span class="va">data_file</span>, <span class="va">meta_file</span>, <span class="st">"data.csv"</span>, <span class="st">"data.meta.csv"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $results_table</span></span>
@@ -661,8 +658,8 @@
 <span><span class="co">#&gt; $overall_stage</span></span>
 <span><span class="co">#&gt; [1] "Passed"</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $overall_message</span></span>
-<span><span class="co">#&gt; [1] "Passed all checks"</span></span>
+<span><span class="co">#&gt; $passed</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $api_suitable</span></span>
 <span><span class="co">#&gt; [1] FALSE</span></span>

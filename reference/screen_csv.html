@@ -13,7 +13,7 @@ will return early if any check in a stage fails."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">eesyscreener</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,7 +40,7 @@ will return early if any check in a stage fails."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Run all checks against files</h1>
-      <small class="dont-index">Source: <a href="https://github.com/dfe-analytical-services/eesyscreener/blob/v0.1.1/R/screen_csv.R" class="external-link"><code>R/screen_csv.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/dfe-analytical-services/eesyscreener/blob/main/R/screen_csv.R" class="external-link"><code>R/screen_csv.R</code></a></small>
       <div class="d-none name"><code>screen_csv.Rd</code></div>
     </div>
 
@@ -103,7 +103,7 @@ is "FAIL", and will throw genuine warning if result is "WARNING"</p></dd>
 <li><p>name of the check</p></li>
 </ul></li>
 <li><p>Overall stage the checks reached</p></li>
-<li><p>Overall message to give back to the user</p></li>
+<li><p>Boolean indicating if the data passed the screening</p></li>
 <li><p>Boolean indicating if the data is suitable for the API</p></li>
 </ol></div>
 
@@ -113,8 +113,8 @@ is "FAIL", and will throw genuine warning if result is "WARNING"</p></dd>
 <span class="r-in"><span><span class="va">data_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"example.csv"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">meta_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"example.meta.csv"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">fwrite</a></span><span class="op">(</span><span class="va">example_data</span>, <span class="va">data_path</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/fwrite.html" class="external-link">fwrite</a></span><span class="op">(</span><span class="va">example_meta</span>, <span class="va">meta_path</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">example_data</span>, <span class="va">data_path</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">example_meta</span>, <span class="va">meta_path</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">screen_csv</span><span class="op">(</span><span class="va">data_path</span>, <span class="va">meta_path</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $results_table</span>
@@ -170,8 +170,8 @@ is "FAIL", and will throw genuine warning if result is "WARNING"</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $overall_stage</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Passed"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $overall_message</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Passed all checks"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $passed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $api_suitable</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
@@ -255,18 +255,16 @@ is "FAIL", and will throw genuine warning if result is "WARNING"</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $overall_stage</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Passed"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $overall_message</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Passed all checks"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $passed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $api_suitable</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Clean up temp files</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.remove</a></span><span class="op">(</span><span class="va">data_path</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.remove</a></span><span class="op">(</span><span class="va">meta_path</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.remove</a></span><span class="op">(</span><span class="va">data_path</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.remove</a></span><span class="op">(</span><span class="va">meta_path</span><span class="op">)</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

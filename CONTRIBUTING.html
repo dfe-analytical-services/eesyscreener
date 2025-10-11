@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="index.html">eesyscreener</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,7 +34,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Contributing to eesyscreener</h1>
-      <small class="dont-index">Source: <a href="https://github.com/dfe-analytical-services/eesyscreener/blob/v0.1.1/.github/CONTRIBUTING.md" class="external-link"><code>.github/CONTRIBUTING.md</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/dfe-analytical-services/eesyscreener/blob/main/.github/CONTRIBUTING.md" class="external-link"><code>.github/CONTRIBUTING.md</code></a></small>
     </div>
 
 <div id="contributing-to-eesyscreener" class="section level1">
@@ -95,6 +95,16 @@
 <li>duckplr ~ 4,774 microseconds</li>
 </ul><p>If Frederick hadn’t already told us enough times, duck is king. We can write nice readable dplyr code, but utilise the power of the duck. Best of both worlds.</p>
 <p>If you have issues with linting and dplyr variables showing no visible binding, follow the <a href="https://cran.r-project.org/web/packages/dplyr/vignettes/in-packages.html" class="external-link">guide to using dplyr in packages</a>.</p>
+<div class="section level3">
+<h3 id="duckplyr-messages">duckplyr messages<a class="anchor" aria-label="anchor" href="#duckplyr-messages"></a></h3>
+<p>duckplyr is particularly verbose, and will tell you when it’s falling back to dplyr, often you may get messages like the following:</p>
+<blockquote>
+<p>The duckplyr package is configured to fall back to dplyr when it encounters an incompatibility. Fallback events can be collected and uploaded for analysis to guide future development. By default, data will be collected but no data will be uploaded. i Automatic fallback uploading is not controlled and therefore disabled, see <code>?duckplyr::fallback()</code>. v Number of reports ready for upload: 1.</p>
+</blockquote>
+<p>These are safe to ignore, though detail out the places where duckplyr has tried and failed to run, often if you investigate through <code><a href="https://duckplyr.tidyverse.org/reference/fallback.html" class="external-link">duckplyr::fallback_review()</a></code> you can pinpoint where in the code you tried to get duckplyr to do something it didn’t want.</p>
+<p>Uploading the reports using <code><a href="https://duckplyr.tidyverse.org/reference/fallback.html" class="external-link">duckplyr::fallback_upload()</a></code> will clear them from your machine and submit to the maintainers.</p>
+<p>If you don’t care for looking at them more, you can set them to auto upload (and stop shouting at you) with <code>duckplyr::fallback_config(autoupload = TRUE)</code>.</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="process-for-moving-in-functions-from-app">Process for moving in functions from app<a class="anchor" aria-label="anchor" href="#process-for-moving-in-functions-from-app"></a></h2>
@@ -122,7 +132,7 @@
 </ol><p>Simplifying a check for missing values, where previously it used a pre_check object and sapply - <a href="https://github.com/dfe-analytical-services/eesyscreener/commit/290679711d82529a7d0c54b63cac61ae92a350d8" class="external-link uri">https://github.com/dfe-analytical-services/eesyscreener/commit/290679711d82529a7d0c54b63cac61ae92a350d8</a></p>
 <ol start="2" style="list-style-type: lower-alpha"><li><p>Create and use helper functions (if you haven’t already), place any helper functions in <code>R/utils.R</code>, mark as @keywords internal</p></li>
 <li><p>Avoid bringing in too many new dependencies, try rewriting in base R where possible</p></li>
-<li><p>Use <code>microbenchmark</code> to experiment to find the most efficient approach, look at <code>data.table</code> and <code>duckplyr</code> for speedier alternatives (speed is king here) e.g.</p></li>
+<li><p>Use <code>microbenchmark</code> to experiment to find the most efficient approach (speed is king here) e.g.</p></li>
 </ol><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_data.html">example_data</a></span></span>
 <span></span>
@@ -135,7 +145,7 @@
 <p>In this example, the first line requires the janitor package. It is slightly faster with a mean of 115ms, the second line mean was 184ms, and the third line mean was 121ms, as there’s a minimal amount between 1 and 3, usually we’d go for option 3 to avoid needing to call in the janitor package as a dependency, keeping this package more lightweight.</p>
 <p>However, when testing with a bigger file (~6million rows), the 2nd and 3rd options were so slow to run that microbenchmark was taking too long to produce a result. Clearly using janitor in option 1 has a massive impact when there’s more rows, so the decision was made to import the janitor package as the speed benefit was worth the extra dependency.</p>
 <p>You can use the <code>tests/utils/benchmarking.R</code> script as a starting point, it includes code to generate big tables and run benchmarking. Sometimes the fastest on small files will not be the fastest on bigger ones. Prioritise the bigger files as that’s where the biggest impact will be felt.</p>
-<p>If it’s a particularly big function running over a whole data file, also consider using <code>future.apply</code> or other parallel processing approaches if they swap in easily.</p>
+<p>In particular look at using <code>dplyr</code> verbs that can use <code>duckplyr</code> for speedier alternatives as we enable duckplyr within the <code><a href="reference/screen_dfs.html">screen_dfs()</a></code>. <code>data.table</code> probably isn’t necessary and would cause us to need to switch between a data.frame and a data.table costing time.</p>
 <p>TODO: At the end of the migration, we should then plan how to migrate the test data over, so that all of the existing edge cases tested in the R Shiny app can be covered here.</p>
 <ol style="list-style-type: lower-alpha"><li><p>Make use of the <code>tests/utils/copy_check_data.R</code> script to copy over CSVs from the screener repo and save as RDS files in the tests folder</p></li>
 <li><p>There should be a collection of unit tests and at least one example data file with an expected failure for every function</p></li>
