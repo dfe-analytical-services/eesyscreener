@@ -25,15 +25,15 @@
 #'   \item name of the check
 #' }
 #' 2. Overall stage the checks reached
-#' 3. Overall message to give back to the user
+#' 3. Boolean indicating if the data passed the screening
 #' 4. Boolean indicating if the data is suitable for the API
 #' @examples
 #' # Create temp files for the example
 #' data_path <- file.path(tempdir(), "example.csv")
 #' meta_path <- file.path(tempdir(), "example.meta.csv")
 #'
-#' data.table::fwrite(example_data, data_path)
-#' data.table::fwrite(example_meta, meta_path)
+#' write.csv(example_data, data_path, row.names = FALSE)
+#' write.csv(example_meta, meta_path, row.names = FALSE)
 #'
 #' screen_csv(data_path, meta_path)
 #'
@@ -46,8 +46,8 @@
 #' )
 #'
 #' # Clean up temp files
-#' file.remove(data_path)
-#' file.remove(meta_path)
+#' invisible(file.remove(data_path))
+#' invisible(file.remove(meta_path))
 #' @export
 screen_csv <- function(
   datapath,
@@ -113,7 +113,7 @@ screen_csv <- function(
       list(
         "results_table" = as.data.frame(filename_results),
         "overall_stage" = paste(stage, "checks"),
-        "overall_message" = paste("Failed", stage, "checks"),
+        "passed" = FALSE,
         "api_suitable" = FALSE
       )
     )
@@ -142,7 +142,7 @@ screen_csv <- function(
       list(
         "results_table" = as.data.frame(all_results),
         "overall_stage" = paste(stage, "checks"),
-        "overall_message" = paste("Failed", stage, "checks"),
+        "passed" = FALSE,
         "api_suitable" = FALSE
       )
     )
@@ -167,7 +167,7 @@ screen_csv <- function(
   list(
     "results_table" = all_results,
     "overall_stage" = "Passed",
-    "overall_message" = "Passed all checks",
+    "passed" = TRUE,
     "api_suitable" = api_pass
   )
 }

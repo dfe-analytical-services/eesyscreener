@@ -135,8 +135,8 @@ validate_arg_logical <- function(logical, name) {
 #' # Create temp files for the example
 #' data_file <- tempfile(fileext = ".csv")
 #' meta_file <- tempfile(fileext = ".meta.csv")
-#' data.table::fwrite(example_data, data_file)
-#' data.table::fwrite(example_meta, meta_file)
+#' write.csv(example_data, data_file, row.names = FALSE)
+#' write.csv(example_meta, meta_file, row.names = FALSE)
 #'
 #' files <- read_ees_files(data_file, meta_file)
 #' files
@@ -175,15 +175,13 @@ read_ees_files <- function(datapath, metapath) {
   # Lazy reading of data for speed
   datafile <- duckplyr::read_csv_duckdb(datapath)
 
-  # Meta files are small enough it's faster to read straight to memory
-  metafile <- data.table::fread(
-    metapath,
-    sep = ",",
-    header = TRUE,
-    encoding = "UTF-8",
-    strip.white = FALSE,
-    showProgress = FALSE
-  )
+  # Meta files are so small it's fastest to read using base R
+  #             expr     min      lq     mean   median      uq     max neval
+  # dt(example_meta)   891.9   955.6  1184.28  1048.10  1321.8  2093.3    10
+  # readr(example_meta) 11232.2 11532.4 11999.88 11831.15 12604.4 12946.6  10
+  # duck(example_meta)  1241.6  1259.5  1647.03  1404.40  1690.7  2915.3   10
+  # base(example_meta)   514.8   528.3   675.26   590.30   616.3  1472.4   10
+  metafile <- utils::read.csv(metapath)
 
   list(data = datafile, meta = metafile)
 }

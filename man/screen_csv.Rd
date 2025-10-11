@@ -41,7 +41,7 @@ A list containing
 \item name of the check
 }
 \item Overall stage the checks reached
-\item Overall message to give back to the user
+\item Boolean indicating if the data passed the screening
 \item Boolean indicating if the data is suitable for the API
 }
 }
@@ -56,8 +56,8 @@ will return early if any check in a stage fails.
 data_path <- file.path(tempdir(), "example.csv")
 meta_path <- file.path(tempdir(), "example.meta.csv")
 
-data.table::fwrite(example_data, data_path)
-data.table::fwrite(example_meta, meta_path)
+write.csv(example_data, data_path, row.names = FALSE)
+write.csv(example_meta, meta_path, row.names = FALSE)
 
 screen_csv(data_path, meta_path)
 
@@ -70,6 +70,6 @@ screen_csv(
 )
 
 # Clean up temp files
-file.remove(data_path)
-file.remove(meta_path)
+invisible(file.remove(data_path))
+invisible(file.remove(meta_path))
 }

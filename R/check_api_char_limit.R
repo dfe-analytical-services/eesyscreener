@@ -34,7 +34,10 @@ check_api_char_limit <- function(
   }
   if (!type %in% eesyscreener::api_char_limits$id) {
     cli::cli_abort(
-      "`type` must be one of: {paste(eesyscreener::api_char_limits$id, collapse = ', ')}"
+      paste(
+        "`type` must be one of: {paste(eesyscreener::api_char_limits$id,",
+        "collapse = ', ')}"
+      )
     )
   }
 

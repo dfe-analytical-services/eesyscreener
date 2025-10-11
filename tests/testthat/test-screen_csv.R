@@ -3,8 +3,8 @@ test_that("Output structure is as expected", {
   data_file <- tempfile(fileext = ".csv")
   meta_file <- tempfile(fileext = ".meta.csv")
 
-  data.table::fwrite(example_data, data_file)
-  data.table::fwrite(example_meta, meta_file)
+  write.csv(example_data, data_file, row.names = FALSE)
+  write.csv(example_meta, meta_file, row.names = FALSE)
 
   output <- screen_csv(
     data_file,
@@ -21,7 +21,7 @@ test_that("Output structure is as expected", {
   expect_length(output, 4)
   expect_equal(
     names(output),
-    c("results_table", "overall_stage", "overall_message", "api_suitable")
+    c("results_table", "overall_stage", "passed", "api_suitable")
   )
 
   expect_equal(
@@ -56,8 +56,8 @@ test_that("Substitutes in filenames if not given", {
   data_path <- paste0(tempdir(), "\\test.csv")
   meta_path <- paste0(tempdir(), "\\test.meta.csv")
 
-  data.table::fwrite(example_data, data_path)
-  data.table::fwrite(example_meta, meta_path)
+  write.csv(example_data, data_path, row.names = FALSE)
+  write.csv(example_meta, meta_path, row.names = FALSE)
 
   output_messages <- screen_csv(data_path, meta_path)$results_table$message
 
@@ -78,8 +78,8 @@ test_that("Example file passes", {
   data_file <- tempfile(fileext = ".csv")
   meta_file <- tempfile(fileext = ".meta.csv")
 
-  data.table::fwrite(example_data, data_file)
-  data.table::fwrite(example_meta, meta_file)
+  write.csv(example_data, data_file, row.names = FALSE)
+  write.csv(example_meta, meta_file, row.names = FALSE)
 
   output <- screen_csv(
     data_file,
@@ -89,7 +89,7 @@ test_that("Example file passes", {
   )
 
   expect_equal(output$overall_stage, "Passed")
-  expect_equal(output$overall_message, "Passed all checks")
+  expect_equal(output$passed, TRUE)
 
   expect_no_error(
     screen_csv(
@@ -140,8 +140,8 @@ test_that("Fails gracefully if it's not a CSV", {
   data_file <- tempfile(fileext = ".csv")
   meta_file <- tempfile(fileext = ".meta.csv")
 
-  data.table::fwrite(example_data, data_file)
-  data.table::fwrite(example_meta, meta_file)
+  write.csv(example_data, data_file, row.names = FALSE)
+  write.csv(example_meta, meta_file, row.names = FALSE)
   writeLines(c("This is not a CSV file"), txt_file)
   writeLines(c("This is not a CSV file"), txt_meta)
 
@@ -168,8 +168,8 @@ test_that("Example file fails with filename", {
   data_file <- tempfile(fileext = ".csv")
   meta_file <- tempfile(fileext = ".meta.csv")
 
-  data.table::fwrite(example_data, data_file)
-  data.table::fwrite(example_meta, meta_file)
+  write.csv(example_data, data_file, row.names = FALSE)
+  write.csv(example_meta, meta_file, row.names = FALSE)
 
   expect_equal(
     screen_csv(
@@ -200,8 +200,8 @@ test_that("Example file fails with filename", {
   data_path <- file.path(tempdir(), "nonono.csv")
   meta_path <- file.path(tempdir(), "nonono-meta.csv")
 
-  data.table::fwrite(example_data, data_path)
-  data.table::fwrite(example_meta, meta_path)
+  write.csv(example_data, data_path, row.names = FALSE)
+  write.csv(example_meta, meta_path, row.names = FALSE)
 
   expect_equal(
     screen_csv(data_path, meta_path)$overall_stage,
@@ -224,8 +224,8 @@ test_that("fails check dfs", {
   data_path <- file.path(tempdir(), "gnr.csv")
   meta_path <- file.path(tempdir(), "gnr.meta.csv")
 
-  data.table::fwrite(example_data, data_path)
-  data.table::fwrite(gunsnroses_meta, meta_path)
+  write.csv(example_data, data_path, row.names = FALSE)
+  write.csv(gunsnroses_meta, meta_path, row.names = FALSE)
 
   expect_error(
     screen_csv(data_path, meta_path, stop_on_error = TRUE),
@@ -246,8 +246,8 @@ test_that("fails check dfs", {
 test_that("api_suitable returns FALSE for unsuitable files", {
   data_path <- tempfile(fileext = ".csv")
   meta_path <- tempfile(fileext = ".meta.csv")
-  data.table::fwrite(example_api_long, data_path)
-  data.table::fwrite(example_api_long_meta, meta_path)
+  write.csv(example_api_long, data_path, row.names = FALSE)
+  write.csv(example_api_long_meta, meta_path, row.names = FALSE)
 
   result <- screen_csv(data_path, meta_path, "api.csv", "api.meta.csv")
   expect_true(!is.null(result$api_suitable))

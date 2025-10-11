@@ -24,7 +24,6 @@ screen_dfs <- function(data, meta, verbose = FALSE, stop_on_error = FALSE) {
   validate_arg_logical(stop_on_error, "stop_on_error")
 
   data <- duckplyr::as_duckdb_tibble(data)
-  suppressMessages(duckplyr::methods_overwrite())
 
   # Precheck columns ----------------------------------------------------------
   precheck_col_results <- rbind(
@@ -101,6 +100,10 @@ screen_dfs <- function(data, meta, verbose = FALSE, stop_on_error = FALSE) {
   if (any(check_meta_results[["result"]] == "FAIL")) {
     return(as.data.frame(check_meta_results))
   }
+
+  # Turn on duckdb ------------------------------------------------------------
+  # Only doing this here as not necessary for the metadata checks
+  suppressMessages(duckplyr::methods_overwrite())
 
   # Some other bits -----------------------------------------------------------
 
