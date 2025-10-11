@@ -80,16 +80,6 @@ result <- eesyscreener::screen_csv(
   "data.csv",
   "data.meta.csv"
 )
-#> The duckplyr package is configured to fall back to dplyr when it encounters an
-#> incompatibility. Fallback events can be collected and uploaded for analysis to
-#> guide future development. By default, data will be collected but no data will
-#> be uploaded.
-#> ℹ Automatic fallback uploading is not controlled and therefore disabled, see
-#>   `?duckplyr::fallback()`.
-#> ✔ Number of reports ready for upload: 1.
-#> → Review with `duckplyr::fallback_review()`, upload with
-#>   `duckplyr::fallback_upload()`.
-#> ℹ Configure automatic uploading with `duckplyr::fallback_config()`.
 
 result$results_table |>
   head()
@@ -118,8 +108,8 @@ result$results_table |>
 result$overall_stage
 #> [1] "Passed"
 
-result$overall_message
-#> [1] "Passed all checks"
+result$passed
+#> [1] TRUE
 
 result$api_suitable
 #> [1] TRUE
@@ -255,8 +245,8 @@ eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> $overall_stage
 #> [1] "Passed"
 #> 
-#> $overall_message
-#> [1] "Passed all checks"
+#> $passed
+#> [1] TRUE
 #> 
 #> $api_suitable
 #> [1] TRUE
@@ -309,8 +299,8 @@ eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> $overall_stage
 #> [1] "Precheck columns checks"
 #> 
-#> $overall_message
-#> [1] "Failed Precheck columns checks"
+#> $passed
+#> [1] FALSE
 #> 
 #> $api_suitable
 #> [1] FALSE
@@ -397,8 +387,8 @@ eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> $overall_stage
 #> [1] "Precheck time checks"
 #> 
-#> $overall_message
-#> [1] "Failed Precheck time checks"
+#> $passed
+#> [1] FALSE
 #> 
 #> $api_suitable
 #> [1] FALSE
@@ -474,8 +464,8 @@ eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> $overall_stage
 #> [1] "Passed"
 #> 
-#> $overall_message
-#> [1] "Passed all checks"
+#> $passed
+#> [1] TRUE
 #> 
 #> $api_suitable
 #> [1] TRUE
@@ -566,8 +556,8 @@ eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> $overall_stage
 #> [1] "Precheck time checks"
 #> 
-#> $overall_message
-#> [1] "Failed Precheck time checks"
+#> $passed
+#> [1] FALSE
 #> 
 #> $api_suitable
 #> [1] FALSE
@@ -662,8 +652,8 @@ eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> $overall_stage
 #> [1] "Passed"
 #> 
-#> $overall_message
-#> [1] "Passed all checks"
+#> $passed
+#> [1] TRUE
 #> 
 #> $api_suitable
 #> [1] FALSE

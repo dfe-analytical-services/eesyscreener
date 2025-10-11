@@ -21,7 +21,7 @@ test_that("Output structure is as expected", {
   expect_length(output, 4)
   expect_equal(
     names(output),
-    c("results_table", "overall_stage", "overall_message", "api_suitable")
+    c("results_table", "overall_stage", "passed", "api_suitable")
   )
 
   expect_equal(
@@ -89,7 +89,7 @@ test_that("Example file passes", {
   )
 
   expect_equal(output$overall_stage, "Passed")
-  expect_equal(output$overall_message, "Passed all checks")
+  expect_equal(output$passed, TRUE)
 
   expect_no_error(
     screen_csv(

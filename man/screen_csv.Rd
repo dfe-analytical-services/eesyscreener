@@ -41,7 +41,7 @@ A list containing
 \item name of the check
 }
 \item Overall stage the checks reached
-\item Overall message to give back to the user
+\item Boolean indicating if the data passed the screening
 \item Boolean indicating if the data is suitable for the API
 }
 }
@@ -70,6 +70,6 @@ screen_csv(
 )
 
 # Clean up temp files
-file.remove(data_path)
-file.remove(meta_path)
+invisible(file.remove(data_path))
+invisible(file.remove(meta_path))
 }

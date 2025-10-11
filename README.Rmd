@@ -73,7 +73,7 @@ result$results_table |>
 
 result$overall_stage
 
-result$overall_message
+result$passed
 
 result$api_suitable
 
