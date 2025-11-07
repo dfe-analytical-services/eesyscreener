@@ -17,9 +17,9 @@
 #' precheck_col_name_duplicate(example_meta, verbose = TRUE)
 #' @export
 precheck_col_name_duplicate <- function(
-    meta,
-    verbose = FALSE,
-    stop_on_error = FALSE
+  meta,
+  verbose = FALSE,
+  stop_on_error = FALSE
 ) {
   duplicated_col_names <- meta$col_name[duplicated(meta$col_name)]
 
@@ -58,5 +58,4 @@ precheck_col_name_duplicate <- function(
       )
     }
   }
-
 }
