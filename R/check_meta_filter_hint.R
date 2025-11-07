@@ -21,7 +21,8 @@ check_meta_filter_hint <- function(
   invalid_filter_hint <- meta |>
     dplyr::filter(
       .data$col_type == "Indicator" &
-        !is.na(.data$filter_hint) & .data$filter_hint != ""
+        !is.na(.data$filter_hint) &
+        .data$filter_hint != ""
     ) |>
     dplyr::pull("col_name")
 
