@@ -1,7 +1,7 @@
 #' Check filter_hint is not set for indicator rows
 #'
-#' Throw warning if there are any indicator rows that have filter_hint as non-blank, to
-#' encourage users to correct the metadata.
+#' Throw warning if there are any indicator rows that have filter_hint as
+#' non-blank, to encourage users to correct the metadata.
 #'
 #' @inheritParams precheck_meta_col_type
 #'
