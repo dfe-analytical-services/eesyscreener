@@ -71,6 +71,7 @@ reference:
 - title: General data file checks
 
 - title: Filter checks
+  contents:
   - starts_with("check_filter_")
 
 - title: Indicator checks
