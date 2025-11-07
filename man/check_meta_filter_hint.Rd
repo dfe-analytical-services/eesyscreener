@@ -19,8 +19,8 @@ is "FAIL", and will throw genuine warning if result is "WARNING"}
 a single row data frame
 }
 \description{
-Throw warning if there are any indicator rows that have filter_hint as non-blank, to
-encourage users to correct the metadata.
+Throw warning if there are any indicator rows that have filter_hint as
+non-blank, to encourage users to correct the metadata.
 }
 \examples{
 check_meta_filter_hint(example_meta)

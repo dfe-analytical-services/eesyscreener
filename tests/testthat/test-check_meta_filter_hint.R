@@ -43,17 +43,32 @@ test_that("fails with multiple indicators having filter_hint values", {
   expect_error(check_meta_filter_hint(meta, stop_on_error = TRUE))
 })
 
-test_that("trims whitespace and detects non-empty filter_hint", {
+
+test_that("fails when filter_hint contains only whitespace", {
   meta <- data.frame(
     col_name = c("A", "B", "C"),
     col_type = c("Indicator", "Indicator", "Indicator"),
-    filter_hint = c("   hint   ", "   ", NA),
+    filter_hint = c("", "   ", NA),
     stringsAsFactors = FALSE
   )
   result <- check_meta_filter_hint(meta)
   expect_equal(result$result, "FAIL")
-  expect_true(grepl("A", result$message))
+  expect_true(grepl("B", result$message))
 })
+
+
+test_that("fails when filter_hint contains whitespace around some text", {
+  meta <- data.frame(
+    col_name = c("A", "B", "C"),
+    col_type = c("Indicator", "Indicator", "Indicator"),
+    filter_hint = c("", "   hint   ", NA),
+    stringsAsFactors = FALSE
+  )
+  result <- check_meta_filter_hint(meta)
+  expect_equal(result$result, "FAIL")
+  expect_true(grepl("B", result$message))
+})
+
 
 test_that("passes when no indicator rows are present", {
   meta <- data.frame(
