@@ -5,7 +5,7 @@ test_that("passes when all labels are unique", {
   expect_no_error(check_meta_duplicate_label(
     example_meta,
     stop_on_error = TRUE
-    ))
+  ))
 })
 
 test_that("fails with one duplicate label", {
