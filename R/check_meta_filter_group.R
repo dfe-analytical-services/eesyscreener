@@ -20,8 +20,8 @@ check_meta_filter_group <- function(
 ) {
   invalid_filter_grouping_column <- meta |>
     dplyr::filter(
-      col_type == "Indicator",
-      !is.na(filter_grouping_column) & filter_grouping_column != ""
+      .data$col_type == "Indicator",
+      !is.na(.data$filter_grouping_column) & .data$filter_grouping_column != ""
     ) |>
     dplyr::pull("col_name")
 
