@@ -26,4 +26,3 @@ test_that("handles numeric values in label", {
   expect_equal(precheck_meta_duplicate_label(meta2)$result, "FAIL")
   expect_error(precheck_meta_duplicate_label(meta2, stop_on_error = TRUE))
 })
-

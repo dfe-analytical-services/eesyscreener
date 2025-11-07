@@ -9,13 +9,13 @@
 #' @family precheck_meta
 #'
 #' @examples
-#' precheck_met_duplicate_label(example_meta)
-#' precheck_met_duplicate_label(example_meta, verbose = TRUE)
+#' precheck_meta_duplicate_label(example_meta)
+#' precheck_meta_duplicate_label(example_meta, verbose = TRUE)
 #' @export
 precheck_meta_duplicate_label <- function(
-    meta,
-    verbose = FALSE,
-    stop_on_error = FALSE
+  meta,
+  verbose = FALSE,
+  stop_on_error = FALSE
 ) {
   duplicated_labels <- meta$label[duplicated(meta$label)]
 
@@ -40,7 +40,6 @@ precheck_meta_duplicate_label <- function(
         verbose = verbose,
         stop_on_error = stop_on_error
       )
-
     } else {
       test_output(
         "meta_duplicate_label",
