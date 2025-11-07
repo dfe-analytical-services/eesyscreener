@@ -10,10 +10,10 @@
 #' @family check_meta
 #'
 #' @examples
-#' check_meta_filter_grouping_column(example_meta)
-#' check_meta_filter_grouping_column(example_meta, verbose = TRUE)
+#' check_meta_filter_group(example_meta)
+#' check_meta_filter_group(example_meta, verbose = TRUE)
 #' @export
-check_meta_filter_grouping_column <- function(
+check_meta_filter_group <- function(
     meta,
     verbose = FALSE,
     stop_on_error = FALSE

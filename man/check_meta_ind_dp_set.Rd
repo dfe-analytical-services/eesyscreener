@@ -28,6 +28,6 @@ check_meta_ind_dp_set(example_meta, verbose = TRUE)
 }
 \seealso{
 Other check_meta: 
-\code{\link{check_meta_filter_grouping_column}()}
+\code{\link{check_meta_filter_group}()}
 }
 \concept{check_meta}
