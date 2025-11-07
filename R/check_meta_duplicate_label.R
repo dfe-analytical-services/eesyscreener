@@ -6,13 +6,13 @@
 #'
 #' @inherit check_filename_spaces return
 #'
-#' @family precheck_meta
+#' @family check_meta
 #'
 #' @examples
-#' precheck_meta_duplicate_label(example_meta)
-#' precheck_meta_duplicate_label(example_meta, verbose = TRUE)
+#' check_meta_duplicate_label(example_meta)
+#' check_meta_duplicate_label(example_meta, verbose = TRUE)
 #' @export
-precheck_meta_duplicate_label <- function(
+check_meta_duplicate_label <- function(
   meta,
   verbose = FALSE,
   stop_on_error = FALSE
