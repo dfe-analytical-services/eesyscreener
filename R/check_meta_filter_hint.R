@@ -19,8 +19,11 @@ check_meta_filter_hint <- function(
     stop_on_error = FALSE
 ) {
   invalid_filter_hint <- meta |>
-    dplyr::filter(.data$col_type == "Indicator") |>
-    dplyr::filter(!is.na(.data$filter_hint), trimws(.data$filter_hint) != "") |>
+    dplyr::filter(
+      .data$col_type == "Indicator" &
+        !is.na(.data$filter_hint) &
+        trimws(.data$filter_hint) != ""
+    ) |>
     dplyr::pull("col_name")
 
   if (length(invalid_filter_hint) == 0) {
