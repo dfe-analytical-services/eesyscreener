@@ -1,7 +1,24 @@
-# total -------------------------------------
-# Check for Total in all filters
-
-check_filter_defaults <- function(data, meta) {
+#' Check filenames line up between data and metadata files
+#'
+#' Making sure the data and metadata file follow the pattern of:
+#' - datafile.csv (data file)
+#' - datafile.meta.csv (metadata file)
+#'
+#' @param data A character string of the data filename to check
+#' @param meta A character string of the metadata filename to check
+#' @param verbose logical, if TRUE prints feedback messages to console for
+#' every test, if FALSE run silently
+#' @param stop_on_error logical, if TRUE will stop with an error if the result
+#' is "FAIL", and will throw genuine warning if result is "WARNING"
+#'
+#' @inherit check_filename_spaces return
+#'
+#' @family filename
+#'
+#' @examples
+#' check_filter_defaults(example_data, example_meta)
+#' @export
+check_filter_defaults <- function(data, meta, verbose = FALSE, stop_on_error = FALSE) {
   if (!"filter_default" %in% names(meta)) {
     meta <- meta |>
       dplyr::mutate(filter_default = "Total")
@@ -37,9 +54,9 @@ check_filter_defaults <- function(data, meta) {
 
     # Apply the condition across all columns using sapply
     pre_result <- sapply(
-      names(df),
+      names(dfilters),
       function(column) {
-        any(df[[column]] == filter_defaults[[column]])
+        any(dfilters[[column]] == filter_defaults[[column]])
       }
     )
 
