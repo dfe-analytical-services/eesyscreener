@@ -10,13 +10,13 @@
 #'
 #' @inherit check_filename_spaces return
 #'
-#' @family precheck_col
+#' @family check_meta
 #'
 #' @examples
-#' precheck_col_name_duplicate(example_meta)
-#' precheck_col_name_duplicate(example_meta, verbose = TRUE)
+#' check_meta_col_name_duplicate(example_meta)
+#' check_meta_col_name_duplicate(example_meta, verbose = TRUE)
 #' @export
-precheck_col_name_duplicate <- function(
+check_meta_col_name_duplicate <- function(
   meta,
   verbose = FALSE,
   stop_on_error = FALSE
