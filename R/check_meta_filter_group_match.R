@@ -18,13 +18,13 @@ check_meta_filter_group_match <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  meta_filter_groups <- meta %>%
-    filter(!is.na(filter_grouping_column) & filter_grouping_column != "")
+  meta_filter_groups <- meta[!(is.na(meta$filter_grouping_column) | meta$filter_grouping_column == ""), ]
 
   if (nrow(meta_filter_groups) == 0) {
-    output <- list(
-      "message" = "There are no filter groups present.",
-      "result" = "IGNORE"
+    test_output(
+      "filter_groups_match",
+      "IGNORE",
+      "There are no filter groups present.",
     )
   } else {
     filter_groups_not_in_data <- setdiff(
@@ -34,32 +34,39 @@ check_meta_filter_group_match <- function(
     number_filter_groups_not_in_data <- length(filter_groups_not_in_data)
 
     if (number_filter_groups_not_in_data == 0) {
-      output <- list(
-        "message" = "All filter groups from the metadata were found in the data file.",
-        "result" = "PASS"
+      test_output(
+        "filter_groups_match",
+        "PASS",
+        "All filter groups from the metadata were found in the data file.",
+        verbose = verbose,
+        stop_on_error = stop_on_error
       )
     } else {
       if (number_filter_groups_not_in_data == 1) {
-        output <- list(
-          "message" = paste0(
+        test_output(
+          "filter_groups_match",
+          "FAIL",
+          paste0(
             "The following filter group from the metadata was not found as a variable in the data file: '",
             paste0(filter_groups_not_in_data, collapse = "', '"),
             "'."
           ),
-          "result" = "FAIL"
+          verbose = verbose,
+          stop_on_error = stop_on_error
         )
       } else {
-        output <- list(
-          "message" = paste0(
+        test_output(
+          "filter_groups_match",
+          "FAIL",
+          paste0(
             "The following filter groups from the metadata were not found as variables in the data file: '",
             paste0(filter_groups_not_in_data, collapse = "', '"),
             "'."
           ),
-          "result" = "FAIL"
+          verbose = verbose,
+          stop_on_error = stop_on_error
         )
       }
     }
   }
-
-  return(output)
 }
