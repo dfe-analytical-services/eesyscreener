@@ -14,9 +14,9 @@
 #' check_meta_filter_hint(example_meta, verbose = TRUE)
 #' @export
 check_meta_filter_hint <- function(
-    meta,
-    verbose = FALSE,
-    stop_on_error = FALSE
+  meta,
+  verbose = FALSE,
+  stop_on_error = FALSE
 ) {
   invalid_filter_hint <- meta |>
     dplyr::filter(
