@@ -18,7 +18,11 @@ check_meta_indicator_dp <- function(
   stop_on_error = FALSE
 ) {
   indicator_dps <- meta |>
-    dplyr::filter(col_type == "Filter", !is.na(indicator_dp), indicator_dp != "") |>
+    dplyr::filter(
+      col_type == "Filter",
+      !is.na(indicator_dp),
+      indicator_dp != ""
+    ) |>
     dplyr::pull(indicator_dp)
 
   if (length(indicator_dps) == 0) {
@@ -30,12 +34,12 @@ check_meta_indicator_dp <- function(
       stop_on_error = stop_on_error
     )
   } else {
-      test_output(
-        "indicator_dp",
-        "FAIL",
-        "Filters should not have an indicator_dp value in the metadata file.",
-        verbose = verbose,
-        stop_on_error = stop_on_error
-      )
+    test_output(
+      "indicator_dp",
+      "FAIL",
+      "Filters should not have an indicator_dp value in the metadata file.",
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    )
   }
 }
