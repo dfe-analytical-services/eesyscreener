@@ -2,7 +2,10 @@ test_that("passes when all labels are unique", {
   meta <- data.frame(label = c("A", "B", "C"))
   expect_equal(precheck_meta_duplicate_label(meta)$result, "PASS")
   expect_no_error(precheck_meta_duplicate_label(meta, stop_on_error = TRUE))
-  expect_no_error(precheck_meta_duplicate_label(example_meta, stop_on_error = TRUE))
+  expect_no_error(precheck_meta_duplicate_label(
+    example_meta,
+    stop_on_error = TRUE
+    ))
 })
 
 test_that("fails with one duplicate label", {
