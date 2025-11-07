@@ -32,5 +32,6 @@ Imports:
     duckplyr,
     mime,
     rlang,
+    stats,
     stringr
 VignetteBuilder: knitr
