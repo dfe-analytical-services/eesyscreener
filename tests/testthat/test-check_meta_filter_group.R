@@ -36,7 +36,8 @@ test_that("fails when multiple indicators have filter_grouping_column values", {
   expect_error(check_meta_filter_group(meta, stop_on_error = TRUE))
 })
 
-test_that("trims whitespace and detects non-blank filter_grouping_column values", {
+test_that("trims whitespace and detects non-blank
+ filter_grouping_column values", {
   meta <- data.frame(
     col_name = c("A", "B", "C"),
     col_type = c("Indicator", "Indicator", "Indicator"),

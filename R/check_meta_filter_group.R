@@ -38,7 +38,8 @@ check_meta_filter_group <- function(
       "meta_col_name",
       "FAIL",
       paste0(
-        "Indicators should not have a filter_grouping_column value in the metadata file. ",
+        "Indicators should not have a filter_grouping_column value in 
+        the metadata file. ",
         "The following indicator rows have filter_grouping_column values: '",
         paste(invalid_filter_grouping_column, collapse = "', '"),
         "'."
