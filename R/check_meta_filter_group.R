@@ -14,9 +14,9 @@
 #' check_meta_filter_group(example_meta, verbose = TRUE)
 #' @export
 check_meta_filter_group <- function(
-    meta,
-    verbose = FALSE,
-    stop_on_error = FALSE
+  meta,
+  verbose = FALSE,
+  stop_on_error = FALSE
 ) {
   invalid_filter_grouping_column <- meta |>
     dplyr::filter(
