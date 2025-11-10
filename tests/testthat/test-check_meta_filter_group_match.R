@@ -23,7 +23,7 @@ test_that("fails when multiple filter groups are missing from data", {
   expect_equal(check_meta_filter_group_match(data, meta)$result, "FAIL")
   expect_error(check_meta_filter_group_match(data, meta, stop_on_error = TRUE))
 })
-
+#FAILS
 test_that("fails when more filter groups exist in the data than in the meta", {
   data <- data.frame(sex = c("M", "F"), education_phase = c("Primary", "Secondary"))
   meta <- data.frame(filter_grouping_column = c("sex"))

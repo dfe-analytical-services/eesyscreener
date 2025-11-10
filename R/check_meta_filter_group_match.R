@@ -18,15 +18,19 @@ check_meta_filter_group_match <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  meta_filter_groups <- meta[!(is.na(meta$filter_grouping_column) | meta$filter_grouping_column == ""), ]
+  meta_filter_groups <- data.frame(filter_grouping_column =
+    meta[!(is.na(meta$filter_grouping_column) | meta$filter_grouping_column == ""), ])
 
   if (nrow(meta_filter_groups) == 0) {
     test_output(
       "filter_groups_match",
       "IGNORE",
       "There are no filter groups present.",
+      verbose = verbose,
+      stop_on_error = stop_on_error
     )
   } else {
+    #See how setdiff() compares?
     filter_groups_not_in_data <- setdiff(
       meta_filter_groups$filter_grouping_column,
       names(data)
