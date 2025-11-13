@@ -18,8 +18,11 @@ check_meta_filter_group_match <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  meta_filter_groups <- data.frame(filter_grouping_column =
-    meta[!(is.na(meta$filter_grouping_column) | meta$filter_grouping_column == ""), ])
+  meta_filter_groups <- data.frame(
+    filter_grouping_column = meta[
+      !(is.na(meta$filter_grouping_column) | meta$filter_grouping_column == ""),
+    ]
+  )
 
   if (nrow(meta_filter_groups) == 0) {
     test_output(
