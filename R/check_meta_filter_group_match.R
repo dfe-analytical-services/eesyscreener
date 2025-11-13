@@ -1,4 +1,4 @@
-#' Check filter groups match in data and meta
+#' Check filter groups match in meta and data
 #'
 #' Ensure all filter groups from the meta data are found in the data file.
 #'
@@ -24,7 +24,7 @@ check_meta_filter_group_match <- function(
   if (nrow(meta_filter_groups) == 0) {
     test_output(
       "filter_groups_match",
-      "IGNORE",
+      "PASS",
       "There are no filter groups present.",
       verbose = verbose,
       stop_on_error = stop_on_error
