@@ -9,8 +9,8 @@
 #' @family check_meta
 #'
 #' @examples
-#' check_meta_col_name(example_meta)
-#' check_meta_col_name(example_meta, verbose = TRUE)
+#' check_meta_filter_group_match(example_meta)
+#' check_meta_filter_group_match(example_meta, verbose = TRUE)
 #' @export
 check_meta_filter_group_match <- function(
   data,
@@ -30,7 +30,6 @@ check_meta_filter_group_match <- function(
       stop_on_error = stop_on_error
     )
   } else {
-    #See how setdiff() compares?
     filter_groups_not_in_data <- setdiff(
       meta_filter_groups$filter_grouping_column,
       names(data)
