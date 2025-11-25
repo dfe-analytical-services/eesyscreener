@@ -1,6 +1,6 @@
 #' Check there are no duplicated column names
 #'
-#' Make sure that all column names are unique.
+#' Make sure that all column names within the `col_name` column of the metadata file are unique.
 #'
 #' @param meta A data frame of the metadata file
 #' @param verbose logical, if TRUE prints feedback messages to console for
