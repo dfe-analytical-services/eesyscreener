@@ -19,7 +19,7 @@ is "FAIL", and will throw genuine warning if result is "WARNING"}
 a single row data frame
 }
 \description{
-Throw warning if, for any filter, indicator_dp is not blank.
+Throw an error if, for any filter, indicator_dp is not blank.
 }
 \examples{
 check_meta_indicator_dp(example_meta)

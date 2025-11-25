@@ -1,6 +1,6 @@
 #' Check indicator_dp is blank for all filters
 #'
-#' Throw warning if, for any filter, indicator_dp is not blank.
+#' Throw an error if, for any filter, indicator_dp is not blank.
 #'
 #' @inheritParams precheck_meta_col_type
 #'
