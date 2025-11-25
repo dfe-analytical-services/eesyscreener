@@ -17,17 +17,26 @@
 #' precheck_col_invalid_meta(example_meta, verbose = TRUE)
 #' @export
 precheck_col_name_spaces <- function(
-    meta,
-    verbose = FALSE,
-    stop_on_error = FALSE) {
+  meta,
+  verbose = FALSE,
+  stop_on_error = FALSE
+) {
+  col_name_space_pos <- grep("\\s", meta$col_name)
 
-  col_name_space_pos <- grep("\\s",meta$col_name)
-
-  if (length(col_name_space_pos)>0){
+  if (length(col_name_space_pos) > 0) {
     test_output(
       "col_name_spaces",
       "result" = "FAIL",
-      "message" = paste0(c(cli::pluralize("There are one or more spaces in {length(col_name_space_pos)} col_name value{?s} in the metadata file at column{?s}: "),paste0(col_name_space_pos,collapse=","),"."),collapse=""),
+      "message" = paste0(
+        c(
+          cli::pluralize(
+            "There are one or more spaces in {length(col_name_space_pos)} col_name value{?s} in the metadata file at column{?s}: "
+          ),
+          paste0(col_name_space_pos, collapse = ","),
+          "."
+        ),
+        collapse = ""
+      ),
       verbose = verbose,
       stop_on_error = stop_on_error
     )
