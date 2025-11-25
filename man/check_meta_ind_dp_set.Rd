@@ -26,4 +26,8 @@ encourage users to explicitly specify the behaviour they want.
 check_meta_ind_dp_set(example_meta)
 check_meta_ind_dp_set(example_meta, verbose = TRUE)
 }
+\seealso{
+Other check_meta: 
+\code{\link{check_meta_filter_group_match}()}
+}
 \concept{check_meta}

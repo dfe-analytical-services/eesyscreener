@@ -9,8 +9,8 @@
 #' @family check_meta
 #'
 #' @examples
-#' check_meta_filter_group_match(example_meta)
-#' check_meta_filter_group_match(example_meta, verbose = TRUE)
+#' check_meta_filter_group_match(example_data, example_meta)
+#' check_meta_filter_group_match(example_data, example_meta, verbose = TRUE)
 #' @export
 check_meta_filter_group_match <- function(
   data,
