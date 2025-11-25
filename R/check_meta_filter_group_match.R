@@ -53,7 +53,8 @@ check_meta_filter_group_match <- function(
           "filter_groups_match",
           "FAIL",
           paste0(
-            "The following filter group from the metadata was not found as a variable in the data file: '",
+            "The following filter group from the metadata was not found ",
+            "as a variable in the data file: '",
             paste0(filter_groups_not_in_data, collapse = "', '"),
             "'."
           ),
@@ -65,7 +66,8 @@ check_meta_filter_group_match <- function(
           "filter_groups_match",
           "FAIL",
           paste0(
-            "The following filter groups from the metadata were not found as variables in the data file: '",
+            "The following filter groups from the metadata were not found ",
+            "as variables in the data file: '",
             paste0(filter_groups_not_in_data, collapse = "', '"),
             "'."
           ),
