@@ -47,6 +47,11 @@ screen_dfs <- function(data, meta, verbose = FALSE, stop_on_error = FALSE) {
       meta,
       verbose = verbose,
       stop_on_error = stop_on_error
+    ),
+    precheck_col_name_spaces(
+      meta,
+      verbose = verbose,
+      stop_on_error = stop_on_error
     )
   )
 
