@@ -125,10 +125,10 @@ validate_arg_logical <- function(logical, name) {
 #' Read in CSV files
 #'
 #' Helper for reading in CSV files in a standard way. Provides validation
-#' that they are CSV files before reading.
+#' that they are CSV (or gzipped CSV) files before reading.
 #'
-#' @param datapath Path to the data CSV file
-#' @param metapath Path to the meta CSV file
+#' @param datapath Path to the data CSV (or gzipped CSV) file
+#' @param metapath Path to the meta CSV (or gzipped CSV) file
 #' @return a duckplyr data frame named 'data' and a data table named
 #' 'meta'
 #' @examples
@@ -159,14 +159,28 @@ read_ees_files <- function(datapath, metapath) {
   # Use 'mime' package if available, otherwise fall back to extension check
   data_mime <- mime::guess_type(datapath)
   meta_mime <- mime::guess_type(metapath)
-  if (!identical(data_mime, "text/csv")) {
+  if (
+    !identical(data_mime, "text/csv") &
+      !identical(data_mime, "application/gzip")
+  ) {
     cli::cli_abort(
-      sprintf("Data file at %s does not have a CSV MIME type.", datapath)
+      sprintf(
+        "Data file at %s does not have a CSV or GZIP MIME type.\nMIME type found: %s",
+        datapath,
+        data_mime
+      )
     )
   }
-  if (!identical(meta_mime, "text/csv")) {
+  if (
+    !identical(meta_mime, "text/csv") &
+      !identical(data_mime, "application.gzip")
+  ) {
     cli::cli_abort(
-      sprintf("Metadata file at %s does not have a CSV MIME type.", metapath)
+      sprintf(
+        "Meta data file at %s does not have a CSV or GZIP MIME type.\nMIME type found: %s",
+        metapath,
+        meta_mime
+      )
     )
   }
 
