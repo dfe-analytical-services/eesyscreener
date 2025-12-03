@@ -195,7 +195,7 @@ read_ees_files <- function(datapath, metapath) {
   # readr(example_meta) 11232.2 11532.4 11999.88 11831.15 12604.4 12946.6  10
   # duck(example_meta)  1241.6  1259.5  1647.03  1404.40  1690.7  2915.3   10
   # base(example_meta)   514.8   528.3   675.26   590.30   616.3  1472.4   10
-  metafile <- utils::read.csv(metapath)
+  metafile <- duckplyr::read_csv_duckdb(metapath)
 
   list(data = datafile, meta = metafile)
 }
