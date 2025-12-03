@@ -48,35 +48,38 @@ screen_dfs(example_data, example_meta)
 #> 2                  col_invalid_meta   PASS
 #> 3                      col_req_data   PASS
 #> 4                       col_to_rows   PASS
-#> 5                     meta_col_type   PASS
-#> 6                      meta_ob_unit   PASS
-#> 7                     meta_col_name   PASS
+#> 5                col_name_duplicate   PASS
+#> 6                     meta_col_type   PASS
+#> 7                      meta_ob_unit   PASS
 #> 8                     meta_col_name   PASS
-#> 9                      indicator_dp   PASS
-#> 10                    time_id_valid   PASS
-#> 11 check_api_char_limit_column-name   PASS
+#> 9                     meta_col_name   PASS
+#> 10                     indicator_dp   PASS
+#> 11                    time_id_valid   PASS
+#> 12 check_api_char_limit_column-name   PASS
 #>                                                                                                       message
 #> 1                                               All of the required columns are present in the metadata file.
 #> 2                                                          There are no invalid columns in the metadata file.
 #> 3                                                   All of the required columns are present in the data file.
 #> 4  There are an equal number of rows in the metadata file (3) and non-mandatory columns in the data file (3).
-#> 5                                                                 col_type is always 'Filter' or 'Indicator'.
-#> 6                                             No observational units have been included in the metadata file.
-#> 7                                             The col_name column is completed for every row in the metadata.
-#> 8                                                    The indicator_dp column is completed for all indicators.
-#> 9                                                                      No filters have an indicator_dp value.
-#> 10                                                                  The time_identifier values are all valid.
-#> 11                          All filter / indicator names are less than or equal to the character limit of 50.
+#> 5                                                                             All col_name values are unique.
+#> 6                                                                 col_type is always 'Filter' or 'Indicator'.
+#> 7                                             No observational units have been included in the metadata file.
+#> 8                                             The col_name column is completed for every row in the metadata.
+#> 9                                                    The indicator_dp column is completed for all indicators.
+#> 10                                                                     No filters have an indicator_dp value.
+#> 11                                                                  The time_identifier values are all valid.
+#> 12                          All filter / indicator names are less than or equal to the character limit of 50.
 #>    guidance_url            stage
 #> 1            NA Precheck columns
 #> 2            NA Precheck columns
 #> 3            NA Precheck columns
 #> 4            NA Precheck columns
-#> 5            NA    Precheck meta
+#> 5            NA Precheck columns
 #> 6            NA    Precheck meta
 #> 7            NA    Precheck meta
-#> 8            NA       Check meta
+#> 8            NA    Precheck meta
 #> 9            NA       Check meta
-#> 10           NA    Precheck time
-#> 11           NA        Check API
+#> 10           NA       Check meta
+#> 11           NA    Precheck time
+#> 12           NA        Check API
 ```
