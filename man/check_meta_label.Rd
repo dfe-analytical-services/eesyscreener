@@ -15,6 +15,9 @@ every test, if FALSE run silently}
 \item{stop_on_error}{logical, if TRUE will stop with an error if the result
 is "FAIL", and will throw genuine warning if result is "WARNING"}
 }
+\value{
+a single row data frame
+}
 \description{
 Ensure there are no blank cells in the label column for every row in the metafile
 }

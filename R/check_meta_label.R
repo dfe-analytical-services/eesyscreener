@@ -4,7 +4,7 @@
 #'
 #' @inheritParams precheck_meta_col_type
 #'
-#' @inherit check_filename_spaces_return
+#' @inherit check_filename_spaces return
 #'
 #' @family check_meta
 #'
@@ -16,13 +16,12 @@ check_meta_label <- function(
     meta,
     verbose = FALSE,
     stop_on_error = FALSE
-    )
-  {
+    ) {
 
   blank_labels <- sum(is.na(meta$label) | meta$label == "" | meta$label == " ")
 
   if (blank_labels == 0) {
-    test_output (
+    test_output(
       "check_meta_label",
       "PASS",
       "The label column is completed for every row in the metadata.",
@@ -31,7 +30,7 @@ check_meta_label <- function(
     )
   } else {
     if (blank_labels == 1) {
-      test_output (
+      test_output(
         "check_meta_label",
         "FAIL",
         paste0(
@@ -43,7 +42,7 @@ check_meta_label <- function(
         stop_on_error = stop_on_error
       )
     } else {
-      test_output (
+      test_output(
         "check_meta_label",
         "FAIL",
         paste0(
