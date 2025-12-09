@@ -45,7 +45,7 @@ test_that("errors if data file is not a CSV", {
   write.csv(data.frame(col_type = c("Filter")), meta_file, row.names = FALSE)
   expect_error(
     read_ees_files(data_file, meta_file),
-    "Data file at.*does not have a CSV MIME type"
+    "Data file at.*does not have a CSV or GZIP MIME type"
   )
   file.remove(data_file)
   file.remove(meta_file)
@@ -58,7 +58,7 @@ test_that("errors if meta file is not a CSV", {
   writeLines("not a csv", meta_file)
   expect_error(
     read_ees_files(data_file, meta_file),
-    "Metadata file at.*does not have a CSV MIME type"
+    "Meta data file at.*does not have a CSV or GZIP MIME type"
   )
   file.remove(data_file)
   file.remove(meta_file)
