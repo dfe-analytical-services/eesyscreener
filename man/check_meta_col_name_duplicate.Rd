@@ -19,7 +19,7 @@ is "FAIL", and will throw genuine warning if result is "WARNING"}
 a single row data frame
 }
 \description{
-Make sure that all column names are unique.
+Make sure that all column names within the \code{col_name} column of the metadata file are unique.
 }
 \examples{
 check_meta_col_name_duplicate(example_meta)
@@ -27,6 +27,9 @@ check_meta_col_name_duplicate(example_meta, verbose = TRUE)
 }
 \seealso{
 Other check_meta: 
-\code{\link{check_meta_ind_dp_set}()}
+\code{\link{check_meta_filter_hint}()},
+\code{\link{check_meta_ind_dp_set}()},
+\code{\link{check_meta_indicator_dp}()},
+\code{\link{check_meta_label}()}
 }
 \concept{check_meta}

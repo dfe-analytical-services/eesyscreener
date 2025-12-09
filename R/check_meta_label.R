@@ -13,11 +13,10 @@
 #' check_meta_label(example_meta, verbose = TRUE)
 #' @export
 check_meta_label <- function(
-    meta,
-    verbose = FALSE,
-    stop_on_error = FALSE
-    ) {
-
+  meta,
+  verbose = FALSE,
+  stop_on_error = FALSE
+) {
   blank_labels <- sum(is.na(meta$label) | meta$label == "" | meta$label == " ")
 
   if (blank_labels == 0) {

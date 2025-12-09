@@ -28,7 +28,7 @@ check_meta_filter_hint <- function(
 
   if (length(invalid_filter_hint) == 0) {
     test_output(
-      "meta_col_name",
+      "meta_filter_hint",
       "PASS",
       "No indicators have a filter_hint value.",
       verbose = verbose,
@@ -36,7 +36,7 @@ check_meta_filter_hint <- function(
     )
   } else {
     test_output(
-      "meta_col_name",
+      "meta_filter_hint",
       "FAIL",
       paste0(
         "Indicators should not have a filter_hint value in the metadata file. ",
