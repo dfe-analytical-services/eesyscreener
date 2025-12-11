@@ -96,6 +96,8 @@ validate core assumptions about the metadata file itself.
   : Check indicator_dp is set for all indicator rows
 - [`check_meta_indicator_dp()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_indicator_dp.md)
   : Check indicator_dp is blank for all filters
+- [`check_meta_label()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_label.md)
+  : Check every row has a label
 
 ## Core data file structure
 

@@ -1,6 +1,7 @@
 # Check there are no duplicated column names
 
-Make sure that all column names are unique.
+Make sure that all column names within the `col_name` column of the
+metadata file are unique.
 
 ## Usage
 
@@ -31,7 +32,10 @@ a single row data frame
 ## See also
 
 Other check_meta:
-[`check_meta_ind_dp_set()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_ind_dp_set.md)
+[`check_meta_filter_hint()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_hint.md),
+[`check_meta_ind_dp_set()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_ind_dp_set.md),
+[`check_meta_indicator_dp()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_indicator_dp.md),
+[`check_meta_label()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_label.md)
 
 ## Examples
 

@@ -9,7 +9,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/dfe-analytical-services/eesyscreener/blob/v0.1.3/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/dfe-analytical-services/eesyscreener/blob/main/DESCRIPTION)
 
 Race C (2025). *eesyscreener: Explore education statistics data
 screening*. R package version 0.1.2,

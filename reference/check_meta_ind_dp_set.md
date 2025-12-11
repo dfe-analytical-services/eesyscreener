@@ -32,22 +32,23 @@ a single row data frame
 ## See also
 
 Other check_meta:
-[`check_meta_filter_hint()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_hint.md)
-[`check_meta_col_name_duplicate()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_col_name_duplicate.md)
-[`check_meta_indicator_dp()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_indicator_dp.md)
+[`check_meta_col_name_duplicate()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_col_name_duplicate.md),
+[`check_meta_filter_hint()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_hint.md),
+[`check_meta_indicator_dp()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_indicator_dp.md),
+[`check_meta_label()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_label.md)
 
 ## Examples
 
 ``` r
 check_meta_ind_dp_set(example_meta)
-#>           check result                                                  message
-#> 1 meta_col_name   PASS The indicator_dp column is completed for all indicators.
-#>   guidance_url
-#> 1           NA
+#>             check result
+#> 1 meta_ind_dp_set   PASS
+#>                                                    message guidance_url
+#> 1 The indicator_dp column is completed for all indicators.           NA
 check_meta_ind_dp_set(example_meta, verbose = TRUE)
 #> ✔ The indicator_dp column is completed for all indicators.
-#>           check result                                                  message
-#> 1 meta_col_name   PASS The indicator_dp column is completed for all indicators.
-#>   guidance_url
-#> 1           NA
+#>             check result
+#> 1 meta_ind_dp_set   PASS
+#>                                                    message guidance_url
+#> 1 The indicator_dp column is completed for all indicators.           NA
 ```
