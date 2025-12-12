@@ -47,6 +47,11 @@ screen_dfs <- function(data, meta, verbose = FALSE, stop_on_error = FALSE) {
       meta,
       verbose = verbose,
       stop_on_error = stop_on_error
+    ),
+    check_meta_col_name_duplicate(
+      meta,
+      verbose = verbose,
+      stop_on_error = stop_on_error
     )
   )
 
@@ -94,7 +99,10 @@ screen_dfs <- function(data, meta, verbose = FALSE, stop_on_error = FALSE) {
       meta,
       verbose = verbose,
       stop_on_error = stop_on_error
-    )
+    ),
+    check_meta_label(meta, verbose, stop_on_error),
+    check_meta_filter_hint(meta, verbose, stop_on_error),
+    check_meta_indicator_dp(meta, verbose, stop_on_error)
   )
 
   check_meta_results <- precheck_meta_results |>

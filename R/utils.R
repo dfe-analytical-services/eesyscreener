@@ -125,10 +125,10 @@ validate_arg_logical <- function(logical, name) {
 #' Read in CSV files
 #'
 #' Helper for reading in CSV files in a standard way. Provides validation
-#' that they are CSV files before reading.
+#' that they are CSV (or gzipped CSV) files before reading.
 #'
-#' @param datapath Path to the data CSV file
-#' @param metapath Path to the meta CSV file
+#' @param datapath Path to the data CSV (or gzipped CSV) file
+#' @param metapath Path to the meta CSV (or gzipped CSV) file
 #' @return a duckplyr data frame named 'data' and a data table named
 #' 'meta'
 #' @examples
@@ -159,14 +159,28 @@ read_ees_files <- function(datapath, metapath) {
   # Use 'mime' package if available, otherwise fall back to extension check
   data_mime <- mime::guess_type(datapath)
   meta_mime <- mime::guess_type(metapath)
-  if (!identical(data_mime, "text/csv")) {
+  if (
+    !identical(data_mime, "text/csv") &
+      !identical(data_mime, "application/gzip")
+  ) {
     cli::cli_abort(
-      sprintf("Data file at %s does not have a CSV MIME type.", datapath)
+      sprintf(
+        "Data file at %s does not have a CSV or GZIP MIME type.\nMIME type found: %s",
+        datapath,
+        data_mime
+      )
     )
   }
-  if (!identical(meta_mime, "text/csv")) {
+  if (
+    !identical(meta_mime, "text/csv") &
+      !identical(data_mime, "application.gzip")
+  ) {
     cli::cli_abort(
-      sprintf("Metadata file at %s does not have a CSV MIME type.", metapath)
+      sprintf(
+        "Meta data file at %s does not have a CSV or GZIP MIME type.\nMIME type found: %s",
+        metapath,
+        meta_mime
+      )
     )
   }
 
@@ -181,7 +195,7 @@ read_ees_files <- function(datapath, metapath) {
   # readr(example_meta) 11232.2 11532.4 11999.88 11831.15 12604.4 12946.6  10
   # duck(example_meta)  1241.6  1259.5  1647.03  1404.40  1690.7  2915.3   10
   # base(example_meta)   514.8   528.3   675.26   590.30   616.3  1472.4   10
-  metafile <- utils::read.csv(metapath)
+  metafile <- duckplyr::read_csv_duckdb(metapath)
 
   list(data = datafile, meta = metafile)
 }

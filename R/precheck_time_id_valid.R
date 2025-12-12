@@ -69,7 +69,7 @@ precheck_time_id_valid <- function(
         "FAIL",
         sprintf(
           "The following invalid time_identifiers were found: '%s'.",
-          paste(invalid_identifiers, collapse = "', '")
+          paste(invalid_identifiers |> sort(), collapse = "', '")
         ),
         paste0(
           "https://dfe-analytical-services.github.io/analysts-guide/",
