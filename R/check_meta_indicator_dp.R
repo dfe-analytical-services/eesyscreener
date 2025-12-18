@@ -19,11 +19,11 @@ check_meta_indicator_dp <- function(
 ) {
   indicator_dps <- meta |>
     dplyr::filter(
-      col_type == "Filter",
-      !is.na(indicator_dp),
-      indicator_dp != ""
+      .data$col_type == "Filter",
+      !is.na(.data$indicator_dp),
+      .data$indicator_dp != ""
     ) |>
-    dplyr::pull(indicator_dp)
+    dplyr::pull(.data$indicator_dp)
 
   if (length(indicator_dps) == 0) {
     test_output(
