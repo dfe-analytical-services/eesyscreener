@@ -12,18 +12,20 @@
 #' every test, if FALSE run silently
 #' @param stop_on_error logical, if TRUE will stop with an error if the result
 #' is "FAIL", and will throw genuine warning if result is "WARNING"
+#' @param prudence prudence as used by duckplyr, default = "lavish". Can also 
+#' be "stingy" and "thrifty".
 #'
 #' @inherit screen_filenames return
 #'
 #' @examples
 #' screen_dfs(example_data, example_meta)
 #' @export
-screen_dfs <- function(data, meta, verbose = FALSE, stop_on_error = FALSE) {
+screen_dfs <- function(data, meta, verbose = FALSE, stop_on_error = FALSE, prudence = "lavish") {
   validate_arg_dfs(data, meta)
   validate_arg_logical(verbose, "verbose")
   validate_arg_logical(stop_on_error, "stop_on_error")
 
-  data <- duckplyr::as_duckdb_tibble(data)
+  data <- duckplyr::as_duckdb_tibble(data, prudence = prudence)
 
   # Precheck columns ----------------------------------------------------------
   precheck_col_results <- rbind(
