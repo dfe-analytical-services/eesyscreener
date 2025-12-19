@@ -4,7 +4,13 @@
 \alias{screen_dfs}
 \title{Run all checks against data and metadata}
 \usage{
-screen_dfs(data, meta, verbose = FALSE, stop_on_error = FALSE)
+screen_dfs(
+  data,
+  meta,
+  verbose = FALSE,
+  stop_on_error = FALSE,
+  prudence = "lavish"
+)
 }
 \arguments{
 \item{data}{data.frame, for the data table, more efficient if supplied as a
@@ -17,6 +23,9 @@ every test, if FALSE run silently}
 
 \item{stop_on_error}{logical, if TRUE will stop with an error if the result
 is "FAIL", and will throw genuine warning if result is "WARNING"}
+
+\item{prudence}{prudence as used by duckplyr, default = "lavish". Can also
+be "stingy" and "thrifty".}
 }
 \value{
 data.frame containing the results of the screening

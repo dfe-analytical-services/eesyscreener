@@ -1,5 +1,16 @@
-test_that("passes when only valid cols are present", {
+test_that("passes when only required cols are present", {
   expect_no_error(precheck_col_invalid_meta(example_meta, stop_on_error = TRUE))
+})
+
+test_that("passes when optional cols are present", {
+  expect_no_error(precheck_col_invalid_meta(
+    example_meta |>
+      cbind(
+        filter_default = "",
+        parent_filter = ""
+      ),
+    stop_on_error = TRUE
+  ))
 })
 
 test_that("errors when invalid columns are present", {
