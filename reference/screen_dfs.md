@@ -6,7 +6,13 @@ objects.
 ## Usage
 
 ``` r
-screen_dfs(data, meta, verbose = FALSE, stop_on_error = FALSE)
+screen_dfs(
+  data,
+  meta,
+  verbose = FALSE,
+  stop_on_error = FALSE,
+  prudence = "lavish"
+)
 ```
 
 ## Arguments
@@ -29,6 +35,11 @@ screen_dfs(data, meta, verbose = FALSE, stop_on_error = FALSE)
 
   logical, if TRUE will stop with an error if the result is "FAIL", and
   will throw genuine warning if result is "WARNING"
+
+- prudence:
+
+  prudence as used by duckplyr, default = "lavish". Can also be "stingy"
+  and "thrifty".
 
 ## Value
 
