@@ -12,18 +12,26 @@
 #' every test, if FALSE run silently
 #' @param stop_on_error logical, if TRUE will stop with an error if the result
 #' is "FAIL", and will throw genuine warning if result is "WARNING"
+#' @param prudence prudence as used by duckplyr, default = "lavish". Can also
+#' be "stingy" and "thrifty".
 #'
 #' @inherit screen_filenames return
 #'
 #' @examples
 #' screen_dfs(example_data, example_meta)
 #' @export
-screen_dfs <- function(data, meta, verbose = FALSE, stop_on_error = FALSE) {
+screen_dfs <- function(
+  data,
+  meta,
+  verbose = FALSE,
+  stop_on_error = FALSE,
+  prudence = "lavish"
+) {
   validate_arg_dfs(data, meta)
   validate_arg_logical(verbose, "verbose")
   validate_arg_logical(stop_on_error, "stop_on_error")
 
-  data <- duckplyr::as_duckdb_tibble(data)
+  data <- duckplyr::as_duckdb_tibble(data, prudence = prudence)
 
   # Precheck columns ----------------------------------------------------------
   precheck_col_results <- rbind(
@@ -44,6 +52,11 @@ screen_dfs <- function(data, meta, verbose = FALSE, stop_on_error = FALSE) {
     ),
     precheck_col_to_rows(
       data,
+      meta,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    ),
+    check_meta_col_name_duplicate(
       meta,
       verbose = verbose,
       stop_on_error = stop_on_error
@@ -89,7 +102,16 @@ screen_dfs <- function(data, meta, verbose = FALSE, stop_on_error = FALSE) {
   # Check meta ----------------------------------------------------------------
   check_meta_results <- rbind(
     check_meta_ind_dp_set(meta, verbose, stop_on_error),
-    check_meta_filter_group(meta, verbose, stop_on_error)
+    check_meta_filter_group(meta, verbose, stop_on_error),
+    check_meta_filter_group_match(
+      data,
+      meta,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    ),
+    check_meta_label(meta, verbose, stop_on_error),
+    check_meta_filter_hint(meta, verbose, stop_on_error),
+    check_meta_indicator_dp(meta, verbose, stop_on_error)
   )
 
   check_meta_results <- precheck_meta_results |>

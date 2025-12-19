@@ -125,10 +125,10 @@ validate_arg_logical <- function(logical, name) {
 #' Read in CSV files
 #'
 #' Helper for reading in CSV files in a standard way. Provides validation
-#' that they are CSV files before reading.
+#' that they are CSV (or gzipped CSV) files before reading.
 #'
-#' @param datapath Path to the data CSV file
-#' @param metapath Path to the meta CSV file
+#' @param datapath Path to the data CSV (or gzipped CSV) file
+#' @param metapath Path to the meta CSV (or gzipped CSV) file
 #' @return a duckplyr data frame named 'data' and a data table named
 #' 'meta'
 #' @examples
@@ -159,29 +159,49 @@ read_ees_files <- function(datapath, metapath) {
   # Use 'mime' package if available, otherwise fall back to extension check
   data_mime <- mime::guess_type(datapath)
   meta_mime <- mime::guess_type(metapath)
-  if (!identical(data_mime, "text/csv")) {
+  if (
+    !identical(data_mime, "text/csv") &
+      !identical(data_mime, "application/gzip")
+  ) {
     cli::cli_abort(
-      sprintf("Data file at %s does not have a CSV MIME type.", datapath)
+      sprintf(
+        "Data file at %s does not have a CSV or GZIP MIME type.\nMIME type found: %s",
+        datapath,
+        data_mime
+      )
     )
   }
-  if (!identical(meta_mime, "text/csv")) {
+  if (
+    !identical(meta_mime, "text/csv") &
+      !identical(data_mime, "application.gzip")
+  ) {
     cli::cli_abort(
-      sprintf("Metadata file at %s does not have a CSV MIME type.", metapath)
+      sprintf(
+        "Meta data file at %s does not have a CSV or GZIP MIME type.\nMIME type found: %s",
+        metapath,
+        meta_mime
+      )
     )
   }
 
   # Read in the CSV files -----------------------------------------------------
   # TODO: Add better handling for if there's issues reading the files
-  # Lazy reading of data for speed
-  datafile <- duckplyr::read_csv_duckdb(datapath)
 
-  # Meta files are so small it's fastest to read using base R
-  #             expr     min      lq     mean   median      uq     max neval
-  # dt(example_meta)   891.9   955.6  1184.28  1048.10  1321.8  2093.3    10
-  # readr(example_meta) 11232.2 11532.4 11999.88 11831.15 12604.4 12946.6  10
-  # duck(example_meta)  1241.6  1259.5  1647.03  1404.40  1690.7  2915.3   10
-  # base(example_meta)   514.8   528.3   675.26   590.30   616.3  1472.4   10
-  metafile <- utils::read.csv(metapath)
+  # Lazy reading of data for speed
+  datafile <- duckplyr::read_csv_duckdb(
+    datapath,
+    # Tried specifying indicator cols as VARCHAR but in current duckdb version
+    # ...you can only specify one at a time
+    # Resorting to scanning full file for types for now
+    options = list(sample_size = -1)
+  )
+
+  # Issue with read.csv falling over when handed files from Azure, so using
+  # ...duckplyr as a safer reading in method
+  # Metadata is always tiny so reading fully into memory for simplicity and
+  # ...avoiding fallbacks from duckdb
+  metafile <- duckplyr::read_csv_duckdb(metapath) |>
+    dplyr::collect()
 
   list(data = datafile, meta = metafile)
 }

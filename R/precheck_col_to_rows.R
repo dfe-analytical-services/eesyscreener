@@ -25,7 +25,7 @@ precheck_col_to_rows <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  data_cols <- ncol(data) - 5
+  data_cols <- length(dplyr::tbl_vars(data)) - 5
   meta_rows <- nrow(meta)
 
   if (data_cols < meta_rows) {
