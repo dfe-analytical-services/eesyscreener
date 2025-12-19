@@ -155,7 +155,7 @@ test_that("Fails gracefully if it's not a CSV", {
   )
   expect_error(
     screen_csv(data_file, txt_meta, stop_on_error = TRUE),
-    "Metadata file"
+    "Meta data file"
   )
 
   file.remove(data_file)
