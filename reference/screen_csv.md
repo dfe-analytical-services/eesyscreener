@@ -95,11 +95,12 @@ screen_csv(data_path, meta_path)
 #> 12                     meta_ob_unit   PASS
 #> 13                    meta_col_name   PASS
 #> 14                  meta_ind_dp_set   PASS
-#> 15                 check_meta_label   PASS
-#> 16                 meta_filter_hint   PASS
-#> 17                     indicator_dp   PASS
-#> 18                    time_id_valid   PASS
-#> 19 check_api_char_limit_column-name   PASS
+#> 15              filter_groups_match   PASS
+#> 16                 check_meta_label   PASS
+#> 17                 meta_filter_hint   PASS
+#> 18                     indicator_dp   PASS
+#> 19                    time_id_valid   PASS
+#> 20 check_api_char_limit_column-name   PASS
 #>                                                                                                       message
 #> 1                                                         'example.csv' does not have spaces in the filename.
 #> 2                                                    'example.meta.csv' does not have spaces in the filename.
@@ -115,11 +116,12 @@ screen_csv(data_path, meta_path)
 #> 12                                            No observational units have been included in the metadata file.
 #> 13                                            The col_name column is completed for every row in the metadata.
 #> 14                                                   The indicator_dp column is completed for all indicators.
-#> 15                                               The label column is completed for every row in the metadata.
-#> 16                                                                    No indicators have a filter_hint value.
-#> 17                                                                     No filters have an indicator_dp value.
-#> 18                                                                  The time_identifier values are all valid.
-#> 19                          All filter / indicator names are less than or equal to the character limit of 50.
+#> 15                                                                        There are no filter groups present.
+#> 16                                               The label column is completed for every row in the metadata.
+#> 17                                                                    No indicators have a filter_hint value.
+#> 18                                                                     No filters have an indicator_dp value.
+#> 19                                                                  The time_identifier values are all valid.
+#> 20                          All filter / indicator names are less than or equal to the character limit of 50.
 #>    guidance_url            stage
 #> 1            NA         filename
 #> 2            NA         filename
@@ -138,8 +140,9 @@ screen_csv(data_path, meta_path)
 #> 15           NA       Check meta
 #> 16           NA       Check meta
 #> 17           NA       Check meta
-#> 18           NA    Precheck time
-#> 19           NA        Check API
+#> 18           NA       Check meta
+#> 19           NA    Precheck time
+#> 20           NA        Check API
 #> 
 #> $overall_stage
 #> [1] "Passed"
@@ -173,6 +176,7 @@ screen_csv(
 #> ✔ No observational units have been included in the metadata file.
 #> ✔ The col_name column is completed for every row in the metadata.
 #> ✔ The indicator_dp column is completed for all indicators.
+#> ✔ There are no filter groups present.
 #> ✔ The label column is completed for every row in the metadata.
 #> ✔ No indicators have a filter_hint value.
 #> ✔ No filters have an indicator_dp value.
@@ -196,11 +200,12 @@ screen_csv(
 #> 12                     meta_ob_unit   PASS
 #> 13                    meta_col_name   PASS
 #> 14                  meta_ind_dp_set   PASS
-#> 15                 check_meta_label   PASS
-#> 16                 meta_filter_hint   PASS
-#> 17                     indicator_dp   PASS
-#> 18                    time_id_valid   PASS
-#> 19 check_api_char_limit_column-name   PASS
+#> 15              filter_groups_match   PASS
+#> 16                 check_meta_label   PASS
+#> 17                 meta_filter_hint   PASS
+#> 18                     indicator_dp   PASS
+#> 19                    time_id_valid   PASS
+#> 20 check_api_char_limit_column-name   PASS
 #>                                                                                                       message
 #> 1                                                            'data.csv' does not have spaces in the filename.
 #> 2                                                       'data.meta.csv' does not have spaces in the filename.
@@ -216,11 +221,12 @@ screen_csv(
 #> 12                                            No observational units have been included in the metadata file.
 #> 13                                            The col_name column is completed for every row in the metadata.
 #> 14                                                   The indicator_dp column is completed for all indicators.
-#> 15                                               The label column is completed for every row in the metadata.
-#> 16                                                                    No indicators have a filter_hint value.
-#> 17                                                                     No filters have an indicator_dp value.
-#> 18                                                                  The time_identifier values are all valid.
-#> 19                          All filter / indicator names are less than or equal to the character limit of 50.
+#> 15                                                                        There are no filter groups present.
+#> 16                                               The label column is completed for every row in the metadata.
+#> 17                                                                    No indicators have a filter_hint value.
+#> 18                                                                     No filters have an indicator_dp value.
+#> 19                                                                  The time_identifier values are all valid.
+#> 20                          All filter / indicator names are less than or equal to the character limit of 50.
 #>    guidance_url            stage
 #> 1            NA         filename
 #> 2            NA         filename
@@ -239,8 +245,9 @@ screen_csv(
 #> 15           NA       Check meta
 #> 16           NA       Check meta
 #> 17           NA       Check meta
-#> 18           NA    Precheck time
-#> 19           NA        Check API
+#> 18           NA       Check meta
+#> 19           NA    Precheck time
+#> 20           NA        Check API
 #> 
 #> $overall_stage
 #> [1] "Passed"

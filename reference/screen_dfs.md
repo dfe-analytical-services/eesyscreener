@@ -64,11 +64,12 @@ screen_dfs(example_data, example_meta)
 #> 7                      meta_ob_unit   PASS
 #> 8                     meta_col_name   PASS
 #> 9                   meta_ind_dp_set   PASS
-#> 10                 check_meta_label   PASS
-#> 11                 meta_filter_hint   PASS
-#> 12                     indicator_dp   PASS
-#> 13                    time_id_valid   PASS
-#> 14 check_api_char_limit_column-name   PASS
+#> 10              filter_groups_match   PASS
+#> 11                 check_meta_label   PASS
+#> 12                 meta_filter_hint   PASS
+#> 13                     indicator_dp   PASS
+#> 14                    time_id_valid   PASS
+#> 15 check_api_char_limit_column-name   PASS
 #>                                                                                                       message
 #> 1                                               All of the required columns are present in the metadata file.
 #> 2                                                          There are no invalid columns in the metadata file.
@@ -79,11 +80,12 @@ screen_dfs(example_data, example_meta)
 #> 7                                             No observational units have been included in the metadata file.
 #> 8                                             The col_name column is completed for every row in the metadata.
 #> 9                                                    The indicator_dp column is completed for all indicators.
-#> 10                                               The label column is completed for every row in the metadata.
-#> 11                                                                    No indicators have a filter_hint value.
-#> 12                                                                     No filters have an indicator_dp value.
-#> 13                                                                  The time_identifier values are all valid.
-#> 14                          All filter / indicator names are less than or equal to the character limit of 50.
+#> 10                                                                        There are no filter groups present.
+#> 11                                               The label column is completed for every row in the metadata.
+#> 12                                                                    No indicators have a filter_hint value.
+#> 13                                                                     No filters have an indicator_dp value.
+#> 14                                                                  The time_identifier values are all valid.
+#> 15                          All filter / indicator names are less than or equal to the character limit of 50.
 #>    guidance_url            stage
 #> 1            NA Precheck columns
 #> 2            NA Precheck columns
@@ -97,6 +99,7 @@ screen_dfs(example_data, example_meta)
 #> 10           NA       Check meta
 #> 11           NA       Check meta
 #> 12           NA       Check meta
-#> 13           NA    Precheck time
-#> 14           NA        Check API
+#> 13           NA       Check meta
+#> 14           NA    Precheck time
+#> 15           NA        Check API
 ```
