@@ -187,14 +187,20 @@ read_ees_files <- function(datapath, metapath) {
   # Read in the CSV files -----------------------------------------------------
   # TODO: Add better handling for if there's issues reading the files
 
+  # Check number of columns in data file in order to be able to set them all as
+  # VARCHAR on the actual read in:
+  n_data_cols <- datapath |>
+    duckplyr::read_csv_duckdb(prudence = "thrifty") |>
+    dplyr::tbl_vars() |>
+    length()
+
   # Lazy reading of data for speed
-  datafile <- duckplyr::read_csv_duckdb(
-    datapath,
-    # Tried specifying indicator cols as VARCHAR but in current duckdb version
-    # ...you can only specify one at a time
-    # Resorting to scanning full file for types for now
-    options = list(sample_size = -1)
-  )
+  # Setting all columns to VARCHAR as everything can basically contain a
+  # character (i.e. indicators often contain x, c, z, etc)
+  datafile <- datapath |>
+    duckplyr::read_csv_duckdb(
+      options = list(types = list(rep("VARCHAR", n_data_cols)))
+    )
 
   # Issue with read.csv falling over when handed files from Azure, so using
   # ...duckplyr as a safer reading in method
