@@ -10,6 +10,7 @@ screen_csv(
   datafilename = NULL,
   metafilename = NULL,
   log_key = NULL,
+  log_dir = "./",
   verbose = FALSE,
   stop_on_error = FALSE
 )
@@ -28,10 +29,12 @@ it will be assumed from the path}
 \item{log_key}{keystring for creating log file. If given, the screening will
 write a log file to disk called eesyscreening_log_<log_key>.json default=NULL}
 
-\item{verbose}{Logical, if TRUE prints feedback messages to console for
+\item{log_dir}{Directory within which to place the log file. default="./"}
+
+\item{verbose}{logical, if TRUE prints feedback messages to console for
 every test, if FALSE run silently}
 
-\item{stop_on_error}{Logical, if TRUE will stop with an error if the result
+\item{stop_on_error}{logical, if TRUE will stop with an error if the result
 is "FAIL", and will throw genuine warning if result is "WARNING"}
 }
 \value{

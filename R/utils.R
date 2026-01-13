@@ -290,28 +290,26 @@ char_limits <- function(values, max_length) {
 
 #' Write eesyscreener results to log file
 #'
-#' Helper function to write eesyscreener results to a log file
-#'
 #' @param results list of resuts returned by eesyscreener checks
-#' @param log_key keystring for creating log file. If given, the screening will
-#' write a log file to disk called eesyscreening_log_<log_key>.json default=NULL
-#'
+#' @inheritParams screen_dfs
 #' @returns NULL
 #' @keywords internal
 #' @noRd
-write_json_log <- function(results, log_key = NULL, append = TRUE){
+write_json_log <- function(results, log_key = NULL, log_dir = "./"){
   if(!is.null(log_key)){
     log_file <- paste0("eesyscreener_log_", log_key, ".json")
-    if(file.exists(log_file)){
-      existing_log <- jsonlite::read_json(log_file, simplifyVector = TRUE)
+    log_path = file.path(log_dir, log_file)
+    if(file.exists(log_path)){
+      existing_log <- jsonlite::read_json(log_path, simplifyVector = TRUE)
       results <- existing_log$results |>
-        rbind(results)
+        rbind(results) |>
+        dplyr::distinct()
     }
     jsonlite::write_json(
       list(
         progress = nrow(results)/nrow(example_output)*100.,
         results = results
       ), 
-      log_file, pretty = TRUE, na = "string"
+      log_path, pretty = TRUE, na = "string"
     )}
 }

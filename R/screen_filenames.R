@@ -10,6 +10,7 @@
 #' @param metafilename Character string, name of the metadata file
 #' @param log_key keystring for creating log file. If given, the screening will
 #' write a log file to disk called eesyscreening_log_<log_key>.json default=NULL
+#' @param log_dir Directory within which to place the log file. default="./"
 #' @param verbose Logical, if TRUE prints feedback messages to console for
 #' every test, if FALSE run silently
 #' @param stop_on_error Logical, if TRUE will stop with an error if the result
@@ -25,6 +26,7 @@ screen_filenames <- function(
   datafilename,
   metafilename,
   log_key = NULL,
+  log_dir = "./",
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
@@ -72,7 +74,7 @@ screen_filenames <- function(
   results <- results |>
     cbind(stage = "filename")
 
-  write_json_log(results, log_key = log_key)
+  write_json_log(results, log_key = log_key, log_dir = log_dir)
 
   results
 }

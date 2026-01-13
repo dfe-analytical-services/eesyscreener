@@ -10,13 +10,14 @@
 #' @param meta data.frame, for the metadata table
 #' @param log_key keystring for creating log file. If given, the screening will
 #' write a log file to disk called eesyscreening_log_<log_key>.json default=NULL
+#' @param log_dir Directory within which to place the log file. default="./"
 #' @param verbose logical, if TRUE prints feedback messages to console for
 #' every test, if FALSE run silently
 #' @param stop_on_error logical, if TRUE will stop with an error if the result
 #' is "FAIL", and will throw genuine warning if result is "WARNING"
 #' @param prudence prudence as used by duckplyr, default = "lavish". Can also
 #' be "stingy" and "thrifty".
-#'
+#' 
 #' @inherit screen_filenames return
 #'
 #' @examples
@@ -26,6 +27,7 @@ screen_dfs <- function(
   data,
   meta,
   log_key = NULL,
+  log_dir = "./",
   verbose = FALSE,
   stop_on_error = FALSE,
   prudence = "lavish"
@@ -70,7 +72,7 @@ screen_dfs <- function(
     cbind("stage" = "Precheck columns")
   print(precheck_col_results)
 
-  write_json_log(precheck_col_results, log_key = log_key)
+  write_json_log(precheck_col_results, log_key = log_key, log_dir = log_dir)
 
   if (any(precheck_col_results[["result"]] == "FAIL")) {
     return(as.data.frame(precheck_col_results))
@@ -97,7 +99,7 @@ screen_dfs <- function(
 
   precheck_meta_results <- precheck_meta_results |>
     cbind("stage" = "Precheck meta")
-  write_json_log(precheck_meta_results, log_key = log_key)
+  write_json_log(precheck_meta_results, log_key = log_key, log_dir = log_dir)
 
   precheck_meta_results <- precheck_col_results |>
     rbind(
@@ -126,7 +128,7 @@ screen_dfs <- function(
   check_meta_results <- check_meta_results |>
     cbind("stage" = "Check meta")
 
-  write_json_log(check_meta_results, log_key = log_key)
+  write_json_log(check_meta_results, log_key = log_key, log_dir = log_dir)
 
   check_meta_results <- precheck_meta_results |>
     rbind(
@@ -155,7 +157,7 @@ screen_dfs <- function(
 
   precheck_time_results <- precheck_time_results |>
     cbind("stage" = "Precheck time")
-  write_json_log(precheck_time_results, log_key = log_key)
+  write_json_log(precheck_time_results, log_key = log_key, log_dir = log_dir)
 
   precheck_time_results <- check_meta_results |>
     rbind(
@@ -179,7 +181,7 @@ screen_dfs <- function(
 
   check_api_results <- check_api_results |>
     cbind("stage" = "Check API")
-  write_json_log(check_api_results, log_key = log_key)
+  write_json_log(check_api_results, log_key = log_key, log_dir = log_dir)
 
   api_pass <- all(check_api_results[["result"]] == "PASS")
 
