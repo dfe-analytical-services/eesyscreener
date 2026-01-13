@@ -7,6 +7,7 @@
 screen_dfs(
   data,
   meta,
+  log_key = NULL,
   verbose = FALSE,
   stop_on_error = FALSE,
   prudence = "lavish"
@@ -17,6 +18,9 @@ screen_dfs(
 lazy duckplyr data.frame}
 
 \item{meta}{data.frame, for the metadata table}
+
+\item{log_key}{keystring for creating log file. If given, the screening will
+write a log file to disk called eesyscreening_log_<log_key>.json default=NULL}
 
 \item{verbose}{logical, if TRUE prints feedback messages to console for
 every test, if FALSE run silently}

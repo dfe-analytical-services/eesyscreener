@@ -9,6 +9,7 @@ screen_csv(
   metapath,
   datafilename = NULL,
   metafilename = NULL,
+  log_key = NULL,
   verbose = FALSE,
   stop_on_error = FALSE
 )
@@ -23,6 +24,9 @@ will be assumed from the path}
 
 \item{metafilename}{Optional - the name of the metadata file, if not given
 it will be assumed from the path}
+
+\item{log_key}{keystring for creating log file. If given, the screening will
+write a log file to disk called eesyscreening_log_<log_key>.json default=NULL}
 
 \item{verbose}{Logical, if TRUE prints feedback messages to console for
 every test, if FALSE run silently}

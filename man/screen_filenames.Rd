@@ -7,6 +7,7 @@
 screen_filenames(
   datafilename,
   metafilename,
+  log_key = NULL,
   verbose = FALSE,
   stop_on_error = FALSE
 )
@@ -15,6 +16,9 @@ screen_filenames(
 \item{datafilename}{Character string, name of the data file}
 
 \item{metafilename}{Character string, name of the metadata file}
+
+\item{log_key}{keystring for creating log file. If given, the screening will
+write a log file to disk called eesyscreening_log_<log_key>.json default=NULL}
 
 \item{verbose}{Logical, if TRUE prints feedback messages to console for
 every test, if FALSE run silently}

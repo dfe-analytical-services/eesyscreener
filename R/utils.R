@@ -309,7 +309,7 @@ write_json_log <- function(results, log_key = NULL, append = TRUE){
     }
     jsonlite::write_json(
       list(
-        progress = nrow(results)/21*100.,
+        progress = nrow(results)/nrow(example_output)*100.,
         results = results
       ), 
       log_file, pretty = TRUE, na = "string"
