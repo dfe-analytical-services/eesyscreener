@@ -11,6 +11,8 @@
 #' will be assumed from the path
 #' @param metafilename Optional - the name of the metadata file, if not given
 #' it will be assumed from the path
+#' @param log_key keystring for creating log file. If given, the screening will
+#' write a log file to disk called eesyscreening_log_<log_key>.json default=NULL
 #' @param verbose Logical, if TRUE prints feedback messages to console for
 #' every test, if FALSE run silently
 #' @param stop_on_error Logical, if TRUE will stop with an error if the result
@@ -54,6 +56,7 @@ screen_csv <- function(
   metapath,
   datafilename = NULL,
   metafilename = NULL,
+  log_key = NULL,
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
@@ -101,6 +104,7 @@ screen_csv <- function(
   filename_results <- screen_filenames(
     datafilename,
     metafilename,
+    log_key = log_key,
     verbose = verbose,
     stop_on_error = stop_on_error
   )
@@ -123,6 +127,7 @@ screen_csv <- function(
   dataframe_results <- screen_dfs(
     datafile,
     metafile,
+    log_key = log_key,
     verbose = verbose,
     stop_on_error = stop_on_error
   )
