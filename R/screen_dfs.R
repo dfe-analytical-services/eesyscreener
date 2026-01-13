@@ -17,7 +17,7 @@
 #' is "FAIL", and will throw genuine warning if result is "WARNING"
 #' @param prudence prudence as used by duckplyr, default = "lavish". Can also
 #' be "stingy" and "thrifty".
-#' 
+#'
 #' @inherit screen_filenames return
 #'
 #' @examples

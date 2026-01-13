@@ -295,11 +295,11 @@ char_limits <- function(values, max_length) {
 #' @returns NULL
 #' @keywords internal
 #' @noRd
-write_json_log <- function(results, log_key = NULL, log_dir = "./"){
-  if(!is.null(log_key)){
+write_json_log <- function(results, log_key = NULL, log_dir = "./") {
+  if (!is.null(log_key)) {
     log_file <- paste0("eesyscreener_log_", log_key, ".json")
     log_path = file.path(log_dir, log_file)
-    if(file.exists(log_path)){
+    if (file.exists(log_path)) {
       existing_log <- jsonlite::read_json(log_path, simplifyVector = TRUE)
       results <- existing_log$results |>
         rbind(results) |>
@@ -307,9 +307,12 @@ write_json_log <- function(results, log_key = NULL, log_dir = "./"){
     }
     jsonlite::write_json(
       list(
-        progress = nrow(results)/nrow(example_output)*100.,
+        progress = nrow(results) / nrow(example_output) * 100.,
         results = results
-      ), 
-      log_path, pretty = TRUE, na = "string"
-    )}
+      ),
+      log_path,
+      pretty = TRUE,
+      na = "string"
+    )
+  }
 }

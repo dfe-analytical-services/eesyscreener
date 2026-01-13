@@ -12,7 +12,7 @@
 #' @param metafilename Optional - the name of the metadata file, if not given
 #' it will be assumed from the path
 #' @inheritParams screen_dfs
-#' 
+#'
 #' @return A list containing
 #' 1. A table with the full results of the checks with four columns:
 #' \itemize{
@@ -79,14 +79,17 @@ screen_csv <- function(
   validate_arg_logical(verbose, "verbose")
   validate_arg_logical(stop_on_error, "stop_on_error")
 
-  if (file.exists(
-    file.path(
-      log_dir, 
-      paste0("eesyscreener_log_", log_key, ".json")
+  if (
+    file.exists(
+      file.path(
+        log_dir,
+        paste0("eesyscreener_log_", log_key, ".json")
+      )
     )
-  )
-  ){
-    warning("Log file already exists, the default is currently to append distinct results.")
+  ) {
+    warning(
+      "Log file already exists, the default is currently to append distinct results."
+    )
   }
 
   # Read in CSV files ---------------------------------------------------------
