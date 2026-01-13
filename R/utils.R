@@ -304,8 +304,14 @@ write_json_log <- function(results, log_key = NULL, append = TRUE){
     log_file <- paste0("eesyscreener_log_", log_key, ".json")
     if(file.exists(log_file)){
       existing_log <- jsonlite::read_json(log_file, simplifyVector = TRUE)
-      results <- existing_log |>
+      results <- existing_log$results |>
         rbind(results)
     }
-    jsonlite::write_json(results, log_file, pretty = TRUE, na = "string")}
+    jsonlite::write_json(
+      list(
+        progress = nrow(results)/21*100.,
+        results = results
+      ), 
+      log_file, pretty = TRUE, na = "string"
+    )}
 }
