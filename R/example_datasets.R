@@ -148,3 +148,17 @@
 #' }
 #' @source maintained by explore.statistics@@education.gov.uk
 "example_api_long_meta"
+
+# Example screening output ====
+#' Example screening output pre-generated from example_data and example_meta
+#'
+#' @format A data frame with the same number of rows as there are tests in the package, and 5 columns:
+#' \describe{
+#'   \item{check}{Name of the check}
+#'   \item{result}{Check result: PASS / FAIL / WARNING}
+#'   \item{message}{Check info message}
+#'   \item{guidance_url}{URL to any guidance associated with the check}
+#'   \item{stage}{Stage group the listed check belongs to}
+#' }
+#' @source maintained by explore.statistics@@education.gov.uk
+"example_output"

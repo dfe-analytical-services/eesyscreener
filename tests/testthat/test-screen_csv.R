@@ -267,4 +267,42 @@ test_that("api_suitable returns FALSE for unsuitable files", {
   file.remove(meta_path)
 })
 
+test_that("Log file is created successfully", {
+  data_path <- tempfile(fileext = ".csv")
+  meta_path <- tempfile(fileext = ".meta.csv")
+  write.csv(example_data, data_path, row.names = FALSE)
+  write.csv(example_meta, meta_path, row.names = FALSE)
+
+  log_dir = tempdir()
+  log_file = paste0("eesyscreener_log_zxc987.json")
+  log_path = file.path(log_dir, log_file)
+  result <- screen_csv(
+    data_path,
+    meta_path,
+    "test.csv",
+    "test.meta.csv",
+    log_key = "zxc987",
+    log_dir = log_dir
+  )
+  expect_true(file.exists(log_path))
+  # Check if we need to update `example_output`
+  expect_equal(
+    jsonlite::read_json(log_path, simplifyVector = TRUE)$results |> nrow(),
+    example_output |> nrow()
+  )
+  expect_warning(
+    screen_csv(
+      data_path,
+      meta_path,
+      "test.csv",
+      "test.meta.csv",
+      log_key = "zxc987",
+      log_dir = log_dir
+    )
+  )
+  file.remove(data_path)
+  file.remove(meta_path)
+  file.remove(log_path)
+})
+
 # TODO: add tests for different failure stages and edge cases

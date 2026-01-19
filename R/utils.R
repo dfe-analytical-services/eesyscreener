@@ -286,3 +286,78 @@ char_limits <- function(values, max_length) {
     exceeds_max = exceeds_max
   )
 }
+
+
+#' Write eesyscreener results to log file
+#'
+#' @param results list of resuts returned by eesyscreener checks
+#' @param file_details list of file details to pass to the log. Can include filename and filesize
+#' @param data_details list of data details to pass to the log. Can include ncols and nrows
+#' @inheritParams screen_dfs
+#' @returns NULL
+#' @keywords internal
+#' @noRd
+write_json_log <- function(
+  results,
+  log_key = NULL,
+  log_dir = "./",
+  file_details = list(filename = NULL, filesize = NULL),
+  data_details = list(nrows = NULL, ncols = NULL)
+) {
+  if (!is.null(log_key)) {
+    log_file <- paste0("eesyscreener_log_", log_key, ".json")
+    log_path = file.path(log_dir, log_file)
+    if (file.exists(log_path)) {
+      log <- jsonlite::read_json(log_path, simplifyVector = TRUE)
+      if (!is.null(log$results)) {
+        results <- log$results |>
+          rbind(results) |>
+          dplyr::distinct()
+      }
+      log$progress <- nrow(results) / nrow(example_output) * 100.
+      log$log_time <- Sys.time()
+      log$results <- results
+      if (!is.null(file_details$filename)) {
+        log$filename = file_details$filename
+      }
+      if (!is.null(file_details$filesize)) {
+        log$filesize = file_details$filesize
+      }
+      if (!is.null(data_details$nrows)) {
+        log$nrows = data_details$nrows
+      }
+      if (!is.null(data_details$ncols)) {
+        log$ncols = data_details$ncols
+      }
+    } else {
+      log <- list(
+        progress = nrow(results) / nrow(example_output) * 100.,
+        status = "Initiating screening",
+        filename = file_details$filename,
+        filesize = file_details$filesize,
+        nrows = data_details$nrows,
+        ncols = data_details$ncols,
+        start_time = Sys.time(),
+        log_time = Sys.time(),
+        results = results
+      )
+    }
+    if (is.null(results)) {
+      log$progress <- 0
+    }
+    if (any(log$results[["result"]] == "FAIL")) {
+      log$status <- "FAIL"
+      log$progress <- 100.
+    } else if (log$progress == 100) {
+      log$status <- "PASS"
+    } else {
+      log$status <- "Screening not yet completed"
+    }
+    jsonlite::write_json(
+      log,
+      log_path,
+      pretty = TRUE,
+      na = "string"
+    )
+  }
+}
