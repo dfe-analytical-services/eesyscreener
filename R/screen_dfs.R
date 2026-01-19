@@ -37,6 +37,10 @@ screen_dfs <- function(
   validate_arg_logical(stop_on_error, "stop_on_error")
 
   data <- duckplyr::as_duckdb_tibble(data, prudence = prudence)
+  data_details <- list(
+    ncols = data |> dplyr::tbl_vars() |> length(),
+    nrows = data |> dplyr::count() |> dplyr::pull("n")
+  )
 
   # Precheck columns ----------------------------------------------------------
   precheck_col_results <- rbind(
@@ -71,7 +75,12 @@ screen_dfs <- function(
   precheck_col_results <- precheck_col_results |>
     cbind("stage" = "Precheck columns")
 
-  write_json_log(precheck_col_results, log_key = log_key, log_dir = log_dir)
+  write_json_log(
+    precheck_col_results,
+    log_key = log_key,
+    log_dir = log_dir,
+    data_details = data_details
+  )
 
   if (any(precheck_col_results[["result"]] == "FAIL")) {
     return(as.data.frame(precheck_col_results))
@@ -98,7 +107,12 @@ screen_dfs <- function(
 
   precheck_meta_results <- precheck_meta_results |>
     cbind("stage" = "Precheck meta")
-  write_json_log(precheck_meta_results, log_key = log_key, log_dir = log_dir)
+  write_json_log(
+    precheck_meta_results,
+    log_key = log_key,
+    log_dir = log_dir,
+    data_details = data_details
+  )
 
   precheck_meta_results <- precheck_col_results |>
     rbind(
@@ -127,7 +141,12 @@ screen_dfs <- function(
   check_meta_results <- check_meta_results |>
     cbind("stage" = "Check meta")
 
-  write_json_log(check_meta_results, log_key = log_key, log_dir = log_dir)
+  write_json_log(
+    check_meta_results,
+    log_key = log_key,
+    log_dir = log_dir,
+    data_details = data_details
+  )
 
   check_meta_results <- precheck_meta_results |>
     rbind(
@@ -156,7 +175,12 @@ screen_dfs <- function(
 
   precheck_time_results <- precheck_time_results |>
     cbind("stage" = "Precheck time")
-  write_json_log(precheck_time_results, log_key = log_key, log_dir = log_dir)
+  write_json_log(
+    precheck_time_results,
+    log_key = log_key,
+    log_dir = log_dir,
+    data_details = data_details
+  )
 
   precheck_time_results <- check_meta_results |>
     rbind(
@@ -180,7 +204,12 @@ screen_dfs <- function(
 
   check_api_results <- check_api_results |>
     cbind("stage" = "Check API")
-  write_json_log(check_api_results, log_key = log_key, log_dir = log_dir)
+  write_json_log(
+    check_api_results,
+    log_key = log_key,
+    log_dir = log_dir,
+    data_details = data_details
+  )
 
   api_pass <- all(check_api_results[["result"]] == "PASS")
 

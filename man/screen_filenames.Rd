@@ -18,10 +18,11 @@ screen_filenames(
 
 \item{metafilename}{Character string, name of the metadata file}
 
-\item{log_key}{keystring for creating log file. If given, the screening will
+\item{log_key}{Keystring for creating log file. If given, the screening will
 write a log file to disk called eesyscreening_log_<log_key>.json default=NULL}
 
-\item{log_dir}{Directory within which to place the log file. default="./"}
+\item{log_dir}{Directory within which to place the log file if \code{log_key}
+is given, default = "./"}
 
 \item{verbose}{Logical, if TRUE prints feedback messages to console for
 every test, if FALSE run silently}
