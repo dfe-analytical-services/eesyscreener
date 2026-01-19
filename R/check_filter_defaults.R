@@ -13,7 +13,7 @@
 #'
 #' @inherit check_filename_spaces return
 #'
-#' @family filename
+#' @family check_filter
 #'
 #' @examples
 #' check_filter_defaults(example_data, example_meta)
@@ -89,9 +89,9 @@ check_filter_defaults <- function(
       return(
         test_output(
           test_name,
-          "ADVISORY",
+          "WARNING",
           paste0(
-            "A 'Total' entry or default filter item should be added to the following filters and",
+            "A 'Total' entry or default filter item should be specified for the following filters and",
             " / or filter_groups where applicable: '",
             paste(missing_total, collapse = "', '"),
             "'."
@@ -102,6 +102,4 @@ check_filter_defaults <- function(
       )
     }
   }
-
-  return(output)
 }
