@@ -9,6 +9,8 @@ objects.
 screen_dfs(
   data,
   meta,
+  log_key = NULL,
+  log_dir = "./",
   verbose = FALSE,
   stop_on_error = FALSE,
   prudence = "lavish"
@@ -25,6 +27,16 @@ screen_dfs(
 - meta:
 
   data.frame, for the metadata table
+
+- log_key:
+
+  keystring for creating log file. If given, the screening will write a
+  log file to disk called eesyscreening_log\_\<log_key\>.json
+  default=NULL
+
+- log_dir:
+
+  Directory within which to place the log file. default="./"
 
 - verbose:
 

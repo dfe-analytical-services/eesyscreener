@@ -36,7 +36,7 @@ themselves."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Run all checks against filenames</h1>
-      <small class="dont-index">Source: <a href="https://github.com/dfe-analytical-services/eesyscreener/blob/v0.1.5/R/screen_filenames.R" class="external-link"><code>R/screen_filenames.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/dfe-analytical-services/eesyscreener/blob/main/R/screen_filenames.R" class="external-link"><code>R/screen_filenames.R</code></a></small>
       <div class="d-none name"><code>screen_filenames.Rd</code></div>
     </div>
 
@@ -50,6 +50,8 @@ themselves.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">screen_filenames</span><span class="op">(</span></span>
 <span>  <span class="va">datafilename</span>,</span>
 <span>  <span class="va">metafilename</span>,</span>
+<span>  log_key <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  log_dir <span class="op">=</span> <span class="st">"./"</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  stop_on_error <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -65,6 +67,16 @@ themselves.</p>
 
 <dt id="arg-metafilename">metafilename<a class="anchor" aria-label="anchor" href="#arg-metafilename"></a></dt>
 <dd><p>Character string, name of the metadata file</p></dd>
+
+
+<dt id="arg-log-key">log_key<a class="anchor" aria-label="anchor" href="#arg-log-key"></a></dt>
+<dd><p>Keystring for creating log file. If given, the screening will
+write a log file to disk called eesyscreening_log_&lt;log_key&gt;.json default=NULL</p></dd>
+
+
+<dt id="arg-log-dir">log_dir<a class="anchor" aria-label="anchor" href="#arg-log-dir"></a></dt>
+<dd><p>Directory within which to place the log file if <code>log_key</code>
+is given, default = "./"</p></dd>
 
 
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>

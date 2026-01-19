@@ -27,6 +27,9 @@
   : Example filter group metadata with extra row
 - [`example_meta`](https://dfe-analytical-services.github.io/eesyscreener/reference/example_meta.md)
   : Example metadata
+- [`example_output`](https://dfe-analytical-services.github.io/eesyscreener/reference/example_output.md)
+  : Example screening output pre-generated from example_data and
+  example_meta
 
 ## Generate test files
 

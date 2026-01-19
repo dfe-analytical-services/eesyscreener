@@ -9,6 +9,8 @@ files themselves.
 screen_filenames(
   datafilename,
   metafilename,
+  log_key = NULL,
+  log_dir = "./",
   verbose = FALSE,
   stop_on_error = FALSE
 )
@@ -23,6 +25,17 @@ screen_filenames(
 - metafilename:
 
   Character string, name of the metadata file
+
+- log_key:
+
+  Keystring for creating log file. If given, the screening will write a
+  log file to disk called eesyscreening_log\_\<log_key\>.json
+  default=NULL
+
+- log_dir:
+
+  Directory within which to place the log file if `log_key` is given,
+  default = "./"
 
 - verbose:
 

@@ -40,7 +40,7 @@ will return early if any check in a stage fails."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Run all checks against files</h1>
-      <small class="dont-index">Source: <a href="https://github.com/dfe-analytical-services/eesyscreener/blob/v0.1.5/R/screen_csv.R" class="external-link"><code>R/screen_csv.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/dfe-analytical-services/eesyscreener/blob/main/R/screen_csv.R" class="external-link"><code>R/screen_csv.R</code></a></small>
       <div class="d-none name"><code>screen_csv.Rd</code></div>
     </div>
 
@@ -58,6 +58,8 @@ will return early if any check in a stage fails.</p>
 <span>  <span class="va">metapath</span>,</span>
 <span>  datafilename <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  metafilename <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  log_key <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  log_dir <span class="op">=</span> <span class="st">"./"</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  stop_on_error <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -85,13 +87,22 @@ will be assumed from the path</p></dd>
 it will be assumed from the path</p></dd>
 
 
+<dt id="arg-log-key">log_key<a class="anchor" aria-label="anchor" href="#arg-log-key"></a></dt>
+<dd><p>keystring for creating log file. If given, the screening will
+write a log file to disk called eesyscreening_log_&lt;log_key&gt;.json default=NULL</p></dd>
+
+
+<dt id="arg-log-dir">log_dir<a class="anchor" aria-label="anchor" href="#arg-log-dir"></a></dt>
+<dd><p>Directory within which to place the log file. default="./"</p></dd>
+
+
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
-<dd><p>Logical, if TRUE prints feedback messages to console for
+<dd><p>logical, if TRUE prints feedback messages to console for
 every test, if FALSE run silently</p></dd>
 
 
 <dt id="arg-stop-on-error">stop_on_error<a class="anchor" aria-label="anchor" href="#arg-stop-on-error"></a></dt>
-<dd><p>Logical, if TRUE will stop with an error if the result
+<dd><p>logical, if TRUE will stop with an error if the result
 is "FAIL", and will throw genuine warning if result is "WARNING"</p></dd>
 
 </dl></div>
