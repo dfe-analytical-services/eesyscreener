@@ -70,7 +70,6 @@ screen_dfs <- function(
 
   precheck_col_results <- precheck_col_results |>
     cbind("stage" = "Precheck columns")
-  print(precheck_col_results)
 
   write_json_log(precheck_col_results, log_key = log_key, log_dir = log_dir)
 

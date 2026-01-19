@@ -152,7 +152,7 @@
 # Example screening output ====
 #' Example screening output pre-generated from example_data and example_meta
 #'
-#' @format A data frame with 21 rows and 5 columns:
+#' @format A data frame with the same number of rows as there are tests in the package, and 5 columns:
 #' \describe{
 #'   \item{check}{Name of the check}
 #'   \item{result}{Check result: PASS / FAIL / WARNING}

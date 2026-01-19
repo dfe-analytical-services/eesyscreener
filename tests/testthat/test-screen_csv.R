@@ -285,6 +285,7 @@ test_that("Log file is created successfully", {
     log_dir = log_dir
   )
   expect_true(file.exists(log_path))
+  # Check if we need to update `example_output`
   expect_equal(
     jsonlite::read_json(log_path, simplifyVector = TRUE)$results |> nrow(),
     example_output |> nrow()
