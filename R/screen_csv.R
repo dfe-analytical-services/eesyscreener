@@ -99,7 +99,7 @@ screen_csv <- function(
     file_details <- list(
       filename = datafilename,
       filesize = paste(
-        file.info(datapath)$size / 10^6 |> round(digits = 3),
+        (file.info(datapath)$size / 10^6) |> round(digits = 3),
         "MB"
       )
     )
