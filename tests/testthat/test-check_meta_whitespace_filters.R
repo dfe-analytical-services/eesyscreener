@@ -1,4 +1,3 @@
-
 testthat::test_that("check_meta_whitespace_filters: passes when no whitespace", {
   # Should not error when there are no leading/trailing spaces
   expect_no_error(
