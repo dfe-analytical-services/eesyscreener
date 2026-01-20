@@ -144,13 +144,14 @@ is "FAIL", and will throw genuine warning if result is "WARNING"</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 12                     meta_ob_unit   PASS</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 13                    meta_col_name   PASS</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 14                  meta_ind_dp_set   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15                    meta_col_name   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16              filter_groups_match   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17                 check_meta_label   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18                 meta_filter_hint   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19                     indicator_dp   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20                    time_id_valid   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21 check_api_char_limit_column-name   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15             meta_duplicate_label   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16                    meta_col_name   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17              filter_groups_match   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18                 check_meta_label   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19                 meta_filter_hint   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20                     indicator_dp   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21                    time_id_valid   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22 check_api_char_limit_column-name   PASS</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                       message</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                         'example.csv' does not have spaces in the filename.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                    'example.meta.csv' does not have spaces in the filename.</span>
@@ -166,13 +167,14 @@ is "FAIL", and will throw genuine warning if result is "WARNING"</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 12                                            No observational units have been included in the metadata file.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 13                                            The col_name column is completed for every row in the metadata.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 14                                                   The indicator_dp column is completed for all indicators.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15                                                         No indicators have a filter_grouping_column value.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16                                                                        There are no filter groups present.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17                                               The label column is completed for every row in the metadata.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18                                                                    No indicators have a filter_hint value.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19                                                                     No filters have an indicator_dp value.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20                                                                  The time_identifier values are all valid.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21                          All filter / indicator names are less than or equal to the character limit of 50.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15                                                                                     All labels are unique.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16                                                         No indicators have a filter_grouping_column value.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17                                                                        There are no filter groups present.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18                                               The label column is completed for every row in the metadata.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19                                                                    No indicators have a filter_hint value.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20                                                                     No filters have an indicator_dp value.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21                                                                  The time_identifier values are all valid.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22                          All filter / indicator names are less than or equal to the character limit of 50.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    guidance_url            stage</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1            NA         filename</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2            NA         filename</span>
@@ -193,8 +195,9 @@ is "FAIL", and will throw genuine warning if result is "WARNING"</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 17           NA       Check meta</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 18           NA       Check meta</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 19           NA       Check meta</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20           NA    Precheck time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21           NA        Check API</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20           NA       Check meta</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21           NA    Precheck time</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22           NA        Check API</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $overall_stage</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Passed"</span>
@@ -228,6 +231,7 @@ is "FAIL", and will throw genuine warning if result is "WARNING"</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> No observational units have been included in the metadata file.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> The col_name column is completed for every row in the metadata.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> The indicator_dp column is completed for all indicators.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> All labels are unique.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> No indicators have a filter_grouping_column value.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> There are no filter groups present.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> The label column is completed for every row in the metadata.</span>
@@ -253,13 +257,14 @@ is "FAIL", and will throw genuine warning if result is "WARNING"</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 12                     meta_ob_unit   PASS</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 13                    meta_col_name   PASS</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 14                  meta_ind_dp_set   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15                    meta_col_name   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16              filter_groups_match   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17                 check_meta_label   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18                 meta_filter_hint   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19                     indicator_dp   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20                    time_id_valid   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21 check_api_char_limit_column-name   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15             meta_duplicate_label   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16                    meta_col_name   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17              filter_groups_match   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18                 check_meta_label   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19                 meta_filter_hint   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20                     indicator_dp   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21                    time_id_valid   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22 check_api_char_limit_column-name   PASS</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                       message</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                            'data.csv' does not have spaces in the filename.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                       'data.meta.csv' does not have spaces in the filename.</span>
@@ -275,13 +280,14 @@ is "FAIL", and will throw genuine warning if result is "WARNING"</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 12                                            No observational units have been included in the metadata file.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 13                                            The col_name column is completed for every row in the metadata.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 14                                                   The indicator_dp column is completed for all indicators.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15                                                         No indicators have a filter_grouping_column value.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16                                                                        There are no filter groups present.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17                                               The label column is completed for every row in the metadata.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18                                                                    No indicators have a filter_hint value.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19                                                                     No filters have an indicator_dp value.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20                                                                  The time_identifier values are all valid.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21                          All filter / indicator names are less than or equal to the character limit of 50.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15                                                                                     All labels are unique.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16                                                         No indicators have a filter_grouping_column value.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17                                                                        There are no filter groups present.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18                                               The label column is completed for every row in the metadata.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19                                                                    No indicators have a filter_hint value.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20                                                                     No filters have an indicator_dp value.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21                                                                  The time_identifier values are all valid.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22                          All filter / indicator names are less than or equal to the character limit of 50.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    guidance_url            stage</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1            NA         filename</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2            NA         filename</span>
@@ -302,8 +308,9 @@ is "FAIL", and will throw genuine warning if result is "WARNING"</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 17           NA       Check meta</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 18           NA       Check meta</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 19           NA       Check meta</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20           NA    Precheck time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21           NA        Check API</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20           NA       Check meta</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21           NA    Precheck time</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22           NA        Check API</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $overall_stage</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Passed"</span>
