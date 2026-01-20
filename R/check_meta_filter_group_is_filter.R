@@ -13,9 +13,9 @@
 #' check_meta_filter_group_is_filter(example_meta, verbose = TRUE)
 #' @export
 check_meta_filter_group_is_filter <- function(
-    meta,
-    verbose = FALSE,
-    stop_on_error = FALSE
+  meta,
+  verbose = FALSE,
+  stop_on_error = FALSE
 ) {
   meta_filter_groups <- meta |>
     dplyr::filter(
