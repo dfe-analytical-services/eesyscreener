@@ -47,7 +47,8 @@ example_meta <- data.frame(
   indicator_unit = c("", "", ""),
   indicator_dp = c("", "", 0),
   filter_hint = c("", "", ""),
-  filter_grouping_column = c("", "", "")
+  filter_grouping_column = c("", "", ""),
+  filter_default = c("All pupils", "All phases", "")
 )
 
 usethis::use_data(example_data, overwrite = TRUE)

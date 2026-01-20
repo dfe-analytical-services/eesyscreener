@@ -370,7 +370,9 @@ write_json_log <- function(
 #' @keywords internal
 #' @noRd
 render_url <- function(slug, domain = "analysts_guide") {
-  if (!domain %in% c("analysts_guide", "ees", "dfe_github", "screener_app_repo")) {
+  if (
+    !domain %in% c("analysts_guide", "ees", "dfe_github", "screener_app_repo")
+  ) {
     stop("Please choose one of 'ag', 'ees' or 'dfe_guthub'")
   }
   url <- list(
