@@ -1,6 +1,6 @@
 #' Check filter groups have an equal or lower number of levels
 #'
-#' Ensure ll filter groups have an equal or lower number of levels than their corresponding filter.
+#' Ensure all filter groups have an equal or lower number of levels than their corresponding filter.
 
 #' @inheritParams precheck_col_to_rows
 #'
@@ -9,101 +9,88 @@
 #' @family check_meta
 #'
 #' @examples
-#' check_meta_filter_group_level(example_data, example_meta)
-#' check_meta_filter_group_level(example_data, example_meta, verbose = TRUE)
+#' check_meta_filter_group_level(example_meta, example_data)
 #' @export
 
 # filter_group_level -------------------------------------
 # Checking that filter groups have fewer levels than their filters
-
-# Add in roxygen2 
-## use test_output function - check Ethan's filter_group_match
-
-
-filter_group_level <- function(data, meta) {
-  meta_filters_and_groups <- meta %>%
-    filter(
+check_meta_filter_group_level <- function( meta, data, verbose = TRUE, stop_on_error = FALSE) {
+  meta_filters_and_groups <- meta |>
+    dplyr::filter(
       col_type == "Filter",
       !is.na(filter_grouping_column) & filter_grouping_column != ""
-    ) %>%
-    select(col_name, filter_grouping_column)
-
+    ) |>
+    dplyr::select(col_name, filter_grouping_column)
+  # If no filter groups present, return a message to say so
   if (nrow(meta_filters_and_groups) == 0) {
-    output <- list(
-      "message" = "There are no filter groups present.",
-      "result" = "IGNORE"
-    )
-  } else {
-    get_levels <- function(i) {
-      as_tibble(data) %>%
-        pull(i) %>%
-        unique() %>%
-        length()
-    }
-
-    filter_levels <- stack(sapply(
-      meta_filters_and_groups %>% pull(col_name),
-      get_levels
-    )) %>%
-      rename("col_name" = "ind", "filter_levels" = "values")
-
-    filter_group_levels <- stack(sapply(
-      meta_filters_and_groups %>% pull(filter_grouping_column) %>% unique(),
-      get_levels
-    )) %>%
-      rename("filter_grouping_column" = "ind", "group_levels" = "values")
-
-    extended_meta <- suppressWarnings(suppressMessages(
-      meta_filters_and_groups %>%
-        inner_join(filter_levels) %>%
-        inner_join(filter_group_levels) %>%
-        mutate(
-          "pre_result" = case_when(
-            filter_levels >= group_levels ~ "PASS",
-            TRUE ~ "FAIL"
-          )
-        )
+    return(test_output(
+      "filter_groups_match",
+      "PASS",
+      "There are no filter groups present.",
+      verbose = verbose,
+      stop_on_error = stop_on_error
     ))
-
-    failed_pairs <- extended_meta %>%
-      filter(pre_result == "FAIL")
-
-    number_of_failed_pairs <- failed_pairs %>%
-      nrow()
-
-    if (number_of_failed_pairs == 0) {
-      output <- list(
-        "message" = "All filter groups have an equal or lower number of levels than their corresponding filter.",
-        "result" = "PASS"
-      )
-    } else {
-      if (number_of_failed_pairs == 1) {
-        output <- list(
-          "message" = paste0(
-            "The filter group '",
-            paste(failed_pairs$filter_grouping_column),
-            "' has more levels (",
-            paste(failed_pairs$group_levels),
-            ") than its corresponding filter '",
-            paste(failed_pairs$col_name),
-            "' (",
-            paste(failed_pairs$filter_levels),
-            "). <br> - This suggests that the hierarchy is the wrong way around in the metadata."
-          ),
-          "result" = "FAIL"
-        )
-      } else {
-        output <- list(
-          "message" = paste0(
-            "The following filter groups each have more levels than their corresponding filters, check that they are entered the correct way around in the metadata: <br> - '",
-            paste0(failed_pairs$filter_grouping_column, collapse = "', '"),
-            "'."
-          ),
-          "result" = "FAIL"
-        )
-      }
-    }
   }
 
-  return(output)
+  # Count levels for each filter and group and pass if groups have fewer levels than filters
+  # For each value in col_name 
+  extended_meta <- meta_filters_and_groups %>%
+    dplyr::mutate(
+      filter_levels = purrr::map_int(col_name, ~ dplyr::n_distinct(data[[.x]])),
+      group_levels = purrr::map_int(
+        filter_grouping_column,
+        ~ dplyr::n_distinct(data[[.x]])
+      ),
+      pre_result = dplyr::case_when(
+        filter_levels >= group_levels ~ "PASS",
+        TRUE ~ "FAIL"
+      )
+    )
+  # Create failed pairs data frame
+  failed_pairs <- extended_meta %>%
+    dplyr::filter(pre_result == "FAIL")
+
+  number_of_failed_pairs <- nrow(failed_pairs)
+  # Output results based on whether there is one failed pair or multiple failed pairs
+  if (number_of_failed_pairs == 0) {
+    test_output(
+      "filter_grouping_level",
+      "PASS",
+      message = "All filter groups have an equal or lower number of levels than their corresponding filter.",
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    )
+  } else {
+    if (number_of_failed_pairs == 1) {
+      test_output(
+        "filter_grouping_level",
+        "FAIL",
+        message = paste0(
+          "The filter group '",
+          paste(failed_pairs$filter_grouping_column),
+          "' has more levels (",
+          paste(failed_pairs$group_levels),
+          ") than its corresponding filter '",
+          paste(failed_pairs$col_name),
+          "' (",
+          paste(failed_pairs$filter_levels),
+          "). <br> - This suggests that the hierarchy is the wrong way around in the metadata."
+        ),
+        verbose = verbose,
+        stop_on_error = stop_on_error
+      )
+    } else {
+      test_output(
+        "filter_grouping_level",
+        "FAIL",
+        message = paste0(
+          "The following filter groups each have more levels than their corresponding filters, check that they are entered the correct way around in the metadata: <br> - '",
+          paste0(failed_pairs$filter_grouping_column, collapse = "', '"),
+          "'."
+        ),
+        verbose = verbose,
+        stop_on_error = stop_on_error
+      )
+    }
+  }
 }

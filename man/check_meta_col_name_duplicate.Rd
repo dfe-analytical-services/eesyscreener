@@ -29,6 +29,7 @@ check_meta_col_name_duplicate(example_meta, verbose = TRUE)
 Other check_meta: 
 \code{\link{check_meta_duplicate_label}()},
 \code{\link{check_meta_filter_group}()},
+\code{\link{check_meta_filter_group_level}()},
 \code{\link{check_meta_filter_group_match}()},
 \code{\link{check_meta_filter_hint}()},
 \code{\link{check_meta_ind_dp_set}()},
