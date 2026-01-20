@@ -86,6 +86,26 @@ screen_dfs <- function(
     return(as.data.frame(precheck_col_results))
   }
 
+  # Check columns ----------------------------------------------------------
+
+  check_col_results <- rbind(
+    check_col_names_spaces(
+      data,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    )
+  )
+
+  check_col_results <- check_col_results |>
+    cbind("stage" = "Check columns")
+
+  write_json_log(
+    check_col_results,
+    log_key = log_key,
+    log_dir = log_dir,
+    data_details = data_details
+  )
+
   # Precheck meta -------------------------------------------------------------
   precheck_meta_results <- rbind(
     precheck_meta_col_type(
