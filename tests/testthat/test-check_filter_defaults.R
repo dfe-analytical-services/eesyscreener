@@ -8,6 +8,19 @@ test_that("check_filter_defaults gives WARNING correctly when no totals or filte
   )
 })
 
+test_that("check_filter_defaults gives a pass when no filters are present", {
+  expect_equal(
+    check_filter_defaults(
+      example_data |>
+        dplyr::filter(sex == "All pupils", education_phase == "All phases") |>
+        dplyr::select(-c("sex", "education_phase")),
+      example_meta |> dplyr::filter(col_type != "Filter")
+    )$result,
+    "PASS"
+  )
+})
+
+
 test_that("test filter default combinations", {
   # Case when all filters have a filter default
   expect_equal(
@@ -56,5 +69,32 @@ test_that("test filter default combinations", {
         )
     )$result,
     "PASS"
+  )
+
+  # Case when one filter has a Total and another has neither filter default nor Total
+  expect_equal(
+    check_filter_defaults(
+      example_data |>
+        dplyr::mutate(
+          dplyr::across(c("sex"), ~ replace(., grepl("All ", .), "Total"))
+        ),
+      example_meta
+    )$result,
+    "WARNING"
+  )
+
+  # Case when one filter has a filter default and another has neither filter default nor Total
+  expect_equal(
+    check_filter_defaults(
+      example_data,
+      example_meta |>
+        dplyr::mutate(
+          filter_default = dplyr::case_when(
+            col_name == "education_phase" ~ "All phases",
+            .default = ""
+          )
+        )
+    )$result,
+    "WARNING"
   )
 })
