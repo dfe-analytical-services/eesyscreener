@@ -34,6 +34,7 @@ Other check_meta:
 \code{\link{check_meta_filter_group_match}()},
 \code{\link{check_meta_filter_hint}()},
 \code{\link{check_meta_indicator_dp}()},
-\code{\link{check_meta_label}()}
+\code{\link{check_meta_label}()},
+\code{\link{check_meta_whitespace_filters}()}
 }
 \concept{check_meta}
