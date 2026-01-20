@@ -33,5 +33,7 @@ Imports:
     jsonlite,
     mime,
     rlang,
-    stringr
+    stringr, 
+    lubridate,
+    tidyr
 VignetteBuilder: knitr
