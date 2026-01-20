@@ -9,7 +9,7 @@ testthat::test_that("check_meta_whitespace_filters: fails with exactly one offen
   # One label with trailing whitespace
   data <- data.frame(
     FilterA = c("Alpha ", "Beta"),
-    Region  = c("North", "South"),
+    Region = c("North", "South"),
     stringsAsFactors = FALSE
   )
 
