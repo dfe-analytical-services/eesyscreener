@@ -17,19 +17,21 @@
 check_meta_ind_unit <- function(meta,
   verbose = FALSE,
   stop_on_error = FALSE){
-  indicator_units <- meta |>
+  filtered_meta <- meta |>
     dplyr::filter(
       col_type == "Filter",
       !is.na(indicator_unit),
       indicator_unit != ""
-    ) |>
+    )
+  
+  indicator_units <- filtered_meta |>
     dplyr::pull(indicator_unit)
 
   if (length(indicator_units) > 0) {
     test_output(
       "meta_ind_unit",
       "FAIL",
-      "Filters should not have an indicator_unit value in the metadata file. Rows ",
+      paste0("Filters should not have an indicator_unit value in the metadata file. This occurs for columns: ",paste0(filtered_meta |> dplyr::pull(labels)), "at positions: ",paste0(),"."),
       verbose = verbose,
       stop_on_error = stop_on_error
     )
