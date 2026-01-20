@@ -8,3 +8,4 @@ inst/doc
 /doc/
 /Meta/
 *.csv
+eesyscreener_log*json
