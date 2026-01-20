@@ -80,7 +80,7 @@ test_that("fails when there are multiple filter groups and some of them fail", {
     region = c("A", "B", "C"),
     value = c(1, 2, 3)
   )
-    meta <- data.frame(
+  meta <- data.frame(
     col_name = c("ethnicity_minor", "region"),
     col_type = c("Filter", "Filter"),
     filter_grouping_column = c("ethnicity_major", "region_group"),
