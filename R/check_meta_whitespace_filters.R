@@ -43,7 +43,8 @@ check_meta_whitespace_filters <- function(
   col_names_trimmed <- col_names |>
     dplyr::mutate(filter_label = stringr::str_trim(filter_label))
 
-  white_spaces <- dplyr::setdiff(col_names, col_names_trimmed) |> dplyr::pull(filter_label)
+  white_spaces <- dplyr::setdiff(col_names, col_names_trimmed) |>
+    dplyr::pull(filter_label)
 
   if (length(white_spaces) == 0) {
     test_output(
