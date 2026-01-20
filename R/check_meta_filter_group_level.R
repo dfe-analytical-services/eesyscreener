@@ -14,7 +14,12 @@
 
 # filter_group_level -------------------------------------
 # Checking that filter groups have fewer levels than their filters
-check_meta_filter_group_level <- function( meta, data, verbose = TRUE, stop_on_error = FALSE) {
+check_meta_filter_group_level <- function(
+  meta,
+  data,
+  verbose = TRUE,
+  stop_on_error = FALSE
+) {
   meta_filters_and_groups <- meta |>
     dplyr::filter(
       col_type == "Filter",
@@ -33,7 +38,7 @@ check_meta_filter_group_level <- function( meta, data, verbose = TRUE, stop_on_e
   }
 
   # Count levels for each filter and group and pass if groups have fewer levels than filters
-  # For each value in col_name 
+  # For each value in col_name
   extended_meta <- meta_filters_and_groups %>%
     dplyr::mutate(
       filter_levels = purrr::map_int(col_name, ~ dplyr::n_distinct(data[[.x]])),
