@@ -145,7 +145,8 @@ screen_dfs <- function(
       data,
       meta,
       verbose = verbose,
-      stop_on_error = stop_on_error)
+      stop_on_error = stop_on_error
+    )
   )
 
   check_meta_results <- check_meta_results |>

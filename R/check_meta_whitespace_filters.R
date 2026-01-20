@@ -13,19 +13,17 @@
 #' check_meta_whitespace_filters(example_data, example_meta, verbose = TRUE)
 #' @export
 check_meta_whitespace_filters <- function(
-    data,
-    meta,
-    verbose = FALSE,
-    stop_on_error = FALSE
-  ) {
+  data,
+  meta,
+  verbose = FALSE,
+  stop_on_error = FALSE
+) {
   filters <- meta |>
     dplyr::filter(col_type == "Filter") |>
     dplyr::pull(col_name)
 
-
   geo_cols <- as.character(geography_df[, 2:4])
   geo_cols <- geo_cols[!is.na(geo_cols)]
-
 
   col_names <- data |>
     dplyr::mutate_if(lubridate::is.Date, as.character) |>
@@ -45,7 +43,8 @@ check_meta_whitespace_filters <- function(
   col_names_trimmed <- col_names |>
     dplyr::mutate(filter_label = stringr::str_trim(filter_label))
 
-  white_spaces <- dplyr::setdiff(col_names, col_names_trimmed) |> dplyr::pull(filter_label)
+  white_spaces <- dplyr::setdiff(col_names, col_names_trimmed) |>
+    dplyr::pull(filter_label)
 
   if (length(white_spaces) == 0) {
     test_output(
