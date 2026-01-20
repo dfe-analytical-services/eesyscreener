@@ -1,5 +1,8 @@
 test_that("passes when all column names don't have a space in metadata example", {
-  expect_no_error(check_meta_col_name_spaces(example_meta, stop_on_error = TRUE))
+  expect_no_error(check_meta_col_name_spaces(
+    example_meta,
+    stop_on_error = TRUE
+  ))
 })
 
 test_that("errors when any column name has a space", {
