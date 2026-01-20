@@ -126,6 +126,11 @@ screen_dfs <- function(
   # Check meta ----------------------------------------------------------------
   check_meta_results <- rbind(
     check_meta_ind_dp_set(meta, verbose, stop_on_error),
+    check_meta_duplicate_label(
+      meta,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    ),
     check_meta_filter_group(meta, verbose, stop_on_error),
     check_meta_filter_group_match(
       data,
