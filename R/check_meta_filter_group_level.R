@@ -15,8 +15,8 @@
 # filter_group_level -------------------------------------
 # Checking that filter groups have fewer levels than their filters
 check_meta_filter_group_level <- function(
-   data,
-   meta,
+  data,
+  meta,
   verbose = TRUE,
   stop_on_error = FALSE
 ) {
