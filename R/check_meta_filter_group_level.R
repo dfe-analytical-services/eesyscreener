@@ -9,14 +9,14 @@
 #' @family check_meta
 #'
 #' @examples
-#' check_meta_filter_group_level(example_meta, example_data)
+#' check_meta_filter_group_level(example_data, example_meta)
 #' @export
 
 # filter_group_level -------------------------------------
 # Checking that filter groups have fewer levels than their filters
 check_meta_filter_group_level <- function(
-  meta,
-  data,
+   data,
+   meta,
   verbose = TRUE,
   stop_on_error = FALSE
 ) {

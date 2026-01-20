@@ -5,16 +5,16 @@
 \title{Check filter groups have an equal or lower number of levels}
 \usage{
 check_meta_filter_group_level(
-  meta,
   data,
+  meta,
   verbose = TRUE,
   stop_on_error = FALSE
 )
 }
 \arguments{
-\item{meta}{A data frame of the metadata file}
-
 \item{data}{A data frame of the data file}
+
+\item{meta}{A data frame of the metadata file}
 
 \item{verbose}{logical, if TRUE prints feedback messages to console for
 every test, if FALSE run silently}
@@ -29,7 +29,7 @@ a single row data frame
 Ensure all filter groups have an equal or lower number of levels than their corresponding filter.
 }
 \examples{
-check_meta_filter_group_level(example_meta, example_data)
+check_meta_filter_group_level(example_data, example_meta)
 }
 \seealso{
 Other check_meta: 
