@@ -24,7 +24,7 @@ test_that("passes when ethnicity_major and ethnicity_minor have equal levels", {
     filter_grouping_column = c("ethnicity_major"),
     stringsAsFactors = FALSE
   )
-  result <- check_meta_filter_group_level(example_data, meta )
+  result <- check_meta_filter_group_level(example_data, meta)
   expect_equal(result$result, "PASS")
   expect_match(
     result$message,
