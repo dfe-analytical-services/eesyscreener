@@ -13,11 +13,11 @@
 #' check_meta_whitespace_filters(example_data, example_meta, verbose = TRUE)
 #' @export
 check_meta_whitespace_filters <- function(
-    data,
-    meta,
-    verbose = FALSE,
-    stop_on_error = FALSE
-  ) {
+  data,
+  meta,
+  verbose = FALSE,
+  stop_on_error = FALSE
+) {
   filters <- meta |>
     dplyr::filter(col_type == "Filter") |>
     dplyr::pull(col_name)
