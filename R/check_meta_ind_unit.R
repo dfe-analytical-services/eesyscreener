@@ -1,7 +1,6 @@
 #' Check indicator_dp is set for all indicator rows
 #'
-#' Throw warning if there are any blank cells for indicator_dp in rows, to
-#' encourage users to explicitly specify the behaviour they want.
+#' Throw FAIL if there indicator_unit values when col_type is Filter
 #'
 #' @inheritParams precheck_meta_col_type
 #'
@@ -17,13 +16,15 @@
 check_meta_ind_unit <- function(meta,
   verbose = FALSE,
   stop_on_error = FALSE){
-  filtered_meta <- meta |>
-    dplyr::filter(
-      col_type == "Filter",
-      !is.na(indicator_unit),
-      indicator_unit != ""
-    )
-  
+
+  filtered_positions <- which(
+    meta$col_type == "Filter" &
+    !is.na(meta$indicator_unit) &
+    meta$indicator_unit != ""
+  )
+
+  filtered_meta <- meta |> slice(filtered_positions)
+
   indicator_units <- filtered_meta |>
     dplyr::pull(indicator_unit)
 
@@ -31,7 +32,7 @@ check_meta_ind_unit <- function(meta,
     test_output(
       "meta_ind_unit",
       "FAIL",
-      paste0("Filters should not have an indicator_unit value in the metadata file. This occurs for columns: ",paste0(filtered_meta |> dplyr::pull(labels)), "at positions: ",paste0(),"."),
+      paste0("Filters should not have an indicator_unit value in the metadata file. This occurs for columns: ",paste0(sort(unique(filtered_meta |> dplyr::pull(label))), collapse = ", "), " at positions: ",paste0(filtered_positions,collapse = ", "),"."),
       verbose = verbose,
       stop_on_error = stop_on_error
     )
@@ -44,6 +45,4 @@ check_meta_ind_unit <- function(meta,
       stop_on_error = stop_on_error
     )
   }
-
-  return(output)
 }
