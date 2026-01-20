@@ -29,7 +29,7 @@ check_meta_filter_group_level <- function(
   # If no filter groups present, return a message to say so
   if (nrow(meta_filters_and_groups) == 0) {
     return(test_output(
-      "filter_groups_match",
+      "filter_grouping_level",
       "PASS",
       "There are no filter groups present.",
       verbose = verbose,
