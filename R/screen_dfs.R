@@ -152,6 +152,11 @@ screen_dfs <- function(
       stop_on_error = stop_on_error
     ),
     check_meta_filter_group(meta, verbose, stop_on_error),
+    check_meta_filter_group_is_filter(
+      meta,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    ),
     check_meta_filter_group_match(
       data,
       meta,
