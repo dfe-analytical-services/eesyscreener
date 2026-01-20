@@ -30,7 +30,7 @@ testthat::test_that("check_meta_whitespace_filters: fails with multiple offendin
   # Multiple labels: leading and trailing spaces in different rows/cols
   data <- data.frame(
     FilterA = c(" Alpha", "Beta"),
-    LA      = c(" Sheffield", "Leeds "),
+    LA = c(" Sheffield", "Leeds "),
     stringsAsFactors = FALSE
   )
 
