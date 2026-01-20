@@ -25,7 +25,6 @@ check_meta_whitespace_filters <- function(
   geo_cols <- as.character(geography_df[, 2:4])
   geo_cols <- geo_cols[!is.na(geo_cols)]
 
-
   col_names <- data |>
     dplyr::mutate_if(lubridate::is.Date, as.character) |>
     dplyr::select(
