@@ -25,9 +25,20 @@ check_filter_defaults <- function(
   stop_on_error = FALSE
 ) {
   test_name <- "check_filter_defaults"
+  guidance_url <- render_url(
+    "statistics-production/ud.html#aggregates-and-default-filters"
+  )
   if (!"filter_default" %in% names(meta)) {
     meta <- meta |>
       dplyr::mutate(filter_default = "Total")
+  } else {
+    meta <- meta |>
+      dplyr::mutate(
+        filter_default = dplyr::case_when(
+          filter_default == "" & col_type == "Filter" ~ "Total",
+          .default = filter_default
+        )
+      )
   }
   filters <- meta |>
     dplyr::filter(col_type == "Filter") |>
@@ -48,7 +59,7 @@ check_filter_defaults <- function(
     return(
       test_output(
         test_name,
-        "IGNORE",
+        "PASS",
         "There are no filters in the data file.",
         verbose = verbose,
         stop_on_error = stop_on_error
@@ -73,7 +84,6 @@ check_filter_defaults <- function(
         any(dfilters[[column]] == filter_defaults[[column]])
       }
     )
-
     if (all(pre_result)) {
       return(
         test_output(
@@ -96,6 +106,7 @@ check_filter_defaults <- function(
             paste(missing_total, collapse = "', '"),
             "'."
           ),
+          guidance_url = guidance_url,
           verbose = verbose,
           stop_on_error = stop_on_error
         )

@@ -361,3 +361,25 @@ write_json_log <- function(
     )
   }
 }
+
+#' Render standard URL
+#'
+#' @param slug string to paste to base domain
+#' @param domain base domain. Can be "analysts_guide", "ees" or "dfe_github"
+#' @returns String containing URL
+#' @keywords internal
+#' @noRd
+render_url <- function(slug, domain = "analysts_guide") {
+  if (!domain %in% c("analysts_guide", "ees", "dfe_github")) {
+    stop("Please choose one of 'ag', 'ees' or 'dfe_guthub'")
+  }
+  url <- list(
+    analysts_guide = "https://dfe-analytical-services.github.io/analysts-guide/",
+    ees = "https://explore-education-statistics.service.gov.uk/",
+    dfe_github = "https://github.com/dfe-analytical-services/"
+  )
+  paste0(
+    url[domain],
+    slug
+  )
+}

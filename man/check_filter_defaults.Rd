@@ -30,10 +30,4 @@ Making sure the data and metadata file follow the pattern of:
 \examples{
 check_filter_defaults(example_data, example_meta)
 }
-\seealso{
-Other filename: 
-\code{\link{check_filename_spaces}()},
-\code{\link{check_filename_special}()},
-\code{\link{check_filenames_match}()}
-}
-\concept{filename}
+\concept{check_filter}
