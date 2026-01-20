@@ -1,10 +1,10 @@
 test_that("passes when all column names don't have a space in metadata example", {
-  expect_no_error(precheck_col_name_spaces(example_meta, stop_on_error = TRUE))
+  expect_no_error(check_meta_col_name_spaces(example_meta, stop_on_error = TRUE))
 })
 
 test_that("errors when any column name has a space", {
   expect_error(
-    precheck_col_name_spaces(
+    check_meta_col_name_spaces(
       example_meta |>
         select(col_name) |>
         rbind(
@@ -22,7 +22,7 @@ test_that("errors when any column name has a space", {
 
 test_that("correctly identifies number of columns with spaces", {
   expect_identical(
-    precheck_col_name_spaces(
+    check_meta_col_name_spaces(
       data.frame(
         col_name = c(
           "col 1 name",
@@ -40,7 +40,7 @@ test_that("correctly identifies number of columns with spaces", {
 
 test_that("correctly identifies which columns have spaces", {
   expect_identical(
-    precheck_col_name_spaces(
+    check_meta_col_name_spaces(
       data.frame(
         col_name = c(
           "col 1 name",
@@ -58,7 +58,7 @@ test_that("correctly identifies which columns have spaces", {
 
 test_that("correctly changes wording when only a single column has a space", {
   expect_identical(
-    precheck_col_name_spaces(
+    check_meta_col_name_spaces(
       data.frame(
         col_name = c(
           "col_1_name",
@@ -76,7 +76,7 @@ test_that("correctly changes wording when only a single column has a space", {
 
 test_that("correctly completes with NA values", {
   expect_identical(
-    precheck_col_name_spaces(
+    check_meta_col_name_spaces(
       data.frame(
         col_name = c(
           "col_1_name",

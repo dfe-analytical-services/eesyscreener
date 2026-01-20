@@ -56,7 +56,7 @@ screen_dfs <- function(
       verbose = verbose,
       stop_on_error = stop_on_error
     ),
-    precheck_col_name_spaces(
+    check_meta_col_name_spaces(
       meta,
       verbose = verbose,
       stop_on_error = stop_on_error
