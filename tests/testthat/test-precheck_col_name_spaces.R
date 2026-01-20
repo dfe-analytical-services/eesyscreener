@@ -34,7 +34,7 @@ test_that("correctly identifies number of columns with spaces", {
       ),
       stop_on_error = FALSE
     )$message,
-    "There are one or more spaces in 3 col_name values in the metadata file at columns: 1,3,5."
+    "The following 3 col_name values have spaces in the metadata: col 1 name, col 3 name, col 5 name."
   )
 })
 
@@ -52,7 +52,7 @@ test_that("correctly identifies which columns have spaces", {
       ),
       stop_on_error = FALSE
     )$message,
-    "There are one or more spaces in 3 col_name values in the metadata file at columns: 1,4,5."
+    "The following 3 col_name values have spaces in the metadata: col 1 name, col 4 name, col 5 name."
   )
 })
 
@@ -70,7 +70,7 @@ test_that("correctly changes wording when only a single column has a space", {
       ),
       stop_on_error = FALSE
     )$message,
-    "There are one or more spaces in 1 col_name value in the metadata file at column: 4."
+    "The following 1 col_name value have spaces in the metadata: col 4 name."
   )
 })
 

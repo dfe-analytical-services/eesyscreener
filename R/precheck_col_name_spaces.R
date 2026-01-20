@@ -4,7 +4,7 @@
 #' 
 #' NA in the column names don't contain spaces so won't count and are validated against elsewhere.' 
 #' 
-#' @inheritparams precheck_col_invalid_meta
+#' @inherit precheck_col_invalid_meta
 #'
 #' @family precheck_col
 #'

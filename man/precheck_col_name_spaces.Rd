@@ -2,9 +2,7 @@
 % Please edit documentation in R/precheck_col_name_spaces.R
 \name{precheck_col_name_spaces}
 \alias{precheck_col_name_spaces}
-\title{Check for spaces in the column names of metadata
-(check that no value in col_name has any spaces)
-NA in the column names don't contain spaces so won't count}
+\title{Check that no col_name values have spaces}
 \usage{
 precheck_col_name_spaces(meta, verbose = FALSE, stop_on_error = FALSE)
 }
@@ -21,13 +19,14 @@ is "FAIL", and will throw genuine warning if result is "WARNING"}
 a single row data frame
 }
 \description{
-Check for spaces in the column names of metadata
-(check that no value in col_name has any spaces)
-NA in the column names don't contain spaces so won't count
+Checks the metadata file's col_name column for values that contain spaces.
+}
+\details{
+NA in the column names don't contain spaces so won't count and are validated against elsewhere.'
 }
 \examples{
-precheck_col_invalid_meta(example_meta)
-precheck_col_invalid_meta(example_meta, verbose = TRUE)
+precheck_col_name_spaces(example_meta)
+precheck_col_name_spaces(example_meta, verbose = TRUE)
 }
 \seealso{
 Other precheck_col: 
