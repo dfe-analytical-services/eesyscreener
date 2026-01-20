@@ -45,7 +45,7 @@ test_that("passes when filter group has fewer levels than filter", {
     filter_grouping_column = c("ethnicity_major"),
     stringsAsFactors = FALSE
   )
-  result <- check_meta_filter_group_level( example_data, meta)
+  result <- check_meta_filter_group_level(example_data, meta)
   expect_equal(result$result, "PASS")
   expect_match(
     result$message,
