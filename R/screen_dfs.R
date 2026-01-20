@@ -207,7 +207,7 @@ screen_dfs <- function(
   )
   check_filter_results <- check_filter_results |>
     cbind("stage" = "Check filters")
-  
+
   write_json_log(
     check_filter_results,
     log_key = log_key,
@@ -222,7 +222,6 @@ screen_dfs <- function(
   if (any(check_filter_results[["result"]] == "FAIL")) {
     return(as.data.frame(check_filter_results))
   }
-
 
   # Check API -----------------------------------------------------------------
   check_api_results <- rbind(
