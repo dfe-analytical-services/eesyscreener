@@ -1,0 +1,26 @@
+FROM r-base:latest
+
+RUN \
+  apt update && \
+  \
+  apt install -y \
+    libssl-dev \
+    libcurl4-openssl-dev \
+    libxml2-dev \
+    libfreetype6-dev \
+    libharfbuzz-dev \
+    libfribidi-dev \
+    libpng-dev \
+    libcairo2-dev \
+    pkg-config \
+    libtiff5-dev \
+    libjpeg-dev \
+    libwebp-dev \
+    build-essential && \
+  \
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/*
+
+# Install latest eesyscreener dependencies from DESCRIPTION
+COPY DESCRIPTION /tmp/DESCRIPTION
+RUN Rscript -e "deps <- tools::package_dependencies('/tmp/DESCRIPTION', db = available.packages(), which = c('Depends', 'Imports', 'LinkingTo', 'Suggests'), recursive = TRUE, fields = c('Depends', 'Imports', 'LinkingTo', 'Suggests')); pkgs <- unique(unlist(deps)); pkgs <- setdiff(pkgs, c('R', 'base')); install.packages(pkgs, repos = 'https://cloud.r-project.org')"
