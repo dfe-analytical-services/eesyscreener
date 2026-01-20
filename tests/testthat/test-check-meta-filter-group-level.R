@@ -112,7 +112,7 @@ test_that("passes when no filters are present in meta", {
 })
 
 test_that("passes when filters have no grouping column", {
-   example_data <- data.frame(
+  example_data <- data.frame(
     region = c("A", "B", "C"),
     year = c(2020, 2021, 2022)
   )
