@@ -34,5 +34,6 @@ Imports:
     mime,
     rlang,
     stats,
-    stringr
+    stringr,
+    tidyr
 VignetteBuilder: knitr

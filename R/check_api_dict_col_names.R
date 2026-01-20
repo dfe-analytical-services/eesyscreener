@@ -1,11 +1,9 @@
-#' Check if values exceed a character limit
+#' Check if col_names are present in the data dictionary
 #'
-#' Can be used to check individual strings, or vectors of strings.
+#' Uses the exported `data_dictionary` data.frame as a reference for the
+#' acceptable col_names.
 #'
-#' Uses the exported `api_char_limits` data.frame as a reference for the
-#' limits.
-#'
-#' @param meta A character vector of strings to check
+#' @param meta dataframe containing a data set's meta data
 #' @param verbose Logical, if TRUE prints feedback messages to console for
 #' every test, if FALSE run silently
 #' @param stop_on_error Logical, if TRUE will stop with an error if the result
@@ -13,18 +11,13 @@
 #'
 #' @family check_api
 #' @examples
-#' check_api_char_limit(names(example_data), "column-name")
-#' check_api_char_limit(names(example_data), "column-name", verbose = TRUE)
+#' check_api_dict_col_names(example_meta)
 #' @export
-
-# TODO: Add additional code to handle multiple columns
-
 check_api_dict_col_names <- function(
   meta,
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-
   test_name <- paste0("check_api_dict_col_names")
   dd_col_names <- data_dictionary |>
     dplyr::select(col_name, col_name_parent, col_type) |>
@@ -37,7 +30,7 @@ check_api_dict_col_names <- function(
     dplyr::arrange(col_type, col_name) |>
     dplyr::mutate(standard_col = TRUE)
 
-  non_standard_col_names <- example_meta |>
+  non_standard_col_names <- meta |>
     dplyr::select("col_type", "col_name", "filter_grouping_column") |>
     tidyr::pivot_longer(
       c("col_name", "filter_grouping_column"),
@@ -49,9 +42,8 @@ check_api_dict_col_names <- function(
       dd_col_names,
       by = dplyr::join_by("col_type", "col_name")
     ) |>
-    dplyr::filter(!is.na(.data$col_name), !standard_col ) |>
+    dplyr::filter(is.na(.data$standard_col)) |>
     dplyr::distinct()
-
 
   if (non_standard_col_names |> dplyr::count() |> dplyr::pull("n") == 0) {
     test_output(
@@ -72,7 +64,7 @@ check_api_dict_col_names <- function(
       paste(collapse = ", ")
     test_output(
       test_name,
-      "FAIL",
+      "WARNING",
       paste(
         "The following column(s) are not present in the",
         "<a href=\"https://github.com/dfe-analytical-services/dfe-published-data-qa/blob/main/data/data-dictionary.csv\">",
