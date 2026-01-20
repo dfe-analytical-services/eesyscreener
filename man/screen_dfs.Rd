@@ -4,7 +4,15 @@
 \alias{screen_dfs}
 \title{Run all checks against data and metadata}
 \usage{
-screen_dfs(data, meta, verbose = FALSE, stop_on_error = FALSE)
+screen_dfs(
+  data,
+  meta,
+  log_key = NULL,
+  log_dir = "./",
+  verbose = FALSE,
+  stop_on_error = FALSE,
+  prudence = "lavish"
+)
 }
 \arguments{
 \item{data}{data.frame, for the data table, more efficient if supplied as a
@@ -12,11 +20,19 @@ lazy duckplyr data.frame}
 
 \item{meta}{data.frame, for the metadata table}
 
+\item{log_key}{keystring for creating log file. If given, the screening will
+write a log file to disk called eesyscreening_log_<log_key>.json default=NULL}
+
+\item{log_dir}{Directory within which to place the log file. default="./"}
+
 \item{verbose}{logical, if TRUE prints feedback messages to console for
 every test, if FALSE run silently}
 
 \item{stop_on_error}{logical, if TRUE will stop with an error if the result
 is "FAIL", and will throw genuine warning if result is "WARNING"}
+
+\item{prudence}{prudence as used by duckplyr, default = "lavish". Can also
+be "stingy" and "thrifty".}
 }
 \value{
 data.frame containing the results of the screening

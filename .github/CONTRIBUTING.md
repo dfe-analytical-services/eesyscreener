@@ -152,6 +152,15 @@ a. Make use of the `tests/utils/copy_check_data.R` script to copy over CSVs from
 
 b. There should be a collection of unit tests and at least one example data file with an expected failure for every function
 
+## Identifying resource heavy processes
+
+We aim to do everything optimally with lazy loading of the data, however some functions may inadvertantly actualise the whole data frame. To identify these kind of instances, it can be useful to use the `prudence = "stingy"` flag when loading the data. This will cause the code to come to a halt if any significant resources are required by a process handling the lazy table.
+
+To use `"stingy"` in this way, follow these steps:
+
+- Run `screen_dfs(<data>, <meta>, prudence = "stingy")`
+- If the lazy table is materialised, an error will be thrown, if it is then identify the guilty line by running:
+  - `rlang::last_trace()`
 ## Other things to add to the package
 
 TODO: Add trello card workflow
