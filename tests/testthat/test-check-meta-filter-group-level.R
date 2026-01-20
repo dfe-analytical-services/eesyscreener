@@ -12,7 +12,7 @@ test_that("passes when no indicators have filter_grouping_column values", {
 })
 
 test_that("passes when ethnicity_major and ethnicity_minor have equal levels", {
-   # Example data: both columns have 3 unique values
+  # Example data: both columns have 3 unique values
   example_data <- data.frame(
     ethnicity_major = c("White", "Black", "Asian"),
     ethnicity_minor = c("Irish", "African", "Indian"),
