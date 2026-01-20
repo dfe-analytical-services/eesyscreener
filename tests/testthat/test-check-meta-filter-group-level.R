@@ -6,7 +6,7 @@ test_that("passes when no indicators have filter_grouping_column values", {
     filter_grouping_column = c("", NA, NA),
     stringsAsFactors = FALSE
   )
-  result <- check_meta_filter_group_level( example_data, meta)
+  result <- check_meta_filter_group_level(example_data, meta)
   expect_equal(result$result, "PASS")
   expect_match(result$message, "There are no filter groups present.")
 })
