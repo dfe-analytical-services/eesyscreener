@@ -22,11 +22,16 @@ check_meta_whitespace_filters <- function(
     dplyr::filter(col_type == "Filter") |>
     dplyr::pull(col_name)
 
+
+  geo_cols <- as.character(geography_df[, 2:4])
+  geo_cols <- geo_cols[!is.na(geo_cols)]
+
+
   col_names <- data |>
-    dplyr::mutate_if(is.Date, as.character) |>
+    dplyr::mutate_if(lubridate::is.Date, as.character) |>
     dplyr::select(
       dplyr::all_of(filters),
-      dplyr::any_of(as.character(geography_matrix[, 2:4]) |> .[!is.na(.)])
+      dplyr::any_of(geo_cols)
     ) |>
     dplyr::mutate_if(is.numeric, as.character) |>
     tidyr::pivot_longer(
@@ -35,7 +40,6 @@ check_meta_whitespace_filters <- function(
       names_to = "filter",
       values_to = "filter_label"
     ) |>
-    # gather(., "filter", "filter_label") |>
     dplyr::distinct()
 
   col_names_trimmed <- col_names |>
