@@ -22,7 +22,6 @@ check_meta_whitespace_filters <- function(
     dplyr::filter(col_type == "Filter") |>
     dplyr::pull(col_name)
 
-
   geo_cols <- as.character(geography_df[, 2:4])
   geo_cols <- geo_cols[!is.na(geo_cols)]
 
