@@ -15,6 +15,7 @@ URL: https://dfe-analytical-services.github.io/eesyscreener/,
 BugReports: https://github.com/dfe-analytical-services/eesyscreener/issues
 Suggests:
     knitr,
+    readr,
     rmarkdown,
     spelling,
     testthat (>= 3.0.0)
