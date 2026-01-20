@@ -17,13 +17,13 @@ check_meta_indicator_grouping <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  indicator_groups <- meta %>%
+  indicator_groups <- meta |>
     dplyr::filter(
-      col_type == "Filter",
-      !is.na(indicator_grouping),
-      indicator_grouping != ""
-    ) %>%
-    dplyr::pull(indicator_grouping)
+      .data$col_type == "Filter",
+      !is.na(.data$indicator_grouping),
+      .data$indicator_grouping != ""
+    ) |>
+    dplyr::pull(.data$indicator_grouping)
 
   if (length(indicator_groups) == 0) {
     test_output(
