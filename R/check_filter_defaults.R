@@ -35,23 +35,23 @@ check_filter_defaults <- function(
     meta <- meta |>
       dplyr::mutate(
         filter_default = dplyr::case_when(
-          filter_default == "" & col_type == "Filter" ~ "Total",
-          .default = filter_default
+          .data$filter_default == "" & col_type == "Filter" ~ "Total",
+          .default = .data$filter_default
         )
       )
   }
   filters <- meta |>
-    dplyr::filter(col_type == "Filter") |>
-    dplyr::select(col_name, filter_default)
+    dplyr::filter(.data$col_type == "Filter") |>
+    dplyr::select(.data$col_name, .data$filter_default)
 
   filter_groups <- meta |>
     dplyr::filter(
-      !is.na(filter_grouping_column),
-      filter_grouping_column != "",
-      !filter_grouping_column %in% col_name
+      !is.na(.data$filter_grouping_column),
+      .data$filter_grouping_column != "",
+      !.data$filter_grouping_column %in% .data$col_name
     ) |>
     dplyr::mutate(filter_default = "Total") |>
-    dplyr::select(col_name = filter_grouping_column, filter_default)
+    dplyr::select(col_name = .data$filter_grouping_column, .data$filter_default)
 
   filters_and_groups <- dplyr::bind_rows(filters, filter_groups)
 
@@ -76,8 +76,8 @@ check_filter_defaults <- function(
       filters_and_groups$col_name
     )
 
-    # Check each filter column for the presence of the filter default (whether Total or a custom
-    # one).
+    # Check each filter column for the presence of the filter default (whether
+    # Total or a custom one).
     pre_result <- sapply(
       names(dfilters),
       function(column) {
