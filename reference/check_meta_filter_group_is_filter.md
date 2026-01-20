@@ -1,12 +1,11 @@
-# Check filter_group is not set for indicator rows
+# Check that filter groups are filters
 
-Throw warning if there are any indicator rows that have filter_group as
-non-blank, to encourage users to correct the metadata.
+Throw warning if filter groups are not included in the col_name column.
 
 ## Usage
 
 ``` r
-check_meta_filter_group(meta, verbose = FALSE, stop_on_error = FALSE)
+check_meta_filter_group_is_filter(meta, verbose = FALSE, stop_on_error = FALSE)
 ```
 
 ## Arguments
@@ -34,7 +33,7 @@ a single row data frame
 Other check_meta:
 [`check_meta_col_name_duplicate()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_col_name_duplicate.md),
 [`check_meta_duplicate_label()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_duplicate_label.md),
-[`check_meta_filter_group_is_filter()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_group_is_filter.md),
+[`check_meta_filter_group()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_group.md),
 [`check_meta_filter_group_match()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_group_match.md),
 [`check_meta_filter_hint()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_hint.md),
 [`check_meta_ind_dp_set()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_ind_dp_set.md),
@@ -44,15 +43,15 @@ Other check_meta:
 ## Examples
 
 ``` r
-check_meta_filter_group(example_meta)
-#>           check result                                            message
-#> 1 meta_col_name   PASS No indicators have a filter_grouping_column value.
+check_meta_filter_group_is_filter(example_meta)
+#>                    check result                             message
+#> 1 filter_group_is_filter   PASS There are no filter groups present.
 #>   guidance_url
 #> 1           NA
-check_meta_filter_group(example_meta, verbose = TRUE)
-#> ✔ No indicators have a filter_grouping_column value.
-#>           check result                                            message
-#> 1 meta_col_name   PASS No indicators have a filter_grouping_column value.
+check_meta_filter_group_is_filter(example_meta, verbose = TRUE)
+#> ✔ There are no filter groups present.
+#>                    check result                             message
+#> 1 filter_group_is_filter   PASS There are no filter groups present.
 #>   guidance_url
 #> 1           NA
 ```
