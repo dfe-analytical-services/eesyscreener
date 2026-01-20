@@ -1,9 +1,9 @@
 #' Check that no col_name values have spaces
 #'
 #' Checks the metadata file's col_name column for values that contain spaces.
-#' 
-#' NA in the column names don't contain spaces so won't count and are validated against elsewhere.' 
-#' 
+#'
+#' NA in the column names don't contain spaces so won't count and are validated against elsewhere.'
+#'
 #' @inherit precheck_col_invalid_meta
 #'
 #' @family precheck_col
