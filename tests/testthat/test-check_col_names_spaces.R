@@ -37,3 +37,22 @@ test_that("the function fails with a single space in a column name", {
     "The following variable name has at least one space that needs removing: 'var 1'."
   )
 })
+
+#test that the data fails when table is read from csv with spaces in column names
+test_that("the function fails when table is read from csv with spaces in column names", {
+  temp_file <- tempfile(fileext = ".csv")
+  write.csv(
+    df |>
+      dplyr::rename("var 1" = var1),
+    temp_file,
+    row.names = FALSE
+  )
+  df_from_csv <- duckplyr::read_csv_duckdb(temp_file)
+  result <- check_col_names_spaces(df_from_csv)
+  expect_equal(result$result, "FAIL")
+  expect_equal(
+    result$message,
+    "The following variable name has at least one space that needs removing: 'var 1'."
+  )
+  unlink(temp_file)
+})

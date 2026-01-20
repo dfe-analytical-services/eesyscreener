@@ -20,7 +20,7 @@ check_col_names_spaces <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  #wcreate a dataframe to store pre-results of checks on variable names
+  #create a dataframe to store pre-results of checks on variable names
   pre_result <- data.frame(
     "ind" = colnames(data),
     "values" = ifelse(grepl("\\s", colnames(data)), "FAIL", "PASS")
