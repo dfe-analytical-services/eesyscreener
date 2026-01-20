@@ -44,7 +44,7 @@ test_that("check_col_snake_case gives advisory with special characters in column
 
   expect_equal(result$result, "ADVISORY")
   expect_true(grepl(
-    "The following invalid characters were found in the variable names of the data file: '-'",
+    "The following invalid character was found in the variable names of the data file: '-'",
     result$message
   ))
 })
@@ -63,7 +63,7 @@ test_that("check_col_snake_case gives advisory with both capital letters and spe
 
   expect_equal(result$result, "ADVISORY")
   expect_true(grepl(
-    "The following invalid characters were found in the variable names of the data file: 'S', ''I', ''D', ''$'. <br> - Variable names should follow the snake_case convention and only contain lowercase letters, underscores or numbers.",
+    "The following invalid characters were found in the variable names of the data file: 'S', 'I', 'D', '\\$'",
     result$message
   ))
 })
