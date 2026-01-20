@@ -22,7 +22,7 @@
 #'
 #' This data set contains example metadata for the example data.
 #'
-#' @format A data frame with 3 rows and 8 columns:
+#' @format A data frame with 3 rows and 9 columns:
 #' \describe{
 #'   \item{col_name}{Name of column in data file}
 #'   \item{col_type}{Type of column in data file}
@@ -32,6 +32,7 @@
 #'   \item{indicator_dp}{Number of decimal places}
 #'   \item{filter_hint}{Optional hint text to accompany filter}
 #'   \item{filter_grouping_column}{Grouping column showing a filter hierarchy}
+#'   \item{filter_default}{Filter default item}
 #' }
 #' @source maintained by explore.statistics@@education.gov.uk
 "example_meta"
