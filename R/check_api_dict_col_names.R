@@ -66,13 +66,11 @@ check_api_dict_col_names <- function(
       test_name,
       "WARNING",
       paste(
-        "The following column(s) are not present in the",
-        "<a href=\"https://github.com/dfe-analytical-services/dfe-published-data-qa/blob/main/data/data-dictionary.csv\">",
-        "data dictionary</a>",
-        "and should not be used as part of an API data set until resolved.<br>",
+        "The following column(s) are not present in the data dictionary",
+        "and should not be used as part of an API data set until resolved:",
         ifelse(
           non_standard_indicators != "",
-          paste("Indicators:", non_standard_indicators, "<br>"),
+          paste("Indicators:", non_standard_indicators),
           ""
         ),
         ifelse(
@@ -80,6 +78,9 @@ check_api_dict_col_names <- function(
           paste("Filters:", non_standard_filters),
           ""
         )
+      ),
+      guidance_url = render_url(
+        "statistics-production/api-data-standards.html"
       ),
       verbose = verbose,
       stop_on_error = stop_on_error
