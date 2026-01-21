@@ -32,7 +32,10 @@ test_that("gives column names and positions when multiple col_type Filters have 
   )
   result <- check_meta_ind_unit(meta)
   expect_equal(result$result, "FAIL")
-  expect_true(grepl("Filters should not have an indicator_unit value in the metadata file. This occurs for columns: Aa, Bb at positions: 1, 2.", result$message))
+  expect_true(grepl(
+    "Filters should not have an indicator_unit value in the metadata file. This occurs for columns: Aa, Bb at positions: 1, 2.",
+    result$message
+  ))
 })
 
 test_that("Values in Indicator don't matter", {
