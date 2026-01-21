@@ -62,7 +62,10 @@ test_that("NAs don't matter", {
     indicator_unit = c(NA, "2", NA),
     stringsAsFactors = FALSE
   )
-  expect_equal(check_meta_ind_unit(meta)$message, "Filters should not have an indicator_unit value in the metadata file. This occurs for columns: Bb at positions: 2.")
+  expect_equal(
+    check_meta_ind_unit(meta)$message,
+    "Filters should not have an indicator_unit value in the metadata file. This occurs for columns: Bb at positions: 2."
+  )
 })
 
 
