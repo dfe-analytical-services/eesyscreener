@@ -68,5 +68,8 @@ test_that("Passes when empty", {
     indicator_unit = c("", "", "C"),
     stringsAsFactors = FALSE
   )
-  expect_equal(check_meta_ind_unit(meta)$message, "No filters have an indicator_unit value.")
+  expect_equal(
+    check_meta_ind_unit(meta)$message,
+    "No filters have an indicator_unit value."
+  )
 })
