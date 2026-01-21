@@ -37,15 +37,18 @@ check_meta_filter_group_stripped <- function(
   } else {
     # Pull unique filter group items for all entries in filter_grouping_column
     raw_filter_groups <- lapply(
-      meta_filter_groups, function(column) data[[column]]
-    ) |> lapply(unique)
+      meta_filter_groups,
+      function(column) data[[column]]
+    ) |>
+      lapply(unique)
     # Strip non-alphanumeric characters from the filter group items, and select uniques
     stripped_filter_groups <- lapply(
       raw_filter_groups,
       gsub,
       pattern = "[^[:alnum:]]",
       replacement = ""
-    ) |> lapply(unique)
+    ) |>
+      lapply(unique)
     # Compare raw and stripped filter group items
     comparison <- unlist(lapply(raw_filter_groups, length)) ==
       unlist(lapply(stripped_filter_groups, length))
