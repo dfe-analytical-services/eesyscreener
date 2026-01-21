@@ -13,10 +13,7 @@
 #' check_meta_ind_unit(example_meta, verbose = TRUE)
 #' @export
 
-check_meta_ind_unit <- function(meta,
-  verbose = FALSE,
-  stop_on_error = FALSE){
-
+check_meta_ind_unit <- function(meta, verbose = FALSE, stop_on_error = FALSE) {
   filtered_positions <- which(
     meta$col_type == "Filter" &
     !is.na(meta$indicator_unit) &
