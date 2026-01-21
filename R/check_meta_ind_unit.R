@@ -20,7 +20,7 @@ check_meta_ind_unit <- function(meta, verbose = FALSE, stop_on_error = FALSE) {
     meta$indicator_unit != ""
   )
 
-  filtered_meta <- meta[filtered_positions,]
+  filtered_meta <- meta[filtered_positions, ]
 
   indicator_units <- filtered_meta |>
     dplyr::pull(indicator_unit)
