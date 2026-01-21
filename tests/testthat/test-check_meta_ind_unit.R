@@ -1,5 +1,8 @@
 test_that("passes when all indicator_unit values are not present for when col_type is Filter ", {
-  expect_equal(check_meta_ind_unit(example_meta)$message, "No filters have an indicator_unit value.")
+  expect_equal(
+    check_meta_ind_unit(example_meta)$message,
+    "No filters have an indicator_unit value."
+  )
   expect_no_error(check_meta_ind_unit(example_meta, stop_on_error = TRUE))
 })
 
