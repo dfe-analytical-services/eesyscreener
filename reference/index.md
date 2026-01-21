@@ -93,6 +93,8 @@ validate core assumptions about the metadata file itself.
 
 - [`check_meta_col_name_duplicate()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_col_name_duplicate.md)
   : Check there are no duplicated column names
+- [`check_meta_col_name_spaces()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_col_name_spaces.md)
+  : Check that no col_name values have spaces
 - [`check_meta_duplicate_label()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_duplicate_label.md)
   : Check there are no duplicate labels
 - [`check_meta_filter_group()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_group.md)
