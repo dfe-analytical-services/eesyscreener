@@ -65,6 +65,11 @@ screen_dfs <- function(
       verbose = verbose,
       stop_on_error = stop_on_error
     ),
+    check_meta_col_name_spaces(
+      meta,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    ),
     check_meta_col_name_duplicate(
       meta,
       verbose = verbose,
