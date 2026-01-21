@@ -36,18 +36,16 @@ check_meta_filter_group_stripped <- function(
     )
   } else {
     # Pull unique filter group items for all entries in filter_grouping_column
-    raw_filter_groups <- unique(unlist(lapply(
+    raw_filter_groups <- lapply(
       meta_filter_groups, function(column) data[[column]]
-    )))
-    # Strip non-alphanumeric characters from the unique filter group items
+    ) |> lapply(unique)
+    # Strip non-alphanumeric characters from the filter group items, and select uniques
     stripped_filter_groups <- lapply(
       raw_filter_groups,
       gsub,
       pattern = "[^[:alnum:]]",
       replacement = ""
-    ) %>%
-      # And select only unique names in the stripped filter groups
-      lapply(unique)
+    ) |> lapply(unique)
     # Compare raw and stripped filter group items
     comparison <- unlist(lapply(raw_filter_groups, length)) ==
       unlist(lapply(stripped_filter_groups, length))
@@ -62,7 +60,7 @@ check_meta_filter_group_stripped <- function(
           "The number of unique filter groups should not change when ",
           "non-alphanumeric characters are stripped. Please check this list ",
           "for erroneous filter group values: '",
-          paste0(failed_cols, collapse = "', '"),
+          paste0(unlist(raw_filter_groups[failed_cols]), collapse = "', '"),
           "'."
         ),
         verbose = verbose,
