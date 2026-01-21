@@ -29,7 +29,16 @@ check_meta_ind_unit <- function(meta, verbose = FALSE, stop_on_error = FALSE) {
     test_output(
       "meta_ind_unit",
       "FAIL",
-      paste0("Filters should not have an indicator_unit value in the metadata file. This occurs for columns: ",paste0(sort(unique(filtered_meta |> dplyr::pull(label))), collapse = ", "), " at positions: ",paste0(filtered_positions,collapse = ", "),"."),
+      paste0(
+        "Filters should not have an indicator_unit value in the metadata file. This occurs for columns: ",
+        paste0(
+          sort(unique(filtered_meta |> dplyr::pull(label))),
+          collapse = ", "
+        ),
+        " at positions: ",
+        paste0(filtered_positions, collapse = ", "),
+        "."
+      ),
       verbose = verbose,
       stop_on_error = stop_on_error
     )
