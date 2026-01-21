@@ -16,8 +16,8 @@
 check_meta_ind_unit <- function(meta, verbose = FALSE, stop_on_error = FALSE) {
   filtered_positions <- which(
     meta$col_type == "Filter" &
-    !is.na(meta$indicator_unit) &
-    meta$indicator_unit != ""
+      !is.na(meta$indicator_unit) &
+      meta$indicator_unit != ""
   )
 
   filtered_meta <- meta[filtered_positions, ]
