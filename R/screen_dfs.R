@@ -206,6 +206,33 @@ screen_dfs <- function(
     return(as.data.frame(precheck_time_results))
   }
 
+  # Check Filters -----------------------------------------------------------------
+  check_filter_results <- rbind(
+    check_filter_defaults(
+      data,
+      meta,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    )
+  )
+  check_filter_results <- check_filter_results |>
+    cbind("stage" = "Check filters")
+
+  write_json_log(
+    check_filter_results,
+    log_key = log_key,
+    log_dir = log_dir,
+    data_details = data_details
+  )
+  check_filter_results <- precheck_time_results |>
+    rbind(
+      check_filter_results
+    )
+
+  if (any(check_filter_results[["result"]] == "FAIL")) {
+    return(as.data.frame(check_filter_results))
+  }
+
   # Check API -----------------------------------------------------------------
   check_api_results <- rbind(
     check_api_char_limit(
