@@ -209,6 +209,7 @@ screen_csv(
 #> ✔ No indicators have a filter_hint value.
 #> ✔ No filters have an indicator_dp value.
 #> ✔ The time_identifier values are all valid.
+#> ! A 'Total' entry or default filter item should be specified for the following filters and / or filter_groups where applicable: 'sex', 'education_phase'.
 #> ✔ All filter / indicator names are less than or equal to the character limit of 50.
 #> ✔ Data and metadata passed all checks
 #> ✔ Data and metadata passed all checks

@@ -136,6 +136,9 @@ validate core assumptions about the time columns.
 
 ## Filter checks
 
+- [`check_filter_defaults()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_filter_defaults.md)
+  : Check filenames line up between data and metadata files
+
 ## Indicator checks
 
 ## Geography checks
