@@ -21,6 +21,6 @@ RUN \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
 
-# Install latest eesyscreener dependencies from DESCRIPTION
 COPY DESCRIPTION /tmp/DESCRIPTION
-RUN Rscript -e "deps <- tools::package_dependencies('/tmp/DESCRIPTION', db = available.packages(), which = c('Depends', 'Imports', 'LinkingTo', 'Suggests'), recursive = TRUE, fields = c('Depends', 'Imports', 'LinkingTo', 'Suggests')); pkgs <- unique(unlist(deps)); pkgs <- setdiff(pkgs, c('R', 'base')); install.packages(pkgs, repos = 'https://cloud.r-project.org')"
+
+RUN Rscript -e "install.packages(c('devtools', 'desc', 'pak')); desc::desc_get_deps(file = '/tmp/DESCRIPTION')[['package']] |> setdiff(c('R', 'base')) |> pak::pak()"

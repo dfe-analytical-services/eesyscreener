@@ -4,6 +4,8 @@ If you're not a regular R user or don't want to set up R and all the dependencie
 
 These instructions assume you already have Docker installed. If you don't, please refer to the [Docker installation guide](https://docs.docker.com/get-docker/) for your operating system.
 
+A word of warning before you start, R packages can be notoriously slow to install and build on Linux, so the first time you build this image it might take a while...
+
 1. Open a terminal and go to the repository root.
 
 2. Build the image:
@@ -15,7 +17,7 @@ These instructions assume you already have Docker installed. If you don't, pleas
 3. Start a container:
 
 	```sh
-	docker run -ti --name eesyscreener-dev -v ".":"/home/r" -w /home/r eesyscreener-dev
+	docker run -ti --name eesyscreener-dev -v ".:/home/r" -w /home/r eesyscreener-dev
 	```
 
 4. In the R console, run:
@@ -24,17 +26,21 @@ These instructions assume you already have Docker installed. If you don't, pleas
 	devtools::load_all()
 	```
 
-5. Screen away! For example:
+5. Screen away in the R console! For example:
 
 	```r
-	screen_csv("sample-data/example.csv", "sample-data/example.meta.csv")
+	screen_dfs(example_data, example_meta) # use example data objects built into package
 	```
 
-	(Assuming you have example files in a `sample-data` folder at the repo root.)
+	```r
+	screen_csv("sample-data/example.csv", "sample-data/example.meta.csv") # use your own CSVs within a 'sample-data' folder in the repo root
+	```
 
+	Refer to the README and docs for more guidance on using the package, and use `quit()` to stop the R session.
 
-To restart the container at a later time:
+	To restart the container at a later time:
 
-```sh
-docker start eesyscreener-dev
-```
+	```sh
+	docker start eesyscreener-dev
+	```
+	
