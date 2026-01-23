@@ -84,8 +84,9 @@ screen_dfs(example_data, example_meta)
 #> 15                 check_meta_label   PASS
 #> 16                 meta_filter_hint   PASS
 #> 17                     indicator_dp   PASS
-#> 18                    time_id_valid   PASS
-#> 19 check_api_char_limit_column-name   PASS
+#> 18               indicator_grouping   PASS
+#> 19                    time_id_valid   PASS
+#> 20 check_api_char_limit_column-name   PASS
 #>                                                                                                       message
 #> 1                                               All of the required columns are present in the metadata file.
 #> 2                                                          There are no invalid columns in the metadata file.
@@ -104,8 +105,9 @@ screen_dfs(example_data, example_meta)
 #> 15                                               The label column is completed for every row in the metadata.
 #> 16                                                                    No indicators have a filter_hint value.
 #> 17                                                                     No filters have an indicator_dp value.
-#> 18                                                                  The time_identifier values are all valid.
-#> 19                          All filter / indicator names are less than or equal to the character limit of 50.
+#> 18                                                               No filters have an indicator_grouping value.
+#> 19                                                                  The time_identifier values are all valid.
+#> 20                          All filter / indicator names are less than or equal to the character limit of 50.
 #>    guidance_url            stage
 #> 1            NA Precheck columns
 #> 2            NA Precheck columns
@@ -124,6 +126,7 @@ screen_dfs(example_data, example_meta)
 #> 15           NA       Check meta
 #> 16           NA       Check meta
 #> 17           NA       Check meta
-#> 18           NA    Precheck time
-#> 19           NA        Check API
+#> 18           NA       Check meta
+#> 19           NA    Precheck time
+#> 20           NA        Check API
 ```

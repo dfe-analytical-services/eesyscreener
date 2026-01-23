@@ -1,11 +1,11 @@
-# Check indicator_dp is blank for all filters
+# Check indicator_grouping is blank for all filters
 
-Throw an error if, for any filter, indicator_dp is not blank.
+Throw an error if, for any filter, indicator_grouping is not blank.
 
 ## Usage
 
 ``` r
-check_meta_indicator_dp(meta, verbose = FALSE, stop_on_error = FALSE)
+check_meta_indicator_grouping(meta, verbose = FALSE, stop_on_error = FALSE)
 ```
 
 ## Arguments
@@ -34,21 +34,24 @@ Other check_meta:
 [`check_meta_col_name_duplicate()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_col_name_duplicate.md),
 [`check_meta_duplicate_label()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_duplicate_label.md),
 [`check_meta_filter_group()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_group.md),
-[`check_meta_filter_group_is_filter()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_group_is_filter.md),
 [`check_meta_filter_group_match()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_group_match.md),
 [`check_meta_filter_hint()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_hint.md),
 [`check_meta_ind_dp_set()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_ind_dp_set.md),
-[`check_meta_indicator_grouping()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_indicator_grouping.md),
+[`check_meta_indicator_dp()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_indicator_dp.md),
 [`check_meta_label()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_label.md)
 
 ## Examples
 
 ``` r
-check_meta_indicator_dp(example_meta)
-#>          check result                                message guidance_url
-#> 1 indicator_dp   PASS No filters have an indicator_dp value.           NA
-check_meta_indicator_dp(example_meta, verbose = TRUE)
-#> ✔ No filters have an indicator_dp value.
-#>          check result                                message guidance_url
-#> 1 indicator_dp   PASS No filters have an indicator_dp value.           NA
+check_meta_indicator_grouping(example_meta)
+#>                check result                                      message
+#> 1 indicator_grouping   PASS No filters have an indicator_grouping value.
+#>   guidance_url
+#> 1           NA
+check_meta_indicator_grouping(example_meta, verbose = TRUE)
+#> ✔ No filters have an indicator_grouping value.
+#>                check result                                      message
+#> 1 indicator_grouping   PASS No filters have an indicator_grouping value.
+#>   guidance_url
+#> 1           NA
 ```
