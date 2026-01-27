@@ -28,7 +28,14 @@ test_that("test filter default combinations", {
   expect_equal(
     check_filter_defaults(
       example_data,
-      example_meta
+      example_meta |>
+        dplyr::mutate(
+          filter_default = dplyr::case_when(
+            col_name == "education_phase" ~ "All phases",
+            col_name == "sex" ~ "All pupils",
+            .default = ""
+          )
+        )
     )$result,
     "PASS"
   )
