@@ -1,4 +1,4 @@
-FROM r-base:latest
+FROM rocker/r-ver:4.5.2
 
 RUN \
   apt update && \
@@ -23,4 +23,8 @@ RUN \
 
 COPY DESCRIPTION /tmp/DESCRIPTION
 
-RUN Rscript -e "install.packages(c('devtools', 'desc', 'pak')); desc::desc_get_deps(file = '/tmp/DESCRIPTION')[['package']] |> setdiff(c('R', 'base')) |> pak::pak()"
+# Install R packages using pre-complied binaries for Ubuntu Noble
+RUN R -e "options(repos = c(CRAN = 'https://packagemanager.posit.co/cran/__linux__/noble/latest')); \
+          install.packages('pak'); \
+          pak::pak(c('devtools', 'desc')); \
+          desc::desc_get_deps(file = '/tmp/DESCRIPTION')[['package']] |> setdiff(c('R', 'base')) |> pak::pak()"

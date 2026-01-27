@@ -4,8 +4,6 @@ If you're not a regular R user or don't want to set up R and all the dependencie
 
 These instructions assume you already have Docker installed. If you don't, please refer to the [Docker installation guide](https://docs.docker.com/get-docker/) for your operating system.
 
-A word of warning before you start, R packages can be notoriously slow to install and build on Linux, so the first time you build this image it might take a while...
-
 1. Open a terminal and go to the repository root.
 
 2. Build the image:
