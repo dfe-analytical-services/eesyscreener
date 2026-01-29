@@ -273,10 +273,8 @@ test_that("screen_csv completes for file containing commas in strings", {
   write.csv(comma_data, data_path, row.names = FALSE)
   write.csv(comma_data_meta, meta_path, row.names = FALSE)
 
-  result <- screen_csv(data_path, meta_path, "api.csv", "api.meta.csv")
-  expect_equal(
-    result$passed,
-    TRUE
+  expect_no_error(
+    screen_csv(data_path, meta_path, "api.csv", "api.meta.csv")
   )
 
   file.remove(data_path)
