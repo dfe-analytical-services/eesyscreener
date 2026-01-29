@@ -267,6 +267,22 @@ test_that("api_suitable returns FALSE for unsuitable files", {
   file.remove(meta_path)
 })
 
+test_that("screen_csv completes for file containing commas in strings", {
+  data_path <- tempfile(fileext = ".csv")
+  meta_path <- tempfile(fileext = ".meta.csv")
+  write.csv(comma_data, data_path, row.names = FALSE)
+  write.csv(comma_data_meta, meta_path, row.names = FALSE)
+
+  result <- screen_csv(data_path, meta_path, "api.csv", "api.meta.csv")
+  expect_equal(
+    result$passed,
+    TRUE
+  )
+
+  file.remove(data_path)
+  file.remove(meta_path)
+})
+
 # TODO: Cam / Rich to fix this, failing on PRs for additional checks
 
 # test_that("Log file is created successfully", {

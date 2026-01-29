@@ -149,6 +149,52 @@
 #' @source maintained by explore.statistics@@education.gov.uk
 "example_api_long_meta"
 
+# Example comma data ====
+#' Example data that contains strings containing commas beyond the default sniffing length.
+#' The original can be obtained from the EES test suite
+#'
+#' @format A data frame with 20,499 rows and 18 columns:
+#' \describe{
+#'   \item{time_period}{Time period of row}
+#'   \item{time_identifier}{Time identifier of row}
+#'   \item{time_frame}{Time frame}
+#'   \item{geographic_level}{Geographic level}
+#'   \item{country_code}{Country code}
+#'   \item{country_name}{Country name}
+#'   \item{region_code}{Region code}
+#'   \item{region_name}{Region name}
+#'   \item{new_la_code}{New LA code}
+#'   \item{la_name}{LA name}
+#'   \item{old_la_code}{Old LA code}
+#'   \item{reference_date}{Reference date}
+#'   \item{education_phase}{Education phase}
+#'   \item{attendance_status}{Attendance status}
+#'   \item{attendance_type}{Attendance type}
+#'   \item{attendance_reason}{Attendance reason}
+#'   \item{session_count}{Session count}
+#'   \item{session_percent}{Session percent}
+#' }
+#' @source maintained by explore.statistics@@education.gov.uk
+"comma_data"
+
+# Example comma data metadata ====
+#' Meta data to be used with comma_data
+#'
+#' @format A data frame with 3 rows and 8 columns:
+#' \describe{
+#'   \item{col_name}{Name of column in data file}
+#'   \item{col_type}{Type of column in data file}
+#'   \item{label}{Human readable label for column}
+#'   \item{indicator_grouping}{Grouping for indicator columns}
+#'   \item{indicator_unit}{Unit prefix or suffix}
+#'   \item{indicator_dp}{Number of decimal places}
+#'   \item{filter_hint}{Optional hint text to accompany filter}
+#'   \item{filter_grouping_column}{Grouping column showing a filter hierarchy}
+#' }
+#' @source maintained by explore.statistics@@education.gov.uk
+"comma_data_meta"
+
+
 # Example screening output ====
 #' Example screening output pre-generated from example_data and example_meta
 #'
