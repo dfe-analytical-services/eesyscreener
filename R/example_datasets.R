@@ -175,7 +175,7 @@
 #'   \item{session_percent}{Session percent}
 #' }
 #' @source maintained by explore.statistics@@education.gov.uk
-"comma_data"
+"example_comma_data"
 
 # Example comma data metadata ====
 #' Meta data to be used with comma_data
@@ -192,7 +192,7 @@
 #'   \item{filter_grouping_column}{Grouping column showing a filter hierarchy}
 #' }
 #' @source maintained by explore.statistics@@education.gov.uk
-"comma_data_meta"
+"example_comma_data_meta"
 
 
 # Example screening output ====
