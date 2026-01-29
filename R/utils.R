@@ -199,7 +199,7 @@ read_ees_files <- function(datapath, metapath) {
   # character (i.e. indicators often contain x, c, z, etc)
   datafile <- datapath |>
     duckplyr::read_csv_duckdb(
-      options = list(types = list(rep("VARCHAR", n_data_cols)))
+      options = list(types = list(rep("VARCHAR", n_data_cols)), quote = '"')
     )
 
   # Issue with read.csv falling over when handed files from Azure, so using
