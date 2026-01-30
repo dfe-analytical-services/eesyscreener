@@ -1,6 +1,6 @@
 #' Check indicator_dp is set for all indicator rows
 #'
-#' Throw FAIL if there indicator_unit values when col_type is Filter
+#' Throw FAIL if there are indicator_unit values present when col_type is "Filter"
 #'
 #' @inheritParams precheck_meta_col_type
 #'
