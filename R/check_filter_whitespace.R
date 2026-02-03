@@ -25,7 +25,7 @@ check_filter_whitespace <- function(
   geo_cols <- as.character(geography_df[, 2:4])
   geo_cols <- geo_cols[!is.na(geo_cols)]
 
-  col_names <- data |>
+  filter_values <- data |>
     dplyr::mutate_if(lubridate::is.Date, as.character) |>
     dplyr::select(
       dplyr::all_of(filters),
