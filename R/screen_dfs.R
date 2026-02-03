@@ -143,12 +143,7 @@ screen_dfs <- function(
       verbose = verbose,
       stop_on_error = stop_on_error
     ),
-    check_meta_filter_group_level(
-      data,
-      meta,
-      verbose,
-      stop_on_error
-    ),
+    
     check_meta_label(meta, verbose, stop_on_error),
     check_meta_filter_hint(meta, verbose, stop_on_error),
     check_meta_indicator_dp(meta, verbose, stop_on_error)
@@ -173,6 +168,21 @@ screen_dfs <- function(
     return(as.data.frame(check_meta_results))
   }
 
+
+## Check filter 
+  check_filter_results <- rbind(
+  check_filter_group_level(
+      data,
+      meta,
+      verbose,
+      stop_on_error
+    )
+  )
+  if (any(precheck_col_results[["result"]] == "FAIL")) {
+    return(as.data.frame(precheck_col_results))
+  }
+  
+  
   # Turn on duckdb ------------------------------------------------------------
   # Only doing this here as not necessary for the metadata checks
   suppressMessages(duckplyr::methods_overwrite())

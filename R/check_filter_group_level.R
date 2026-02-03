@@ -6,28 +6,28 @@
 #'
 #' @inherit check_filename_spaces return
 #'
-#' @family check_meta
+#' @family check_filter
 #'
 #' @examples
-#' check_meta_filter_group_level(example_data, example_meta)
+#' check_filter_group_level(example_data, example_meta)
 #' @export
 
 # filter_group_level -------------------------------------
 # Checking that filter groups have fewer levels than their filters
-check_meta_filter_group_level <- function(
+check_filter_group_level <- function(
   data,
   meta,
   verbose = TRUE,
   stop_on_error = FALSE
 ) {
-  meta_filters_and_groups <- meta |>
+  filters_and_groups <- meta |>
     dplyr::filter(
       col_type == "Filter",
       !is.na(filter_grouping_column) & filter_grouping_column != ""
     ) |>
     dplyr::select(col_name, filter_grouping_column)
   # If no filter groups present, return a message to say so
-  if (nrow(meta_filters_and_groups) == 0) {
+  if (nrow(filters_and_groups) == 0) {
     return(test_output(
       "filter_grouping_level",
       "PASS",
@@ -39,7 +39,7 @@ check_meta_filter_group_level <- function(
 
   # Count levels for each filter and group and pass if groups have fewer levels than filters
   # For each value in col_name
-  extended_meta <- meta_filters_and_groups %>%
+  extended_meta <- filters_and_groups %>%
     dplyr::mutate(
       filter_levels = purrr::map_int(col_name, ~ dplyr::n_distinct(data[[.x]])),
       group_levels = purrr::map_int(

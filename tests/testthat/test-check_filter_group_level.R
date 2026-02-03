@@ -6,7 +6,7 @@ test_that("passes when no indicators have filter_grouping_column values", {
     filter_grouping_column = c("", NA, NA),
     stringsAsFactors = FALSE
   )
-  result <- check_meta_filter_group_level(example_data, meta)
+  result <- check_filter_group_level(example_data, meta)
   expect_equal(result$result, "PASS")
   expect_match(result$message, "There are no filter groups present.")
 })
@@ -24,7 +24,7 @@ test_that("passes when ethnicity_major and ethnicity_minor have equal levels", {
     filter_grouping_column = c("ethnicity_major"),
     stringsAsFactors = FALSE
   )
-  result <- check_meta_filter_group_level(example_data, meta)
+  result <- check_filter_group_level(example_data, meta)
   expect_equal(result$result, "PASS")
   expect_match(
     result$message,
@@ -45,7 +45,7 @@ test_that("passes when filter group has fewer levels than filter", {
     filter_grouping_column = c("ethnicity_major"),
     stringsAsFactors = FALSE
   )
-  result <- check_meta_filter_group_level(example_data, meta)
+  result <- check_filter_group_level(example_data, meta)
   expect_equal(result$result, "PASS")
   expect_match(
     result$message,
@@ -66,7 +66,7 @@ test_that("fails when filter group has more levels than filter", {
     filter_grouping_column = c("ethnicity_major"),
     stringsAsFactors = FALSE
   )
-  result <- check_meta_filter_group_level(example_data, meta)
+  result <- check_filter_group_level(example_data, meta)
   expect_equal(result$result, "FAIL")
 })
 
@@ -86,7 +86,7 @@ test_that("fails when there are multiple filter groups and some of them fail", {
     filter_grouping_column = c("ethnicity_major", "region_group"),
     stringsAsFactors = FALSE
   )
-  result <- check_meta_filter_group_level(example_data, meta)
+  result <- check_filter_group_level(example_data, meta)
   expect_equal(result$result, "FAIL")
   expect_match(
     result$message,
@@ -106,7 +106,7 @@ test_that("passes when no filters are present in meta", {
     filter_grouping_column = c("", NA, NA),
     stringsAsFactors = FALSE
   )
-  result <- check_meta_filter_group_level(example_data, meta)
+  result <- check_filter_group_level(example_data, meta)
   expect_equal(result$result, "PASS")
   expect_match(result$message, "There are no filter groups present.")
 })
@@ -123,7 +123,7 @@ test_that("passes when filters have no grouping column", {
     stringsAsFactors = FALSE
   )
 
-  result <- check_meta_filter_group_level(example_data, meta)
+  result <- check_filter_group_level(example_data, meta)
   expect_equal(result$result, "PASS")
   expect_match(result$message, "There are no filter groups present.")
 })
