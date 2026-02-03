@@ -8,11 +8,7 @@
 #' @return a single row data frame indicating the result of the check.
 #' @export
 #' @examples
-#' df <- data.frame(
-#'   "valid_name" = c(1, 2, 3),
-#'  "invalid name" = c(4, 5, 6)
-#' )
-#' check_col_names_spaces(df)
+#' check_col_names_spaces(example_data)
 #' @family check_col_names
 
 check_col_names_spaces <- function(
