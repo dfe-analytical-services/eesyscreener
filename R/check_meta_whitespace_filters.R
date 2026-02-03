@@ -40,10 +40,10 @@ check_filter_whitespace <- function(
     ) |>
     dplyr::distinct()
 
-  col_names_trimmed <- col_names |>
+  filter_values_trimmed <- filter_values |>
     dplyr::mutate(filter_label = stringr::str_trim(filter_label))
 
-  white_spaces <- dplyr::setdiff(col_names, col_names_trimmed) |>
+  white_spaces <- dplyr::setdiff(filter_values, filter_values_trimmed) |>
     dplyr::pull(filter_label)
 
   if (length(white_spaces) == 0) {
