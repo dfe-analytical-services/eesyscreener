@@ -33,6 +33,8 @@ Imports:
     jsonlite,
     mime,
     rlang,
+    stringr, 
+    purrr
     stats,
     stringr
 VignetteBuilder: knitr
