@@ -179,8 +179,6 @@ screen_dfs <- function(
   if (any(precheck_col_results[["result"]] == "FAIL")) {
     return(as.data.frame(precheck_col_results))
   }
-  
-  
   # Turn on duckdb ------------------------------------------------------------
   # Only doing this here as not necessary for the metadata checks
   suppressMessages(duckplyr::methods_overwrite())
