@@ -96,8 +96,11 @@ screen_dfs <- function(
     )
   )
 
-  check_col_results <- check_col_results |>
-    cbind("stage" = "Check columns")
+  check_col_results <- precheck_col_results |>
+    rbind(
+      check_col_results |>
+        cbind("stage" = "Check columns")
+    )
 
   write_json_log(
     check_col_results,
