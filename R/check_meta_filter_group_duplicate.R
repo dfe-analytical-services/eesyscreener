@@ -14,9 +14,9 @@
 #' @export
 
 check_meta_filter_group_duplicate <- function(
-    meta,
-    verbose = FALSE,
-    stop_on_error = FALSE
+  meta,
+  verbose = FALSE,
+  stop_on_error = FALSE
 ) {
   filter_groups <- meta |>
     dplyr::filter(!is.na(filter_grouping_column),
