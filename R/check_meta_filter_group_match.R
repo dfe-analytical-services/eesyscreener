@@ -20,7 +20,8 @@ check_meta_filter_group_match <- function(
 ) {
   meta_filter_groups <- meta |>
     dplyr::filter(
-      !(is.na(filter_grouping_column) | filter_grouping_column == "")
+      !(is.na(.data$filter_grouping_column) |
+        .data$filter_grouping_column == "")
     )
 
   if (nrow(meta_filter_groups) == 0) {
