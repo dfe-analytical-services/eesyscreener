@@ -24,10 +24,6 @@ Check for spaces in variable names
 This function checks for spaces in the variable names of a given data frame.
 }
 \examples{
-df <- data.frame(
-  "valid_name" = c(1, 2, 3),
- "invalid name" = c(4, 5, 6)
-)
-check_col_names_spaces(df)
+check_col_names_spaces(example_data)
 }
 \concept{check_col_names}

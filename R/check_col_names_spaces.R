@@ -22,55 +22,34 @@ check_col_names_spaces <- function(
     "values" = ifelse(grepl("\\s", colnames(data)), "FAIL", "PASS")
   )
 
-  # create a helper function to print out results if all checks PASS
-  pass_result <- function() {
-    test_output(
-      "col_names_spaces",
-      "PASS",
-      "There are no spaces in the variable names in the datafile.",
-      verbose = verbose,
-      stop_on_error = stop_on_error
+  # extract the names of columns that failed the check
+  failed_cols <- pre_result |>
+    dplyr::filter(values == "FAIL") |>
+    dplyr::pull(ind)
+
+  test_name <- "col_names_spaces"
+
+  if (all(pre_result$values == "PASS")) {
+    result <- "PASS"
+    message <- sprintf(
+      "There are no spaces in the variable names in the datafile."
+    )
+    #otherwise use the fail_results helper function
+  } else {
+    result <- "FAIL"
+    message <- sprintf(
+      "The following variable name%s %s at least one space that needs removing: '%s'.",
+      if (length(failed_cols) > 1) "s" else "",
+      if (length(failed_cols) > 1) "each have" else "has",
+      paste(failed_cols, collapse = "', '")
     )
   }
 
-  # create a helper function to print out results if any checks FAIL
-  fail_results <- function() {
-    # extract the names of columns that failed the check
-    failed_cols <- pre_result |>
-      dplyr::filter(values == "FAIL") |>
-      dplyr::pull(ind)
-    # if only one column failed, use singular message, otherwise plural
-    if (length(failed_cols) == 1) {
-      test_output(
-        "col_names_spaces",
-        "FAIL",
-        paste0(
-          "The following variable name has at least one space that needs removing: '",
-          paste(failed_cols),
-          "'."
-        ),
-        verbose = verbose,
-        stop_on_error = stop_on_error
-      )
-    } else {
-      test_output(
-        "col_names_spaces",
-        "FAIL",
-        paste0(
-          "The following variable names each have at least one space that needs removing: '",
-          paste(failed_cols, collapse = "', '"),
-          "'."
-        ),
-        verbose = verbose,
-        stop_on_error = stop_on_error
-      )
-    }
-  }
-  # if all checks pass then pass use the pass_result helper function
-  if (all(pre_result$values == "PASS")) {
-    pass_result()
-    #otherwise use the fail_results helper function
-  } else {
-    fail_results()
-  }
+  test_output(
+    test_name,
+    result,
+    message,
+    verbose = verbose,
+    stop_on_error = stop_on_error
+  )
 }
