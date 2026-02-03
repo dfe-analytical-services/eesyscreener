@@ -19,9 +19,10 @@ check_meta_filter_group_duplicate <- function(
   stop_on_error = FALSE
 ) {
   filter_groups <- meta |>
-    dplyr::filter(!is.na(filter_grouping_column),
-                  filter_grouping_column != ""
-                  ) |>
+    dplyr::filter(
+      !is.na(filter_grouping_column),
+      filter_grouping_column != ""
+    ) |>
     dplyr::pull(.data$filter_grouping_column)
 
   if (length(filter_groups) == 0) {
