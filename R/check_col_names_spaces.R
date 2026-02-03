@@ -23,7 +23,6 @@ check_col_names_spaces <- function(
   )
 
   # create a helper function to print out results if all checks PASS
-
   pass_result <- function() {
     test_output(
       "col_names_spaces",
