@@ -1,12 +1,12 @@
-#' Check no filter labels have leading or trailing whitespaces
+#' Check no filter values have leading or trailing whitespaces
 #'
-#' This function checks if the provided filter labels contain any leading or trailing whitespaces.
+#' This function checks if the provided filter values contain any leading or trailing whitespaces.
 #'
 #' @inheritParams precheck_col_to_rows
 #'
 #' @inherit check_filename_spaces return
 #'
-#' @family check_meta
+#' @family check_filter
 #'
 #' @examples
 #' check_filter_whitespace(example_data, example_meta)
