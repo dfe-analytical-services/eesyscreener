@@ -1,4 +1,3 @@
-
 testthat::test_that("check_meta_whitespace_filters: passes when no whitespace", {
   # Should not error when there are no leading/trailing spaces
   expect_no_error(
@@ -10,7 +9,7 @@ testthat::test_that("check_meta_whitespace_filters: fails with exactly one offen
   # One label with trailing whitespace
   data <- data.frame(
     FilterA = c("Alpha ", "Beta"),
-    Region  = c("North", "South"),
+    Region = c("North", "South"),
     stringsAsFactors = FALSE
   )
 
@@ -31,7 +30,7 @@ testthat::test_that("check_meta_whitespace_filters: fails with multiple offendin
   # Multiple labels: leading and trailing spaces in different rows/cols
   data <- data.frame(
     FilterA = c(" Alpha", "Beta"),
-    LA      = c(" Sheffield", "Leeds "),
+    LA = c(" Sheffield", "Leeds "),
     stringsAsFactors = FALSE
   )
 
