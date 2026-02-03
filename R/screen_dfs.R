@@ -167,8 +167,7 @@ screen_dfs <- function(
     return(as.data.frame(check_meta_results))
   }
 
-
-## Check filter 
+  ## Check filter
   check_filter_results <- rbind(
   check_filter_group_level(
       data,
