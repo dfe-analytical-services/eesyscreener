@@ -41,9 +41,7 @@ check_meta_filter_group_duplicate <- function(
       verbose = verbose,
       stop_on_error = stop_on_error
     )
-  }
-
-  else
+  } else {
     test_output(
       "filter_group_duplicate",
       "PASS",
