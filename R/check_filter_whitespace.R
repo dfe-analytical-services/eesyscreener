@@ -9,10 +9,10 @@
 #' @family check_meta
 #'
 #' @examples
-#' check_filter_whitespace(example_data, example_meta)
-#' check_filter_whitespace(example_data, example_meta, verbose = TRUE)
+#' check_meta_whitespace_filters(example_data, example_meta)
+#' check_meta_whitespace_filters(example_data, example_meta, verbose = TRUE)
 #' @export
-check_filter_whitespace <- function(
+check_meta_whitespace_filters <- function(
   data,
   meta,
   verbose = FALSE,
