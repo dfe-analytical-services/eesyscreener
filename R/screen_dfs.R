@@ -169,7 +169,7 @@ screen_dfs <- function(
 
   ## Check filter
   check_filter_results <- rbind(
-  check_filter_group_level(
+    check_filter_group_level(
       data,
       meta,
       verbose,
