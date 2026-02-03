@@ -1,11 +1,11 @@
-testthat::test_that("check_meta_whitespace_filters: passes when no whitespace", {
+testthat::test_that("check_filter_whitespace: passes when no whitespace", {
   # Should not error when there are no leading/trailing spaces
   expect_no_error(
-    check_meta_whitespace_filters(example_data, example_meta)
+    check_filter_whitespace(example_data, example_meta)
   )
 })
 
-testthat::test_that("check_meta_whitespace_filters: fails with exactly one offending label", {
+testthat::test_that("check_filter_whitespace: fails with exactly one offending label", {
   # One label with trailing whitespace
   data <- data.frame(
     FilterA = c("Alpha ", "Beta"),
@@ -21,12 +21,12 @@ testthat::test_that("check_meta_whitespace_filters: fails with exactly one offen
 
   # Test should fail
   expect_equal(
-    check_meta_whitespace_filters(data, meta)$result,
+    check_filter_whitespace(data, meta)$result,
     "FAIL"
   )
 })
 
-testthat::test_that("check_meta_whitespace_filters: fails with multiple offending labels", {
+testthat::test_that("check_filter_whitespace: fails with multiple offending labels", {
   # Multiple labels: leading and trailing spaces in different rows/cols
   data <- data.frame(
     FilterA = c(" Alpha", "Beta"),
@@ -42,7 +42,7 @@ testthat::test_that("check_meta_whitespace_filters: fails with multiple offendin
 
   # Test should fail
   expect_equal(
-    check_meta_whitespace_filters(data, meta)$result,
+    check_filter_whitespace(data, meta)$result,
     "FAIL"
   )
 })
