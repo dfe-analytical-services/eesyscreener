@@ -51,6 +51,10 @@ reference:
   - starts_with("check_data_")
 
 - title: Checks on column names
+  description: |
+    These checks validate the names of columns in the data files.
+  contents:
+  - starts_with("check_col_")
 
 - title: General checks
   description: |
