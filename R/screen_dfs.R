@@ -143,7 +143,6 @@ screen_dfs <- function(
       verbose = verbose,
       stop_on_error = stop_on_error
     ),
-    
     check_meta_label(meta, verbose, stop_on_error),
     check_meta_filter_hint(meta, verbose, stop_on_error),
     check_meta_indicator_dp(meta, verbose, stop_on_error)
