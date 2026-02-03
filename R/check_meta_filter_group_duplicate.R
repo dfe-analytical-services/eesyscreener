@@ -33,9 +33,7 @@ check_meta_filter_group_duplicate <- function(
       verbose = verbose,
       stop_on_error = stop_on_error
     )
-  }
-
-  else if (length(filter_groups) != dplyr::n_distinct(filter_groups)) {
+  } else if (length(filter_groups) != dplyr::n_distinct(filter_groups)) {
     test_output(
       "filter_group_duplicate",
       "FAIL",
