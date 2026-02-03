@@ -55,30 +55,20 @@ check_filter_whitespace <- function(
       stop_on_error = stop_on_error
     )
   } else {
-    if (length(white_spaces) == 1) {
-      test_output(
-        "meta_whitespace_filters",
-        "FAIL",
-        paste0(
-          "The following filter label contains leading or trailing whitespace: '",
-          paste0(white_spaces, collapse = "', '"),
-          "'."
-        ),
-        verbose = verbose,
-        stop_on_error = stop_on_error
-      )
-    } else {
-      test_output(
-        "meta_whitespace_filters",
-        "FAIL",
-        paste0(
-          "The following filter labels contain leading or trailing whitespace: '",
-          paste0(white_spaces, collapse = "', '"),
-          "'."
-        ),
-        verbose = verbose,
-        stop_on_error = stop_on_error
-      )
-    }
+    count_ws <- length(white_spaces)
+
+    test_output(
+      "filter_whitespace",
+      "FAIL",
+      glue::glue(
+        "The following filter label",
+        "{if (count_ws != 1) 's' else ''}",
+        " contain{if (count_ws != 1) '' else 's'}",
+        " leading or trailing whitespace: ",
+        "'{paste0(white_spaces, collapse = \"', '\")}'."
+      ),
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    )
   }
 }
