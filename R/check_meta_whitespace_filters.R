@@ -48,7 +48,7 @@ check_filter_whitespace <- function(
 
   if (length(white_spaces) == 0) {
     test_output(
-      "meta_whitespace_filters",
+      "filter_whitespace",
       "PASS",
       "No filter labels contain leading or trailing whitespace.",
       verbose = verbose,
