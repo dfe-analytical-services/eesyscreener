@@ -1,18 +1,18 @@
-#' Check no filter labels have leading or trailing whitespaces
+#' Check no filter values have leading or trailing whitespaces
 #'
-#' This function checks if the provided filter labels contain any leading or trailing whitespaces.
+#' This function checks if the provided filter values contain any leading or trailing whitespaces.
 #'
 #' @inheritParams precheck_col_to_rows
 #'
 #' @inherit check_filename_spaces return
 #'
-#' @family check_meta
+#' @family check_filter
 #'
 #' @examples
-#' check_data_whitespace_filters(example_data, example_meta)
-#' check_data_whitespace_filters(example_data, example_meta, verbose = TRUE)
+#' check_filter_whitespace(example_data, example_meta)
+#' check_filter_whitespace(example_data, example_meta, verbose = TRUE)
 #' @export
-check_data_whitespace_filters <- function(
+check_filter_whitespace <- function(
   data,
   meta,
   verbose = FALSE,
@@ -40,45 +40,33 @@ check_data_whitespace_filters <- function(
     ) |>
     dplyr::distinct()
 
-  col_names_trimmed <- col_names |>
+  filter_values_trimmed <- filter_values |>
     dplyr::mutate(filter_label = stringr::str_trim(filter_label))
 
-  white_spaces <- dplyr::setdiff(col_names, col_names_trimmed) |>
+  white_spaces <- dplyr::setdiff(filter_values, filter_values_trimmed) |>
     dplyr::pull(filter_label)
 
   if (length(white_spaces) == 0) {
     test_output(
-      "meta_whitespace_filters",
+      "filter_whitespace",
       "PASS",
       "No filter labels contain leading or trailing whitespace.",
       verbose = verbose,
       stop_on_error = stop_on_error
     )
   } else {
-    if (length(white_spaces) == 1) {
-      test_output(
-        "meta_whitespace_filters",
-        "FAIL",
-        paste0(
-          "The following filter label contains leading or trailing whitespace: '",
-          paste0(white_spaces, collapse = "', '"),
-          "'."
-        ),
-        verbose = verbose,
-        stop_on_error = stop_on_error
-      )
-    } else {
-      test_output(
-        "meta_whitespace_filters",
-        "FAIL",
-        paste0(
-          "The following filter labels contain leading or trailing whitespace: '",
-          paste0(white_spaces, collapse = "', '"),
-          "'."
-        ),
-        verbose = verbose,
-        stop_on_error = stop_on_error
-      )
-    }
+    count_ws <- length(white_spaces)
+
+    test_output(
+      "filter_whitespace",
+      "FAIL",
+      paste0(
+        count_ws,
+        " filter label(s) contain leading or trailing whitespace: ",
+        paste0("'", white_spaces, "'", collapse = ", ")
+      ),
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    )
   }
 }
