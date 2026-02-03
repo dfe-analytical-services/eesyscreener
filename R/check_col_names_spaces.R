@@ -35,7 +35,6 @@ check_col_names_spaces <- function(
   }
 
   # create a helper function to print out results if any checks FAIL
-
   fail_results <- function() {
     # extract the names of columns that failed the check
     failed_cols <- pre_result |>
