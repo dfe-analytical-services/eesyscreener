@@ -27,4 +27,8 @@ This function checks if the provided filter values contain any leading or traili
 check_filter_whitespace(example_data, example_meta)
 check_filter_whitespace(example_data, example_meta, verbose = TRUE)
 }
+\seealso{
+Other check_filter: 
+\code{\link{check_filter_defaults}()}
+}
 \concept{check_filter}
