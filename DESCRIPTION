@@ -36,4 +36,5 @@ Imports:
     stringr, 
     lubridate,
     tidyr
+    stats
 VignetteBuilder: knitr

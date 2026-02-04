@@ -65,6 +65,11 @@ screen_dfs <- function(
       verbose = verbose,
       stop_on_error = stop_on_error
     ),
+    check_meta_col_name_spaces(
+      meta,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    ),
     check_meta_col_name_duplicate(
       meta,
       verbose = verbose,
@@ -132,6 +137,11 @@ screen_dfs <- function(
       stop_on_error = stop_on_error
     ),
     check_meta_filter_group(meta, verbose, stop_on_error),
+    check_meta_filter_group_is_filter(
+      meta,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    ),
     check_meta_filter_group_match(
       data,
       meta,
@@ -200,6 +210,33 @@ screen_dfs <- function(
 
   if (any(precheck_time_results[["result"]] == "FAIL")) {
     return(as.data.frame(precheck_time_results))
+  }
+
+  # Check Filters -----------------------------------------------------------------
+  check_filter_results <- rbind(
+    check_filter_defaults(
+      data,
+      meta,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    )
+  )
+  check_filter_results <- check_filter_results |>
+    cbind("stage" = "Check filters")
+
+  write_json_log(
+    check_filter_results,
+    log_key = log_key,
+    log_dir = log_dir,
+    data_details = data_details
+  )
+  check_filter_results <- precheck_time_results |>
+    rbind(
+      check_filter_results
+    )
+
+  if (any(check_filter_results[["result"]] == "FAIL")) {
+    return(as.data.frame(check_filter_results))
   }
 
   # Check API -----------------------------------------------------------------
