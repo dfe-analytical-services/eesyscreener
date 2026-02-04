@@ -78,3 +78,14 @@ example_api_long_meta <- example_meta |>
 
 usethis::use_data(example_api_long, overwrite = TRUE)
 usethis::use_data(example_api_long_meta, overwrite = TRUE)
+
+# Note that for example_comma_data, the data set needs to be > 5,000 rows to
+# be appropriate for the testing the read in functions. So it's not really
+# appropriate to write it out here.
+# The process to recreate is effectively to:
+#   - ask the EES tester for the data and meta file combo that they use to
+#     test commas in strings in DuckDB on the EES Azure infrastructure.
+#   - read the files in using `read_ees_files()`
+#   - process the data using:
+#  `dplyr::collect() |> dplyr::mutate(across(everything(), ~ dplyr::if_else(is.na(.), "", .)))`
+#   - and write the data with `usethis::use_data(example_comma_data, overwrite = TRUE)`
