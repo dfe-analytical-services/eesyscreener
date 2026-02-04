@@ -274,7 +274,7 @@ test_that("screen_csv completes for file containing commas in strings", {
   write.csv(example_comma_data_meta, meta_path, row.names = FALSE)
 
   expect_no_error(
-    screen_csv(data_path, meta_path, "api.csv", "api.meta.csv")
+    screen_csv(data_path, meta_path, "late_comma.csv", "late_comma.meta.csv")
   )
 
   file.remove(data_path)
