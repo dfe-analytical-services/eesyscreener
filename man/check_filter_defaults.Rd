@@ -30,4 +30,8 @@ Making sure the data and metadata file follow the pattern of:
 \examples{
 check_filter_defaults(example_data, example_meta)
 }
+\seealso{
+Other check_filter: 
+\code{\link{check_filter_whitespace}()}
+}
 \concept{check_filter}
