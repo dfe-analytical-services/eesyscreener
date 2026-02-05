@@ -19,7 +19,7 @@ is "FAIL", and will throw genuine warning if result is "WARNING"}
 a single row data frame
 }
 \description{
-Throw FAIL if there indicator_unit values when col_type is Filter
+Throw FAIL if there are indicator_unit values present when col_type is "Filter"
 }
 \examples{
 check_meta_ind_unit(example_meta)
