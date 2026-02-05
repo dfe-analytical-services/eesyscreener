@@ -88,12 +88,10 @@ screen_dfs <- function(data, meta, verbose = FALSE, stop_on_error = FALSE) {
 
   # Check meta ----------------------------------------------------------------
   check_meta_results <- rbind(
-    check_meta_ind_dp_set(meta, verbose, stop_on_error)
-  )
-
-  check_meta_results <- rbind(
+    check_meta_ind_dp_set(meta, verbose, stop_on_error),
     check_meta_ind_unit(meta, verbose, stop_on_error)
   )
+
 
   check_meta_results <- precheck_meta_results |>
     rbind(
