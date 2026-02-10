@@ -11,10 +11,7 @@
 #' will be assumed from the path
 #' @param metafilename Optional - the name of the metadata file, if not given
 #' it will be assumed from the path
-#' @param verbose Logical, if TRUE prints feedback messages to console for
-#' every test, if FALSE run silently
-#' @param stop_on_error Logical, if TRUE will stop with an error if the result
-#' is "FAIL", and will throw genuine warning if result is "WARNING"
+#' @inheritParams screen_dfs
 #'
 #' @return A list containing
 #' 1. A table with the full results of the checks with four columns:
@@ -54,6 +51,8 @@ screen_csv <- function(
   metapath,
   datafilename = NULL,
   metafilename = NULL,
+  log_key = NULL,
+  log_dir = "./",
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
@@ -80,6 +79,32 @@ screen_csv <- function(
   validate_arg_logical(verbose, "verbose")
   validate_arg_logical(stop_on_error, "stop_on_error")
 
+  if (
+    file.exists(
+      file.path(
+        log_dir,
+        paste0("eesyscreener_log_", log_key, ".json")
+      )
+    )
+  ) {
+    warning(
+      "Log file already exists, the default is currently to append distinct results."
+    )
+  }
+
+  write_json_log(
+    results = NULL,
+    log_key = log_key,
+    log_dir = log_dir,
+    file_details <- list(
+      filename = datafilename,
+      filesize = paste(
+        (file.info(datapath)$size / 10^6) |> round(digits = 3),
+        "MB"
+      )
+    )
+  )
+
   # Read in CSV files ---------------------------------------------------------
   files <- read_ees_files(datapath, metapath)
 
@@ -101,6 +126,8 @@ screen_csv <- function(
   filename_results <- screen_filenames(
     datafilename,
     metafilename,
+    log_key = log_key,
+    log_dir = log_dir,
     verbose = verbose,
     stop_on_error = stop_on_error
   )
@@ -123,6 +150,8 @@ screen_csv <- function(
   dataframe_results <- screen_dfs(
     datafile,
     metafile,
+    log_key = log_key,
+    log_dir = log_dir,
     verbose = verbose,
     stop_on_error = stop_on_error
   )

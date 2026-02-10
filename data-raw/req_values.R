@@ -12,7 +12,8 @@ req_meta_cols <- c(
 usethis::use_data(req_meta_cols, overwrite = TRUE)
 
 optional_meta_cols <- c(
-  "filter_default"
+  "filter_default",
+  "parent_filter"
 )
 
 usethis::use_data(optional_meta_cols, overwrite = TRUE)

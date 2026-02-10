@@ -30,7 +30,9 @@ Imports:
     cli,
     dplyr,
     duckplyr,
+    jsonlite,
     mime,
     rlang,
+    stats,
     stringr
 VignetteBuilder: knitr
