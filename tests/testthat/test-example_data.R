@@ -24,7 +24,7 @@ test_that("There are no duplicate rows in example comma data", {
 
 test_that("Comma test data is long enough to test sniffer", {
   expect_gt(
-    example_comma_draft |>
+    example_comma_data |>
       dplyr::filter(!grepl(",", la_name)) |>
       nrow(),
     20480
