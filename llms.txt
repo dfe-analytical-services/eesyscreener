@@ -686,6 +686,12 @@ to <explore.statistics@education.gov.uk>.
   : Example data that has a column name too long for the API
 - [`example_api_long_meta`](https://dfe-analytical-services.github.io/eesyscreener/reference/example_api_long_meta.md)
   : Example metadata that has a column name too long for the API
+- [`example_comma_data`](https://dfe-analytical-services.github.io/eesyscreener/reference/example_comma_data.md)
+  : Example data that contains strings containing commas beyond the
+  default sniffing length. The original can be obtained from the EES
+  test suite
+- [`example_comma_meta`](https://dfe-analytical-services.github.io/eesyscreener/reference/example_comma_meta.md)
+  : Meta data to be used with comma_data
 - [`example_data`](https://dfe-analytical-services.github.io/eesyscreener/reference/example_data.md)
   : Example data
 - [`example_filter_group`](https://dfe-analytical-services.github.io/eesyscreener/reference/example_filter_group.md)
