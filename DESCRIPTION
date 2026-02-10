@@ -28,6 +28,8 @@ Imports:
     jsonlite,
     mime,
     rlang,
+    stringr, 
+    purrr
     stats,
     stringr
 Suggests:
