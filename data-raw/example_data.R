@@ -97,16 +97,6 @@ example_comma_draft <- example_data |>
       )
   )
 
-
-num_no_comma <- example_comma_draft |>
-  dplyr::filter(!grepl(",", la_name)) |>
-  nrow()
-if (num_no_comma < 20480) {
-  warning(
-    "The comma character test data isn't long enough to test the Duckdb sniffer auto-row scan of 20,480 rows."
-  )
-}
-
 if (!"old_la_code" %in% names(example_comma_draft)) {
   warning(
     "old_la_code not found in dfeR fetch_las(). Are you using the most up to date version of dfeR?"
