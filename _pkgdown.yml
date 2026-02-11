@@ -8,6 +8,10 @@ reference:
   contents:
   - starts_with("screen_")
 
+- title: Data dictionary
+  contents:
+  - starts_with("data_dictionary")
+
 - title: Example datasets
   contents:
   - starts_with("example_")

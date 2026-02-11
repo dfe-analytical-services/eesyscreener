@@ -241,6 +241,11 @@ screen_dfs <- function(
       "column-name",
       verbose = verbose,
       stop_on_error = stop_on_error
+    ),
+    check_api_dict_col_names(
+      meta,
+      verbose = verbose,
+      stop_on_error = stop_on_error
     )
     # TODO: Add extra variations here
   )

@@ -29,7 +29,8 @@ Imports:
     mime,
     rlang,
     stats,
-    stringr
+    stringr,
+    tidyr
 Suggests:
     dfeR,
     knitr,
