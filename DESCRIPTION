@@ -13,11 +13,6 @@ License: GPL (>= 3)
 URL: https://dfe-analytical-services.github.io/eesyscreener/,
     https://github.com/dfe-analytical-services/eesyscreener
 BugReports: https://github.com/dfe-analytical-services/eesyscreener/issues
-Suggests:
-    knitr,
-    rmarkdown,
-    spelling,
-    testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-GB
@@ -33,5 +28,14 @@ Imports:
     jsonlite,
     mime,
     rlang,
+    stats,
     stringr
+Suggests:
+    dfeR,
+    knitr,
+    rmarkdown,
+    spelling,
+    testthat (>= 3.0.0)
+Remotes: 
+    dfe-analytical-services/dfeR
 VignetteBuilder: knitr

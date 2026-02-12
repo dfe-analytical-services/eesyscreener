@@ -78,3 +78,50 @@ example_api_long_meta <- example_meta |>
 
 usethis::use_data(example_api_long, overwrite = TRUE)
 usethis::use_data(example_api_long_meta, overwrite = TRUE)
+
+# Note that for example_comma_data, the data set needs to be > 20,480 rows to
+# be appropriate for the testing the read in functions.
+example_comma_draft <- example_data |>
+  dplyr::select(-c("time_period", "geographic_level")) |>
+  dplyr::left_join(
+    data.frame(
+      time_period = paste0("20", seq(10, 24), seq(11, 25)),
+      country_code = rep("E92000001", 15)
+    )
+  ) |>
+  dplyr::left_join(
+    dfeR::fetch_las(countries = "England") |>
+      dplyr::mutate(
+        country_code = "E92000001",
+        geographic_level = "Local authority"
+      )
+  )
+
+if (!"old_la_code" %in% names(example_comma_draft)) {
+  warning(
+    "old_la_code not found in dfeR fetch_las(). Are you using the most up to date version of dfeR?"
+  )
+}
+
+example_comma_data <- dplyr::bind_rows(
+  example_comma_draft |> dplyr::filter(!grepl(",", la_name)),
+  example_comma_draft |> dplyr::filter(grepl(",", la_name))
+) |>
+  dplyr::select(
+    "time_period",
+    "time_identifier",
+    "geographic_level",
+    "country_code",
+    "country_name",
+    "new_la_code",
+    "la_name",
+    "old_la_code",
+    "sex",
+    "education_phase",
+    "enrolment_count"
+  )
+
+example_comma_meta <- example_meta
+
+usethis::use_data(example_comma_data, overwrite = TRUE)
+usethis::use_data(example_comma_meta, overwrite = TRUE)
