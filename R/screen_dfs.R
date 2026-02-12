@@ -130,7 +130,6 @@ screen_dfs <- function(
 
   # Check meta ----------------------------------------------------------------
   check_meta_results <- rbind(
-    check_meta_ind_dp_set(meta, verbose, stop_on_error),
     check_meta_duplicate_label(
       meta,
       verbose = verbose,
@@ -151,6 +150,8 @@ screen_dfs <- function(
     check_meta_label(meta, verbose, stop_on_error),
     check_meta_filter_hint(meta, verbose, stop_on_error),
     check_meta_indicator_dp(meta, verbose, stop_on_error),
+    check_meta_ind_dp_set(meta, verbose, stop_on_error),
+    check_meta_ind_unit(meta, verbose, stop_on_error),
     check_meta_indicator_grouping(meta, verbose, stop_on_error)
   )
 
