@@ -2,6 +2,7 @@ CMD
 CSVs
 Codecov
 EES
+Keystring
 Lifecycle
 PCon
 PCons
@@ -11,8 +12,11 @@ csv
 dfeR
 dp
 duckplyr
+eesyscreening
 gov
 ily
+json
+keystring
 lintr
 myfile
 num
