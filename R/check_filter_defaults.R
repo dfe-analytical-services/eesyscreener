@@ -42,7 +42,7 @@ check_filter_defaults <- function(
   }
   filters <- meta |>
     dplyr::filter(.data$col_type == "Filter") |>
-    dplyr::select(.data$col_name, .data$filter_default)
+    dplyr::select("col_name", "filter_default")
 
   filter_groups <- meta |>
     dplyr::filter(
@@ -51,7 +51,7 @@ check_filter_defaults <- function(
       !.data$filter_grouping_column %in% .data$col_name
     ) |>
     dplyr::mutate(filter_default = "Total") |>
-    dplyr::select(col_name = .data$filter_grouping_column, .data$filter_default)
+    dplyr::select(col_name = "filter_grouping_column", "filter_default")
 
   filters_and_groups <- dplyr::bind_rows(filters, filter_groups)
 
