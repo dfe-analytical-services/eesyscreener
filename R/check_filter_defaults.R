@@ -1,8 +1,8 @@
-#' Check filenames line up between data and metadata files
+#' Check default filter values are present in data
 #'
-#' Making sure the data and metadata file follow the pattern of:
-#' - datafile.csv (data file)
-#' - datafile.meta.csv (metadata file)
+#' Ensures that all filter columns and filter groups in the metadata have a
+#' default filter value (usually "Total"), and that this value is present in
+#' the corresponding columns of the data file.
 #'
 #' @param data A character string of the data filename to check
 #' @param meta A character string of the metadata filename to check
