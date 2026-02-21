@@ -24,10 +24,11 @@ provided metadata frame exceed the character limit specified in the
 \code{api_char_limits} data frame.
 }
 \examples{
-check_api_char_col_label(example_data)
+check_api_char_col_label(example_meta)
 }
 \seealso{
 Other check_api: 
-\code{\link{check_api_char_col_name}()}
+\code{\link{check_api_char_col_name}()},
+\code{\link{check_api_char_loc_code}()}
 }
 \concept{check_api}

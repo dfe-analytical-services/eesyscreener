@@ -59,6 +59,12 @@ test_that("passes for example data", {
     )$result,
     "PASS"
   )
+  expect_equal(
+    check_api_char_loc_code(
+      example_data
+    )$result,
+    "PASS"
+  )
 })
 
 test_that("fails when column names exceed the limit", {
@@ -72,6 +78,14 @@ test_that("fails when column names exceed the limit", {
   expect_warning(
     check_api_char_col_label(
       example_api_long_meta,
+      stop_on_error = TRUE
+    ),
+    "exceed the character limit"
+  )
+  expect_warning(
+    check_api_char_loc_code(
+      example_data |>
+        dplyr::mutate(country_code = paste(rep("E88", 20), collapse = "")),
       stop_on_error = TRUE
     ),
     "exceed the character limit"

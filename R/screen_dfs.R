@@ -245,8 +245,12 @@ screen_dfs <- function(
       meta,
       verbose = verbose,
       stop_on_error = stop_on_error
+    ),
+    check_api_char_loc_code(
+      data,
+      verbose = verbose,
+      stop_on_error = stop_on_error
     )
-    # TODO: Add extra variations here
   )
 
   check_api_results <- check_api_results |>

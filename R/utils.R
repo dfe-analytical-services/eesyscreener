@@ -236,13 +236,10 @@ get_cols_meta <- function(meta, grouping_cols = FALSE) {
   unique(cols[!is.na(cols) & cols != ""])
 }
 
-#' Get all column names referenced in metadata
+#' Get all acceptable observation unit columns
 #'
-#' Get the names of all indicators, filters, and filter groups that are
-#' referenced in the metadata.
-#'
-#' Assumes the col_name, and filter_grouping_column are present in the
-#' metadata.
+#' Gets the names of all acceptable observation unit columns, including time and
+#' geographic identifiers.
 #'
 #' @param meta data.frame of the metadata
 #' @param grouping_cols logical, if TRUE will include filter grouping columns
@@ -268,6 +265,22 @@ get_acceptable_ob_units <- function() {
   )
 }
 
+#' Get all geographic code columns
+#'
+#' Gets the names of all geographic code columns from the geography dataframe
+#'
+#' @keywords internal
+#' @noRd
+#' @returns character vector of column names
+get_geo_code_cols <- function() {
+  c(
+    eesyscreener::geography_df$code_field,
+    eesyscreener::geography_df$code_field_secondary
+  ) |>
+    stats::na.omit() |>
+    unique()
+}
+
 #' Check if any values are longer than a specified length
 #'
 #' Helper function to check if any values in a vector exceed a specified
@@ -289,7 +302,6 @@ char_limits <- function(values, max_length) {
     exceeds_max = exceeds_max
   )
 }
-
 
 #' Write eesyscreener results to log file
 #'

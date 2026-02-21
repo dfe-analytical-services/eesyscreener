@@ -33,7 +33,7 @@ check_api_char_col_name <- function(
 #' @inherit check_filename_spaces return
 #' @family check_api
 #' @examples
-#' check_api_char_col_label(example_data)
+#' check_api_char_col_label(example_meta)
 #' @export
 check_api_char_col_label <- function(
   meta,
@@ -45,6 +45,40 @@ check_api_char_col_label <- function(
   api_char_limit(
     labels,
     "column-label",
+    verbose = verbose,
+    stop_on_error = stop_on_error
+  )
+}
+
+#' Check if location codes exceed a character limit
+#'
+#' Uses the `api_char_limit` function to check if any location codes in the
+#' provided metadata frame exceed the character limit specified in the
+#' `api_char_limits` data frame.
+#'
+#' @inheritParams precheck_col_req_data
+#' @inherit check_filename_spaces return
+#' @family check_api
+#' @examples
+#' check_api_char_loc_code(example_data)
+#' @export
+check_api_char_loc_code <- function(
+  data,
+  verbose = FALSE,
+  stop_on_error = FALSE
+) {
+  location_code_cols <- intersect(
+    names(data),
+    get_geo_code_cols()
+  )
+
+  location_codes <- location_code_cols |>
+    lapply(\(col) data |> dplyr::distinct(.data[[col]]) |> dplyr::pull(col)) |>
+    unlist(use.names = FALSE)
+
+  api_char_limit(
+    location_codes,
+    "location-code",
     verbose = verbose,
     stop_on_error = stop_on_error
   )
