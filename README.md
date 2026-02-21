@@ -203,20 +203,20 @@ eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> 7                 col_invalid_meta    PASS
 #> 8                     col_req_data    PASS
 #> 9                      col_to_rows    PASS
-#> 10                 col_name_spaces    PASS
-#> 11              col_name_duplicate    PASS
-#> 12                   meta_col_type    PASS
-#> 13                    meta_ob_unit    PASS
-#> 14                   meta_col_name    PASS
-#> 15                 meta_ind_dp_set WARNING
-#> 16            meta_duplicate_label    PASS
-#> 17                   meta_col_name    PASS
-#> 18          filter_group_is_filter    PASS
-#> 19             filter_groups_match    PASS
-#> 20                check_meta_label    PASS
-#> 21                meta_filter_hint    PASS
-#> 22                    indicator_dp    PASS
-#> 23              indicator_grouping    PASS
+#> 10                   meta_col_type    PASS
+#> 11                    meta_ob_unit    PASS
+#> 12                   meta_col_name    PASS
+#> 13                 meta_ind_dp_set WARNING
+#> 14            meta_duplicate_label    PASS
+#> 15                   meta_col_name    PASS
+#> 16          filter_group_is_filter    PASS
+#> 17             filter_groups_match    PASS
+#> 18                check_meta_label    PASS
+#> 19                meta_filter_hint    PASS
+#> 20                    indicator_dp    PASS
+#> 21              indicator_grouping    PASS
+#> 22                 col_name_spaces    PASS
+#> 23              col_name_duplicate    PASS
 #> 24                   time_id_valid    PASS
 #> 25      check_api_char_column-name    PASS
 #> 26     check_api_char_column-label    PASS
@@ -231,20 +231,20 @@ eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> 7                                                                                      There are no invalid columns in the metadata file.
 #> 8                                                                               All of the required columns are present in the data file.
 #> 9                              There are an equal number of rows in the metadata file (3) and non-mandatory columns in the data file (3).
-#> 10                                                                                            There are no spaces in the col_name values.
-#> 11                                                                                                        All col_name values are unique.
-#> 12                                                                                            col_type is always 'Filter' or 'Indicator'.
-#> 13                                                                        No observational units have been included in the metadata file.
-#> 14                                                                        The col_name column is completed for every row in the metadata.
-#> 15 character(0) does not have a specified number of decimal places in the metadata file, this should be explicitly stated where possible.
-#> 16                                                                                                                 All labels are unique.
-#> 17                                                                                     No indicators have a filter_grouping_column value.
-#> 18                                                                                                    There are no filter groups present.
-#> 19                                                                                                    There are no filter groups present.
-#> 20                                                                           The label column is completed for every row in the metadata.
-#> 21                                                                                                No indicators have a filter_hint value.
-#> 22                                                                                                 No filters have an indicator_dp value.
-#> 23                                                                                           No filters have an indicator_grouping value.
+#> 10                                                                                            col_type is always 'Filter' or 'Indicator'.
+#> 11                                                                        No observational units have been included in the metadata file.
+#> 12                                                                        The col_name column is completed for every row in the metadata.
+#> 13 character(0) does not have a specified number of decimal places in the metadata file, this should be explicitly stated where possible.
+#> 14                                                                                                                 All labels are unique.
+#> 15                                                                                     No indicators have a filter_grouping_column value.
+#> 16                                                                                                    There are no filter groups present.
+#> 17                                                                                                    There are no filter groups present.
+#> 18                                                                           The label column is completed for every row in the metadata.
+#> 19                                                                                                No indicators have a filter_hint value.
+#> 20                                                                                                 No filters have an indicator_dp value.
+#> 21                                                                                           No filters have an indicator_grouping value.
+#> 22                                                                                            There are no spaces in the col_name values.
+#> 23                                                                                                        All col_name values are unique.
 #> 24                                                                                              The time_identifier values are all valid.
 #> 25                                                      All filter / indicator names are less than or equal to the character limit of 50.
 #> 26                                                     All filter / indicator labels are less than or equal to the character limit of 80.
@@ -259,11 +259,11 @@ eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> 7            NA Precheck columns
 #> 8            NA Precheck columns
 #> 9            NA Precheck columns
-#> 10           NA Precheck columns
-#> 11           NA Precheck columns
+#> 10           NA    Precheck meta
+#> 11           NA    Precheck meta
 #> 12           NA    Precheck meta
-#> 13           NA    Precheck meta
-#> 14           NA    Precheck meta
+#> 13           NA       Check meta
+#> 14           NA       Check meta
 #> 15           NA       Check meta
 #> 16           NA       Check meta
 #> 17           NA       Check meta
@@ -300,46 +300,37 @@ write.csv(eesyscreener::example_data, data_file, row.names = FALSE)
 write.csv(eesyscreener::example_meta[, -1], meta_file, row.names = FALSE)
 
 eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
-#> Warning: Unknown or uninitialised column: `col_name`.
-#> Unknown or uninitialised column: `col_name`.
-#> Unknown or uninitialised column: `col_name`.
 #> $results_table
-#>                              check result
-#> 1       check_filename_data_spaces   PASS
-#> 2   check_filename_metadata_spaces   PASS
-#> 3      check_filename_data_special   PASS
-#> 4  check_filename_metadata_special   PASS
-#> 5            check_filenames_match   PASS
-#> 6                     col_req_meta   FAIL
-#> 7                 col_invalid_meta   PASS
-#> 8                     col_req_data   PASS
-#> 9                      col_to_rows   PASS
-#> 10                 col_name_spaces   PASS
-#> 11              col_name_duplicate   PASS
-#>                                                                                                       message
-#> 1                                                            'data.csv' does not have spaces in the filename.
-#> 2                                                       'data.meta.csv' does not have spaces in the filename.
-#> 3                                                         'data.csv' does not contain any special characters.
-#> 4                                                    'data.meta.csv' does not contain any special characters.
-#> 5                                            The names of the files follow the recommended naming convention.
-#> 6                                The following required column is missing from the metadata file: 'col_name'.
-#> 7                                                          There are no invalid columns in the metadata file.
-#> 8                                                   All of the required columns are present in the data file.
-#> 9  There are an equal number of rows in the metadata file (3) and non-mandatory columns in the data file (3).
-#> 10                                                                There are no spaces in the col_name values.
-#> 11                                                                            All col_name values are unique.
-#>    guidance_url            stage
-#> 1            NA         filename
-#> 2            NA         filename
-#> 3            NA         filename
-#> 4            NA         filename
-#> 5            NA         filename
-#> 6            NA Precheck columns
-#> 7            NA Precheck columns
-#> 8            NA Precheck columns
-#> 9            NA Precheck columns
-#> 10           NA Precheck columns
-#> 11           NA Precheck columns
+#>                             check result
+#> 1      check_filename_data_spaces   PASS
+#> 2  check_filename_metadata_spaces   PASS
+#> 3     check_filename_data_special   PASS
+#> 4 check_filename_metadata_special   PASS
+#> 5           check_filenames_match   PASS
+#> 6                    col_req_meta   FAIL
+#> 7                col_invalid_meta   PASS
+#> 8                    col_req_data   PASS
+#> 9                     col_to_rows   PASS
+#>                                                                                                      message
+#> 1                                                           'data.csv' does not have spaces in the filename.
+#> 2                                                      'data.meta.csv' does not have spaces in the filename.
+#> 3                                                        'data.csv' does not contain any special characters.
+#> 4                                                   'data.meta.csv' does not contain any special characters.
+#> 5                                           The names of the files follow the recommended naming convention.
+#> 6                               The following required column is missing from the metadata file: 'col_name'.
+#> 7                                                         There are no invalid columns in the metadata file.
+#> 8                                                  All of the required columns are present in the data file.
+#> 9 There are an equal number of rows in the metadata file (3) and non-mandatory columns in the data file (3).
+#>   guidance_url            stage
+#> 1           NA         filename
+#> 2           NA         filename
+#> 3           NA         filename
+#> 4           NA         filename
+#> 5           NA         filename
+#> 6           NA Precheck columns
+#> 7           NA Precheck columns
+#> 8           NA Precheck columns
+#> 9           NA Precheck columns
 #> 
 #> $overall_stage
 #> [1] "Precheck columns checks"
@@ -378,20 +369,20 @@ eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> 7                 col_invalid_meta    PASS
 #> 8                     col_req_data    PASS
 #> 9                      col_to_rows    PASS
-#> 10                 col_name_spaces    PASS
-#> 11              col_name_duplicate    PASS
-#> 12                   meta_col_type    PASS
-#> 13                    meta_ob_unit    PASS
-#> 14                   meta_col_name    PASS
-#> 15                 meta_ind_dp_set WARNING
-#> 16            meta_duplicate_label    PASS
-#> 17                   meta_col_name    PASS
-#> 18          filter_group_is_filter    PASS
-#> 19             filter_groups_match    PASS
-#> 20                check_meta_label    PASS
-#> 21                meta_filter_hint    PASS
-#> 22                    indicator_dp    PASS
-#> 23              indicator_grouping    PASS
+#> 10                   meta_col_type    PASS
+#> 11                    meta_ob_unit    PASS
+#> 12                   meta_col_name    PASS
+#> 13                 meta_ind_dp_set WARNING
+#> 14            meta_duplicate_label    PASS
+#> 15                   meta_col_name    PASS
+#> 16          filter_group_is_filter    PASS
+#> 17             filter_groups_match    PASS
+#> 18                check_meta_label    PASS
+#> 19                meta_filter_hint    PASS
+#> 20                    indicator_dp    PASS
+#> 21              indicator_grouping    PASS
+#> 22                 col_name_spaces    PASS
+#> 23              col_name_duplicate    PASS
 #> 24                   time_id_valid    FAIL
 #>                                                                                                                                   message
 #> 1                                                                                        'data.csv' does not have spaces in the filename.
@@ -403,20 +394,20 @@ eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> 7                                                                                      There are no invalid columns in the metadata file.
 #> 8                                                                               All of the required columns are present in the data file.
 #> 9                              There are an equal number of rows in the metadata file (3) and non-mandatory columns in the data file (3).
-#> 10                                                                                            There are no spaces in the col_name values.
-#> 11                                                                                                        All col_name values are unique.
-#> 12                                                                                            col_type is always 'Filter' or 'Indicator'.
-#> 13                                                                        No observational units have been included in the metadata file.
-#> 14                                                                        The col_name column is completed for every row in the metadata.
-#> 15 character(0) does not have a specified number of decimal places in the metadata file, this should be explicitly stated where possible.
-#> 16                                                                                                                 All labels are unique.
-#> 17                                                                                     No indicators have a filter_grouping_column value.
-#> 18                                                                                                    There are no filter groups present.
-#> 19                                                                                                    There are no filter groups present.
-#> 20                                                                           The label column is completed for every row in the metadata.
-#> 21                                                                                                No indicators have a filter_hint value.
-#> 22                                                                                                 No filters have an indicator_dp value.
-#> 23                                                                                           No filters have an indicator_grouping value.
+#> 10                                                                                            col_type is always 'Filter' or 'Indicator'.
+#> 11                                                                        No observational units have been included in the metadata file.
+#> 12                                                                        The col_name column is completed for every row in the metadata.
+#> 13 character(0) does not have a specified number of decimal places in the metadata file, this should be explicitly stated where possible.
+#> 14                                                                                                                 All labels are unique.
+#> 15                                                                                     No indicators have a filter_grouping_column value.
+#> 16                                                                                                    There are no filter groups present.
+#> 17                                                                                                    There are no filter groups present.
+#> 18                                                                           The label column is completed for every row in the metadata.
+#> 19                                                                                                No indicators have a filter_hint value.
+#> 20                                                                                                 No filters have an indicator_dp value.
+#> 21                                                                                           No filters have an indicator_grouping value.
+#> 22                                                                                            There are no spaces in the col_name values.
+#> 23                                                                                                        All col_name values are unique.
 #> 24                                                                             The following invalid time_identifier was found: 'parsec'.
 #>                                                                                                            guidance_url
 #> 1                                                                                                                  <NA>
@@ -453,11 +444,11 @@ eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> 7  Precheck columns
 #> 8  Precheck columns
 #> 9  Precheck columns
-#> 10 Precheck columns
-#> 11 Precheck columns
+#> 10    Precheck meta
+#> 11    Precheck meta
 #> 12    Precheck meta
-#> 13    Precheck meta
-#> 14    Precheck meta
+#> 13       Check meta
+#> 14       Check meta
 #> 15       Check meta
 #> 16       Check meta
 #> 17       Check meta
@@ -507,20 +498,20 @@ eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> 7                 col_invalid_meta    PASS
 #> 8                     col_req_data    PASS
 #> 9                      col_to_rows    PASS
-#> 10                 col_name_spaces    PASS
-#> 11              col_name_duplicate    PASS
-#> 12                   meta_col_type    PASS
-#> 13                    meta_ob_unit    PASS
-#> 14                   meta_col_name    PASS
-#> 15                 meta_ind_dp_set WARNING
-#> 16            meta_duplicate_label    PASS
-#> 17                   meta_col_name    PASS
-#> 18          filter_group_is_filter    PASS
-#> 19             filter_groups_match    PASS
-#> 20                check_meta_label    PASS
-#> 21                meta_filter_hint    PASS
-#> 22                    indicator_dp    FAIL
-#> 23              indicator_grouping    PASS
+#> 10                   meta_col_type    PASS
+#> 11                    meta_ob_unit    PASS
+#> 12                   meta_col_name    PASS
+#> 13                 meta_ind_dp_set WARNING
+#> 14            meta_duplicate_label    PASS
+#> 15                   meta_col_name    PASS
+#> 16          filter_group_is_filter    PASS
+#> 17             filter_groups_match    PASS
+#> 18                check_meta_label    PASS
+#> 19                meta_filter_hint    PASS
+#> 20                    indicator_dp    FAIL
+#> 21              indicator_grouping    PASS
+#> 22                 col_name_spaces    PASS
+#> 23              col_name_duplicate    PASS
 #>                                                                                                                                   message
 #> 1                                                                                        'data.csv' does not have spaces in the filename.
 #> 2                                                                                   'data.meta.csv' does not have spaces in the filename.
@@ -531,20 +522,20 @@ eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> 7                                                                                      There are no invalid columns in the metadata file.
 #> 8                                                                               All of the required columns are present in the data file.
 #> 9                              There are an equal number of rows in the metadata file (3) and non-mandatory columns in the data file (3).
-#> 10                                                                                            There are no spaces in the col_name values.
-#> 11                                                                                                        All col_name values are unique.
-#> 12                                                                                            col_type is always 'Filter' or 'Indicator'.
-#> 13                                                                        No observational units have been included in the metadata file.
-#> 14                                                                        The col_name column is completed for every row in the metadata.
-#> 15 character(0) does not have a specified number of decimal places in the metadata file, this should be explicitly stated where possible.
-#> 16                                                                                                                 All labels are unique.
-#> 17                                                                                     No indicators have a filter_grouping_column value.
-#> 18                                                                                                    There are no filter groups present.
-#> 19                                                                                                    There are no filter groups present.
-#> 20                                                                           The label column is completed for every row in the metadata.
-#> 21                                                                                                No indicators have a filter_hint value.
-#> 22                                                                    Filters should not have an indicator_dp value in the metadata file.
-#> 23                                                                                           No filters have an indicator_grouping value.
+#> 10                                                                                            col_type is always 'Filter' or 'Indicator'.
+#> 11                                                                        No observational units have been included in the metadata file.
+#> 12                                                                        The col_name column is completed for every row in the metadata.
+#> 13 character(0) does not have a specified number of decimal places in the metadata file, this should be explicitly stated where possible.
+#> 14                                                                                                                 All labels are unique.
+#> 15                                                                                     No indicators have a filter_grouping_column value.
+#> 16                                                                                                    There are no filter groups present.
+#> 17                                                                                                    There are no filter groups present.
+#> 18                                                                           The label column is completed for every row in the metadata.
+#> 19                                                                                                No indicators have a filter_hint value.
+#> 20                                                                    Filters should not have an indicator_dp value in the metadata file.
+#> 21                                                                                           No filters have an indicator_grouping value.
+#> 22                                                                                            There are no spaces in the col_name values.
+#> 23                                                                                                        All col_name values are unique.
 #>    guidance_url            stage
 #> 1            NA         filename
 #> 2            NA         filename
@@ -555,11 +546,11 @@ eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> 7            NA Precheck columns
 #> 8            NA Precheck columns
 #> 9            NA Precheck columns
-#> 10           NA Precheck columns
-#> 11           NA Precheck columns
+#> 10           NA    Precheck meta
+#> 11           NA    Precheck meta
 #> 12           NA    Precheck meta
-#> 13           NA    Precheck meta
-#> 14           NA    Precheck meta
+#> 13           NA       Check meta
+#> 14           NA       Check meta
 #> 15           NA       Check meta
 #> 16           NA       Check meta
 #> 17           NA       Check meta
@@ -611,20 +602,20 @@ eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> 7                 col_invalid_meta    PASS
 #> 8                     col_req_data    PASS
 #> 9                      col_to_rows    PASS
-#> 10                 col_name_spaces    PASS
-#> 11              col_name_duplicate    PASS
-#> 12                   meta_col_type    PASS
-#> 13                    meta_ob_unit    PASS
-#> 14                   meta_col_name    PASS
-#> 15                 meta_ind_dp_set WARNING
-#> 16            meta_duplicate_label    PASS
-#> 17                   meta_col_name    PASS
-#> 18          filter_group_is_filter    PASS
-#> 19             filter_groups_match    PASS
-#> 20                check_meta_label    PASS
-#> 21                meta_filter_hint    PASS
-#> 22                    indicator_dp    FAIL
-#> 23              indicator_grouping    PASS
+#> 10                   meta_col_type    PASS
+#> 11                    meta_ob_unit    PASS
+#> 12                   meta_col_name    PASS
+#> 13                 meta_ind_dp_set WARNING
+#> 14            meta_duplicate_label    PASS
+#> 15                   meta_col_name    PASS
+#> 16          filter_group_is_filter    PASS
+#> 17             filter_groups_match    PASS
+#> 18                check_meta_label    PASS
+#> 19                meta_filter_hint    PASS
+#> 20                    indicator_dp    FAIL
+#> 21              indicator_grouping    PASS
+#> 22                 col_name_spaces    PASS
+#> 23              col_name_duplicate    PASS
 #>                                                                                                                                   message
 #> 1                                                                                        'data.csv' does not have spaces in the filename.
 #> 2                                                                                   'data.meta.csv' does not have spaces in the filename.
@@ -635,20 +626,20 @@ eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> 7                                                                                      There are no invalid columns in the metadata file.
 #> 8                                                                               All of the required columns are present in the data file.
 #> 9                              There are an equal number of rows in the metadata file (3) and non-mandatory columns in the data file (3).
-#> 10                                                                                            There are no spaces in the col_name values.
-#> 11                                                                                                        All col_name values are unique.
-#> 12                                                                                            col_type is always 'Filter' or 'Indicator'.
-#> 13                                                                        No observational units have been included in the metadata file.
-#> 14                                                                        The col_name column is completed for every row in the metadata.
-#> 15 character(0) does not have a specified number of decimal places in the metadata file, this should be explicitly stated where possible.
-#> 16                                                                                                                 All labels are unique.
-#> 17                                                                                     No indicators have a filter_grouping_column value.
-#> 18                                                                                                    There are no filter groups present.
-#> 19                                                                                                    There are no filter groups present.
-#> 20                                                                           The label column is completed for every row in the metadata.
-#> 21                                                                                                No indicators have a filter_hint value.
-#> 22                                                                    Filters should not have an indicator_dp value in the metadata file.
-#> 23                                                                                           No filters have an indicator_grouping value.
+#> 10                                                                                            col_type is always 'Filter' or 'Indicator'.
+#> 11                                                                        No observational units have been included in the metadata file.
+#> 12                                                                        The col_name column is completed for every row in the metadata.
+#> 13 character(0) does not have a specified number of decimal places in the metadata file, this should be explicitly stated where possible.
+#> 14                                                                                                                 All labels are unique.
+#> 15                                                                                     No indicators have a filter_grouping_column value.
+#> 16                                                                                                    There are no filter groups present.
+#> 17                                                                                                    There are no filter groups present.
+#> 18                                                                           The label column is completed for every row in the metadata.
+#> 19                                                                                                No indicators have a filter_hint value.
+#> 20                                                                    Filters should not have an indicator_dp value in the metadata file.
+#> 21                                                                                           No filters have an indicator_grouping value.
+#> 22                                                                                            There are no spaces in the col_name values.
+#> 23                                                                                                        All col_name values are unique.
 #>    guidance_url            stage
 #> 1            NA         filename
 #> 2            NA         filename
@@ -659,11 +650,11 @@ eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> 7            NA Precheck columns
 #> 8            NA Precheck columns
 #> 9            NA Precheck columns
-#> 10           NA Precheck columns
-#> 11           NA Precheck columns
+#> 10           NA    Precheck meta
+#> 11           NA    Precheck meta
 #> 12           NA    Precheck meta
-#> 13           NA    Precheck meta
-#> 14           NA    Precheck meta
+#> 13           NA       Check meta
+#> 14           NA       Check meta
 #> 15           NA       Check meta
 #> 16           NA       Check meta
 #> 17           NA       Check meta
@@ -715,20 +706,20 @@ eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> 7                 col_invalid_meta    PASS
 #> 8                     col_req_data    PASS
 #> 9                      col_to_rows    PASS
-#> 10                 col_name_spaces    PASS
-#> 11              col_name_duplicate    PASS
-#> 12                   meta_col_type    PASS
-#> 13                    meta_ob_unit    PASS
-#> 14                   meta_col_name    PASS
-#> 15                 meta_ind_dp_set WARNING
-#> 16            meta_duplicate_label    PASS
-#> 17                   meta_col_name    PASS
-#> 18          filter_group_is_filter    PASS
-#> 19             filter_groups_match    PASS
-#> 20                check_meta_label    PASS
-#> 21                meta_filter_hint    PASS
-#> 22                    indicator_dp    PASS
-#> 23              indicator_grouping    PASS
+#> 10                   meta_col_type    PASS
+#> 11                    meta_ob_unit    PASS
+#> 12                   meta_col_name    PASS
+#> 13                 meta_ind_dp_set WARNING
+#> 14            meta_duplicate_label    PASS
+#> 15                   meta_col_name    PASS
+#> 16          filter_group_is_filter    PASS
+#> 17             filter_groups_match    PASS
+#> 18                check_meta_label    PASS
+#> 19                meta_filter_hint    PASS
+#> 20                    indicator_dp    PASS
+#> 21              indicator_grouping    PASS
+#> 22                 col_name_spaces    PASS
+#> 23              col_name_duplicate    PASS
 #> 24                   time_id_valid    PASS
 #> 25      check_api_char_column-name WARNING
 #> 26     check_api_char_column-label WARNING
@@ -743,20 +734,20 @@ eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> 7                                                                                                                                                                                                                                                                                         There are no invalid columns in the metadata file.
 #> 8                                                                                                                                                                                                                                                                                  All of the required columns are present in the data file.
 #> 9                                                                                                                                                                                                                                 There are an equal number of rows in the metadata file (4) and non-mandatory columns in the data file (4).
-#> 10                                                                                                                                                                                                                                                                                               There are no spaces in the col_name values.
-#> 11                                                                                                                                                                                                                                                                                                           All col_name values are unique.
-#> 12                                                                                                                                                                                                                                                                                               col_type is always 'Filter' or 'Indicator'.
-#> 13                                                                                                                                                                                                                                                                           No observational units have been included in the metadata file.
-#> 14                                                                                                                                                                                                                                                                           The col_name column is completed for every row in the metadata.
-#> 15                                                                                                                                                                                                    character(0) does not have a specified number of decimal places in the metadata file, this should be explicitly stated where possible.
-#> 16                                                                                                                                                                                                                                                                                                                    All labels are unique.
-#> 17                                                                                                                                                                                                                                                                                        No indicators have a filter_grouping_column value.
-#> 18                                                                                                                                                                                                                                                                                                       There are no filter groups present.
-#> 19                                                                                                                                                                                                                                                                                                       There are no filter groups present.
-#> 20                                                                                                                                                                                                                                                                              The label column is completed for every row in the metadata.
-#> 21                                                                                                                                                                                                                                                                                                   No indicators have a filter_hint value.
-#> 22                                                                                                                                                                                                                                                                                                    No filters have an indicator_dp value.
-#> 23                                                                                                                                                                                                                                                                                              No filters have an indicator_grouping value.
+#> 10                                                                                                                                                                                                                                                                                               col_type is always 'Filter' or 'Indicator'.
+#> 11                                                                                                                                                                                                                                                                           No observational units have been included in the metadata file.
+#> 12                                                                                                                                                                                                                                                                           The col_name column is completed for every row in the metadata.
+#> 13                                                                                                                                                                                                    character(0) does not have a specified number of decimal places in the metadata file, this should be explicitly stated where possible.
+#> 14                                                                                                                                                                                                                                                                                                                    All labels are unique.
+#> 15                                                                                                                                                                                                                                                                                        No indicators have a filter_grouping_column value.
+#> 16                                                                                                                                                                                                                                                                                                       There are no filter groups present.
+#> 17                                                                                                                                                                                                                                                                                                       There are no filter groups present.
+#> 18                                                                                                                                                                                                                                                                              The label column is completed for every row in the metadata.
+#> 19                                                                                                                                                                                                                                                                                                   No indicators have a filter_hint value.
+#> 20                                                                                                                                                                                                                                                                                                    No filters have an indicator_dp value.
+#> 21                                                                                                                                                                                                                                                                                              No filters have an indicator_grouping value.
+#> 22                                                                                                                                                                                                                                                                                               There are no spaces in the col_name values.
+#> 23                                                                                                                                                                                                                                                                                                           All col_name values are unique.
 #> 24                                                                                                                                                                                                                                                                                                 The time_identifier values are all valid.
 #> 25                                                                                                                                                                            The following filter / indicator names exceed the character limit of 50 for type 'column-name': "mahoooooooooooooooooooooooooooooooooooooooooooooooooooosive".
 #> 26 The following filter / indicator labels exceed the character limit of 80 for type 'column-label': "A very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very long column name".
@@ -799,11 +790,11 @@ eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> 7  Precheck columns
 #> 8  Precheck columns
 #> 9  Precheck columns
-#> 10 Precheck columns
-#> 11 Precheck columns
+#> 10    Precheck meta
+#> 11    Precheck meta
 #> 12    Precheck meta
-#> 13    Precheck meta
-#> 14    Precheck meta
+#> 13       Check meta
+#> 14       Check meta
 #> 15       Check meta
 #> 16       Check meta
 #> 17       Check meta
