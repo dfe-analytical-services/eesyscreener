@@ -8,7 +8,7 @@
 #' @param data data.frame, for the data table, more efficient if supplied as a
 #' lazy duckplyr data.frame
 #' @param meta data.frame, for the metadata table
-#' @param log_key keystring for creating log file. If given, the screening will
+#' @param log_key Keystring for creating log file. If given, the screening will
 #' write a log file to disk called eesyscreening_log_<log_key>.json default=NULL
 #' @param log_dir Directory within which to place the log file. default="./"
 #' @param verbose logical, if TRUE prints feedback messages to console for
@@ -249,6 +249,12 @@ screen_dfs <- function(
     ),
     check_api_char_loc_code(
       data,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    ),
+    check_api_char_filter_items(
+      data,
+      meta,
       verbose = verbose,
       stop_on_error = stop_on_error
     )

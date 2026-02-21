@@ -20,7 +20,7 @@ lazy duckplyr data.frame}
 
 \item{meta}{data.frame, for the metadata table}
 
-\item{log_key}{keystring for creating log file. If given, the screening will
+\item{log_key}{Keystring for creating log file. If given, the screening will
 write a log file to disk called eesyscreening_log_<log_key>.json default=NULL}
 
 \item{log_dir}{Directory within which to place the log file. default="./"}

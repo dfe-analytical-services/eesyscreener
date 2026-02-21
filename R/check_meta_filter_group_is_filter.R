@@ -19,7 +19,8 @@ check_meta_filter_group_is_filter <- function(
 ) {
   meta_filter_groups <- meta |>
     dplyr::filter(
-      !(is.na(filter_grouping_column) | filter_grouping_column == "")
+      !(is.na(.data$filter_grouping_column) |
+        .data$filter_grouping_column == "")
     )
   if (nrow(meta_filter_groups) == 0) {
     test_output(
@@ -32,7 +33,7 @@ check_meta_filter_group_is_filter <- function(
   } else {
     filter_group_not_in_filter <- meta_filter_groups |>
       dplyr::filter(
-        !filter_grouping_column %in% meta$col_name
+        !.data$filter_grouping_column %in% meta$col_name
       )
     if (nrow(filter_group_not_in_filter) == 0) {
       test_output(
@@ -44,7 +45,7 @@ check_meta_filter_group_is_filter <- function(
       )
     } else {
       filter_group_not_in_filter_names <- filter_group_not_in_filter |>
-        dplyr::pull(filter_grouping_column)
+        dplyr::pull(.data$filter_grouping_column)
 
       test_output(
         "filter_group_is_filter",

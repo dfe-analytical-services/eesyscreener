@@ -83,3 +83,41 @@ check_api_char_loc_code <- function(
     stop_on_error = stop_on_error
   )
 }
+
+#' Check if filter items or location names exceed character limit
+#'
+#' Checks if any values in filters, filter groups, or location names exceed the
+#' character limit specified in the `api_char_limits` data frame, using the
+#' `api_char_limit` function.
+#'
+#' @inheritParams precheck_col_to_rows
+#' @inherit check_filename_spaces return
+#' @family check_api
+#' @examples
+#' check_api_char_filter_items(example_data, example_meta)
+#' @export
+check_api_char_filter_items <- function(
+  data,
+  meta,
+  verbose = FALSE,
+  stop_on_error = FALSE
+) {
+  location_name_cols <- get_geo_name_cols()
+  filters_and_groups <- get_filters(meta, include_filter_groups = TRUE)
+
+  cols_to_check <- intersect(
+    names(data),
+    unique(c(filters_and_groups, location_name_cols))
+  )
+
+  values_to_check <- cols_to_check |>
+    lapply(function(col) unique(data[[col]])) |>
+    unlist(use.names = FALSE)
+
+  api_char_limit(
+    values_to_check,
+    "column-item",
+    verbose = verbose,
+    stop_on_error = stop_on_error
+  )
+}

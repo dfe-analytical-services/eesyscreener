@@ -281,6 +281,44 @@ get_geo_code_cols <- function() {
     unique()
 }
 
+#' Get all geographic name columns
+#'
+#' Gets the names of all geographic name columns from the geography dataframe
+#'
+#' @keywords internal
+#' @noRd
+#' @returns character vector of column names
+get_geo_name_cols <- function() {
+  eesyscreener::geography_df$name_field |>
+    stats::na.omit() |>
+    unique()
+}
+
+#' Get all filter and filter grouping columns
+#'
+#' Gets the names of all filter and filter grouping columns from the metadata
+#'
+#' @param include_filter_groups logical, if TRUE will include filter grouping
+#' columns, if FALSE will only return filter columns
+#' @keywords internal
+#' @noRd
+#' @returns character vector of column names
+get_filters <- function(meta, include_filter_groups = FALSE) {
+  filter_cols <- meta |>
+    dplyr::filter(.data$col_type == "Filter") |>
+    dplyr::pull("col_name")
+
+  if (!include_filter_groups) {
+    return(filter_cols)
+  }
+
+  filter_group_cols <- meta |>
+    dplyr::pull("filter_grouping_column") |>
+    stats::na.omit()
+
+  unique(c(filter_cols, filter_group_cols))
+}
+
 #' Check if any values are longer than a specified length
 #'
 #' Helper function to check if any values in a vector exceed a specified
@@ -329,7 +367,7 @@ write_json_log <- function(
           rbind(results) |>
           dplyr::distinct()
       }
-      log$progress <- nrow(results) / nrow(example_output) * 100.
+      log$progress <- nrow(results) / nrow(eesyscreener::example_output) * 100.
       log$log_time <- Sys.time()
       log$results <- results
       if (!is.null(file_details$filename)) {
@@ -346,7 +384,7 @@ write_json_log <- function(
       }
     } else {
       log <- list(
-        progress = nrow(results) / nrow(example_output) * 100.,
+        progress = nrow(results) / nrow(eesyscreener::example_output) * 100.,
         status = "Initiating screening",
         filename = file_details$filename,
         filesize = file_details$filesize,
