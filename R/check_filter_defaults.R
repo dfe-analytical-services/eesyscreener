@@ -28,6 +28,9 @@ check_filter_defaults <- function(
   guidance_url <- render_url(
     "statistics-production/ud.html#aggregates-and-default-filters"
   )
+
+  suppressMessages(duckplyr::methods_restore())
+
   if (!"filter_default" %in% names(meta)) {
     meta <- meta |>
       dplyr::mutate(filter_default = "Total")
@@ -47,13 +50,16 @@ check_filter_defaults <- function(
   filter_groups <- meta |>
     dplyr::filter(
       !is.na(.data$filter_grouping_column),
-      .data$filter_grouping_column != "",
-      !.data$filter_grouping_column %in% .data$col_name
+      as.character(.data$filter_grouping_column) != "",
+      !as.character(.data$filter_grouping_column) %in%
+        as.character(.data$col_name)
     ) |>
     dplyr::mutate(filter_default = "Total") |>
     dplyr::select(col_name = "filter_grouping_column", "filter_default")
 
   filters_and_groups <- dplyr::bind_rows(filters, filter_groups)
+
+  suppressMessages(duckplyr::methods_overwrite())
 
   if (length(filters_and_groups) == 0) {
     return(

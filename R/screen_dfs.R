@@ -42,6 +42,8 @@ screen_dfs <- function(
     nrows = data |> dplyr::count() |> dplyr::pull("n")
   )
 
+  suppressMessages(duckplyr::methods_restore())
+
   # Precheck columns ----------------------------------------------------------
   precheck_col_results <- rbind(
     precheck_col_req_meta(
@@ -177,8 +179,6 @@ screen_dfs <- function(
   # Turn on duckdb ------------------------------------------------------------
   # Only doing this here as not necessary for the metadata checks
   suppressMessages(duckplyr::methods_overwrite())
-
-  # Some other bits -----------------------------------------------------------
 
   # Precheck time -------------------------------------------------------------
   precheck_time_results <- rbind(

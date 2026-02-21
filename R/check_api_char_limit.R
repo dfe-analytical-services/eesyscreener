@@ -73,7 +73,7 @@ check_api_char_loc_code <- function(
   )
 
   location_codes <- location_code_cols |>
-    lapply(\(col) data |> dplyr::distinct(.data[[col]]) |> dplyr::pull(col)) |>
+    lapply(function(col) unique(data[[col]])) |>
     unlist(use.names = FALSE)
 
   api_char_limit(
