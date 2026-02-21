@@ -240,6 +240,11 @@ screen_dfs <- function(
       data,
       verbose = verbose,
       stop_on_error = stop_on_error
+    ),
+    check_api_char_col_label(
+      meta,
+      verbose = verbose,
+      stop_on_error = stop_on_error
     )
     # TODO: Add extra variations here
   )

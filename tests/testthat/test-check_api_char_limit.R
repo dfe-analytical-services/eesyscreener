@@ -53,12 +53,25 @@ test_that("passes for example data", {
     )$result,
     "PASS"
   )
+  expect_equal(
+    check_api_char_col_label(
+      example_meta
+    )$result,
+    "PASS"
+  )
 })
 
 test_that("fails when column names exceed the limit", {
   expect_warning(
     check_api_char_col_name(
       example_api_long,
+      stop_on_error = TRUE
+    ),
+    "exceed the character limit"
+  )
+  expect_warning(
+    check_api_char_col_label(
+      example_api_long_meta,
       stop_on_error = TRUE
     ),
     "exceed the character limit"
