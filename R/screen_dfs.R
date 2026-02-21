@@ -236,9 +236,8 @@ screen_dfs <- function(
 
   # Check API -----------------------------------------------------------------
   check_api_results <- rbind(
-    check_api_char_limit(
-      meta[["col_name"]],
-      "column-name",
+    check_api_char_col_name(
+      data,
       verbose = verbose,
       stop_on_error = stop_on_error
     )
@@ -247,6 +246,7 @@ screen_dfs <- function(
 
   check_api_results <- check_api_results |>
     cbind("stage" = "Check API")
+
   write_json_log(
     check_api_results,
     log_key = log_key,

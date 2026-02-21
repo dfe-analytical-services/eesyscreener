@@ -208,7 +208,7 @@ eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> 12                    meta_col_name   PASS
 #> 13                    meta_col_name   PASS
 #> 14                    time_id_valid   PASS
-#> 15 check_api_char_limit_column-name   PASS
+#> 15 api_char_limit_column-name   PASS
 #>                                                                                                       message
 #> 1                                                            'data.csv' does not have spaces in the filename.
 #> 2                                                       'data.meta.csv' does not have spaces in the filename.
@@ -427,7 +427,7 @@ eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> 12                    meta_col_name    PASS
 #> 13                    meta_col_name WARNING
 #> 14                    time_id_valid    PASS
-#> 15 check_api_char_limit_column-name    PASS
+#> 15 api_char_limit_column-name    PASS
 #>                                                                                                                                      message
 #> 1                                                                                           'data.csv' does not have spaces in the filename.
 #> 2                                                                                      'data.meta.csv' does not have spaces in the filename.
@@ -599,7 +599,7 @@ eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> 12                    meta_col_name    PASS
 #> 13                    meta_col_name    PASS
 #> 14                    time_id_valid    PASS
-#> 15 check_api_char_limit_column-name WARNING
+#> 15 api_char_limit_column-name WARNING
 #>                                                                                                                                                           message
 #> 1                                                                                                                'data.csv' does not have spaces in the filename.
 #> 2                                                                                                           'data.meta.csv' does not have spaces in the filename.
