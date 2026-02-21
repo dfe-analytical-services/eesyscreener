@@ -92,17 +92,19 @@ screen_csv <- function(
     )
   }
 
+  file_details_log <- list(
+    filename = datafilename,
+    filesize = paste(
+      (file.info(datapath)$size / 10^6) |> round(digits = 3),
+      "MB"
+    )
+  )
+
   write_json_log(
     results = NULL,
     log_key = log_key,
     log_dir = log_dir,
-    file_details <- list(
-      filename = datafilename,
-      filesize = paste(
-        (file.info(datapath)$size / 10^6) |> round(digits = 3),
-        "MB"
-      )
-    )
+    file_details = file_details_log
   )
 
   # Read in CSV files ---------------------------------------------------------

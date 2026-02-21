@@ -112,6 +112,7 @@ screen_dfs <- function(
 
   precheck_meta_results <- precheck_meta_results |>
     cbind("stage" = "Precheck meta")
+
   write_json_log(
     precheck_meta_results,
     log_key = log_key,
