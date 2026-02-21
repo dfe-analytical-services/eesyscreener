@@ -36,7 +36,7 @@ test_that("Output structure is as expected", {
   expect_equal(nrow(output$results_table), nrow(unique(output$results_table)))
 
   expect_true(all(
-    output[["results_table"]][["result"]] %in% c("PASS", "FAIL", "ADVISORY")
+    output[["results_table"]][["result"]] %in% c("PASS", "FAIL", "WARNING")
   ))
 
   for (col in c("check", "message", "stage")) {
