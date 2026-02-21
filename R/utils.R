@@ -160,7 +160,7 @@ read_ees_files <- function(datapath, metapath) {
   data_mime <- mime::guess_type(datapath)
   meta_mime <- mime::guess_type(metapath)
   if (
-    !identical(data_mime, "text/csv") &
+    !identical(data_mime, "text/csv") &&
       !identical(data_mime, "application/gzip")
   ) {
     cli::cli_abort(
@@ -172,7 +172,7 @@ read_ees_files <- function(datapath, metapath) {
     )
   }
   if (
-    !identical(meta_mime, "text/csv") &
+    !identical(meta_mime, "text/csv") &&
       !identical(data_mime, "application.gzip")
   ) {
     cli::cli_abort(

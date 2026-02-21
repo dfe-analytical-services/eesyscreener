@@ -40,7 +40,7 @@ test_that("Output structure is as expected", {
   ))
 
   for (col in c("check", "message", "stage")) {
-    expect_false(any(is.na(output$results_table[[col]])))
+    expect_false(anyNA(output$results_table[[col]]))
     expect_false(any(output$results_table[[col]] == ""))
   }
 
