@@ -1,4 +1,4 @@
-test_that("test_output returns correct data frame when outout = 'table'", {
+test_that("test_output returns correct data frame", {
   df <- test_output(
     test_name = "test_name",
     result = "PASS",
