@@ -1,11 +1,12 @@
-# Check there are no duplicate labels
+# Check indicator_dp is set for all indicator rows
 
-Ensure that each entry under label is unique in the metafile.
+Throw FAIL if there are indicator_unit values present when col_type is
+"Filter"
 
 ## Usage
 
 ``` r
-check_meta_duplicate_label(meta, verbose = FALSE, stop_on_error = FALSE)
+check_meta_ind_unit(meta, verbose = FALSE, stop_on_error = FALSE)
 ```
 
 ## Arguments
@@ -32,12 +33,12 @@ a single row data frame
 
 Other check_meta:
 [`check_meta_col_name_duplicate()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_col_name_duplicate.md),
+[`check_meta_duplicate_label()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_duplicate_label.md),
 [`check_meta_filter_group()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_group.md),
 [`check_meta_filter_group_is_filter()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_group_is_filter.md),
 [`check_meta_filter_group_match()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_group_match.md),
 [`check_meta_filter_hint()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_hint.md),
 [`check_meta_ind_dp_set()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_ind_dp_set.md),
-[`check_meta_ind_unit()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_ind_unit.md),
 [`check_meta_indicator_dp()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_indicator_dp.md),
 [`check_meta_indicator_grouping()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_indicator_grouping.md),
 [`check_meta_label()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_label.md)
@@ -45,11 +46,11 @@ Other check_meta:
 ## Examples
 
 ``` r
-check_meta_duplicate_label(example_meta)
-#>                  check result                message guidance_url
-#> 1 meta_duplicate_label   PASS All labels are unique.           NA
-check_meta_duplicate_label(example_meta, verbose = TRUE)
-#> ✔ All labels are unique.
-#>                  check result                message guidance_url
-#> 1 meta_duplicate_label   PASS All labels are unique.           NA
+check_meta_ind_unit(example_meta)
+#>           check result                                  message guidance_url
+#> 1 meta_ind_unit   PASS No filters have an indicator_unit value.           NA
+check_meta_ind_unit(example_meta, verbose = TRUE)
+#> ✔ No filters have an indicator_unit value.
+#>           check result                                  message guidance_url
+#> 1 meta_ind_unit   PASS No filters have an indicator_unit value.           NA
 ```
