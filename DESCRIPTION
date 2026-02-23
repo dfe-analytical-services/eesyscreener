@@ -28,8 +28,10 @@ Imports:
     jsonlite,
     mime,
     rlang,
-    stats,
-    stringr
+    stringr, 
+    lubridate,
+    tidyr,
+    stats
 Suggests:
     dfeR,
     knitr,
