@@ -297,6 +297,19 @@ get_geo_name_cols <- function() {
     unique()
 }
 
+#' Get all filter grouping columns
+#'
+#' Gets the names of all filter grouping columns from the metadata
+#'
+#' @keywords internal
+#' @noRd
+#' @returns character vector of column names
+get_filter_groups <- function(meta) {
+  filter_group_cols <- meta |>
+    dplyr::pull("filter_grouping_column") |>
+    remove_na_string()
+}
+
 #' Get all filter and filter grouping columns
 #'
 #' Gets the names of all filter and filter grouping columns from the metadata
@@ -315,11 +328,7 @@ get_filters <- function(meta, include_filter_groups = FALSE) {
     return(filter_cols)
   }
 
-  filter_group_cols <- meta |>
-    dplyr::pull("filter_grouping_column") |>
-    remove_na_string()
-
-  unique(c(filter_cols, filter_group_cols))
+  c(filter_cols, get_filter_groups(meta))
 }
 
 #' Remove NAs and blank strings from a vector

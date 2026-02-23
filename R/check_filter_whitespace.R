@@ -18,12 +18,9 @@ check_filter_whitespace <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  filters <- meta |>
-    dplyr::filter(col_type == "Filter") |>
-    dplyr::pull(col_name)
+  filters <- get_filters(meta)
 
-  geo_cols <- as.character(geography_df[, 2:4])
-  geo_cols <- geo_cols[!is.na(geo_cols)]
+  geo_cols <- c(get_geo_name_cols(), get_geo_code_cols())
 
   filter_values <- data |>
     dplyr::mutate_if(lubridate::is.Date, as.character) |>
