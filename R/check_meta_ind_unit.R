@@ -23,7 +23,7 @@ check_meta_ind_unit <- function(meta, verbose = FALSE, stop_on_error = FALSE) {
   filtered_meta <- meta[filtered_positions, ]
 
   indicator_units <- filtered_meta |>
-    dplyr::pull(indicator_unit)
+    dplyr::pull(.data$indicator_unit)
 
   if (length(indicator_units) > 0) {
     test_output(
@@ -32,7 +32,7 @@ check_meta_ind_unit <- function(meta, verbose = FALSE, stop_on_error = FALSE) {
       paste0(
         "Filters should not have an indicator_unit value in the metadata file. This occurs for columns: ",
         paste0(
-          sort(unique(filtered_meta |> dplyr::pull(label))),
+          sort(unique(filtered_meta |> dplyr::pull(.data$label))),
           collapse = ", "
         ),
         " at positions: ",

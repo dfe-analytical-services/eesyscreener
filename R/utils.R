@@ -305,7 +305,7 @@ get_geo_name_cols <- function() {
 #' @noRd
 #' @returns character vector of column names
 get_filter_groups <- function(meta) {
-  filter_group_cols <- meta |>
+  meta |>
     dplyr::pull("filter_grouping_column") |>
     remove_na_string()
 }
