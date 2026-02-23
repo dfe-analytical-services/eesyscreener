@@ -160,7 +160,7 @@ read_ees_files <- function(datapath, metapath) {
   data_mime <- mime::guess_type(datapath)
   meta_mime <- mime::guess_type(metapath)
   if (
-    !identical(data_mime, "text/csv") &
+    !identical(data_mime, "text/csv") &&
       !identical(data_mime, "application/gzip")
   ) {
     cli::cli_abort(
@@ -172,7 +172,7 @@ read_ees_files <- function(datapath, metapath) {
     )
   }
   if (
-    !identical(meta_mime, "text/csv") &
+    !identical(meta_mime, "text/csv") &&
       !identical(data_mime, "application.gzip")
   ) {
     cli::cli_abort(
@@ -233,16 +233,16 @@ get_cols_meta <- function(meta, grouping_cols = FALSE) {
   if (grouping_cols) {
     cols <- c(cols, meta$filter_grouping_column)
   }
-  unique(cols[!is.na(cols) & cols != ""])
+
+  cols |>
+    remove_na_string() |>
+    unique()
 }
 
-#' Get all column names referenced in metadata
+#' Get all acceptable observation unit columns
 #'
-#' Get the names of all indicators, filters, and filter groups that are
-#' referenced in the metadata.
-#'
-#' Assumes the col_name, and filter_grouping_column are present in the
-#' metadata.
+#' Gets the names of all acceptable observation unit columns, including time and
+#' geographic identifiers.
 #'
 #' @param meta data.frame of the metadata
 #' @param grouping_cols logical, if TRUE will include filter grouping columns
@@ -258,7 +258,7 @@ get_acceptable_ob_units <- function() {
     )],
     use.names = FALSE
   ) |>
-    stats::na.omit()
+    remove_na_string()
 
   c(
     "time_period",
@@ -266,6 +266,85 @@ get_acceptable_ob_units <- function() {
     "geographic_level",
     geography_cols
   )
+}
+
+#' Get all geographic code columns
+#'
+#' Gets the names of all geographic code columns from the geography dataframe
+#'
+#' @keywords internal
+#' @noRd
+#' @returns character vector of column names
+get_geo_code_cols <- function() {
+  c(
+    eesyscreener::geography_df$code_field,
+    eesyscreener::geography_df$code_field_secondary
+  ) |>
+    remove_na_string() |>
+    unique()
+}
+
+#' Get all geographic name columns
+#'
+#' Gets the names of all geographic name columns from the geography dataframe
+#'
+#' @keywords internal
+#' @noRd
+#' @returns character vector of column names
+get_geo_name_cols <- function() {
+  eesyscreener::geography_df$name_field |>
+    remove_na_string() |>
+    unique()
+}
+
+#' Get all filter grouping columns
+#'
+#' Gets the names of all filter grouping columns from the metadata
+#'
+#' @keywords internal
+#' @noRd
+#' @returns character vector of column names
+get_filter_groups <- function(meta) {
+  meta |>
+    dplyr::pull("filter_grouping_column") |>
+    remove_na_string()
+}
+
+#' Get all filter and filter grouping columns
+#'
+#' Gets the names of all filter and filter grouping columns from the metadata
+#'
+#' @param include_filter_groups logical, if TRUE will include filter grouping
+#' columns, if FALSE will only return filter columns, defaults to FALSE
+#' @keywords internal
+#' @noRd
+#' @returns character vector of column names
+get_filters <- function(meta, include_filter_groups = FALSE) {
+  filter_cols <- meta |>
+    dplyr::filter(.data$col_type == "Filter") |>
+    dplyr::pull("col_name")
+
+  if (!include_filter_groups) {
+    return(filter_cols)
+  }
+
+  c(filter_cols, get_filter_groups(meta))
+}
+
+#' Remove NAs and blank strings from a vector
+#'
+#' Can be used at the end of a pipe to remove both NA values and blank strings.
+#'
+#' @param vector A vector
+#' @returns The input with NAs and blank strings removed
+#' @keywords internal
+#' @noRd
+remove_na_string <- function(vector) {
+  if (is.vector(vector)) {
+    vector[!is.na(vector) & vector != ""]
+  } else {
+    stop("Input must be a vector.")
+  }
 }
 
 #' Check if any values are longer than a specified length
@@ -289,7 +368,6 @@ char_limits <- function(values, max_length) {
     exceeds_max = exceeds_max
   )
 }
-
 
 #' Write eesyscreener results to log file
 #'
@@ -317,7 +395,7 @@ write_json_log <- function(
           rbind(results) |>
           dplyr::distinct()
       }
-      log$progress <- nrow(results) / nrow(example_output) * 100.
+      log$progress <- nrow(results) / nrow(eesyscreener::example_output) * 100.
       log$log_time <- Sys.time()
       log$results <- results
       if (!is.null(file_details$filename)) {
@@ -334,7 +412,7 @@ write_json_log <- function(
       }
     } else {
       log <- list(
-        progress = nrow(results) / nrow(example_output) * 100.,
+        progress = nrow(results) / nrow(eesyscreener::example_output) * 100.,
         status = "Initiating screening",
         filename = file_details$filename,
         filesize = file_details$filesize,
@@ -374,7 +452,7 @@ write_json_log <- function(
 #' @noRd
 render_url <- function(slug, domain = "analysts_guide") {
   if (!domain %in% c("analysts_guide", "ees", "dfe_github")) {
-    stop("Please choose one of 'ag', 'ees' or 'dfe_guthub'")
+    stop("Please choose one of 'analysts_guide', 'ees' or 'dfe_github'")
   }
   url <- list(
     analysts_guide = "https://dfe-analytical-services.github.io/analysts-guide/",
@@ -385,4 +463,96 @@ render_url <- function(slug, domain = "analysts_guide") {
     url[domain],
     slug
   )
+}
+
+#' Check if values exceed a character limit
+#'
+#' Helper function that can be used to check individual strings, or vectors of strings.
+#'
+#' Uses the exported `api_char_limits` data.frame as a reference for the
+#' limits.
+#'
+#' @param values A character vector of strings to check
+#' @param type A character string specifying the type of values being checked,
+#' one of "location-code", "column-name", "column-label" or "column-item".
+#' @param verbose Logical, if TRUE prints feedback messages to console for
+#' every test, if FALSE run silently
+#' @param stop_on_error Logical, if TRUE will stop with an error if the result
+#' is "FAIL", and will throw genuine warning if result is "WARNING"
+#'
+#' @inherit check_filename_spaces return
+#'
+#' @examples
+#' api_char_limit(names(example_data), "column-name")
+#' api_char_limit(names(example_data), "column-name", verbose = TRUE)
+#' @noRd
+#' @keywords internal
+api_char_limit <- function(
+  values,
+  type,
+  verbose = FALSE,
+  stop_on_error = FALSE
+) {
+  if (!is.character(values)) {
+    cli::cli_abort("`values` must be a character vector.")
+  }
+  if (!type %in% eesyscreener::api_char_limits$id) {
+    cli::cli_abort(
+      paste(
+        "`type` must be one of: {paste(eesyscreener::api_char_limits$id,",
+        "collapse = ', ')}"
+      )
+    )
+  }
+
+  test_name <- paste0("check_api_char_", type)
+  max_length <- eesyscreener::api_char_limits$char_limit[
+    eesyscreener::api_char_limits$id == type
+  ]
+  results <- char_limits(values, max_length)
+  pretty_type <- eesyscreener::api_char_limits$name[
+    eesyscreener::api_char_limits$id == type
+  ]
+
+  if (any(results$exceeds_max)) {
+    fail_values <- results$value[results$exceeds_max]
+    return(
+      test_output(
+        test_name,
+        "WARNING",
+        paste0(
+          "The following ",
+          pretty_type,
+          " exceed the character limit of ",
+          max_length,
+          " for type '",
+          type,
+          "': ",
+          paste(shQuote(fail_values), collapse = ", "),
+          "."
+        ),
+        paste0(
+          "https://dfe-analytical-services.github.io/analysts-guide/",
+          "statistics-production/api-data-standards.html",
+          "#character-limits-for-col_names-and-filter-items"
+        ),
+        verbose = verbose,
+        stop_on_error = stop_on_error
+      )
+    )
+  } else {
+    test_output(
+      test_name,
+      "PASS",
+      paste0(
+        "All ",
+        pretty_type,
+        " are less than or equal to the character limit of ",
+        max_length,
+        "."
+      ),
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    )
+  }
 }

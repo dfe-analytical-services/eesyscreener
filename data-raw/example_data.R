@@ -67,7 +67,11 @@ example_api_long_meta <- example_meta |>
     data.frame(
       col_name = "mahoooooooooooooooooooooooooooooooooooooooooooooooooooosive",
       col_type = "Filter",
-      label = "A very long column name",
+      label = paste(
+        "A",
+        paste(rep("very", 42), collapse = " "),
+        "long column name"
+      ),
       indicator_grouping = "",
       indicator_unit = "",
       indicator_dp = "",

@@ -36,11 +36,11 @@ test_that("Output structure is as expected", {
   expect_equal(nrow(output$results_table), nrow(unique(output$results_table)))
 
   expect_true(all(
-    output[["results_table"]][["result"]] %in% c("PASS", "FAIL", "ADVISORY")
+    output[["results_table"]][["result"]] %in% c("PASS", "FAIL", "WARNING")
   ))
 
   for (col in c("check", "message", "stage")) {
-    expect_false(any(is.na(output$results_table[[col]])))
+    expect_false(anyNA(output$results_table[[col]]))
     expect_false(any(output$results_table[[col]] == ""))
   }
 
@@ -304,7 +304,7 @@ test_that("screen_csv completes for file containing commas in strings", {
 #   # Check if we need to update `example_output`
 #   expect_equal(
 #     jsonlite::read_json(log_path, simplifyVector = TRUE)$results |> nrow(),
-#     example_output |> nrow()
+#     eesyscreener::example_output |> nrow()
 #   )
 #   expect_warning(
 #     screen_csv(

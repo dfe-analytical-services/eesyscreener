@@ -10,13 +10,12 @@
 #' @examples
 #' check_col_names_spaces(example_data)
 #' @family check_col_names
-
 check_col_names_spaces <- function(
   data,
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  #create a dataframe to store pre-results of checks on variable names
+  # create a dataframe to store pre-results of checks on variable names
   pre_result <- data.frame(
     "ind" = colnames(data),
     "values" = ifelse(grepl("\\s", colnames(data)), "FAIL", "PASS")
@@ -24,17 +23,14 @@ check_col_names_spaces <- function(
 
   # extract the names of columns that failed the check
   failed_cols <- pre_result |>
-    dplyr::filter(values == "FAIL") |>
-    dplyr::pull(ind)
+    dplyr::filter(.data$values == "FAIL") |>
+    dplyr::pull(.data$ind)
 
   test_name <- "col_names_spaces"
 
   if (all(pre_result$values == "PASS")) {
     result <- "PASS"
-    message <- sprintf(
-      "There are no spaces in the variable names in the datafile."
-    )
-    #otherwise use the fail_results helper function
+    message <- "There are no spaces in the variable names in the datafile."
   } else {
     result <- "FAIL"
     message <- sprintf(

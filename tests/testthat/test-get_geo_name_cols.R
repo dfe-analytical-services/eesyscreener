@@ -1,0 +1,10 @@
+test_that("get_geo_name_cols returns expected structure and values", {
+  result <- get_geo_name_cols()
+  expect_type(result, "character")
+  expect_true("country_name" %in% result)
+  expect_true("la_name" %in% result)
+  expect_true("english_devolved_area_name" %in% result)
+  expect_false(anyNA(result))
+  expect_false(any(result == ""))
+  expect_true(length(unique(result)) == length(result))
+})

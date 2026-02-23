@@ -18,12 +18,11 @@ check_meta_ind_dp_set <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  blank_ind_dp <- meta |>
-    dplyr::filter(.data$col_type == "Indicator") |>
-    dplyr::filter(
-      is.na(.data$indicator_dp) | trimws(.data$indicator_dp) == ""
-    ) |>
-    dplyr::pull("col_name")
+  blank_ind_dp <- meta[
+    meta$col_type == "Indicator" &
+      (is.na(meta$indicator_dp) | trimws(meta$indicator_dp) == ""),
+    "col_name"
+  ]
 
   if (length(blank_ind_dp) == 0) {
     test_output(
