@@ -233,7 +233,10 @@ get_cols_meta <- function(meta, grouping_cols = FALSE) {
   if (grouping_cols) {
     cols <- c(cols, meta$filter_grouping_column)
   }
-  unique(cols[!is.na(cols) & cols != ""])
+
+  cols |>
+    remove_na_string() |>
+    unique()
 }
 
 #' Get all acceptable observation unit columns
@@ -255,7 +258,7 @@ get_acceptable_ob_units <- function() {
     )],
     use.names = FALSE
   ) |>
-    stats::na.omit()
+    remove_na_string()
 
   c(
     "time_period",
@@ -277,7 +280,7 @@ get_geo_code_cols <- function() {
     eesyscreener::geography_df$code_field,
     eesyscreener::geography_df$code_field_secondary
   ) |>
-    stats::na.omit() |>
+    remove_na_string() |>
     unique()
 }
 
@@ -290,7 +293,7 @@ get_geo_code_cols <- function() {
 #' @returns character vector of column names
 get_geo_name_cols <- function() {
   eesyscreener::geography_df$name_field |>
-    stats::na.omit() |>
+    remove_na_string() |>
     unique()
 }
 
@@ -299,7 +302,7 @@ get_geo_name_cols <- function() {
 #' Gets the names of all filter and filter grouping columns from the metadata
 #'
 #' @param include_filter_groups logical, if TRUE will include filter grouping
-#' columns, if FALSE will only return filter columns
+#' columns, if FALSE will only return filter columns, defaults to FALSE
 #' @keywords internal
 #' @noRd
 #' @returns character vector of column names
@@ -314,9 +317,25 @@ get_filters <- function(meta, include_filter_groups = FALSE) {
 
   filter_group_cols <- meta |>
     dplyr::pull("filter_grouping_column") |>
-    stats::na.omit()
+    remove_na_string()
 
   unique(c(filter_cols, filter_group_cols))
+}
+
+#' Remove NAs and blank strings from a vector
+#'
+#' Can be used at the end of a pipe to remove both NA values and blank strings.
+#'
+#' @param vector A vector
+#' @returns The input with NAs and blank strings removed
+#' @keywords internal
+#' @noRd
+remove_na_string <- function(vector) {
+  if (is.vector(vector)) {
+    vector[!is.na(vector) & vector != ""]
+  } else {
+    stop("Input must be a vector.")
+  }
 }
 
 #' Check if any values are longer than a specified length
@@ -424,7 +443,7 @@ write_json_log <- function(
 #' @noRd
 render_url <- function(slug, domain = "analysts_guide") {
   if (!domain %in% c("analysts_guide", "ees", "dfe_github")) {
-    stop("Please choose one of 'ag', 'ees' or 'dfe_guthub'")
+    stop("Please choose one of 'analysts_guide', 'ees' or 'dfe_github'")
   }
   url <- list(
     analysts_guide = "https://dfe-analytical-services.github.io/analysts-guide/",

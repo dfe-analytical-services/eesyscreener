@@ -5,5 +5,6 @@ test_that("get_geo_code_cols returns expected structure and values", {
   expect_true("new_la_code" %in% result)
   expect_true("old_la_code" %in% result)
   expect_false(anyNA(result))
+  expect_false(any(result == ""))
   expect_true(length(unique(result)) == length(result))
 })

@@ -16,7 +16,7 @@ check_api_char_col_name <- function(
   stop_on_error = FALSE
 ) {
   api_char_limit(
-    names(data),
+    data |> dplyr::tbl_vars(),
     "column-name",
     verbose = verbose,
     stop_on_error = stop_on_error
@@ -68,7 +68,7 @@ check_api_char_loc_code <- function(
   stop_on_error = FALSE
 ) {
   location_code_cols <- intersect(
-    names(data),
+    data |> dplyr::tbl_vars(),
     get_geo_code_cols()
   )
 
@@ -106,7 +106,7 @@ check_api_char_filter_items <- function(
   filters_and_groups <- get_filters(meta, include_filter_groups = TRUE)
 
   cols_to_check <- intersect(
-    names(data),
+    data |> dplyr::tbl_vars(),
     unique(c(filters_and_groups, location_name_cols))
   )
 
