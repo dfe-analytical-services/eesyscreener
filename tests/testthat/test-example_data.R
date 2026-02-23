@@ -16,3 +16,17 @@ test_that("There are no duplicate rows", {
   expect_true(!anyDuplicated(example_data))
   expect_true(!anyDuplicated(example_meta))
 })
+
+test_that("There are no duplicate rows in example comma data", {
+  expect_true(!anyDuplicated(example_comma_data))
+  expect_true(!anyDuplicated(example_comma_meta))
+})
+
+test_that("Comma test data is long enough to test sniffer", {
+  expect_gt(
+    example_comma_data |>
+      dplyr::filter(!grepl(",", la_name)) |>
+      nrow(),
+    20480
+  )
+})
