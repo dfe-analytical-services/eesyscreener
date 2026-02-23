@@ -124,6 +124,12 @@ validate core assumptions about the metadata file itself.
 
 ## Checks on column names
 
+These checks validate the names of columns in the data files.
+
+- [`check_col_names_spaces()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_col_names_spaces.md)
+  : Check for spaces in variable names This function checks for spaces
+  in the variable names of a given data frame.
+
 ## General checks
 
 These can be run on any file, regardless of type or structure.

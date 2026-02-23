@@ -200,6 +200,7 @@ screen_csv(
 #> ✔ There are an equal number of rows in the metadata file (3) and non-mandatory columns in the data file (3).
 #> ✔ There are no spaces in the col_name values.
 #> ✔ All col_name values are unique.
+#> ✔ There are no spaces in the variable names in the datafile.
 #> ✔ col_type is always 'Filter' or 'Indicator'.
 #> ✔ No observational units have been included in the metadata file.
 #> ✔ The col_name column is completed for every row in the metadata.
