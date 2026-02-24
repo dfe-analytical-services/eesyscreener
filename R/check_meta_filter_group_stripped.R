@@ -44,16 +44,14 @@ check_meta_filter_group_stripped <- function(
     # Strip non-alphanumeric characters from the filter group items, and select uniques
     stripped_filter_groups <- lapply(
       raw_filter_groups,
-      gsub,
-      pattern = "[^[:alnum:]]",
-      replacement = ""
+      function(x) gsub("[^[:alnum:]]", "", x)
     ) |>
       lapply(unique)
     # Compare raw and stripped filter group items
     comparison <- unlist(lapply(raw_filter_groups, length)) ==
       unlist(lapply(stripped_filter_groups, length))
     # Encode filter group items that failed into failed_cols
-    failed_cols <- which(comparison %in% FALSE)
+    failed_cols <- which(!comparison)
     # If there are some (greater than 0) failed_cols, fail test
     if (length(failed_cols) > 0) {
       test_output(
@@ -75,7 +73,7 @@ check_meta_filter_group_stripped <- function(
         "filter_group_stripped",
         "PASS",
         paste0(
-          "There are no issues when stripping alpha-numeric characters from ",
+          "There are no issues when stripping non-alphanumeric characters from ",
           "filter groups."
         ),
         verbose = verbose,
