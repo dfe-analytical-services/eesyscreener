@@ -111,14 +111,15 @@ screen_csv(data_path, meta_path)
 #> 16                    meta_col_name   PASS
 #> 17           filter_group_is_filter   PASS
 #> 18              filter_groups_match   PASS
-#> 19                 check_meta_label   PASS
-#> 20                 meta_filter_hint   PASS
-#> 21                     indicator_dp   PASS
-#> 22                  meta_ind_dp_set   PASS
-#> 23                    meta_ind_unit   PASS
-#> 24               indicator_grouping   PASS
-#> 25                    time_id_valid   PASS
-#> 26 check_api_char_limit_column-name   PASS
+#> 19            filter_group_stripped   PASS
+#> 20                 check_meta_label   PASS
+#> 21                 meta_filter_hint   PASS
+#> 22                     indicator_dp   PASS
+#> 23                  meta_ind_dp_set   PASS
+#> 24                    meta_ind_unit   PASS
+#> 25               indicator_grouping   PASS
+#> 26                    time_id_valid   PASS
+#> 27 check_api_char_limit_column-name   PASS
 #>                                                                                                       message
 #> 1                                                         'example.csv' does not have spaces in the filename.
 #> 2                                                    'example.meta.csv' does not have spaces in the filename.
@@ -138,14 +139,15 @@ screen_csv(data_path, meta_path)
 #> 16                                                         No indicators have a filter_grouping_column value.
 #> 17                                                                        There are no filter groups present.
 #> 18                                                                        There are no filter groups present.
-#> 19                                               The label column is completed for every row in the metadata.
-#> 20                                                                    No indicators have a filter_hint value.
-#> 21                                                                     No filters have an indicator_dp value.
-#> 22                                                   The indicator_dp column is completed for all indicators.
-#> 23                                                                   No filters have an indicator_unit value.
-#> 24                                                               No filters have an indicator_grouping value.
-#> 25                                                                  The time_identifier values are all valid.
-#> 26                          All filter / indicator names are less than or equal to the character limit of 50.
+#> 19                                                                        There are no filter groups present.
+#> 20                                               The label column is completed for every row in the metadata.
+#> 21                                                                    No indicators have a filter_hint value.
+#> 22                                                                     No filters have an indicator_dp value.
+#> 23                                                   The indicator_dp column is completed for all indicators.
+#> 24                                                                   No filters have an indicator_unit value.
+#> 25                                                               No filters have an indicator_grouping value.
+#> 26                                                                  The time_identifier values are all valid.
+#> 27                          All filter / indicator names are less than or equal to the character limit of 50.
 #>    guidance_url            stage
 #> 1            NA         filename
 #> 2            NA         filename
@@ -171,8 +173,9 @@ screen_csv(data_path, meta_path)
 #> 22           NA       Check meta
 #> 23           NA       Check meta
 #> 24           NA       Check meta
-#> 25           NA    Precheck time
-#> 26           NA        Check API
+#> 25           NA       Check meta
+#> 26           NA    Precheck time
+#> 27           NA        Check API
 #> 
 #> $overall_stage
 #> [1] "Passed"
@@ -211,6 +214,7 @@ screen_csv(
 #> ✔ No indicators have a filter_grouping_column value.
 #> ✔ There are no filter groups present.
 #> ✔ There are no filter groups present.
+#> ✔ There are no filter groups present.
 #> ✔ The label column is completed for every row in the metadata.
 #> ✔ No indicators have a filter_hint value.
 #> ✔ No filters have an indicator_dp value.
@@ -243,14 +247,15 @@ screen_csv(
 #> 16                    meta_col_name   PASS
 #> 17           filter_group_is_filter   PASS
 #> 18              filter_groups_match   PASS
-#> 19                 check_meta_label   PASS
-#> 20                 meta_filter_hint   PASS
-#> 21                     indicator_dp   PASS
-#> 22                  meta_ind_dp_set   PASS
-#> 23                    meta_ind_unit   PASS
-#> 24               indicator_grouping   PASS
-#> 25                    time_id_valid   PASS
-#> 26 check_api_char_limit_column-name   PASS
+#> 19            filter_group_stripped   PASS
+#> 20                 check_meta_label   PASS
+#> 21                 meta_filter_hint   PASS
+#> 22                     indicator_dp   PASS
+#> 23                  meta_ind_dp_set   PASS
+#> 24                    meta_ind_unit   PASS
+#> 25               indicator_grouping   PASS
+#> 26                    time_id_valid   PASS
+#> 27 check_api_char_limit_column-name   PASS
 #>                                                                                                       message
 #> 1                                                            'data.csv' does not have spaces in the filename.
 #> 2                                                       'data.meta.csv' does not have spaces in the filename.
@@ -270,14 +275,15 @@ screen_csv(
 #> 16                                                         No indicators have a filter_grouping_column value.
 #> 17                                                                        There are no filter groups present.
 #> 18                                                                        There are no filter groups present.
-#> 19                                               The label column is completed for every row in the metadata.
-#> 20                                                                    No indicators have a filter_hint value.
-#> 21                                                                     No filters have an indicator_dp value.
-#> 22                                                   The indicator_dp column is completed for all indicators.
-#> 23                                                                   No filters have an indicator_unit value.
-#> 24                                                               No filters have an indicator_grouping value.
-#> 25                                                                  The time_identifier values are all valid.
-#> 26                          All filter / indicator names are less than or equal to the character limit of 50.
+#> 19                                                                        There are no filter groups present.
+#> 20                                               The label column is completed for every row in the metadata.
+#> 21                                                                    No indicators have a filter_hint value.
+#> 22                                                                     No filters have an indicator_dp value.
+#> 23                                                   The indicator_dp column is completed for all indicators.
+#> 24                                                                   No filters have an indicator_unit value.
+#> 25                                                               No filters have an indicator_grouping value.
+#> 26                                                                  The time_identifier values are all valid.
+#> 27                          All filter / indicator names are less than or equal to the character limit of 50.
 #>    guidance_url            stage
 #> 1            NA         filename
 #> 2            NA         filename
@@ -303,8 +309,9 @@ screen_csv(
 #> 22           NA       Check meta
 #> 23           NA       Check meta
 #> 24           NA       Check meta
-#> 25           NA    Precheck time
-#> 26           NA        Check API
+#> 25           NA       Check meta
+#> 26           NA    Precheck time
+#> 27           NA        Check API
 #> 
 #> $overall_stage
 #> [1] "Passed"

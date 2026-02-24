@@ -1,11 +1,12 @@
-# Check filter groups match in meta and data
+# Check filter groups are unique when stripping non-alphanumeric characters
 
-Ensure all filter groups from the meta data are found in the data file.
+Throw error when there are not the same number of unique filter groups
+when they are stripped of characters that are not alpha-numeric
 
 ## Usage
 
 ``` r
-check_meta_filter_group_match(
+check_meta_filter_group_stripped(
   data,
   meta,
   verbose = FALSE,
@@ -44,10 +45,9 @@ Other check_meta:
 [`check_meta_duplicate_label()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_duplicate_label.md),
 [`check_meta_filter_group()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_group.md),
 [`check_meta_filter_group_is_filter()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_group_is_filter.md),
-[`check_meta_filter_group_stripped()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_group_stripped.md),
+[`check_meta_filter_group_match()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_group_match.md),
 [`check_meta_filter_hint()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_hint.md),
 [`check_meta_ind_dp_set()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_ind_dp_set.md),
-[`check_meta_ind_unit()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_ind_unit.md),
 [`check_meta_indicator_dp()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_indicator_dp.md),
 [`check_meta_indicator_grouping()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_indicator_grouping.md),
 [`check_meta_label()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_label.md)
@@ -55,11 +55,11 @@ Other check_meta:
 ## Examples
 
 ``` r
-check_meta_filter_group_match(example_data, example_meta)
-#>                 check result                             message guidance_url
-#> 1 filter_groups_match   PASS There are no filter groups present.           NA
-check_meta_filter_group_match(example_data, example_meta, verbose = TRUE)
+check_meta_filter_group_stripped(example_data, example_meta)
+#>                   check result                             message guidance_url
+#> 1 filter_group_stripped   PASS There are no filter groups present.           NA
+check_meta_filter_group_stripped(example_data, example_meta, verbose = TRUE)
 #> ✔ There are no filter groups present.
-#>                 check result                             message guidance_url
-#> 1 filter_groups_match   PASS There are no filter groups present.           NA
+#>                   check result                             message guidance_url
+#> 1 filter_group_stripped   PASS There are no filter groups present.           NA
 ```
