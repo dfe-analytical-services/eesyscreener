@@ -39,13 +39,8 @@ check_ind_blanks <- function(
   if (all(pre_result$values == "PASS")) {
     test_output(
       "check_ind_blanks",
-      "FAIL",
-      paste0(
-        "There are blanks in the following indicator: '",
-        indicators_with_blanks,
-        "'. Blank cells are problematic and must be avoided."
-      ),
-      guidance_url = 'https://gss.civilservice.gov.uk/wp-content/uploads/2017/03/GSS-Website-Harmonised-Symbols-Supporting-Documentation.pdf',
+      "PASS",
+      "There are no blank values in any indicators.",
       verbose = verbose,
       stop_on_error = stop_on_error
     )
