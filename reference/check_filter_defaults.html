@@ -91,12 +91,10 @@ is "FAIL", and will throw genuine warning if result is "WARNING"</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">check_filter_defaults</span><span class="op">(</span><span class="va">example_data</span>, <span class="va">example_meta</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                   check  result</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 check_filter_defaults WARNING</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                                                   message</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 A 'Total' entry or default filter item should be specified for the following filters and / or filter_groups where applicable: 'sex', 'education_phase'.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                            guidance_url</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 https://dfe-analytical-services.github.io/analysts-guide/statistics-production/ud.html#aggregates-and-default-filters</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   check result</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 check_filter_defaults   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                      message guidance_url</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 All filters and groups have a default filter item present.           NA</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -104,7 +102,7 @@ is "FAIL", and will throw genuine warning if result is "WARNING"</p></dd>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Cam Race.</p>
+  <p>Developed by Cam Race, Rich Bielby.</p>
 </div>
 
 <div class="pkgdown-footer-right">

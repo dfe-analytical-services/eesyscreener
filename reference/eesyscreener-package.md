@@ -19,7 +19,26 @@ Useful links:
 
 **Maintainer**: Cam Race <cameron.race@education.gov.uk>
 
+Authors:
+
+- Rich Bielby <richard.bielby@education.gov.uk>
+  ([ORCID](https://orcid.org/0000-0001-9070-9969))
+
 Other contributors:
+
+- Charlotte Foster <charlotte.foster@education.gov.uk> \[contributor\]
+
+- Lara Garbett <lara.garbett@education.gov.uk> \[contributor\]
+
+- Pauline Potts <pauline.potts@education.gov.uk> \[contributor\]
+
+- Matthew Robinson <matthew3.robinson@education.gov.uk> \[contributor\]
+
+- Ethan Roy <ethan.roy@education.gov.uk> \[contributor\]
+
+- Lauren Snaathorst <lauren.snaathorst@education.gov.uk> \[contributor\]
+
+- Bob Tarrant <robert.tarrant@education.gov.uk> \[contributor\]
 
 - Department for Education, England
   <explore.statistics@education.gov.uk> \[copyright holder\]

@@ -38,6 +38,11 @@ a single row data frame
 Uses the exported `api_char_limits` data.frame as a reference for the
 limits.
 
+## See also
+
+Other check_api:
+[`check_api_dict_col_names()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_api_dict_col_names.md)
+
 ## Examples
 
 ``` r

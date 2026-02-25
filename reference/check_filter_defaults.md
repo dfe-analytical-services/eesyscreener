@@ -45,10 +45,8 @@ Other check_filter:
 
 ``` r
 check_filter_defaults(example_data, example_meta)
-#>                   check  result
-#> 1 check_filter_defaults WARNING
-#>                                                                                                                                                   message
-#> 1 A 'Total' entry or default filter item should be specified for the following filters and / or filter_groups where applicable: 'sex', 'education_phase'.
-#>                                                                                                            guidance_url
-#> 1 https://dfe-analytical-services.github.io/analysts-guide/statistics-production/ud.html#aggregates-and-default-filters
+#>                   check result
+#> 1 check_filter_defaults   PASS
+#>                                                      message guidance_url
+#> 1 All filters and groups have a default filter item present.           NA
 ```

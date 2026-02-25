@@ -12,6 +12,7 @@
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/acceptable_time_ids.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/api_char_limits.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/check_api_char_limit.html</loc></url>
+<url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/check_api_dict_col_names.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/check_col_names_spaces.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/check_filename_spaces.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/check_filename_special.html</loc></url>
@@ -31,6 +32,7 @@
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_indicator_dp.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_indicator_grouping.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_label.html</loc></url>
+<url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/data_dictionary.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/eesyscreener-package.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/example_api_long.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/example_api_long_meta.html</loc></url>

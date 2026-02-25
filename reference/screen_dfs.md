@@ -89,6 +89,7 @@ screen_dfs(example_data, example_meta)
 #> 20               indicator_grouping   PASS
 #> 21                    time_id_valid   PASS
 #> 22 check_api_char_limit_column-name   PASS
+#> 23         check_api_dict_col_names   PASS
 #>                                                                                                       message
 #> 1                                               All of the required columns are present in the metadata file.
 #> 2                                                          There are no invalid columns in the metadata file.
@@ -112,6 +113,7 @@ screen_dfs(example_data, example_meta)
 #> 20                                                               No filters have an indicator_grouping value.
 #> 21                                                                  The time_identifier values are all valid.
 #> 22                          All filter / indicator names are less than or equal to the character limit of 50.
+#> 23                                                     All col_names are consistent with the data dictionary.
 #>    guidance_url            stage
 #> 1            NA Precheck columns
 #> 2            NA Precheck columns
@@ -135,4 +137,5 @@ screen_dfs(example_data, example_meta)
 #> 20           NA       Check meta
 #> 21           NA    Precheck time
 #> 22           NA        Check API
+#> 23           NA        Check API
 ```

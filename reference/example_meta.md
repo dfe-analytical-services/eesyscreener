@@ -10,7 +10,7 @@ example_meta
 
 ## Format
 
-A data frame with 3 rows and 8 columns:
+A data frame with 3 rows and 9 columns:
 
 - col_name:
 
@@ -43,6 +43,10 @@ A data frame with 3 rows and 8 columns:
 - filter_grouping_column:
 
   Grouping column showing a filter hierarchy
+
+- filter_default:
+
+  Filter default item
 
 ## Source
 

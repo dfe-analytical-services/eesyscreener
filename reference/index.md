@@ -9,6 +9,11 @@
 - [`screen_filenames()`](https://dfe-analytical-services.github.io/eesyscreener/reference/screen_filenames.md)
   : Run all checks against filenames
 
+## Data dictionary
+
+- [`data_dictionary`](https://dfe-analytical-services.github.io/eesyscreener/reference/data_dictionary.md)
+  : Data dictionary
+
 ## Example datasets
 
 - [`example_api_long`](https://dfe-analytical-services.github.io/eesyscreener/reference/example_api_long.md)
@@ -170,3 +175,5 @@ validate core assumptions about the time columns.
 
 - [`check_api_char_limit()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_api_char_limit.md)
   : Check if values exceed a character limit
+- [`check_api_dict_col_names()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_api_dict_col_names.md)
+  : Check if col_names are present in the data dictionary

@@ -120,6 +120,7 @@ screen_csv(data_path, meta_path)
 #> 25               indicator_grouping   PASS
 #> 26                    time_id_valid   PASS
 #> 27 check_api_char_limit_column-name   PASS
+#> 28         check_api_dict_col_names   PASS
 #>                                                                                                       message
 #> 1                                                         'example.csv' does not have spaces in the filename.
 #> 2                                                    'example.meta.csv' does not have spaces in the filename.
@@ -148,6 +149,7 @@ screen_csv(data_path, meta_path)
 #> 25                                                               No filters have an indicator_grouping value.
 #> 26                                                                  The time_identifier values are all valid.
 #> 27                          All filter / indicator names are less than or equal to the character limit of 50.
+#> 28                                                     All col_names are consistent with the data dictionary.
 #>    guidance_url            stage
 #> 1            NA         filename
 #> 2            NA         filename
@@ -176,6 +178,7 @@ screen_csv(data_path, meta_path)
 #> 25           NA       Check meta
 #> 26           NA    Precheck time
 #> 27           NA        Check API
+#> 28           NA        Check API
 #> 
 #> $overall_stage
 #> [1] "Passed"
@@ -222,9 +225,10 @@ screen_csv(
 #> ✔ No filters have an indicator_unit value.
 #> ✔ No filters have an indicator_grouping value.
 #> ✔ The time_identifier values are all valid.
-#> ! A 'Total' entry or default filter item should be specified for the following filters and / or filter_groups where applicable: 'sex', 'education_phase'.
+#> ✔ All filters and groups have a default filter item present.
 #> ✔ No filter labels contain leading or trailing whitespace.
 #> ✔ All filter / indicator names are less than or equal to the character limit of 50.
+#> ✔ All col_names are consistent with the data dictionary.
 #> ✔ Data and metadata passed all checks
 #> ✔ Data and metadata passed all checks
 #> $results_table
@@ -256,6 +260,7 @@ screen_csv(
 #> 25               indicator_grouping   PASS
 #> 26                    time_id_valid   PASS
 #> 27 check_api_char_limit_column-name   PASS
+#> 28         check_api_dict_col_names   PASS
 #>                                                                                                       message
 #> 1                                                            'data.csv' does not have spaces in the filename.
 #> 2                                                       'data.meta.csv' does not have spaces in the filename.
@@ -284,6 +289,7 @@ screen_csv(
 #> 25                                                               No filters have an indicator_grouping value.
 #> 26                                                                  The time_identifier values are all valid.
 #> 27                          All filter / indicator names are less than or equal to the character limit of 50.
+#> 28                                                     All col_names are consistent with the data dictionary.
 #>    guidance_url            stage
 #> 1            NA         filename
 #> 2            NA         filename
@@ -312,6 +318,7 @@ screen_csv(
 #> 25           NA       Check meta
 #> 26           NA    Precheck time
 #> 27           NA        Check API
+#> 28           NA        Check API
 #> 
 #> $overall_stage
 #> [1] "Passed"
