@@ -13,7 +13,8 @@
 #' check_geography_level_present(example_data, verbose = TRUE)
 #' check_geography_level_present(example_comma_data, verbose = TRUE)
 #' @export
-check_geography_level_present <- function(data,
+check_geography_level_present <- function(
+  data,
   verbose = FALSE,
   stop_on_error = FALSE) {
   if (all(data$geographic_level == "National")) {
