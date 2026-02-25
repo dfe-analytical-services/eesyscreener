@@ -19,7 +19,7 @@ is "FAIL", and will throw genuine warning if result is "WARNING"}
 a single row data frame
 }
 \description{
-Every time indentifier is only compatible with either 4 or 6 digit time
+Every time identifier is only compatible with either 4 or 6 digit time
 periods.
 }
 \examples{

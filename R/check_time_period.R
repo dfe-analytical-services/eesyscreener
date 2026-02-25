@@ -1,6 +1,6 @@
 #' Check that time periods match the time identifier
 #'
-#' Every time indentifier is only compatible with either 4 or 6 digit time
+#' Every time identifier is only compatible with either 4 or 6 digit time
 #' periods.
 #'
 #' @inheritParams precheck_col_req_data

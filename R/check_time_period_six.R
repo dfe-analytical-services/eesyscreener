@@ -1,6 +1,6 @@
 #' Check that 6 digit time periods give consecutive years
 #'
-#' Every 6 digit time indentifier should be in the format YYYYZZ where YYYY is
+#' Every 6 digit time identifier should be in the format YYYYZZ where YYYY is
 #' a 4 digit year and ZZ is the final two digits of the following year.
 #'
 #' For example, 202122 is valid but 202120 is not.

@@ -19,7 +19,7 @@ is "FAIL", and will throw genuine warning if result is "WARNING"}
 a single row data frame
 }
 \description{
-Every 6 digit time indentifier should be in the format YYYYZZ where YYYY is
+Every 6 digit time identifier should be in the format YYYYZZ where YYYY is
 a 4 digit year and ZZ is the final two digits of the following year.
 }
 \details{
