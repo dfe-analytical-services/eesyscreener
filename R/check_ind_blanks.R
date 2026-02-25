@@ -13,15 +13,17 @@
 #' check_ind_blanks(example_data, example_meta, verbose = TRUE)
 #' @export
 check_ind_blanks <- function(
-    data,
-    meta,
-    verbose = FALSE,
-    stop_on_error = FALSE) {
-blanks_check <- function(i) {
-  if ("" %in% data[[i]]) {
-    return("FAIL")
-  } else {
-    return("PASS")
+  data,
+  meta,
+  verbose = FALSE,
+  stop_on_error = FALSE
+) {
+  blanks_check <- function(i) {
+    if ("" %in% data[[i]]) {
+      return("FAIL")
+    } else {
+      return("PASS")
+    }
   }
 }
 
