@@ -213,7 +213,11 @@ screen_dfs <- function(
   precheck_time_results <- rbind(
     precheck_time_id_valid(
       data,
-      meta,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    ),
+    precheck_time_id_mix(
+      data,
       verbose = verbose,
       stop_on_error = stop_on_error
     )

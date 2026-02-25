@@ -82,7 +82,7 @@ financial_halves <- c(
   "Part 2 (October to March)"
 )
 
-acceptable_time_ids <- c(
+acceptable_time_ids <- list(
   "Autumn and spring term",
   "Calendar year",
   "Financial year",

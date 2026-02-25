@@ -29,7 +29,10 @@
 # Acceptable time identifiers ====
 #' Acceptable time identifiers
 #'
-#' @format A vector of acceptable time identifier values
+#' Groups of acceptable time identifier values. Identifiers should
+#' be from the same group to be considered compatible.
+#'
+#' @format A list of acceptable time identifier values
 #' @source maintained by explore.statistics@@education.gov.uk
 "acceptable_time_ids"
 
