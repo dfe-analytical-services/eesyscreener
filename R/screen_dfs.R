@@ -41,7 +41,9 @@ screen_dfs <- function(
   vb <- verbose
   soe <- stop_on_error
 
-  data <- duckplyr::as_duckdb_tibble(data, prudence = prudence)
+  if (!duckplyr::is_duckdb_tibble(data)) {
+    data <- duckplyr::as_duckdb_tibble(data, prudence = prudence)
+  }
   data_details <- list(
     ncols = data |> dplyr::tbl_vars() |> length(),
     nrows = data |> dplyr::count() |> dplyr::pull("n")
@@ -57,38 +59,41 @@ screen_dfs <- function(
     precheck_col_to_rows(data, meta, vb, soe)
   )
 
-  precheck_col_results <- precheck_col_results |>
-    cbind("stage" = "Precheck columns")
+  all_results <- precheck_col_results |>
+    dplyr::mutate(stage = "Precheck columns")
 
   write_json_log(
-    precheck_col_results,
+    all_results,
     log_key = log_key,
     log_dir = log_dir,
     data_details = data_details
   )
 
-  if (any(precheck_col_results[["result"]] == "FAIL")) {
-    return(as.data.frame(precheck_col_results))
+  if (any(all_results[["result"]] == "FAIL")) {
+    return(as.data.frame(all_results))
   }
 
   # Check columns ----------------------------------------------------------
-
   check_col_results <- rbind(
     check_col_names_spaces(data, vb, soe)
   )
 
-  check_col_results <- precheck_col_results |>
+  all_results <- all_results |>
     rbind(
       check_col_results |>
-        cbind("stage" = "Check columns")
+        dplyr::mutate(stage = "Check columns")
     )
 
   write_json_log(
-    check_col_results,
+    all_results,
     log_key = log_key,
     log_dir = log_dir,
     data_details = data_details
   )
+
+  if (any(all_results[["result"]] == "FAIL")) {
+    return(as.data.frame(all_results))
+  }
 
   # Precheck meta -------------------------------------------------------------
   precheck_meta_results <- rbind(
@@ -97,23 +102,21 @@ screen_dfs <- function(
     precheck_meta_col_name(meta, vb, soe)
   )
 
-  precheck_meta_results <- precheck_meta_results |>
-    cbind("stage" = "Precheck meta")
+  all_results <- all_results |>
+    rbind(
+      precheck_meta_results |>
+        dplyr::mutate(stage = "Precheck meta")
+    )
 
   write_json_log(
-    precheck_meta_results,
+    all_results,
     log_key = log_key,
     log_dir = log_dir,
     data_details = data_details
   )
 
-  precheck_meta_results <- precheck_col_results |>
-    rbind(
-      precheck_meta_results
-    )
-
-  if (any(precheck_meta_results[["result"]] == "FAIL")) {
-    return(as.data.frame(precheck_meta_results))
+  if (any(all_results[["result"]] == "FAIL")) {
+    return(as.data.frame(all_results))
   }
 
   # Check meta ----------------------------------------------------------------
@@ -132,23 +135,21 @@ screen_dfs <- function(
     check_meta_indicator_grouping(meta, vb, soe)
   )
 
-  check_meta_results <- check_meta_results |>
-    cbind("stage" = "Check meta")
+  all_results <- all_results |>
+    rbind(
+      check_meta_results |>
+        dplyr::mutate(stage = "Check meta")
+    )
 
   write_json_log(
-    check_meta_results,
+    all_results,
     log_key = log_key,
     log_dir = log_dir,
     data_details = data_details
   )
 
-  check_meta_results <- precheck_meta_results |>
-    rbind(
-      check_meta_results
-    )
-
-  if (any(check_meta_results[["result"]] == "FAIL")) {
-    return(as.data.frame(check_meta_results))
+  if (any(all_results[["result"]] == "FAIL")) {
+    return(as.data.frame(all_results))
   }
 
   # Turn on duckdb ------------------------------------------------------------
@@ -160,23 +161,21 @@ screen_dfs <- function(
     precheck_time_id_valid(data, meta, vb, soe)
   )
 
-  precheck_time_results <- precheck_time_results |>
-    cbind("stage" = "Precheck time")
+  all_results <- all_results |>
+    rbind(
+      precheck_time_results |>
+        dplyr::mutate(stage = "Precheck time")
+    )
 
   write_json_log(
-    precheck_time_results,
+    all_results,
     log_key = log_key,
     log_dir = log_dir,
     data_details = data_details
   )
 
-  precheck_time_results <- check_meta_results |>
-    rbind(
-      precheck_time_results
-    )
-
-  if (any(precheck_time_results[["result"]] == "FAIL")) {
-    return(as.data.frame(precheck_time_results))
+  if (any(all_results[["result"]] == "FAIL")) {
+    return(as.data.frame(all_results))
   }
 
   # Check Filters -----------------------------------------------------------------
@@ -185,23 +184,21 @@ screen_dfs <- function(
     check_filter_whitespace(data, meta, vb, soe)
   )
 
-  check_filter_results <- check_filter_results |>
-    cbind("stage" = "Check filters")
+  all_results <- all_results |>
+    rbind(
+      check_filter_results |>
+        dplyr::mutate(stage = "Check filters")
+    )
 
   write_json_log(
-    check_filter_results,
+    all_results,
     log_key = log_key,
     log_dir = log_dir,
     data_details = data_details
   )
 
-  check_filter_results <- precheck_time_results |>
-    rbind(
-      check_filter_results
-    )
-
-  if (any(check_filter_results[["result"]] == "FAIL")) {
-    return(as.data.frame(check_filter_results))
+  if (any(all_results[["result"]] == "FAIL")) {
+    return(as.data.frame(all_results))
   }
 
   # Check API -----------------------------------------------------------------
@@ -212,11 +209,14 @@ screen_dfs <- function(
     check_api_char_filter_items(data, meta, vb, soe)
   )
 
-  check_api_results <- check_api_results |>
-    cbind("stage" = "Check API")
+  all_results <- all_results |>
+    rbind(
+      check_api_results |>
+        dplyr::mutate(stage = "Check API")
+    )
 
   write_json_log(
-    check_api_results,
+    all_results,
     log_key = log_key,
     log_dir = log_dir,
     data_details = data_details
@@ -224,26 +224,23 @@ screen_dfs <- function(
 
   api_pass <- all(check_api_results[["result"]] == "PASS")
 
-  final_results <- precheck_time_results |>
-    rbind(
-      check_api_results
-    )
-
-  if (any(final_results[["result"]] == "FAIL")) {
-    return(as.data.frame(final_results))
+  if (any(all_results[["result"]] == "FAIL")) {
+    return(as.data.frame(all_results))
   }
 
   # Success return ------------------------------------------------------------
-  if (api_pass && verbose) {
-    cli::cli_alert_success("Data and metadata passed all checks")
-  } else if (verbose) {
-    cli::cli_alert_info(
-      paste(
-        "Data and metadata passed, but warnings prevent it being suitable for",
-        "the API"
+  if (verbose) {
+    if (api_pass) {
+      cli::cli_alert_success("Data and metadata passed all checks")
+    } else {
+      cli::cli_alert_info(
+        paste(
+          "Data and metadata passed, but warnings prevent it being suitable for",
+          "the API"
+        )
       )
-    )
+    }
   }
 
-  final_results
+  as.data.frame(all_results)
 }

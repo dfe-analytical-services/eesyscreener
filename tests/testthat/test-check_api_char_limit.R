@@ -26,7 +26,6 @@ test_that("warns when some values exceed the limit", {
 
   values <- c("A", paste(rep("x", 65), paste(rep("y", 65)), collapse = ""))
   type <- "column-name"
-  result <- api_char_limit(values, type)
   expect_warning(
     api_char_limit(values, type, stop_on_error = TRUE),
     "exceed the character limit"
