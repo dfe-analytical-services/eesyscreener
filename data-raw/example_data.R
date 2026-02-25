@@ -45,7 +45,7 @@ example_meta <- data.frame(
   label = c("Sex of pupil", "Education phase", "Number of enrolments"),
   indicator_grouping = c("", "", ""),
   indicator_unit = c("", "", ""),
-  indicator_dp = c("", "", 1),
+  indicator_dp = c(NA, NA, 0),
   filter_hint = c("", "", ""),
   filter_grouping_column = c("", "", "")
 )
