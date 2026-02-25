@@ -27,8 +27,8 @@ Throw error if indicator unit values used in the meta file are not
 present in the list of acceptable indicator unit values
 }
 \examples{
-check_meta_ind_dp_set(example_meta)
-check_meta_ind_dp_set(example_meta, verbose = TRUE)
+check_meta_indicator_unit_validation(example_meta)
+check_meta_indicator_unit_validation(example_meta, verbose = TRUE)
 }
 \seealso{
 Other check_meta: 

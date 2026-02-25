@@ -10,8 +10,8 @@
 #' @family check_meta
 #'
 #' @examples
-#' check_meta_ind_dp_set(example_meta)
-#' check_meta_ind_dp_set(example_meta, verbose = TRUE)
+#' check_meta_indicator_unit_validation(example_meta)
+#' check_meta_indicator_unit_validation(example_meta, verbose = TRUE)
 #' @export
 check_meta_indicator_unit_validation <- function(
   meta,
