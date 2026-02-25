@@ -25,7 +25,6 @@ check_ind_blanks <- function(
       return("PASS")
     }
   }
-}
 
 indicators <- meta |>
   dplyr::filter(col_type == "Indicator") |>
