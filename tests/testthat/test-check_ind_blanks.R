@@ -51,7 +51,17 @@ testthat::test_that("check_ind_blanks: returns an error when there are more than
     )
   )
 
-  example_data_with_blank$extra_indicator <- c(10, 20, 30, 40, 50, 60, 70, 80, 90)
+  example_data_with_blank$extra_indicator <- c(
+    10,
+    20,
+    30,
+    40,
+    50,
+    60,
+    70,
+    80,
+    90
+  )
 
   # Should error when there are blanks in the indicators
   expect_equal(
