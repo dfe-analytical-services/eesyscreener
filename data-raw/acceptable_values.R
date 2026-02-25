@@ -113,3 +113,7 @@ six_digit_identifiers <- c(
 )
 
 usethis::use_data(six_digit_identifiers, overwrite = TRUE)
+
+acceptable_indicator_units <- c("%", "pp", "£", "£m", "numberstring")
+
+usethis::use_data(acceptable_indicator_units, overwrite = TRUE)
