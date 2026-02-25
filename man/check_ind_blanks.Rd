@@ -7,6 +7,8 @@
 check_ind_blanks(data, meta, verbose = FALSE, stop_on_error = FALSE)
 }
 \arguments{
+\item{data}{A data frame of the data file}
+
 \item{meta}{A data frame of the metadata file}
 
 \item{verbose}{logical, if TRUE prints feedback messages to console for
