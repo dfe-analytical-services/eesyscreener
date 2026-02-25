@@ -47,7 +47,13 @@ check_geography_level_present <- function(
     } else {
       missing_cols <- paste0("'",missing_cols,"'",sep="")
       output <- list(
-        "message" = paste0("Given that the following geographic_level values are present: '", paste(unique(data$geographic_level), collapse = "', '"), cli::pluralize("'; <br> - the following column{?s} {?is/are} missing from the file: {missing_cols}.")),
+        "message" = paste0(
+          "Given that the following geographic_level values are present: '",
+          paste(unique(data$geographic_level), collapse = "', '"),
+          cli::pluralize(
+            "'; <br> - the following column{?s} {?is/are} missing from the file: {missing_cols}."
+          )
+        ),
         "result" = "FAIL"
       )
     }
