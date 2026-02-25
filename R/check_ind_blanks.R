@@ -12,7 +12,11 @@
 #' check_ind_blanks(example_data, example_meta)
 #' check_ind_blanks(example_data, example_meta, verbose = TRUE)
 #' @export
-check_ind_blanks <- function(data, meta) {
+check_ind_blanks <- function(
+    data,
+    meta,
+    verbose = FALSE,
+    stop_on_error = FALSE) {
 blanks_check <- function(i) {
   if ("" %in% data[[i]]) {
     return("FAIL")
@@ -47,10 +51,9 @@ if (all(pre_result$values == "PASS")) {
       paste0(
         "There are blanks in the following indicator: '",
         indicators_with_blanks,
-        "'. <br> - Blank cells are problematic and must be avoided. <br> - Please check the ",
-        "<a href='https://gss.civilservice.gov.uk/wp-content/uploads/2017/03/GSS-Website-Harmonised-Symbols-Supporting-Documentation.pdf' target='_blank'>GSS guidance</a>",
-        " for advice on the symbols to use for no data."
+        "'. Blank cells are problematic and must be avoided."
       ),
+      guidance_url = 'https://gss.civilservice.gov.uk/wp-content/uploads/2017/03/GSS-Website-Harmonised-Symbols-Supporting-Documentation.pdf',
       verbose = verbose,
       stop_on_error = stop_on_error
     )
@@ -61,10 +64,9 @@ if (all(pre_result$values == "PASS")) {
       paste0(
         "There are blanks in the following indicators: '",
         paste(indicators_with_blanks, collapse = "', '"),
-        "'. <br> - Blank cells are problematic and must be avoided. <br> - Please check the ",
-        "<a href='https://gss.civilservice.gov.uk/wp-content/uploads/2017/03/GSS-Website-Harmonised-Symbols-Supporting-Documentation.pdf' target='_blank'>GSS guidance</a>",
-        " for advice on the symbols to use for no data."
+        "'. Blank cells are problematic and must be avoided."
       ),
+      guidance_url = 'https://gss.civilservice.gov.uk/wp-content/uploads/2017/03/GSS-Website-Harmonised-Symbols-Supporting-Documentation.pdf',
       verbose = verbose,
       stop_on_error = stop_on_error
     )
