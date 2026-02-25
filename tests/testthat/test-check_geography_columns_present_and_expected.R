@@ -82,7 +82,10 @@ test_that("Test produces FAIL plural response when data doesn't contain multiple
     la_name = "Bracknell Forest"
   )
   expect_equal(check_geography_level_present(input_data)$result, "FAIL")
-  expect_true(check_geography_level_present(input_data)$message == "Given that the following geographic_level values are present: 'Local authority'; <br> - the following columns are missing from the file: 'new_la_code' and 'old_la_code'.")
+  expect_true(
+    check_geography_level_present(input_data)$message ==
+      "Given that the following geographic_level values are present: 'Local authority'; <br> - the following columns are missing from the file: 'new_la_code' and 'old_la_code'."
+  )
   expect_no_error(check_geography_level_present(
     input_data,
     stop_on_error = TRUE
