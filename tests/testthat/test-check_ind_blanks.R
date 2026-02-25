@@ -65,7 +65,10 @@ testthat::test_that("check_ind_blanks: returns an error when there are more than
 
   # Should error when there are blanks in the indicators
   expect_equal(
-    check_ind_blanks(example_data_with_blank, example_meta_with_extra_indicator)$result,
+    check_ind_blanks(
+      example_data_with_blank,
+      example_meta_with_extra_indicator
+    )$result,
     "FAIL"
   )
 })
