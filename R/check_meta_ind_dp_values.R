@@ -14,7 +14,7 @@
 #' @export
 check_meta_ind_dp_values <- function(
     meta,
-    verbose = FALSE
+    verbose = FALSE,
     stop_on_error = FALSE
     ) {
   if (all(is.na(meta$indicator_dp))) {
