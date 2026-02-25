@@ -255,7 +255,6 @@ screen_dfs <- function(
     data_details = data_details
   )
 
-
   # Check Filters -----------------------------------------------------------------
   check_filter_results <- rbind(
     check_filter_defaults(
