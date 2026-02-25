@@ -36,16 +36,7 @@ check_ind_blanks <- function(
   indicators_with_blanks <- dplyr::filter(pre_result, values == "FAIL") |>
     dplyr::pull(ind)
 
-if (all(pre_result$values == "PASS")) {
-  test_output(
-    "check_ind_blanks",
-    "PASS",
-    "There are no blank values in any indicators.",
-    verbose = verbose,
-    stop_on_error = stop_on_error
-  )
-} else {
-  if (length(indicators_with_blanks) == 1) {
+  if (all(pre_result$values == "PASS")) {
     test_output(
       "check_ind_blanks",
       "FAIL",
