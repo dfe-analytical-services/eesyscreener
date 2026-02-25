@@ -37,7 +37,7 @@ check_geography_level_present <- function(
       as.matrix()
 
     missing_cols <- unlist(apply(geography_present, 1, expected_cols))
-    missing_cols <-  missing_cols[!is.na(missing_cols)] |>
+    missing_cols <- missing_cols[!is.na(missing_cols)] |>
       setdiff(names(data))
     if (length(missing_cols) == 0) {
       output <- list(
