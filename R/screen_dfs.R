@@ -203,7 +203,6 @@ screen_dfs <- function(
     return(as.data.frame(check_meta_results))
   }
 
-
   # Check indicators ----------------------------------------------------------
 
   check_ind_results <- rbind(
