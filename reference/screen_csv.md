@@ -92,35 +92,33 @@ write.csv(example_meta, meta_path, row.names = FALSE)
 
 screen_csv(data_path, meta_path)
 #> $results_table
-#>                               check result
-#> 1        check_filename_data_spaces   PASS
-#> 2    check_filename_metadata_spaces   PASS
-#> 3       check_filename_data_special   PASS
-#> 4   check_filename_metadata_special   PASS
-#> 5             check_filenames_match   PASS
-#> 6                      col_req_meta   PASS
-#> 7                  col_invalid_meta   PASS
-#> 8                      col_req_data   PASS
-#> 9                       col_to_rows   PASS
-#> 10                  col_name_spaces   PASS
-#> 11               col_name_duplicate   PASS
-#> 12                    meta_col_type   PASS
-#> 13                     meta_ob_unit   PASS
-#> 14                    meta_col_name   PASS
-#> 15             meta_duplicate_label   PASS
-#> 16                    meta_col_name   PASS
-#> 17           filter_group_is_filter   PASS
-#> 18              filter_groups_match   PASS
-#> 19            filter_group_stripped   PASS
-#> 20                 check_meta_label   PASS
-#> 21                 meta_filter_hint   PASS
-#> 22                     indicator_dp   PASS
-#> 23                  meta_ind_dp_set   PASS
-#> 24                    meta_ind_unit   PASS
-#> 25               indicator_grouping   PASS
-#> 26                    time_id_valid   PASS
-#> 27 check_api_char_limit_column-name   PASS
-#> 28         check_api_dict_col_names   PASS
+#>                              check result
+#> 1       check_filename_data_spaces   PASS
+#> 2   check_filename_metadata_spaces   PASS
+#> 3      check_filename_data_special   PASS
+#> 4  check_filename_metadata_special   PASS
+#> 5            check_filenames_match   PASS
+#> 6                     col_req_meta   PASS
+#> 7                 col_invalid_meta   PASS
+#> 8                     col_req_data   PASS
+#> 9                      col_to_rows   PASS
+#> 10                 col_name_spaces   PASS
+#> 11              col_name_duplicate   PASS
+#> 12                   meta_col_type   PASS
+#> 13                    meta_ob_unit   PASS
+#> 14                   meta_col_name   PASS
+#> 15            meta_duplicate_label   PASS
+#> 16                   meta_col_name   PASS
+#> 17          filter_group_is_filter   PASS
+#> 18             filter_groups_match   PASS
+#> 19           filter_group_stripped   PASS
+#> 20                check_meta_label   PASS
+#> 21                meta_filter_hint   PASS
+#> 22                    indicator_dp   FAIL
+#> 23                 meta_ind_dp_set   PASS
+#> 24                   meta_ind_unit   PASS
+#> 25              indicator_grouping   PASS
+#> 26                   ind_dp_values   FAIL
 #>                                                                                                       message
 #> 1                                                         'example.csv' does not have spaces in the filename.
 #> 2                                                    'example.meta.csv' does not have spaces in the filename.
@@ -143,13 +141,11 @@ screen_csv(data_path, meta_path)
 #> 19                                                                        There are no filter groups present.
 #> 20                                               The label column is completed for every row in the metadata.
 #> 21                                                                    No indicators have a filter_hint value.
-#> 22                                                                     No filters have an indicator_dp value.
+#> 22                                        Filters should not have an indicator_dp value in the metadata file.
 #> 23                                                   The indicator_dp column is completed for all indicators.
 #> 24                                                                   No filters have an indicator_unit value.
 #> 25                                                               No filters have an indicator_grouping value.
-#> 26                                                                  The time_identifier values are all valid.
-#> 27                          All filter / indicator names are less than or equal to the character limit of 50.
-#> 28                                                     All col_names are consistent with the data dictionary.
+#> 26   The indicator_dp column must only contain blanks, zero, or positive integer values in the metadata file.
 #>    guidance_url            stage
 #> 1            NA         filename
 #> 2            NA         filename
@@ -176,18 +172,16 @@ screen_csv(data_path, meta_path)
 #> 23           NA       Check meta
 #> 24           NA       Check meta
 #> 25           NA       Check meta
-#> 26           NA    Precheck time
-#> 27           NA        Check API
-#> 28           NA        Check API
+#> 26           NA       Check meta
 #> 
 #> $overall_stage
-#> [1] "Passed"
+#> [1] "Check meta checks"
 #> 
 #> $passed
-#> [1] TRUE
+#> [1] FALSE
 #> 
 #> $api_suitable
-#> [1] TRUE
+#> [1] FALSE
 #> 
 
 screen_csv(
@@ -220,47 +214,39 @@ screen_csv(
 #> ✔ There are no filter groups present.
 #> ✔ The label column is completed for every row in the metadata.
 #> ✔ No indicators have a filter_hint value.
-#> ✔ No filters have an indicator_dp value.
+#> ✖ Filters should not have an indicator_dp value in the metadata file.
 #> ✔ The indicator_dp column is completed for all indicators.
 #> ✔ No filters have an indicator_unit value.
 #> ✔ No filters have an indicator_grouping value.
-#> ✔ The time_identifier values are all valid.
-#> ✔ All filters and groups have a default filter item present.
-#> ✔ No filter labels contain leading or trailing whitespace.
-#> ✔ All filter / indicator names are less than or equal to the character limit of 50.
-#> ✔ All col_names are consistent with the data dictionary.
-#> ✔ Data and metadata passed all checks
-#> ✔ Data and metadata passed all checks
+#> ✖ The indicator_dp column must only contain blanks, zero, or positive integer values in the metadata file.
 #> $results_table
-#>                               check result
-#> 1        check_filename_data_spaces   PASS
-#> 2    check_filename_metadata_spaces   PASS
-#> 3       check_filename_data_special   PASS
-#> 4   check_filename_metadata_special   PASS
-#> 5             check_filenames_match   PASS
-#> 6                      col_req_meta   PASS
-#> 7                  col_invalid_meta   PASS
-#> 8                      col_req_data   PASS
-#> 9                       col_to_rows   PASS
-#> 10                  col_name_spaces   PASS
-#> 11               col_name_duplicate   PASS
-#> 12                    meta_col_type   PASS
-#> 13                     meta_ob_unit   PASS
-#> 14                    meta_col_name   PASS
-#> 15             meta_duplicate_label   PASS
-#> 16                    meta_col_name   PASS
-#> 17           filter_group_is_filter   PASS
-#> 18              filter_groups_match   PASS
-#> 19            filter_group_stripped   PASS
-#> 20                 check_meta_label   PASS
-#> 21                 meta_filter_hint   PASS
-#> 22                     indicator_dp   PASS
-#> 23                  meta_ind_dp_set   PASS
-#> 24                    meta_ind_unit   PASS
-#> 25               indicator_grouping   PASS
-#> 26                    time_id_valid   PASS
-#> 27 check_api_char_limit_column-name   PASS
-#> 28         check_api_dict_col_names   PASS
+#>                              check result
+#> 1       check_filename_data_spaces   PASS
+#> 2   check_filename_metadata_spaces   PASS
+#> 3      check_filename_data_special   PASS
+#> 4  check_filename_metadata_special   PASS
+#> 5            check_filenames_match   PASS
+#> 6                     col_req_meta   PASS
+#> 7                 col_invalid_meta   PASS
+#> 8                     col_req_data   PASS
+#> 9                      col_to_rows   PASS
+#> 10                 col_name_spaces   PASS
+#> 11              col_name_duplicate   PASS
+#> 12                   meta_col_type   PASS
+#> 13                    meta_ob_unit   PASS
+#> 14                   meta_col_name   PASS
+#> 15            meta_duplicate_label   PASS
+#> 16                   meta_col_name   PASS
+#> 17          filter_group_is_filter   PASS
+#> 18             filter_groups_match   PASS
+#> 19           filter_group_stripped   PASS
+#> 20                check_meta_label   PASS
+#> 21                meta_filter_hint   PASS
+#> 22                    indicator_dp   FAIL
+#> 23                 meta_ind_dp_set   PASS
+#> 24                   meta_ind_unit   PASS
+#> 25              indicator_grouping   PASS
+#> 26                   ind_dp_values   FAIL
 #>                                                                                                       message
 #> 1                                                            'data.csv' does not have spaces in the filename.
 #> 2                                                       'data.meta.csv' does not have spaces in the filename.
@@ -283,13 +269,11 @@ screen_csv(
 #> 19                                                                        There are no filter groups present.
 #> 20                                               The label column is completed for every row in the metadata.
 #> 21                                                                    No indicators have a filter_hint value.
-#> 22                                                                     No filters have an indicator_dp value.
+#> 22                                        Filters should not have an indicator_dp value in the metadata file.
 #> 23                                                   The indicator_dp column is completed for all indicators.
 #> 24                                                                   No filters have an indicator_unit value.
 #> 25                                                               No filters have an indicator_grouping value.
-#> 26                                                                  The time_identifier values are all valid.
-#> 27                          All filter / indicator names are less than or equal to the character limit of 50.
-#> 28                                                     All col_names are consistent with the data dictionary.
+#> 26   The indicator_dp column must only contain blanks, zero, or positive integer values in the metadata file.
 #>    guidance_url            stage
 #> 1            NA         filename
 #> 2            NA         filename
@@ -316,18 +300,16 @@ screen_csv(
 #> 23           NA       Check meta
 #> 24           NA       Check meta
 #> 25           NA       Check meta
-#> 26           NA    Precheck time
-#> 27           NA        Check API
-#> 28           NA        Check API
+#> 26           NA       Check meta
 #> 
 #> $overall_stage
-#> [1] "Passed"
+#> [1] "Check meta checks"
 #> 
 #> $passed
-#> [1] TRUE
+#> [1] FALSE
 #> 
 #> $api_suitable
-#> [1] TRUE
+#> [1] FALSE
 #> 
 
 # Clean up temp files

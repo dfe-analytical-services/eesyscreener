@@ -1,11 +1,12 @@
-# Check indicator_grouping is blank for all filters
+# Check indicator_dp only contains blanks or positive integer values.
 
-Throw an error if, for any filter, indicator_grouping is not blank.
+This function checks that The indicator_dp column only contains blanks
+or positive integer values.
 
 ## Usage
 
 ``` r
-check_meta_indicator_grouping(meta, verbose = FALSE, stop_on_error = FALSE)
+check_meta_ind_dp_values(meta, verbose = FALSE, stop_on_error = FALSE)
 ```
 
 ## Arguments
@@ -39,23 +40,27 @@ Other check_meta:
 [`check_meta_filter_group_stripped()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_group_stripped.md),
 [`check_meta_filter_hint()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_hint.md),
 [`check_meta_ind_dp_set()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_ind_dp_set.md),
-[`check_meta_ind_dp_values()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_ind_dp_values.md),
 [`check_meta_ind_unit()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_ind_unit.md),
 [`check_meta_indicator_dp()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_indicator_dp.md),
+[`check_meta_indicator_grouping()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_indicator_grouping.md),
 [`check_meta_label()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_label.md)
 
 ## Examples
 
 ``` r
-check_meta_indicator_grouping(example_meta)
-#>                check result                                      message
-#> 1 indicator_grouping   PASS No filters have an indicator_grouping value.
+check_meta_ind_dp_values(example_meta)
+#>           check result
+#> 1 ind_dp_values   PASS
+#>                                                                           message
+#> 1 The indicator_dp column only contains blanks, zero, or positive integer values.
 #>   guidance_url
 #> 1           NA
-check_meta_indicator_grouping(example_meta, verbose = TRUE)
-#> ✔ No filters have an indicator_grouping value.
-#>                check result                                      message
-#> 1 indicator_grouping   PASS No filters have an indicator_grouping value.
+check_meta_ind_dp_values(example_meta, verbose = TRUE)
+#> ✔ The indicator_dp column only contains blanks, zero, or positive integer values.
+#>           check result
+#> 1 ind_dp_values   PASS
+#>                                                                           message
+#> 1 The indicator_dp column only contains blanks, zero, or positive integer values.
 #>   guidance_url
 #> 1           NA
 ```

@@ -121,6 +121,8 @@ validate core assumptions about the metadata file itself.
   : Check filter_hint is not set for indicator rows
 - [`check_meta_ind_dp_set()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_ind_dp_set.md)
   : Check indicator_dp is set for all indicator rows
+- [`check_meta_ind_dp_values()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_ind_dp_values.md)
+  : Check indicator_dp only contains blanks or positive integer values.
 - [`check_meta_ind_unit()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_ind_unit.md)
   : Check indicator_dp is set for all indicator rows
 - [`check_meta_indicator_dp()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_indicator_dp.md)
