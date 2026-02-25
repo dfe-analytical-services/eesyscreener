@@ -24,7 +24,8 @@ check_meta_indicator_unit_validation <- function(
       col_type == "Indicator",
       !(is.na(indicator_unit) | indicator_unit == "")
     ) |>
-    dplyr::pull(indicator_unit) |> unique()
+    dplyr::pull(indicator_unit) |>
+    unique()
   # Compare present indicator unit values to the acceptable values
   invalid_indicator_units <- setdiff(
     present_indictor_units,
