@@ -31,7 +31,7 @@ check_ind_blanks <- function(
     dplyr::pull(col_name) |>
     as.vector()
 
-pre_result <- utils::stack(sapply(indicators, blanks_check))
+  pre_result <- utils::stack(sapply(indicators, blanks_check))
 
 indicators_with_blanks <- dplyr::filter(pre_result, values == "FAIL") |>
   dplyr::pull(ind)
