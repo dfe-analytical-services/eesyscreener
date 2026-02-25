@@ -41,6 +41,7 @@ Other check_meta:
 \code{\link{check_meta_filter_group_stripped}()},
 \code{\link{check_meta_filter_hint}()},
 \code{\link{check_meta_ind_dp_set}()},
+\code{\link{check_meta_ind_dp_values}()},
 \code{\link{check_meta_ind_unit}()},
 \code{\link{check_meta_ind_unit_validation}()},
 \code{\link{check_meta_indicator_dp}()},
