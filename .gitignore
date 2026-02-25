@@ -9,3 +9,6 @@ inst/doc
 /Meta/
 *.csv
 eesyscreener_log*json
+.renv
+.Rprofile
+.gitignore
