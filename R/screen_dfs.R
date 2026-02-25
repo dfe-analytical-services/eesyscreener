@@ -237,7 +237,7 @@ screen_dfs <- function(
     return(as.data.frame(precheck_time_results))
   }
 
-  # Check geography 
+  # Check geography
   check_geography_results <- rbind(
     check_geography_level_present(
       data,
