@@ -240,16 +240,16 @@ screen_dfs <- function(
   }
 
   # Check geography
-  check_geography_results <- rbind(
-    check_geography_level_present(
+  precheck_geography_results <- rbind(
+    precheck_geography_level_present(
       data,
       verbose = verbose,
       stop_on_error = stop_on_error
     )
   )
 
-  check_geography_results <- check_geography_results |>
-    cbind("stage" = "check geography")
+  precheck_geography_results <- precheck_geography_results |>
+    cbind("stage" = "Precheck geography")
   write_json_log(
     check_geography_results,
     log_key = log_key,
