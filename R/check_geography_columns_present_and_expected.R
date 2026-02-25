@@ -16,7 +16,8 @@
 check_geography_level_present <- function(
   data,
   verbose = FALSE,
-  stop_on_error = FALSE) {
+  stop_on_error = FALSE
+) {
   if (all(data$geographic_level == "National")) {
     output <- list(
       "message" = "There is only National level data in the file.",
