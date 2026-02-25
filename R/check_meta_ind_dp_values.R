@@ -18,9 +18,12 @@ check_meta_ind_dp_values <- function(
     stop_on_error = FALSE
     ) {
   if (all(is.na(meta$indicator_dp))) {
-    output <- list(
-      "message" = "The indicator_dp column only contains blanks.",
-      "result" = "PASS"
+    test_output(
+      "ind_dp_values",
+      "PASS",
+      "The indicator_dp column only contains blanks.",
+      verbose = verbose,
+      stop_on_error = stop_on_error
     )
   } else {
     if (is.numeric(meta$indicator_dp)) {
@@ -36,8 +39,8 @@ check_meta_ind_dp_values <- function(
       meta$integer <- lapply(meta$indicator_dp, isInteger)
       meta$notNegative <- lapply(meta$indicator_dp, function(x) x >= 0)
       failed_rows <- rbind(
-        meta %>% dplyr::filter(integer == FALSE),
-        meta %>% dplyr::filter(notNegative == FALSE)
+        meta |> dplyr::filter(integer == FALSE),
+        meta |> dplyr::filter(notNegative == FALSE)
       )
 
       if (nrow(failed_rows) != 0) {

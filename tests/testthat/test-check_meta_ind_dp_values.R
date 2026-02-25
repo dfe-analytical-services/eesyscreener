@@ -15,7 +15,7 @@ testthat::test_that("check_meta_ind_dp_values: passes when indicator_dp is blank
   )
 })
 
-testtthat::test_that("check_meta_ind_dp_values: fails when indicator_dp contains negative integers", {
+testthat::test_that("check_meta_ind_dp_values: fails when indicator_dp contains negative integers", {
   # Should error when there are negative integers in the indicator_dp column
   example_meta_fail <- example_meta
   example_meta_fail$indicator_dp <- c(NA, NA, -1)
