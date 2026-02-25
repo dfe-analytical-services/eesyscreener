@@ -36,7 +36,7 @@ test_that("Test produces PASS response when data contains all the required colum
 })
 
 test_that("Test produces FAIL response when data doesn't contain all the required columns for a geographic_level", {
-    input_data <- data.frame(
+  input_data <- data.frame(
     time_period = c(
       "201718"
     ),
