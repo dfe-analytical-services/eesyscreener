@@ -28,7 +28,10 @@ test_that("Test produces PASS response when data contains all the required colum
   )
 
   expect_equal(check_geography_level_present(input_data)$result, "PASS")
-  expect_true(check_geography_level_present(input_data)$message == "The geography columns are present as expected for the geographic_level values in the file.")
+  expect_true(
+    check_geography_level_present(input_data)$message ==
+      "The geography columns are present as expected for the geographic_level values in the file."
+  )
   expect_no_error(check_geography_level_present(
     input_data,
     stop_on_error = TRUE
