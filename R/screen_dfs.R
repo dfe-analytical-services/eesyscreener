@@ -220,6 +220,11 @@ screen_dfs <- function(
       data,
       verbose = verbose,
       stop_on_error = stop_on_error
+    ),
+    precheck_time_period_num(
+      data,
+      verbose = verbose,
+      stop_on_error = stop_on_error
     )
   )
 

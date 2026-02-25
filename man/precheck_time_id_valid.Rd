@@ -26,6 +26,7 @@ precheck_time_id_valid(example_data)
 }
 \seealso{
 Other precheck_time: 
-\code{\link{precheck_time_id_mix}()}
+\code{\link{precheck_time_id_mix}()},
+\code{\link{precheck_time_period_num}()}
 }
 \concept{precheck_time}
