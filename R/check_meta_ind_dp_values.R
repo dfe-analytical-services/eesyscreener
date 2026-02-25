@@ -61,7 +61,7 @@ check_meta_ind_dp_values <- function(
       test_output(
         "ind_dp_values",
         "FAIL",
-        "The indicator_dp column must only contain numeric values or blanks in the metadata file.",
+        "The indicator_dp column must only contain positive integer values or blanks in the metadata file.",
         verbose = verbose,
         stop_on_error = stop_on_error
       )
