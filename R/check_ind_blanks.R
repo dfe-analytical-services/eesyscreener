@@ -33,8 +33,8 @@ check_ind_blanks <- function(
 
   pre_result <- utils::stack(sapply(indicators, blanks_check))
 
-indicators_with_blanks <- dplyr::filter(pre_result, values == "FAIL") |>
-  dplyr::pull(ind)
+  indicators_with_blanks <- dplyr::filter(pre_result, values == "FAIL") |>
+    dplyr::pull(ind)
 
 if (all(pre_result$values == "PASS")) {
   test_output(
