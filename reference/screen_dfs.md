@@ -86,11 +86,12 @@ screen_dfs(example_data, example_meta)
 #> 17                     indicator_dp   PASS
 #> 18                  meta_ind_dp_set   PASS
 #> 19                    meta_ind_unit   PASS
-#> 20               indicator_grouping   PASS
-#> 21                    ind_dp_values   PASS
-#> 22                    time_id_valid   PASS
-#> 23 check_api_char_limit_column-name   PASS
-#> 24         check_api_dict_col_names   PASS
+#> 20        indicator_unit_validation   PASS
+#> 21               indicator_grouping   PASS
+#> 22                    ind_dp_values   PASS
+#> 23                    time_id_valid   PASS
+#> 24 check_api_char_limit_column-name   PASS
+#> 25         check_api_dict_col_names   PASS
 #>                                                                                                       message
 #> 1                                               All of the required columns are present in the metadata file.
 #> 2                                                          There are no invalid columns in the metadata file.
@@ -111,11 +112,12 @@ screen_dfs(example_data, example_meta)
 #> 17                                                                     No filters have an indicator_dp value.
 #> 18                                                   The indicator_dp column is completed for all indicators.
 #> 19                                                                   No filters have an indicator_unit value.
-#> 20                                                               No filters have an indicator_grouping value.
-#> 21                            The indicator_dp column only contains blanks, zero, or positive integer values.
-#> 22                                                                  The time_identifier values are all valid.
-#> 23                          All filter / indicator names are less than or equal to the character limit of 50.
-#> 24                                                     All col_names are consistent with the data dictionary.
+#> 20                                                                        The indicator_unit values are valid
+#> 21                                                               No filters have an indicator_grouping value.
+#> 22                            The indicator_dp column only contains blanks, zero, or positive integer values.
+#> 23                                                                  The time_identifier values are all valid.
+#> 24                          All filter / indicator names are less than or equal to the character limit of 50.
+#> 25                                                     All col_names are consistent with the data dictionary.
 #>    guidance_url            stage
 #> 1            NA Precheck columns
 #> 2            NA Precheck columns
@@ -138,7 +140,8 @@ screen_dfs(example_data, example_meta)
 #> 19           NA       Check meta
 #> 20           NA       Check meta
 #> 21           NA       Check meta
-#> 22           NA    Precheck time
-#> 23           NA        Check API
+#> 22           NA       Check meta
+#> 23           NA    Precheck time
 #> 24           NA        Check API
+#> 25           NA        Check API
 ```

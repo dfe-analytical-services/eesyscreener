@@ -1,11 +1,12 @@
-# Check indicator_dp is blank for all filters
+# Check indicator values are valid
 
-Throw an error if, for any filter, indicator_dp is not blank.
+Throw error if indicator unit values used in the meta file are not
+present in the list of acceptable indicator unit values
 
 ## Usage
 
 ``` r
-check_meta_indicator_dp(meta, verbose = FALSE, stop_on_error = FALSE)
+check_meta_ind_unit_validation(meta, verbose = FALSE, stop_on_error = FALSE)
 ```
 
 ## Arguments
@@ -39,20 +40,23 @@ Other check_meta:
 [`check_meta_filter_group_stripped()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_group_stripped.md),
 [`check_meta_filter_hint()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_hint.md),
 [`check_meta_ind_dp_set()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_ind_dp_set.md),
-[`check_meta_ind_dp_values()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_ind_dp_values.md),
 [`check_meta_ind_unit()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_ind_unit.md),
-[`check_meta_ind_unit_validation()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_ind_unit_validation.md),
+[`check_meta_indicator_dp()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_indicator_dp.md),
 [`check_meta_indicator_grouping()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_indicator_grouping.md),
 [`check_meta_label()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_label.md)
 
 ## Examples
 
 ``` r
-check_meta_indicator_dp(example_meta)
-#>          check result                                message guidance_url
-#> 1 indicator_dp   PASS No filters have an indicator_dp value.           NA
-check_meta_indicator_dp(example_meta, verbose = TRUE)
-#> ✔ No filters have an indicator_dp value.
-#>          check result                                message guidance_url
-#> 1 indicator_dp   PASS No filters have an indicator_dp value.           NA
+check_meta_ind_unit_validation(example_meta)
+#>                       check result                             message
+#> 1 indicator_unit_validation   PASS The indicator_unit values are valid
+#>   guidance_url
+#> 1           NA
+check_meta_ind_unit_validation(example_meta, verbose = TRUE)
+#> ✔ The indicator_unit values are valid
+#>                       check result                             message
+#> 1 indicator_unit_validation   PASS The indicator_unit values are valid
+#>   guidance_url
+#> 1           NA
 ```

@@ -117,8 +117,9 @@ screen_csv(data_path, meta_path)
 #> 22                    indicator_dp   FAIL
 #> 23                 meta_ind_dp_set   PASS
 #> 24                   meta_ind_unit   PASS
-#> 25              indicator_grouping   PASS
-#> 26                   ind_dp_values   FAIL
+#> 25       indicator_unit_validation   PASS
+#> 26              indicator_grouping   PASS
+#> 27                   ind_dp_values   FAIL
 #>                                                                                                       message
 #> 1                                                         'example.csv' does not have spaces in the filename.
 #> 2                                                    'example.meta.csv' does not have spaces in the filename.
@@ -144,8 +145,9 @@ screen_csv(data_path, meta_path)
 #> 22                                        Filters should not have an indicator_dp value in the metadata file.
 #> 23                                                   The indicator_dp column is completed for all indicators.
 #> 24                                                                   No filters have an indicator_unit value.
-#> 25                                                               No filters have an indicator_grouping value.
-#> 26   The indicator_dp column must only contain blanks, zero, or positive integer values in the metadata file.
+#> 25                                                                        The indicator_unit values are valid
+#> 26                                                               No filters have an indicator_grouping value.
+#> 27   The indicator_dp column must only contain blanks, zero, or positive integer values in the metadata file.
 #>    guidance_url            stage
 #> 1            NA         filename
 #> 2            NA         filename
@@ -173,6 +175,7 @@ screen_csv(data_path, meta_path)
 #> 24           NA       Check meta
 #> 25           NA       Check meta
 #> 26           NA       Check meta
+#> 27           NA       Check meta
 #> 
 #> $overall_stage
 #> [1] "Check meta checks"
@@ -217,6 +220,7 @@ screen_csv(
 #> ✖ Filters should not have an indicator_dp value in the metadata file.
 #> ✔ The indicator_dp column is completed for all indicators.
 #> ✔ No filters have an indicator_unit value.
+#> ✔ The indicator_unit values are valid
 #> ✔ No filters have an indicator_grouping value.
 #> ✖ The indicator_dp column must only contain blanks, zero, or positive integer values in the metadata file.
 #> $results_table
@@ -245,8 +249,9 @@ screen_csv(
 #> 22                    indicator_dp   FAIL
 #> 23                 meta_ind_dp_set   PASS
 #> 24                   meta_ind_unit   PASS
-#> 25              indicator_grouping   PASS
-#> 26                   ind_dp_values   FAIL
+#> 25       indicator_unit_validation   PASS
+#> 26              indicator_grouping   PASS
+#> 27                   ind_dp_values   FAIL
 #>                                                                                                       message
 #> 1                                                            'data.csv' does not have spaces in the filename.
 #> 2                                                       'data.meta.csv' does not have spaces in the filename.
@@ -272,8 +277,9 @@ screen_csv(
 #> 22                                        Filters should not have an indicator_dp value in the metadata file.
 #> 23                                                   The indicator_dp column is completed for all indicators.
 #> 24                                                                   No filters have an indicator_unit value.
-#> 25                                                               No filters have an indicator_grouping value.
-#> 26   The indicator_dp column must only contain blanks, zero, or positive integer values in the metadata file.
+#> 25                                                                        The indicator_unit values are valid
+#> 26                                                               No filters have an indicator_grouping value.
+#> 27   The indicator_dp column must only contain blanks, zero, or positive integer values in the metadata file.
 #>    guidance_url            stage
 #> 1            NA         filename
 #> 2            NA         filename
@@ -301,6 +307,7 @@ screen_csv(
 #> 24           NA       Check meta
 #> 25           NA       Check meta
 #> 26           NA       Check meta
+#> 27           NA       Check meta
 #> 
 #> $overall_stage
 #> [1] "Check meta checks"
