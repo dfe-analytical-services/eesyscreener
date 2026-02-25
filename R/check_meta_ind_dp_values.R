@@ -13,10 +13,10 @@
 #' check_meta_ind_dp_values(example_meta, verbose = TRUE)
 #' @export
 check_meta_ind_dp_values <- function(
-    meta,
-    verbose = FALSE,
-    stop_on_error = FALSE
-    ) {
+  meta,
+  verbose = FALSE,
+  stop_on_error = FALSE
+) {
   if (all(is.na(meta$indicator_dp))) {
     test_output(
       "ind_dp_values",
