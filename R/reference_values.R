@@ -36,6 +36,26 @@
 #' @source maintained by explore.statistics@@education.gov.uk
 "acceptable_time_ids"
 
+# Time identifiers that should be 4 digit numbers ====
+#' Time identifiers that should have 4 digit numbers
+#'
+#' A vector of time identifier values that should have 4 digit numbers.
+#' This is a subset of the acceptable_time_ids list.
+#'
+#' @format A vector of time identifier values that should have 4 digit numbers
+#' @source maintained by explore.statistics@@education.gov.uk
+"four_digit_identifiers"
+
+# Time identifiers that should be 6 digit numbers ====
+#' Time identifiers that should have 6 digit numbers
+#'
+#' A vector of time identifier values that should have 6 digit numbers.
+#' This is a subset of the acceptable_time_ids list.
+#'
+#' @format A vector of time identifier values that should have 6 digit numbers
+#' @source maintained by explore.statistics@@education.gov.uk
+"six_digit_identifiers"
+
 # API character limits ====
 #' API character limits
 #'

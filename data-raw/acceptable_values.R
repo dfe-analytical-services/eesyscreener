@@ -97,3 +97,19 @@ acceptable_time_ids <- list(
 )
 
 usethis::use_data(acceptable_time_ids, overwrite = TRUE)
+
+four_digit_identifiers <- c("Calendar year", "Reporting year", weeks, months)
+
+usethis::use_data(four_digit_identifiers, overwrite = TRUE)
+
+six_digit_identifiers <- c(
+  "Autumn and spring term",
+  terms,
+  "Financial year",
+  "Academic year",
+  "Tax year",
+  financial_quarters,
+  financial_halves
+)
+
+usethis::use_data(six_digit_identifiers, overwrite = TRUE)
