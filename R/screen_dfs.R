@@ -206,7 +206,12 @@ screen_dfs <- function(
   # Check indicators ----------------------------------------------------------
 
   check_ind_results <- rbind(
-    check_ind_blanks(data, meta, verbose = verbose, stop_on_error = stop_on_error)
+    check_ind_blanks(
+      data,
+      meta,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    )
   )
 
   check_ind_results <- check_ind_results |>
