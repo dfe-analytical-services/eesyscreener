@@ -83,6 +83,8 @@ reference:
   - starts_with("check_filter_")
 
 - title: Indicator checks
+  contents:
+  - starts_with("check_ind_")
 
 - title: Geography checks
 
