@@ -253,6 +253,11 @@ screen_dfs <- function(
       data,
       verbose = verbose,
       stop_on_error = stop_on_error
+    ),
+    check_time_period_six(
+      data,
+      verbose = verbose,
+      stop_on_error = stop_on_error
     )
   )
 

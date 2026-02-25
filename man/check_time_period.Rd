@@ -25,4 +25,8 @@ periods.
 \examples{
 check_time_period(example_data)
 }
+\seealso{
+Other check_time: 
+\code{\link{check_time_period_six}()}
+}
 \concept{check_time}
