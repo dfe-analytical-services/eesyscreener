@@ -10,10 +10,10 @@
 #' @family precheck_geog
 #'
 #' @examples
-#' precheck_geog_geographic_level(example_data)
-#' precheck_geog_geographic_level(example_data, verbose = TRUE)
+#' precheck_geog_level(example_data)
+#' precheck_geog_level(example_data, verbose = TRUE)
 #' @export
-precheck_geog_geographic_level <- function(
+precheck_geog_level <- function(
   data,
   verbose = FALSE,
   stop_on_error = FALSE

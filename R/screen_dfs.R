@@ -237,6 +237,33 @@ screen_dfs <- function(
     return(as.data.frame(precheck_time_results))
   }
 
+  # Precheck geog -------------------------------------------------------------
+  precheck_geography_results <- rbind(
+    precheck_geog_level(
+      data,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    )
+  )
+
+  precheck_geography_results <- precheck_geography_results |>
+    cbind("stage" = "Precheck geography")
+  write_json_log(
+    precheck_geography_results,
+    log_key = log_key,
+    log_dir = log_dir,
+    data_details = data_details
+  )
+
+  precheck_geography_results <- precheck_time_results |>
+    rbind(
+      precheck_geography_results
+    )
+
+  if (any(precheck_geography_results[["result"]] == "FAIL")) {
+    return(as.data.frame(precheck_geography_results))
+  }
+
   # Check Filters -----------------------------------------------------------------
   check_filter_results <- rbind(
     check_filter_defaults(
