@@ -2,7 +2,7 @@
 #'
 #' Throw an error if, for any filter, indicator_dp is not blank.
 #'
-#' @inheritParams precheck_meta_col_type
+#' @inheritParams precheck_col_to_rows
 #'
 #' @inherit check_filename_spaces return
 #'
