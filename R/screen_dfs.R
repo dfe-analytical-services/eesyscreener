@@ -229,7 +229,7 @@ screen_dfs <- function(
       check_ind_results
     )
 
- if (any(check_ind_results[["result"]] == "FAIL")) {
+  if (any(check_ind_results[["result"]] == "FAIL")) {
     return(as.data.frame(check_ind_results))
   }
 
