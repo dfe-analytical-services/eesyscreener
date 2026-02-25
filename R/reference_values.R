@@ -33,6 +33,13 @@
 #' @source maintained by explore.statistics@@education.gov.uk
 "acceptable_time_ids"
 
+# Acceptable indicator units ====
+#' Acceptable values for indicator units
+#'
+#' @format A vector of acceptable indicator unit values
+#' @source maintained by explore.statistics@@education.gov.uk
+"acceptable_indicator_units"
+
 # API character limits ====
 #' API character limits
 #'
