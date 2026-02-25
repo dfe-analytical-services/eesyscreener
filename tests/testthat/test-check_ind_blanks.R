@@ -1,5 +1,5 @@
 testthat::test_that("check_ind_blanks: passes when there are no blanks in indicators", {
- # Should not error when there are no blanks in the indicators
+  # Should not error when there are no blanks in the indicators
   expect_no_error(
     check_ind_blanks(example_data, example_meta)
   )
