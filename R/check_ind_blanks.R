@@ -26,10 +26,10 @@ check_ind_blanks <- function(
     }
   }
 
-indicators <- meta |>
-  dplyr::filter(col_type == "Indicator") |>
-  dplyr::pull(col_name) |>
-  as.vector()
+  indicators <- meta |>
+    dplyr::filter(col_type == "Indicator") |>
+    dplyr::pull(col_name) |>
+    as.vector()
 
 pre_result <- utils::stack(sapply(indicators, blanks_check))
 
