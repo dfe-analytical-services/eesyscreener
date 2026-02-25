@@ -27,4 +27,8 @@ Throw an error if, for any filter, indicator_dp is not blank.
 check_ind_blanks(example_data, example_meta)
 check_ind_blanks(example_data, example_meta, verbose = TRUE)
 }
+\seealso{
+Other check_ind: 
+\code{\link{check_ind_obsolete_symbols}()}
+}
 \concept{check_ind}
