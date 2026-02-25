@@ -67,15 +67,15 @@ check_api_dict_col_names <- function(
       "WARNING",
       paste(
         "The following column(s) are not present in the data dictionary",
-        "and should not be used as part of an API data set until resolved:",
+        "and should not be used as part of an API data set until resolved.",
         ifelse(
           non_standard_indicators != "",
-          paste("Indicators:", non_standard_indicators),
+          paste0("Indicators: ", non_standard_indicators, "."),
           ""
         ),
         ifelse(
           non_standard_filters != "",
-          paste("Filters:", non_standard_filters),
+          paste0("Filters: ", non_standard_filters, "."),
           ""
         )
       ),
