@@ -10,10 +10,10 @@
 #' @family check_meta
 #'
 #' @examples
-#' check_meta_indicator_unit_validation(example_meta)
-#' check_meta_indicator_unit_validation(example_meta, verbose = TRUE)
+#' check_meta_ind_unit_validation(example_meta)
+#' check_meta_ind_unit_validation(example_meta, verbose = TRUE)
 #' @export
-check_meta_indicator_unit_validation <- function(
+check_meta_ind_unit_validation <- function(
   meta,
   verbose = FALSE,
   stop_on_error = FALSE

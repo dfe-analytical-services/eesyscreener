@@ -181,7 +181,7 @@ screen_dfs <- function(
     check_meta_indicator_dp(meta, verbose, stop_on_error),
     check_meta_ind_dp_set(meta, verbose, stop_on_error),
     check_meta_ind_unit(meta, verbose, stop_on_error),
-    check_meta_indicator_unit_validation(meta, verbose, stop_on_error),
+    check_meta_ind_unit_validation(meta, verbose, stop_on_error),
     check_meta_indicator_grouping(meta, verbose, stop_on_error)
   )
 
