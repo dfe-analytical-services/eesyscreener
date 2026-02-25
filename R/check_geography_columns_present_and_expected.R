@@ -45,7 +45,7 @@ check_geography_level_present <- function(
         "result" = "PASS"
       )
     } else {
-      missing_cols <- paste0("'",missing_cols,"'",sep="")
+      missing_cols <- paste0("'", missing_cols, "'", sep = "")
       output <- list(
         "message" = paste0(
           "Given that the following geographic_level values are present: '",
