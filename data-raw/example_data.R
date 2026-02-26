@@ -47,7 +47,8 @@ example_meta <- data.frame(
   indicator_unit = c("", "", ""),
   indicator_dp = c("", "", 0),
   filter_hint = c("", "", ""),
-  filter_grouping_column = c("", "", "")
+  filter_grouping_column = c("", "", ""),
+  filter_default = c("", "", "")
 )
 
 usethis::use_data(example_data, overwrite = TRUE)
@@ -76,7 +77,8 @@ example_api_long_meta <- example_meta |>
       indicator_unit = "",
       indicator_dp = "",
       filter_hint = "",
-      filter_grouping_column = ""
+      filter_grouping_column = "",
+      filter_default = ""
     )
   )
 

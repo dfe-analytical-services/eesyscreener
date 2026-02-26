@@ -17,13 +17,11 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/dfe-analytical-services/eesyscreener/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/dfe-analytical-services/eesyscreener/actions/workflows/R-CMD-check.yaml)
-[![lintr](https://github.com/dfe-analytical-services/eesyscreener/actions/workflows/lint.yaml/badge.svg?branch=main)](https://github.com/dfe-analytical-services/eesyscreener/actions/workflows/lint.yaml)
 [![pkgdown](https://github.com/dfe-analytical-services/eesyscreener/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/dfe-analytical-services/eesyscreener/actions/workflows/pkgdown.yaml)
 [![Codecov test coverage](https://codecov.io/gh/dfe-analytical-services/eesyscreener/graph/badge.svg)](https://app.codecov.io/gh/dfe-analytical-services/eesyscreener)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 <!-- badges: end -->
-
-[IN DEVELOPMENT]
 
 This is a package designed to provide documentation and reusable code supporting the data standards for the [explore education statistics (EES) platform](https://explore-education-statistics.service.gov.uk/). 
 
@@ -35,7 +33,7 @@ This is the current form and single source of truth for the checks that have ste
 
 The package contains:
 
-- A core `screen_csv()` function, built from `screen_dfs()`, and `screen_filenames()` and the constituent individual checks, as well as a related wrapper function `screen_zip()`
+- A core `screen_csv()` function that will screen a pair of data and meta CSV files. This is built from `screen_dfs()`, and `screen_filenames()` and the constituent individual `precheck_*()` and `check_*()` functions.
 - Data objects containing required, optional, and acceptable values for use within explore education statistics
 - Functions to generate test data
 - Example datasets to aid testing and demonstration
