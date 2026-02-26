@@ -32,4 +32,8 @@ limits.
 check_api_char_limit(names(example_data), "column-name")
 check_api_char_limit(names(example_data), "column-name", verbose = TRUE)
 }
+\seealso{
+Other check_api: 
+\code{\link{check_api_dict_col_names}()}
+}
 \concept{check_api}

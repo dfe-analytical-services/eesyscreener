@@ -1,7 +1,14 @@
 # Acceptable values ===========================================================
+# acceptable_time_ids
 test_that("output format is as expected", {
   expect_type(acceptable_time_ids, "character")
   expect_gt(length(acceptable_time_ids), 1)
+})
+
+# acceptable_indicator_units
+test_that("output format is as expected", {
+  expect_type(acceptable_indicator_units, "character")
+  expect_gt(length(acceptable_indicator_units), 1)
 })
 
 # Required values =============================================================

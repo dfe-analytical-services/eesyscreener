@@ -181,7 +181,9 @@ screen_dfs <- function(
     check_meta_indicator_dp(meta, verbose, stop_on_error),
     check_meta_ind_dp_set(meta, verbose, stop_on_error),
     check_meta_ind_unit(meta, verbose, stop_on_error),
-    check_meta_indicator_grouping(meta, verbose, stop_on_error)
+    check_meta_ind_unit_validation(meta, verbose, stop_on_error),
+    check_meta_indicator_grouping(meta, verbose, stop_on_error),
+    check_meta_ind_dp_values(meta, verbose, stop_on_error)
   )
 
   check_meta_results <- check_meta_results |>
@@ -302,6 +304,11 @@ screen_dfs <- function(
     check_api_char_limit(
       meta[["col_name"]],
       "column-name",
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    ),
+    check_api_dict_col_names(
+      meta,
       verbose = verbose,
       stop_on_error = stop_on_error
     )

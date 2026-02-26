@@ -79,7 +79,7 @@ test_that("Example file passes", {
   meta_file <- tempfile(fileext = ".meta.csv")
 
   write.csv(example_data, data_file, row.names = FALSE)
-  write.csv(example_meta, meta_file, row.names = FALSE)
+  write.csv(example_meta, meta_file, row.names = FALSE, na = "")
 
   output <- screen_csv(
     data_file,
