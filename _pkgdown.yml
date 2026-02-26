@@ -71,6 +71,10 @@ reference:
   - starts_with("precheck_time_")
 
 - title: Pre-checks on geography columns
+  description: |
+    These checks should be run before any other geography checks, as they validate core assuptions about the geography columns.
+  contents:
+  - starts_with("precheck_geog_")
 
 - title: General data file checks
 
