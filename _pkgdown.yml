@@ -29,6 +29,8 @@ reference:
   - starts_with("acceptable_")
   - geography_df
   - api_char_limits
+  - gss_symbols
+  - legacy_gss_symbols
 
 - title: Filename checks
   contents:
