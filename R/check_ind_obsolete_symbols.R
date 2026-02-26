@@ -13,11 +13,11 @@
 #' check_ind_obsolete_symbols(example_data, example_meta, verbose = TRUE)
 #' @export
 check_ind_obsolete_symbols <- function(
-    data,
-    meta,
-    verbose = FALSE,
-    stop_on_error = FALSE
-    ) {
+  data,
+  meta,
+  verbose = FALSE,
+  stop_on_error = FALSE
+) {
   mindicators <- dplyr::filter(meta, col_type == "Indicator")
 
   present_indicators <- intersect(mindicators$col_name, names(data))
