@@ -40,6 +40,20 @@
 #' @source maintained by explore.statistics@@education.gov.uk
 "acceptable_indicator_units"
 
+# Acceptable GSS symbols ====
+#' Acceptable values for GSS symbols
+#'
+#' @format A vector of acceptable GSS symbols
+#' @source maintained by explore.statistics@@education.gov.uk
+"gss_symbols"
+
+# Obsolete GSS symbols ====
+#' Legacy values for GSS symbols
+#'
+#' @format A vector of legacy GSS symbols
+#' @source maintained by explore.statistics@@education.gov.uk
+"legacy_gss_symbols"
+
 # API character limits ====
 #' API character limits
 #'

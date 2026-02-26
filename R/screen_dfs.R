@@ -205,6 +205,42 @@ screen_dfs <- function(
     return(as.data.frame(check_meta_results))
   }
 
+  # Check indicators ----------------------------------------------------------
+
+  check_ind_results <- rbind(
+    check_ind_blanks(
+      data,
+      meta,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    ),
+    check_ind_obsolete_symbols(
+      data,
+      meta,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    )
+  )
+
+  check_ind_results <- check_ind_results |>
+    cbind("stage" = "Check indicators")
+
+  write_json_log(
+    check_ind_results,
+    log_key = log_key,
+    log_dir = log_dir,
+    data_details = data_details
+  )
+
+  check_ind_results <- check_meta_results |>
+    rbind(
+      check_ind_results
+    )
+
+  if (any(check_ind_results[["result"]] == "FAIL")) {
+    return(as.data.frame(check_ind_results))
+  }
+
   # Turn on duckdb ------------------------------------------------------------
   # Only doing this here as not necessary for the metadata checks
   suppressMessages(duckplyr::methods_overwrite())

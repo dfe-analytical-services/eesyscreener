@@ -96,8 +96,21 @@ acceptable_time_ids <- c(
   financial_halves
 )
 
+
 usethis::use_data(acceptable_time_ids, overwrite = TRUE)
 
 acceptable_indicator_units <- c("%", "pp", "£", "£m", "numberstring")
 
 usethis::use_data(acceptable_indicator_units, overwrite = TRUE)
+
+gssNAvcode <- "x" # This is also hardwired into the las.csv file for some terminated LAs that don't have a code listed
+gssNApcode <- "z"
+gssSupcode <- "c"
+gssRndcode <- "low"
+gss_symbols <- c(gssNApcode, gssNAvcode, gssSupcode, gssRndcode)
+
+usethis::use_data(gss_symbols, overwrite = TRUE)
+
+legacy_gss_symbols <- c("~", ":")
+
+usethis::use_data(legacy_gss_symbols, overwrite = TRUE)
