@@ -23,7 +23,7 @@ check_time_period <- function(
   time_length <- data
   time_length[["digits"]] <- stringr::str_count(time_length[["time_period"]])
 
-  if (base_identifier %in% four_digit_identifiers) {
+  if (base_identifier %in% eesyscreener::four_digit_identifiers) {
     if (nrow(dplyr::filter(time_length, digits == 4)) != nrow(time_length)) {
       guidance_url <- render_url(
         "statistics-production/ud.html#list-of-allowable-time-values"
@@ -41,7 +41,7 @@ check_time_period <- function(
     }
   }
 
-  if (base_identifier %in% six_digit_identifiers) {
+  if (base_identifier %in% eesyscreener::six_digit_identifiers) {
     if (nrow(dplyr::filter(time_length, digits == 6)) != nrow(time_length)) {
       guidance_url <- render_url(
         "statistics-production/ud.html#list-of-allowable-time-values"

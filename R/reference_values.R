@@ -36,7 +36,6 @@
 #' @source maintained by explore.statistics@@education.gov.uk
 "acceptable_time_ids"
 
-<<<<<<< hackathon/time
 # Time identifiers that should be 4 digit numbers ====
 #' Time identifiers that should have 4 digit numbers
 #'
@@ -56,14 +55,13 @@
 #' @format A vector of time identifier values that should have 6 digit numbers
 #' @source maintained by explore.statistics@@education.gov.uk
 "six_digit_identifiers"
-=======
+
 # Acceptable indicator units ====
 #' Acceptable values for indicator units
 #'
 #' @format A vector of acceptable indicator unit values
 #' @source maintained by explore.statistics@@education.gov.uk
 "acceptable_indicator_units"
->>>>>>> main
 
 # API character limits ====
 #' API character limits
