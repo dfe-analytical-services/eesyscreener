@@ -8,16 +8,16 @@ This function checks for spaces in the variable names of a given data frame.}
 check_col_names_spaces(data, verbose = FALSE, stop_on_error = FALSE)
 }
 \arguments{
-\item{data}{A data frame to be checked for spaces in variable names.}
+\item{data}{A data frame of the data file}
 
-\item{verbose}{Logical, if TRUE prints feedback messages to console for
-every test, if FALSE run silently. Default is FALSE.}
+\item{verbose}{logical, if TRUE prints feedback messages to console for
+every test, if FALSE run silently}
 
-\item{stop_on_error}{Logical, if TRUE will stop with an error if the result
-is "FAIL", and will throw genuine warning if result is "WARNING". Default is FALSE.}
+\item{stop_on_error}{logical, if TRUE will stop with an error if the result
+is "FAIL", and will throw genuine warning if result is "WARNING"}
 }
 \value{
-a single row data frame indicating the result of the check.
+a single row data frame
 }
 \description{
 Check for spaces in variable names
