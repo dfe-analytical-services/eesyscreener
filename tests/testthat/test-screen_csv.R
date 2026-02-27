@@ -10,7 +10,8 @@ test_that("Output structure is as expected", {
     data_file,
     meta_file,
     "data.csv",
-    "data.meta.csv"
+    "data.meta.csv",
+    verbose = TRUE
   )
 
   # Clean up temp files

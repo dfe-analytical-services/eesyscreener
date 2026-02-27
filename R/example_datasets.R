@@ -32,6 +32,7 @@
 #'   \item{indicator_dp}{Number of decimal places}
 #'   \item{filter_hint}{Optional hint text to accompany filter}
 #'   \item{filter_grouping_column}{Grouping column showing a filter hierarchy}
+#'   \item{filter_default}{Value to use as the default value if not 'Total'}
 #' }
 #' @source maintained by explore.statistics@@education.gov.uk
 "example_meta"
@@ -71,6 +72,7 @@
 #'   \item{indicator_dp}{Number of decimal places}
 #'   \item{filter_hint}{Optional hint text to accompany filter}
 #'   \item{filter_grouping_column}{Grouping column showing a filter hierarchy}
+#'   \item{filter_default}{Value to use as the default value if not 'Total'}
 #' }
 #' @source maintained by explore.statistics@@education.gov.uk
 "example_filter_group_meta"
@@ -110,6 +112,7 @@
 #'   \item{indicator_dp}{Number of decimal places}
 #'   \item{filter_hint}{Optional hint text to accompany filter}
 #'   \item{filter_grouping_column}{Grouping column showing a filter hierarchy}
+#'   \item{filter_default}{Value to use as the default value if not 'Total'}
 #' }
 #' @source maintained by explore.statistics@@education.gov.uk
 "example_filter_group_wrow_meta"
@@ -145,6 +148,7 @@
 #'   \item{indicator_dp}{Number of decimal places}
 #'   \item{filter_hint}{Optional hint text to accompany filter}
 #'   \item{filter_grouping_column}{Grouping column showing a filter hierarchy}
+#'   \item{filter_default}{Value to use as the default value if not 'Total'}
 #' }
 #' @source maintained by explore.statistics@@education.gov.uk
 "example_api_long_meta"
@@ -183,6 +187,7 @@
 #'   \item{indicator_dp}{Number of decimal places}
 #'   \item{filter_hint}{Optional hint text to accompany filter}
 #'   \item{filter_grouping_column}{Grouping column showing a filter hierarchy}
+#'   \item{filter_default}{Value to use as the default value if not 'Total'}
 #' }
 #' @source maintained by explore.statistics@@education.gov.uk
 "example_comma_meta"

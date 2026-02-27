@@ -87,9 +87,10 @@ check_filter_defaults <- function(
     pre_result <- sapply(
       names(dfilters),
       function(column) {
-        any(dfilters[[column]] == filter_defaults[[column]])
+        any(dfilters[[column]] == filter_defaults[[column]], na.rm = TRUE)
       }
     )
+
     if (all(pre_result)) {
       return(
         test_output(

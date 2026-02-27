@@ -30,6 +30,7 @@ check_api_char_col_label(example_meta)
 Other check_api: 
 \code{\link{check_api_char_col_name}()},
 \code{\link{check_api_char_filter_items}()},
-\code{\link{check_api_char_loc_code}()}
+\code{\link{check_api_char_loc_code}()},
+\code{\link{check_api_dict_col_names}()}
 }
 \concept{check_api}

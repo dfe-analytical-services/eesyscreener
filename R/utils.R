@@ -445,3 +445,48 @@ render_url <- function(slug, domain = "analysts_guide") {
     slug
   )
 }
+
+#' Run a check, log the results, and determine if early return is needed
+#'
+#' This is used in the screen_dfs function and appends new check results to the
+#' existing results, updates (or creates) a JSON log, and checks if any check has
+#' failed. If any result is "FAIL", it signals an early return is needed.
+#'
+#' @param all_results A data frame containing all previous check results.
+#' @param check_results A data frame with the results of the current check.
+#' @param stage Character. The name of the current stage to annotate in the results.
+#' @param log_key Character. The key to use for logging.
+#' @param log_dir Character. The directory where logs should be written.
+#' @param data_details List. Additional details about the data to include in the log.
+#'
+#' @return A list with two elements: {all_results} (the updated results data frame)
+#'   and {early_return} (logical, TRUE if any result is "FAIL").
+#'
+#' @keywords internal
+#' @noRd
+run_and_log_check <- function(
+  all_results,
+  check_results,
+  stage,
+  log_key,
+  log_dir,
+  data_details
+) {
+  all_results <- all_results |>
+    rbind(
+      check_results |>
+        dplyr::mutate(stage = stage)
+    )
+
+  write_json_log(
+    check_results,
+    log_key = log_key,
+    log_dir = log_dir,
+    data_details = data_details
+  )
+
+  if (any(all_results[["result"]] == "FAIL")) {
+    return(list(all_results = all_results, early_return = TRUE))
+  }
+  list(all_results = all_results, early_return = FALSE)
+}

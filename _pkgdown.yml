@@ -25,6 +25,7 @@ reference:
   - starts_with("acceptable_")
   - geography_df
   - api_char_limits
+  - data_dictionary
 
 - title: Filename checks
   contents:

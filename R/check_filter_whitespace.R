@@ -38,6 +38,7 @@ check_filter_whitespace <- function(
     dplyr::distinct()
 
   filter_values_trimmed <- filter_values |>
+    dplyr::as_tibble() |>
     dplyr::mutate(filter_label = stringr::str_trim(.data$filter_label))
 
   white_spaces <- dplyr::setdiff(filter_values, filter_values_trimmed) |>

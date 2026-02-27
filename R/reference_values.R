@@ -5,7 +5,7 @@
 #' @source maintained by explore.statistics@@education.gov.uk
 "req_meta_cols"
 
-# Optional metedata columns ====
+# Optional metadata columns ====
 #' Optional metadata columns
 #'
 #' @format A vector of the acceptable, optional metadata column names
@@ -44,3 +44,23 @@
 #' }
 #' @source maintained by explore.statistics@@education.gov.uk
 "api_char_limits"
+
+# Data dictionary ====
+#' Data dictionary
+#'
+#' A data frame containing the data dictionary for data sets, including
+#' column names and acceptable values within those columns.
+#'
+#' @format A data frame with columns:
+#' \describe{
+#' \item{col_name}{The name of the column as it should appear in the data file}
+#' \item{col_type}{The type of column (e.g. Indicator, Filter)}
+#' \item{filter_item}{Acceptable values for filter columns}
+#' \item{filter_item_parent}{The parent value for the filter item if used in a hierarchy}
+#' \item{col_name_parent}{The parent column name for the column if used in a hierarchy}
+#' \item{cbds_code}{The code for the value in the Common Basic Data Set}
+#' \item{item_error_flag}{How the item is used in screening checks}
+#' \item{contexts}{A rough grouping to aid navigation of the data dictionary}
+#' }
+#' @source maintained by explore.statistics@@education.gov.uk
+"data_dictionary"
