@@ -97,3 +97,7 @@ acceptable_time_ids <- c(
 )
 
 usethis::use_data(acceptable_time_ids, overwrite = TRUE)
+
+acceptable_indicator_units <- c("%", "pp", "£", "£m", "numberstring")
+
+usethis::use_data(acceptable_indicator_units, overwrite = TRUE)

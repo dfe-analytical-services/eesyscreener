@@ -8,6 +8,10 @@ reference:
   contents:
   - starts_with("screen_")
 
+- title: Data dictionary
+  contents:
+  - starts_with("data_dictionary")
+
 - title: Example datasets
   contents:
   - starts_with("example_")
@@ -51,6 +55,10 @@ reference:
   - starts_with("check_data_")
 
 - title: Checks on column names
+  description: |
+    These checks validate the names of columns in the data files.
+  contents:
+  - starts_with("check_col_")
 
 - title: General checks
   description: |

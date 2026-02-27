@@ -79,7 +79,7 @@ test_that("Example file passes", {
   meta_file <- tempfile(fileext = ".meta.csv")
 
   write.csv(example_data, data_file, row.names = FALSE)
-  write.csv(example_meta, meta_file, row.names = FALSE)
+  write.csv(example_meta, meta_file, row.names = FALSE, na = "")
 
   output <- screen_csv(
     data_file,
@@ -261,6 +261,20 @@ test_that("api_suitable returns FALSE for unsuitable files", {
       "api.meta.csv",
       stop_on_error = TRUE
     )
+  )
+
+  file.remove(data_path)
+  file.remove(meta_path)
+})
+
+test_that("screen_csv completes for file containing commas in strings", {
+  data_path <- tempfile(fileext = ".csv")
+  meta_path <- tempfile(fileext = ".meta.csv")
+  write.csv(example_comma_data, data_path, row.names = FALSE)
+  write.csv(example_comma_meta, meta_path, row.names = FALSE)
+
+  expect_no_error(
+    screen_csv(data_path, meta_path, "late_comma.csv", "late_comma.meta.csv")
   )
 
   file.remove(data_path)
