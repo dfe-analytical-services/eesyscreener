@@ -1,11 +1,12 @@
-# Check all time_identifier values are valid
+# Check the mix of time identifiers in the data file
 
-Checks against the `acceptable_time_identifiers` object.
+Check that only compatible time identifiers are together in the same
+file.
 
 ## Usage
 
 ``` r
-precheck_time_id_valid(data, verbose = FALSE, stop_on_error = FALSE)
+precheck_time_id_mix(data, verbose = FALSE, stop_on_error = FALSE)
 ```
 
 ## Arguments
@@ -31,13 +32,15 @@ a single row data frame
 ## See also
 
 Other precheck_time:
-[`precheck_time_id_mix()`](https://dfe-analytical-services.github.io/eesyscreener/reference/precheck_time_id_mix.md),
+[`precheck_time_id_valid()`](https://dfe-analytical-services.github.io/eesyscreener/reference/precheck_time_id_valid.md),
 [`precheck_time_period_num()`](https://dfe-analytical-services.github.io/eesyscreener/reference/precheck_time_period_num.md)
 
 ## Examples
 
 ``` r
-precheck_time_id_valid(example_data)
-#>           check result                                   message guidance_url
-#> 1 time_id_valid   PASS The time_identifier values are all valid.           NA
+precheck_time_id_mix(example_data)
+#>         check result                                              message
+#> 1 time_id_mix   PASS There is only one time_identifier value in the data.
+#>   guidance_url
+#> 1           NA
 ```

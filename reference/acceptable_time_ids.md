@@ -1,6 +1,7 @@
 # Acceptable time identifiers
 
-Acceptable time identifiers
+Groups of acceptable time identifier values. Identifiers should be from
+the same group to be considered compatible.
 
 ## Usage
 
@@ -10,7 +11,7 @@ acceptable_time_ids
 
 ## Format
 
-A vector of acceptable time identifier values
+A list of acceptable time identifier values
 
 ## Source
 

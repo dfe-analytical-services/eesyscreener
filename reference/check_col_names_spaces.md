@@ -13,21 +13,21 @@ check_col_names_spaces(data, verbose = FALSE, stop_on_error = FALSE)
 
 - data:
 
-  A data frame to be checked for spaces in variable names.
+  A data frame of the data file
 
 - verbose:
 
-  Logical, if TRUE prints feedback messages to console for every test,
-  if FALSE run silently. Default is FALSE.
+  logical, if TRUE prints feedback messages to console for every test,
+  if FALSE run silently
 
 - stop_on_error:
 
-  Logical, if TRUE will stop with an error if the result is "FAIL", and
-  will throw genuine warning if result is "WARNING". Default is FALSE.
+  logical, if TRUE will stop with an error if the result is "FAIL", and
+  will throw genuine warning if result is "WARNING"
 
 ## Value
 
-a single row data frame indicating the result of the check.
+a single row data frame
 
 ## Examples
 

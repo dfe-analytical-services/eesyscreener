@@ -90,8 +90,10 @@ screen_dfs(example_data, example_meta)
 #> 21               indicator_grouping   PASS
 #> 22                    ind_dp_values   PASS
 #> 23                    time_id_valid   PASS
-#> 24 check_api_char_limit_column-name   PASS
-#> 25         check_api_dict_col_names   PASS
+#> 24                      time_id_mix   PASS
+#> 25                  time_period_num   PASS
+#> 26 check_api_char_limit_column-name   PASS
+#> 27         check_api_dict_col_names   PASS
 #>                                                                                                       message
 #> 1                                               All of the required columns are present in the metadata file.
 #> 2                                                          There are no invalid columns in the metadata file.
@@ -116,8 +118,10 @@ screen_dfs(example_data, example_meta)
 #> 21                                                               No filters have an indicator_grouping value.
 #> 22                            The indicator_dp column only contains blanks, zero, or positive integer values.
 #> 23                                                                  The time_identifier values are all valid.
-#> 24                          All filter / indicator names are less than or equal to the character limit of 50.
-#> 25                                                     All col_names are consistent with the data dictionary.
+#> 24                                                       There is only one time_identifier value in the data.
+#> 25                                                       The time_period column only contains numeric values.
+#> 26                          All filter / indicator names are less than or equal to the character limit of 50.
+#> 27                                                     All col_names are consistent with the data dictionary.
 #>    guidance_url            stage
 #> 1            NA Precheck columns
 #> 2            NA Precheck columns
@@ -142,6 +146,8 @@ screen_dfs(example_data, example_meta)
 #> 21           NA       Check meta
 #> 22           NA       Check meta
 #> 23           NA    Precheck time
-#> 24           NA        Check API
-#> 25           NA        Check API
+#> 24           NA    Precheck time
+#> 25           NA    Precheck time
+#> 26           NA        Check API
+#> 27           NA        Check API
 ```

@@ -1,11 +1,11 @@
-# Check all time_identifier values are valid
+# Check for any non-numeric time_period values
 
-Checks against the `acceptable_time_identifiers` object.
+Check that all time_period values are numeric.
 
 ## Usage
 
 ``` r
-precheck_time_id_valid(data, verbose = FALSE, stop_on_error = FALSE)
+precheck_time_period_num(data, verbose = FALSE, stop_on_error = FALSE)
 ```
 
 ## Arguments
@@ -32,12 +32,14 @@ a single row data frame
 
 Other precheck_time:
 [`precheck_time_id_mix()`](https://dfe-analytical-services.github.io/eesyscreener/reference/precheck_time_id_mix.md),
-[`precheck_time_period_num()`](https://dfe-analytical-services.github.io/eesyscreener/reference/precheck_time_period_num.md)
+[`precheck_time_id_valid()`](https://dfe-analytical-services.github.io/eesyscreener/reference/precheck_time_id_valid.md)
 
 ## Examples
 
 ``` r
-precheck_time_id_valid(example_data)
-#>           check result                                   message guidance_url
-#> 1 time_id_valid   PASS The time_identifier values are all valid.           NA
+precheck_time_period_num(example_data)
+#>             check result                                              message
+#> 1 time_period_num   PASS The time_period column only contains numeric values.
+#>   guidance_url
+#> 1           NA
 ```

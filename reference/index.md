@@ -66,6 +66,10 @@ e.g. mandatory column names
   : Acceptable geographic levels and their associated columns
 - [`api_char_limits`](https://dfe-analytical-services.github.io/eesyscreener/reference/api_char_limits.md)
   : API character limits
+- [`four_digit_identifiers`](https://dfe-analytical-services.github.io/eesyscreener/reference/four_digit_identifiers.md)
+  : Time identifiers that should have 4 digit numbers
+- [`six_digit_identifiers`](https://dfe-analytical-services.github.io/eesyscreener/reference/six_digit_identifiers.md)
+  : Time identifiers that should have 6 digit numbers
 
 ## Filename checks
 
@@ -157,8 +161,12 @@ These can be run on any file, regardless of type or structure.
 These checks should be run before any other time checks, as they
 validate core assumptions about the time columns.
 
+- [`precheck_time_id_mix()`](https://dfe-analytical-services.github.io/eesyscreener/reference/precheck_time_id_mix.md)
+  : Check the mix of time identifiers in the data file
 - [`precheck_time_id_valid()`](https://dfe-analytical-services.github.io/eesyscreener/reference/precheck_time_id_valid.md)
   : Check all time_identifier values are valid
+- [`precheck_time_period_num()`](https://dfe-analytical-services.github.io/eesyscreener/reference/precheck_time_period_num.md)
+  : Check for any non-numeric time_period values
 
 ## Pre-checks on geography columns
 
@@ -176,6 +184,11 @@ validate core assumptions about the time columns.
 ## Geography checks
 
 ## Time checks
+
+- [`check_time_period()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_time_period.md)
+  : Check that time periods match the time identifier
+- [`check_time_period_six()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_time_period_six.md)
+  : Check that 6 digit time periods give consecutive years
 
 ## API specific checks
 
