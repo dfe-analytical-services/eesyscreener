@@ -29,6 +29,8 @@ reference:
   - starts_with("acceptable_")
   - geography_df
   - api_char_limits
+  - four_digit_identifiers
+  - six_digit_identifiers
 
 - title: Filename checks
   contents:
@@ -87,6 +89,8 @@ reference:
 - title: Geography checks
 
 - title: Time checks
+  contents:
+  - starts_with("check_time_")
 
 - title: API specific checks
   contents:
