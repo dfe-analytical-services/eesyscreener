@@ -4,12 +4,10 @@
 \alias{precheck_time_id_valid}
 \title{Check all time_identifier values are valid}
 \usage{
-precheck_time_id_valid(data, meta, verbose = FALSE, stop_on_error = FALSE)
+precheck_time_id_valid(data, verbose = FALSE, stop_on_error = FALSE)
 }
 \arguments{
 \item{data}{A data frame of the data file}
-
-\item{meta}{A data frame of the metadata file}
 
 \item{verbose}{logical, if TRUE prints feedback messages to console for
 every test, if FALSE run silently}
@@ -24,7 +22,11 @@ a single row data frame
 Checks against the \code{acceptable_time_identifiers} object.
 }
 \examples{
-precheck_time_id_valid(example_data, example_meta)
-precheck_time_id_valid(example_data, example_meta, verbose = TRUE)
+precheck_time_id_valid(example_data)
+}
+\seealso{
+Other precheck_time: 
+\code{\link{precheck_time_id_mix}()},
+\code{\link{precheck_time_period_num}()}
 }
 \concept{precheck_time}

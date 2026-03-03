@@ -170,12 +170,20 @@ screen_dfs <- function(
       verbose = verbose,
       stop_on_error = stop_on_error
     ),
+    check_meta_filter_group_stripped(
+      data,
+      meta,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    ),
     check_meta_label(meta, verbose, stop_on_error),
     check_meta_filter_hint(meta, verbose, stop_on_error),
     check_meta_indicator_dp(meta, verbose, stop_on_error),
     check_meta_ind_dp_set(meta, verbose, stop_on_error),
     check_meta_ind_unit(meta, verbose, stop_on_error),
-    check_meta_indicator_grouping(meta, verbose, stop_on_error)
+    check_meta_ind_unit_validation(meta, verbose, stop_on_error),
+    check_meta_indicator_grouping(meta, verbose, stop_on_error),
+    check_meta_ind_dp_values(meta, verbose, stop_on_error)
   )
 
   check_meta_results <- check_meta_results |>
@@ -207,7 +215,16 @@ screen_dfs <- function(
   precheck_time_results <- rbind(
     precheck_time_id_valid(
       data,
-      meta,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    ),
+    precheck_time_id_mix(
+      data,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    ),
+    precheck_time_period_num(
+      data,
       verbose = verbose,
       stop_on_error = stop_on_error
     )
@@ -215,6 +232,7 @@ screen_dfs <- function(
 
   precheck_time_results <- precheck_time_results |>
     cbind("stage" = "Precheck time")
+
   write_json_log(
     precheck_time_results,
     log_key = log_key,
@@ -231,7 +249,40 @@ screen_dfs <- function(
     return(as.data.frame(precheck_time_results))
   }
 
-  # Check Filters -----------------------------------------------------------------
+  # Check Time ----------------------------------------------------------------
+  check_time_results <- rbind(
+    check_time_period(
+      data,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    ),
+    check_time_period_six(
+      data,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    )
+  )
+
+  check_time_results <- check_time_results |>
+    cbind("stage" = "Check time")
+
+  write_json_log(
+    check_time_results,
+    log_key = log_key,
+    log_dir = log_dir,
+    data_details = data_details
+  )
+
+  check_time_results <- precheck_time_results |>
+    rbind(
+      check_time_results
+    )
+
+  if (any(check_time_results[["result"]] == "FAIL")) {
+    return(as.data.frame(check_time_results))
+  }
+
+  # Check Filters -------------------------------------------------------------
   check_filter_results <- rbind(
     check_filter_defaults(
       data,
@@ -275,6 +326,11 @@ screen_dfs <- function(
     check_api_char_limit(
       meta[["col_name"]],
       "column-name",
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    ),
+    check_api_dict_col_names(
+      meta,
       verbose = verbose,
       stop_on_error = stop_on_error
     )
