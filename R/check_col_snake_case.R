@@ -1,3 +1,19 @@
+##' Check that column names follow snake_case convention
+#'
+#' This function checks if all column names in the data file follow the snake_case convention (lowercase letters, numbers, and underscores only).
+#'
+#' @param data A data frame to check for snake_case column names
+#' @param verbose logical, if TRUE prints feedback messages to console for every test, if FALSE run silently
+#' @param stop_on_error logical, if TRUE will stop with an error if the result is not "PASS"
+#'
+#' @inherit check_filename_spaces return
+#'
+#' @family check_col
+#'
+#' @examples
+#' check_col_snake_case(example_data)
+#' df <- example_data; names(df)[1] <- "SampleID"; check_col_snake_case(df)
+#' @export
 check_col_snake_case <- function(data, verbose = FALSE, stop_on_error = FALSE) {
   # do a check for capital letters and special characters in column names
 

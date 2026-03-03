@@ -50,7 +50,12 @@ reference:
   contents:
   - starts_with("check_data_")
 
-- title: Checks on column names
+
+- title: Column checks
+  description: |
+    Checks to validate assumptions about the columns in the files.
+  contents:
+  - starts_with("check_col_")
 
 - title: General checks
   description: |
