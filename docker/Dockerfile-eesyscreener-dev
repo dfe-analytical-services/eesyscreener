@@ -1,0 +1,30 @@
+FROM rocker/r-ver:4.5.2
+
+RUN \
+  apt update && \
+  \
+  apt install -y \
+    libssl-dev \
+    libcurl4-openssl-dev \
+    libxml2-dev \
+    libfreetype6-dev \
+    libharfbuzz-dev \
+    libfribidi-dev \
+    libpng-dev \
+    libcairo2-dev \
+    pkg-config \
+    libtiff5-dev \
+    libjpeg-dev \
+    libwebp-dev \
+    build-essential && \
+  \
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/*
+
+COPY DESCRIPTION /tmp/DESCRIPTION
+
+# Install R packages using pre-complied binaries for Ubuntu Noble
+RUN R -e "options(repos = c(CRAN = 'https://packagemanager.posit.co/cran/__linux__/noble/latest')); \
+          install.packages('pak'); \
+          pak::pak(c('devtools', 'desc')); \
+          desc::desc_get_deps(file = '/tmp/DESCRIPTION')[['package']] |> setdiff(c('R', 'base')) |> pak::pak()"

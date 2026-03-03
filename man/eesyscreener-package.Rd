@@ -20,8 +20,20 @@ Useful links:
 \author{
 \strong{Maintainer}: Cam Race \email{cameron.race@education.gov.uk}
 
+Authors:
+\itemize{
+  \item Rich Bielby \email{richard.bielby@education.gov.uk} (\href{https://orcid.org/0000-0001-9070-9969}{ORCID})
+}
+
 Other contributors:
 \itemize{
+  \item Charlotte Foster \email{charlotte.foster@education.gov.uk} [contributor]
+  \item Lara Garbett \email{lara.garbett@education.gov.uk} [contributor]
+  \item Pauline Potts \email{pauline.potts@education.gov.uk} [contributor]
+  \item Matthew Robinson \email{matthew3.robinson@education.gov.uk} [contributor]
+  \item Ethan Roy \email{ethan.roy@education.gov.uk} [contributor]
+  \item Lauren Snaathorst \email{lauren.snaathorst@education.gov.uk} [contributor]
+  \item Bob Tarrant \email{robert.tarrant@education.gov.uk} [contributor]
   \item Department for Education, England \email{explore.statistics@education.gov.uk} [copyright holder]
 }
 

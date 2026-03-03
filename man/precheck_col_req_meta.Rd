@@ -27,6 +27,7 @@ precheck_col_req_meta(example_meta, verbose = TRUE)
 }
 \seealso{
 Other precheck_col: 
+\code{\link{check_meta_col_name_spaces}()},
 \code{\link{precheck_col_invalid_meta}()},
 \code{\link{precheck_col_req_data}()},
 \code{\link{precheck_col_to_rows}()}
