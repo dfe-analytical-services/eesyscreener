@@ -117,3 +117,6 @@ usethis::use_data(six_digit_identifiers, overwrite = TRUE)
 acceptable_indicator_units <- c("%", "pp", "£", "£m", "numberstring")
 
 usethis::use_data(acceptable_indicator_units, overwrite = TRUE)
+
+filter_item_limit <- 25000
+usethis::use_data(filter_item_limit, overwrite = TRUE)

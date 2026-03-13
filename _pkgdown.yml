@@ -28,6 +28,7 @@ reference:
   - starts_with("optional_")
   - starts_with("acceptable_")
   - geography_df
+  - filter_item_limit
   - api_char_limits
   - four_digit_identifiers
   - six_digit_identifiers
