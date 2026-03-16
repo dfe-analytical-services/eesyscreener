@@ -1,5 +1,7 @@
 #' Check number of filter items are below limit
-#'
+#' Ensures that no filter contains more than 25,000 unique options, this 
+#' is to protect the EES service against accidental data issues that can
+#' cause performance issues within the admin system.
 #'
 #' @param data A character string of the data filename to check
 #' @param meta A character string of the metadata filename to check
