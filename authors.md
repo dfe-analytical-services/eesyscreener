@@ -25,16 +25,16 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/dfe-analytical-services/eesyscreener/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/dfe-analytical-services/eesyscreener/blob/v0.2.1/DESCRIPTION)
 
 Race C, Bielby R (2026). *eesyscreener: Explore education statistics
-data screening*. R package version 0.2.1,
+data screening*. R package version 0.1.2,
 <https://dfe-analytical-services.github.io/eesyscreener/>.
 
     @Manual{,
       title = {eesyscreener: Explore education statistics data screening},
       author = {Cam Race and Rich Bielby},
       year = {2026},
-      note = {R package version 0.2.1},
+      note = {R package version 0.1.2},
       url = {https://dfe-analytical-services.github.io/eesyscreener/},
     }
