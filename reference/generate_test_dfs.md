@@ -206,307 +206,307 @@ generate_test_dfs(2010:2015, "Sheffield Central", "E14000919", 2, 3)
 #> 149        2014   Calendar year Parliamentary constituency      England
 #> 150        2015   Calendar year Parliamentary constituency      England
 #>     country_code         pcon_name pcon_code filter1 filter2 indicator1
-#> 1      E92000001 Sheffield Central E14000919   Alpha   Alpha        283
-#> 2      E92000001 Sheffield Central E14000919   Alpha   Alpha        121
-#> 3      E92000001 Sheffield Central E14000919   Alpha   Alpha        706
-#> 4      E92000001 Sheffield Central E14000919   Alpha   Alpha        996
-#> 5      E92000001 Sheffield Central E14000919   Alpha   Alpha        169
-#> 6      E92000001 Sheffield Central E14000919   Alpha   Alpha        773
-#> 7      E92000001 Sheffield Central E14000919   Bravo   Alpha        278
-#> 8      E92000001 Sheffield Central E14000919   Bravo   Alpha        785
-#> 9      E92000001 Sheffield Central E14000919   Bravo   Alpha        932
-#> 10     E92000001 Sheffield Central E14000919   Bravo   Alpha        636
-#> 11     E92000001 Sheffield Central E14000919   Bravo   Alpha        594
-#> 12     E92000001 Sheffield Central E14000919   Bravo   Alpha        597
-#> 13     E92000001 Sheffield Central E14000919 Charlie   Alpha        264
-#> 14     E92000001 Sheffield Central E14000919 Charlie   Alpha        363
-#> 15     E92000001 Sheffield Central E14000919 Charlie   Alpha        772
-#> 16     E92000001 Sheffield Central E14000919 Charlie   Alpha        835
-#> 17     E92000001 Sheffield Central E14000919 Charlie   Alpha        975
-#> 18     E92000001 Sheffield Central E14000919 Charlie   Alpha        950
-#> 19     E92000001 Sheffield Central E14000919   Delta   Alpha        703
-#> 20     E92000001 Sheffield Central E14000919   Delta   Alpha        895
-#> 21     E92000001 Sheffield Central E14000919   Delta   Alpha        915
-#> 22     E92000001 Sheffield Central E14000919   Delta   Alpha        942
-#> 23     E92000001 Sheffield Central E14000919   Delta   Alpha        390
-#> 24     E92000001 Sheffield Central E14000919   Delta   Alpha        229
-#> 25     E92000001 Sheffield Central E14000919    Echo   Alpha        954
-#> 26     E92000001 Sheffield Central E14000919    Echo   Alpha        973
-#> 27     E92000001 Sheffield Central E14000919    Echo   Alpha        742
-#> 28     E92000001 Sheffield Central E14000919    Echo   Alpha        905
-#> 29     E92000001 Sheffield Central E14000919    Echo   Alpha        551
-#> 30     E92000001 Sheffield Central E14000919    Echo   Alpha        845
-#> 31     E92000001 Sheffield Central E14000919   Alpha   Bravo        676
-#> 32     E92000001 Sheffield Central E14000919   Alpha   Bravo        842
-#> 33     E92000001 Sheffield Central E14000919   Alpha   Bravo        761
-#> 34     E92000001 Sheffield Central E14000919   Alpha   Bravo        758
-#> 35     E92000001 Sheffield Central E14000919   Alpha   Bravo        869
-#> 36     E92000001 Sheffield Central E14000919   Alpha   Bravo        931
-#> 37     E92000001 Sheffield Central E14000919   Bravo   Bravo        651
-#> 38     E92000001 Sheffield Central E14000919   Bravo   Bravo        292
-#> 39     E92000001 Sheffield Central E14000919   Bravo   Bravo        255
-#> 40     E92000001 Sheffield Central E14000919   Bravo   Bravo        554
-#> 41     E92000001 Sheffield Central E14000919   Bravo   Bravo        111
-#> 42     E92000001 Sheffield Central E14000919   Bravo   Bravo        537
-#> 43     E92000001 Sheffield Central E14000919 Charlie   Bravo        908
-#> 44     E92000001 Sheffield Central E14000919 Charlie   Bravo        141
-#> 45     E92000001 Sheffield Central E14000919 Charlie   Bravo        677
-#> 46     E92000001 Sheffield Central E14000919 Charlie   Bravo        201
-#> 47     E92000001 Sheffield Central E14000919 Charlie   Bravo        970
-#> 48     E92000001 Sheffield Central E14000919 Charlie   Bravo        893
-#> 49     E92000001 Sheffield Central E14000919   Delta   Bravo        927
-#> 50     E92000001 Sheffield Central E14000919   Delta   Bravo        601
-#> 51     E92000001 Sheffield Central E14000919   Delta   Bravo        369
-#> 52     E92000001 Sheffield Central E14000919   Delta   Bravo        872
-#> 53     E92000001 Sheffield Central E14000919   Delta   Bravo        586
-#> 54     E92000001 Sheffield Central E14000919   Delta   Bravo        470
-#> 55     E92000001 Sheffield Central E14000919    Echo   Bravo        852
-#> 56     E92000001 Sheffield Central E14000919    Echo   Bravo        968
-#> 57     E92000001 Sheffield Central E14000919    Echo   Bravo        884
-#> 58     E92000001 Sheffield Central E14000919    Echo   Bravo        112
-#> 59     E92000001 Sheffield Central E14000919    Echo   Bravo        708
-#> 60     E92000001 Sheffield Central E14000919    Echo   Bravo        516
-#> 61     E92000001 Sheffield Central E14000919   Alpha Charlie        688
-#> 62     E92000001 Sheffield Central E14000919   Alpha Charlie        387
-#> 63     E92000001 Sheffield Central E14000919   Alpha Charlie        296
-#> 64     E92000001 Sheffield Central E14000919   Alpha Charlie        922
-#> 65     E92000001 Sheffield Central E14000919   Alpha Charlie        622
-#> 66     E92000001 Sheffield Central E14000919   Alpha Charlie        903
-#> 67     E92000001 Sheffield Central E14000919   Bravo Charlie        362
-#> 68     E92000001 Sheffield Central E14000919   Bravo Charlie        762
-#> 69     E92000001 Sheffield Central E14000919   Bravo Charlie        571
-#> 70     E92000001 Sheffield Central E14000919   Bravo Charlie        645
-#> 71     E92000001 Sheffield Central E14000919   Bravo Charlie        555
-#> 72     E92000001 Sheffield Central E14000919   Bravo Charlie        940
-#> 73     E92000001 Sheffield Central E14000919 Charlie Charlie        406
-#> 74     E92000001 Sheffield Central E14000919 Charlie Charlie        460
-#> 75     E92000001 Sheffield Central E14000919 Charlie Charlie        777
-#> 76     E92000001 Sheffield Central E14000919 Charlie Charlie        976
-#> 77     E92000001 Sheffield Central E14000919 Charlie Charlie        336
-#> 78     E92000001 Sheffield Central E14000919 Charlie Charlie        636
-#> 79     E92000001 Sheffield Central E14000919   Delta Charlie        920
-#> 80     E92000001 Sheffield Central E14000919   Delta Charlie        262
-#> 81     E92000001 Sheffield Central E14000919   Delta Charlie        144
-#> 82     E92000001 Sheffield Central E14000919   Delta Charlie        309
-#> 83     E92000001 Sheffield Central E14000919   Delta Charlie        506
-#> 84     E92000001 Sheffield Central E14000919   Delta Charlie        270
-#> 85     E92000001 Sheffield Central E14000919    Echo Charlie        103
-#> 86     E92000001 Sheffield Central E14000919    Echo Charlie        517
+#> 1      E92000001 Sheffield Central E14000919   Alpha   Alpha        272
+#> 2      E92000001 Sheffield Central E14000919   Alpha   Alpha        506
+#> 3      E92000001 Sheffield Central E14000919   Alpha   Alpha        559
+#> 4      E92000001 Sheffield Central E14000919   Alpha   Alpha        162
+#> 5      E92000001 Sheffield Central E14000919   Alpha   Alpha        584
+#> 6      E92000001 Sheffield Central E14000919   Alpha   Alpha        969
+#> 7      E92000001 Sheffield Central E14000919   Bravo   Alpha        978
+#> 8      E92000001 Sheffield Central E14000919   Bravo   Alpha        658
+#> 9      E92000001 Sheffield Central E14000919   Bravo   Alpha        551
+#> 10     E92000001 Sheffield Central E14000919   Bravo   Alpha        300
+#> 11     E92000001 Sheffield Central E14000919   Bravo   Alpha        296
+#> 12     E92000001 Sheffield Central E14000919   Bravo   Alpha        616
+#> 13     E92000001 Sheffield Central E14000919 Charlie   Alpha        866
+#> 14     E92000001 Sheffield Central E14000919 Charlie   Alpha        635
+#> 15     E92000001 Sheffield Central E14000919 Charlie   Alpha        946
+#> 16     E92000001 Sheffield Central E14000919 Charlie   Alpha        176
+#> 17     E92000001 Sheffield Central E14000919 Charlie   Alpha        997
+#> 18     E92000001 Sheffield Central E14000919 Charlie   Alpha        545
+#> 19     E92000001 Sheffield Central E14000919   Delta   Alpha        666
+#> 20     E92000001 Sheffield Central E14000919   Delta   Alpha        526
+#> 21     E92000001 Sheffield Central E14000919   Delta   Alpha        161
+#> 22     E92000001 Sheffield Central E14000919   Delta   Alpha        654
+#> 23     E92000001 Sheffield Central E14000919   Delta   Alpha        872
+#> 24     E92000001 Sheffield Central E14000919   Delta   Alpha        568
+#> 25     E92000001 Sheffield Central E14000919    Echo   Alpha        399
+#> 26     E92000001 Sheffield Central E14000919    Echo   Alpha        645
+#> 27     E92000001 Sheffield Central E14000919    Echo   Alpha        169
+#> 28     E92000001 Sheffield Central E14000919    Echo   Alpha        546
+#> 29     E92000001 Sheffield Central E14000919    Echo   Alpha        359
+#> 30     E92000001 Sheffield Central E14000919    Echo   Alpha        851
+#> 31     E92000001 Sheffield Central E14000919   Alpha   Bravo        773
+#> 32     E92000001 Sheffield Central E14000919   Alpha   Bravo        774
+#> 33     E92000001 Sheffield Central E14000919   Alpha   Bravo        316
+#> 34     E92000001 Sheffield Central E14000919   Alpha   Bravo        825
+#> 35     E92000001 Sheffield Central E14000919   Alpha   Bravo        654
+#> 36     E92000001 Sheffield Central E14000919   Alpha   Bravo        643
+#> 37     E92000001 Sheffield Central E14000919   Bravo   Bravo        169
+#> 38     E92000001 Sheffield Central E14000919   Bravo   Bravo        364
+#> 39     E92000001 Sheffield Central E14000919   Bravo   Bravo        249
+#> 40     E92000001 Sheffield Central E14000919   Bravo   Bravo        365
+#> 41     E92000001 Sheffield Central E14000919   Bravo   Bravo        515
+#> 42     E92000001 Sheffield Central E14000919   Bravo   Bravo        216
+#> 43     E92000001 Sheffield Central E14000919 Charlie   Bravo        628
+#> 44     E92000001 Sheffield Central E14000919 Charlie   Bravo        279
+#> 45     E92000001 Sheffield Central E14000919 Charlie   Bravo        283
+#> 46     E92000001 Sheffield Central E14000919 Charlie   Bravo        121
+#> 47     E92000001 Sheffield Central E14000919 Charlie   Bravo        706
+#> 48     E92000001 Sheffield Central E14000919 Charlie   Bravo        996
+#> 49     E92000001 Sheffield Central E14000919   Delta   Bravo        169
+#> 50     E92000001 Sheffield Central E14000919   Delta   Bravo        773
+#> 51     E92000001 Sheffield Central E14000919   Delta   Bravo        278
+#> 52     E92000001 Sheffield Central E14000919   Delta   Bravo        785
+#> 53     E92000001 Sheffield Central E14000919   Delta   Bravo        932
+#> 54     E92000001 Sheffield Central E14000919   Delta   Bravo        636
+#> 55     E92000001 Sheffield Central E14000919    Echo   Bravo        594
+#> 56     E92000001 Sheffield Central E14000919    Echo   Bravo        597
+#> 57     E92000001 Sheffield Central E14000919    Echo   Bravo        264
+#> 58     E92000001 Sheffield Central E14000919    Echo   Bravo        363
+#> 59     E92000001 Sheffield Central E14000919    Echo   Bravo        772
+#> 60     E92000001 Sheffield Central E14000919    Echo   Bravo        835
+#> 61     E92000001 Sheffield Central E14000919   Alpha Charlie        975
+#> 62     E92000001 Sheffield Central E14000919   Alpha Charlie        950
+#> 63     E92000001 Sheffield Central E14000919   Alpha Charlie        703
+#> 64     E92000001 Sheffield Central E14000919   Alpha Charlie        895
+#> 65     E92000001 Sheffield Central E14000919   Alpha Charlie        915
+#> 66     E92000001 Sheffield Central E14000919   Alpha Charlie        942
+#> 67     E92000001 Sheffield Central E14000919   Bravo Charlie        390
+#> 68     E92000001 Sheffield Central E14000919   Bravo Charlie        229
+#> 69     E92000001 Sheffield Central E14000919   Bravo Charlie        954
+#> 70     E92000001 Sheffield Central E14000919   Bravo Charlie        973
+#> 71     E92000001 Sheffield Central E14000919   Bravo Charlie        742
+#> 72     E92000001 Sheffield Central E14000919   Bravo Charlie        905
+#> 73     E92000001 Sheffield Central E14000919 Charlie Charlie        551
+#> 74     E92000001 Sheffield Central E14000919 Charlie Charlie        845
+#> 75     E92000001 Sheffield Central E14000919 Charlie Charlie        676
+#> 76     E92000001 Sheffield Central E14000919 Charlie Charlie        842
+#> 77     E92000001 Sheffield Central E14000919 Charlie Charlie        761
+#> 78     E92000001 Sheffield Central E14000919 Charlie Charlie        758
+#> 79     E92000001 Sheffield Central E14000919   Delta Charlie        869
+#> 80     E92000001 Sheffield Central E14000919   Delta Charlie        931
+#> 81     E92000001 Sheffield Central E14000919   Delta Charlie        651
+#> 82     E92000001 Sheffield Central E14000919   Delta Charlie        292
+#> 83     E92000001 Sheffield Central E14000919   Delta Charlie        255
+#> 84     E92000001 Sheffield Central E14000919   Delta Charlie        554
+#> 85     E92000001 Sheffield Central E14000919    Echo Charlie        111
+#> 86     E92000001 Sheffield Central E14000919    Echo Charlie        537
 #> 87     E92000001 Sheffield Central E14000919    Echo Charlie        908
-#> 88     E92000001 Sheffield Central E14000919    Echo Charlie        181
-#> 89     E92000001 Sheffield Central E14000919    Echo Charlie        705
-#> 90     E92000001 Sheffield Central E14000919    Echo Charlie        303
-#> 91     E92000001 Sheffield Central E14000919   Alpha   Delta        406
-#> 92     E92000001 Sheffield Central E14000919   Alpha   Delta        483
-#> 93     E92000001 Sheffield Central E14000919   Alpha   Delta        244
-#> 94     E92000001 Sheffield Central E14000919   Alpha   Delta        813
-#> 95     E92000001 Sheffield Central E14000919   Alpha   Delta        847
-#> 96     E92000001 Sheffield Central E14000919   Alpha   Delta        368
-#> 97     E92000001 Sheffield Central E14000919   Bravo   Delta        531
-#> 98     E92000001 Sheffield Central E14000919   Bravo   Delta        906
-#> 99     E92000001 Sheffield Central E14000919   Bravo   Delta        312
-#> 100    E92000001 Sheffield Central E14000919   Bravo   Delta        583
-#> 101    E92000001 Sheffield Central E14000919   Bravo   Delta        804
-#> 102    E92000001 Sheffield Central E14000919   Bravo   Delta        614
-#> 103    E92000001 Sheffield Central E14000919 Charlie   Delta        874
-#> 104    E92000001 Sheffield Central E14000919 Charlie   Delta        788
-#> 105    E92000001 Sheffield Central E14000919 Charlie   Delta        297
-#> 106    E92000001 Sheffield Central E14000919 Charlie   Delta        574
-#> 107    E92000001 Sheffield Central E14000919 Charlie   Delta        367
-#> 108    E92000001 Sheffield Central E14000919 Charlie   Delta        394
-#> 109    E92000001 Sheffield Central E14000919   Delta   Delta        494
-#> 110    E92000001 Sheffield Central E14000919   Delta   Delta        141
-#> 111    E92000001 Sheffield Central E14000919   Delta   Delta        139
-#> 112    E92000001 Sheffield Central E14000919   Delta   Delta        857
-#> 113    E92000001 Sheffield Central E14000919   Delta   Delta        212
-#> 114    E92000001 Sheffield Central E14000919   Delta   Delta        591
-#> 115    E92000001 Sheffield Central E14000919    Echo   Delta        343
-#> 116    E92000001 Sheffield Central E14000919    Echo   Delta        626
-#> 117    E92000001 Sheffield Central E14000919    Echo   Delta        565
-#> 118    E92000001 Sheffield Central E14000919    Echo   Delta        911
-#> 119    E92000001 Sheffield Central E14000919    Echo   Delta        696
-#> 120    E92000001 Sheffield Central E14000919    Echo   Delta        925
-#> 121    E92000001 Sheffield Central E14000919   Alpha    Echo        128
-#> 122    E92000001 Sheffield Central E14000919   Alpha    Echo        941
-#> 123    E92000001 Sheffield Central E14000919   Alpha    Echo        583
-#> 124    E92000001 Sheffield Central E14000919   Alpha    Echo        713
-#> 125    E92000001 Sheffield Central E14000919   Alpha    Echo        241
-#> 126    E92000001 Sheffield Central E14000919   Alpha    Echo        933
-#> 127    E92000001 Sheffield Central E14000919   Bravo    Echo        552
-#> 128    E92000001 Sheffield Central E14000919   Bravo    Echo        565
-#> 129    E92000001 Sheffield Central E14000919   Bravo    Echo        648
-#> 130    E92000001 Sheffield Central E14000919   Bravo    Echo        463
-#> 131    E92000001 Sheffield Central E14000919   Bravo    Echo        743
-#> 132    E92000001 Sheffield Central E14000919   Bravo    Echo        950
-#> 133    E92000001 Sheffield Central E14000919 Charlie    Echo        155
-#> 134    E92000001 Sheffield Central E14000919 Charlie    Echo        407
-#> 135    E92000001 Sheffield Central E14000919 Charlie    Echo        796
-#> 136    E92000001 Sheffield Central E14000919 Charlie    Echo        756
-#> 137    E92000001 Sheffield Central E14000919 Charlie    Echo        570
-#> 138    E92000001 Sheffield Central E14000919 Charlie    Echo        642
-#> 139    E92000001 Sheffield Central E14000919   Delta    Echo        576
-#> 140    E92000001 Sheffield Central E14000919   Delta    Echo        791
-#> 141    E92000001 Sheffield Central E14000919   Delta    Echo        557
-#> 142    E92000001 Sheffield Central E14000919   Delta    Echo        123
-#> 143    E92000001 Sheffield Central E14000919   Delta    Echo        867
-#> 144    E92000001 Sheffield Central E14000919   Delta    Echo        700
-#> 145    E92000001 Sheffield Central E14000919    Echo    Echo        621
-#> 146    E92000001 Sheffield Central E14000919    Echo    Echo        940
-#> 147    E92000001 Sheffield Central E14000919    Echo    Echo        822
-#> 148    E92000001 Sheffield Central E14000919    Echo    Echo        956
-#> 149    E92000001 Sheffield Central E14000919    Echo    Echo        278
-#> 150    E92000001 Sheffield Central E14000919    Echo    Echo        640
+#> 88     E92000001 Sheffield Central E14000919    Echo Charlie        141
+#> 89     E92000001 Sheffield Central E14000919    Echo Charlie        677
+#> 90     E92000001 Sheffield Central E14000919    Echo Charlie        201
+#> 91     E92000001 Sheffield Central E14000919   Alpha   Delta        970
+#> 92     E92000001 Sheffield Central E14000919   Alpha   Delta        893
+#> 93     E92000001 Sheffield Central E14000919   Alpha   Delta        927
+#> 94     E92000001 Sheffield Central E14000919   Alpha   Delta        601
+#> 95     E92000001 Sheffield Central E14000919   Alpha   Delta        369
+#> 96     E92000001 Sheffield Central E14000919   Alpha   Delta        872
+#> 97     E92000001 Sheffield Central E14000919   Bravo   Delta        586
+#> 98     E92000001 Sheffield Central E14000919   Bravo   Delta        470
+#> 99     E92000001 Sheffield Central E14000919   Bravo   Delta        852
+#> 100    E92000001 Sheffield Central E14000919   Bravo   Delta        968
+#> 101    E92000001 Sheffield Central E14000919   Bravo   Delta        884
+#> 102    E92000001 Sheffield Central E14000919   Bravo   Delta        112
+#> 103    E92000001 Sheffield Central E14000919 Charlie   Delta        708
+#> 104    E92000001 Sheffield Central E14000919 Charlie   Delta        516
+#> 105    E92000001 Sheffield Central E14000919 Charlie   Delta        688
+#> 106    E92000001 Sheffield Central E14000919 Charlie   Delta        387
+#> 107    E92000001 Sheffield Central E14000919 Charlie   Delta        296
+#> 108    E92000001 Sheffield Central E14000919 Charlie   Delta        922
+#> 109    E92000001 Sheffield Central E14000919   Delta   Delta        622
+#> 110    E92000001 Sheffield Central E14000919   Delta   Delta        903
+#> 111    E92000001 Sheffield Central E14000919   Delta   Delta        362
+#> 112    E92000001 Sheffield Central E14000919   Delta   Delta        762
+#> 113    E92000001 Sheffield Central E14000919   Delta   Delta        571
+#> 114    E92000001 Sheffield Central E14000919   Delta   Delta        645
+#> 115    E92000001 Sheffield Central E14000919    Echo   Delta        555
+#> 116    E92000001 Sheffield Central E14000919    Echo   Delta        940
+#> 117    E92000001 Sheffield Central E14000919    Echo   Delta        406
+#> 118    E92000001 Sheffield Central E14000919    Echo   Delta        460
+#> 119    E92000001 Sheffield Central E14000919    Echo   Delta        777
+#> 120    E92000001 Sheffield Central E14000919    Echo   Delta        976
+#> 121    E92000001 Sheffield Central E14000919   Alpha    Echo        336
+#> 122    E92000001 Sheffield Central E14000919   Alpha    Echo        636
+#> 123    E92000001 Sheffield Central E14000919   Alpha    Echo        920
+#> 124    E92000001 Sheffield Central E14000919   Alpha    Echo        262
+#> 125    E92000001 Sheffield Central E14000919   Alpha    Echo        144
+#> 126    E92000001 Sheffield Central E14000919   Alpha    Echo        309
+#> 127    E92000001 Sheffield Central E14000919   Bravo    Echo        506
+#> 128    E92000001 Sheffield Central E14000919   Bravo    Echo        270
+#> 129    E92000001 Sheffield Central E14000919   Bravo    Echo        103
+#> 130    E92000001 Sheffield Central E14000919   Bravo    Echo        517
+#> 131    E92000001 Sheffield Central E14000919   Bravo    Echo        908
+#> 132    E92000001 Sheffield Central E14000919   Bravo    Echo        181
+#> 133    E92000001 Sheffield Central E14000919 Charlie    Echo        705
+#> 134    E92000001 Sheffield Central E14000919 Charlie    Echo        303
+#> 135    E92000001 Sheffield Central E14000919 Charlie    Echo        406
+#> 136    E92000001 Sheffield Central E14000919 Charlie    Echo        483
+#> 137    E92000001 Sheffield Central E14000919 Charlie    Echo        244
+#> 138    E92000001 Sheffield Central E14000919 Charlie    Echo        813
+#> 139    E92000001 Sheffield Central E14000919   Delta    Echo        847
+#> 140    E92000001 Sheffield Central E14000919   Delta    Echo        368
+#> 141    E92000001 Sheffield Central E14000919   Delta    Echo        531
+#> 142    E92000001 Sheffield Central E14000919   Delta    Echo        906
+#> 143    E92000001 Sheffield Central E14000919   Delta    Echo        312
+#> 144    E92000001 Sheffield Central E14000919   Delta    Echo        583
+#> 145    E92000001 Sheffield Central E14000919    Echo    Echo        804
+#> 146    E92000001 Sheffield Central E14000919    Echo    Echo        614
+#> 147    E92000001 Sheffield Central E14000919    Echo    Echo        874
+#> 148    E92000001 Sheffield Central E14000919    Echo    Echo        788
+#> 149    E92000001 Sheffield Central E14000919    Echo    Echo        297
+#> 150    E92000001 Sheffield Central E14000919    Echo    Echo        574
 #>     indicator2 indicator3
-#> 1          148        821
-#> 2          178        569
-#> 3          802        473
-#> 4          890        552
-#> 5          968        178
-#> 6          642        296
-#> 7          594        767
-#> 8          409        239
-#> 9          139        572
-#> 10         234        384
-#> 11         790        786
-#> 12         191        127
-#> 13         203        820
-#> 14         879        196
-#> 15         870        972
-#> 16         499        983
-#> 17         683        355
-#> 18         495        693
-#> 19         859        859
-#> 20         421        403
-#> 21         682        481
-#> 22         821        579
-#> 23         637        250
-#> 24         931        291
-#> 25         479        494
-#> 26         516        637
-#> 27         216        490
-#> 28         317        297
-#> 29         997        248
-#> 30         156        652
-#> 31         142        665
-#> 32         388        416
-#> 33         627        801
-#> 34         186        738
-#> 35         242        559
-#> 36         974        621
-#> 37         131        611
-#> 38         311        173
-#> 39         318        415
-#> 40         676        126
-#> 41         671        901
-#> 42         892        269
-#> 43         736        682
-#> 44         237        282
-#> 45         654        919
-#> 46         834        143
-#> 47         983        752
-#> 48         985        639
-#> 49         466        723
-#> 50         159        474
-#> 51         162        829
-#> 52         541        805
-#> 53         930        812
-#> 54         801        141
-#> 55         645        105
-#> 56         861        144
-#> 57         141        157
-#> 58         405        837
-#> 59         520        549
-#> 60         118        844
-#> 61         695        900
-#> 62         305        116
-#> 63         197        932
-#> 64         968        767
-#> 65         745        836
-#> 66         150        924
-#> 67         212        853
-#> 68         267        390
-#> 69         833        115
-#> 70         569        450
-#> 71         753        140
-#> 72         611        623
-#> 73         166        496
-#> 74         117        849
-#> 75         498        456
-#> 76         191        427
-#> 77         223        969
-#> 78         635        798
-#> 79         778        160
-#> 80         957        996
-#> 81         408        503
-#> 82         939        781
-#> 83         893        518
-#> 84         338        181
-#> 85         264        650
-#> 86         755        113
-#> 87         662        845
-#> 88         455        306
-#> 89         896        389
-#> 90         124        632
-#> 91         336        105
-#> 92         186        482
-#> 93         918        781
-#> 94         386        672
-#> 95         765        554
-#> 96         347        905
-#> 97         486        582
-#> 98         244        647
-#> 99         674        454
-#> 100        388        329
-#> 101        588        135
-#> 102        147        557
-#> 103        333        403
-#> 104        974        362
-#> 105        568        302
-#> 106        501        595
-#> 107        589        560
-#> 108        446        956
-#> 109        251        492
-#> 110        581        820
-#> 111        311        926
-#> 112        424        783
-#> 113        481        977
-#> 114        239        277
-#> 115        783        854
-#> 116        634        877
-#> 117        592        736
-#> 118        151        208
-#> 119        759        788
-#> 120        103        113
-#> 121        438        240
-#> 122        226        718
-#> 123        568        237
-#> 124        761        360
-#> 125        632        771
-#> 126        339        840
-#> 127        182        494
-#> 128        351        979
-#> 129        785        170
-#> 130        241        666
-#> 131        895        667
-#> 132        695        915
-#> 133        760        414
-#> 134        937        937
-#> 135        226        981
-#> 136        106        143
-#> 137        234        306
-#> 138        605        895
-#> 139        105        168
-#> 140        488        616
-#> 141        623        112
-#> 142        363        420
-#> 143        494        824
-#> 144        131        223
-#> 145        499        940
-#> 146        686        359
-#> 147        965        110
-#> 148        557        131
-#> 149        238        337
-#> 150        107        569
+#> 1          367        589
+#> 2          394        446
+#> 3          494        251
+#> 4          141        581
+#> 5          139        311
+#> 6          857        424
+#> 7          212        481
+#> 8          591        239
+#> 9          343        783
+#> 10         626        634
+#> 11         565        592
+#> 12         911        151
+#> 13         696        759
+#> 14         925        103
+#> 15         128        438
+#> 16         941        226
+#> 17         583        568
+#> 18         713        761
+#> 19         241        632
+#> 20         933        339
+#> 21         552        182
+#> 22         565        351
+#> 23         648        785
+#> 24         463        241
+#> 25         743        895
+#> 26         950        695
+#> 27         155        760
+#> 28         407        937
+#> 29         796        226
+#> 30         756        106
+#> 31         570        234
+#> 32         642        605
+#> 33         576        105
+#> 34         791        488
+#> 35         557        623
+#> 36         123        363
+#> 37         867        494
+#> 38         700        131
+#> 39         621        499
+#> 40         940        686
+#> 41         822        965
+#> 42         956        557
+#> 43         278        238
+#> 44         640        107
+#> 45         148        821
+#> 46         178        569
+#> 47         802        473
+#> 48         890        552
+#> 49         968        178
+#> 50         642        296
+#> 51         594        767
+#> 52         409        239
+#> 53         139        572
+#> 54         234        384
+#> 55         790        786
+#> 56         191        127
+#> 57         203        820
+#> 58         879        196
+#> 59         870        972
+#> 60         499        983
+#> 61         683        355
+#> 62         495        693
+#> 63         859        859
+#> 64         421        403
+#> 65         682        481
+#> 66         821        579
+#> 67         637        250
+#> 68         931        291
+#> 69         479        494
+#> 70         516        637
+#> 71         216        490
+#> 72         317        297
+#> 73         997        248
+#> 74         156        652
+#> 75         142        665
+#> 76         388        416
+#> 77         627        801
+#> 78         186        738
+#> 79         242        559
+#> 80         974        621
+#> 81         131        611
+#> 82         311        173
+#> 83         318        415
+#> 84         676        126
+#> 85         671        901
+#> 86         892        269
+#> 87         736        682
+#> 88         237        282
+#> 89         654        919
+#> 90         834        143
+#> 91         983        752
+#> 92         985        639
+#> 93         466        723
+#> 94         159        474
+#> 95         162        829
+#> 96         541        805
+#> 97         930        812
+#> 98         801        141
+#> 99         645        105
+#> 100        861        144
+#> 101        141        157
+#> 102        405        837
+#> 103        520        549
+#> 104        118        844
+#> 105        695        900
+#> 106        305        116
+#> 107        197        932
+#> 108        968        767
+#> 109        745        836
+#> 110        150        924
+#> 111        212        853
+#> 112        267        390
+#> 113        833        115
+#> 114        569        450
+#> 115        753        140
+#> 116        611        623
+#> 117        166        496
+#> 118        117        849
+#> 119        498        456
+#> 120        191        427
+#> 121        223        969
+#> 122        635        798
+#> 123        778        160
+#> 124        957        996
+#> 125        408        503
+#> 126        939        781
+#> 127        893        518
+#> 128        338        181
+#> 129        264        650
+#> 130        755        113
+#> 131        662        845
+#> 132        455        306
+#> 133        896        389
+#> 134        124        632
+#> 135        336        105
+#> 136        186        482
+#> 137        918        781
+#> 138        386        672
+#> 139        765        554
+#> 140        347        905
+#> 141        486        582
+#> 142        244        647
+#> 143        674        454
+#> 144        388        329
+#> 145        588        135
+#> 146        147        557
+#> 147        333        403
+#> 148        974        362
+#> 149        568        302
+#> 150        501        595
 #> 
 #> $meta
 #>     col_name  col_type      label indicator_grouping indicator_unit

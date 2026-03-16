@@ -176,6 +176,8 @@ validate core assumptions about the time columns.
 
 - [`check_filter_defaults()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_filter_defaults.md)
   : Check filenames line up between data and metadata files
+- [`check_filter_item_limit()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_filter_item_limit.md)
+  : Check number of filter items are below limit
 - [`check_filter_whitespace()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_filter_whitespace.md)
   : Check no filter values have leading or trailing whitespaces
 
