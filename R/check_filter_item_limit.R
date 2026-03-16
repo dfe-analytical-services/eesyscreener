@@ -55,7 +55,7 @@ check_filter_item_limit <- function(
           test_name,
           "PASS",
           paste(
-            "All filters and groups have less than ",
+            "All filters and groups have less than",
             filter_item_limit,
             "unique entries."
           ),
