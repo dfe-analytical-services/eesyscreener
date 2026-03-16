@@ -4,12 +4,20 @@
 \alias{check_filter_item_limit}
 \title{Check number of filter items are below limit}
 \usage{
-check_filter_item_limit(data, meta, verbose = FALSE, stop_on_error = FALSE)
+check_filter_item_limit(
+  data,
+  meta,
+  filter_item_limit = 25000,
+  verbose = FALSE,
+  stop_on_error = FALSE
+)
 }
 \arguments{
 \item{data}{A character string of the data filename to check}
 
 \item{meta}{A character string of the metadata filename to check}
+
+\item{filter_item_limit}{The maximum number of unqiue items allowed in a single filter}
 
 \item{verbose}{logical, if TRUE prints feedback messages to console for
 every test, if FALSE run silently}

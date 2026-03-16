@@ -3,6 +3,7 @@
 #'
 #' @param data A character string of the data filename to check
 #' @param meta A character string of the metadata filename to check
+#' @param filter_item_limit The maximum number of unqiue items allowed in a single filter
 #' @param verbose logical, if TRUE prints feedback messages to console for
 #' every test, if FALSE run silently
 #' @param stop_on_error logical, if TRUE will stop with an error if the result
@@ -18,6 +19,7 @@
 check_filter_item_limit <- function(
   data,
   meta,
+  filter_item_limit = 25000,
   verbose = FALSE,
   stop_on_error = FALSE
 ) {

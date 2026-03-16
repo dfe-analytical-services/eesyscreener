@@ -1,10 +1,3 @@
-# Filter item limit ====
-#' Filter item limit
-#'
-#' @format A numeric giving the maximum number of allowed distinct filter entries
-#' @source maintained by explore.statistics@@education.gov.uk
-"filter_item_limit"
-
 # Required metadata columns ====
 #' Required metadata columns
 #'
