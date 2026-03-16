@@ -3,7 +3,7 @@
 #'
 #' @param data A character string of the data filename to check
 #' @param meta A character string of the metadata filename to check
-#' @param filter_item_limit The maximum number of unqiue items allowed in a single filter. Default 
+#' @param filter_item_limit The maximum number of unqiue items allowed in a single filter. Default
 #' as used by the screener: 25000
 #' @param verbose logical, if TRUE prints feedback messages to console for
 #' every test, if FALSE run silently
@@ -25,9 +25,6 @@ check_filter_item_limit <- function(
   stop_on_error = FALSE
 ) {
   test_name <- "check_filter_item_limit"
-  guidance_url <- render_url(
-    "statistics-production/ud.html"
-  )
 
   filters_and_groups <- meta |>
     get_cols_meta(grouping_cols = TRUE)
@@ -77,7 +74,6 @@ check_filter_item_limit <- function(
             paste(large_filter_sets, collapse = "', '"),
             "'."
           ),
-          guidance_url = guidance_url,
           verbose = verbose,
           stop_on_error = stop_on_error
         )
