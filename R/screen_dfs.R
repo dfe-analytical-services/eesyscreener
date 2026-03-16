@@ -295,6 +295,12 @@ screen_dfs <- function(
       meta,
       verbose = verbose,
       stop_on_error = stop_on_error
+    ),
+    check_filter_item_limit(
+      data,
+      meta,
+      verbose = verbose,
+      stop_on_error = stop_on_error
     )
   )
   check_filter_results <- check_filter_results |>
