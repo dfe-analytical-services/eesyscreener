@@ -202,3 +202,16 @@
 #' }
 #' @source maintained by explore.statistics@@education.gov.uk
 "example_output"
+
+
+# EES robot test data ====
+#' Example screening output pre-generated from example_data and example_meta
+#'
+#' @format A list of 14 robot test examples, with each element of the list containing
+#' \describe{
+#'   \item{robot name}{Name of the robot test data}
+#'   \item{data}{The robot test data}
+#'   \item{meta}{The robot test meta}
+#' }
+#' @source maintained by explore.statistics@@education.gov.uk
+"ees_robot_test_data"

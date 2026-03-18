@@ -148,6 +148,7 @@ validate_arg_logical <- function(logical, name) {
 #' @noRd
 read_ees_files <- function(datapath, metapath) {
   # Check if files exist
+
   if (!file.exists(datapath)) {
     cli::cli_abort(sprintf("No file found at %s", datapath))
   }
@@ -244,14 +245,14 @@ write_ees_files <- function(data, meta, outdir, stub) {
   data_path <- file.path(outdir, paste0(stub, ".csv"))
   meta_path <- file.path(outdir, paste0(stub, ".meta.csv"))
 
-  write.csv(data, data_path, row.names = FALSE)
+  readr::write_csv(data, data_path)
   # Clean up any issues in the meta
   meta <- meta |>
     dplyr::mutate(
       across(everything(), as.character),
       across(everything(), ~ dplyr::if_else(is.na(.), "", .))
     )
-  write.csv(meta, meta_path, row.names = FALSE)
+  readr::write_csv(meta, meta_path)
   # Output the file paths
   list(
     data_path = data_path,
