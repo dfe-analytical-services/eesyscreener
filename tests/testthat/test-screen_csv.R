@@ -241,7 +241,12 @@ test_that("api_suitable returns FALSE for unsuitable files", {
     "api_long"
   )
 
-  result <- screen_csv(paths$data_path, paths$meta_path, "api.csv", "api.meta.csv")
+  result <- screen_csv(
+    paths$data_path,
+    paths$meta_path,
+    "api.csv",
+    "api.meta.csv"
+  )
   expect_true(!is.null(result$api_suitable))
   expect_false(result$api_suitable)
 
@@ -261,10 +266,20 @@ test_that("api_suitable returns FALSE for unsuitable files", {
 
 test_that("screen_csv completes for file containing commas in strings", {
   test_dir = tempdir()
-  paths <- write_ees_files(example_comma_data, example_comma_meta, test_dir, "comma")
+  paths <- write_ees_files(
+    example_comma_data,
+    example_comma_meta,
+    test_dir,
+    "comma"
+  )
 
   expect_no_error(
-    screen_csv(paths$data_path, paths$meta_path, "late_comma.csv", "late_comma.meta.csv")
+    screen_csv(
+      paths$data_path,
+      paths$meta_path,
+      "late_comma.csv",
+      "late_comma.meta.csv"
+    )
   )
 
   file.remove(paths$data_path)
