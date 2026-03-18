@@ -234,7 +234,12 @@ test_that("fails check dfs", {
 
 test_that("api_suitable returns FALSE for unsuitable files", {
   test_dir = tempdir()
-  paths <- write_ees_files(example_api_long, example_api_long_meta, test_dir, "api_long")
+  paths <- write_ees_files(
+    example_api_long,
+    example_api_long_meta,
+    test_dir,
+    "api_long"
+  )
 
   result <- screen_csv(paths$data_path, paths$meta_path, "api.csv", "api.meta.csv")
   expect_true(!is.null(result$api_suitable))
