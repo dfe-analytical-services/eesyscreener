@@ -285,8 +285,8 @@ test_that("screen_csv completes for file containing commas in strings", {
 # sure you update example_output using the script in data_raw after you've added a new check.
 # Another point of failure that this test can pick up on is if you've added a new family of tests
 # and either you've not folded it into the results collation properly or you've not done the stage
-# to write the results to the logfile. 
-test_that("Log file is created successfully", {
+# to write the results to the logfile.
+test_that("Log file generation works as expected", {
   test_dir = tempdir()
   paths <- write_ees_files(example_data, example_meta, test_dir, "log-test")
 
@@ -318,6 +318,17 @@ test_that("Log file is created successfully", {
       "test.meta.csv",
       log_key = log_key,
       log_dir = test_dir
+    )
+  )
+
+  expect_no_error(
+    screen_csv(
+      paths$data_path,
+      paths$meta_path,
+      "test.csv",
+      "test.meta.csv",
+      log_key = "new_key",
+      log_dir = NULL
     )
   )
 
