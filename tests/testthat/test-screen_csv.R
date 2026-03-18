@@ -281,44 +281,48 @@ test_that("screen_csv completes for file containing commas in strings", {
   file.remove(meta_path)
 })
 
-# TODO: Cam / Rich to fix this, failing on PRs for additional checks
+# If adding new tests, then this will fail if you haven't also updated the example output. Make
+# sure you update example_output using the script in data_raw after you've added a new check.
+# Another point of failure that this test can pick up on is if you've added a new family of tests
+# and either you've not folded it into the results collation properly or you've not done the stage
+# to write the results to the logfile. 
+test_that("Log file is created successfully", {
+  test_dir = tempdir()
+  paths <- write_ees_files(example_data, example_meta, test_dir, "log-test")
 
-# test_that("Log file is created successfully", {
-#   data_path <- tempfile(fileext = ".csv")
-#   meta_path <- tempfile(fileext = ".meta.csv")
-#   write.csv(example_data, data_path, row.names = FALSE)
-#   write.csv(example_meta, meta_path, row.names = FALSE)
-#
-#   log_dir = tempdir()
-#   log_file = paste0("eesyscreener_log_zxc987.json")
-#   log_path = file.path(log_dir, log_file)
-#   result <- screen_csv(
-#     data_path,
-#     meta_path,
-#     "test.csv",
-#     "test.meta.csv",
-#     log_key = "zxc987",
-#     log_dir = log_dir
-#   )
-#   expect_true(file.exists(log_path))
-#   # Check if we need to update `example_output`
-#   expect_equal(
-#     jsonlite::read_json(log_path, simplifyVector = TRUE)$results |> nrow(),
-#     example_output |> nrow()
-#   )
-#   expect_warning(
-#     screen_csv(
-#       data_path,
-#       meta_path,
-#       "test.csv",
-#       "test.meta.csv",
-#       log_key = "zxc987",
-#       log_dir = log_dir
-#     )
-#   )
-#   file.remove(data_path)
-#   file.remove(meta_path)
-#   file.remove(log_path)
-# })
+  log_key <- "zxc987_1"
+  log_file = paste0("eesyscreener_log_", log_key, ".json")
+  log_path = file.path(test_dir, log_file)
+  result <- screen_csv(
+    paths$data_path,
+    paths$meta_path,
+    "test.csv",
+    "test.meta.csv",
+    log_key = log_key,
+    log_dir = test_dir
+  )
+  expect_true(file.exists(log_path))
 
-# TODO: add tests for different failure stages and edge cases
+  # Check if `example_output` is up to date with the current results being produced
+  expect_equal(
+    jsonlite::read_json(log_path, simplifyVector = TRUE)$results |> nrow(),
+    example_output |> nrow()
+  )
+
+  # Expect a warning if the log file already exists
+  expect_warning(
+    screen_csv(
+      paths$data_path,
+      paths$meta_path,
+      "test.csv",
+      "test.meta.csv",
+      log_key = log_key,
+      log_dir = test_dir
+    )
+  )
+
+  # Now clean up after yourself
+  file.remove(paths$data_path)
+  file.remove(paths$meta_path)
+  file.remove(log_path)
+})

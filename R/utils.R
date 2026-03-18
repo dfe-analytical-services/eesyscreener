@@ -215,6 +215,50 @@ read_ees_files <- function(datapath, metapath) {
   list(data = datafile, meta = metafile)
 }
 
+#' Write out CSV files
+#'
+#' Helper for reading in CSV files in a standard way. Provides validation
+#' that they are CSV (or gzipped CSV) files before reading.
+#'
+#' @param data Output path
+#' @param meta String for the filename stub
+#' @param outdir Output path
+#' @param stub String for the filename stub
+#' @return List of the file paths
+#' @examples
+#' # Create temp files for the example
+#' temp_dir <- tempdir()
+#' write_ees_files(example_data, example_meta, outdir = temp_dir, stub = "example")
+#'
+#' # Clean up temp files
+#' file.remove(path(temp_dir, paste0("example.csv")))
+#' file.remove(path(temp_dir, paste0("example.meta.csv")))
+#' @keywords internal
+#' @noRd
+write_ees_files <- function(data, meta, outdir, stub) {
+  # Check if directory exist
+  if (!dir.exists(outdir)) {
+    cli::cli_abort(sprintf("No directory found at %s", outdir))
+  }
+
+  data_path <- file.path(outdir, paste0(stub, ".csv"))
+  meta_path <- file.path(outdir, paste0(stub, ".meta.csv"))
+
+  write.csv(data, data_path, row.names = FALSE)
+  # Clean up any issues in the meta
+  meta <- meta |>
+    dplyr::mutate(
+      across(everything(), as.character),
+      across(everything(), ~ dplyr::if_else(is.na(.), "", .))
+    )
+  write.csv(meta, meta_path, row.names = FALSE)
+  # Output the file paths
+  list(
+    data_path = data_path,
+    meta_path = meta_path
+  )
+}
+
 #' Get all column names referenced in metadata
 #'
 #' Get the names of all indicators, filters, and filter groups that are
@@ -303,11 +347,11 @@ char_limits <- function(values, max_length) {
 write_json_log <- function(
   results,
   log_key = NULL,
-  log_dir = "./",
+  log_dir = NULL,
   file_details = list(filename = NULL, filesize = NULL),
   data_details = list(nrows = NULL, ncols = NULL)
 ) {
-  if (!is.null(log_key)) {
+  if (!is.null(log_key) & !is.null(log_dir)) {
     log_file <- paste0("eesyscreener_log_", log_key, ".json")
     log_path = file.path(log_dir, log_file)
     if (file.exists(log_path)) {

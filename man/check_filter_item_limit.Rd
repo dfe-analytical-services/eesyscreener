@@ -2,7 +2,10 @@
 % Please edit documentation in R/check_filter_item_limit.R
 \name{check_filter_item_limit}
 \alias{check_filter_item_limit}
-\title{Check number of filter items are below limit}
+\title{Check number of filter items are below limit
+Ensures that no filter contains more than 25,000 unique options, this
+is to protect the EES service against accidental data issues that can
+cause performance issues within the admin system.}
 \usage{
 check_filter_item_limit(
   data,
@@ -31,6 +34,9 @@ a single row data frame
 }
 \description{
 Check number of filter items are below limit
+Ensures that no filter contains more than 25,000 unique options, this
+is to protect the EES service against accidental data issues that can
+cause performance issues within the admin system.
 }
 \examples{
 check_filter_item_limit(example_data, example_meta)
