@@ -217,8 +217,8 @@ read_ees_files <- function(datapath, metapath) {
 
 #' Write out CSV files
 #'
-#' Helper for reading in CSV files in a standard way. Provides validation
-#' that they are CSV (or gzipped CSV) files before reading.
+#' Helper for writing out CSV files in a standard way. Provides some standard cleaning for writing
+#' data frame contents to CSV to handle things like NAs.
 #'
 #' @param data Output path
 #' @param meta String for the filename stub

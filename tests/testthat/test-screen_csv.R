@@ -1,21 +1,18 @@
 test_that("Output structure is as expected", {
   # Start by creating some temporary CSVs
-  data_file <- tempfile(fileext = ".csv")
-  meta_file <- tempfile(fileext = ".meta.csv")
-
-  write.csv(example_data, data_file, row.names = FALSE)
-  write.csv(example_meta, meta_file, row.names = FALSE)
+  test_dir = tempdir()
+  paths <- write_ees_files(example_data, example_meta, test_dir, "example")
 
   output <- screen_csv(
-    data_file,
-    meta_file,
+    paths$data_path,
+    paths$meta_path,
     "data.csv",
     "data.meta.csv"
   )
 
   # Clean up temp files
-  file.remove(data_file)
-  file.remove(meta_file)
+  file.remove(paths$data_path)
+  file.remove(paths$meta_path)
 
   expect_type(output, "list")
   expect_length(output, 4)
@@ -75,15 +72,12 @@ test_that("Substitutes in filenames if not given", {
 })
 
 test_that("Example file passes", {
-  data_file <- tempfile(fileext = ".csv")
-  meta_file <- tempfile(fileext = ".meta.csv")
-
-  write.csv(example_data, data_file, row.names = FALSE)
-  write.csv(example_meta, meta_file, row.names = FALSE, na = "")
+  test_dir = tempdir()
+  paths <- write_ees_files(example_data, example_meta, test_dir, "example")
 
   output <- screen_csv(
-    data_file,
-    meta_file,
+    paths$data_path,
+    paths$meta_path,
     "data.csv",
     "data.meta.csv"
   )
@@ -93,8 +87,8 @@ test_that("Example file passes", {
 
   expect_no_error(
     screen_csv(
-      data_file,
-      meta_file,
+      paths$data_path,
+      paths$meta_path,
       "data.csv",
       "data.meta.csv"
     )
@@ -102,8 +96,8 @@ test_that("Example file passes", {
 
   expect_no_error(
     screen_csv(
-      data_file,
-      meta_file,
+      paths$data_path,
+      paths$meta_path,
       "data.csv",
       "data.meta.csv",
       verbose = TRUE
@@ -112,16 +106,16 @@ test_that("Example file passes", {
 
   expect_no_error(
     screen_csv(
-      data_file,
-      meta_file,
+      paths$data_path,
+      paths$meta_path,
       "data.csv",
       "data.meta.csv",
       stop_on_error = TRUE
     )
   )
 
-  file.remove(data_file)
-  file.remove(meta_file)
+  file.remove(paths$data_path)
+  file.remove(paths$meta_path)
 })
 
 test_that("Fails gracefully if files can't be found", {
@@ -137,44 +131,39 @@ test_that("Fails gracefully if files can't be found", {
 test_that("Fails gracefully if it's not a CSV", {
   txt_file <- tempfile(fileext = ".txt")
   txt_meta <- tempfile(fileext = ".txt")
-  data_file <- tempfile(fileext = ".csv")
-  meta_file <- tempfile(fileext = ".meta.csv")
-
-  write.csv(example_data, data_file, row.names = FALSE)
-  write.csv(example_meta, meta_file, row.names = FALSE)
   writeLines(c("This is not a CSV file"), txt_file)
   writeLines(c("This is not a CSV file"), txt_meta)
+
+  test_dir = tempdir()
+  paths <- write_ees_files(example_data, example_meta, test_dir, "example")
 
   expect_error(
     screen_csv(txt_file, txt_meta, stop_on_error = TRUE),
     "Data file"
   )
   expect_error(
-    screen_csv(txt_file, meta_file, stop_on_error = TRUE),
+    screen_csv(txt_file, paths$meta_path, stop_on_error = TRUE),
     "Data file"
   )
   expect_error(
-    screen_csv(data_file, txt_meta, stop_on_error = TRUE),
+    screen_csv(paths$data_path, txt_meta, stop_on_error = TRUE),
     "Meta data file"
   )
 
-  file.remove(data_file)
-  file.remove(meta_file)
+  file.remove(paths$data_path)
+  file.remove(paths$meta_path)
   file.remove(txt_file)
   file.remove(txt_meta)
 })
 
 test_that("Example file fails with filename", {
-  data_file <- tempfile(fileext = ".csv")
-  meta_file <- tempfile(fileext = ".meta.csv")
-
-  write.csv(example_data, data_file, row.names = FALSE)
-  write.csv(example_meta, meta_file, row.names = FALSE)
+  test_dir = tempdir()
+  paths <- write_ees_files(example_data, example_meta, test_dir, "example")
 
   expect_equal(
     screen_csv(
-      data_file,
-      meta_file,
+      paths$data_path,
+      paths$meta_path,
       "data.csv",
       "meta.csv",
     )$overall_stage,
@@ -183,8 +172,8 @@ test_that("Example file fails with filename", {
 
   expect_error(
     screen_csv(
-      data_file,
-      meta_file,
+      paths$data_path,
+      paths$meta_path,
       "data.csv",
       "meta.csv",
       verbose = TRUE,
@@ -193,8 +182,8 @@ test_that("Example file fails with filename", {
     "The filenames do not follow the recommended naming convention"
   )
 
-  file.remove(data_file)
-  file.remove(meta_file)
+  file.remove(paths$data_path)
+  file.remove(paths$meta_path)
 
   # Run again but with implied filenames
   data_path <- file.path(tempdir(), "nonono.csv")
@@ -244,41 +233,37 @@ test_that("fails check dfs", {
 })
 
 test_that("api_suitable returns FALSE for unsuitable files", {
-  data_path <- tempfile(fileext = ".csv")
-  meta_path <- tempfile(fileext = ".meta.csv")
-  write.csv(example_api_long, data_path, row.names = FALSE)
-  write.csv(example_api_long_meta, meta_path, row.names = FALSE)
+  test_dir = tempdir()
+  paths <- write_ees_files(example_api_long, example_api_long_meta, test_dir, "api_long")
 
-  result <- screen_csv(data_path, meta_path, "api.csv", "api.meta.csv")
+  result <- screen_csv(paths$data_path, paths$meta_path, "api.csv", "api.meta.csv")
   expect_true(!is.null(result$api_suitable))
   expect_false(result$api_suitable)
 
   expect_warning(
     screen_csv(
-      data_path,
-      meta_path,
+      paths$data_path,
+      paths$meta_path,
       "api.csv",
       "api.meta.csv",
       stop_on_error = TRUE
     )
   )
 
-  file.remove(data_path)
-  file.remove(meta_path)
+  file.remove(paths$data_path)
+  file.remove(paths$meta_path)
 })
 
 test_that("screen_csv completes for file containing commas in strings", {
-  data_path <- tempfile(fileext = ".csv")
-  meta_path <- tempfile(fileext = ".meta.csv")
-  write.csv(example_comma_data, data_path, row.names = FALSE)
-  write.csv(example_comma_meta, meta_path, row.names = FALSE)
+  test_dir = tempdir()
+  paths <- write_ees_files(example_comma_data, example_comma_meta, test_dir, "comma")
 
   expect_no_error(
-    screen_csv(data_path, meta_path, "late_comma.csv", "late_comma.meta.csv")
+    screen_csv(paths$data_path, paths$meta_path, "late_comma.csv", "late_comma.meta.csv")
   )
 
-  file.remove(data_path)
-  file.remove(meta_path)
+  file.remove(paths$data_path)
+  file.remove(paths$meta_path)
 })
 
 # If adding new tests, then this will fail if you haven't also updated the example output. Make
