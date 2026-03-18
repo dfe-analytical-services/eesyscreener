@@ -249,8 +249,8 @@ write_ees_files <- function(data, meta, outdir, stub) {
   # Clean up any issues in the meta
   meta <- meta |>
     dplyr::mutate(
-      across(everything(), as.character),
-      across(everything(), ~ dplyr::if_else(is.na(.), "", .))
+      dplyr::across(dplyr::everything(), as.character),
+      dplyr::across(dplyr::everything(), ~ dplyr::if_else(is.na(.), "", .))
     )
   readr::write_csv(meta, meta_path)
   # Output the file paths
