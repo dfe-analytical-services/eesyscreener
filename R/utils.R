@@ -221,8 +221,8 @@ read_ees_files <- function(datapath, metapath) {
 #' Helper for writing out CSV files in a standard way. Provides some standard cleaning for writing
 #' data frame contents to CSV to handle things like NAs.
 #'
-#' @param data Output path
-#' @param meta String for the filename stub
+#' @param data Data to be written out
+#' @param meta Meta to be written out
 #' @param outdir Output path
 #' @param stub String for the filename stub
 #' @return List of the file paths
