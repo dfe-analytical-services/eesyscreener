@@ -205,7 +205,7 @@
 
 
 # EES robot test data ====
-#' A set of the robot test files as used in EES UI tests. These are availble from:
+#' A set of the robot test files as used in EES UI tests. These are available from:
 #' https://github.com/dfe-analytical-services/explore-education-statistics/tree/dev/tests/robot-tests/tests/files
 #'
 #' @format A list of 14 robot test examples, with each element of the list containing
