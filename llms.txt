@@ -712,6 +712,9 @@ to <explore.statistics@education.gov.uk>.
 - [`example_output`](https://dfe-analytical-services.github.io/eesyscreener/reference/example_output.md)
   : Example screening output pre-generated from example_data and
   example_meta
+- [`ees_robot_test_data`](https://dfe-analytical-services.github.io/eesyscreener/reference/ees_robot_test_data.md)
+  : Example screening output pre-generated from example_data and
+  example_meta
 
 ## Generate test files
 
@@ -848,7 +851,10 @@ validate core assumptions about the time columns.
 - [`check_filter_defaults()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_filter_defaults.md)
   : Check filenames line up between data and metadata files
 - [`check_filter_item_limit()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_filter_item_limit.md)
-  : Check number of filter items are below limit
+  : Check number of filter items are below limit Ensures that no filter
+  contains more than 25,000 unique options, this is to protect the EES
+  service against accidental data issues that can cause performance
+  issues within the admin system.
 - [`check_filter_whitespace()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_filter_whitespace.md)
   : Check no filter values have leading or trailing whitespaces
 

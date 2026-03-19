@@ -1,6 +1,9 @@
-# Check number of filter items are below limit
+# Check number of filter items are below limit Ensures that no filter contains more than 25,000 unique options, this is to protect the EES service against accidental data issues that can cause performance issues within the admin system.
 
-Check number of filter items are below limit
+Check number of filter items are below limit Ensures that no filter
+contains more than 25,000 unique options, this is to protect the EES
+service against accidental data issues that can cause performance issues
+within the admin system.
 
 ## Usage
 
