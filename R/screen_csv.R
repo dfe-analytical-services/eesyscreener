@@ -79,17 +79,14 @@ screen_csv <- function(
   validate_arg_logical(verbose, "verbose")
   validate_arg_logical(stop_on_error, "stop_on_error")
 
-  if (
-    file.exists(
-      file.path(
-        log_dir,
-        paste0("eesyscreener_log_", log_key, ".json")
+  if (!is.null(log_key) & !is.null(log_dir)) {
+    log_file <- paste0("eesyscreener_log_", log_key, ".json")
+    log_path = file.path(log_dir, log_file)
+    if (file.exists(log_path)) {
+      warning(
+        "Log file already exists, the default is currently to append distinct results."
       )
-    )
-  ) {
-    warning(
-      "Log file already exists, the default is currently to append distinct results."
-    )
+    }
   }
 
   write_json_log(

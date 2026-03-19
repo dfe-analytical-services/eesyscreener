@@ -101,11 +101,8 @@ screen_dfs <- function(
     )
   )
 
-  check_col_results <- precheck_col_results |>
-    rbind(
-      check_col_results |>
-        cbind("stage" = "Check columns")
-    )
+  check_col_results <- check_col_results |>
+    cbind("stage" = "Check columns")
 
   write_json_log(
     check_col_results,
@@ -113,6 +110,9 @@ screen_dfs <- function(
     log_dir = log_dir,
     data_details = data_details
   )
+
+  check_col_results <- precheck_col_results |>
+    rbind(check_col_results)
 
   # Precheck meta -------------------------------------------------------------
   precheck_meta_results <- rbind(
@@ -142,7 +142,7 @@ screen_dfs <- function(
     data_details = data_details
   )
 
-  precheck_meta_results <- precheck_col_results |>
+  precheck_meta_results <- check_col_results |>
     rbind(
       precheck_meta_results
     )
@@ -312,7 +312,8 @@ screen_dfs <- function(
     log_dir = log_dir,
     data_details = data_details
   )
-  check_filter_results <- precheck_time_results |>
+
+  check_filter_results <- check_time_results |>
     rbind(
       check_filter_results
     )
@@ -348,7 +349,7 @@ screen_dfs <- function(
 
   api_pass <- all(check_api_results[["result"]] == "PASS")
 
-  final_results <- precheck_time_results |>
+  final_results <- check_filter_results |>
     rbind(
       check_api_results
     )
