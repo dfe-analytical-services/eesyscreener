@@ -70,7 +70,7 @@ check_filter_item_limit <- function(
       return(
         test_output(
           test_name,
-          "ERROR",
+          "FAIL",
           paste0(
             "The following filters or filter groups contain more than the advised maximum number of unique entries: '",
             paste(large_filter_sets, collapse = "', '"),

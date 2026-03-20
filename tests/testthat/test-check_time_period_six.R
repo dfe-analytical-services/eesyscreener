@@ -24,11 +24,11 @@ test_that("passes for 199900 (century edge case)", {
   expect_equal(check_time_period_six(data)$result, "PASS")
 })
 
-test_that("ignores when there are no six-digit time_period values", {
+test_that("PASSes when there are no six-digit time_period values", {
   data <- data.frame(
     time_period = c("2020", "2021")
   )
-  expect_equal(check_time_period_six(data)$result, "IGNORE")
+  expect_equal(check_time_period_six(data)$result, "PASS")
 })
 
 test_that("fails with NA six-digit time_period value", {
