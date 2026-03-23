@@ -1,8 +1,7 @@
-# A set of the robot test files as used in EES UI tests. These are available from: https://github.com/dfe-analytical-services/explore-education-statistics/tree/dev/tests/robot-tests/tests/files
+# Example screening output pre-generated from example_data and example_meta
 
-A set of the robot test files as used in EES UI tests. These are
-available from:
-https://github.com/dfe-analytical-services/explore-education-statistics/tree/dev/tests/robot-tests/tests/files
+Example screening output pre-generated from example_data and
+example_meta
 
 ## Usage
 
