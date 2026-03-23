@@ -3,7 +3,8 @@
 \docType{data}
 \name{ees_robot_test_data}
 \alias{ees_robot_test_data}
-\title{Example screening output pre-generated from example_data and example_meta}
+\title{A set of the robot test files as used in EES UI tests. These are available from:
+https://github.com/dfe-analytical-services/explore-education-statistics/tree/dev/tests/robot-tests/tests/files}
 \format{
 A list of 14 robot test examples, with each element of the list containing
 \describe{
@@ -19,6 +20,7 @@ maintained by explore.statistics@education.gov.uk
 ees_robot_test_data
 }
 \description{
-Example screening output pre-generated from example_data and example_meta
+A set of the robot test files as used in EES UI tests. These are available from:
+https://github.com/dfe-analytical-services/explore-education-statistics/tree/dev/tests/robot-tests/tests/files
 }
 \keyword{datasets}
