@@ -15,6 +15,7 @@ reference:
 - title: Example datasets
   contents:
   - starts_with("example_")
+  - ees_robot_test_data
 
 - title: Generate test files
   contents:
@@ -31,6 +32,8 @@ reference:
   - api_char_limits
   - gss_symbols
   - legacy_gss_symbols
+  - four_digit_identifiers
+  - six_digit_identifiers
 
 - title: Filename checks
   contents:
@@ -91,6 +94,8 @@ reference:
 - title: Geography checks
 
 - title: Time checks
+  contents:
+  - starts_with("check_time_")
 
 - title: API specific checks
   contents:

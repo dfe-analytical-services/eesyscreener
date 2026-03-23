@@ -82,7 +82,7 @@ financial_halves <- c(
   "Part 2 (October to March)"
 )
 
-acceptable_time_ids <- c(
+acceptable_time_ids <- list(
   "Autumn and spring term",
   "Calendar year",
   "Financial year",
@@ -98,6 +98,22 @@ acceptable_time_ids <- c(
 
 
 usethis::use_data(acceptable_time_ids, overwrite = TRUE)
+
+four_digit_identifiers <- c("Calendar year", "Reporting year", weeks, months)
+
+usethis::use_data(four_digit_identifiers, overwrite = TRUE)
+
+six_digit_identifiers <- c(
+  "Autumn and spring term",
+  terms,
+  "Financial year",
+  "Academic year",
+  "Tax year",
+  financial_quarters,
+  financial_halves
+)
+
+usethis::use_data(six_digit_identifiers, overwrite = TRUE)
 
 acceptable_indicator_units <- c("%", "pp", "£", "£m", "numberstring")
 

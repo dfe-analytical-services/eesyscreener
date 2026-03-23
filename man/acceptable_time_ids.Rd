@@ -5,7 +5,7 @@
 \alias{acceptable_time_ids}
 \title{Acceptable time identifiers}
 \format{
-A vector of acceptable time identifier values
+A list of acceptable time identifier values
 }
 \source{
 maintained by explore.statistics@education.gov.uk
@@ -14,6 +14,7 @@ maintained by explore.statistics@education.gov.uk
 acceptable_time_ids
 }
 \description{
-Acceptable time identifiers
+Groups of acceptable time identifier values. Identifiers should
+be from the same group to be considered compatible.
 }
 \keyword{datasets}

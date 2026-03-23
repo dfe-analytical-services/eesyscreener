@@ -1,8 +1,12 @@
 # Acceptable values ===========================================================
 # acceptable_time_ids
 test_that("output format is as expected", {
-  expect_type(acceptable_time_ids, "character")
+  expect_type(acceptable_time_ids, "list")
   expect_gt(length(acceptable_time_ids), 1)
+  expect_type(four_digit_identifiers, "character")
+  expect_gt(length(four_digit_identifiers), 1)
+  expect_type(six_digit_identifiers, "character")
+  expect_gt(length(six_digit_identifiers), 1)
 })
 
 # acceptable_indicator_units

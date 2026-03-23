@@ -29,6 +29,7 @@ check_filter_whitespace(example_data, example_meta, verbose = TRUE)
 }
 \seealso{
 Other check_filter: 
-\code{\link{check_filter_defaults}()}
+\code{\link{check_filter_defaults}()},
+\code{\link{check_filter_item_limit}()}
 }
 \concept{check_filter}

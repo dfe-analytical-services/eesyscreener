@@ -29,9 +29,32 @@
 # Acceptable time identifiers ====
 #' Acceptable time identifiers
 #'
-#' @format A vector of acceptable time identifier values
+#' Groups of acceptable time identifier values. Identifiers should
+#' be from the same group to be considered compatible.
+#'
+#' @format A list of acceptable time identifier values
 #' @source maintained by explore.statistics@@education.gov.uk
 "acceptable_time_ids"
+
+# Time identifiers that should be 4 digit numbers ====
+#' Time identifiers that should have 4 digit numbers
+#'
+#' A vector of time identifier values that should have 4 digit numbers.
+#' This is a subset of the acceptable_time_ids list.
+#'
+#' @format A vector of time identifier values that should have 4 digit numbers
+#' @source maintained by explore.statistics@@education.gov.uk
+"four_digit_identifiers"
+
+# Time identifiers that should be 6 digit numbers ====
+#' Time identifiers that should have 6 digit numbers
+#'
+#' A vector of time identifier values that should have 6 digit numbers.
+#' This is a subset of the acceptable_time_ids list.
+#'
+#' @format A vector of time identifier values that should have 6 digit numbers
+#' @source maintained by explore.statistics@@education.gov.uk
+"six_digit_identifiers"
 
 # Acceptable indicator units ====
 #' Acceptable values for indicator units

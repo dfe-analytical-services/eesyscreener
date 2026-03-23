@@ -42,7 +42,7 @@ A list containing
 \enumerate{
 \item A table with the full results of the checks with four columns:
 \itemize{
-\item result of the check (PASS / FAIL / ADVISORY)
+\item result of the check (PASS / FAIL / WARNING)
 \item message giving feedback about the check
 \item group that the check belongs to
 \item name of the check
