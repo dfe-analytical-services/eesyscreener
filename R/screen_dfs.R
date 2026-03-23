@@ -101,11 +101,8 @@ screen_dfs <- function(
     )
   )
 
-  check_col_results <- precheck_col_results |>
-    rbind(
-      check_col_results |>
-        cbind("stage" = "Check columns")
-    )
+  check_col_results <- check_col_results |>
+    cbind("stage" = "Check columns")
 
   write_json_log(
     check_col_results,
@@ -113,6 +110,9 @@ screen_dfs <- function(
     log_dir = log_dir,
     data_details = data_details
   )
+
+  check_col_results <- precheck_col_results |>
+    rbind(check_col_results)
 
   # Precheck meta -------------------------------------------------------------
   precheck_meta_results <- rbind(
@@ -142,7 +142,7 @@ screen_dfs <- function(
     data_details = data_details
   )
 
-  precheck_meta_results <- precheck_col_results |>
+  precheck_meta_results <- check_col_results |>
     rbind(
       precheck_meta_results
     )
@@ -215,7 +215,16 @@ screen_dfs <- function(
   precheck_time_results <- rbind(
     precheck_time_id_valid(
       data,
-      meta,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    ),
+    precheck_time_id_mix(
+      data,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    ),
+    precheck_time_period_num(
+      data,
       verbose = verbose,
       stop_on_error = stop_on_error
     )
@@ -223,6 +232,7 @@ screen_dfs <- function(
 
   precheck_time_results <- precheck_time_results |>
     cbind("stage" = "Precheck time")
+
   write_json_log(
     precheck_time_results,
     log_key = log_key,
@@ -239,7 +249,40 @@ screen_dfs <- function(
     return(as.data.frame(precheck_time_results))
   }
 
-  # Precheck geog -------------------------------------------------------------
+  # Check Time ----------------------------------------------------------------
+  check_time_results <- rbind(
+    check_time_period(
+      data,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    ),
+    check_time_period_six(
+      data,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    )
+  )
+
+  check_time_results <- check_time_results |>
+    cbind("stage" = "Check time")
+
+  write_json_log(
+    check_time_results,
+    log_key = log_key,
+    log_dir = log_dir,
+    data_details = data_details
+  )
+
+    check_time_results <- precheck_time_results |>
+    rbind(
+      check_time_results
+    )
+
+  if (any(check_time_results[["result"]] == "FAIL")) {
+    return(as.data.frame(check_time_results))
+  }
+
+     # Precheck geog -------------------------------------------------------------
   precheck_geography_results <- rbind(
     precheck_geog_level(
       data,
@@ -250,6 +293,7 @@ screen_dfs <- function(
 
   precheck_geography_results <- precheck_geography_results |>
     cbind("stage" = "Precheck geography")
+  
   write_json_log(
     precheck_geography_results,
     log_key = log_key,
@@ -257,7 +301,7 @@ screen_dfs <- function(
     data_details = data_details
   )
 
-  precheck_geography_results <- precheck_time_results |>
+  precheck_geography_results <- check_time_results |>
     rbind(
       precheck_geography_results
     )
@@ -266,7 +310,7 @@ screen_dfs <- function(
     return(as.data.frame(precheck_geography_results))
   }
 
-  # Check Filters -----------------------------------------------------------------
+  # Check Filters -------------------------------------------------------------
   check_filter_results <- rbind(
     check_filter_defaults(
       data,
@@ -275,6 +319,12 @@ screen_dfs <- function(
       stop_on_error = stop_on_error
     ),
     check_filter_whitespace(
+      data,
+      meta,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    ),
+    check_filter_item_limit(
       data,
       meta,
       verbose = verbose,
@@ -290,7 +340,8 @@ screen_dfs <- function(
     log_dir = log_dir,
     data_details = data_details
   )
-  check_filter_results <- precheck_time_results |>
+
+  check_filter_results <- precheck_geography_results |>
     rbind(
       check_filter_results
     )
@@ -326,7 +377,7 @@ screen_dfs <- function(
 
   api_pass <- all(check_api_results[["result"]] == "PASS")
 
-  final_results <- precheck_time_results |>
+  final_results <- check_filter_results |>
     rbind(
       check_api_results
     )

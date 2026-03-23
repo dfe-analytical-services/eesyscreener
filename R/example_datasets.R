@@ -202,3 +202,17 @@
 #' }
 #' @source maintained by explore.statistics@@education.gov.uk
 "example_output"
+
+
+# EES robot test data ====
+#' A set of the robot test files as used in EES UI tests. These are available from:
+#' https://github.com/dfe-analytical-services/explore-education-statistics/tree/dev/tests/robot-tests/tests/files
+#'
+#' @format A list of 14 robot test examples, with each element of the list containing
+#' \describe{
+#'   \item{robot name}{Name of the robot test data}
+#'   \item{data}{The robot test data}
+#'   \item{meta}{The robot test meta}
+#' }
+#' @source maintained by explore.statistics@@education.gov.uk
+"ees_robot_test_data"

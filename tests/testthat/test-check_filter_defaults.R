@@ -9,6 +9,17 @@ test_that("check_filter_defaults gives WARNING correctly when no totals or filte
   )
 })
 
+test_that("check_filter_defaults gives WARNING correctly when read-in meta has NAs under filter defaults", {
+  expect_equal(
+    check_filter_defaults(
+      example_data,
+      example_meta |>
+        dplyr::mutate(filter_default = "")
+    )$result,
+    "WARNING"
+  )
+})
+
 test_that("check_filter_defaults gives a pass when no filters are present", {
   expect_equal(
     check_filter_defaults(
