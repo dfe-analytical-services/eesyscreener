@@ -273,7 +273,7 @@ screen_dfs <- function(
     data_details = data_details
   )
 
-    check_time_results <- precheck_time_results |>
+  check_time_results <- precheck_time_results |>
     rbind(
       check_time_results
     )
@@ -282,7 +282,7 @@ screen_dfs <- function(
     return(as.data.frame(check_time_results))
   }
 
-     # Precheck geog -------------------------------------------------------------
+  # Precheck geog -------------------------------------------------------------
   precheck_geography_results <- rbind(
     precheck_geog_level(
       data,
@@ -293,7 +293,6 @@ screen_dfs <- function(
 
   precheck_geography_results <- precheck_geography_results |>
     cbind("stage" = "Precheck geography")
-  
   write_json_log(
     precheck_geography_results,
     log_key = log_key,
