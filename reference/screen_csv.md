@@ -66,7 +66,7 @@ A list containing
 
 1.  A table with the full results of the checks with four columns:
 
-    - result of the check (PASS / FAIL / ADVISORY)
+    - result of the check (PASS / FAIL / WARNING)
 
     - message giving feedback about the check
 
