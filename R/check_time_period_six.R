@@ -59,7 +59,7 @@ check_time_period_six <- function(
 
   if (nrow(dplyr::filter(time_length, digits == 6)) == 0) {
     message <- "There are no six digit time_period values in the file."
-    result <- "IGNORE"
+    result <- "PASS"
   } else {
     if ("FAIL" %in% pre_result) {
       message <- "When the time period is six digits, the years must be consecutive such as 201920."
