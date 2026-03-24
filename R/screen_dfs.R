@@ -270,7 +270,7 @@ screen_dfs <- function(
     data_details = data_details
   )
 
-  precheck_time_results <- check_meta_results |>
+  precheck_time_results <- check_ind_results |>
     rbind(
       precheck_time_results
     )
