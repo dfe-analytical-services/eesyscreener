@@ -1,7 +1,7 @@
 Type: Package
 Package: eesyscreener
 Title: Explore education statistics data screening
-Version: 0.1.2
+Version: 0.2.2
 Authors@R: c(
     person("Cam", "Race", , "cameron.race@education.gov.uk", role = c("aut", "cre")),
     person("Rich", "Bielby", , "richard.bielby@education.gov.uk", role = "aut",
