@@ -12,7 +12,7 @@ find_duplicate_rows <- function(data, meta){
     "time_period",
     "time_identifier",
     "geographic_level",
-    names(data)[names(data) %in% c(geography_df$name_field, geography_df$code_field)],
+    names(data)[names(data) %in% c(eesyscreener::geography_df$name_field, eesyscreener::geography_df$code_field)],
     get_cols_meta(meta, grouping_cols = TRUE)
   )
   data |> 
