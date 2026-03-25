@@ -6,12 +6,17 @@
 \usage{
 find_duplicate_rows(data, meta)
 }
-\arguments{
-\item{data}{A data frame of the data file}
-}
 \description{
 Identify duplicate rows in a data set
 }
 \examples{
-find_duplicate_rows(bind_rows(example_data, example_data), example_meta)
+find_duplicate_rows(
+  dplyr::bind_rows(example_data, example_data),
+  example_meta
+)
+find_duplicate_rows(
+  dplyr::bind_rows(example_data, example_data |> dplyr::mutate(enrolment_count = 5)),
+  example_meta
+)
+
 }
