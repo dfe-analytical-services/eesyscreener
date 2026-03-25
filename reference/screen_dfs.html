@@ -36,7 +36,7 @@ objects."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Run all checks against data and metadata</h1>
-      <small class="dont-index">Source: <a href="https://github.com/dfe-analytical-services/eesyscreener/blob/v0.2.2/R/screen_dfs.R" class="external-link"><code>R/screen_dfs.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/dfe-analytical-services/eesyscreener/blob/main/R/screen_dfs.R" class="external-link"><code>R/screen_dfs.R</code></a></small>
       <div class="d-none name"><code>screen_dfs.Rd</code></div>
     </div>
 
@@ -52,6 +52,7 @@ objects.</p>
 <span>  <span class="va">meta</span>,</span>
 <span>  log_key <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  log_dir <span class="op">=</span> <span class="st">"./"</span>,</span>
+<span>  dd_checks <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  stop_on_error <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  prudence <span class="op">=</span> <span class="st">"lavish"</span></span>
@@ -78,6 +79,11 @@ write a log file to disk called eesyscreening_log_&lt;log_key&gt;.json default=N
 
 <dt id="arg-log-dir">log_dir<a class="anchor" aria-label="anchor" href="#arg-log-dir"></a></dt>
 <dd><p>Directory within which to place the log file. default="./"</p></dd>
+
+
+<dt id="arg-dd-checks">dd_checks<a class="anchor" aria-label="anchor" href="#arg-dd-checks"></a></dt>
+<dd><p>Run the Data dictionary tests, default=TRUE (this is implemented to allow devs
+to update robot test data to be consistent with data dictionary tests).</p></dd>
 
 
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>

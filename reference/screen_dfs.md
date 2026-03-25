@@ -11,6 +11,7 @@ screen_dfs(
   meta,
   log_key = NULL,
   log_dir = "./",
+  dd_checks = TRUE,
   verbose = FALSE,
   stop_on_error = FALSE,
   prudence = "lavish"
@@ -37,6 +38,12 @@ screen_dfs(
 - log_dir:
 
   Directory within which to place the log file. default="./"
+
+- dd_checks:
+
+  Run the Data dictionary tests, default=TRUE (this is implemented to
+  allow devs to update robot test data to be consistent with data
+  dictionary tests).
 
 - verbose:
 

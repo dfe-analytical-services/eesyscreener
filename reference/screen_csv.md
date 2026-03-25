@@ -15,6 +15,7 @@ screen_csv(
   metafilename = NULL,
   log_key = NULL,
   log_dir = "./",
+  dd_checks = TRUE,
   verbose = FALSE,
   stop_on_error = FALSE
 )
@@ -50,6 +51,12 @@ screen_csv(
 
   Directory within which to place the log file. default="./"
 
+- dd_checks:
+
+  Run the Data dictionary tests, default=TRUE (this is implemented to
+  allow devs to update robot test data to be consistent with data
+  dictionary tests).
+
 - verbose:
 
   logical, if TRUE prints feedback messages to console for every test,
@@ -66,7 +73,7 @@ A list containing
 
 1.  A table with the full results of the checks with four columns:
 
-    - result of the check (PASS / FAIL / ADVISORY)
+    - result of the check (PASS / FAIL / WARNING)
 
     - message giving feedback about the check
 

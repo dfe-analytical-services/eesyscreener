@@ -40,7 +40,7 @@ will return early if any check in a stage fails."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Run all checks against files</h1>
-      <small class="dont-index">Source: <a href="https://github.com/dfe-analytical-services/eesyscreener/blob/v0.2.2/R/screen_csv.R" class="external-link"><code>R/screen_csv.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/dfe-analytical-services/eesyscreener/blob/main/R/screen_csv.R" class="external-link"><code>R/screen_csv.R</code></a></small>
       <div class="d-none name"><code>screen_csv.Rd</code></div>
     </div>
 
@@ -60,6 +60,7 @@ will return early if any check in a stage fails.</p>
 <span>  metafilename <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  log_key <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  log_dir <span class="op">=</span> <span class="st">"./"</span>,</span>
+<span>  dd_checks <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  stop_on_error <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -96,6 +97,11 @@ write a log file to disk called eesyscreening_log_&lt;log_key&gt;.json default=N
 <dd><p>Directory within which to place the log file. default="./"</p></dd>
 
 
+<dt id="arg-dd-checks">dd_checks<a class="anchor" aria-label="anchor" href="#arg-dd-checks"></a></dt>
+<dd><p>Run the Data dictionary tests, default=TRUE (this is implemented to allow devs
+to update robot test data to be consistent with data dictionary tests).</p></dd>
+
+
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
 <dd><p>logical, if TRUE prints feedback messages to console for
 every test, if FALSE run silently</p></dd>
@@ -108,7 +114,7 @@ is "FAIL", and will throw genuine warning if result is "WARNING"</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A list containing</p><ol><li><p>A table with the full results of the checks with four columns:</p><ul><li><p>result of the check (PASS / FAIL / ADVISORY)</p></li>
+    <p>A list containing</p><ol><li><p>A table with the full results of the checks with four columns:</p><ul><li><p>result of the check (PASS / FAIL / WARNING)</p></li>
 <li><p>message giving feedback about the check</p></li>
 <li><p>group that the check belongs to</p></li>
 <li><p>name of the check</p></li>
