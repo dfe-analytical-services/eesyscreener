@@ -11,6 +11,8 @@
 #' @param log_key keystring for creating log file. If given, the screening will
 #' write a log file to disk called eesyscreening_log_<log_key>.json default=NULL
 #' @param log_dir Directory within which to place the log file. default="./"
+#' @param dd_checks Run the Data dictionary tests, default=TRUE (this is implemented to allow devs
+#' to update robot test data to be consistent with data dictionary tests).
 #' @param verbose logical, if TRUE prints feedback messages to console for
 #' every test, if FALSE run silently
 #' @param stop_on_error logical, if TRUE will stop with an error if the result
@@ -28,6 +30,7 @@ screen_dfs <- function(
   meta,
   log_key = NULL,
   log_dir = "./",
+  dd_checks = TRUE,
   verbose = FALSE,
   stop_on_error = FALSE,
   prudence = "lavish"
@@ -356,14 +359,19 @@ screen_dfs <- function(
       "column-name",
       verbose = verbose,
       stop_on_error = stop_on_error
-    ),
-    check_api_dict_col_names(
-      meta,
-      verbose = verbose,
-      stop_on_error = stop_on_error
     )
-    # TODO: Add extra variations here
   )
+
+  if (dd_checks) {
+    check_api_results <- rbind(
+      check_api_results,
+      check_api_dict_col_names(
+        meta,
+        verbose = verbose,
+        stop_on_error = stop_on_error
+      )
+    )
+  }
 
   check_api_results <- check_api_results |>
     cbind("stage" = "Check API")

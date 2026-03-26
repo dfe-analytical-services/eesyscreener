@@ -53,6 +53,7 @@ screen_csv <- function(
   metafilename = NULL,
   log_key = NULL,
   log_dir = "./",
+  dd_checks = TRUE,
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
@@ -149,6 +150,7 @@ screen_csv <- function(
     metafile,
     log_key = log_key,
     log_dir = log_dir,
+    dd_checks = dd_checks,
     verbose = verbose,
     stop_on_error = stop_on_error
   )
