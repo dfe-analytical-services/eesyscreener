@@ -174,6 +174,12 @@ validate core assumptions about the time columns.
 
 ## Pre-checks on geography columns
 
+These checks should be run before any other geography checks, as they
+validate core assuptions about the geography columns.
+
+- [`precheck_geog_level()`](https://dfe-analytical-services.github.io/eesyscreener/reference/precheck_geog_level.md)
+  : Check that the geographic_level values are all valid.
+
 ## General data file checks
 
 ## Filter checks
