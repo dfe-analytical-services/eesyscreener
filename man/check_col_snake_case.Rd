@@ -7,20 +7,24 @@
 check_col_snake_case(data, verbose = FALSE, stop_on_error = FALSE)
 }
 \arguments{
-\item{data}{A data frame to check for snake_case column names}
+\item{data}{A data frame of the data file}
 
-\item{verbose}{logical, if TRUE prints feedback messages to console for every test, if FALSE run silently}
+\item{verbose}{logical, if TRUE prints feedback messages to console for
+every test, if FALSE run silently}
 
-\item{stop_on_error}{logical, if TRUE will stop with an error if the result is not "PASS"}
+\item{stop_on_error}{logical, if TRUE will stop with an error if the result
+is "FAIL", and will throw genuine warning if result is "WARNING"}
 }
 \value{
 a single row data frame
 }
 \description{
-This function checks if all column names in the data file follow the snake_case convention (lowercase letters, numbers, and underscores only).
+Check if all column names in the data file follow the snake_case convention
+(lowercase letters, numbers, and underscores only). Flags any capital
+letters or special characters as a warning.
 }
 \examples{
 check_col_snake_case(example_data)
-df <- example_data; names(df)[1] <- "SampleID"; check_col_snake_case(df)
+check_col_snake_case(example_data, verbose = TRUE)
 }
 \concept{check_col}
