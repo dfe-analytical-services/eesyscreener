@@ -186,7 +186,8 @@ screen_dfs <- function(
     check_meta_ind_unit(meta, verbose, stop_on_error),
     check_meta_ind_unit_validation(meta, verbose, stop_on_error),
     check_meta_indicator_grouping(meta, verbose, stop_on_error),
-    check_meta_ind_dp_values(meta, verbose, stop_on_error)
+    check_meta_ind_dp_values(meta, verbose, stop_on_error),
+    check_meta_geog_catch(meta, verbose, stop_on_error)
   )
 
   check_meta_results <- check_meta_results |>
