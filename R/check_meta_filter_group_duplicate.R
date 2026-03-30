@@ -12,7 +12,6 @@
 #' check_meta_filter_group_duplicate(example_meta)
 #' check_meta_filter_group_duplicate(example_meta, verbose = TRUE)
 #' @export
-
 check_meta_filter_group_duplicate <- function(
   meta,
   verbose = FALSE,
@@ -20,8 +19,8 @@ check_meta_filter_group_duplicate <- function(
 ) {
   filter_groups <- meta |>
     dplyr::filter(
-      !is.na(filter_grouping_column),
-      filter_grouping_column != ""
+      !is.na(.data$filter_grouping_column),
+      .data$filter_grouping_column != ""
     ) |>
     dplyr::pull(.data$filter_grouping_column)
 
