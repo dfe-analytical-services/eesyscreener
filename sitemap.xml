@@ -1,14 +1,17 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/404.html</loc></url>
+<url><loc>https://dfe-analytical-services.github.io/eesyscreener/CLAUDE.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/CODE_OF_CONDUCT.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/CONTRIBUTING.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/LICENSE.html</loc></url>
+<url><loc>https://dfe-analytical-services.github.io/eesyscreener/MIGRATION_CONTEXT_PACK.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/articles/assumptions_in_checks.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/articles/common_file_failures.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/articles/eesyscreener.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/articles/index.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/authors.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/index.html</loc></url>
+<url><loc>https://dfe-analytical-services.github.io/eesyscreener/migration_examples.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/acceptable_indicator_units.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/acceptable_time_ids.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/api_char_limits.html</loc></url>
