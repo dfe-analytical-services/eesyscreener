@@ -101,6 +101,11 @@ screen_dfs <- function(
       data,
       verbose = verbose,
       stop_on_error = stop_on_error
+    ),
+    check_col_snake_case(
+      data,
+      verbose = verbose,
+      stop_on_error = stop_on_error
     )
   )
 
