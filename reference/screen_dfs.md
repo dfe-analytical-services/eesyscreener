@@ -81,33 +81,34 @@ screen_dfs(example_data, example_meta)
 #> 5                   col_name_spaces   PASS
 #> 6                col_name_duplicate   PASS
 #> 7                  col_names_spaces   PASS
-#> 8                     meta_col_type   PASS
-#> 9                      meta_ob_unit   PASS
-#> 10                    meta_col_name   PASS
-#> 11             meta_duplicate_label   PASS
-#> 12                    meta_col_name   PASS
-#> 13           filter_group_is_filter   PASS
-#> 14              filter_groups_match   PASS
-#> 15            filter_group_stripped   PASS
-#> 16                 check_meta_label   PASS
-#> 17                 meta_filter_hint   PASS
-#> 18                     indicator_dp   PASS
-#> 19                  meta_ind_dp_set   PASS
-#> 20                    meta_ind_unit   PASS
-#> 21        indicator_unit_validation   PASS
-#> 22               indicator_grouping   PASS
-#> 23                    ind_dp_values   PASS
-#> 24                    time_id_valid   PASS
-#> 25                      time_id_mix   PASS
-#> 26                  time_period_num   PASS
-#> 27                      time_period   PASS
-#> 28                  time_period_six   PASS
-#> 29                 geographic_level   PASS
-#> 30            check_filter_defaults   PASS
-#> 31                filter_whitespace   PASS
-#> 32          check_filter_item_limit   PASS
-#> 33 check_api_char_limit_column-name   PASS
-#> 34         check_api_dict_col_names   PASS
+#> 8                    col_snake_case   PASS
+#> 9                     meta_col_type   PASS
+#> 10                     meta_ob_unit   PASS
+#> 11                    meta_col_name   PASS
+#> 12             meta_duplicate_label   PASS
+#> 13                    meta_col_name   PASS
+#> 14           filter_group_is_filter   PASS
+#> 15              filter_groups_match   PASS
+#> 16            filter_group_stripped   PASS
+#> 17                 check_meta_label   PASS
+#> 18                 meta_filter_hint   PASS
+#> 19                     indicator_dp   PASS
+#> 20                  meta_ind_dp_set   PASS
+#> 21                    meta_ind_unit   PASS
+#> 22        indicator_unit_validation   PASS
+#> 23               indicator_grouping   PASS
+#> 24                    ind_dp_values   PASS
+#> 25                    time_id_valid   PASS
+#> 26                      time_id_mix   PASS
+#> 27                  time_period_num   PASS
+#> 28                      time_period   PASS
+#> 29                  time_period_six   PASS
+#> 30                 geographic_level   PASS
+#> 31            check_filter_defaults   PASS
+#> 32                filter_whitespace   PASS
+#> 33          check_filter_item_limit   PASS
+#> 34 check_api_char_limit_column-name   PASS
+#> 35         check_api_dict_col_names   PASS
 #>                                                                                                       message
 #> 1                                               All of the required columns are present in the metadata file.
 #> 2                                                          There are no invalid columns in the metadata file.
@@ -116,33 +117,34 @@ screen_dfs(example_data, example_meta)
 #> 5                                                                 There are no spaces in the col_name values.
 #> 6                                                                             All col_name values are unique.
 #> 7                                                  There are no spaces in the variable names in the datafile.
-#> 8                                                                 col_type is always 'Filter' or 'Indicator'.
-#> 9                                             No observational units have been included in the metadata file.
-#> 10                                            The col_name column is completed for every row in the metadata.
-#> 11                                                                                     All labels are unique.
-#> 12                                                         No indicators have a filter_grouping_column value.
-#> 13                                                                        There are no filter groups present.
+#> 8                                       The variable names in the data file follow the snake_case convention.
+#> 9                                                                 col_type is always 'Filter' or 'Indicator'.
+#> 10                                            No observational units have been included in the metadata file.
+#> 11                                            The col_name column is completed for every row in the metadata.
+#> 12                                                                                     All labels are unique.
+#> 13                                                         No indicators have a filter_grouping_column value.
 #> 14                                                                        There are no filter groups present.
 #> 15                                                                        There are no filter groups present.
-#> 16                                               The label column is completed for every row in the metadata.
-#> 17                                                                    No indicators have a filter_hint value.
-#> 18                                                                     No filters have an indicator_dp value.
-#> 19                                                   The indicator_dp column is completed for all indicators.
-#> 20                                                                   No filters have an indicator_unit value.
-#> 21                                                                        The indicator_unit values are valid
-#> 22                                                               No filters have an indicator_grouping value.
-#> 23                            The indicator_dp column only contains blanks, zero, or positive integer values.
-#> 24                                                                  The time_identifier values are all valid.
-#> 25                                                       There is only one time_identifier value in the data.
-#> 26                                                       The time_period column only contains numeric values.
-#> 27                                The time_period length matches the time_identifier values in the data file.
-#> 28                                               The six digit time_period values refer to consecutive years.
-#> 29                                                                 The geographic_level values are all valid.
-#> 30                                                 All filters and groups have a default filter item present.
-#> 31                                                   No filter labels contain leading or trailing whitespace.
-#> 32                                                All filters and groups have less than 25000 unique entries.
-#> 33                          All filter / indicator names are less than or equal to the character limit of 50.
-#> 34                                                     All col_names are consistent with the data dictionary.
+#> 16                                                                        There are no filter groups present.
+#> 17                                               The label column is completed for every row in the metadata.
+#> 18                                                                    No indicators have a filter_hint value.
+#> 19                                                                     No filters have an indicator_dp value.
+#> 20                                                   The indicator_dp column is completed for all indicators.
+#> 21                                                                   No filters have an indicator_unit value.
+#> 22                                                                        The indicator_unit values are valid
+#> 23                                                               No filters have an indicator_grouping value.
+#> 24                            The indicator_dp column only contains blanks, zero, or positive integer values.
+#> 25                                                                  The time_identifier values are all valid.
+#> 26                                                       There is only one time_identifier value in the data.
+#> 27                                                       The time_period column only contains numeric values.
+#> 28                                The time_period length matches the time_identifier values in the data file.
+#> 29                                               The six digit time_period values refer to consecutive years.
+#> 30                                                                 The geographic_level values are all valid.
+#> 31                                                 All filters and groups have a default filter item present.
+#> 32                                                   No filter labels contain leading or trailing whitespace.
+#> 33                                                All filters and groups have less than 25000 unique entries.
+#> 34                          All filter / indicator names are less than or equal to the character limit of 50.
+#> 35                                                     All col_names are consistent with the data dictionary.
 #>    guidance_url              stage
 #> 1            NA   Precheck columns
 #> 2            NA   Precheck columns
@@ -151,10 +153,10 @@ screen_dfs(example_data, example_meta)
 #> 5            NA   Precheck columns
 #> 6            NA   Precheck columns
 #> 7            NA      Check columns
-#> 8            NA      Precheck meta
+#> 8            NA      Check columns
 #> 9            NA      Precheck meta
 #> 10           NA      Precheck meta
-#> 11           NA         Check meta
+#> 11           NA      Precheck meta
 #> 12           NA         Check meta
 #> 13           NA         Check meta
 #> 14           NA         Check meta
@@ -167,15 +169,16 @@ screen_dfs(example_data, example_meta)
 #> 21           NA         Check meta
 #> 22           NA         Check meta
 #> 23           NA         Check meta
-#> 24           NA      Precheck time
+#> 24           NA         Check meta
 #> 25           NA      Precheck time
 #> 26           NA      Precheck time
-#> 27           NA         Check time
+#> 27           NA      Precheck time
 #> 28           NA         Check time
-#> 29           NA Precheck geography
-#> 30           NA      Check filters
+#> 29           NA         Check time
+#> 30           NA Precheck geography
 #> 31           NA      Check filters
 #> 32           NA      Check filters
-#> 33           NA          Check API
+#> 33           NA      Check filters
 #> 34           NA          Check API
+#> 35           NA          Check API
 ```

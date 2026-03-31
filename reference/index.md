@@ -153,6 +153,8 @@ These checks validate the names of columns in the data files.
 - [`check_col_names_spaces()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_col_names_spaces.md)
   : Check for spaces in variable names This function checks for spaces
   in the variable names of a given data frame.
+- [`check_col_snake_case()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_col_snake_case.md)
+  : Check that column names follow snake_case convention
 
 ## General checks
 

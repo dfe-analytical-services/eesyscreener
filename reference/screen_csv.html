@@ -148,22 +148,23 @@ is "FAIL", and will throw genuine warning if result is "WARNING"</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10                 col_name_spaces   PASS</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 11              col_name_duplicate   PASS</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 12                col_names_spaces   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13                   meta_col_type   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14                    meta_ob_unit   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15                   meta_col_name   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16            meta_duplicate_label   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17                   meta_col_name   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18          filter_group_is_filter   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19             filter_groups_match   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20           filter_group_stripped   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21                check_meta_label   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22                meta_filter_hint   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23                    indicator_dp   FAIL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24                 meta_ind_dp_set   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25                   meta_ind_unit   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26       indicator_unit_validation   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27              indicator_grouping   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28                   ind_dp_values   FAIL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13                  col_snake_case   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14                   meta_col_type   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15                    meta_ob_unit   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16                   meta_col_name   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17            meta_duplicate_label   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18                   meta_col_name   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19          filter_group_is_filter   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20             filter_groups_match   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21           filter_group_stripped   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22                check_meta_label   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23                meta_filter_hint   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24                    indicator_dp   FAIL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25                 meta_ind_dp_set   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26                   meta_ind_unit   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27       indicator_unit_validation   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28              indicator_grouping   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29                   ind_dp_values   FAIL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                       message</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                         'example.csv' does not have spaces in the filename.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                    'example.meta.csv' does not have spaces in the filename.</span>
@@ -177,22 +178,23 @@ is "FAIL", and will throw genuine warning if result is "WARNING"</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10                                                                There are no spaces in the col_name values.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 11                                                                            All col_name values are unique.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 12                                                 There are no spaces in the variable names in the datafile.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13                                                                col_type is always 'Filter' or 'Indicator'.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14                                            No observational units have been included in the metadata file.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15                                            The col_name column is completed for every row in the metadata.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16                                                                                     All labels are unique.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17                                                         No indicators have a filter_grouping_column value.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18                                                                        There are no filter groups present.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13                                      The variable names in the data file follow the snake_case convention.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14                                                                col_type is always 'Filter' or 'Indicator'.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15                                            No observational units have been included in the metadata file.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16                                            The col_name column is completed for every row in the metadata.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17                                                                                     All labels are unique.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18                                                         No indicators have a filter_grouping_column value.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 19                                                                        There are no filter groups present.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 20                                                                        There are no filter groups present.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21                                               The label column is completed for every row in the metadata.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22                                                                    No indicators have a filter_hint value.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23                                        Filters should not have an indicator_dp value in the metadata file.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24                                                   The indicator_dp column is completed for all indicators.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25                                                                   No filters have an indicator_unit value.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26                                                                        The indicator_unit values are valid</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27                                                               No filters have an indicator_grouping value.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28   The indicator_dp column must only contain blanks, zero, or positive integer values in the metadata file.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21                                                                        There are no filter groups present.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22                                               The label column is completed for every row in the metadata.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23                                                                    No indicators have a filter_hint value.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24                                        Filters should not have an indicator_dp value in the metadata file.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25                                                   The indicator_dp column is completed for all indicators.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26                                                                   No filters have an indicator_unit value.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27                                                                        The indicator_unit values are valid</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28                                                               No filters have an indicator_grouping value.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29   The indicator_dp column must only contain blanks, zero, or positive integer values in the metadata file.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    guidance_url            stage</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1            NA         filename</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2            NA         filename</span>
@@ -206,10 +208,10 @@ is "FAIL", and will throw genuine warning if result is "WARNING"</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10           NA Precheck columns</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 11           NA Precheck columns</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 12           NA    Check columns</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13           NA    Precheck meta</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13           NA    Check columns</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 14           NA    Precheck meta</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 15           NA    Precheck meta</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16           NA       Check meta</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16           NA    Precheck meta</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 17           NA       Check meta</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 18           NA       Check meta</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 19           NA       Check meta</span>
@@ -222,6 +224,7 @@ is "FAIL", and will throw genuine warning if result is "WARNING"</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 26           NA       Check meta</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 27           NA       Check meta</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 28           NA       Check meta</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29           NA       Check meta</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $overall_stage</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Check meta checks"</span>
@@ -253,6 +256,7 @@ is "FAIL", and will throw genuine warning if result is "WARNING"</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> There are no spaces in the col_name values.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> All col_name values are unique.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> There are no spaces in the variable names in the datafile.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> The variable names in the data file follow the snake_case convention.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> col_type is always 'Filter' or 'Indicator'.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> No observational units have been included in the metadata file.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> The col_name column is completed for every row in the metadata.</span>
@@ -283,22 +287,23 @@ is "FAIL", and will throw genuine warning if result is "WARNING"</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10                 col_name_spaces   PASS</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 11              col_name_duplicate   PASS</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 12                col_names_spaces   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13                   meta_col_type   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14                    meta_ob_unit   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15                   meta_col_name   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16            meta_duplicate_label   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17                   meta_col_name   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18          filter_group_is_filter   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19             filter_groups_match   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20           filter_group_stripped   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21                check_meta_label   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22                meta_filter_hint   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23                    indicator_dp   FAIL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24                 meta_ind_dp_set   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25                   meta_ind_unit   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26       indicator_unit_validation   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27              indicator_grouping   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28                   ind_dp_values   FAIL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13                  col_snake_case   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14                   meta_col_type   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15                    meta_ob_unit   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16                   meta_col_name   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17            meta_duplicate_label   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18                   meta_col_name   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19          filter_group_is_filter   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20             filter_groups_match   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21           filter_group_stripped   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22                check_meta_label   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23                meta_filter_hint   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24                    indicator_dp   FAIL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25                 meta_ind_dp_set   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26                   meta_ind_unit   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27       indicator_unit_validation   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28              indicator_grouping   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29                   ind_dp_values   FAIL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                       message</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                            'data.csv' does not have spaces in the filename.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                       'data.meta.csv' does not have spaces in the filename.</span>
@@ -312,22 +317,23 @@ is "FAIL", and will throw genuine warning if result is "WARNING"</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10                                                                There are no spaces in the col_name values.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 11                                                                            All col_name values are unique.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 12                                                 There are no spaces in the variable names in the datafile.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13                                                                col_type is always 'Filter' or 'Indicator'.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14                                            No observational units have been included in the metadata file.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15                                            The col_name column is completed for every row in the metadata.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16                                                                                     All labels are unique.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17                                                         No indicators have a filter_grouping_column value.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18                                                                        There are no filter groups present.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13                                      The variable names in the data file follow the snake_case convention.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14                                                                col_type is always 'Filter' or 'Indicator'.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15                                            No observational units have been included in the metadata file.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16                                            The col_name column is completed for every row in the metadata.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17                                                                                     All labels are unique.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18                                                         No indicators have a filter_grouping_column value.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 19                                                                        There are no filter groups present.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 20                                                                        There are no filter groups present.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21                                               The label column is completed for every row in the metadata.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22                                                                    No indicators have a filter_hint value.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23                                        Filters should not have an indicator_dp value in the metadata file.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24                                                   The indicator_dp column is completed for all indicators.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25                                                                   No filters have an indicator_unit value.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26                                                                        The indicator_unit values are valid</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27                                                               No filters have an indicator_grouping value.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28   The indicator_dp column must only contain blanks, zero, or positive integer values in the metadata file.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21                                                                        There are no filter groups present.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22                                               The label column is completed for every row in the metadata.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23                                                                    No indicators have a filter_hint value.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24                                        Filters should not have an indicator_dp value in the metadata file.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25                                                   The indicator_dp column is completed for all indicators.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26                                                                   No filters have an indicator_unit value.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27                                                                        The indicator_unit values are valid</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28                                                               No filters have an indicator_grouping value.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29   The indicator_dp column must only contain blanks, zero, or positive integer values in the metadata file.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    guidance_url            stage</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1            NA         filename</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2            NA         filename</span>
@@ -341,10 +347,10 @@ is "FAIL", and will throw genuine warning if result is "WARNING"</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10           NA Precheck columns</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 11           NA Precheck columns</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 12           NA    Check columns</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13           NA    Precheck meta</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13           NA    Check columns</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 14           NA    Precheck meta</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 15           NA    Precheck meta</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16           NA       Check meta</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16           NA    Precheck meta</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 17           NA       Check meta</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 18           NA       Check meta</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 19           NA       Check meta</span>
@@ -357,6 +363,7 @@ is "FAIL", and will throw genuine warning if result is "WARNING"</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 26           NA       Check meta</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 27           NA       Check meta</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 28           NA       Check meta</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29           NA       Check meta</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $overall_stage</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Check meta checks"</span>
