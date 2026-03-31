@@ -39,7 +39,9 @@ test_that("fails when there are duplicate values in filter_grouping_column", {
   meta <- data.frame(
     filter_grouping_column = c("sex", "sex")
   )
-  expect_equal(check_meta_filter_group_duplicate(meta)$result, "FAIL")
+  result <- check_meta_filter_group_duplicate(meta)
+  expect_equal(result$result, "FAIL")
+  expect_match(result$message, "sex")
   expect_error(check_meta_filter_group_duplicate(
     meta,
     stop_on_error = TRUE
@@ -50,7 +52,10 @@ test_that("fails with multiple duplicate values in filter_grouping_column", {
   meta <- data.frame(
     filter_grouping_column = c("sex", "sex", "ethnicity", "ethnicity")
   )
-  expect_equal(check_meta_filter_group_duplicate(meta)$result, "FAIL")
+  result <- check_meta_filter_group_duplicate(meta)
+  expect_equal(result$result, "FAIL")
+  expect_match(result$message, "sex")
+  expect_match(result$message, "ethnicity")
   expect_error(check_meta_filter_group_duplicate(
     meta,
     stop_on_error = TRUE
