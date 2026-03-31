@@ -1,5 +1,5 @@
-test_that("Test produces IGNORE response when data is of a National level", {
-  expect_equal(precheck_geography_level_present(example_data)$result, "IGNORE")
+test_that("Test produces PASS response when data is of a National level", {
+  expect_equal(precheck_geography_level_present(example_data)$result, "PASS")
   expect_no_error(precheck_geography_level_present(
     example_data,
     stop_on_error = TRUE
@@ -63,7 +63,7 @@ test_that("Test produces FAIL response when data doesn't contain all the require
     precheck_geography_level_present(input_data)$message ==
       "Given that the following geographic_level values are present: 'Local authority'; <br> - the following column is missing from the file: 'old_la_code'."
   )
-  expect_no_error(precheck_geography_level_present(
+  expect_error(precheck_geography_level_present(
     input_data,
     stop_on_error = TRUE
   ))
@@ -92,7 +92,7 @@ test_that("Test produces FAIL plural response when data doesn't contain multiple
     precheck_geography_level_present(input_data)$message ==
       "Given that the following geographic_level values are present: 'Local authority'; <br> - the following columns are missing from the file: 'new_la_code' and 'old_la_code'."
   )
-  expect_no_error(precheck_geography_level_present(
+  expect_error(precheck_geography_level_present(
     input_data,
     stop_on_error = TRUE
   ))
