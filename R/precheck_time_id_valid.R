@@ -2,25 +2,28 @@
 #'
 #' Checks against the `acceptable_time_identifiers` object.
 #'
-#' @inheritParams precheck_col_to_rows
+#' @inheritParams precheck_col_req_data
 #'
 #' @inherit check_filename_spaces return
 #'
 #' @family precheck_time
 #' @examples
-#' precheck_time_id_valid(example_data, example_meta)
-#' precheck_time_id_valid(example_data, example_meta, verbose = TRUE)
+#' precheck_time_id_valid(example_data)
 #' @export
 precheck_time_id_valid <- function(
   data,
-  meta,
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
   invalid_identifiers <- data |>
     dplyr::distinct(.data$time_identifier) |>
     dplyr::anti_join(
-      data.frame("time_identifier" = eesyscreener::acceptable_time_ids),
+      data.frame(
+        "time_identifier" = unlist(
+          eesyscreener::acceptable_time_ids,
+          use.names = FALSE
+        )
+      ),
       by = "time_identifier"
     ) |>
     dplyr::pull("time_identifier")

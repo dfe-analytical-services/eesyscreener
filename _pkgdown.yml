@@ -15,6 +15,7 @@ reference:
 - title: Example datasets
   contents:
   - starts_with("example_")
+  - ees_robot_test_data
 
 - title: Generate test files
   contents:
@@ -29,6 +30,8 @@ reference:
   - starts_with("acceptable_")
   - geography_df
   - api_char_limits
+  - four_digit_identifiers
+  - six_digit_identifiers
 
 - title: Filename checks
   contents:
@@ -76,9 +79,9 @@ reference:
 
 - title: Pre-checks on geography columns
   description: |
-    These checks should be run before any other geography checks, as they validate core assumptions about the geofraphy columns.
+    These checks should be run before any other geography checks, as they validate core assuptions about the geography columns.
   contents:
-  - starts_with("precheck_geography_")
+  - starts_with("precheck_geog_")
 
 - title: General data file checks
 
@@ -91,6 +94,8 @@ reference:
 - title: Geography checks
 
 - title: Time checks
+  contents:
+  - starts_with("check_time_")
 
 - title: API specific checks
   contents:
