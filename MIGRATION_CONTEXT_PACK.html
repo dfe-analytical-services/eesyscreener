@@ -426,6 +426,18 @@ data/                         # Compiled .rda reference data</code></pre>
 <li>Ensure the stage ordering is correct (prechecks before checks, blocking stages before non-blocking).</li>
 </ol></div>
 <div class="section level4">
+<h4 id="step-4b-regenerate-example-output">Step 4b: Regenerate Example Output<a class="anchor" aria-label="anchor" href="#step-4b-regenerate-example-output"></a></h4>
+<p>Adding a new check to the screening pipeline increases the number of rows in the results table. The <code>example_output</code> dataset must be regenerated to stay in sync, otherwise the <code>test-screen_csv.R</code> log row count test will fail.</p>
+<ol style="list-style-type: decimal"><li>
+<p>Run the regeneration script:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">load_all</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/source.html" class="external-link">source</a></span><span class="op">(</span><span class="st">"data-raw/example_output.R"</span><span class="op">)</span></span></code></pre></div>
+</li>
+<li><p>This updates <code>data/example_output.rda</code> to include the new check’s result row.</p></li>
+<li><p>Commit the updated <code>data/example_output.rda</code> alongside the other changes.</p></li>
+</ol></div>
+<div class="section level4">
 <h4 id="step-5-write-tests">Step 5: Write Tests<a class="anchor" aria-label="anchor" href="#step-5-write-tests"></a></h4>
 <ol style="list-style-type: decimal"><li>Create <code>tests/testthat/test-&lt;function_name&gt;.R</code>.</li>
 <li>Write tests covering:
@@ -480,7 +492,9 @@ data/                         # Compiled .rda reference data</code></pre>
 <td>Modified — auto-updated from <code>@inheritParams</code> changes</td>
 </tr><tr class="odd"><td><code>_pkgdown.yml</code></td>
 <td>Modified — only if a new section is needed</td>
-</tr><tr class="even"><td><code>data/*.rda</code></td>
+</tr><tr class="even"><td><code>data/example_output.rda</code></td>
+<td>Modified — regenerated to include the new check’s result row</td>
+</tr><tr class="odd"><td><code>data/*.rda</code></td>
 <td>Modified/added — only if new reference data is needed</td>
 </tr></tbody></table></div>
 <div class="section level3">
@@ -507,7 +521,7 @@ data/                         # Compiled .rda reference data</code></pre>
 <h2 id="id_7-golden-patterns">7. Golden Patterns<a class="anchor" aria-label="anchor" href="#id_7-golden-patterns"></a></h2>
 <div class="section level3">
 <h3 id="id_71-canonical-migrated-function-meta-only-check">7.1 Canonical Migrated Function (meta-only check)<a class="anchor" aria-label="anchor" href="#id_71-canonical-migrated-function-meta-only-check"></a></h3>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' Check there are no duplicate labels</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' Ensure that each entry under label is unique in the metafile.</span></span>
@@ -568,7 +582,7 @@ data/                         # Compiled .rda reference data</code></pre>
 </div>
 <div class="section level3">
 <h3 id="id_72-canonical-migrated-function-data--meta-check-with-dplyr">7.2 Canonical Migrated Function (data + meta check with dplyr)<a class="anchor" aria-label="anchor" href="#id_72-canonical-migrated-function-data--meta-check-with-dplyr"></a></h3>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' Check filter groups match in meta and data</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' Ensure all filter groups from the meta data are found in the data file.</span></span>
@@ -652,7 +666,7 @@ data/                         # Compiled .rda reference data</code></pre>
 </div>
 <div class="section level3">
 <h3 id="id_73-canonical-test-file">7.3 Canonical Test File<a class="anchor" aria-label="anchor" href="#id_73-canonical-test-file"></a></h3>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">test_that</span><span class="op">(</span><span class="st">"passes when all labels are unique"</span>, <span class="op">{</span></span>
 <span>  <span class="va">meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="fu">expect_equal</span><span class="op">(</span><span class="fu"><a href="reference/check_meta_duplicate_label.html">check_meta_duplicate_label</a></span><span class="op">(</span><span class="va">meta</span><span class="op">)</span><span class="op">$</span><span class="va">result</span>, <span class="st">"PASS"</span><span class="op">)</span></span>

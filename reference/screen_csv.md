@@ -124,12 +124,13 @@ screen_csv(data_path, meta_path)
 #> 22                check_meta_label   PASS
 #> 23                meta_filter_hint   PASS
 #> 24                    indicator_dp   FAIL
-#> 25                 meta_ind_dp_set   PASS
-#> 26                   meta_ind_unit   PASS
-#> 27       indicator_unit_validation   PASS
-#> 28              indicator_grouping   PASS
-#> 29                   ind_dp_values   FAIL
-#> 30                 meta_geog_catch   PASS
+#> 25          filter_group_duplicate   PASS
+#> 26                 meta_ind_dp_set   PASS
+#> 27                   meta_ind_unit   PASS
+#> 28       indicator_unit_validation   PASS
+#> 29              indicator_grouping   PASS
+#> 30                   ind_dp_values   FAIL
+#> 31                 meta_geog_catch   PASS
 #>                                                                                                       message
 #> 1                                                         'example.csv' does not have spaces in the filename.
 #> 2                                                    'example.meta.csv' does not have spaces in the filename.
@@ -155,12 +156,13 @@ screen_csv(data_path, meta_path)
 #> 22                                               The label column is completed for every row in the metadata.
 #> 23                                                                    No indicators have a filter_hint value.
 #> 24                                        Filters should not have an indicator_dp value in the metadata file.
-#> 25                                                   The indicator_dp column is completed for all indicators.
-#> 26                                                                   No filters have an indicator_unit value.
-#> 27                                                                        The indicator_unit values are valid
-#> 28                                                               No filters have an indicator_grouping value.
-#> 29   The indicator_dp column must only contain blanks, zero, or positive integer values in the metadata file.
-#> 30                                                     No filters appear to be mislabelled geography columns.
+#> 25                                                                        There are no filter groups present.
+#> 26                                                   The indicator_dp column is completed for all indicators.
+#> 27                                                                   No filters have an indicator_unit value.
+#> 28                                                                        The indicator_unit values are valid
+#> 29                                                               No filters have an indicator_grouping value.
+#> 30   The indicator_dp column must only contain blanks, zero, or positive integer values in the metadata file.
+#> 31                                                     No filters appear to be mislabelled geography columns.
 #>    guidance_url            stage
 #> 1            NA         filename
 #> 2            NA         filename
@@ -192,6 +194,7 @@ screen_csv(data_path, meta_path)
 #> 28           NA       Check meta
 #> 29           NA       Check meta
 #> 30           NA       Check meta
+#> 31           NA       Check meta
 #> 
 #> $overall_stage
 #> [1] "Check meta checks"
@@ -235,6 +238,7 @@ screen_csv(
 #> ✔ The label column is completed for every row in the metadata.
 #> ✔ No indicators have a filter_hint value.
 #> ✖ Filters should not have an indicator_dp value in the metadata file.
+#> ✔ There are no filter groups present.
 #> ✔ The indicator_dp column is completed for all indicators.
 #> ✔ No filters have an indicator_unit value.
 #> ✔ The indicator_unit values are valid
@@ -267,12 +271,13 @@ screen_csv(
 #> 22                check_meta_label   PASS
 #> 23                meta_filter_hint   PASS
 #> 24                    indicator_dp   FAIL
-#> 25                 meta_ind_dp_set   PASS
-#> 26                   meta_ind_unit   PASS
-#> 27       indicator_unit_validation   PASS
-#> 28              indicator_grouping   PASS
-#> 29                   ind_dp_values   FAIL
-#> 30                 meta_geog_catch   PASS
+#> 25          filter_group_duplicate   PASS
+#> 26                 meta_ind_dp_set   PASS
+#> 27                   meta_ind_unit   PASS
+#> 28       indicator_unit_validation   PASS
+#> 29              indicator_grouping   PASS
+#> 30                   ind_dp_values   FAIL
+#> 31                 meta_geog_catch   PASS
 #>                                                                                                       message
 #> 1                                                            'data.csv' does not have spaces in the filename.
 #> 2                                                       'data.meta.csv' does not have spaces in the filename.
@@ -298,12 +303,13 @@ screen_csv(
 #> 22                                               The label column is completed for every row in the metadata.
 #> 23                                                                    No indicators have a filter_hint value.
 #> 24                                        Filters should not have an indicator_dp value in the metadata file.
-#> 25                                                   The indicator_dp column is completed for all indicators.
-#> 26                                                                   No filters have an indicator_unit value.
-#> 27                                                                        The indicator_unit values are valid
-#> 28                                                               No filters have an indicator_grouping value.
-#> 29   The indicator_dp column must only contain blanks, zero, or positive integer values in the metadata file.
-#> 30                                                     No filters appear to be mislabelled geography columns.
+#> 25                                                                        There are no filter groups present.
+#> 26                                                   The indicator_dp column is completed for all indicators.
+#> 27                                                                   No filters have an indicator_unit value.
+#> 28                                                                        The indicator_unit values are valid
+#> 29                                                               No filters have an indicator_grouping value.
+#> 30   The indicator_dp column must only contain blanks, zero, or positive integer values in the metadata file.
+#> 31                                                     No filters appear to be mislabelled geography columns.
 #>    guidance_url            stage
 #> 1            NA         filename
 #> 2            NA         filename
@@ -335,6 +341,7 @@ screen_csv(
 #> 28           NA       Check meta
 #> 29           NA       Check meta
 #> 30           NA       Check meta
+#> 31           NA       Check meta
 #> 
 #> $overall_stage
 #> [1] "Check meta checks"

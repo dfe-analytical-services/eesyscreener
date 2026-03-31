@@ -404,6 +404,26 @@ create the data object as `.rda` in `data/`. 3. Document in
 3.  Ensure the stage ordering is correct (prechecks before checks,
     blocking stages before non-blocking).
 
+#### Step 4b: Regenerate Example Output
+
+Adding a new check to the screening pipeline increases the number of
+rows in the results table. The `example_output` dataset must be
+regenerated to stay in sync, otherwise the `test-screen_csv.R` log row
+count test will fail.
+
+1.  Run the regeneration script:
+
+    ``` r
+    devtools::load_all()
+    source("data-raw/example_output.R")
+    ```
+
+2.  This updates `data/example_output.rda` to include the new check’s
+    result row.
+
+3.  Commit the updated `data/example_output.rda` alongside the other
+    changes.
+
 #### Step 5: Write Tests
 
 1.  Create `tests/testthat/test-<function_name>.R`.
@@ -445,16 +465,17 @@ create the data object as `.rda` in `data/`. 3. Document in
 
 Every migration PR should include changes to:
 
-| File                                    | Change                                                |
-|-----------------------------------------|-------------------------------------------------------|
-| `R/<function_name>.R`                   | New file — the migrated check function                |
-| `R/screen_dfs.R`                        | Modified — wire the new check into the pipeline       |
-| `tests/testthat/test-<function_name>.R` | New file — tests for the check                        |
-| `NAMESPACE`                             | Modified — auto-generated export declaration          |
-| `man/<function_name>.Rd`                | New file — auto-generated documentation               |
-| `man/*.Rd` (other)                      | Modified — auto-updated from `@inheritParams` changes |
-| `_pkgdown.yml`                          | Modified — only if a new section is needed            |
-| `data/*.rda`                            | Modified/added — only if new reference data is needed |
+| File                                    | Change                                                       |
+|-----------------------------------------|--------------------------------------------------------------|
+| `R/<function_name>.R`                   | New file — the migrated check function                       |
+| `R/screen_dfs.R`                        | Modified — wire the new check into the pipeline              |
+| `tests/testthat/test-<function_name>.R` | New file — tests for the check                               |
+| `NAMESPACE`                             | Modified — auto-generated export declaration                 |
+| `man/<function_name>.Rd`                | New file — auto-generated documentation                      |
+| `man/*.Rd` (other)                      | Modified — auto-updated from `@inheritParams` changes        |
+| `_pkgdown.yml`                          | Modified — only if a new section is needed                   |
+| `data/example_output.rda`               | Modified — regenerated to include the new check’s result row |
+| `data/*.rda`                            | Modified/added — only if new reference data is needed        |
 
 ### 6.2 PR Description Pattern
 

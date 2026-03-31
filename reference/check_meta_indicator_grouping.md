@@ -34,6 +34,7 @@ Other check_meta:
 [`check_meta_col_name_duplicate()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_col_name_duplicate.md),
 [`check_meta_duplicate_label()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_duplicate_label.md),
 [`check_meta_filter_group()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_group.md),
+[`check_meta_filter_group_duplicate()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_group_duplicate.md),
 [`check_meta_filter_group_is_filter()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_group_is_filter.md),
 [`check_meta_filter_group_match()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_group_match.md),
 [`check_meta_filter_group_stripped()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_group_stripped.md),

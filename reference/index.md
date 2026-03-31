@@ -120,6 +120,8 @@ validate core assumptions about the metadata file itself.
   : Check there are no duplicate labels
 - [`check_meta_filter_group()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_group.md)
   : Check filter_group is not set for indicator rows
+- [`check_meta_filter_group_duplicate()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_group_duplicate.md)
+  : Check all of the filter_group values are unique
 - [`check_meta_filter_group_is_filter()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_group_is_filter.md)
   : Check that filter groups are filters
 - [`check_meta_filter_group_match()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_group_match.md)

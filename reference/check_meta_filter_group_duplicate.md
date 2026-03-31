@@ -1,12 +1,11 @@
-# Check filter_hint is not set for indicator rows
+# Check all of the filter_group values are unique
 
-Throw warning if there are any indicator rows that have filter_hint as
-non-blank, to encourage users to correct the metadata.
+Ensure all filter groups from the meta data are unique.
 
 ## Usage
 
 ``` r
-check_meta_filter_hint(meta, verbose = FALSE, stop_on_error = FALSE)
+check_meta_filter_group_duplicate(meta, verbose = FALSE, stop_on_error = FALSE)
 ```
 
 ## Arguments
@@ -35,11 +34,10 @@ Other check_meta:
 [`check_meta_col_name_duplicate()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_col_name_duplicate.md),
 [`check_meta_duplicate_label()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_duplicate_label.md),
 [`check_meta_filter_group()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_group.md),
-[`check_meta_filter_group_duplicate()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_group_duplicate.md),
 [`check_meta_filter_group_is_filter()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_group_is_filter.md),
 [`check_meta_filter_group_match()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_group_match.md),
 [`check_meta_filter_group_stripped()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_group_stripped.md),
-[`check_meta_geog_catch()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_geog_catch.md),
+[`check_meta_filter_hint()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_hint.md),
 [`check_meta_ind_dp_set()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_ind_dp_set.md),
 [`check_meta_ind_dp_values()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_ind_dp_values.md),
 [`check_meta_ind_unit()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_ind_unit.md),
@@ -51,11 +49,15 @@ Other check_meta:
 ## Examples
 
 ``` r
-check_meta_filter_hint(example_meta)
-#>              check result                                 message guidance_url
-#> 1 meta_filter_hint   PASS No indicators have a filter_hint value.           NA
-check_meta_filter_hint(example_meta, verbose = TRUE)
-#> ✔ No indicators have a filter_hint value.
-#>              check result                                 message guidance_url
-#> 1 meta_filter_hint   PASS No indicators have a filter_hint value.           NA
+check_meta_filter_group_duplicate(example_meta)
+#>                    check result                             message
+#> 1 filter_group_duplicate   PASS There are no filter groups present.
+#>   guidance_url
+#> 1           NA
+check_meta_filter_group_duplicate(example_meta, verbose = TRUE)
+#> ✔ There are no filter groups present.
+#>                    check result                             message
+#> 1 filter_group_duplicate   PASS There are no filter groups present.
+#>   guidance_url
+#> 1           NA
 ```
