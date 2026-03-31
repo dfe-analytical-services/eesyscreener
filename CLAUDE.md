@@ -12,6 +12,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Development Setup
 
+### Running R from the Terminal
+
+R is not on the bash PATH. Always invoke it with the full Windows path:
+
+```bash
+"/c/Program Files/R/R-4.5.3/bin/Rscript.exe" -e "..."
+```
+
 ### Building and Running Tests
 
 ```bash
