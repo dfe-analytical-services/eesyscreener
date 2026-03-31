@@ -74,32 +74,18 @@ check_meta_geog_catch <- function(
       stop_on_error = stop_on_error
     )
   } else {
-    if (length(caught_filters) == 1) {
-      test_output(
-        "meta_geog_catch",
-        "FAIL",
-        paste0(
-          "The following filter appears to be a geographic column and ",
-          "shouldn't be included in the metadata file: '",
-          paste0(caught_filters, collapse = "', '"),
-          "'."
-        ),
-        verbose = verbose,
-        stop_on_error = stop_on_error
-      )
-    } else {
-      test_output(
-        "meta_geog_catch",
-        "FAIL",
-        paste0(
-          "The following filters appear to be geographic columns and ",
-          "shouldn't be included in the metadata file: '",
-          paste0(caught_filters, collapse = "', '"),
-          "'."
-        ),
-        verbose = verbose,
-        stop_on_error = stop_on_error
-      )
-    }
+    test_output(
+      "meta_geog_catch",
+      "FAIL",
+      cli::pluralize(
+        "The following {cli::qty(length(caught_filters))}filter{?s} ",
+        "{?appears/appear} to be {?a geographic column/geographic columns} ",
+        "and shouldn't be included in the metadata file: '",
+        paste0(caught_filters, collapse = "', '"),
+        "'."
+      ),
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    )
   }
 }
