@@ -39,23 +39,7 @@ test_that("fails when multiple filters are geography columns", {
 })
 
 test_that("catches exact geography column names", {
-  geo_names <- c(
-    "laestab",
-    "estab",
-    "urn",
-    "ukprn",
-    "region",
-    "la",
-    "lad",
-    "rsc",
-    "pcon",
-    "lep",
-    "mca",
-    "oa",
-    "ward",
-    "mat"
-  )
-  for (geo_name in geo_names) {
+  for (geo_name in geography_df$name_field[1:5]) {
     meta <- data.frame(
       col_name = c(geo_name, "gender", "headcount"),
       col_type = c("Filter", "Filter", "Indicator"),
@@ -64,8 +48,7 @@ test_that("catches exact geography column names", {
     )
     expect_equal(
       check_meta_geog_catch(meta)$result,
-      "FAIL",
-      info = paste("Should catch:", geo_name)
+      "FAIL"
     )
   }
 })
