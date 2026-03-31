@@ -32,46 +32,41 @@ check_ind_invalid_entry <- function(
     dplyr::pull(col_name) |>
     as.vector()
 
-  pre_result <- utils::stack(sapply(indicators, blanks_check))
+  pre_result <- utils::stack(sapply(indicators, ind_invalid_entry_check))
 
-  indicators_with_blanks <- dplyr::filter(pre_result, values == "FAIL") |>
+  invalid_indicators <- dplyr::filter(pre_result, values == "FAIL") |>
     dplyr::pull(ind)
 
   if (all(pre_result$values == "PASS")) {
     test_output(
       "check_ind_blanks",
       "PASS",
-      "There are no blank values in any indicators.",
+      "There are no blank values or GSS legacy symbols in any indicators.",
       verbose = verbose,
       stop_on_error = stop_on_error
     )
   } else {
-    if (length(indicators_with_blanks) == 1) {
       test_output(
         "check_ind_blanks",
         "FAIL",
         paste0(
-          "There are blanks in the following indicator: '",
-          indicators_with_blanks,
-          "'. Blank cells are problematic and must be avoided."
+          cli::pluralize(
+            "{cli::no(invalid_indicators)} indicator{?s} with invalid entries"),
+          ifelse(
+            invalid_indicators > 0,
+            paste(
+              ":",
+              paste0(invalid_indicators, collapse=", "),
+              "contains either a blank or at least one of",
+              paste0(legacy_gss_symbols, collapse = "', '")
+            ),
+            ""
+          )
         ),
         guidance_url = 'https://gss.civilservice.gov.uk/wp-content/uploads/2017/03/GSS-Website-Harmonised-Symbols-Supporting-Documentation.pdf',
         verbose = verbose,
         stop_on_error = stop_on_error
       )
-    } else {
-      test_output(
-        "check_ind_blanks",
-        "FAIL",
-        paste0(
-          "There are blanks in the following indicators: '",
-          paste(indicators_with_blanks, collapse = "', '"),
-          "'. Blank cells are problematic and must be avoided."
-        ),
-        guidance_url = 'https://gss.civilservice.gov.uk/wp-content/uploads/2017/03/GSS-Website-Harmonised-Symbols-Supporting-Documentation.pdf',
-        verbose = verbose,
-        stop_on_error = stop_on_error
-      )
-    }
+
   }
 }
