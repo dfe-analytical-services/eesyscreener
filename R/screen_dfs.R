@@ -211,13 +211,7 @@ screen_dfs <- function(
   # Check indicators ----------------------------------------------------------
 
   check_ind_results <- rbind(
-    check_ind_blanks(
-      data,
-      meta,
-      verbose = verbose,
-      stop_on_error = stop_on_error
-    ),
-    check_ind_obsolete_symbols(
+    check_ind_invalid_entry(
       data,
       meta,
       verbose = verbose,
