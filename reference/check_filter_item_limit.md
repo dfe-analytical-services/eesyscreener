@@ -29,7 +29,7 @@ check_filter_item_limit(
 
 - filter_item_limit:
 
-  The maximum number of unqiue items allowed in a single filter. Default
+  The maximum number of unique items allowed in a single filter. Default
   as used by the screener: 25000
 
 - verbose:

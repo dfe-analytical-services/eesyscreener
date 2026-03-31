@@ -129,6 +129,7 @@ screen_csv(data_path, meta_path)
 #> 27       indicator_unit_validation   PASS
 #> 28              indicator_grouping   PASS
 #> 29                   ind_dp_values   FAIL
+#> 30                 meta_geog_catch   PASS
 #>                                                                                                       message
 #> 1                                                         'example.csv' does not have spaces in the filename.
 #> 2                                                    'example.meta.csv' does not have spaces in the filename.
@@ -159,6 +160,7 @@ screen_csv(data_path, meta_path)
 #> 27                                                                        The indicator_unit values are valid
 #> 28                                                               No filters have an indicator_grouping value.
 #> 29   The indicator_dp column must only contain blanks, zero, or positive integer values in the metadata file.
+#> 30                                                     No filters appear to be mislabelled geography columns.
 #>    guidance_url            stage
 #> 1            NA         filename
 #> 2            NA         filename
@@ -189,6 +191,7 @@ screen_csv(data_path, meta_path)
 #> 27           NA       Check meta
 #> 28           NA       Check meta
 #> 29           NA       Check meta
+#> 30           NA       Check meta
 #> 
 #> $overall_stage
 #> [1] "Check meta checks"
@@ -237,6 +240,7 @@ screen_csv(
 #> ✔ The indicator_unit values are valid
 #> ✔ No filters have an indicator_grouping value.
 #> ✖ The indicator_dp column must only contain blanks, zero, or positive integer values in the metadata file.
+#> ✔ No filters appear to be mislabelled geography columns.
 #> $results_table
 #>                              check result
 #> 1       check_filename_data_spaces   PASS
@@ -268,6 +272,7 @@ screen_csv(
 #> 27       indicator_unit_validation   PASS
 #> 28              indicator_grouping   PASS
 #> 29                   ind_dp_values   FAIL
+#> 30                 meta_geog_catch   PASS
 #>                                                                                                       message
 #> 1                                                            'data.csv' does not have spaces in the filename.
 #> 2                                                       'data.meta.csv' does not have spaces in the filename.
@@ -298,6 +303,7 @@ screen_csv(
 #> 27                                                                        The indicator_unit values are valid
 #> 28                                                               No filters have an indicator_grouping value.
 #> 29   The indicator_dp column must only contain blanks, zero, or positive integer values in the metadata file.
+#> 30                                                     No filters appear to be mislabelled geography columns.
 #>    guidance_url            stage
 #> 1            NA         filename
 #> 2            NA         filename
@@ -328,6 +334,7 @@ screen_csv(
 #> 27           NA       Check meta
 #> 28           NA       Check meta
 #> 29           NA       Check meta
+#> 30           NA       Check meta
 #> 
 #> $overall_stage
 #> [1] "Check meta checks"

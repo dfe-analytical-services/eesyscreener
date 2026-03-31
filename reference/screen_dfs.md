@@ -98,17 +98,18 @@ screen_dfs(example_data, example_meta)
 #> 22        indicator_unit_validation   PASS
 #> 23               indicator_grouping   PASS
 #> 24                    ind_dp_values   PASS
-#> 25                    time_id_valid   PASS
-#> 26                      time_id_mix   PASS
-#> 27                  time_period_num   PASS
-#> 28                      time_period   PASS
-#> 29                  time_period_six   PASS
-#> 30                 geographic_level   PASS
-#> 31            check_filter_defaults   PASS
-#> 32                filter_whitespace   PASS
-#> 33          check_filter_item_limit   PASS
-#> 34 check_api_char_limit_column-name   PASS
-#> 35         check_api_dict_col_names   PASS
+#> 25                  meta_geog_catch   PASS
+#> 26                    time_id_valid   PASS
+#> 27                      time_id_mix   PASS
+#> 28                  time_period_num   PASS
+#> 29                      time_period   PASS
+#> 30                  time_period_six   PASS
+#> 31                 geographic_level   PASS
+#> 32            check_filter_defaults   PASS
+#> 33                filter_whitespace   PASS
+#> 34          check_filter_item_limit   PASS
+#> 35 check_api_char_limit_column-name   PASS
+#> 36         check_api_dict_col_names   PASS
 #>                                                                                                       message
 #> 1                                               All of the required columns are present in the metadata file.
 #> 2                                                          There are no invalid columns in the metadata file.
@@ -134,17 +135,18 @@ screen_dfs(example_data, example_meta)
 #> 22                                                                        The indicator_unit values are valid
 #> 23                                                               No filters have an indicator_grouping value.
 #> 24                            The indicator_dp column only contains blanks, zero, or positive integer values.
-#> 25                                                                  The time_identifier values are all valid.
-#> 26                                                       There is only one time_identifier value in the data.
-#> 27                                                       The time_period column only contains numeric values.
-#> 28                                The time_period length matches the time_identifier values in the data file.
-#> 29                                               The six digit time_period values refer to consecutive years.
-#> 30                                                                 The geographic_level values are all valid.
-#> 31                                                 All filters and groups have a default filter item present.
-#> 32                                                   No filter labels contain leading or trailing whitespace.
-#> 33                                                All filters and groups have less than 25000 unique entries.
-#> 34                          All filter / indicator names are less than or equal to the character limit of 50.
-#> 35                                                     All col_names are consistent with the data dictionary.
+#> 25                                                     No filters appear to be mislabelled geography columns.
+#> 26                                                                  The time_identifier values are all valid.
+#> 27                                                       There is only one time_identifier value in the data.
+#> 28                                                       The time_period column only contains numeric values.
+#> 29                                The time_period length matches the time_identifier values in the data file.
+#> 30                                               The six digit time_period values refer to consecutive years.
+#> 31                                                                 The geographic_level values are all valid.
+#> 32                                                 All filters and groups have a default filter item present.
+#> 33                                                   No filter labels contain leading or trailing whitespace.
+#> 34                                                All filters and groups have less than 25000 unique entries.
+#> 35                          All filter / indicator names are less than or equal to the character limit of 50.
+#> 36                                                     All col_names are consistent with the data dictionary.
 #>    guidance_url              stage
 #> 1            NA   Precheck columns
 #> 2            NA   Precheck columns
@@ -170,15 +172,16 @@ screen_dfs(example_data, example_meta)
 #> 22           NA         Check meta
 #> 23           NA         Check meta
 #> 24           NA         Check meta
-#> 25           NA      Precheck time
+#> 25           NA         Check meta
 #> 26           NA      Precheck time
 #> 27           NA      Precheck time
-#> 28           NA         Check time
+#> 28           NA      Precheck time
 #> 29           NA         Check time
-#> 30           NA Precheck geography
-#> 31           NA      Check filters
+#> 30           NA         Check time
+#> 31           NA Precheck geography
 #> 32           NA      Check filters
 #> 33           NA      Check filters
-#> 34           NA          Check API
+#> 34           NA      Check filters
 #> 35           NA          Check API
+#> 36           NA          Check API
 ```

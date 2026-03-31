@@ -129,6 +129,8 @@ validate core assumptions about the metadata file itself.
   characters
 - [`check_meta_filter_hint()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_hint.md)
   : Check filter_hint is not set for indicator rows
+- [`check_meta_geog_catch()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_geog_catch.md)
+  : Check for geography columns mislabelled as filters
 - [`check_meta_ind_dp_set()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_ind_dp_set.md)
   : Check indicator_dp is set for all indicator rows
 - [`check_meta_ind_dp_values()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_ind_dp_values.md)

@@ -138,17 +138,18 @@ be "stingy" and "thrifty".</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 22        indicator_unit_validation   PASS</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 23               indicator_grouping   PASS</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24                    ind_dp_values   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25                    time_id_valid   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26                      time_id_mix   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27                  time_period_num   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28                      time_period   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 29                  time_period_six   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 30                 geographic_level   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 31            check_filter_defaults   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 32                filter_whitespace   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 33          check_filter_item_limit   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 34 check_api_char_limit_column-name   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 35         check_api_dict_col_names   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25                  meta_geog_catch   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26                    time_id_valid   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27                      time_id_mix   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28                  time_period_num   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29                      time_period   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30                  time_period_six   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 31                 geographic_level   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32            check_filter_defaults   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33                filter_whitespace   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 34          check_filter_item_limit   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 35 check_api_char_limit_column-name   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36         check_api_dict_col_names   PASS</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                       message</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1                                               All of the required columns are present in the metadata file.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                          There are no invalid columns in the metadata file.</span>
@@ -174,17 +175,18 @@ be "stingy" and "thrifty".</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 22                                                                        The indicator_unit values are valid</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 23                                                               No filters have an indicator_grouping value.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24                            The indicator_dp column only contains blanks, zero, or positive integer values.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25                                                                  The time_identifier values are all valid.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26                                                       There is only one time_identifier value in the data.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27                                                       The time_period column only contains numeric values.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28                                The time_period length matches the time_identifier values in the data file.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 29                                               The six digit time_period values refer to consecutive years.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 30                                                                 The geographic_level values are all valid.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 31                                                 All filters and groups have a default filter item present.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 32                                                   No filter labels contain leading or trailing whitespace.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 33                                                All filters and groups have less than 25000 unique entries.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 34                          All filter / indicator names are less than or equal to the character limit of 50.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 35                                                     All col_names are consistent with the data dictionary.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25                                                     No filters appear to be mislabelled geography columns.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26                                                                  The time_identifier values are all valid.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27                                                       There is only one time_identifier value in the data.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28                                                       The time_period column only contains numeric values.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29                                The time_period length matches the time_identifier values in the data file.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30                                               The six digit time_period values refer to consecutive years.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 31                                                                 The geographic_level values are all valid.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32                                                 All filters and groups have a default filter item present.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33                                                   No filter labels contain leading or trailing whitespace.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 34                                                All filters and groups have less than 25000 unique entries.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 35                          All filter / indicator names are less than or equal to the character limit of 50.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36                                                     All col_names are consistent with the data dictionary.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    guidance_url              stage</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1            NA   Precheck columns</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2            NA   Precheck columns</span>
@@ -210,17 +212,18 @@ be "stingy" and "thrifty".</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 22           NA         Check meta</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 23           NA         Check meta</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24           NA         Check meta</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25           NA      Precheck time</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25           NA         Check meta</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 26           NA      Precheck time</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 27           NA      Precheck time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28           NA         Check time</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28           NA      Precheck time</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 29           NA         Check time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 30           NA Precheck geography</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 31           NA      Check filters</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30           NA         Check time</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 31           NA Precheck geography</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 32           NA      Check filters</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 33           NA      Check filters</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 34           NA          Check API</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 34           NA      Check filters</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 35           NA          Check API</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36           NA          Check API</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
