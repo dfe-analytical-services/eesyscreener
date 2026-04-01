@@ -9,8 +9,8 @@
 #' @family check_ind
 #'
 #' @examples
-#' check_ind_blanks(example_data, example_meta)
-#' check_ind_blanks(example_data, example_meta, verbose = TRUE)
+#' check_ind_invalid_entry(example_data, example_meta)
+#' check_ind_invalid_entry(example_data, example_meta, verbose = TRUE)
 #' @export
 check_ind_invalid_entry <- function(
   data,
@@ -39,7 +39,7 @@ check_ind_invalid_entry <- function(
 
   if (all(pre_result$values == "PASS")) {
     test_output(
-      "check_ind_blanks",
+      "check_ind_invalid_entry",
       "PASS",
       "There are no blank values or GSS legacy symbols in any indicators.",
       verbose = verbose,
@@ -47,13 +47,13 @@ check_ind_invalid_entry <- function(
     )
   } else {
       test_output(
-        "check_ind_blanks",
+        "check_ind_invalid_entry",
         "FAIL",
         paste0(
           cli::pluralize(
-            "{cli::no(invalid_indicators)} indicator{?s} with invalid entries"),
+            "{cli::no(length(invalid_indicators))} indicator{?s} with invalid entries"),
           ifelse(
-            invalid_indicators > 0,
+            length(invalid_indicators) > 0,
             paste(
               ":",
               paste0(invalid_indicators, collapse=", "),
