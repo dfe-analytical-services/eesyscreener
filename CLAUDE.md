@@ -232,6 +232,7 @@ pkgdown::build_site()         # Generate HTML documentation site
 - 2-space indentation (configured in .Rproj)
 - Roxygen2 markdown format for documentation
 - Tests should be clear and cover both success and failure paths
+- Do not include HTML (e.g. `<br>`) in check message strings — messages are used in CLI, API, and Shiny contexts and should be plain text
 
 ## Testing Philosophy
 

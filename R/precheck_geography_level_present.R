@@ -1,12 +1,10 @@
 #' Check we have the right columns for the geographic level
 #'
-#' @param data A data frame of the data file
-#' @param verbose logical, if TRUE prints feedback messages to console for
-#' every test, if FALSE run silently
-#' @param stop_on_error logical, if TRUE will stop with an error if the result
-#' is "FAIL", and will throw genuine warning if result is "WARNING"
+#' @inheritParams check_col_names_spaces
 #'
-#' @family check_geography
+#' @inherit check_filename_spaces return
+#'
+#' @family precheck_geog
 #'
 #' @examples
 #' precheck_geography_level_present(example_data)
@@ -29,15 +27,16 @@ precheck_geography_level_present <- function(
   }
 
   expected_cols <- function(i) {
-    # if a geographic level is present, then this returns the expected cols from the pre-defined geography_matrix
-    if (i[1] %in% data$geographic_level) {
-      return(i[2:4])
+    # if a geographic level is present in the data, return its expected column
+    # names (code_field, name_field, code_field_secondary) from geography_df
+    if (i["geographic_level"] %in% data$geographic_level) {
+      return(i[c("code_field", "name_field", "code_field_secondary")])
     }
   }
-  # filter out the non table tool rows / cols from geography matrix
+  # filter out the non table tool rows, then select only the columns needed
   geography_present <- geography_df |>
-    dplyr::filter(geographic_level != "Planning area") |>
-    dplyr::select(-row_number) |>
+    dplyr::filter(.data$geographic_level != "Planning area") |>
+    dplyr::select("geographic_level", "code_field", "name_field", "code_field_secondary") |>
     as.matrix()
 
   missing_cols <- unlist(apply(geography_present, 1, expected_cols))
@@ -61,7 +60,7 @@ precheck_geography_level_present <- function(
         "Given that the following geographic_level values are present: '",
         paste(unique(data$geographic_level), collapse = "', '"),
         cli::pluralize(
-          "'; <br> - the following column{?s} {?is/are} missing from the file: {missing_cols}."
+          "'; the following column{?s} {?is/are} missing from the file: {missing_cols}."
         )
       ),
       verbose = verbose,

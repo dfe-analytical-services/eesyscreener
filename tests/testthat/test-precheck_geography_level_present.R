@@ -38,6 +38,22 @@ test_that("Test produces PASS response when data contains all the required colum
   ))
 })
 
+test_that("Test produces PASS response when data contains mixed geographic levels with all required columns", {
+  input_data <- data.frame(
+    time_period = c("201718", "201718"),
+    time_identifier = "Academic year",
+    geographic_level = c("National", "Local authority"),
+    country_code = c("E92000001", "E92000001"),
+    country_name = c("England", "England"),
+    la_name = c(NA, "Bracknell Forest"),
+    new_la_code = c(NA, "E06000036"),
+    old_la_code = c(NA, 867),
+    enrolment_count = c(1000, 500)
+  )
+
+  expect_equal(precheck_geography_level_present(input_data)$result, "PASS")
+})
+
 test_that("Test produces FAIL response when data doesn't contain all the required columns for a geographic_level", {
   input_data <- data.frame(
     time_period = c(
@@ -61,7 +77,7 @@ test_that("Test produces FAIL response when data doesn't contain all the require
   expect_equal(precheck_geography_level_present(input_data)$result, "FAIL")
   expect_true(
     precheck_geography_level_present(input_data)$message ==
-      "Given that the following geographic_level values are present: 'Local authority'; <br> - the following column is missing from the file: 'old_la_code'."
+      "Given that the following geographic_level values are present: 'Local authority'; the following column is missing from the file: 'old_la_code'."
   )
   expect_error(precheck_geography_level_present(
     input_data,
@@ -90,7 +106,7 @@ test_that("Test produces FAIL plural response when data doesn't contain multiple
   expect_equal(precheck_geography_level_present(input_data)$result, "FAIL")
   expect_true(
     precheck_geography_level_present(input_data)$message ==
-      "Given that the following geographic_level values are present: 'Local authority'; <br> - the following columns are missing from the file: 'new_la_code' and 'old_la_code'."
+      "Given that the following geographic_level values are present: 'Local authority'; the following columns are missing from the file: 'new_la_code' and 'old_la_code'."
   )
   expect_error(precheck_geography_level_present(
     input_data,
