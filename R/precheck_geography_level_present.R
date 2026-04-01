@@ -36,7 +36,12 @@ precheck_geography_level_present <- function(
   # filter out the non table tool rows, then select only the columns needed
   geography_present <- geography_df |>
     dplyr::filter(.data$geographic_level != "Planning area") |>
-    dplyr::select("geographic_level", "code_field", "name_field", "code_field_secondary") |>
+    dplyr::select(
+      "geographic_level",
+      "code_field",
+      "name_field",
+      "code_field_secondary"
+    ) |>
     as.matrix()
 
   missing_cols <- unlist(apply(geography_present, 1, expected_cols))
