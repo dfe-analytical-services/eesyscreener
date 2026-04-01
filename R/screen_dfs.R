@@ -299,7 +299,7 @@ screen_dfs <- function(
       verbose = verbose,
       stop_on_error = stop_on_error
     ),
-    precheck_geography_level_present(
+    precheck_geog_level_present(
       data,
       verbose = verbose,
       stop_on_error = stop_on_error

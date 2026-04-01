@@ -7,18 +7,18 @@
 #' @family precheck_geog
 #'
 #' @examples
-#' precheck_geography_level_present(example_data)
-#' precheck_geography_level_present(example_data, verbose = TRUE)
-#' precheck_geography_level_present(example_comma_data, verbose = TRUE)
+#' precheck_geog_level_present(example_data)
+#' precheck_geog_level_present(example_data, verbose = TRUE)
+#' precheck_geog_level_present(example_comma_data, verbose = TRUE)
 #' @export
-precheck_geography_level_present <- function(
+precheck_geog_level_present <- function(
   data,
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
   if (all(data$geographic_level == "National")) {
     return(test_output(
-      "precheck_geography_level_present",
+      "precheck_geog_level_present",
       "PASS",
       "There is only National level data in the file.",
       verbose = verbose,
@@ -50,7 +50,7 @@ precheck_geography_level_present <- function(
 
   if (length(missing_cols) == 0) {
     test_output(
-      "precheck_geography_level_present",
+      "precheck_geog_level_present",
       "PASS",
       "The geography columns are present as expected for the geographic_level values in the file.",
       verbose = verbose,
@@ -59,7 +59,7 @@ precheck_geography_level_present <- function(
   } else {
     missing_cols <- paste0("'", missing_cols, "'", sep = "")
     test_output(
-      "precheck_geography_level_present",
+      "precheck_geog_level_present",
       "FAIL",
       paste0(
         "Given that the following geographic_level values are present: '",

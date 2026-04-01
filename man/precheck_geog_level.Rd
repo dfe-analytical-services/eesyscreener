@@ -28,6 +28,6 @@ precheck_geog_level(example_data, verbose = TRUE)
 }
 \seealso{
 Other precheck_geog: 
-\code{\link{precheck_geography_level_present}()}
+\code{\link{precheck_geog_level_present}()}
 }
 \concept{precheck_geog}

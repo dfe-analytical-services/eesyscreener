@@ -1,6 +1,6 @@
 test_that("Test produces PASS response when data is of a National level", {
-  expect_equal(precheck_geography_level_present(example_data)$result, "PASS")
-  expect_no_error(precheck_geography_level_present(
+  expect_equal(precheck_geog_level_present(example_data)$result, "PASS")
+  expect_no_error(precheck_geog_level_present(
     example_data,
     stop_on_error = TRUE
   ))
@@ -27,12 +27,12 @@ test_that("Test produces PASS response when data contains all the required colum
     old_la_code = 867
   )
 
-  expect_equal(precheck_geography_level_present(input_data)$result, "PASS")
+  expect_equal(precheck_geog_level_present(input_data)$result, "PASS")
   expect_true(
-    precheck_geography_level_present(input_data)$message ==
+    precheck_geog_level_present(input_data)$message ==
       "The geography columns are present as expected for the geographic_level values in the file."
   )
-  expect_no_error(precheck_geography_level_present(
+  expect_no_error(precheck_geog_level_present(
     input_data,
     stop_on_error = TRUE
   ))
@@ -51,7 +51,7 @@ test_that("Test produces PASS response when data contains mixed geographic level
     enrolment_count = c(1000, 500)
   )
 
-  expect_equal(precheck_geography_level_present(input_data)$result, "PASS")
+  expect_equal(precheck_geog_level_present(input_data)$result, "PASS")
 })
 
 test_that("Test produces FAIL response when data doesn't contain all the required columns for a geographic_level", {
@@ -74,12 +74,12 @@ test_that("Test produces FAIL response when data doesn't contain all the require
     new_la_code = "E06000036"
   )
 
-  expect_equal(precheck_geography_level_present(input_data)$result, "FAIL")
+  expect_equal(precheck_geog_level_present(input_data)$result, "FAIL")
   expect_true(
-    precheck_geography_level_present(input_data)$message ==
+    precheck_geog_level_present(input_data)$message ==
       "Given that the following geographic_level values are present: 'Local authority'; the following column is missing from the file: 'old_la_code'."
   )
-  expect_error(precheck_geography_level_present(
+  expect_error(precheck_geog_level_present(
     input_data,
     stop_on_error = TRUE
   ))
@@ -103,12 +103,12 @@ test_that("Test produces FAIL plural response when data doesn't contain multiple
     enrolment_count = c(1000),
     la_name = "Bracknell Forest"
   )
-  expect_equal(precheck_geography_level_present(input_data)$result, "FAIL")
+  expect_equal(precheck_geog_level_present(input_data)$result, "FAIL")
   expect_true(
-    precheck_geography_level_present(input_data)$message ==
+    precheck_geog_level_present(input_data)$message ==
       "Given that the following geographic_level values are present: 'Local authority'; the following columns are missing from the file: 'new_la_code' and 'old_la_code'."
   )
-  expect_error(precheck_geography_level_present(
+  expect_error(precheck_geog_level_present(
     input_data,
     stop_on_error = TRUE
   ))
