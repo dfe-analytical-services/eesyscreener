@@ -300,7 +300,8 @@ screen_dfs <- function(
       data,
       meta,
       verbose,
-      stop_on_error)
+      stop_on_error
+    )
   )
 
   check_filter_results <- check_filter_results |>
