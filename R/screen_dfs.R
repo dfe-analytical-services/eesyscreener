@@ -338,7 +338,7 @@ screen_dfs <- function(
       meta,
       verbose,
       stop_on_error
-      ),
+    ),
     check_filter_item_limit(
       data,
       meta,
