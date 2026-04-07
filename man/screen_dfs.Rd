@@ -9,6 +9,7 @@ screen_dfs(
   meta,
   log_key = NULL,
   log_dir = "./",
+  dd_checks = TRUE,
   verbose = FALSE,
   stop_on_error = FALSE,
   prudence = "lavish"
@@ -24,6 +25,9 @@ lazy duckplyr data.frame}
 write a log file to disk called eesyscreening_log_<log_key>.json default=NULL}
 
 \item{log_dir}{Directory within which to place the log file. default="./"}
+
+\item{dd_checks}{Run the Data dictionary tests, default=TRUE (this is implemented to allow devs
+to update robot test data to be consistent with data dictionary tests).}
 
 \item{verbose}{logical, if TRUE prints feedback messages to console for
 every test, if FALSE run silently}
