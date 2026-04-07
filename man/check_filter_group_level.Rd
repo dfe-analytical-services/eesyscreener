@@ -29,6 +29,7 @@ check_filter_group_level(example_data, example_meta)
 \seealso{
 Other check_filter: 
 \code{\link{check_filter_defaults}()},
+\code{\link{check_filter_item_limit}()},
 \code{\link{check_filter_whitespace}()}
 }
 \concept{check_filter}
