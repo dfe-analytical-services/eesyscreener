@@ -282,7 +282,7 @@ screen_dfs <- function(
     return(as.data.frame(check_time_results))
   }
 
-  # Check Filters -------------------------------------------------------------
+   # Check Filters -------------------------------------------------------------
   check_filter_results <- rbind(
     check_filter_defaults(
       data,
@@ -300,9 +300,9 @@ screen_dfs <- function(
       data,
       meta,
       verbose,
-      stop_on_error
-    )
+      stop_on_error)
   )
+
   check_filter_results <- check_filter_results |>
     cbind("stage" = "Check filters")
 
