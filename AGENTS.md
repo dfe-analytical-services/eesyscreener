@@ -16,13 +16,14 @@ This file provides guidance to Claude Code (claude.ai/code) or other AI agents w
 # Load package in development mode (requires R with devtools)
 devtools::load_all()
 
-# Run all tests
+# Run all tests (fast, no build — use this for quick iteration)
 devtools::test()
 
 # Run tests for a specific file
 devtools::test(filter = "test_name")
 
-# Check the package (equivalent to R CMD check)
+# Full package check — R CMD check including build, examples, vignettes, and tests
+# Use this as the final verification before committing/pushing
 devtools::check()
 
 # Generate documentation from roxygen2 comments
@@ -222,6 +223,7 @@ pkgdown::build_site()         # Generate HTML documentation site
 - 2-space indentation (configured in .Rproj)
 - Roxygen2 markdown format for documentation
 - Tests should be clear and cover both success and failure paths
+- Do not include HTML (e.g. `<br>`) in check message strings — messages are used in CLI, API, and Shiny contexts and should be plain text
 
 ## Testing Philosophy
 
