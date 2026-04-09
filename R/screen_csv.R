@@ -16,7 +16,7 @@
 #' @return A list containing
 #' 1. A table with the full results of the checks with four columns:
 #' \itemize{
-#'   \item result of the check (PASS / FAIL / ADVISORY)
+#'   \item result of the check (PASS / FAIL / WARNING)
 #'   \item message giving feedback about the check
 #'   \item group that the check belongs to
 #'   \item name of the check
@@ -53,6 +53,7 @@ screen_csv <- function(
   metafilename = NULL,
   log_key = NULL,
   log_dir = "./",
+  dd_checks = TRUE,
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
@@ -79,17 +80,14 @@ screen_csv <- function(
   validate_arg_logical(verbose, "verbose")
   validate_arg_logical(stop_on_error, "stop_on_error")
 
-  if (
-    file.exists(
-      file.path(
-        log_dir,
-        paste0("eesyscreener_log_", log_key, ".json")
+  if (!is.null(log_key) & !is.null(log_dir)) {
+    log_file <- paste0("eesyscreener_log_", log_key, ".json")
+    log_path = file.path(log_dir, log_file)
+    if (file.exists(log_path)) {
+      warning(
+        "Log file already exists, the default is currently to append distinct results."
       )
-    )
-  ) {
-    warning(
-      "Log file already exists, the default is currently to append distinct results."
-    )
+    }
   }
 
   file_details_log <- list(
@@ -154,6 +152,7 @@ screen_csv <- function(
     metafile,
     log_key = log_key,
     log_dir = log_dir,
+    dd_checks = dd_checks,
     verbose = verbose,
     stop_on_error = stop_on_error
   )

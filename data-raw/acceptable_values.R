@@ -82,7 +82,7 @@ financial_halves <- c(
   "Part 2 (October to March)"
 )
 
-acceptable_time_ids <- c(
+acceptable_time_ids <- list(
   "Autumn and spring term",
   "Calendar year",
   "Financial year",
@@ -96,4 +96,37 @@ acceptable_time_ids <- c(
   financial_halves
 )
 
+
 usethis::use_data(acceptable_time_ids, overwrite = TRUE)
+
+four_digit_identifiers <- c("Calendar year", "Reporting year", weeks, months)
+
+usethis::use_data(four_digit_identifiers, overwrite = TRUE)
+
+six_digit_identifiers <- c(
+  "Autumn and spring term",
+  terms,
+  "Financial year",
+  "Academic year",
+  "Tax year",
+  financial_quarters,
+  financial_halves
+)
+
+usethis::use_data(six_digit_identifiers, overwrite = TRUE)
+
+acceptable_indicator_units <- c("%", "pp", "£", "£m", "numberstring")
+
+usethis::use_data(acceptable_indicator_units, overwrite = TRUE)
+
+gssNAvcode <- "x" # This is also hardwired into the las.csv file for some terminated LAs that don't have a code listed
+gssNApcode <- "z"
+gssSupcode <- "c"
+gssRndcode <- "low"
+gss_symbols <- c(gssNApcode, gssNAvcode, gssSupcode, gssRndcode)
+
+usethis::use_data(gss_symbols, overwrite = TRUE)
+
+legacy_gss_symbols <- c("~", ":")
+
+usethis::use_data(legacy_gss_symbols, overwrite = TRUE)

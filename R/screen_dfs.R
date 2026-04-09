@@ -11,6 +11,8 @@
 #' @param log_key Keystring for creating log file. If given, the screening will
 #' write a log file to disk called eesyscreening_log_<log_key>.json default=NULL
 #' @param log_dir Directory within which to place the log file. default="./"
+#' @param dd_checks Run the Data dictionary tests, default=TRUE (this is implemented to allow devs
+#' to update robot test data to be consistent with data dictionary tests).
 #' @param verbose logical, if TRUE prints feedback messages to console for
 #' every test, if FALSE run silently
 #' @param stop_on_error logical, if TRUE will stop with an error if the result
@@ -28,6 +30,7 @@ screen_dfs <- function(
   meta,
   log_key = NULL,
   log_dir = "./",
+  dd_checks = TRUE,
   verbose = FALSE,
   stop_on_error = FALSE,
   prudence = "lavish"
@@ -178,7 +181,73 @@ screen_dfs <- function(
     return(as.data.frame(all_results))
   }
 
-  # Check Filters -----------------------------------------------------------------
+  # Check Time ----------------------------------------------------------------
+  check_time_results <- rbind(
+    check_time_period(
+      data,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    ),
+    check_time_period_six(
+      data,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    )
+  )
+
+  check_time_results <- check_time_results |>
+    cbind("stage" = "Check time")
+
+  write_json_log(
+    check_time_results,
+    log_key = log_key,
+    log_dir = log_dir,
+    data_details = data_details
+  )
+
+  check_time_results <- precheck_time_results |>
+    rbind(
+      check_time_results
+    )
+
+  if (any(check_time_results[["result"]] == "FAIL")) {
+    return(as.data.frame(check_time_results))
+  }
+
+  # Precheck geog -------------------------------------------------------------
+  precheck_geography_results <- rbind(
+    precheck_geog_level(
+      data,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    ),
+    precheck_geog_level_present(
+      data,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    )
+  )
+
+  precheck_geography_results <- precheck_geography_results |>
+    cbind("stage" = "Precheck geography")
+
+  write_json_log(
+    precheck_geography_results,
+    log_key = log_key,
+    log_dir = log_dir,
+    data_details = data_details
+  )
+
+  precheck_geography_results <- check_time_results |>
+    rbind(
+      precheck_geography_results
+    )
+
+  if (any(precheck_geography_results[["result"]] == "FAIL")) {
+    return(as.data.frame(precheck_geography_results))
+  }
+
+  # Check Filters -------------------------------------------------------------
   check_filter_results <- rbind(
     check_filter_defaults(data, meta, vb, soe),
     check_filter_whitespace(data, meta, vb, soe)

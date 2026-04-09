@@ -1,12 +1,22 @@
 test_that("passes when all time_identifier values are valid", {
-  data <- data.frame(time_identifier = acceptable_time_ids)
+  time_ids <- unlist(eesyscreener::acceptable_time_ids, use.names = FALSE)
+
+  data <- data.frame(
+    time_identifier = time_ids,
+    other_column = seq_along(time_ids)
+  )
   expect_equal(precheck_time_id_valid(data)$result, "PASS")
   expect_no_error(precheck_time_id_valid(data, stop_on_error = TRUE))
   expect_no_error(precheck_time_id_valid(example_data, stop_on_error = TRUE))
 })
 
 test_that("fails with one invalid time_identifier", {
-  data <- data.frame(time_identifier = c(acceptable_time_ids[1], "InvalidID"))
+  data <- data.frame(
+    time_identifier = c(
+      unlist(acceptable_time_ids[1], use.names = FALSE),
+      "InvalidID"
+    )
+  )
   expect_equal(precheck_time_id_valid(data)$result, "FAIL")
   expect_error(
     precheck_time_id_valid(data, stop_on_error = TRUE),
@@ -16,7 +26,11 @@ test_that("fails with one invalid time_identifier", {
 
 test_that("fails with multiple invalid time_identifier values", {
   data <- data.frame(
-    time_identifier = c("Bad", acceptable_time_ids[1], "Ugly")
+    time_identifier = c(
+      "Bad",
+      unlist(acceptable_time_ids[1], use.names = FALSE),
+      "Ugly"
+    )
   )
   expect_error(
     precheck_time_id_valid(data, stop_on_error = TRUE),
@@ -25,7 +39,9 @@ test_that("fails with multiple invalid time_identifier values", {
 })
 
 test_that("fails with blank time_identifier", {
-  data <- data.frame(time_identifier = c(acceptable_time_ids[1], ""))
+  data <- data.frame(
+    time_identifier = c(unlist(acceptable_time_ids[1], use.names = FALSE), "")
+  )
   expect_error(
     precheck_time_id_valid(data, stop_on_error = TRUE),
     "values is blank"
@@ -33,7 +49,9 @@ test_that("fails with blank time_identifier", {
 })
 
 test_that("fails multiple blank time_identifier values", {
-  data <- data.frame(time_identifier = c("", "", ""))
+  data <- data.frame(
+    time_identifier = c("", "", "")
+  )
   expect_error(
     precheck_time_id_valid(data, stop_on_error = TRUE),
     "values is blank"

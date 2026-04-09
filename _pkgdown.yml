@@ -8,9 +8,14 @@ reference:
   contents:
   - starts_with("screen_")
 
+- title: Data dictionary
+  contents:
+  - starts_with("data_dictionary")
+
 - title: Example datasets
   contents:
   - starts_with("example_")
+  - ees_robot_test_data
 
 - title: Generate test files
   contents:
@@ -26,6 +31,10 @@ reference:
   - geography_df
   - api_char_limits
   - data_dictionary
+  - gss_symbols
+  - legacy_gss_symbols
+  - four_digit_identifiers
+  - six_digit_identifiers
 
 - title: Filename checks
   contents:
@@ -72,6 +81,10 @@ reference:
   - starts_with("precheck_time_")
 
 - title: Pre-checks on geography columns
+  description: |
+    These checks should be run before any other geography checks, as they validate core assumptions about the geography columns.
+  contents:
+  - starts_with("precheck_geog_")
 
 - title: General data file checks
 
@@ -80,10 +93,14 @@ reference:
   - starts_with("check_filter_")
 
 - title: Indicator checks
+  contents:
+  - starts_with("check_ind_")
 
 - title: Geography checks
 
 - title: Time checks
+  contents:
+  - starts_with("check_time_")
 
 - title: API specific checks
   contents:

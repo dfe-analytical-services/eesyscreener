@@ -5,7 +5,7 @@
 \alias{example_meta}
 \title{Example metadata}
 \format{
-A data frame with 3 rows and 8 columns:
+A data frame with 3 rows and 9 columns:
 \describe{
 \item{col_name}{Name of column in data file}
 \item{col_type}{Type of column in data file}

@@ -1,22 +1,19 @@
 test_that("Output structure is as expected", {
   # Start by creating some temporary CSVs
-  data_file <- tempfile(fileext = ".csv")
-  meta_file <- tempfile(fileext = ".meta.csv")
-
-  write.csv(example_data, data_file, row.names = FALSE)
-  write.csv(example_meta, meta_file, row.names = FALSE)
+  test_dir = tempdir()
+  paths <- write_ees_files(example_data, example_meta, test_dir, "example")
 
   output <- screen_csv(
-    data_file,
-    meta_file,
+    paths$data_path,
+    paths$meta_path,
     "data.csv",
     "data.meta.csv",
     verbose = TRUE
   )
 
   # Clean up temp files
-  file.remove(data_file)
-  file.remove(meta_file)
+  file.remove(paths$data_path)
+  file.remove(paths$meta_path)
 
   expect_type(output, "list")
   expect_length(output, 4)
@@ -76,15 +73,12 @@ test_that("Substitutes in filenames if not given", {
 })
 
 test_that("Example file passes", {
-  data_file <- tempfile(fileext = ".csv")
-  meta_file <- tempfile(fileext = ".meta.csv")
-
-  write.csv(example_data, data_file, row.names = FALSE)
-  write.csv(example_meta, meta_file, row.names = FALSE)
+  test_dir = tempdir()
+  paths <- write_ees_files(example_data, example_meta, test_dir, "example")
 
   output <- screen_csv(
-    data_file,
-    meta_file,
+    paths$data_path,
+    paths$meta_path,
     "data.csv",
     "data.meta.csv"
   )
@@ -94,8 +88,8 @@ test_that("Example file passes", {
 
   expect_no_error(
     screen_csv(
-      data_file,
-      meta_file,
+      paths$data_path,
+      paths$meta_path,
       "data.csv",
       "data.meta.csv"
     )
@@ -103,8 +97,8 @@ test_that("Example file passes", {
 
   expect_no_error(
     screen_csv(
-      data_file,
-      meta_file,
+      paths$data_path,
+      paths$meta_path,
       "data.csv",
       "data.meta.csv",
       verbose = TRUE
@@ -113,16 +107,16 @@ test_that("Example file passes", {
 
   expect_no_error(
     screen_csv(
-      data_file,
-      meta_file,
+      paths$data_path,
+      paths$meta_path,
       "data.csv",
       "data.meta.csv",
       stop_on_error = TRUE
     )
   )
 
-  file.remove(data_file)
-  file.remove(meta_file)
+  file.remove(paths$data_path)
+  file.remove(paths$meta_path)
 })
 
 test_that("Fails gracefully if files can't be found", {
@@ -138,44 +132,39 @@ test_that("Fails gracefully if files can't be found", {
 test_that("Fails gracefully if it's not a CSV", {
   txt_file <- tempfile(fileext = ".txt")
   txt_meta <- tempfile(fileext = ".txt")
-  data_file <- tempfile(fileext = ".csv")
-  meta_file <- tempfile(fileext = ".meta.csv")
-
-  write.csv(example_data, data_file, row.names = FALSE)
-  write.csv(example_meta, meta_file, row.names = FALSE)
   writeLines(c("This is not a CSV file"), txt_file)
   writeLines(c("This is not a CSV file"), txt_meta)
+
+  test_dir = tempdir()
+  paths <- write_ees_files(example_data, example_meta, test_dir, "example")
 
   expect_error(
     screen_csv(txt_file, txt_meta, stop_on_error = TRUE),
     "Data file"
   )
   expect_error(
-    screen_csv(txt_file, meta_file, stop_on_error = TRUE),
+    screen_csv(txt_file, paths$meta_path, stop_on_error = TRUE),
     "Data file"
   )
   expect_error(
-    screen_csv(data_file, txt_meta, stop_on_error = TRUE),
+    screen_csv(paths$data_path, txt_meta, stop_on_error = TRUE),
     "Meta data file"
   )
 
-  file.remove(data_file)
-  file.remove(meta_file)
+  file.remove(paths$data_path)
+  file.remove(paths$meta_path)
   file.remove(txt_file)
   file.remove(txt_meta)
 })
 
 test_that("Example file fails with filename", {
-  data_file <- tempfile(fileext = ".csv")
-  meta_file <- tempfile(fileext = ".meta.csv")
-
-  write.csv(example_data, data_file, row.names = FALSE)
-  write.csv(example_meta, meta_file, row.names = FALSE)
+  test_dir = tempdir()
+  paths <- write_ees_files(example_data, example_meta, test_dir, "example")
 
   expect_equal(
     screen_csv(
-      data_file,
-      meta_file,
+      paths$data_path,
+      paths$meta_path,
       "data.csv",
       "meta.csv",
     )$overall_stage,
@@ -184,8 +173,8 @@ test_that("Example file fails with filename", {
 
   expect_error(
     screen_csv(
-      data_file,
-      meta_file,
+      paths$data_path,
+      paths$meta_path,
       "data.csv",
       "meta.csv",
       verbose = TRUE,
@@ -194,8 +183,8 @@ test_that("Example file fails with filename", {
     "The filenames do not follow the recommended naming convention"
   )
 
-  file.remove(data_file)
-  file.remove(meta_file)
+  file.remove(paths$data_path)
+  file.remove(paths$meta_path)
 
   # Run again but with implied filenames
   data_path <- file.path(tempdir(), "nonono.csv")
@@ -245,81 +234,112 @@ test_that("fails check dfs", {
 })
 
 test_that("api_suitable returns FALSE for unsuitable files", {
-  data_path <- tempfile(fileext = ".csv")
-  meta_path <- tempfile(fileext = ".meta.csv")
-  write.csv(example_api_long, data_path, row.names = FALSE)
-  write.csv(example_api_long_meta, meta_path, row.names = FALSE)
+  test_dir = tempdir()
+  paths <- write_ees_files(
+    example_api_long,
+    example_api_long_meta,
+    test_dir,
+    "api_long"
+  )
 
-  result <- screen_csv(data_path, meta_path, "api.csv", "api.meta.csv")
+  result <- screen_csv(
+    paths$data_path,
+    paths$meta_path,
+    "api.csv",
+    "api.meta.csv"
+  )
   expect_true(!is.null(result$api_suitable))
   expect_false(result$api_suitable)
 
   expect_warning(
     screen_csv(
-      data_path,
-      meta_path,
+      paths$data_path,
+      paths$meta_path,
       "api.csv",
       "api.meta.csv",
       stop_on_error = TRUE
     )
   )
 
-  file.remove(data_path)
-  file.remove(meta_path)
+  file.remove(paths$data_path)
+  file.remove(paths$meta_path)
 })
 
 test_that("screen_csv completes for file containing commas in strings", {
-  data_path <- tempfile(fileext = ".csv")
-  meta_path <- tempfile(fileext = ".meta.csv")
-  write.csv(example_comma_data, data_path, row.names = FALSE)
-  write.csv(example_comma_meta, meta_path, row.names = FALSE)
-
-  expect_no_error(
-    screen_csv(data_path, meta_path, "late_comma.csv", "late_comma.meta.csv")
+  test_dir = tempdir()
+  paths <- write_ees_files(
+    example_comma_data,
+    example_comma_meta,
+    test_dir,
+    "comma"
   )
 
-  file.remove(data_path)
-  file.remove(meta_path)
+  expect_no_error(
+    screen_csv(
+      paths$data_path,
+      paths$meta_path,
+      "late_comma.csv",
+      "late_comma.meta.csv"
+    )
+  )
+
+  file.remove(paths$data_path)
+  file.remove(paths$meta_path)
 })
 
-# TODO: Cam / Rich to fix this, failing on PRs for additional checks
+# If adding new tests, then this will fail if you haven't also updated the example output. Make
+# sure you update example_output using the script in data_raw after you've added a new check.
+# Another point of failure that this test can pick up on is if you've added a new family of tests
+# and either you've not folded it into the results collation properly or you've not done the stage
+# to write the results to the logfile.
+test_that("Log file generation works as expected", {
+  test_dir = tempdir()
+  paths <- write_ees_files(example_data, example_meta, test_dir, "log-test")
 
-# test_that("Log file is created successfully", {
-#   data_path <- tempfile(fileext = ".csv")
-#   meta_path <- tempfile(fileext = ".meta.csv")
-#   write.csv(example_data, data_path, row.names = FALSE)
-#   write.csv(example_meta, meta_path, row.names = FALSE)
-#
-#   log_dir = tempdir()
-#   log_file = paste0("eesyscreener_log_zxc987.json")
-#   log_path = file.path(log_dir, log_file)
-#   result <- screen_csv(
-#     data_path,
-#     meta_path,
-#     "test.csv",
-#     "test.meta.csv",
-#     log_key = "zxc987",
-#     log_dir = log_dir
-#   )
-#   expect_true(file.exists(log_path))
-#   # Check if we need to update `example_output`
-#   expect_equal(
-#     jsonlite::read_json(log_path, simplifyVector = TRUE)$results |> nrow(),
-#     eesyscreener::example_output |> nrow()
-#   )
-#   expect_warning(
-#     screen_csv(
-#       data_path,
-#       meta_path,
-#       "test.csv",
-#       "test.meta.csv",
-#       log_key = "zxc987",
-#       log_dir = log_dir
-#     )
-#   )
-#   file.remove(data_path)
-#   file.remove(meta_path)
-#   file.remove(log_path)
-# })
+  log_key <- "zxc987_1"
+  log_file = paste0("eesyscreener_log_", log_key, ".json")
+  log_path = file.path(test_dir, log_file)
+  result <- screen_csv(
+    paths$data_path,
+    paths$meta_path,
+    "test.csv",
+    "test.meta.csv",
+    log_key = log_key,
+    log_dir = test_dir
+  )
+  expect_true(file.exists(log_path))
 
-# TODO: add tests for different failure stages and edge cases
+  # Check if `example_output` is up to date with the current results being produced
+  expect_equal(
+    jsonlite::read_json(log_path, simplifyVector = TRUE)$results |> nrow(),
+    example_output |> nrow()
+  )
+
+  # Expect a warning if the log file already exists
+  expect_warning(
+    screen_csv(
+      paths$data_path,
+      paths$meta_path,
+      "test.csv",
+      "test.meta.csv",
+      log_key = log_key,
+      log_dir = test_dir
+    )
+  )
+
+  expect_no_error(
+    screen_csv(
+      paths$data_path,
+      paths$meta_path,
+      "test.csv",
+      "test.meta.csv",
+      log_key = "new_key",
+      log_dir = NULL
+    )
+  )
+
+  # Now clean up after yourself
+  file.remove(paths$data_path)
+  file.remove(paths$meta_path)
+  file.remove(log_path)
+})

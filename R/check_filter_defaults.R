@@ -39,6 +39,7 @@ check_filter_defaults <- function(
       dplyr::mutate(
         filter_default = dplyr::case_when(
           .data$filter_default == "" & col_type == "Filter" ~ "Total",
+          is.na(.data$filter_default) & col_type == "Filter" ~ "Total",
           .default = .data$filter_default
         )
       )

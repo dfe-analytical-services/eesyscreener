@@ -148,6 +148,7 @@ validate_arg_logical <- function(logical, name) {
 #' @noRd
 read_ees_files <- function(datapath, metapath) {
   # Check if files exist
+
   if (!file.exists(datapath)) {
     cli::cli_abort(sprintf("No file found at %s", datapath))
   }
@@ -215,6 +216,50 @@ read_ees_files <- function(datapath, metapath) {
   list(data = datafile, meta = metafile)
 }
 
+#' Write out CSV files
+#'
+#' Helper for writing out CSV files in a standard way. Provides some standard cleaning for writing
+#' data frame contents to CSV to handle things like NAs.
+#'
+#' @param data Data to be written out
+#' @param meta Meta to be written out
+#' @param outdir Output path
+#' @param stub String for the filename stub
+#' @return List of the file paths
+#' @examples
+#' # Create temp files for the example
+#' temp_dir <- tempdir()
+#' write_ees_files(example_data, example_meta, outdir = temp_dir, stub = "example")
+#'
+#' # Clean up temp files
+#' file.remove(path(temp_dir, paste0("example.csv")))
+#' file.remove(path(temp_dir, paste0("example.meta.csv")))
+#' @keywords internal
+#' @noRd
+write_ees_files <- function(data, meta, outdir, stub) {
+  # Check if directory exist
+  if (!dir.exists(outdir)) {
+    cli::cli_abort(sprintf("No directory found at %s", outdir))
+  }
+
+  data_path <- file.path(outdir, paste0(stub, ".csv"))
+  meta_path <- file.path(outdir, paste0(stub, ".meta.csv"))
+
+  readr::write_csv(data, data_path)
+  # Clean up any issues in the meta
+  meta <- meta |>
+    dplyr::mutate(
+      dplyr::across(dplyr::everything(), as.character),
+      dplyr::across(dplyr::everything(), ~ dplyr::if_else(is.na(.), "", .))
+    )
+  readr::write_csv(meta, meta_path)
+  # Output the file paths
+  list(
+    data_path = data_path,
+    meta_path = meta_path
+  )
+}
+
 #' Get all column names referenced in metadata
 #'
 #' Get the names of all indicators, filters, and filter groups that are
@@ -225,10 +270,19 @@ read_ees_files <- function(datapath, metapath) {
 #'
 #' @param meta data.frame of the metadata
 #' @param grouping_cols logical, if TRUE will include filter grouping columns
+#' @param excl_indicators logical, if TRUE will exclude indicators
 #' @keywords internal
 #' @noRd
 #' @returns character vector of column names
-get_cols_meta <- function(meta, grouping_cols = FALSE) {
+get_cols_meta <- function(
+  meta,
+  grouping_cols = FALSE,
+  excl_indicators = FALSE
+) {
+  if (excl_indicators) {
+    meta <- meta |>
+      dplyr::filter(col_type != "Indicator")
+  }
   cols <- meta$col_name
   if (grouping_cols) {
     cols <- c(cols, meta$filter_grouping_column)
@@ -362,11 +416,11 @@ remove_nas_blanks <- function(vector) {
 write_json_log <- function(
   results,
   log_key = NULL,
-  log_dir = "./",
+  log_dir = NULL,
   file_details = list(filename = NULL, filesize = NULL),
   data_details = list(nrows = NULL, ncols = NULL)
 ) {
-  if (!is.null(log_key)) {
+  if (!is.null(log_key) & !is.null(log_dir)) {
     log_file <- paste0("eesyscreener_log_", log_key, ".json")
     log_path = file.path(log_dir, log_file)
     if (file.exists(log_path)) {
@@ -427,18 +481,21 @@ write_json_log <- function(
 #' Render standard URL
 #'
 #' @param slug string to paste to base domain
-#' @param domain base domain. Can be "analysts_guide", "ees" or "dfe_github"
+#' @param domain base domain. Can be "analysts_guide", "ees", "dfe_github" or "screener_app_repo"
 #' @returns String containing URL
 #' @keywords internal
 #' @noRd
 render_url <- function(slug, domain = "analysts_guide") {
-  if (!domain %in% c("analysts_guide", "ees", "dfe_github")) {
+  if (
+    !domain %in% c("analysts_guide", "ees", "dfe_github", "screener_app_repo")
+  ) {
     stop("Please choose one of 'analysts_guide', 'ees' or 'dfe_github'")
   }
   url <- list(
     analysts_guide = "https://dfe-analytical-services.github.io/analysts-guide/",
     ees = "https://explore-education-statistics.service.gov.uk/",
-    dfe_github = "https://github.com/dfe-analytical-services/"
+    dfe_github = "https://github.com/dfe-analytical-services/",
+    screener_app_repo = "https://raw.githubusercontent.com/dfe-analytical-services/dfe-published-data-qa/refs/heads/main/"
   )
   paste0(
     url[domain],

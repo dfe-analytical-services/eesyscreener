@@ -5,16 +5,16 @@
 \alias{data_dictionary}
 \title{Data dictionary}
 \format{
-A data frame with columns:
+A data.frame with columns:
 \describe{
-\item{col_name}{The name of the column as it should appear in the data file}
-\item{col_type}{The type of column (e.g. Indicator, Filter)}
-\item{filter_item}{Acceptable values for filter columns}
-\item{filter_item_parent}{The parent value for the filter item if used in a hierarchy}
-\item{col_name_parent}{The parent column name for the column if used in a hierarchy}
-\item{cbds_code}{The code for the value in the Common Basic Data Set}
-\item{item_error_flag}{How the item is used in screening checks}
-\item{contexts}{A rough grouping to aid navigation of the data dictionary}
+\item{col_name}{Standard column names}
+\item{col_type}{Column types of defined columns: "Filter" or "Indicator"}
+\item{filter_item}{Possible filter items within standard filters}
+\item{col_name_parent}{Standardised parent (filter grouping) column names}
+\item{filter_item_parent}{Possible parent (filter grouping) filter items}
+\item{cbds_code}{Common basic data set code where applicable}
+\item{item_error_flag}{Flag as to whether this applies to API data sets or all data sets}
+\item{contexts}{Context or publication area of definition}
 }
 }
 \source{
@@ -24,7 +24,6 @@ maintained by explore.statistics@education.gov.uk
 data_dictionary
 }
 \description{
-A data frame containing the data dictionary for data sets, including
-column names and acceptable values within those columns.
+Data dictionary
 }
 \keyword{datasets}

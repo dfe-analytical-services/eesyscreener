@@ -29,9 +29,53 @@
 # Acceptable time identifiers ====
 #' Acceptable time identifiers
 #'
-#' @format A vector of acceptable time identifier values
+#' Groups of acceptable time identifier values. Identifiers should
+#' be from the same group to be considered compatible.
+#'
+#' @format A list of acceptable time identifier values
 #' @source maintained by explore.statistics@@education.gov.uk
 "acceptable_time_ids"
+
+# Time identifiers that should be 4 digit numbers ====
+#' Time identifiers that should have 4 digit numbers
+#'
+#' A vector of time identifier values that should have 4 digit numbers.
+#' This is a subset of the acceptable_time_ids list.
+#'
+#' @format A vector of time identifier values that should have 4 digit numbers
+#' @source maintained by explore.statistics@@education.gov.uk
+"four_digit_identifiers"
+
+# Time identifiers that should be 6 digit numbers ====
+#' Time identifiers that should have 6 digit numbers
+#'
+#' A vector of time identifier values that should have 6 digit numbers.
+#' This is a subset of the acceptable_time_ids list.
+#'
+#' @format A vector of time identifier values that should have 6 digit numbers
+#' @source maintained by explore.statistics@@education.gov.uk
+"six_digit_identifiers"
+
+# Acceptable indicator units ====
+#' Acceptable values for indicator units
+#'
+#' @format A vector of acceptable indicator unit values
+#' @source maintained by explore.statistics@@education.gov.uk
+"acceptable_indicator_units"
+
+# Acceptable GSS symbols ====
+#' Acceptable values for GSS symbols
+#'
+#' @format A vector of acceptable GSS symbols
+#' @source maintained by explore.statistics@@education.gov.uk
+"gss_symbols"
+
+# Obsolete GSS symbols ====
+#' Legacy values for GSS symbols
+#'
+#' @format A vector of legacy GSS symbols
+#' @source maintained by explore.statistics@@education.gov.uk
+"legacy_gss_symbols"
 
 # API character limits ====
 #' API character limits
@@ -48,19 +92,16 @@
 # Data dictionary ====
 #' Data dictionary
 #'
-#' A data frame containing the data dictionary for data sets, including
-#' column names and acceptable values within those columns.
-#'
-#' @format A data frame with columns:
+#' @format A data.frame with columns:
 #' \describe{
-#' \item{col_name}{The name of the column as it should appear in the data file}
-#' \item{col_type}{The type of column (e.g. Indicator, Filter)}
-#' \item{filter_item}{Acceptable values for filter columns}
-#' \item{filter_item_parent}{The parent value for the filter item if used in a hierarchy}
-#' \item{col_name_parent}{The parent column name for the column if used in a hierarchy}
-#' \item{cbds_code}{The code for the value in the Common Basic Data Set}
-#' \item{item_error_flag}{How the item is used in screening checks}
-#' \item{contexts}{A rough grouping to aid navigation of the data dictionary}
+#' \item{col_name}{Standard column names}
+#' \item{col_type}{Column types of defined columns: "Filter" or "Indicator"}
+#' \item{filter_item}{Possible filter items within standard filters}
+#' \item{col_name_parent}{Standardised parent (filter grouping) column names}
+#' \item{filter_item_parent}{Possible parent (filter grouping) filter items}
+#' \item{cbds_code}{Common basic data set code where applicable}
+#' \item{item_error_flag}{Flag as to whether this applies to API data sets or all data sets}
+#' \item{contexts}{Context or publication area of definition}
 #' }
 #' @source maintained by explore.statistics@@education.gov.uk
 "data_dictionary"
