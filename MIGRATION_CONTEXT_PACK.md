@@ -13,28 +13,28 @@ into the `eesyscreener` R package.
 Functions from a monolithic Shiny app (`dfe-published-data-qa`) are
 being extracted one-at-a-time into a standalone, documented, tested R
 package (`eesyscreener`). The legacy code lives primarily in
-`R/mainTests.r`, `R/preCheck1.r`, and `R/knownVariables.r` in the Shiny
-app repo.
+`R/mainTests.r`, `R/preCheck1.r`, `R/preCheck2.r`, and
+`R/knownVariables.r` in the Shiny app repo.
 
 ### Why
 
-- **Reusability**: The package is consumed by three contexts: a Shiny
-  app, a Plumber API, and direct R usage by analysts.
+- **Reusability**: The package is consumed in at least three contexts: a
+  Shiny app, a Plumber API, and direct R usage by analysts.
 - **Performance**: The Shiny app and API must be responsive even with
   files of 5+ million rows. DuckDB/duckplyr is used for speed.
 - **Maintainability**: One function per file, one test file per
   function, consistent interfaces, roxygen2 documentation.
-- **Standards enforcement**: The package enforces open data standards
-  for the Explore Education Statistics (EES) platform.
 
 ### Core philosophy
 
 - One check at a time, unless a utility function covers multiple checks.
-- Simplify during migration — do not bring over legacy complexity.
 - Minimise new dependencies; prefer base R or dplyr (which piggybacks on
   duckplyr for performance).
-- Speed is king. Profile with `microbenchmark` on large files.
-  Prioritise large-file performance over small-file performance.
+- Simplify during migration, do not bring over legacy complexity if it
+  is unnecessary, use the opportunity to improve the code.
+- Speed is king. Prioritise large-file performance over small-file
+  performance. Avoid operations that force full materialisation of lazy
+  duckplyr data frames.
 
 ------------------------------------------------------------------------
 
@@ -140,8 +140,13 @@ and joined with `"', '"`:
 paste0("'", paste0(values, collapse = "', '"), "'.")
 ```
 
-Many functions handle singular/plural messages separately (different
+Many functions handle singular / plural messages separately (different
 wording for 1 vs many failures). This is a convention in the codebase.
+
+Use [`cli::pluralize()`](https://cli.r-lib.org/reference/pluralize.html)
+or [`sprintf()`](https://rdrr.io/r/base/sprintf.html) to consolidate
+singular and plural messages where appropriate to reduce the number of
+lines of code necessary.
 
 ### 2.6 Dependency Management
 
@@ -156,7 +161,7 @@ wording for 1 vs many failures). This is a convention in the codebase.
 - **Pipe operator**: Use the base R pipe `|>` (not magrittr `%>%`).
 - **Avoid adding new dependencies** unless the performance benefit is
   substantial and proven via benchmarking.
-- **dplyr over base R** for data manipulation — it’s faster on large
+- **dplyr over base R** for data manipulation - it’s faster on large
   files via duckplyr.
 - **cli** for user-facing messages
   ([`cli::cli_abort()`](https://cli.r-lib.org/reference/cli_abort.html),
@@ -189,20 +194,8 @@ wording for 1 vs many failures). This is a convention in the codebase.
   generated).
 - Include `@returns` in roxygen2 documentation even for internal
   functions.
-- Helper functions should be reusable — avoid duplication between check
-  functions.
-
-### 2.9 Performance
-
-- Always benchmark with `microbenchmark` on large files (5M+ rows).
-- Use the `tests/utils/benchmarking.R` script as a starting point.
-- Prioritise large-file performance. DuckDB can be slower on tiny files
-  but dramatically faster on large ones.
-- Use `prudence = "stingy"` with
-  [`screen_dfs()`](https://dfe-analytical-services.github.io/eesyscreener/reference/screen_dfs.md)
-  to identify functions that inadvertently materialise lazy tables.
-- Avoid operations that force full materialisation of lazy duckplyr data
-  frames.
+- Helper functions should be reusable and avoid duplication between
+  check functions.
 
 ------------------------------------------------------------------------
 
@@ -325,14 +318,11 @@ test_that("fails with multiple <problems>", {
 ### 4.4 Test Data
 
 - **Inline [`data.frame()`](https://rdrr.io/r/base/data.frame.html)
-  construction** is the primary approach for test data — create minimal
+  construction** is the primary approach for test data - create minimal
   data frames that exercise the specific check.
 - **Package example datasets** (`example_data`, `example_meta`) should
   always be tested as a PASS case via
   `expect_no_error(fn(example_data, stop_on_error = TRUE))`.
-- **RDS files** for more complex or copied-over test data. Use
-  `tests/utils/copy_check_data.R` to import CSVs from the legacy repo
-  and save as RDS.
 - **Temp CSV files** when testing file I/O (e.g., `screen_csv` tests).
 - **No mocking** — use real but minimal data.
 
@@ -365,8 +355,11 @@ test_that("fails with multiple <problems>", {
     produces.
 3.  Identify any hardcoded reference data it uses from
     `R/knownVariables.r`.
+4.  Understand what the new function name should be and what family of
+    functions (e.g. precheck_time) that it should belong to. Ask for
+    clarification if unsure.
 
-#### Step 2: Create the Function File
+#### Step 2: Create the initial Function File
 
 0.  Create a new branch based off of the latest from main, following the
     format `claude/<function-name>`
@@ -374,12 +367,7 @@ test_that("fails with multiple <problems>", {
 2.  Write the function with the standard signature (`verbose`,
     `stop_on_error`).
 3.  Use `test_output()` for all return paths.
-4.  Simplify the legacy code during migration:
-    - Replace `sapply` patterns with vectorised or dplyr approaches.
-    - Use dplyr verbs where possible for duckplyr compatibility.
-    - Remove unnecessary intermediate objects.
-5.  Handle singular/plural messages where appropriate.
-6.  Add roxygen2 documentation:
+4.  Add roxygen2 documentation:
     - Use `@inheritParams` from the most appropriate existing function.
     - Use `@inherit check_filename_spaces return`.
     - Set the correct `@family` tag.
@@ -446,10 +434,18 @@ count test will fail.
 
 #### Step 7: Verify
 
-0.  Format the project using Air.
-1.  Run `devtools::test()` — all tests must pass.
-2.  Run `devtools::check()` — no errors, warnings, or notes related to
-    your changes.
+1.  Run `devtools::test()` - all tests must pass.
+
+#### Step 8: Iterate and improve
+
+1.  Simplify the legacy code that was migrated:
+    - Replace `sapply` patterns with vectorised or dplyr approaches.
+    - Use dplyr verbs where possible for duckplyr compatibility.
+    - Remove unnecessary intermediate objects.
+2.  Combine singular / plural messages where appropriate using
+    cli::pluralize() or sprintf()
+3.  Run `devtools::test()` to ensure the behaviour has not changed at
+    all
 
 #### Step 8: Commit and PR
 
@@ -494,9 +490,9 @@ named `check_meta_filter_group_match` into the new package.
 ### 6.3 PR Titles
 
 Based on the examples: -
-`"Adding the check_meta_duplicate_label() function"` -
+`"Add the check_meta_duplicate_label() function"` -
 `"Add precheck_col_name_duplicate"` -
-`"Adding filter group match function"`
+`"Add filter group match function"`
 
 Short, descriptive, focused on what was added.
 
@@ -508,9 +504,18 @@ Short, descriptive, focused on what was added.
 
 ------------------------------------------------------------------------
 
-## 7. Golden Patterns
+## 7. Review the CI on the PR
 
-### 7.1 Canonical Migrated Function (meta-only check)
+1.  Check that all GitHub actions are passing on the PR
+
+If any are failing, review the logs to understand the failures then fix
+them in an additional commit.
+
+------------------------------------------------------------------------
+
+## 8. Golden Patterns
+
+### 8.1 Canonical Migrated Function (meta-only check)
 
 ``` r
 #' Check there are no duplicate labels
@@ -572,7 +577,7 @@ check_meta_duplicate_label <- function(
 }
 ```
 
-### 7.2 Canonical Migrated Function (data + meta check with dplyr)
+### 8.2 Canonical Migrated Function (data + meta check with dplyr)
 
 ``` r
 #' Check filter groups match in meta and data
@@ -657,7 +662,7 @@ check_meta_filter_group_match <- function(
 }
 ```
 
-### 7.3 Canonical Test File
+### 8.3 Canonical Test File
 
 ``` r
 test_that("passes when all labels are unique", {
@@ -693,7 +698,7 @@ test_that("handles numeric values in label", {
 })
 ```
 
-### 7.4 Canonical PR Description
+### 8.4 Canonical PR Description
 
 > **Title**: Adding the check_meta_duplicate_label() function
 >
@@ -704,12 +709,12 @@ test_that("handles numeric values in label", {
 
 ------------------------------------------------------------------------
 
-## 8. Inferred Rules (Not Explicitly Stated)
+## 9. Inferred Rules (Not Explicitly Stated)
 
 These rules are implied by the codebase patterns but not written
 anywhere:
 
-### 8.1 Code Style
+### 9.1 Code Style
 
 - **2-space indentation** (configured in `.Rproj`).
 - **Tidyverse style guide** (no trailing whitespace, spaces around
@@ -721,7 +726,7 @@ anywhere:
 - **Function arguments on separate lines** when the function definition
   is long (one argument per line).
 
-### 8.2 test_output() First Argument
+### 9.2 test_output() First Argument
 
 The `test_name` argument passed to `test_output()` should be a short
 identifier that omits the `check_`/`precheck_` prefix. For example,
@@ -731,23 +736,14 @@ passes `"meta_duplicate_label"` and
 passes `"geographic_level"`. This is the value that appears in the
 `check` column of the results data frame.
 
-### 8.3 Example Data Always Passes
+### 9.3 Example Data Always Passes
 
 The package’s built-in example datasets (`example_data`, `example_meta`)
 must always pass all checks. Every test file should include a test
 confirming this. If a new check would fail on the example data, update
 the example data.
 
-### 8.4 WARNING vs FAIL
-
-- `precheck_*()` functions produce `"FAIL"` (blocking) — these are
-  structural problems that prevent further screening.
-- `check_*()` functions typically produce `"FAIL"` for data quality
-  issues.
-- API checks (`check_api_*()`) produce `"WARNING"` — they indicate
-  unsuitability for the API but don’t block the overall screening.
-
-### 8.5 Stage-Based Early Exit
+### 9.5 Stage-Based Early Exit
 
 In
 [`screen_dfs()`](https://dfe-analytical-services.github.io/eesyscreener/reference/screen_dfs.md),
@@ -755,7 +751,7 @@ if any check in a stage returns `"FAIL"`, screening stops and returns
 all results accumulated so far. This means prechecks genuinely gate the
 later checks.
 
-### 8.6 duckplyr Activation
+### 9.6 duckplyr Activation
 
 [`duckplyr::methods_overwrite()`](https://duckplyr.tidyverse.org/reference/methods_overwrite.html)
 is called in
@@ -766,7 +762,7 @@ DuckDB backend. Functions that operate on the `data` argument before
 this point should still use dplyr verbs (they’ll just run as regular
 dplyr).
 
-### 8.7 No Explicit Return Statements (Usually)
+### 9.7 No Explicit Return Statements (Usually)
 
 Most check functions rely on implicit return of the last expression
 (`test_output()` call). Explicit
@@ -774,7 +770,7 @@ Most check functions rely on implicit return of the last expression
 early exits (e.g., when a check can short-circuit before the main
 logic).
 
-### 8.8 Consistent data.frame Construction in Tests
+### 9.8 Consistent data.frame Construction in Tests
 
 Test data uses simple
 [`data.frame()`](https://rdrr.io/r/base/data.frame.html) calls with
@@ -783,12 +779,12 @@ character columns that might be affected by R’s factor-coercion defaults
 (though this is less of an issue in R \>= 4.0 where `stringsAsFactors`
 defaults to FALSE).
 
-### 8.9 No Snapshot Tests
+### 9.9 No Snapshot Tests
 
 The codebase does not use `testthat` snapshot tests. All assertions are
 explicit equality or error/no-error checks.
 
-### 8.10 Namespace Management
+### 9.10 Namespace Management
 
 - `NAMESPACE` is auto-generated by roxygen2 — never edit manually.
 - Run `devtools::document()` after any changes to `@export`,
@@ -797,7 +793,7 @@ explicit equality or error/no-error checks.
   [`rlang::.data`](https://rlang.r-lib.org/reference/dot-data.html) at
   the package level for use in dplyr expressions.
 
-### 8.11 Guidance URLs
+### 9.11 Guidance URLs
 
 The `guidance_url` parameter in `test_output()` is used sparingly. Most
 checks pass `NA` (the default). Only API checks and checks where
@@ -807,7 +803,7 @@ via the internal `render_url()` helper.
 Do not include a guidance URL unless a test has failed, only include
 guidance URLs if they are included in the original function.
 
-### 8.12 Log Integration
+### 9.12 Log Integration
 
 When wiring a new check into
 [`screen_dfs()`](https://dfe-analytical-services.github.io/eesyscreener/reference/screen_dfs.md),

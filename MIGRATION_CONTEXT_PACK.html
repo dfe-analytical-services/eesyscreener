@@ -44,25 +44,23 @@
 <h2 id="id_1-migration-principles">1. Migration Principles<a class="anchor" aria-label="anchor" href="#id_1-migration-principles"></a></h2>
 <div class="section level3">
 <h3 id="what-the-migration-is">What the migration is<a class="anchor" aria-label="anchor" href="#what-the-migration-is"></a></h3>
-<p>Functions from a monolithic Shiny app (<code>dfe-published-data-qa</code>) are being extracted one-at-a-time into a standalone, documented, tested R package (<code>eesyscreener</code>). The legacy code lives primarily in <code>R/mainTests.r</code>, <code>R/preCheck1.r</code>, and <code>R/knownVariables.r</code> in the Shiny app repo.</p>
+<p>Functions from a monolithic Shiny app (<code>dfe-published-data-qa</code>) are being extracted one-at-a-time into a standalone, documented, tested R package (<code>eesyscreener</code>). The legacy code lives primarily in <code>R/mainTests.r</code>, <code>R/preCheck1.r</code>, <code>R/preCheck2.r</code>, and <code>R/knownVariables.r</code> in the Shiny app repo.</p>
 </div>
 <div class="section level3">
 <h3 id="why">Why<a class="anchor" aria-label="anchor" href="#why"></a></h3>
 <ul><li>
-<strong>Reusability</strong>: The package is consumed by three contexts: a Shiny app, a Plumber API, and direct R usage by analysts.</li>
+<strong>Reusability</strong>: The package is consumed in at least three contexts: a Shiny app, a Plumber API, and direct R usage by analysts.</li>
 <li>
 <strong>Performance</strong>: The Shiny app and API must be responsive even with files of 5+ million rows. DuckDB/duckplyr is used for speed.</li>
 <li>
 <strong>Maintainability</strong>: One function per file, one test file per function, consistent interfaces, roxygen2 documentation.</li>
-<li>
-<strong>Standards enforcement</strong>: The package enforces open data standards for the Explore Education Statistics (EES) platform.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="core-philosophy">Core philosophy<a class="anchor" aria-label="anchor" href="#core-philosophy"></a></h3>
 <ul><li>One check at a time, unless a utility function covers multiple checks.</li>
-<li>Simplify during migration — do not bring over legacy complexity.</li>
 <li>Minimise new dependencies; prefer base R or dplyr (which piggybacks on duckplyr for performance).</li>
-<li>Speed is king. Profile with <code>microbenchmark</code> on large files. Prioritise large-file performance over small-file performance.</li>
+<li>Simplify during migration, do not bring over legacy complexity if it is unnecessary, use the opportunity to improve the code.</li>
+<li>Speed is king. Prioritise large-file performance over small-file performance. Avoid operations that force full materialisation of lazy duckplyr data frames.</li>
 </ul><hr></div>
 </div>
 <div class="section level2">
@@ -194,7 +192,8 @@ data/                         # Compiled .rda reference data</code></pre>
 </ul><p>When failing values are listed, they are formatted with single quotes and joined with <code>"', '"</code>:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"'"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">values</span>, collapse <span class="op">=</span> <span class="st">"', '"</span><span class="op">)</span>, <span class="st">"'."</span><span class="op">)</span></span></code></pre></div>
-<p>Many functions handle singular/plural messages separately (different wording for 1 vs many failures). This is a convention in the codebase.</p>
+<p>Many functions handle singular / plural messages separately (different wording for 1 vs many failures). This is a convention in the codebase.</p>
+<p>Use <code><a href="https://cli.r-lib.org/reference/pluralize.html" class="external-link">cli::pluralize()</a></code> or <code><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf()</a></code> to consolidate singular and plural messages where appropriate to reduce the number of lines of code necessary.</p>
 </div>
 <div class="section level3">
 <h3 id="id_26-dependency-management">2.6 Dependency Management<a class="anchor" aria-label="anchor" href="#id_26-dependency-management"></a></h3>
@@ -207,7 +206,7 @@ data/                         # Compiled .rda reference data</code></pre>
 <li>
 <strong>Avoid adding new dependencies</strong> unless the performance benefit is substantial and proven via benchmarking.</li>
 <li>
-<strong>dplyr over base R</strong> for data manipulation — it’s faster on large files via duckplyr.</li>
+<strong>dplyr over base R</strong> for data manipulation - it’s faster on large files via duckplyr.</li>
 <li>
 <strong>cli</strong> for user-facing messages (<code><a href="https://cli.r-lib.org/reference/cli_abort.html" class="external-link">cli::cli_abort()</a></code>, <code><a href="https://cli.r-lib.org/reference/cli_abort.html" class="external-link">cli::cli_warn()</a></code>, <code>cli::cli_alert_*</code>).</li>
 <li>
@@ -225,15 +224,7 @@ data/                         # Compiled .rda reference data</code></pre>
 <ul><li>All internal helpers go in <code>R/utils.R</code>.</li>
 <li>Mark with <code>@keywords internal</code> and <code>@noRd</code> (no separate <code>.Rd</code> file generated).</li>
 <li>Include <code>@returns</code> in roxygen2 documentation even for internal functions.</li>
-<li>Helper functions should be reusable — avoid duplication between check functions.</li>
-</ul></div>
-<div class="section level3">
-<h3 id="id_29-performance">2.9 Performance<a class="anchor" aria-label="anchor" href="#id_29-performance"></a></h3>
-<ul><li>Always benchmark with <code>microbenchmark</code> on large files (5M+ rows).</li>
-<li>Use the <code>tests/utils/benchmarking.R</code> script as a starting point.</li>
-<li>Prioritise large-file performance. DuckDB can be slower on tiny files but dramatically faster on large ones.</li>
-<li>Use <code>prudence = "stingy"</code> with <code><a href="reference/screen_dfs.html">screen_dfs()</a></code> to identify functions that inadvertently materialise lazy tables.</li>
-<li>Avoid operations that force full materialisation of lazy duckplyr data frames.</li>
+<li>Helper functions should be reusable and avoid duplication between check functions.</li>
 </ul><hr></div>
 </div>
 <div class="section level2">
@@ -360,11 +351,9 @@ data/                         # Compiled .rda reference data</code></pre>
 <div class="section level3">
 <h3 id="id_44-test-data">4.4 Test Data<a class="anchor" aria-label="anchor" href="#id_44-test-data"></a></h3>
 <ul><li>
-<strong>Inline <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> construction</strong> is the primary approach for test data — create minimal data frames that exercise the specific check.</li>
+<strong>Inline <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> construction</strong> is the primary approach for test data - create minimal data frames that exercise the specific check.</li>
 <li>
 <strong>Package example datasets</strong> (<code>example_data</code>, <code>example_meta</code>) should always be tested as a PASS case via <code>expect_no_error(fn(example_data, stop_on_error = TRUE))</code>.</li>
-<li>
-<strong>RDS files</strong> for more complex or copied-over test data. Use <code>tests/utils/copy_check_data.R</code> to import CSVs from the legacy repo and save as RDS.</li>
 <li>
 <strong>Temp CSV files</strong> when testing file I/O (e.g., <code>screen_csv</code> tests).</li>
 <li>
@@ -393,20 +382,15 @@ data/                         # Compiled .rda reference data</code></pre>
 <ol style="list-style-type: decimal"><li>Find the function in the legacy repo (<code>dfe-published-data-qa</code>), noting its location (e.g., <code>R/mainTests.r</code>).</li>
 <li>Understand what it checks, what inputs it needs, and what output it produces.</li>
 <li>Identify any hardcoded reference data it uses from <code>R/knownVariables.r</code>.</li>
+<li>Understand what the new function name should be and what family of functions (e.g. precheck_time) that it should belong to. Ask for clarification if unsure.</li>
 </ol></div>
 <div class="section level4">
-<h4 id="step-2-create-the-function-file">Step 2: Create the Function File<a class="anchor" aria-label="anchor" href="#step-2-create-the-function-file"></a></h4>
+<h4 id="step-2-create-the-initial-function-file">Step 2: Create the initial Function File<a class="anchor" aria-label="anchor" href="#step-2-create-the-initial-function-file"></a></h4>
 <ol start="0" style="list-style-type: decimal"><li>Create a new branch based off of the latest from main, following the format <code>claude/&lt;function-name&gt;</code>
 </li>
 <li>Create <code>R/&lt;check_or_precheck&gt;_&lt;area&gt;_&lt;what&gt;.R</code>.</li>
 <li>Write the function with the standard signature (<code>verbose</code>, <code>stop_on_error</code>).</li>
 <li>Use <code>test_output()</code> for all return paths.</li>
-<li>Simplify the legacy code during migration:
-<ul><li>Replace <code>sapply</code> patterns with vectorised or dplyr approaches.</li>
-<li>Use dplyr verbs where possible for duckplyr compatibility.</li>
-<li>Remove unnecessary intermediate objects.</li>
-</ul></li>
-<li>Handle singular/plural messages where appropriate.</li>
 <li>Add roxygen2 documentation:
 <ul><li>Use <code>@inheritParams</code> from the most appropriate existing function.</li>
 <li>Use <code>@inherit check_filename_spaces return</code>.</li>
@@ -459,9 +443,17 @@ data/                         # Compiled .rda reference data</code></pre>
 </ol></div>
 <div class="section level4">
 <h4 id="step-7-verify">Step 7: Verify<a class="anchor" aria-label="anchor" href="#step-7-verify"></a></h4>
-<ol start="0" style="list-style-type: decimal"><li>Format the project using Air.</li>
-<li>Run <code>devtools::test()</code> — all tests must pass.</li>
-<li>Run <code>devtools::check()</code> — no errors, warnings, or notes related to your changes.</li>
+<ol style="list-style-type: decimal"><li>Run <code>devtools::test()</code> - all tests must pass.</li>
+</ol></div>
+<div class="section level4">
+<h4 id="step-8-iterate-and-improve">Step 8: Iterate and improve<a class="anchor" aria-label="anchor" href="#step-8-iterate-and-improve"></a></h4>
+<ol style="list-style-type: decimal"><li>Simplify the legacy code that was migrated:
+<ul><li>Replace <code>sapply</code> patterns with vectorised or dplyr approaches.</li>
+<li>Use dplyr verbs where possible for duckplyr compatibility.</li>
+<li>Remove unnecessary intermediate objects.</li>
+</ul></li>
+<li>Combine singular / plural messages where appropriate using cli::pluralize() or sprintf()</li>
+<li>Run <code>devtools::test()</code> to ensure the behaviour has not changed at all</li>
 </ol></div>
 <div class="section level4">
 <h4 id="step-8-commit-and-pr">Step 8: Commit and PR<a class="anchor" aria-label="anchor" href="#step-8-commit-and-pr"></a></h4>
@@ -508,7 +500,7 @@ data/                         # Compiled .rda reference data</code></pre>
 </div>
 <div class="section level3">
 <h3 id="id_63-pr-titles">6.3 PR Titles<a class="anchor" aria-label="anchor" href="#id_63-pr-titles"></a></h3>
-<p>Based on the examples: - <code>"Adding the check_meta_duplicate_label() function"</code> - <code>"Add precheck_col_name_duplicate"</code> - <code>"Adding filter group match function"</code></p>
+<p>Based on the examples: - <code>"Add the check_meta_duplicate_label() function"</code> - <code>"Add precheck_col_name_duplicate"</code> - <code>"Add filter group match function"</code></p>
 <p>Short, descriptive, focused on what was added.</p>
 </div>
 <div class="section level3">
@@ -518,9 +510,14 @@ data/                         # Compiled .rda reference data</code></pre>
 </ul><hr></div>
 </div>
 <div class="section level2">
-<h2 id="id_7-golden-patterns">7. Golden Patterns<a class="anchor" aria-label="anchor" href="#id_7-golden-patterns"></a></h2>
+<h2 id="id_7-review-the-ci-on-the-pr">7. Review the CI on the PR<a class="anchor" aria-label="anchor" href="#id_7-review-the-ci-on-the-pr"></a></h2>
+<ol style="list-style-type: decimal"><li>Check that all GitHub actions are passing on the PR</li>
+</ol><p>If any are failing, review the logs to understand the failures then fix them in an additional commit.</p>
+<hr></div>
+<div class="section level2">
+<h2 id="id_8-golden-patterns">8. Golden Patterns<a class="anchor" aria-label="anchor" href="#id_8-golden-patterns"></a></h2>
 <div class="section level3">
-<h3 id="id_71-canonical-migrated-function-meta-only-check">7.1 Canonical Migrated Function (meta-only check)<a class="anchor" aria-label="anchor" href="#id_71-canonical-migrated-function-meta-only-check"></a></h3>
+<h3 id="id_81-canonical-migrated-function-meta-only-check">8.1 Canonical Migrated Function (meta-only check)<a class="anchor" aria-label="anchor" href="#id_81-canonical-migrated-function-meta-only-check"></a></h3>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' Check there are no duplicate labels</span></span>
 <span><span class="co">#'</span></span>
@@ -581,7 +578,7 @@ data/                         # Compiled .rda reference data</code></pre>
 <span><span class="op">}</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="id_72-canonical-migrated-function-data--meta-check-with-dplyr">7.2 Canonical Migrated Function (data + meta check with dplyr)<a class="anchor" aria-label="anchor" href="#id_72-canonical-migrated-function-data--meta-check-with-dplyr"></a></h3>
+<h3 id="id_82-canonical-migrated-function-data--meta-check-with-dplyr">8.2 Canonical Migrated Function (data + meta check with dplyr)<a class="anchor" aria-label="anchor" href="#id_82-canonical-migrated-function-data--meta-check-with-dplyr"></a></h3>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' Check filter groups match in meta and data</span></span>
 <span><span class="co">#'</span></span>
@@ -665,7 +662,7 @@ data/                         # Compiled .rda reference data</code></pre>
 <span><span class="op">}</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="id_73-canonical-test-file">7.3 Canonical Test File<a class="anchor" aria-label="anchor" href="#id_73-canonical-test-file"></a></h3>
+<h3 id="id_83-canonical-test-file">8.3 Canonical Test File<a class="anchor" aria-label="anchor" href="#id_83-canonical-test-file"></a></h3>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">test_that</span><span class="op">(</span><span class="st">"passes when all labels are unique"</span>, <span class="op">{</span></span>
 <span>  <span class="va">meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span></span>
@@ -700,7 +697,7 @@ data/                         # Compiled .rda reference data</code></pre>
 <span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="id_74-canonical-pr-description">7.4 Canonical PR Description<a class="anchor" aria-label="anchor" href="#id_74-canonical-pr-description"></a></h3>
+<h3 id="id_84-canonical-pr-description">8.4 Canonical PR Description<a class="anchor" aria-label="anchor" href="#id_84-canonical-pr-description"></a></h3>
 <blockquote>
 <p><strong>Title</strong>: Adding the check_meta_duplicate_label() function</p>
 <p>Copied across the duplicate label check from the dfe-published-data-qa repository (originally <code>duplicate_label()</code> in <code>R/mainTests.r</code>). This adds the check as a function named <code>check_meta_duplicate_label</code> into the package, with tests and documentation.</p>
@@ -708,10 +705,10 @@ data/                         # Compiled .rda reference data</code></pre>
 <hr></div>
 </div>
 <div class="section level2">
-<h2 id="id_8-inferred-rules-not-explicitly-stated">8. Inferred Rules (Not Explicitly Stated)<a class="anchor" aria-label="anchor" href="#id_8-inferred-rules-not-explicitly-stated"></a></h2>
+<h2 id="id_9-inferred-rules-not-explicitly-stated">9. Inferred Rules (Not Explicitly Stated)<a class="anchor" aria-label="anchor" href="#id_9-inferred-rules-not-explicitly-stated"></a></h2>
 <p>These rules are implied by the codebase patterns but not written anywhere:</p>
 <div class="section level3">
-<h3 id="id_81-code-style">8.1 Code Style<a class="anchor" aria-label="anchor" href="#id_81-code-style"></a></h3>
+<h3 id="id_91-code-style">9.1 Code Style<a class="anchor" aria-label="anchor" href="#id_91-code-style"></a></h3>
 <ul><li>
 <strong>2-space indentation</strong> (configured in <code>.Rproj</code>).</li>
 <li>
@@ -726,55 +723,47 @@ data/                         # Compiled .rda reference data</code></pre>
 <strong>Function arguments on separate lines</strong> when the function definition is long (one argument per line).</li>
 </ul></div>
 <div class="section level3">
-<h3 id="id_82-test_output-first-argument">8.2 test_output() First Argument<a class="anchor" aria-label="anchor" href="#id_82-test_output-first-argument"></a></h3>
+<h3 id="id_92-test_output-first-argument">9.2 test_output() First Argument<a class="anchor" aria-label="anchor" href="#id_92-test_output-first-argument"></a></h3>
 <p>The <code>test_name</code> argument passed to <code>test_output()</code> should be a short identifier that omits the <code>check_</code>/<code>precheck_</code> prefix. For example, <code><a href="reference/check_meta_duplicate_label.html">check_meta_duplicate_label()</a></code> passes <code>"meta_duplicate_label"</code> and <code><a href="reference/precheck_geog_level.html">precheck_geog_level()</a></code> passes <code>"geographic_level"</code>. This is the value that appears in the <code>check</code> column of the results data frame.</p>
 </div>
 <div class="section level3">
-<h3 id="id_83-example-data-always-passes">8.3 Example Data Always Passes<a class="anchor" aria-label="anchor" href="#id_83-example-data-always-passes"></a></h3>
+<h3 id="id_93-example-data-always-passes">9.3 Example Data Always Passes<a class="anchor" aria-label="anchor" href="#id_93-example-data-always-passes"></a></h3>
 <p>The package’s built-in example datasets (<code>example_data</code>, <code>example_meta</code>) must always pass all checks. Every test file should include a test confirming this. If a new check would fail on the example data, update the example data.</p>
 </div>
 <div class="section level3">
-<h3 id="id_84-warning-vs-fail">8.4 WARNING vs FAIL<a class="anchor" aria-label="anchor" href="#id_84-warning-vs-fail"></a></h3>
-<ul><li>
-<code>precheck_*()</code> functions produce <code>"FAIL"</code> (blocking) — these are structural problems that prevent further screening.</li>
-<li>
-<code>check_*()</code> functions typically produce <code>"FAIL"</code> for data quality issues.</li>
-<li>API checks (<code>check_api_*()</code>) produce <code>"WARNING"</code> — they indicate unsuitability for the API but don’t block the overall screening.</li>
-</ul></div>
-<div class="section level3">
-<h3 id="id_85-stage-based-early-exit">8.5 Stage-Based Early Exit<a class="anchor" aria-label="anchor" href="#id_85-stage-based-early-exit"></a></h3>
+<h3 id="id_95-stage-based-early-exit">9.5 Stage-Based Early Exit<a class="anchor" aria-label="anchor" href="#id_95-stage-based-early-exit"></a></h3>
 <p>In <code><a href="reference/screen_dfs.html">screen_dfs()</a></code>, if any check in a stage returns <code>"FAIL"</code>, screening stops and returns all results accumulated so far. This means prechecks genuinely gate the later checks.</p>
 </div>
 <div class="section level3">
-<h3 id="id_86-duckplyr-activation">8.6 duckplyr Activation<a class="anchor" aria-label="anchor" href="#id_86-duckplyr-activation"></a></h3>
+<h3 id="id_96-duckplyr-activation">9.6 duckplyr Activation<a class="anchor" aria-label="anchor" href="#id_96-duckplyr-activation"></a></h3>
 <p><code><a href="https://duckplyr.tidyverse.org/reference/methods_overwrite.html" class="external-link">duckplyr::methods_overwrite()</a></code> is called in <code><a href="reference/screen_dfs.html">screen_dfs()</a></code> only after the metadata checks (since meta is always small). Data-touching checks that run after this point benefit from duckplyr’s DuckDB backend. Functions that operate on the <code>data</code> argument before this point should still use dplyr verbs (they’ll just run as regular dplyr).</p>
 </div>
 <div class="section level3">
-<h3 id="id_87-no-explicit-return-statements-usually">8.7 No Explicit Return Statements (Usually)<a class="anchor" aria-label="anchor" href="#id_87-no-explicit-return-statements-usually"></a></h3>
+<h3 id="id_97-no-explicit-return-statements-usually">9.7 No Explicit Return Statements (Usually)<a class="anchor" aria-label="anchor" href="#id_97-no-explicit-return-statements-usually"></a></h3>
 <p>Most check functions rely on implicit return of the last expression (<code>test_output()</code> call). Explicit <code><a href="https://rdrr.io/r/base/function.html" class="external-link">return()</a></code> is used only for early exits (e.g., when a check can short-circuit before the main logic).</p>
 </div>
 <div class="section level3">
-<h3 id="id_88-consistent-dataframe-construction-in-tests">8.8 Consistent data.frame Construction in Tests<a class="anchor" aria-label="anchor" href="#id_88-consistent-dataframe-construction-in-tests"></a></h3>
+<h3 id="id_98-consistent-dataframe-construction-in-tests">9.8 Consistent data.frame Construction in Tests<a class="anchor" aria-label="anchor" href="#id_98-consistent-dataframe-construction-in-tests"></a></h3>
 <p>Test data uses simple <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> calls with named columns. Use <code>stringsAsFactors = FALSE</code> when the data contains character columns that might be affected by R’s factor-coercion defaults (though this is less of an issue in R &gt;= 4.0 where <code>stringsAsFactors</code> defaults to FALSE).</p>
 </div>
 <div class="section level3">
-<h3 id="id_89-no-snapshot-tests">8.9 No Snapshot Tests<a class="anchor" aria-label="anchor" href="#id_89-no-snapshot-tests"></a></h3>
+<h3 id="id_99-no-snapshot-tests">9.9 No Snapshot Tests<a class="anchor" aria-label="anchor" href="#id_99-no-snapshot-tests"></a></h3>
 <p>The codebase does not use <code>testthat</code> snapshot tests. All assertions are explicit equality or error/no-error checks.</p>
 </div>
 <div class="section level3">
-<h3 id="id_810-namespace-management">8.10 Namespace Management<a class="anchor" aria-label="anchor" href="#id_810-namespace-management"></a></h3>
+<h3 id="id_910-namespace-management">9.10 Namespace Management<a class="anchor" aria-label="anchor" href="#id_910-namespace-management"></a></h3>
 <ul><li>
 <code>NAMESPACE</code> is auto-generated by roxygen2 — never edit manually.</li>
 <li>Run <code>devtools::document()</code> after any changes to <code>@export</code>, <code>@importFrom</code>, or <code>@inheritParams</code>.</li>
 <li>The package imports <code><a href="https://rlang.r-lib.org/reference/dot-data.html" class="external-link">rlang::.data</a></code> at the package level for use in dplyr expressions.</li>
 </ul></div>
 <div class="section level3">
-<h3 id="id_811-guidance-urls">8.11 Guidance URLs<a class="anchor" aria-label="anchor" href="#id_811-guidance-urls"></a></h3>
+<h3 id="id_911-guidance-urls">9.11 Guidance URLs<a class="anchor" aria-label="anchor" href="#id_911-guidance-urls"></a></h3>
 <p>The <code>guidance_url</code> parameter in <code>test_output()</code> is used sparingly. Most checks pass <code>NA</code> (the default). Only API checks and checks where external documentation would help the user include a URL, constructed via the internal <code>render_url()</code> helper.</p>
 <p>Do not include a guidance URL unless a test has failed, only include guidance URLs if they are included in the original function.</p>
 </div>
 <div class="section level3">
-<h3 id="id_812-log-integration">8.12 Log Integration<a class="anchor" aria-label="anchor" href="#id_812-log-integration"></a></h3>
+<h3 id="id_912-log-integration">9.12 Log Integration<a class="anchor" aria-label="anchor" href="#id_912-log-integration"></a></h3>
 <p>When wiring a new check into <code><a href="reference/screen_dfs.html">screen_dfs()</a></code>, the stage results must be passed to <code>write_json_log()</code> after each stage completes. Follow the existing pattern.</p>
 </div>
 </div>
