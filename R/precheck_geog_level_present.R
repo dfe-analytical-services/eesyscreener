@@ -16,7 +16,11 @@ precheck_geog_level_present <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  if (all(data$geographic_level == "National")) {
+  geo_levels <- data |>
+    dplyr::distinct(.data$geographic_level) |>
+    dplyr::pull("geographic_level")
+
+  if (all(geo_levels == "National")) {
     return(test_output(
       "precheck_geog_level_present",
       "PASS",
@@ -29,7 +33,7 @@ precheck_geog_level_present <- function(
   expected_cols <- function(i) {
     # if a geographic level is present in the data, return its expected column
     # names (code_field, name_field, code_field_secondary) from geography_df
-    if (i["geographic_level"] %in% data$geographic_level) {
+    if (i["geographic_level"] %in% geo_levels) {
       return(i[c("code_field", "name_field", "code_field_secondary")])
     }
   }
@@ -63,7 +67,7 @@ precheck_geog_level_present <- function(
       "FAIL",
       paste0(
         "Given that the following geographic_level values are present: '",
-        paste(unique(data$geographic_level), collapse = "', '"),
+        paste(geo_levels, collapse = "', '"),
         cli::pluralize(
           "'; the following column{?s} {?is/are} missing from the file: {missing_cols}."
         )

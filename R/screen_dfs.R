@@ -161,7 +161,7 @@ screen_dfs <- function(
 
   # Precheck time -------------------------------------------------------------
   precheck_time_results <- rbind(
-    precheck_time_id_valid(data, meta, vb, soe)
+    precheck_time_id_valid(data, vb, soe)
   )
 
   all_results <- all_results |>
@@ -195,23 +195,21 @@ screen_dfs <- function(
     )
   )
 
-  check_time_results <- check_time_results |>
-    cbind("stage" = "Check time")
+  all_results <- all_results |>
+    rbind(
+      check_time_results |>
+        dplyr::mutate(stage = "Check time")
+    )
 
   write_json_log(
-    check_time_results,
+    all_results,
     log_key = log_key,
     log_dir = log_dir,
     data_details = data_details
   )
 
-  check_time_results <- precheck_time_results |>
-    rbind(
-      check_time_results
-    )
-
-  if (any(check_time_results[["result"]] == "FAIL")) {
-    return(as.data.frame(check_time_results))
+  if (any(all_results[["result"]] == "FAIL")) {
+    return(as.data.frame(all_results))
   }
 
   # Precheck geog -------------------------------------------------------------
@@ -228,23 +226,21 @@ screen_dfs <- function(
     )
   )
 
-  precheck_geography_results <- precheck_geography_results |>
-    cbind("stage" = "Precheck geography")
+  all_results <- all_results |>
+    rbind(
+      precheck_geography_results |>
+        dplyr::mutate(stage = "Precheck geography")
+    )
 
   write_json_log(
-    precheck_geography_results,
+    all_results,
     log_key = log_key,
     log_dir = log_dir,
     data_details = data_details
   )
 
-  precheck_geography_results <- check_time_results |>
-    rbind(
-      precheck_geography_results
-    )
-
-  if (any(precheck_geography_results[["result"]] == "FAIL")) {
-    return(as.data.frame(precheck_geography_results))
+  if (any(all_results[["result"]] == "FAIL")) {
+    return(as.data.frame(all_results))
   }
 
   # Check Filters -------------------------------------------------------------

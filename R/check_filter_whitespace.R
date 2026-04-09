@@ -32,26 +32,20 @@ check_filter_whitespace <- function(
     geo_cols <- as.character(geography_df[, 2:4])
     geo_cols <- geo_cols[!is.na(geo_cols)]
 
-    filter_values <- data |>
-      dplyr::mutate_if(lubridate::is.Date, as.character) |>
-      dplyr::select(
-        dplyr::all_of(filters),
-        dplyr::any_of(geo_cols)
-      ) |>
-      dplyr::mutate_if(is.numeric, as.character) |>
-      tidyr::pivot_longer(
-        dplyr::everything(),
-        values_drop_na = TRUE,
-        names_to = "filter",
-        values_to = "filter_label"
-      ) |>
-      dplyr::distinct()
+    cols_to_check <- intersect(
+      c(filters, geo_cols),
+      dplyr::tbl_vars(data)
+    )
 
-    filter_values_trimmed <- filter_values |>
-      dplyr::mutate(filter_label = stringr::str_trim(filter_label))
-
-    white_spaces <- dplyr::setdiff(filter_values, filter_values_trimmed) |>
-      dplyr::pull(filter_label)
+    white_spaces <- unlist(lapply(cols_to_check, function(col) {
+      vals <- data |>
+        dplyr::select(dplyr::all_of(col)) |>
+        dplyr::distinct() |>
+        dplyr::pull(1) |>
+        as.character()
+      vals <- vals[!is.na(vals)]
+      vals[vals != stringr::str_trim(vals)]
+    }))
 
     if (length(white_spaces) == 0) {
       test_output(

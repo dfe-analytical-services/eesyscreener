@@ -33,6 +33,8 @@ devtools::document()
 pkgdown::build_site()
 ```
 
+If the data dictionary test, or example output test fails, the first fix to try is regenerating the data objects by using `source("data-raw/data_dictionary.R")` (or `source("data-raw/example_output.R")`) and then run the tests again, often that will fix the issue.
+
 ### Key Dependencies
 
 - **Core**: dplyr, stringr, tidyr, lubridate (data manipulation)

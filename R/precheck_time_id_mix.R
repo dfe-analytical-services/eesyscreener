@@ -17,8 +17,9 @@ precheck_time_id_mix <- function(
 ) {
   # Grab the first time identifier to use as a base for checking rest of file
   base_identifier <- data |>
-    dplyr::slice(1) |>
-    dplyr::pull("time_identifier")
+    dplyr::distinct(.data$time_identifier) |>
+    dplyr::pull("time_identifier") |>
+    head(1)
 
   match_base_identifier <- function(possible_level) {
     if (base_identifier %in% possible_level) {

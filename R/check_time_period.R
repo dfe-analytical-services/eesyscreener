@@ -17,14 +17,17 @@ check_time_period <- function(
   stop_on_error = FALSE
 ) {
   base_identifier <- data |>
-    dplyr::slice(1) |>
-    dplyr::pull("time_identifier")
+    dplyr::distinct(.data$time_identifier) |>
+    dplyr::pull("time_identifier") |>
+    head(1)
 
-  time_length <- data
-  time_length[["digits"]] <- stringr::str_count(time_length[["time_period"]])
+  unique_periods <- data |>
+    dplyr::distinct(.data$time_period) |>
+    dplyr::pull("time_period")
 
   if (base_identifier %in% eesyscreener::four_digit_identifiers) {
-    if (nrow(dplyr::filter(time_length, digits == 4)) != nrow(time_length)) {
+    # isTRUE() handles NA periods: nchar(NA) returns NA, causing all() to return NA
+    if (!isTRUE(all(nchar(unique_periods) == 4))) {
       guidance_url <- render_url(
         "statistics-production/ud.html#list-of-allowable-time-values"
       )
@@ -42,7 +45,8 @@ check_time_period <- function(
   }
 
   if (base_identifier %in% eesyscreener::six_digit_identifiers) {
-    if (nrow(dplyr::filter(time_length, digits == 6)) != nrow(time_length)) {
+    # isTRUE() handles NA periods: nchar(NA) returns NA, causing all() to return NA
+    if (!isTRUE(all(nchar(unique_periods) == 6))) {
       guidance_url <- render_url(
         "statistics-production/ud.html#list-of-allowable-time-values"
       )
