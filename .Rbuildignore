@@ -17,3 +17,8 @@
 ^tests/utils/benchmarking\.R$
 ^tests/utils/copy_check_data\.R$
 ^vignettes/*_files$
+^.claude$
+^AGENTS\.md$
+^MIGRATION_CONTEXT_PACK\.md$
+^migration-progress\.csv$
+^migration_examples\.md$

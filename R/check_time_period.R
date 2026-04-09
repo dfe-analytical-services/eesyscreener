@@ -19,7 +19,7 @@ check_time_period <- function(
   base_identifier <- data |>
     dplyr::distinct(.data$time_identifier) |>
     dplyr::pull("time_identifier") |>
-    head(1)
+    utils::head(1)
 
   unique_periods <- data |>
     dplyr::distinct(.data$time_period) |>

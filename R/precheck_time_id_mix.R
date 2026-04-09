@@ -19,7 +19,7 @@ precheck_time_id_mix <- function(
   base_identifier <- data |>
     dplyr::distinct(.data$time_identifier) |>
     dplyr::pull("time_identifier") |>
-    head(1)
+    utils::head(1)
 
   match_base_identifier <- function(possible_level) {
     if (base_identifier %in% possible_level) {

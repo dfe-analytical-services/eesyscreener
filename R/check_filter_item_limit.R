@@ -67,7 +67,7 @@ check_filter_item_limit <- function(
     } else {
       large_filter_sets <- counts |>
         dplyr::filter(.data$nentries > filter_item_limit) |>
-        dplyr::pull(filters)
+        dplyr::pull("filters")
       return(
         test_output(
           test_name,

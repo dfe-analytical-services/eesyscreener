@@ -19,7 +19,7 @@ check_ind_invalid_entry <- function(
   stop_on_error = FALSE
 ) {
   ind_invalid_entry_check <- function(i) {
-    if (any(c(legacy_gss_symbols, "") %in% data[[i]])) {
+    if (any(c(eesyscreener::legacy_gss_symbols, "") %in% data[[i]])) {
       "FAIL"
     } else {
       "PASS"
@@ -61,7 +61,7 @@ check_ind_invalid_entry <- function(
             ":",
             paste0(invalid_indicators, collapse = ", "),
             "contains either a blank or at least one of",
-            paste0(legacy_gss_symbols, collapse = "', '")
+            paste0(eesyscreener::legacy_gss_symbols, collapse = "', '")
           ),
           ""
         )

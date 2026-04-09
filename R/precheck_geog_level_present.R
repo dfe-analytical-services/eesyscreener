@@ -32,13 +32,13 @@ precheck_geog_level_present <- function(
 
   expected_cols <- function(i) {
     # if a geographic level is present in the data, return its expected column
-    # names (code_field, name_field, code_field_secondary) from geography_df
+    # names (code_field, name_field, code_field_secondary) from eesyscreener::geography_df
     if (i["geographic_level"] %in% geo_levels) {
       i[c("code_field", "name_field", "code_field_secondary")]
     }
   }
   # filter out the non table tool rows, then select only the columns needed
-  geography_present <- geography_df |>
+  geography_present <- eesyscreener::geography_df |>
     dplyr::filter(.data$geographic_level != "Planning area") |>
     dplyr::select(
       "geographic_level",

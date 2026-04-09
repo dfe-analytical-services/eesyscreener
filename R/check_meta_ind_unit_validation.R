@@ -29,7 +29,7 @@ check_meta_ind_unit_validation <- function(
   # Compare present indicator unit values to the acceptable values
   invalid_indicator_units <- setdiff(
     present_indictor_units,
-    acceptable_indicator_units
+    eesyscreener::acceptable_indicator_units
   )
   # If there are no invalid indicator units, pass the test
   if (length(invalid_indicator_units) == 0) {

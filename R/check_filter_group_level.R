@@ -42,7 +42,7 @@ check_filter_group_level <- function(
   # Count levels for each filter and group and pass if groups have fewer
   # levels than filters
   # For each value in col_name
-  extended_meta <- filters_and_groups %>%
+  extended_meta <- filters_and_groups |>
     dplyr::mutate(
       filter_levels = vapply(
         .data$col_name,
@@ -60,8 +60,8 @@ check_filter_group_level <- function(
       )
     )
   # Create failed pairs data frame
-  failed_pairs <- extended_meta %>%
-    dplyr::filter(pre_result == "FAIL")
+  failed_pairs <- extended_meta |>
+    dplyr::filter(.data$pre_result == "FAIL")
 
   number_of_failed_pairs <- nrow(failed_pairs)
   # Output results based on whether there is one failed pair or multiple

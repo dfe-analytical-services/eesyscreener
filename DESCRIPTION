@@ -30,7 +30,6 @@ Imports:
     dplyr,
     duckplyr,
     jsonlite,
-    lubridate,
     mime,
     rlang,
     stats,

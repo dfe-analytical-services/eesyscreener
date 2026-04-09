@@ -25,7 +25,7 @@ precheck_geog_level <- function(
   # Compare these geographic levels to the acceptable levels in geography_df
   invalid_geographic_levels <- setdiff(
     present_geographic_levels,
-    geography_df$geographic_level
+    eesyscreener::geography_df$geographic_level
   )
   # If there are no invalid geographic levels, pass the test
   if (length(invalid_geographic_levels) == 0) {

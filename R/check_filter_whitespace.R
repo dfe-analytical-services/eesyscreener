@@ -30,7 +30,7 @@ check_filter_whitespace <- function(
       stop_on_error = stop_on_error
     )
   } else {
-    geo_cols <- as.character(geography_df[, 2:4])
+    geo_cols <- as.character(eesyscreener::geography_df[, 2:4])
     geo_cols <- geo_cols[!is.na(geo_cols)]
 
     cols_to_check <- intersect(
