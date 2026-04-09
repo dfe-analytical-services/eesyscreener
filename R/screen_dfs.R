@@ -379,7 +379,7 @@ screen_dfs <- function(
     data_details = data_details
   )
 
-  check_filter_results <- check_time_results |>
+  check_filter_results <- precheck_geography_results |>
     rbind(
       check_filter_results
     )
