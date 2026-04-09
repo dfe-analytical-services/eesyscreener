@@ -29,7 +29,7 @@ check_filter_item_limit <- function(
   test_name <- "check_filter_item_limit"
 
   filters_and_groups <- meta |>
-    get_cols_meta(grouping_cols = TRUE)
+    get_cols_meta(grouping_cols = TRUE, excl_indicators = TRUE)
 
   if (length(filters_and_groups) == 0) {
     return(
