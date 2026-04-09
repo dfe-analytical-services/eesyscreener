@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_ind_invalid_entry.R
 \name{check_ind_invalid_entry}
 \alias{check_ind_invalid_entry}
-\title{Check that there are no blank values in any indicators.}
+\title{Check for invalid values in indicators}
 \usage{
 check_ind_invalid_entry(data, meta, verbose = FALSE, stop_on_error = FALSE)
 }
@@ -21,7 +21,7 @@ is "FAIL", and will throw genuine warning if result is "WARNING"}
 a single row data frame
 }
 \description{
-Throw an error if, for any filter, indicator_dp is not blank.
+Check all values in indicator columns for blanks or obsolete no data symbols.
 }
 \examples{
 check_ind_invalid_entry(example_data, example_meta)
