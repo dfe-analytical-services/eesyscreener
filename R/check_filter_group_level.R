@@ -41,8 +41,16 @@ check_filter_group_level <- function(
   # For each value in col_name
   extended_meta <- filters_and_groups %>%
     dplyr::mutate(
-      filter_levels = vapply(col_name, \(x) dplyr::n_distinct(data[[x]]), integer(1)),
-      group_levels = vapply(filter_grouping_column, \(x) dplyr::n_distinct(data[[x]]), integer(1)),
+      filter_levels = vapply(
+        col_name,
+        \(x) dplyr::n_distinct(data[[x]]),
+        integer(1)
+      ),
+      group_levels = vapply(
+        filter_grouping_column,
+        \(x) dplyr::n_distinct(data[[x]]),
+        integer(1)
+      ),
       pre_result = dplyr::case_when(
         filter_levels >= group_levels ~ "PASS",
         TRUE ~ "FAIL"
