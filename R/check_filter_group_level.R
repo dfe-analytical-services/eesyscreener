@@ -84,7 +84,7 @@ check_filter_group_level <- function(
           paste(failed_pairs$col_name),
           "' (",
           paste(failed_pairs$filter_levels),
-          "). <br> - This suggests that the hierarchy is the wrong way around in the metadata."
+          "). This suggests that the hierarchy is the wrong way around in the metadata."
         ),
         verbose = verbose,
         stop_on_error = stop_on_error
@@ -94,7 +94,7 @@ check_filter_group_level <- function(
         "filter_grouping_level",
         "FAIL",
         message = paste0(
-          "The following filter groups each have more levels than their corresponding filters, check that they are entered the correct way around in the metadata: <br> - '",
+          "The following filter groups each have more levels than their corresponding filters, check that they are entered the correct way around in the metadata: '",
           paste0(failed_pairs$filter_grouping_column, collapse = "', '"),
           "'."
         ),
