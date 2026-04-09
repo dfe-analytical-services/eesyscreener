@@ -13,7 +13,7 @@
 #' check_meta_filter_group_stripped(example_data, example_meta)
 #' check_meta_filter_group_stripped(example_data, example_meta, verbose = TRUE)
 #' @export
-check_meta_filter_group_stripped <- function(
+check_meta_filter_group_stripped <- function( # nolint: object_length_linter.
   data,
   meta,
   verbose = FALSE,
@@ -22,9 +22,10 @@ check_meta_filter_group_stripped <- function(
   # Pull all filter_grouping_column entries that are neither empty nor NA
   meta_filter_groups <- meta |>
     dplyr::filter(
-      !(is.na(filter_grouping_column) | filter_grouping_column == "")
+      !(is.na(.data$filter_grouping_column) |
+          .data$filter_grouping_column == "")
     ) |>
-    dplyr::pull(filter_grouping_column)
+    dplyr::pull(.data$filter_grouping_column)
   # If there are no filter_grouping_column entries, pass test
   if (length(meta_filter_groups) == 0) {
     test_output(
@@ -41,7 +42,8 @@ check_meta_filter_group_stripped <- function(
       function(column) data[[column]]
     ) |>
       lapply(unique)
-    # Strip non-alphanumeric characters from the filter group items, and select uniques
+    # Strip non-alphanumeric characters from the filter group items, and
+    # select uniques
     stripped_filter_groups <- lapply(
       raw_filter_groups,
       function(x) gsub("[^[:alnum:]]", "", x)
@@ -73,8 +75,8 @@ check_meta_filter_group_stripped <- function(
         "filter_group_stripped",
         "PASS",
         paste0(
-          "There are no issues when stripping non-alphanumeric characters from ",
-          "filter groups."
+          "There are no issues when stripping non-alphanumeric",
+          " characters from filter groups."
         ),
         verbose = verbose,
         stop_on_error = stop_on_error

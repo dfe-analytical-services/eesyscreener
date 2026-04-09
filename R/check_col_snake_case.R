@@ -42,7 +42,10 @@ check_col_snake_case <- function(
     )
 
     message <- sprintf(
-      "The following invalid %s found in the variable names of the data file: %s",
+      paste0(
+        "The following invalid %s found in the variable",
+        " names of the data file: %s"
+      ),
       char_word,
       paste0("'", paste(cap_special_char_check, collapse = "', '"), "'.")
     )

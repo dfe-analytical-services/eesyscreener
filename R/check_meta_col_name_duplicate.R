@@ -1,6 +1,7 @@
 #' Check there are no duplicated column names
 #'
-#' Make sure that all column names within the `col_name` column of the metadata file are unique.
+#' Make sure that all column names within the `col_name` column of the
+#' metadata file are unique.
 #'
 #' @param meta A data frame of the metadata file
 #' @param verbose logical, if TRUE prints feedback messages to console for
@@ -49,7 +50,8 @@ check_meta_col_name_duplicate <- function(
         "col_name_duplicate",
         "result" = "FAIL",
         paste0(
-          "The following col_name values are duplicated in the metadata file: '",
+          "The following col_name values are duplicated",
+          " in the metadata file: '",
           paste0(duplicated_col_names, collapse = "', '"),
           "'."
         ),

@@ -1,6 +1,7 @@
 #' Check no filter values have leading or trailing whitespace
 #'
-#' This function checks if the provided filter values contain any leading or trailing whitespace.
+#' This function checks if the provided filter values contain any leading or
+#' trailing whitespace.
 #'
 #' @inheritParams precheck_col_to_rows
 #'

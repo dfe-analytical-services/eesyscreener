@@ -37,7 +37,10 @@ check_meta_indicator_grouping <- function(
     test_output(
       "indicator_grouping",
       "FAIL",
-      "Filters should not have an indicator_grouping value in the metadata file.",
+      paste0(
+        "Filters should not have an indicator_grouping",
+        " value in the metadata file."
+      ),
       verbose = verbose,
       stop_on_error = stop_on_error
     )

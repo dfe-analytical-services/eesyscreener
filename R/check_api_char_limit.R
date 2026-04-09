@@ -22,7 +22,8 @@ char_limits <- function(values, max_length) {
 
 #' Check if values exceed a character limit
 #'
-#' Helper function that can be used to check individual strings, or vectors of strings.
+#' Helper function that can be used to check individual strings, or vectors
+#' of strings.
 #'
 #' Uses the exported `api_char_limits` data.frame as a reference for the
 #' limits.

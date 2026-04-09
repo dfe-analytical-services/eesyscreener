@@ -20,7 +20,8 @@ check_filter_item_limit(
 
 \item{meta}{A character string of the metadata filename to check}
 
-\item{filter_item_limit}{The maximum number of unique items allowed in a single filter. Default
+\item{filter_item_limit}{The maximum number of unique items allowed in a
+single filter. Default
 as used by the screener: 25000}
 
 \item{verbose}{logical, if TRUE prints feedback messages to console for

@@ -13,7 +13,8 @@ A data.frame with columns:
 \item{col_name_parent}{Standardised parent (filter grouping) column names}
 \item{filter_item_parent}{Possible parent (filter grouping) filter items}
 \item{cbds_code}{Common basic data set code where applicable}
-\item{item_error_flag}{Flag as to whether this applies to API data sets or all data sets}
+\item{item_error_flag}{Flag as to whether this applies to API data sets
+or all data sets}
 \item{contexts}{Context or publication area of definition}
 }
 }

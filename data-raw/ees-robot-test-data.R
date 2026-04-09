@@ -26,13 +26,13 @@ read_robot <- function(
     robot_name = robot_name,
     data = readr::read_csv(paste0(robot_url, robot_name, ".csv")) |>
       dplyr::mutate(
-        across(everything(), as.character),
-        across(everything(), ~ dplyr::if_else(is.na(.), "", .))
+        dplyr::across(dplyr::everything(), as.character),
+        dplyr::across(dplyr::everything(), ~ dplyr::if_else(is.na(.), "", .))
       ),
     meta = readr::read_csv(paste0(robot_url, robot_name, ".meta.csv")) |>
       dplyr::mutate(
-        across(everything(), as.character),
-        across(everything(), ~ dplyr::if_else(is.na(.), "", .))
+        dplyr::across(dplyr::everything(), as.character),
+        dplyr::across(dplyr::everything(), ~ dplyr::if_else(is.na(.), "", .))
       )
   )
 }

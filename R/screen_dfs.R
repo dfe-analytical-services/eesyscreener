@@ -11,7 +11,8 @@
 #' @param log_key Keystring for creating log file. If given, the screening will
 #' write a log file to disk called eesyscreening_log_<log_key>.json default=NULL
 #' @param log_dir Directory within which to place the log file. default="./"
-#' @param dd_checks Run the Data dictionary tests, default=TRUE (this is implemented to allow devs
+#' @param dd_checks Run the Data dictionary tests, default=TRUE (this is
+#' implemented to allow devs
 #' to update robot test data to be consistent with data dictionary tests).
 #' @param verbose logical, if TRUE prints feedback messages to console for
 #' every test, if FALSE run silently
@@ -300,8 +301,8 @@ screen_dfs <- function(
     } else {
       cli::cli_alert_info(
         paste(
-          "Data and metadata passed, but warnings prevent it being suitable for",
-          "the API"
+          "Data and metadata passed, but warnings prevent it",
+          "being suitable for the API"
         )
       )
     }

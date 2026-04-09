@@ -2,7 +2,8 @@
 #'
 #' Checks the metadata file's col_name column for values that contain spaces.
 #'
-#' NA in the column names don't contain spaces so won't count and are validated against elsewhere.'
+#' NA in the column names don't contain spaces so won't count and are
+#' validated against elsewhere.'
 #'
 #' @inherit precheck_col_invalid_meta
 #'
@@ -28,7 +29,10 @@ check_meta_col_name_spaces <- function(
       "message" = paste0(
         c(
           cli::pluralize(
-            "The following {length(col_name_space_pos)} col_name value{?s} have spaces in the metadata: "
+            paste0(
+              "The following {length(col_name_space_pos)} col_name",
+              " value{?s} have spaces in the metadata: "
+            )
           ),
           paste0(meta$col_name[col_name_space_pos], collapse = ", "),
           "."

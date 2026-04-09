@@ -114,7 +114,8 @@ check_filter_defaults <- function(
           test_name,
           "WARNING",
           paste0(
-            "A 'Total' entry or default filter item should be specified for the following filters and",
+            "A 'Total' entry or default filter item should be",
+            " specified for the following filters and",
             " / or filter_groups where applicable: '",
             paste(missing_total, collapse = "', '"),
             "'."

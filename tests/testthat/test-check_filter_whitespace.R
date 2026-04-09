@@ -5,7 +5,7 @@ testthat::test_that("check_filter_whitespace: passes when no whitespace", {
   )
 })
 
-testthat::test_that("check_filter_whitespace: fails with exactly one offending label", {
+testthat::test_that("check_filter_whitespace: fails with one offending label", {
   # One label with trailing whitespace
   data <- data.frame(
     FilterA = c("Alpha ", "Beta"),
@@ -26,7 +26,7 @@ testthat::test_that("check_filter_whitespace: fails with exactly one offending l
   )
 })
 
-testthat::test_that("check_filter_whitespace: fails with multiple offending labels", {
+testthat::test_that("check_filter_whitespace: fails with multiple labels", {
   # Multiple labels: leading and trailing spaces in different rows/cols
   data <- data.frame(
     FilterA = c(" Alpha", "Beta"),

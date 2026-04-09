@@ -21,7 +21,8 @@ is "FAIL", and will throw genuine warning if result is "WARNING"}
 a single row data frame
 }
 \description{
-Ensure all filter groups have an equal or lower number of levels than their corresponding filter.
+Ensure all filter groups have an equal or lower number of levels than
+their corresponding filter.
 }
 \examples{
 check_filter_group_level(example_data, example_meta)

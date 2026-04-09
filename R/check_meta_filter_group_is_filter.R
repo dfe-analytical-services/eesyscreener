@@ -12,7 +12,7 @@
 #' check_meta_filter_group_is_filter(example_meta)
 #' check_meta_filter_group_is_filter(example_meta, verbose = TRUE)
 #' @export
-check_meta_filter_group_is_filter <- function(
+check_meta_filter_group_is_filter <- function( # nolint: object_length_linter.
   meta,
   verbose = FALSE,
   stop_on_error = FALSE

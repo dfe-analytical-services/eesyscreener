@@ -1,4 +1,4 @@
-test_that("passes when all indicator_unit values are not present for when col_type is Filter ", {
+test_that("passes when indicator_unit values not present for Filter col_type", {
   expect_equal(
     check_meta_ind_unit(example_meta)$message,
     "No filters have an indicator_unit value."
@@ -17,12 +17,15 @@ test_that("fails with one indicator_unit for a Filter", {
   result <- check_meta_ind_unit(meta)
   expect_equal(result$result, "FAIL")
   expect_true(grepl(
-    "Filters should not have an indicator_unit value in the metadata file. This occurs for columns: Aa at positions: 1.",
+    paste0(
+      "Filters should not have an indicator_unit value in the",
+      " metadata file. This occurs for columns: Aa at positions: 1."
+    ),
     result$message
   ))
 })
 
-test_that("gives column names and positions when multiple col_type Filters have a non-empty indicator unit", {
+test_that("gives col names and positions for multiple Filters with unit", {
   meta <- data.frame(
     col_name = c("A", "B", "C"),
     col_type = c("Filter", "Filter", "Indicator"),
@@ -33,7 +36,10 @@ test_that("gives column names and positions when multiple col_type Filters have 
   result <- check_meta_ind_unit(meta)
   expect_equal(result$result, "FAIL")
   expect_true(grepl(
-    "Filters should not have an indicator_unit value in the metadata file. This occurs for columns: Aa, Bb at positions: 1, 2.",
+    paste0(
+      "Filters should not have an indicator_unit value in the",
+      " metadata file. This occurs for columns: Aa, Bb at positions: 1, 2."
+    ),
     result$message
   ))
 })
@@ -49,7 +55,10 @@ test_that("Values in Indicator don't matter", {
   result <- check_meta_ind_unit(meta)
   expect_equal(result$result, "FAIL")
   expect_true(grepl(
-    "Filters should not have an indicator_unit value in the metadata file. This occurs for columns: Aa at positions: 1.",
+    paste0(
+      "Filters should not have an indicator_unit value in the",
+      " metadata file. This occurs for columns: Aa at positions: 1."
+    ),
     result$message
   ))
 })
@@ -64,7 +73,10 @@ test_that("NAs don't matter", {
   )
   expect_equal(
     check_meta_ind_unit(meta)$message,
-    "Filters should not have an indicator_unit value in the metadata file. This occurs for columns: Bb at positions: 2."
+    paste0(
+      "Filters should not have an indicator_unit value in the",
+      " metadata file. This occurs for columns: Bb at positions: 2."
+    )
   )
 })
 

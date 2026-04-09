@@ -17,7 +17,10 @@ test_that("warns with one capital letter in column names", {
 
   expect_equal(result$result, "WARNING")
   expect_true(grepl(
-    "The following invalid character was found in the variable names of the data file: 'T'",
+    paste0(
+      "The following invalid character was found in the",
+      " variable names of the data file: 'T'"
+    ),
     result$message
   ))
   expect_warning(
@@ -33,7 +36,10 @@ test_that("warns with special characters in column names", {
 
   expect_equal(result$result, "WARNING")
   expect_true(grepl(
-    "The following invalid character was found in the variable names of the data file: '-'",
+    paste0(
+      "The following invalid character was found in the",
+      " variable names of the data file: '-'"
+    ),
     result$message
   ))
 })
@@ -47,7 +53,10 @@ test_that("warns with multiple invalid characters in column names", {
 
   expect_equal(result$result, "WARNING")
   expect_true(grepl(
-    "The following invalid characters were found in the variable names of the data file:",
+    paste0(
+      "The following invalid characters were found in the",
+      " variable names of the data file:"
+    ),
     result$message
   ))
   expect_warning(

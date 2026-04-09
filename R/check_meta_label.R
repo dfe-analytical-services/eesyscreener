@@ -1,6 +1,7 @@
 #' Check every row has a label
 #'
-#' Ensure there are no blank cells in the label column for every row in the metafile
+#' Ensure there are no blank cells in the label column for every row in
+#' the metafile
 #'
 #' @inheritParams precheck_meta_col_type
 #'

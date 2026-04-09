@@ -34,7 +34,7 @@ precheck_geog_level_present <- function(
     # if a geographic level is present in the data, return its expected column
     # names (code_field, name_field, code_field_secondary) from geography_df
     if (i["geographic_level"] %in% geo_levels) {
-      return(i[c("code_field", "name_field", "code_field_secondary")])
+      i[c("code_field", "name_field", "code_field_secondary")]
     }
   }
   # filter out the non table tool rows, then select only the columns needed
@@ -56,7 +56,10 @@ precheck_geog_level_present <- function(
     test_output(
       "precheck_geog_level_present",
       "PASS",
-      "The geography columns are present as expected for the geographic_level values in the file.",
+      paste0(
+        "The geography columns are present as expected for",
+        " the geographic_level values in the file."
+      ),
       verbose = verbose,
       stop_on_error = stop_on_error
     )
@@ -69,7 +72,10 @@ precheck_geog_level_present <- function(
         "Given that the following geographic_level values are present: '",
         paste(geo_levels, collapse = "', '"),
         cli::pluralize(
-          "'; the following column{?s} {?is/are} missing from the file: {missing_cols}."
+          paste0(
+            "'; the following column{?s} {?is/are} missing",
+            " from the file: {missing_cols}."
+          )
         )
       ),
       verbose = verbose,

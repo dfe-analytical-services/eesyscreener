@@ -23,7 +23,7 @@ precheck_time_id_mix <- function(
 
   match_base_identifier <- function(possible_level) {
     if (base_identifier %in% possible_level) {
-      return(possible_level)
+      possible_level
     }
   }
 
@@ -43,7 +43,10 @@ precheck_time_id_mix <- function(
   if (!all(unique_time_ids %in% base_level)) {
     result <- "FAIL"
     message <- paste(
-      "The datafile is mixing incompatible time identifiers. Allowable values with '",
+      paste0(
+        "The datafile is mixing incompatible time identifiers.",
+        " Allowable values with '"
+      ),
       paste(base_identifier),
       "' present, are: '",
       paste(base_level, collapse = "', '"),

@@ -21,10 +21,10 @@ check_meta_ind_unit_validation <- function(
   # Pull all unique indicator_unit entries that are neither empty nor NA
   present_indictor_units <- meta |>
     dplyr::filter(
-      col_type == "Indicator",
-      !(is.na(indicator_unit) | indicator_unit == "")
+      .data$col_type == "Indicator",
+      !(is.na(.data$indicator_unit) | .data$indicator_unit == "")
     ) |>
-    dplyr::pull(indicator_unit) |>
+    dplyr::pull(.data$indicator_unit) |>
     unique()
   # Compare present indicator unit values to the acceptable values
   invalid_indicator_units <- setdiff(

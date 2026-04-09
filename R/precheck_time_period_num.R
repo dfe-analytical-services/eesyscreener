@@ -35,7 +35,11 @@ precheck_time_period_num <- function(
 
     value_label <- if (length(non_numeric_values) == 1) "value" else "values"
     message <- sprintf(
-      "The following invalid time_period %s were found in the data file: '%s', time_period must always be either a 4 or 6 digit number.",
+      paste0(
+        "The following invalid time_period %s were found in",
+        " the data file: '%s', time_period must always be",
+        " either a 4 or 6 digit number."
+      ),
       value_label,
       paste0(non_numeric_values, collapse = "', '")
     )

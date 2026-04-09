@@ -19,7 +19,8 @@ is "FAIL", and will throw genuine warning if result is "WARNING"}
 a single row data frame
 }
 \description{
-This function checks that The indicator_dp column only contains blanks or positive integer values.
+This function checks that The indicator_dp column only contains blanks or
+positive integer values.
 }
 \examples{
 check_meta_ind_dp_values(example_meta)

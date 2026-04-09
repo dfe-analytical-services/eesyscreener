@@ -5,7 +5,8 @@
 #'
 #' @param data A character string of the data filename to check
 #' @param meta A character string of the metadata filename to check
-#' @param filter_item_limit The maximum number of unique items allowed in a single filter. Default
+#' @param filter_item_limit The maximum number of unique items allowed in a
+#' single filter. Default
 #' as used by the screener: 25000
 #' @param verbose logical, if TRUE prints feedback messages to console for
 #' every test, if FALSE run silently
@@ -65,14 +66,15 @@ check_filter_item_limit <- function(
       )
     } else {
       large_filter_sets <- counts |>
-        dplyr::filter(nentries > filter_item_limit) |>
+        dplyr::filter(.data$nentries > filter_item_limit) |>
         dplyr::pull(filters)
       return(
         test_output(
           test_name,
           "FAIL",
           paste0(
-            "The following filters or filter groups contain more than the advised maximum number of unique entries: '",
+            "The following filters or filter groups contain",
+            " more than the advised maximum number of unique entries: '",
             paste(large_filter_sets, collapse = "', '"),
             "'."
           ),

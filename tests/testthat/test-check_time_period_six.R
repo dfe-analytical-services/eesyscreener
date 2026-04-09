@@ -1,4 +1,4 @@
-test_that("passes when all six-digit time_period values are consecutive years", {
+test_that("passes when six-digit time_period values are consecutive years", {
   data <- data.frame(
     time_period = c("202122", "202324")
   )

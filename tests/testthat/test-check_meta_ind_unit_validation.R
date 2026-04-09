@@ -50,7 +50,7 @@ test_that("fails when one indicator unit is not an acceptable unit value", {
   ))
 })
 
-test_that("fails when multiple indicator units are not an acceptable unit values", {
+test_that("fails when multiple indicator units are not acceptable values", {
   meta <- data.frame(
     col_type = c("Indicator"),
     indicator_unit = c("E", "#", "$")

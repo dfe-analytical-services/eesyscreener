@@ -3,7 +3,8 @@
 \docType{data}
 \name{example_comma_data}
 \alias{example_comma_data}
-\title{Example data that contains strings containing commas beyond the default sniffing length.
+\title{Example data that contains strings containing commas beyond the default
+sniffing length.
 The original can be obtained from the EES test suite}
 \format{
 A data frame with 22,005 rows and 11 columns:
@@ -28,7 +29,8 @@ maintained by explore.statistics@education.gov.uk
 example_comma_data
 }
 \description{
-Example data that contains strings containing commas beyond the default sniffing length.
+Example data that contains strings containing commas beyond the default
+sniffing length.
 The original can be obtained from the EES test suite
 }
 \keyword{datasets}

@@ -20,7 +20,7 @@ precheck_geog_level <- function(
 ) {
   # Pull all unique geographic levels from the data set
   present_geographic_levels <- data |>
-    dplyr::pull(geographic_level) |>
+    dplyr::pull(.data$geographic_level) |>
     unique()
   # Compare these geographic levels to the acceptable levels in geography_df
   invalid_geographic_levels <- setdiff(

@@ -33,7 +33,10 @@ check_col_names_spaces <- function(
   } else {
     result <- "FAIL"
     message <- sprintf(
-      "The following variable name%s %s at least one space that needs removing: '%s'.",
+      paste0(
+        "The following variable name%s %s at least one",
+        " space that needs removing: '%s'."
+      ),
       if (length(failed_cols) > 1) "s" else "",
       if (length(failed_cols) > 1) "each have" else "has",
       paste(failed_cols, collapse = "', '")

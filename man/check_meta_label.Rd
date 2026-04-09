@@ -19,7 +19,8 @@ is "FAIL", and will throw genuine warning if result is "WARNING"}
 a single row data frame
 }
 \description{
-Ensure there are no blank cells in the label column for every row in the metafile
+Ensure there are no blank cells in the label column for every row in
+the metafile
 }
 \examples{
 check_meta_label(example_meta)

@@ -1,4 +1,4 @@
-test_that("passes when all column names don't have a space in metadata example", {
+test_that("passes when all col names don't have a space in metadata example", {
   expect_no_error(check_meta_col_name_spaces(
     example_meta,
     stop_on_error = TRUE
@@ -37,7 +37,10 @@ test_that("correctly identifies number of columns with spaces", {
       ),
       stop_on_error = FALSE
     )$message,
-    "The following 3 col_name values have spaces in the metadata: col 1 name, col 3 name, col 5 name."
+    paste0(
+      "The following 3 col_name values have spaces in the metadata:",
+      " col 1 name, col 3 name, col 5 name."
+    )
   )
 })
 
@@ -55,7 +58,10 @@ test_that("correctly identifies which columns have spaces", {
       ),
       stop_on_error = FALSE
     )$message,
-    "The following 3 col_name values have spaces in the metadata: col 1 name, col 4 name, col 5 name."
+    paste0(
+      "The following 3 col_name values have spaces in the metadata:",
+      " col 1 name, col 4 name, col 5 name."
+    )
   )
 })
 

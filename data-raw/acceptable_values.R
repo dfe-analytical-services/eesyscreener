@@ -119,11 +119,13 @@ acceptable_indicator_units <- c("%", "pp", "£", "£m", "numberstring")
 
 usethis::use_data(acceptable_indicator_units, overwrite = TRUE)
 
-gssNAvcode <- "x" # This is also hardwired into the las.csv file for some terminated LAs that don't have a code listed
-gssNApcode <- "z"
-gssSupcode <- "c"
-gssRndcode <- "low"
-gss_symbols <- c(gssNApcode, gssNAvcode, gssSupcode, gssRndcode)
+# This is also hardwired into the las.csv file for some terminated LAs
+# that don't have a code listed
+gss_nav_code <- "x"
+gss_nap_code <- "z"
+gss_sup_code <- "c"
+gss_rnd_code <- "low"
+gss_symbols <- c(gss_nap_code, gss_nav_code, gss_sup_code, gss_rnd_code)
 
 usethis::use_data(gss_symbols, overwrite = TRUE)
 

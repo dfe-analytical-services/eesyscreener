@@ -166,7 +166,10 @@ read_ees_files <- function(datapath, metapath) {
   ) {
     cli::cli_abort(
       sprintf(
-        "Data file at %s does not have a CSV or GZIP MIME type.\nMIME type found: %s",
+        paste0(
+          "Data file at %s does not have a CSV or GZIP MIME type.",
+          "\nMIME type found: %s"
+        ),
         datapath,
         data_mime
       )
@@ -178,7 +181,10 @@ read_ees_files <- function(datapath, metapath) {
   ) {
     cli::cli_abort(
       sprintf(
-        "Meta data file at %s does not have a CSV or GZIP MIME type.\nMIME type found: %s",
+        paste0(
+          "Meta data file at %s does not have a CSV or GZIP",
+          " MIME type.\nMIME type found: %s"
+        ),
         metapath,
         meta_mime
       )
@@ -218,7 +224,8 @@ read_ees_files <- function(datapath, metapath) {
 
 #' Write out CSV files
 #'
-#' Helper for writing out CSV files in a standard way. Provides some standard cleaning for writing
+#' Helper for writing out CSV files in a standard way. Provides some standard
+#' cleaning for writing
 #' data frame contents to CSV to handle things like NAs.
 #'
 #' @param data Data to be written out
@@ -229,7 +236,9 @@ read_ees_files <- function(datapath, metapath) {
 #' @examples
 #' # Create temp files for the example
 #' temp_dir <- tempdir()
-#' write_ees_files(example_data, example_meta, outdir = temp_dir, stub = "example")
+#' write_ees_files(
+#'   example_data, example_meta, outdir = temp_dir, stub = "example"
+#' )
 #'
 #' # Clean up temp files
 #' file.remove(path(temp_dir, paste0("example.csv")))
@@ -281,7 +290,7 @@ get_cols_meta <- function(
 ) {
   if (excl_indicators) {
     meta <- meta |>
-      dplyr::filter(col_type != "Indicator")
+      dplyr::filter(.data$col_type != "Indicator")
   }
   cols <- meta$col_name
   if (grouping_cols) {
@@ -407,8 +416,10 @@ remove_nas_blanks <- function(vector) {
 #' Write eesyscreener results to log file
 #'
 #' @param results list of resuts returned by eesyscreener checks
-#' @param file_details list of file details to pass to the log. Can include filename and filesize
-#' @param data_details list of data details to pass to the log. Can include ncols and nrows
+#' @param file_details list of file details to pass to the log. Can include
+#' filename and filesize
+#' @param data_details list of data details to pass to the log. Can include
+#' ncols and nrows
 #' @inheritParams screen_dfs
 #' @returns NULL
 #' @keywords internal
@@ -420,14 +431,15 @@ write_json_log <- function(
   file_details = list(filename = NULL, filesize = NULL),
   data_details = list(nrows = NULL, ncols = NULL)
 ) {
-  if (!is.null(log_key) & !is.null(log_dir)) {
+  if (!is.null(log_key) && !is.null(log_dir)) {
     log_file <- paste0("eesyscreener_log_", log_key, ".json")
-    log_path = file.path(log_dir, log_file)
+    log_path <- file.path(log_dir, log_file)
     if (file.exists(log_path)) {
       log <- jsonlite::read_json(log_path, simplifyVector = TRUE)
       if (!is.null(log$results)) {
         log_results <- log$results
-        # TODO: See if I can remove this relatively hacky workaround to make tests pass
+        # TODO: See if I can remove this relatively hacky workaround
+        # to make tests pass
         if ("guidance_url" %in% names(log_results)) {
           log_results$guidance_url[log_results$guidance_url == "NA"] <- NA
         }
@@ -439,16 +451,16 @@ write_json_log <- function(
       log$log_time <- Sys.time()
       log$results <- results
       if (!is.null(file_details$filename)) {
-        log$filename = file_details$filename
+        log$filename <- file_details$filename
       }
       if (!is.null(file_details$filesize)) {
-        log$filesize = file_details$filesize
+        log$filesize <- file_details$filesize
       }
       if (!is.null(data_details$nrows)) {
-        log$nrows = data_details$nrows
+        log$nrows <- data_details$nrows
       }
       if (!is.null(data_details$ncols)) {
-        log$ncols = data_details$ncols
+        log$ncols <- data_details$ncols
       }
     } else {
       log <- list(
@@ -486,7 +498,8 @@ write_json_log <- function(
 #' Render standard URL
 #'
 #' @param slug string to paste to base domain
-#' @param domain base domain. Can be "analysts_guide", "ees", "dfe_github" or "screener_app_repo"
+#' @param domain base domain. Can be "analysts_guide", "ees", "dfe_github"
+#' or "screener_app_repo"
 #' @returns String containing URL
 #' @keywords internal
 #' @noRd
@@ -497,10 +510,16 @@ render_url <- function(slug, domain = "analysts_guide") {
     stop("Please choose one of 'analysts_guide', 'ees' or 'dfe_github'")
   }
   url <- list(
-    analysts_guide = "https://dfe-analytical-services.github.io/analysts-guide/",
+    analysts_guide = paste0(
+      "https://dfe-analytical-services.github.io/",
+      "analysts-guide/"
+    ),
     ees = "https://explore-education-statistics.service.gov.uk/",
     dfe_github = "https://github.com/dfe-analytical-services/",
-    screener_app_repo = "https://raw.githubusercontent.com/dfe-analytical-services/dfe-published-data-qa/refs/heads/main/"
+    screener_app_repo = paste0(
+      "https://raw.githubusercontent.com/dfe-analytical-services/",
+      "dfe-published-data-qa/refs/heads/main/"
+    )
   )
   paste0(
     url[domain],
@@ -510,18 +529,22 @@ render_url <- function(slug, domain = "analysts_guide") {
 
 #' Run a check, log the results, and determine if early return is needed
 #'
-#' This is used in the screen_dfs function and appends new check results to the
-#' existing results, updates (or creates) a JSON log, and checks if any check has
-#' failed. If any result is "FAIL", it signals an early return is needed.
+#' This is used in the screen_dfs function and appends new check results to
+#' the existing results, updates (or creates) a JSON log, and checks if any
+#' check has failed. If any result is "FAIL", it signals an early return is
+#' needed.
 #'
 #' @param all_results A data frame containing all previous check results.
 #' @param check_results A data frame with the results of the current check.
-#' @param stage Character. The name of the current stage to annotate in the results.
+#' @param stage Character. The name of the current stage to annotate in the
+#' results.
 #' @param log_key Character. The key to use for logging.
 #' @param log_dir Character. The directory where logs should be written.
-#' @param data_details List. Additional details about the data to include in the log.
+#' @param data_details List. Additional details about the data to include in
+#' the log.
 #'
-#' @return A list with two elements: {all_results} (the updated results data frame)
+#' @return A list with two elements: {all_results} (the updated results data
+#' frame)
 #'   and {early_return} (logical, TRUE if any result is "FAIL").
 #'
 #' @keywords internal

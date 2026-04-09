@@ -24,7 +24,10 @@ check_time_period_six <- function(
     dplyr::pull("time_period")
 
   if (anyNA(unique_periods)) {
-    message <- "NA values found in time_period; all values must be valid six digit numbers referring to consecutive years."
+    message <- paste0(
+      "NA values found in time_period; all values must be",
+      " valid six digit numbers referring to consecutive years."
+    )
     result <- "FAIL"
     return(
       test_output(
@@ -44,12 +47,12 @@ check_time_period_six <- function(
     nextyearend <- as.numeric(substr(i, 5, 6))
 
     if (currentyearend == 99 && nextyearend == 0) {
-      return("PASS")
+      "PASS"
     } else {
       if ((currentyearend + 1) == nextyearend) {
-        return("PASS")
+        "PASS"
       } else {
-        return("FAIL")
+        "FAIL"
       }
     }
   }
@@ -61,7 +64,10 @@ check_time_period_six <- function(
     result <- "PASS"
   } else {
     if ("FAIL" %in% pre_result) {
-      message <- "When the time period is six digits, the years must be consecutive such as 201920."
+      message <- paste0(
+        "When the time period is six digits, the years must",
+        " be consecutive such as 201920."
+      )
       result <- "FAIL"
     } else {
       message <- "The six digit time_period values refer to consecutive years."

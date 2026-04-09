@@ -21,7 +21,8 @@ is "FAIL", and will throw genuine warning if result is "WARNING"}
 a single row data frame
 }
 \description{
-This function checks if the provided filter values contain any leading or trailing whitespace.
+This function checks if the provided filter values contain any leading or
+trailing whitespace.
 }
 \examples{
 check_filter_whitespace(example_data, example_meta)

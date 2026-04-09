@@ -26,7 +26,8 @@ check_time_period <- function(
     dplyr::pull("time_period")
 
   if (base_identifier %in% eesyscreener::four_digit_identifiers) {
-    # isTRUE() handles NA periods: nchar(NA) returns NA, causing all() to return NA
+    # isTRUE() handles NA periods: nchar(NA) returns NA, causing all() to
+    # return NA
     if (!isTRUE(all(nchar(unique_periods) == 4))) {
       guidance_url <- render_url(
         "statistics-production/ud.html#list-of-allowable-time-values"
@@ -38,14 +39,18 @@ check_time_period <- function(
       )
       result <- "FAIL"
     } else {
-      message <- "The time_period length matches the time_identifier values in the data file."
+      message <- paste0(
+        "The time_period length matches the time_identifier",
+        " values in the data file."
+      )
       result <- "PASS"
       guidance_url <- NA
     }
   }
 
   if (base_identifier %in% eesyscreener::six_digit_identifiers) {
-    # isTRUE() handles NA periods: nchar(NA) returns NA, causing all() to return NA
+    # isTRUE() handles NA periods: nchar(NA) returns NA, causing all() to
+    # return NA
     if (!isTRUE(all(nchar(unique_periods) == 6))) {
       guidance_url <- render_url(
         "statistics-production/ud.html#list-of-allowable-time-values"
@@ -57,7 +62,10 @@ check_time_period <- function(
       )
       result <- "FAIL"
     } else {
-      message <- "The time_period length matches the time_identifier values in the data file."
+      message <- paste0(
+        "The time_period length matches the time_identifier",
+        " values in the data file."
+      )
       result <- "PASS"
       guidance_url <- NA
     }
