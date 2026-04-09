@@ -270,10 +270,19 @@ write_ees_files <- function(data, meta, outdir, stub) {
 #'
 #' @param meta data.frame of the metadata
 #' @param grouping_cols logical, if TRUE will include filter grouping columns
+#' @param excl_indicators logical, if TRUE will exclude indicators
 #' @keywords internal
 #' @noRd
 #' @returns character vector of column names
-get_cols_meta <- function(meta, grouping_cols = FALSE) {
+get_cols_meta <- function(
+  meta,
+  grouping_cols = FALSE,
+  excl_indicators = FALSE
+) {
+  if (excl_indicators) {
+    meta <- meta |>
+      dplyr::filter(col_type != "Indicator")
+  }
   cols <- meta$col_name
   if (grouping_cols) {
     cols <- c(cols, meta$filter_grouping_column)

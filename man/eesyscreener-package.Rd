@@ -34,6 +34,7 @@ Other contributors:
   \item Ethan Roy \email{ethan.roy@education.gov.uk} [contributor]
   \item Lauren Snaathorst \email{lauren.snaathorst@education.gov.uk} [contributor]
   \item Bob Tarrant \email{robert.tarrant@education.gov.uk} [contributor]
+  \item Chris Hall \email{christopher.hall@education.gov.uk} [contributor]
   \item Department for Education, England \email{explore.statistics@education.gov.uk} [copyright holder]
 }
 
