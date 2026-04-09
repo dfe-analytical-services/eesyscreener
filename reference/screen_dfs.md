@@ -105,9 +105,10 @@ screen_dfs(example_data, example_meta)
 #> 29                  time_period_six   PASS
 #> 30            check_filter_defaults   PASS
 #> 31                filter_whitespace   PASS
-#> 32          check_filter_item_limit   PASS
-#> 33 check_api_char_limit_column-name   PASS
-#> 34         check_api_dict_col_names   PASS
+#> 32            filter_grouping_level   PASS
+#> 33          check_filter_item_limit   PASS
+#> 34 check_api_char_limit_column-name   PASS
+#> 35         check_api_dict_col_names   PASS
 #>                                                                                                       message
 #> 1                                               All of the required columns are present in the metadata file.
 #> 2                                                          There are no invalid columns in the metadata file.
@@ -140,9 +141,10 @@ screen_dfs(example_data, example_meta)
 #> 29                                               The six digit time_period values refer to consecutive years.
 #> 30                                                 All filters and groups have a default filter item present.
 #> 31                                                   No filter labels contain leading or trailing whitespace.
-#> 32                                                All filters and groups have less than 25000 unique entries.
-#> 33                          All filter / indicator names are less than or equal to the character limit of 50.
-#> 34                                                     All col_names are consistent with the data dictionary.
+#> 32                                                                        There are no filter groups present.
+#> 33                                                All filters and groups have less than 25000 unique entries.
+#> 34                          All filter / indicator names are less than or equal to the character limit of 50.
+#> 35                                                     All col_names are consistent with the data dictionary.
 #>    guidance_url            stage
 #> 1            NA Precheck columns
 #> 2            NA Precheck columns
@@ -176,6 +178,7 @@ screen_dfs(example_data, example_meta)
 #> 30           NA    Check filters
 #> 31           NA    Check filters
 #> 32           NA    Check filters
-#> 33           NA        Check API
+#> 33           NA    Check filters
 #> 34           NA        Check API
+#> 35           NA        Check API
 ```

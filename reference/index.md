@@ -196,6 +196,8 @@ validate core assumptions about the geography columns.
 
 - [`check_filter_defaults()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_filter_defaults.md)
   : Check filenames line up between data and metadata files
+- [`check_filter_group_level()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_filter_group_level.md)
+  : Check filter groups have an equal or lower number of levels
 - [`check_filter_item_limit()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_filter_item_limit.md)
   : Check number of filter items are below limit Ensures that no filter
   contains more than 25,000 unique options, this is to protect the EES
