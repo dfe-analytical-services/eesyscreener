@@ -101,11 +101,6 @@ screen_dfs <- function(
       data,
       verbose = verbose,
       stop_on_error = stop_on_error
-    ),
-    check_col_snake_case(
-      data,
-      verbose = verbose,
-      stop_on_error = stop_on_error
     )
   )
 
@@ -187,13 +182,11 @@ screen_dfs <- function(
     check_meta_label(meta, verbose, stop_on_error),
     check_meta_filter_hint(meta, verbose, stop_on_error),
     check_meta_indicator_dp(meta, verbose, stop_on_error),
-    check_meta_filter_group_duplicate(meta, verbose, stop_on_error),
     check_meta_ind_dp_set(meta, verbose, stop_on_error),
     check_meta_ind_unit(meta, verbose, stop_on_error),
     check_meta_ind_unit_validation(meta, verbose, stop_on_error),
     check_meta_indicator_grouping(meta, verbose, stop_on_error),
-    check_meta_ind_dp_values(meta, verbose, stop_on_error),
-    check_meta_geog_catch(meta, verbose, stop_on_error)
+    check_meta_ind_dp_values(meta, verbose, stop_on_error)
   )
 
   check_meta_results <- check_meta_results |>
@@ -213,6 +206,36 @@ screen_dfs <- function(
 
   if (any(check_meta_results[["result"]] == "FAIL")) {
     return(as.data.frame(check_meta_results))
+  }
+
+  # Check indicators ----------------------------------------------------------
+
+  check_ind_results <- rbind(
+    check_ind_invalid_entry(
+      data,
+      meta,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    )
+  )
+
+  check_ind_results <- check_ind_results |>
+    cbind("stage" = "Check indicators")
+
+  write_json_log(
+    check_ind_results,
+    log_key = log_key,
+    log_dir = log_dir,
+    data_details = data_details
+  )
+
+  check_ind_results <- check_meta_results |>
+    rbind(
+      check_ind_results
+    )
+
+  if (any(check_ind_results[["result"]] == "FAIL")) {
+    return(as.data.frame(check_ind_results))
   }
 
   # Turn on duckdb ------------------------------------------------------------
@@ -250,7 +273,7 @@ screen_dfs <- function(
     data_details = data_details
   )
 
-  precheck_time_results <- check_meta_results |>
+  precheck_time_results <- check_ind_results |>
     rbind(
       precheck_time_results
     )
@@ -356,7 +379,7 @@ screen_dfs <- function(
     data_details = data_details
   )
 
-  check_filter_results <- precheck_geography_results |>
+  check_filter_results <- check_time_results |>
     rbind(
       check_filter_results
     )
