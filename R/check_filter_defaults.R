@@ -86,9 +86,14 @@ check_filter_defaults <- function(
     # Check each filter column for the presence of the filter default (whether
     # Total or a custom one).
     pre_result <- sapply(
-      names(dfilters),
+      names(filter_defaults),
       function(column) {
-        any(dfilters[[column]] == filter_defaults[[column]], na.rm = TRUE)
+        default_val <- filter_defaults[[column]]
+        unique_vals <- dfilters |>
+          dplyr::select(dplyr::all_of(column)) |>
+          dplyr::distinct() |>
+          dplyr::pull(1)
+        default_val %in% unique_vals
       }
     )
 

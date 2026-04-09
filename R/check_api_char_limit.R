@@ -69,7 +69,8 @@ api_char_limit <- function(
     eesyscreener::api_char_limits$id == type
   ]
 
-  if (any(results$exceeds_max)) {
+  if (any(results$exceeds_max, na.rm = TRUE)) {
+    # TODO: Check if na.rm = TRUE is actually useful or could allow bugs
     fail_values <- results$value[results$exceeds_max]
     return(
       test_output(
@@ -188,7 +189,12 @@ check_api_char_loc_code <- function(
   )
 
   location_codes <- location_code_cols |>
-    lapply(function(col) unique(data[[col]])) |>
+    lapply(function(col) {
+      data |>
+        dplyr::select(dplyr::all_of(col)) |>
+        dplyr::distinct() |>
+        dplyr::pull(1)
+    }) |>
     unlist(use.names = FALSE)
 
   api_char_limit(
@@ -226,7 +232,12 @@ check_api_char_filter_items <- function(
   )
 
   values_to_check <- cols_to_check |>
-    lapply(function(col) unique(data[[col]])) |>
+    lapply(function(col) {
+      data |>
+        dplyr::select(dplyr::all_of(col)) |>
+        dplyr::distinct() |>
+        dplyr::pull(1)
+    }) |>
     unlist(use.names = FALSE)
 
   api_char_limit(

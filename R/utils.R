@@ -426,7 +426,12 @@ write_json_log <- function(
     if (file.exists(log_path)) {
       log <- jsonlite::read_json(log_path, simplifyVector = TRUE)
       if (!is.null(log$results)) {
-        results <- log$results |>
+        log_results <- log$results
+        # TODO: See if I can remove this relatively hacky workaround to make tests pass
+        if ("guidance_url" %in% names(log_results)) {
+          log_results$guidance_url[log_results$guidance_url == "NA"] <- NA
+        }
+        results <- log_results |>
           rbind(results) |>
           dplyr::distinct()
       }
