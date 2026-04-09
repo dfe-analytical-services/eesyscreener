@@ -1,7 +1,7 @@
 Type: Package
 Package: eesyscreener
 Title: Explore education statistics data screening
-Version: 0.2.3
+Version: 0.2.4
 Authors@R: c(
     person("Cam", "Race", , "cameron.race@education.gov.uk", role = c("aut", "cre")),
     person("Rich", "Bielby", , "richard.bielby@education.gov.uk", role = "aut",
@@ -13,6 +13,7 @@ Authors@R: c(
     person("Ethan", "Roy", , "ethan.roy@education.gov.uk", role = "ctb"),
     person("Lauren", "Snaathorst", , "lauren.snaathorst@education.gov.uk", role = "ctb"),
     person("Bob", "Tarrant", , "robert.tarrant@education.gov.uk", role = "ctb"),
+    person("Chris", "Hall", , "christopher.hall@education.gov.uk", role = "ctb"),
     person("Department for Education, England", , , "explore.statistics@education.gov.uk", role = "cph")
   )
 Description: Quality assurance checks used to enforce standards of
@@ -34,7 +35,8 @@ Imports:
     rlang,
     stats,
     stringr,
-    tidyr
+    tidyr, 
+    utils
 Suggests:
     dfeR,
     knitr,

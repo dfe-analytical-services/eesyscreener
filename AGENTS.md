@@ -1,24 +1,14 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Claude Code (claude.ai/code) or other AI agents when working with code in this repository.
 
 ## Project Overview
 
 **eesyscreener** is an R package providing data quality assurance (QA) checks for CSV files uploaded to the Explore Education Statistics (EES) platform. It's used in three main contexts:
 
-1. **Shiny App** (`dfe-published-data-qa`): Interactive web interface for users to check files before upload
+1. **Shiny App** (`dfe-published-data-qa`): Interactive web interface for users to check files before upload. This is where all the logic was previously held and is currently being migrated from into this package. Eventually that app will use the functions from this package for its validation
 2. **Plumber API** (`ees-screener-api`): Automated screening of uploads in the EES platform itself
 3. **Direct R Usage**: Analysts integrating checks into their own data preparation pipelines
-
-## Development Setup
-
-### Running R from the Terminal
-
-R is not on the bash PATH. Always invoke it with the full Windows path:
-
-```bash
-"/c/Program Files/R/R-4.5.3/bin/Rscript.exe" -e "..."
-```
 
 ### Building and Running Tests
 
@@ -238,7 +228,7 @@ pkgdown::build_site()         # Generate HTML documentation site
 - Tests use example datasets built into the package
 - Each check should test its happy path and failure conditions
 - Avoid mocking; use real but minimal data
-- Tests verify both the result and the message text
+- Tests verify both the result and the message text as sometimes there are multiple variants of the message text
 
 ## Key Files to Know
 
@@ -249,3 +239,5 @@ pkgdown::build_site()         # Generate HTML documentation site
 | `_pkgdown.yml` | Documentation site configuration |
 | `.github/workflows/` | CI/CD pipelines (R-CMD-check, coverage, docs) |
 | `eesyscreener.Rproj` | RStudio project file with build settings |
+| `MIGRATION_CONTEXT_PACK.md` | Detailed steps and guidelines for migrating code into this package |
+| `migration_examples.md` | Examples of functions before and after adding into this package |

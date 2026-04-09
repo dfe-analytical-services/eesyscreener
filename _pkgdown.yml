@@ -30,6 +30,8 @@ reference:
   - starts_with("acceptable_")
   - geography_df
   - api_char_limits
+  - gss_symbols
+  - legacy_gss_symbols
   - four_digit_identifiers
   - six_digit_identifiers
 
@@ -79,7 +81,7 @@ reference:
 
 - title: Pre-checks on geography columns
   description: |
-    These checks should be run before any other geography checks, as they validate core assuptions about the geography columns.
+    These checks should be run before any other geography checks, as they validate core assumptions about the geography columns.
   contents:
   - starts_with("precheck_geog_")
 
@@ -90,6 +92,8 @@ reference:
   - starts_with("check_filter_")
 
 - title: Indicator checks
+  contents:
+  - starts_with("check_ind_")
 
 - title: Geography checks
 
