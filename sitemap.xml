@@ -25,6 +25,7 @@
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/check_filter_defaults.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/check_filter_item_limit.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/check_filter_whitespace.html</loc></url>
+<url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/check_ind_invalid_entry.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_col_name_duplicate.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_col_name_spaces.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_duplicate_label.html</loc></url>
@@ -63,7 +64,9 @@
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/generate_meta_file.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/generate_test_dfs.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/geography_df.html</loc></url>
+<url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/gss_symbols.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/index.html</loc></url>
+<url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/legacy_gss_symbols.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/optional_meta_cols.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/precheck_col_invalid_meta.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/precheck_col_req_data.html</loc></url>

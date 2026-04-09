@@ -741,6 +741,10 @@ e.g. mandatory column names
   : Acceptable geographic levels and their associated columns
 - [`api_char_limits`](https://dfe-analytical-services.github.io/eesyscreener/reference/api_char_limits.md)
   : API character limits
+- [`gss_symbols`](https://dfe-analytical-services.github.io/eesyscreener/reference/gss_symbols.md)
+  : Acceptable values for GSS symbols
+- [`legacy_gss_symbols`](https://dfe-analytical-services.github.io/eesyscreener/reference/legacy_gss_symbols.md)
+  : Legacy values for GSS symbols
 - [`four_digit_identifiers`](https://dfe-analytical-services.github.io/eesyscreener/reference/four_digit_identifiers.md)
   : Time identifiers that should have 4 digit numbers
 - [`six_digit_identifiers`](https://dfe-analytical-services.github.io/eesyscreener/reference/six_digit_identifiers.md)
@@ -852,7 +856,7 @@ validate core assumptions about the time columns.
 ## Pre-checks on geography columns
 
 These checks should be run before any other geography checks, as they
-validate core assuptions about the geography columns.
+validate core assumptions about the geography columns.
 
 - [`precheck_geog_level()`](https://dfe-analytical-services.github.io/eesyscreener/reference/precheck_geog_level.md)
   : Check that the geographic_level values are all valid.
@@ -872,6 +876,9 @@ validate core assuptions about the geography columns.
   : Check no filter values have leading or trailing whitespaces
 
 ## Indicator checks
+
+- [`check_ind_invalid_entry()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_ind_invalid_entry.md)
+  : Check for invalid values in indicators
 
 ## Geography checks
 
