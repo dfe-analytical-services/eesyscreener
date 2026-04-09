@@ -1,6 +1,6 @@
-#' Check that there are no blank values in any indicators.
+#' Check for invalid values in indicators
 #'
-#' Throw an error if, for any filter, indicator_dp is not blank.
+#' Check all values in indicator columns for blanks or obsolete no data symbols.
 #'
 #' @inheritParams precheck_col_to_rows
 #'

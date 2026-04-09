@@ -1,4 +1,4 @@
-testthat::test_that("check_ind_invalid_entry: passes when there are invalid entries in indicators", {
+testthat::test_that("check_ind_invalid_entry: passes when there are no invalid entries in indicators", {
   # Should not error when there are invalid entries in the indicators
   expect_no_error(
     check_ind_invalid_entry(example_data, example_meta)
@@ -59,12 +59,12 @@ testthat::test_that("check_ind_invalid_entry: advisory when there is an ~ obsole
   )
 })
 
-testthat::test_that("check_ind_invalid_entry: advisory when there is an : obsolete symbol in indicators", {
+testthat::test_that("check_ind_invalid_entry: fail when there is an : obsolete symbol in indicators", {
   # Create a copy of the example data with an obsolete symbol in the indicator column
   example_data_with_obsolete_symbol <- example_data
   example_data_with_obsolete_symbol$enrolment_count[8] <- ":"
 
-  # Should return advisory when there are obsolete symbols in the indicators
+  # Should return FAIL when there are obsolete symbols in the indicators
   expect_equal(
     check_ind_invalid_entry(
       example_data_with_obsolete_symbol,
