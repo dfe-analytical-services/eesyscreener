@@ -54,20 +54,21 @@
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># Load package in development mode (requires R with devtools)</span></span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">devtools::load_all()</span></span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co"># Run all tests</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co"># Run all tests (fast, no build — use this for quick iteration)</span></span>
 <span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">devtools::test()</span></span>
 <span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a></span>
 <span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co"># Run tests for a specific file</span></span>
 <span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="ex">devtools::test</span><span class="er">(</span><span class="ex">filter</span> = <span class="st">"test_name"</span><span class="kw">)</span></span>
 <span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co"># Check the package (equivalent to R CMD check)</span></span>
-<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="fu">devtools::check()</span></span>
-<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="co"># Generate documentation from roxygen2 comments</span></span>
-<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="fu">devtools::document()</span></span>
-<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a></span>
-<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="co"># Rebuild the documentation site</span></span>
-<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="fu">pkgdown::build_site()</span></span></code></pre></div>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co"># Full package check — R CMD check including build, examples, vignettes, and tests</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co"># Use this as the final verification before committing/pushing</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="fu">devtools::check()</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co"># Generate documentation from roxygen2 comments</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="fu">devtools::document()</span></span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="co"># Rebuild the documentation site</span></span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="fu">pkgdown::build_site()</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="key-dependencies">Key Dependencies<a class="anchor" aria-label="anchor" href="#key-dependencies"></a></h3>
@@ -247,6 +248,7 @@
 <li>2-space indentation (configured in .Rproj)</li>
 <li>Roxygen2 markdown format for documentation</li>
 <li>Tests should be clear and cover both success and failure paths</li>
+<li>Do not include HTML (e.g. <code>&lt;br&gt;</code>) in check message strings — messages are used in CLI, API, and Shiny contexts and should be plain text</li>
 </ul></div>
 </div>
 <div class="section level2">

@@ -189,6 +189,8 @@ validate core assumptions about the geography columns.
 
 - [`precheck_geog_level()`](https://dfe-analytical-services.github.io/eesyscreener/reference/precheck_geog_level.md)
   : Check that the geographic_level values are all valid.
+- [`precheck_geog_level_present()`](https://dfe-analytical-services.github.io/eesyscreener/reference/precheck_geog_level_present.md)
+  : Check we have the right columns for the geographic level
 
 ## General data file checks
 

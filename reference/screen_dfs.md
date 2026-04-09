@@ -103,12 +103,14 @@ screen_dfs(example_data, example_meta)
 #> 27                  time_period_num   PASS
 #> 28                      time_period   PASS
 #> 29                  time_period_six   PASS
-#> 30            check_filter_defaults   PASS
-#> 31                filter_whitespace   PASS
-#> 32            filter_grouping_level   PASS
-#> 33          check_filter_item_limit   PASS
-#> 34 check_api_char_limit_column-name   PASS
-#> 35         check_api_dict_col_names   PASS
+#> 30                 geographic_level   PASS
+#> 31      precheck_geog_level_present   PASS
+#> 32            check_filter_defaults   PASS
+#> 33                filter_whitespace   PASS
+#> 34            filter_grouping_level   PASS
+#> 35          check_filter_item_limit   PASS
+#> 36 check_api_char_limit_column-name   PASS
+#> 37         check_api_dict_col_names   PASS
 #>                                                                                                       message
 #> 1                                               All of the required columns are present in the metadata file.
 #> 2                                                          There are no invalid columns in the metadata file.
@@ -139,46 +141,50 @@ screen_dfs(example_data, example_meta)
 #> 27                                                       The time_period column only contains numeric values.
 #> 28                                The time_period length matches the time_identifier values in the data file.
 #> 29                                               The six digit time_period values refer to consecutive years.
-#> 30                                                 All filters and groups have a default filter item present.
-#> 31                                                   No filter labels contain leading or trailing whitespace.
-#> 32                                                                        There are no filter groups present.
-#> 33                                                All filters and groups have less than 25000 unique entries.
-#> 34                          All filter / indicator names are less than or equal to the character limit of 50.
-#> 35                                                     All col_names are consistent with the data dictionary.
-#>    guidance_url            stage
-#> 1            NA Precheck columns
-#> 2            NA Precheck columns
-#> 3            NA Precheck columns
-#> 4            NA Precheck columns
-#> 5            NA Precheck columns
-#> 6            NA Precheck columns
-#> 7            NA    Check columns
-#> 8            NA    Precheck meta
-#> 9            NA    Precheck meta
-#> 10           NA    Precheck meta
-#> 11           NA       Check meta
-#> 12           NA       Check meta
-#> 13           NA       Check meta
-#> 14           NA       Check meta
-#> 15           NA       Check meta
-#> 16           NA       Check meta
-#> 17           NA       Check meta
-#> 18           NA       Check meta
-#> 19           NA       Check meta
-#> 20           NA       Check meta
-#> 21           NA       Check meta
-#> 22           NA       Check meta
-#> 23           NA       Check meta
-#> 24           NA Check indicators
-#> 25           NA    Precheck time
-#> 26           NA    Precheck time
-#> 27           NA    Precheck time
-#> 28           NA       Check time
-#> 29           NA       Check time
-#> 30           NA    Check filters
-#> 31           NA    Check filters
-#> 32           NA    Check filters
-#> 33           NA    Check filters
-#> 34           NA        Check API
-#> 35           NA        Check API
+#> 30                                                                 The geographic_level values are all valid.
+#> 31                                                             There is only National level data in the file.
+#> 32                                                 All filters and groups have a default filter item present.
+#> 33                                                   No filter labels contain leading or trailing whitespace.
+#> 34                                                                        There are no filter groups present.
+#> 35                                                All filters and groups have less than 25000 unique entries.
+#> 36                          All filter / indicator names are less than or equal to the character limit of 50.
+#> 37                                                     All col_names are consistent with the data dictionary.
+#>    guidance_url              stage
+#> 1            NA   Precheck columns
+#> 2            NA   Precheck columns
+#> 3            NA   Precheck columns
+#> 4            NA   Precheck columns
+#> 5            NA   Precheck columns
+#> 6            NA   Precheck columns
+#> 7            NA      Check columns
+#> 8            NA      Precheck meta
+#> 9            NA      Precheck meta
+#> 10           NA      Precheck meta
+#> 11           NA         Check meta
+#> 12           NA         Check meta
+#> 13           NA         Check meta
+#> 14           NA         Check meta
+#> 15           NA         Check meta
+#> 16           NA         Check meta
+#> 17           NA         Check meta
+#> 18           NA         Check meta
+#> 19           NA         Check meta
+#> 20           NA         Check meta
+#> 21           NA         Check meta
+#> 22           NA         Check meta
+#> 23           NA         Check meta
+#> 24           NA   Check indicators
+#> 25           NA      Precheck time
+#> 26           NA      Precheck time
+#> 27           NA      Precheck time
+#> 28           NA         Check time
+#> 29           NA         Check time
+#> 30           NA Precheck geography
+#> 31           NA Precheck geography
+#> 32           NA      Check filters
+#> 33           NA      Check filters
+#> 34           NA      Check filters
+#> 35           NA      Check filters
+#> 36           NA          Check API
+#> 37           NA          Check API
 ```

@@ -29,6 +29,11 @@ precheck_geog_level(data, verbose = FALSE, stop_on_error = FALSE)
 
 a single row data frame
 
+## See also
+
+Other precheck_geog:
+[`precheck_geog_level_present()`](https://dfe-analytical-services.github.io/eesyscreener/reference/precheck_geog_level_present.md)
+
 ## Examples
 
 ``` r
