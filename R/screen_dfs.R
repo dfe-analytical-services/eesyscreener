@@ -329,6 +329,12 @@ screen_dfs <- function(
       verbose = verbose,
       stop_on_error = stop_on_error
     ),
+    check_filter_group_level(
+      data,
+      meta,
+      verbose,
+      stop_on_error
+    ),
     check_filter_item_limit(
       data,
       meta,
@@ -336,6 +342,7 @@ screen_dfs <- function(
       stop_on_error = stop_on_error
     )
   )
+
   check_filter_results <- check_filter_results |>
     cbind("stage" = "Check filters")
 
