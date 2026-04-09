@@ -40,5 +40,7 @@ Other contributors:
 
 - Bob Tarrant <robert.tarrant@education.gov.uk> \[contributor\]
 
+- Chris Hall <christopher.hall@education.gov.uk> \[contributor\]
+
 - Department for Education, England
   <explore.statistics@education.gov.uk> \[copyright holder\]

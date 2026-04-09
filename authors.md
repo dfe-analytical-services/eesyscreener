@@ -20,6 +20,8 @@
 
 - **Bob Tarrant**. Contributor.
 
+- **Chris Hall**. Contributor.
+
 - **Department for Education, England**. Copyright holder.
 
 ## Citation
@@ -28,13 +30,13 @@ Source:
 [`DESCRIPTION`](https://github.com/dfe-analytical-services/eesyscreener/blob/main/DESCRIPTION)
 
 Race C, Bielby R (2026). *eesyscreener: Explore education statistics
-data screening*. R package version 0.2.3,
+data screening*. R package version 0.2.4,
 <https://dfe-analytical-services.github.io/eesyscreener/>.
 
     @Manual{,
       title = {eesyscreener: Explore education statistics data screening},
       author = {Cam Race and Rich Bielby},
       year = {2026},
-      note = {R package version 0.2.3},
+      note = {R package version 0.2.4},
       url = {https://dfe-analytical-services.github.io/eesyscreener/},
     }
