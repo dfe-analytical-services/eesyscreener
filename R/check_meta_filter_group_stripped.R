@@ -13,7 +13,8 @@
 #' check_meta_filter_group_stripped(example_data, example_meta)
 #' check_meta_filter_group_stripped(example_data, example_meta, verbose = TRUE)
 #' @export
-check_meta_filter_group_stripped <- function( # nolint: object_length_linter.
+check_meta_filter_group_stripped <- function(
+  # nolint: object_length_linter.
   data,
   meta,
   verbose = FALSE,
@@ -23,7 +24,7 @@ check_meta_filter_group_stripped <- function( # nolint: object_length_linter.
   meta_filter_groups <- meta |>
     dplyr::filter(
       !(is.na(.data$filter_grouping_column) |
-          .data$filter_grouping_column == "")
+        .data$filter_grouping_column == "")
     ) |>
     dplyr::pull(.data$filter_grouping_column)
   # If there are no filter_grouping_column entries, pass test

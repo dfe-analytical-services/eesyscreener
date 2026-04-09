@@ -12,7 +12,8 @@
 #' check_meta_filter_group_duplicate(example_meta)
 #' check_meta_filter_group_duplicate(example_meta, verbose = TRUE)
 #' @export
-check_meta_filter_group_duplicate <- function( # nolint: object_length_linter.
+check_meta_filter_group_duplicate <- function(
+  # nolint: object_length_linter.
   meta,
   verbose = FALSE,
   stop_on_error = FALSE
