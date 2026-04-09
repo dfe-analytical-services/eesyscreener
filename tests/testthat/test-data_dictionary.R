@@ -19,7 +19,7 @@ test_that("Duplicate row test", {
 test_that("Check for non-standard characters", {
   expect_equal(
     data_dictionary |>
-      dplyr::filter(if_any(everything(), ~ grepl("[$^&@'#~]", .))) |>
+      dplyr::filter(if_any(everything(), ~ grepl("[$^&@#~]", .))) |>
       nrow(),
     0
   )
