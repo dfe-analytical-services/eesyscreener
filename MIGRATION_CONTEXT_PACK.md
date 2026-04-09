@@ -21,6 +21,7 @@ Functions from a monolithic Shiny app (`dfe-published-data-qa`) are being extrac
 - One check at a time, unless a utility function covers multiple checks.
 - Minimise new dependencies; prefer base R or dplyr (which piggybacks on duckplyr for performance).
 - Simplify during migration, do not bring over legacy complexity if it is unnecessary, use the opportunity to improve the code.
+- Strip out any HTML tags from the message strings returned, they are no longer required.
 - Speed is king. Prioritise large-file performance over small-file performance. Avoid operations that force full materialisation of lazy duckplyr data frames.
 
 ---
