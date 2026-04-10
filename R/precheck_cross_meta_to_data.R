@@ -25,7 +25,7 @@ precheck_cross_meta_to_data <- function(
   filter_groups <- meta |>
     dplyr::filter(
       !(is.na(.data$filter_grouping_column) |
-          .data$filter_grouping_column == "")
+        .data$filter_grouping_column == "")
     ) |>
     dplyr::pull(.data$filter_grouping_column)
 

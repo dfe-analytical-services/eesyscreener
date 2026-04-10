@@ -7,7 +7,11 @@ test_that("passes when all metadata variables are found in the data", {
   expect_equal(precheck_cross_meta_to_data(data, meta)$result, "PASS")
   expect_no_error(precheck_cross_meta_to_data(data, meta, stop_on_error = TRUE))
   expect_no_error(
-    precheck_cross_meta_to_data(example_data, example_meta, stop_on_error = TRUE)
+    precheck_cross_meta_to_data(
+      example_data,
+      example_meta,
+      stop_on_error = TRUE
+    )
   )
 })
 
