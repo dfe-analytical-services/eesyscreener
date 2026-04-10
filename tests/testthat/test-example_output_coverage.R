@@ -1,4 +1,4 @@
-test_that("every exported check_ / precheck_ function has a row in example_output", {
+test_that("every exported check function has a row in example_output", {
   namespace_lines <- readLines(system.file(
     "NAMESPACE",
     package = "eesyscreener"
@@ -19,7 +19,8 @@ test_that("every exported check_ / precheck_ function has a row in example_outpu
     missing,
     character(0),
     info = paste(
-      "Functions exported but not found in example_output$check (after prefix strip):",
+      "Functions exported but not found in example_output$check",
+      "(after prefix strip):",
       paste(missing, collapse = ", ")
     )
   )

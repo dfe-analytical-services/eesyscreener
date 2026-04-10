@@ -1,3 +1,20 @@
+#' Get the check name from the calling function
+#'
+#' Derives the check name by getting the name of the function that called this
+#' helper, and stripping the `check_` or `precheck_` prefix. This keeps the
+#' check name in `test_output()` automatically in sync with the function name.
+#'
+#' Must be called directly from within a `check_` or `precheck_` function, not
+#' passed through additional wrappers.
+#'
+#' @keywords internal
+#' @noRd
+#' @returns A single character string with the check name
+get_check_name <- function() {
+  caller <- as.character(sys.call(-1)[[1]])
+  sub("^(check|precheck)_", "", caller)
+}
+
 #' Handle null filenames
 #'
 #' Helper function to handle null filenames and return a string for the

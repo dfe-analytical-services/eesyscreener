@@ -10,10 +10,10 @@
 #' @family check_meta
 #'
 #' @examples
-#' check_meta_filter_group(example_meta)
-#' check_meta_filter_group(example_meta, verbose = TRUE)
+#' check_meta_fil_grp(example_meta)
+#' check_meta_fil_grp(example_meta, verbose = TRUE)
 #' @export
-check_meta_filter_group <- function(
+check_meta_fil_grp <- function(
   meta,
   verbose = FALSE,
   stop_on_error = FALSE
@@ -27,7 +27,7 @@ check_meta_filter_group <- function(
 
   if (length(invalid_filter_grouping_column) == 0) {
     test_output(
-      "meta_filter_group",
+      "meta_fil_grp",
       "PASS",
       "No indicators have a filter_grouping_column value.",
       verbose = verbose,
@@ -35,7 +35,7 @@ check_meta_filter_group <- function(
     )
   } else {
     test_output(
-      "meta_filter_group",
+      "meta_fil_grp",
       "FAIL",
       paste0(
         "Indicators should not have a filter_grouping_column value in 

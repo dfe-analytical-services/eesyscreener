@@ -9,10 +9,10 @@
 #' @family check_meta
 #'
 #' @examples
-#' check_meta_duplicate_label(example_meta)
-#' check_meta_duplicate_label(example_meta, verbose = TRUE)
+#' check_meta_dupe_label(example_meta)
+#' check_meta_dupe_label(example_meta, verbose = TRUE)
 #' @export
-check_meta_duplicate_label <- function(
+check_meta_dupe_label <- function(
   meta,
   verbose = FALSE,
   stop_on_error = FALSE
@@ -21,7 +21,7 @@ check_meta_duplicate_label <- function(
 
   if (length(duplicated_labels) == 0) {
     test_output(
-      "meta_duplicate_label",
+      "meta_dupe_label",
       "PASS",
       "All labels are unique.",
       verbose = verbose,
@@ -30,7 +30,7 @@ check_meta_duplicate_label <- function(
   } else {
     if (length(duplicated_labels) == 1) {
       test_output(
-        "meta_duplicate_label",
+        "meta_dupe_label",
         "FAIL",
         paste0(
           "The following label is duplicated in the metadata file: '",
@@ -42,7 +42,7 @@ check_meta_duplicate_label <- function(
       )
     } else {
       test_output(
-        "meta_duplicate_label",
+        "meta_dupe_label",
         "FAIL",
         paste0(
           "The following labels are duplicated in the metadata file: '",

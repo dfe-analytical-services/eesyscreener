@@ -9,11 +9,10 @@
 #' @family check_meta
 #'
 #' @examples
-#' check_meta_filter_group_is_filter(example_meta)
-#' check_meta_filter_group_is_filter(example_meta, verbose = TRUE)
+#' check_meta_fil_grp_is_fil(example_meta)
+#' check_meta_fil_grp_is_fil(example_meta, verbose = TRUE)
 #' @export
-check_meta_filter_group_is_filter <- function(
-  # nolint: object_length_linter.
+check_meta_fil_grp_is_fil <- function(
   meta,
   verbose = FALSE,
   stop_on_error = FALSE
@@ -22,7 +21,7 @@ check_meta_filter_group_is_filter <- function(
 
   if (length(meta_filter_groups) == 0) {
     test_output(
-      "meta_filter_group_is_filter",
+      "meta_fil_grp_is_fil",
       "PASS",
       "There are no filter groups present.",
       verbose = verbose,
@@ -35,7 +34,7 @@ check_meta_filter_group_is_filter <- function(
 
     if (length(filter_group_not_in_filter) == 0) {
       test_output(
-        "meta_filter_group_is_filter",
+        "meta_fil_grp_is_fil",
         "PASS",
         "All filter groups are included in the col_name column.",
         verbose = verbose,
@@ -43,7 +42,7 @@ check_meta_filter_group_is_filter <- function(
       )
     } else {
       test_output(
-        "meta_filter_group_is_filter",
+        "meta_fil_grp_is_fil",
         "WARNING",
         paste0(
           "Filter groups should appear in the col_name column in the ",

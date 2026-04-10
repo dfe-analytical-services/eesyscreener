@@ -9,10 +9,10 @@
 #' @family check_meta
 #'
 #' @examples
-#' check_meta_filter_group_match(example_data, example_meta)
-#' check_meta_filter_group_match(example_data, example_meta, verbose = TRUE)
+#' check_meta_fil_grp_match(example_data, example_meta)
+#' check_meta_fil_grp_match(example_data, example_meta, verbose = TRUE)
 #' @export
-check_meta_filter_group_match <- function(
+check_meta_fil_grp_match <- function(
   data,
   meta,
   verbose = FALSE,
@@ -22,7 +22,7 @@ check_meta_filter_group_match <- function(
 
   if (length(meta_filter_groups) == 0) {
     test_output(
-      "meta_filter_group_match",
+      "meta_fil_grp_match",
       "PASS",
       "There are no filter groups present.",
       verbose = verbose,
@@ -37,7 +37,7 @@ check_meta_filter_group_match <- function(
 
     if (n_groups_not_in_data == 0) {
       test_output(
-        "meta_filter_group_match",
+        "meta_fil_grp_match",
         "PASS",
         "All filter groups from the metadata were found in the data file.",
         verbose = verbose,
@@ -46,7 +46,7 @@ check_meta_filter_group_match <- function(
     } else {
       if (n_groups_not_in_data == 1) {
         test_output(
-          "meta_filter_group_match",
+          "meta_fil_grp_match",
           "FAIL",
           paste0(
             "The following filter group from the metadata was not found ",
@@ -59,7 +59,7 @@ check_meta_filter_group_match <- function(
         )
       } else {
         test_output(
-          "meta_filter_group_match",
+          "meta_fil_grp_match",
           "FAIL",
           paste0(
             "The following filter groups from the metadata were not found ",

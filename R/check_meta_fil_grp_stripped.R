@@ -10,11 +10,10 @@
 #' @family check_meta
 #'
 #' @examples
-#' check_meta_filter_group_stripped(example_data, example_meta)
-#' check_meta_filter_group_stripped(example_data, example_meta, verbose = TRUE)
+#' check_meta_fil_grp_stripped(example_data, example_meta)
+#' check_meta_fil_grp_stripped(example_data, example_meta, verbose = TRUE)
 #' @export
-check_meta_filter_group_stripped <- function(
-  # nolint: object_length_linter.
+check_meta_fil_grp_stripped <- function(
   data,
   meta,
   verbose = FALSE,
@@ -24,13 +23,13 @@ check_meta_filter_group_stripped <- function(
   meta_filter_groups <- meta |>
     dplyr::filter(
       !(is.na(.data$filter_grouping_column) |
-        .data$filter_grouping_column == "")
+        .data$filter_grouping_column == "") # nolint: indentation_linter
     ) |>
     dplyr::pull(.data$filter_grouping_column)
   # If there are no filter_grouping_column entries, pass test
   if (length(meta_filter_groups) == 0) {
     test_output(
-      "meta_filter_group_stripped",
+      "meta_fil_grp_stripped",
       "PASS",
       "There are no filter groups present.",
       verbose = verbose,
@@ -62,7 +61,7 @@ check_meta_filter_group_stripped <- function(
     # If there are some (greater than 0) failed_cols, fail test
     if (length(failed_cols) > 0) {
       test_output(
-        "meta_filter_group_stripped",
+        "meta_fil_grp_stripped",
         "FAIL",
         paste0(
           "The number of unique filter groups should not change when ",
@@ -77,7 +76,7 @@ check_meta_filter_group_stripped <- function(
       # Else if there are no failed_cols (not greater than 0), pass test
     } else {
       test_output(
-        "meta_filter_group_stripped",
+        "meta_fil_grp_stripped",
         "PASS",
         paste0(
           "There are no issues when stripping non-alphanumeric",

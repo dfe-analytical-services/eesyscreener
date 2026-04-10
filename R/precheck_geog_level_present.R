@@ -32,7 +32,7 @@ precheck_geog_level_present <- function(
 
   expected_cols <- function(i) {
     # if a geographic level is present in the data, return its expected column
-    # names (code_field, name_field, code_field_secondary) from eesyscreener::geography_df
+    # names (code_field, name_field, code_field_secondary) from geography_df
     if (i["geographic_level"] %in% geo_levels) {
       i[c("code_field", "name_field", "code_field_secondary")]
     }
