@@ -10,9 +10,9 @@ cause performance issues within the admin system.}
 check_filter_item_limit(
   data,
   meta,
-  filter_item_limit = 25000,
   verbose = FALSE,
-  stop_on_error = FALSE
+  stop_on_error = FALSE,
+  filter_item_limit = 25000
 )
 }
 \arguments{
@@ -20,15 +20,14 @@ check_filter_item_limit(
 
 \item{meta}{A character string of the metadata filename to check}
 
-\item{filter_item_limit}{The maximum number of unique items allowed in a
-single filter. Default
-as used by the screener: 25000}
-
 \item{verbose}{logical, if TRUE prints feedback messages to console for
 every test, if FALSE run silently}
 
 \item{stop_on_error}{logical, if TRUE will stop with an error if the result
 is "FAIL", and will throw genuine warning if result is "WARNING"}
+
+\item{filter_item_limit}{The maximum number of unique items allowed in a
+single filter. Default as used by the screener: 25000}
 }
 \value{
 a single row data frame

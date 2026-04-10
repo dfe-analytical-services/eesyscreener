@@ -29,102 +29,80 @@ check_filter_defaults <- function(
     "statistics-production/ud.html#aggregates-and-default-filters"
   )
 
-  suppressMessages(duckplyr::methods_restore())
+  # --- Extract filter defaults from meta (base R only, no dplyr) ---
+  filter_names <- get_filters(meta)
 
-  if (!"filter_default" %in% names(meta)) {
-    meta <- meta |>
-      dplyr::mutate(filter_default = "Total")
-  } else {
-    meta <- meta |>
-      dplyr::mutate(
-        filter_default = dplyr::case_when(
-          .data$filter_default == "" & col_type == "Filter" ~ "Total",
-          is.na(.data$filter_default) & col_type == "Filter" ~ "Total",
-          .default = .data$filter_default
-        )
-      )
+  if (length(filter_names) == 0) {
+    return(test_output(
+      test_name,
+      "PASS",
+      "There are no filters in the data file.",
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    ))
   }
-  filters <- meta |>
-    dplyr::filter(.data$col_type == "Filter") |>
-    dplyr::select("col_name", "filter_default")
 
-  filter_groups <- meta |>
-    dplyr::filter(
-      !is.na(.data$filter_grouping_column),
-      as.character(.data$filter_grouping_column) != "",
-      !as.character(.data$filter_grouping_column) %in%
-        as.character(.data$col_name)
-    ) |>
-    dplyr::mutate(filter_default = "Total") |>
-    dplyr::select(col_name = "filter_grouping_column", "filter_default")
-
-  filters_and_groups <- dplyr::bind_rows(filters, filter_groups)
-
-  suppressMessages(duckplyr::methods_overwrite())
-
-  if (length(filters_and_groups) == 0) {
-    return(
-      test_output(
-        test_name,
-        "PASS",
-        "There are no filters in the data file.",
-        verbose = verbose,
-        stop_on_error = stop_on_error
-      )
+  # Get custom defaults where set, otherwise "Total"
+  if ("filter_default" %in% names(meta)) {
+    filter_rows <- meta$col_type == "Filter"
+    raw_defaults <- meta$filter_default[filter_rows]
+    defaults <- ifelse(
+      is.na(raw_defaults) | raw_defaults == "",
+      "Total",
+      raw_defaults
     )
   } else {
-    # Trim the data to just the filters and reduce to single row per combination
-    dfilters <- data |>
-      dplyr::select(dplyr::all_of(filters_and_groups$col_name)) |>
-      dplyr::distinct()
+    defaults <- rep("Total", length(filter_names))
+  }
+  filter_defaults <- stats::setNames(defaults, filter_names)
 
-    filter_defaults <- stats::setNames(
-      filters_and_groups$filter_default,
-      filters_and_groups$col_name
+  # Add filter groups that aren't already in col_name (default always "Total")
+  fg <- get_filter_groups(meta)
+  fg_new <- fg[!fg %in% meta$col_name]
+  if (length(fg_new) > 0) {
+    filter_defaults <- c(
+      filter_defaults,
+      stats::setNames(rep("Total", length(fg_new)), fg_new)
     )
+  }
 
-    # Check each filter column for the presence of the filter default (whether
-    # Total or a custom one).
-    pre_result <- sapply(
-      names(filter_defaults),
-      function(column) {
-        default_val <- filter_defaults[[column]]
-        unique_vals <- dfilters |>
-          dplyr::select(dplyr::all_of(column)) |>
-          dplyr::distinct() |>
-          dplyr::pull(1)
-        default_val %in% unique_vals
-      }
+  # --- Check each default exists in data (dplyr on duckplyr tibble) ---
+  # pull() is the single intentional materialization point per column
+  pre_result <- vapply(
+    names(filter_defaults),
+    function(column) {
+      unique_vals <- data |>
+        dplyr::select(dplyr::all_of(column)) |>
+        dplyr::distinct() |>
+        dplyr::pull(1)
+      filter_defaults[[column]] %in% unique_vals
+    },
+    logical(1)
+  )
+
+  if (all(pre_result)) {
+    test_output(
+      test_name,
+      "PASS",
+      "All filters and groups have a default filter item present.",
+      verbose = verbose,
+      stop_on_error = stop_on_error
     )
-
-    if (all(pre_result)) {
-      return(
-        test_output(
-          test_name,
-          "PASS",
-          "All filters and groups have a default filter item present.",
-          verbose = verbose,
-          stop_on_error = stop_on_error
-        )
-      )
-    } else {
-      missing_total <- names(pre_result[!pre_result])
-      return(
-        test_output(
-          test_name,
-          "WARNING",
-          paste0(
-            "A 'Total' entry or default filter item should be",
-            " specified for the following filters and",
-            " / or filter_groups where applicable: '",
-            paste(missing_total, collapse = "', '"),
-            "'."
-          ),
-          guidance_url = guidance_url,
-          verbose = verbose,
-          stop_on_error = stop_on_error
-        )
-      )
-    }
+  } else {
+    missing_total <- names(pre_result[!pre_result])
+    test_output(
+      test_name,
+      "WARNING",
+      paste0(
+        "A 'Total' entry or default filter item should be",
+        " specified for the following filters and",
+        " / or filter_groups where applicable: '",
+        paste(missing_total, collapse = "', '"),
+        "'."
+      ),
+      guidance_url = guidance_url,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    )
   }
 }

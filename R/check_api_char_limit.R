@@ -71,13 +71,16 @@ api_char_limit <- function(
   max_length <- eesyscreener::api_char_limits$char_limit[
     eesyscreener::api_char_limits$id == type
   ]
+  # Filter out NAs — missing values are not a character limit violation and
+  # are caught by other checks (e.g. check_meta_label, check_meta_col_name)
+  values <- values[!is.na(values)]
+
   results <- char_limits(values, max_length)
   pretty_type <- eesyscreener::api_char_limits$name[
     eesyscreener::api_char_limits$id == type
   ]
 
-  if (any(results$exceeds_max, na.rm = TRUE)) {
-    # TODO: Check if na.rm = TRUE is actually useful or could allow bugs
+  if (any(results$exceeds_max)) {
     fail_values <- results$value[results$exceeds_max]
     return(
       test_output(

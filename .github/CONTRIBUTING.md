@@ -20,6 +20,7 @@ The `screen_*()` functions are the key user facing exports of the package.
 - All individual checks should be named in accordance with the naming conventions in the `_pkgdown.yml` file
 - Due to the extensive use of check / test in this package, internal functions handling argument validation should follow the `validate_arg_*()` convention
 - All `check_*()` functions must return a consistent list structure
+- All `precheck_*()` and `check_*()` functions must use a consistent argument order: data/meta inputs first, then `verbose = FALSE`, then `stop_on_error = FALSE`, then any function-specific optional parameters. This enables `screen_dfs()` to call checks with positional arguments.
 - `R/utils.R` contains all internal functions
 - `data-raw/` contains the source code for example data and hardcoded variables
 - Use RDS as the main format for permanent test data (beware it automatically does some cleaning!), make temp CSV files or create a data.frame in code if needed

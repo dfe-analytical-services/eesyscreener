@@ -205,7 +205,7 @@ screen_dfs <- function(
     rbind(
       check_filter_defaults(data, meta, vb, soe),
       check_filter_group_level(data, meta, vb, soe),
-      check_filter_item_limit(data, meta, verbose = vb, stop_on_error = soe),
+      check_filter_item_limit(data, meta, vb, soe),
       check_filter_whitespace(data, meta, vb, soe)
     ),
     "Check filters",

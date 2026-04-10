@@ -138,6 +138,17 @@ Pre-computed RDA files loaded at package startup:
 
 ## Adding a New Check
 
+### Function argument conventions
+
+All `precheck_*()` and `check_*()` functions must follow a consistent argument order:
+
+1. `data` and/or `meta` (the data inputs)
+2. `verbose = FALSE`
+3. `stop_on_error = FALSE`
+4. Any additional function-specific parameters (with defaults)
+
+This allows `screen_dfs()` to call all checks with positional arguments for the common parameters (e.g. `check_foo(data, meta, vb, soe)`). Function-specific parameters must always be passed by name.
+
 When adding a new validation:
 
 1. **Create R file** – `R/check_my_validation.R` with:

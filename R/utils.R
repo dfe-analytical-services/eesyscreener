@@ -289,8 +289,7 @@ get_cols_meta <- function(
   excl_indicators = FALSE
 ) {
   if (excl_indicators) {
-    meta <- meta |>
-      dplyr::filter(.data$col_type != "Indicator")
+    meta <- meta[meta$col_type != "Indicator", ]
   }
   cols <- meta$col_name
   if (grouping_cols) {
@@ -368,8 +367,7 @@ get_geo_name_cols <- function() {
 #' @noRd
 #' @returns character vector of column names
 get_filter_groups <- function(meta) {
-  meta |>
-    dplyr::pull("filter_grouping_column") |>
+  meta$filter_grouping_column |>
     remove_nas_blanks()
 }
 
@@ -383,9 +381,7 @@ get_filter_groups <- function(meta) {
 #' @noRd
 #' @returns character vector of column names
 get_filters <- function(meta, include_filter_groups = FALSE) {
-  filter_cols <- meta |>
-    dplyr::filter(.data$col_type == "Filter") |>
-    dplyr::pull("col_name")
+  filter_cols <- meta$col_name[meta$col_type == "Filter"]
 
   if (!include_filter_groups) {
     return(filter_cols)

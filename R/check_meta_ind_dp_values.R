@@ -58,11 +58,15 @@ check_meta_ind_dp_values <- function(
         isTRUE(test)
       }
 
-      meta$integer <- lapply(ind_dp, is_integer)
-      meta$notNegative <- lapply(ind_dp, function(x) is.na(x) || x >= 0)
+      meta$integer <- vapply(ind_dp, is_integer, logical(1))
+      meta$notNegative <- vapply(
+        ind_dp,
+        function(x) is.na(x) || x >= 0,
+        logical(1)
+      )
       failed_rows <- rbind(
-        meta |> dplyr::filter(integer == FALSE),
-        meta |> dplyr::filter(.data$notNegative == FALSE)
+        meta |> dplyr::filter(!.data$integer),
+        meta |> dplyr::filter(!.data$notNegative)
       )
 
       if (nrow(failed_rows) != 0) {
