@@ -20,7 +20,10 @@ get_check_name <- function() {
     }
   }
   stop(
-    "get_check_name() must be called from within a check_ or precheck_ function."
+    paste0(
+      "get_check_name() must be called from within a check_ or precheck_",
+      " function."
+    )
   )
 }
 

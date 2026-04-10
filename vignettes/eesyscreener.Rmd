@@ -68,7 +68,7 @@ Each individual precheck / check:
 Standard pattern:
 ```r
 test_output(
-  "test_name", # name of check
+  get_check_name(), # name of check function
   "PASS", # result of check, one of 'PASS', 'FAIL', 'WARNING'
   paste0("'", filename, "' does not contain any special characters."), # feedback message for user, avoid HTML, keep to a simple string
   "https://dfe-analytical-services.github.io/analysts-guide/", # optional URL for guidance, can just not include as will default to NA
