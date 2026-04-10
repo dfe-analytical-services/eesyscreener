@@ -68,7 +68,7 @@ check_meta_geog_catch <- function(
 
   if (length(caught_filters) == 0) {
     test_output(
-      "meta_geog_catch",
+      get_check_name(),
       "PASS",
       "No filters appear to be mislabelled geography columns.",
       verbose = verbose,
@@ -76,7 +76,7 @@ check_meta_geog_catch <- function(
     )
   } else {
     test_output(
-      "meta_geog_catch",
+      get_check_name(),
       "FAIL",
       cli::pluralize(
         "The following {cli::qty(length(caught_filters))}filter{?s} ",

@@ -24,7 +24,7 @@ check_col_snake_case <- function(
     use.names = FALSE
   ))
 
-  test_name <- "col_snake_case"
+  test_name <- get_check_name()
 
   if (length(cap_special_char_check) == 0) {
     test_output(

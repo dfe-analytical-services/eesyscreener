@@ -47,7 +47,7 @@ precheck_time_period_num <- function(
   }
 
   test_output(
-    "time_period_num",
+    get_check_name(),
     result,
     message,
     guidance_url,

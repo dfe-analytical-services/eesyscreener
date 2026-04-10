@@ -36,7 +36,7 @@ precheck_time_id_mix <- function(
     dplyr::distinct(.data$time_identifier) |>
     dplyr::pull("time_identifier")
 
-  test_name <- "time_id_mix"
+  test_name <- get_check_name()
   guidance_url <- NA
 
   # Check if all unique_time_ids are in base_level

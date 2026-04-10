@@ -29,7 +29,7 @@ check_meta_fil_grp_stripped <- function(
   # If there are no filter_grouping_column entries, pass test
   if (length(meta_filter_groups) == 0) {
     test_output(
-      "meta_fil_grp_stripped",
+      get_check_name(),
       "PASS",
       "There are no filter groups present.",
       verbose = verbose,
@@ -61,7 +61,7 @@ check_meta_fil_grp_stripped <- function(
     # If there are some (greater than 0) failed_cols, fail test
     if (length(failed_cols) > 0) {
       test_output(
-        "meta_fil_grp_stripped",
+        get_check_name(),
         "FAIL",
         paste0(
           "The number of unique filter groups should not change when ",
@@ -76,7 +76,7 @@ check_meta_fil_grp_stripped <- function(
       # Else if there are no failed_cols (not greater than 0), pass test
     } else {
       test_output(
-        "meta_fil_grp_stripped",
+        get_check_name(),
         "PASS",
         paste0(
           "There are no issues when stripping non-alphanumeric",

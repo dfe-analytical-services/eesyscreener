@@ -25,7 +25,7 @@ check_col_names_spaces <- function(
     dplyr::filter(.data$values == "FAIL") |>
     dplyr::pull(.data$ind)
 
-  test_name <- "col_names_spaces"
+  test_name <- get_check_name()
 
   if (all(pre_result$values == "PASS")) {
     result <- "PASS"

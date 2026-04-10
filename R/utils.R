@@ -4,15 +4,22 @@
 #' helper, and stripping the `check_` or `precheck_` prefix. This keeps the
 #' check name in `test_output()` automatically in sync with the function name.
 #'
-#' Must be called directly from within a `check_` or `precheck_` function, not
-#' passed through additional wrappers.
+#' Walks up the call stack to find the nearest `check_` or `precheck_` function,
+#' so it works whether called directly or passed through helpers like
+#' `test_output()`.
 #'
 #' @keywords internal
 #' @noRd
 #' @returns A single character string with the check name
 get_check_name <- function() {
-  caller <- as.character(sys.call(-1)[[1]])
-  sub("^(check|precheck)_", "", caller)
+  for (i in seq_len(sys.nframe() - 1)) {
+    call <- sys.call(-i)
+    fn_name <- as.character(call[[1]])
+    if (grepl("^(check|precheck)_", fn_name)) {
+      return(sub("^(check|precheck)_", "", fn_name))
+    }
+  }
+  stop("get_check_name() must be called from within a check_ or precheck_ function.")
 }
 
 #' Handle null filenames

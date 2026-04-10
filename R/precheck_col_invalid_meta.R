@@ -29,7 +29,7 @@ precheck_col_invalid_meta <- function(
 
   if (length(invalid_meta_cols) == 0) {
     test_output(
-      "col_invalid_meta",
+      get_check_name(),
       "result" = "PASS",
       "There are no invalid columns in the metadata file.",
       verbose = verbose,
@@ -38,7 +38,7 @@ precheck_col_invalid_meta <- function(
   } else {
     if (length(invalid_meta_cols) == 1) {
       test_output(
-        "col_invalid_meta",
+        get_check_name(),
         "result" = "FAIL",
         paste(invalid_meta_cols, "is an invalid column in the metadata file."),
         verbose = verbose,
@@ -46,7 +46,7 @@ precheck_col_invalid_meta <- function(
       )
     } else {
       test_output(
-        "col_invalid_meta",
+        get_check_name(),
         "result" = "FAIL",
         paste(
           "These are invalid columns in the metadata file:",

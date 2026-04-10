@@ -27,7 +27,7 @@ check_meta_ind_dp_set <- function(
 
   if (length(blank_ind_dp) == 0) {
     test_output(
-      "meta_ind_dp_set",
+      get_check_name(),
       "PASS",
       "The indicator_dp column is completed for all indicators.",
       verbose = verbose,
@@ -36,7 +36,7 @@ check_meta_ind_dp_set <- function(
   } else {
     if (length(blank_ind_dp) == 1) {
       test_output(
-        "meta_ind_dp_set",
+        get_check_name(),
         "WARNING",
         paste0(
           paste(blank_ind_dp, collapse = "', '"),
@@ -48,7 +48,7 @@ check_meta_ind_dp_set <- function(
       )
     } else {
       test_output(
-        "meta_ind_dp_set",
+        get_check_name(),
         "WARNING",
         paste0(
           "The following indicators do not have a specified number of decimal",

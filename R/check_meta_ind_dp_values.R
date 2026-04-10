@@ -27,7 +27,7 @@ check_meta_ind_dp_values <- function(
     coerced <- suppressWarnings(as.numeric(non_blank))
     if (any(is.na(coerced))) {
       return(test_output(
-        "meta_ind_dp_values",
+        get_check_name(),
         "FAIL",
         paste0(
           "The indicator_dp column must only contain blanks,",
@@ -42,7 +42,7 @@ check_meta_ind_dp_values <- function(
 
   if (all(is.na(ind_dp))) {
     test_output(
-      "meta_ind_dp_values",
+      get_check_name(),
       "PASS",
       "The indicator_dp column only contains blanks.",
       verbose = verbose,
@@ -71,7 +71,7 @@ check_meta_ind_dp_values <- function(
 
       if (nrow(failed_rows) != 0) {
         test_output(
-          "meta_ind_dp_values",
+          get_check_name(),
           "FAIL",
           paste0(
             "The indicator_dp column must only contain blanks,",
@@ -82,7 +82,7 @@ check_meta_ind_dp_values <- function(
         )
       } else {
         test_output(
-          "meta_ind_dp_values",
+          get_check_name(),
           "PASS",
           paste0(
             "The indicator_dp column only contains blanks,",
@@ -94,7 +94,7 @@ check_meta_ind_dp_values <- function(
       }
     } else {
       test_output(
-        "meta_ind_dp_values",
+        get_check_name(),
         "FAIL",
         paste0(
           "The indicator_dp column must only contain blanks,",

@@ -28,7 +28,7 @@ precheck_col_req_data <- function(
 
   if (length(missing_cols) == 0) {
     test_output(
-      "col_req_data",
+      get_check_name(),
       "PASS",
       "All of the required columns are present in the data file.",
       verbose = verbose,
@@ -37,7 +37,7 @@ precheck_col_req_data <- function(
   } else {
     if (length(missing_cols) == 1) {
       test_output(
-        "col_req_data",
+        get_check_name(),
         "FAIL",
         paste0(
           "The following required column is missing from the data file: '",
@@ -49,7 +49,7 @@ precheck_col_req_data <- function(
       )
     } else {
       test_output(
-        "col_req_data",
+        get_check_name(),
         "FAIL",
         paste0(
           "The following required columns are missing from the data file:",

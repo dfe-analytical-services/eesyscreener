@@ -25,7 +25,7 @@ check_filename_spaces <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  test_name <- "filename_spaces"
+  test_name <- get_check_name()
 
   if (grepl(" ", filename)) {
     return(

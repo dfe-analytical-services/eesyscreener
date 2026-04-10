@@ -42,7 +42,7 @@ check_ind_invalid_entry <- function(
 
   if (all(pre_result$values == "PASS")) {
     test_output(
-      "ind_invalid_entry",
+      get_check_name(),
       "PASS",
       "There are no blank values or GSS legacy symbols in any indicators.",
       verbose = verbose,
@@ -50,7 +50,7 @@ check_ind_invalid_entry <- function(
     )
   } else {
     test_output(
-      "ind_invalid_entry",
+      get_check_name(),
       "FAIL",
       paste0(
         cli::pluralize(

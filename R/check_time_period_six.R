@@ -31,7 +31,7 @@ check_time_period_six <- function(
     result <- "FAIL"
     return(
       test_output(
-        "time_period_six",
+        get_check_name(),
         result,
         message,
         verbose = verbose,
@@ -76,7 +76,7 @@ check_time_period_six <- function(
   }
 
   test_output(
-    "time_period_six",
+    get_check_name(),
     result,
     message,
     verbose = verbose,

@@ -27,7 +27,7 @@ check_meta_fil_grp <- function(
 
   if (length(invalid_filter_grouping_column) == 0) {
     test_output(
-      "meta_fil_grp",
+      get_check_name(),
       "PASS",
       "No indicators have a filter_grouping_column value.",
       verbose = verbose,
@@ -35,7 +35,7 @@ check_meta_fil_grp <- function(
     )
   } else {
     test_output(
-      "meta_fil_grp",
+      get_check_name(),
       "FAIL",
       paste0(
         "Indicators should not have a filter_grouping_column value in 

@@ -21,7 +21,7 @@ check_meta_dupe_label <- function(
 
   if (length(duplicated_labels) == 0) {
     test_output(
-      "meta_dupe_label",
+      get_check_name(),
       "PASS",
       "All labels are unique.",
       verbose = verbose,
@@ -30,7 +30,7 @@ check_meta_dupe_label <- function(
   } else {
     if (length(duplicated_labels) == 1) {
       test_output(
-        "meta_dupe_label",
+        get_check_name(),
         "FAIL",
         paste0(
           "The following label is duplicated in the metadata file: '",
@@ -42,7 +42,7 @@ check_meta_dupe_label <- function(
       )
     } else {
       test_output(
-        "meta_dupe_label",
+        get_check_name(),
         "FAIL",
         paste0(
           "The following labels are duplicated in the metadata file: '",

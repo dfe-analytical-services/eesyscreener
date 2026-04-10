@@ -30,7 +30,7 @@ precheck_time_id_valid <- function(
 
   if (length(invalid_identifiers) == 0) {
     test_output(
-      "time_id_valid",
+      get_check_name(),
       "PASS",
       "The time_identifier values are all valid.",
       verbose = verbose,
@@ -40,7 +40,7 @@ precheck_time_id_valid <- function(
     if (length(invalid_identifiers) == 1) {
       if (is.na(invalid_identifiers) || invalid_identifiers == "") {
         test_output(
-          "time_id_valid",
+          get_check_name(),
           "FAIL",
           "At least one of the time_identifier values is blank or missing.",
           paste0(
@@ -52,7 +52,7 @@ precheck_time_id_valid <- function(
         )
       } else {
         test_output(
-          "time_id_valid",
+          get_check_name(),
           "FAIL",
           sprintf(
             "The following invalid time_identifier was found: '%s'.",
@@ -68,7 +68,7 @@ precheck_time_id_valid <- function(
       }
     } else {
       test_output(
-        "time_id_valid",
+        get_check_name(),
         "FAIL",
         sprintf(
           "The following invalid time_identifiers were found: '%s'.",

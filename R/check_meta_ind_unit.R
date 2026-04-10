@@ -28,7 +28,7 @@ check_meta_ind_unit <- function(meta, verbose = FALSE, stop_on_error = FALSE) {
 
   if (length(indicator_units) > 0) {
     test_output(
-      "meta_ind_unit",
+      get_check_name(),
       "FAIL",
       paste0(
         "Filters should not have an indicator_unit value in",
@@ -46,7 +46,7 @@ check_meta_ind_unit <- function(meta, verbose = FALSE, stop_on_error = FALSE) {
     )
   } else {
     test_output(
-      "meta_ind_unit",
+      get_check_name(),
       "PASS",
       "No filters have an indicator_unit value.",
       verbose = verbose,

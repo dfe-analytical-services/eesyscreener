@@ -21,7 +21,7 @@ precheck_meta_col_name <- function(
 
   if (blank_col_names == 0) {
     test_output(
-      "meta_col_name",
+      get_check_name(),
       "PASS",
       "The col_name column is completed for every row in the metadata.",
       verbose = verbose,
@@ -30,7 +30,7 @@ precheck_meta_col_name <- function(
   } else {
     if (blank_col_names == 1) {
       test_output(
-        "meta_col_name",
+        get_check_name(),
         "FAIL",
         "There is a col_name missing in 1 row of the metadata file.",
         verbose = verbose,
@@ -38,7 +38,7 @@ precheck_meta_col_name <- function(
       )
     } else {
       test_output(
-        "meta_col_name",
+        get_check_name(),
         "FAIL",
         paste0(
           "There are col_name values missing in ",

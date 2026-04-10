@@ -26,7 +26,7 @@ check_filter_item_limit <- function(
   stop_on_error = FALSE,
   filter_item_limit = 25000
 ) {
-  test_name <- "filter_item_limit"
+  test_name <- get_check_name()
 
   filters_and_groups <- meta |>
     get_cols_meta(grouping_cols = TRUE, excl_indicators = TRUE)

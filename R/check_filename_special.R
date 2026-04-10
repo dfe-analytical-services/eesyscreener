@@ -20,7 +20,7 @@ check_filename_special <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  test_name <- "filename_special"
+  test_name <- get_check_name()
 
   strip_extension <- tools::file_path_sans_ext(filename)
   cleaned_filename <- gsub("\\.meta$", "", strip_extension)

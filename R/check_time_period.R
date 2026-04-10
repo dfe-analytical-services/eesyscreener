@@ -72,7 +72,7 @@ check_time_period <- function(
   }
 
   test_output(
-    "time_period",
+    get_check_name(),
     result,
     message,
     guidance_url,

@@ -30,7 +30,7 @@ precheck_col_to_rows <- function(
 
   if (data_cols < meta_rows) {
     test_output(
-      "col_to_rows",
+      get_check_name(),
       "FAIL",
       paste0(
         "There are more rows in the metadata file (",
@@ -46,7 +46,7 @@ precheck_col_to_rows <- function(
   } else {
     if (data_cols == meta_rows) {
       test_output(
-        "col_to_rows",
+        get_check_name(),
         "PASS",
         paste0(
           "There are an equal number of rows in the metadata file (",
@@ -60,7 +60,7 @@ precheck_col_to_rows <- function(
       )
     } else {
       test_output(
-        "col_to_rows",
+        get_check_name(),
         "PASS",
         paste0(
           "There are fewer rows in the metadata file (",
