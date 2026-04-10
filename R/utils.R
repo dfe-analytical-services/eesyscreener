@@ -532,7 +532,12 @@ render_url <- function(slug, domain = "analysts_guide") {
   if (
     !domain %in% c("analysts_guide", "ees", "dfe_github", "screener_app_repo")
   ) {
-    stop("Please choose one of 'analysts_guide', 'ees' or 'dfe_github'")
+    stop(
+      paste0(
+        "Please choose one of 'analysts_guide', 'ees', 'dfe_github' or",
+        " 'screener_app_repo'"
+      )
+    )
   }
   url <- list(
     analysts_guide = paste0(

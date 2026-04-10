@@ -17,11 +17,12 @@ check_meta_fil_grp_is_fil <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  test_name <- test_name
   meta_filter_groups <- get_filter_groups(meta)
 
   if (length(meta_filter_groups) == 0) {
     test_output(
-      get_check_name(),
+      test_name,
       "PASS",
       "There are no filter groups present.",
       verbose = verbose,
@@ -34,7 +35,7 @@ check_meta_fil_grp_is_fil <- function(
 
     if (length(filter_group_not_in_filter) == 0) {
       test_output(
-        get_check_name(),
+        test_name,
         "PASS",
         "All filter groups are included in the col_name column.",
         verbose = verbose,
@@ -42,7 +43,7 @@ check_meta_fil_grp_is_fil <- function(
       )
     } else {
       test_output(
-        get_check_name(),
+        test_name,
         "WARNING",
         paste0(
           "Filter groups should appear in the col_name column in the ",

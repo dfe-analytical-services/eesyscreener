@@ -18,6 +18,7 @@ precheck_geog_level <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  test_name <- test_name
   # Pull all unique geographic levels from the data set
   present_geographic_levels <- data |>
     dplyr::pull(.data$geographic_level) |>
@@ -30,7 +31,7 @@ precheck_geog_level <- function(
   # If there are no invalid geographic levels, pass the test
   if (length(invalid_geographic_levels) == 0) {
     test_output(
-      get_check_name(),
+      test_name,
       "PASS",
       "The geographic_level values are all valid.",
       verbose = verbose,
@@ -39,7 +40,7 @@ precheck_geog_level <- function(
   } else {
     # If there are any invalid geographic levels, fail the test and flag them
     test_output(
-      get_check_name(),
+      test_name,
       "FAIL",
       paste0(
         "The following invalid geographic level(s) were found in the file: ",

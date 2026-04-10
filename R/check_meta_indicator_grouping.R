@@ -17,6 +17,7 @@ check_meta_indicator_grouping <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  test_name <- test_name
   indicator_groups <- meta |>
     dplyr::filter(
       .data$col_type == "Filter",
@@ -27,7 +28,7 @@ check_meta_indicator_grouping <- function(
 
   if (length(indicator_groups) == 0) {
     test_output(
-      get_check_name(),
+      test_name,
       "PASS",
       "No filters have an indicator_grouping value.",
       verbose = verbose,
@@ -35,7 +36,7 @@ check_meta_indicator_grouping <- function(
     )
   } else {
     test_output(
-      get_check_name(),
+      test_name,
       "FAIL",
       paste0(
         "Filters should not have an indicator_grouping",

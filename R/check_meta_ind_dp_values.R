@@ -18,6 +18,7 @@ check_meta_ind_dp_values <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  test_name <- test_name
   # Normalise: treat blank strings as NA; fail if non-blank values can't be
   # converted to numeric
   ind_dp <- meta$indicator_dp
@@ -27,7 +28,7 @@ check_meta_ind_dp_values <- function(
     coerced <- suppressWarnings(as.numeric(non_blank))
     if (any(is.na(coerced))) {
       return(test_output(
-        get_check_name(),
+        test_name,
         "FAIL",
         paste0(
           "The indicator_dp column must only contain blanks,",
@@ -42,7 +43,7 @@ check_meta_ind_dp_values <- function(
 
   if (all(is.na(ind_dp))) {
     test_output(
-      get_check_name(),
+      test_name,
       "PASS",
       "The indicator_dp column only contains blanks.",
       verbose = verbose,
@@ -71,7 +72,7 @@ check_meta_ind_dp_values <- function(
 
       if (nrow(failed_rows) != 0) {
         test_output(
-          get_check_name(),
+          test_name,
           "FAIL",
           paste0(
             "The indicator_dp column must only contain blanks,",
@@ -82,7 +83,7 @@ check_meta_ind_dp_values <- function(
         )
       } else {
         test_output(
-          get_check_name(),
+          test_name,
           "PASS",
           paste0(
             "The indicator_dp column only contains blanks,",
@@ -94,7 +95,7 @@ check_meta_ind_dp_values <- function(
       }
     } else {
       test_output(
-        get_check_name(),
+        test_name,
         "FAIL",
         paste0(
           "The indicator_dp column must only contain blanks,",

@@ -18,6 +18,7 @@ check_meta_ind_unit_validation <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  test_name <- test_name
   # Pull all unique indicator_unit entries that are neither empty nor NA
   present_indictor_units <- meta |>
     dplyr::filter(
@@ -34,7 +35,7 @@ check_meta_ind_unit_validation <- function(
   # If there are no invalid indicator units, pass the test
   if (length(invalid_indicator_units) == 0) {
     test_output(
-      get_check_name(),
+      test_name,
       "PASS",
       "The indicator_unit values are valid",
       verbose = verbose,
@@ -43,7 +44,7 @@ check_meta_ind_unit_validation <- function(
   } else {
     # If there are invalid indicator units, fail the test and flag the units
     test_output(
-      get_check_name(),
+      test_name,
       "FAIL",
       paste0(
         "The following invalid indicator unit(s) is / are present in the ",

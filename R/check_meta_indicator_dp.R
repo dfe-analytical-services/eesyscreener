@@ -17,6 +17,7 @@ check_meta_indicator_dp <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  test_name <- test_name
   indicator_dps <- meta |>
     dplyr::filter(
       .data$col_type == "Filter",
@@ -27,7 +28,7 @@ check_meta_indicator_dp <- function(
 
   if (length(indicator_dps) == 0) {
     test_output(
-      get_check_name(),
+      test_name,
       "PASS",
       "No filters have an indicator_dp value.",
       verbose = verbose,
@@ -35,7 +36,7 @@ check_meta_indicator_dp <- function(
     )
   } else {
     test_output(
-      get_check_name(),
+      test_name,
       "FAIL",
       "Filters should not have an indicator_dp value in the metadata file.",
       verbose = verbose,

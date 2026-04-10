@@ -20,11 +20,12 @@ check_meta_col_name_spaces <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  test_name <- test_name
   col_name_space_pos <- grep("\\s", meta$col_name)
 
   if (length(col_name_space_pos) > 0) {
     test_output(
-      get_check_name(),
+      test_name,
       "result" = "FAIL",
       "message" = paste0(
         c(
@@ -44,7 +45,7 @@ check_meta_col_name_spaces <- function(
     )
   } else {
     test_output(
-      get_check_name(),
+      test_name,
       "result" = "PASS",
       "message" = "There are no spaces in the col_name values.",
       verbose = verbose,

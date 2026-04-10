@@ -30,6 +30,7 @@ check_ind_invalid_entry <- function(
     }
   }
 
+  test_name <- test_name
   indicators <- meta |>
     dplyr::filter(.data$col_type == "Indicator") |>
     dplyr::pull(.data$col_name) |>
@@ -42,7 +43,7 @@ check_ind_invalid_entry <- function(
 
   if (all(pre_result$values == "PASS")) {
     test_output(
-      get_check_name(),
+      test_name,
       "PASS",
       "There are no blank values or GSS legacy symbols in any indicators.",
       verbose = verbose,
@@ -50,7 +51,7 @@ check_ind_invalid_entry <- function(
     )
   } else {
     test_output(
-      get_check_name(),
+      test_name,
       "FAIL",
       paste0(
         cli::pluralize(

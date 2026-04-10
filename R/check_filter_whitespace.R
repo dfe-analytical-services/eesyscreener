@@ -19,11 +19,12 @@ check_filter_whitespace <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  test_name <- test_name
   filters <- get_filters(meta)
 
   if (length(filters) == 0) {
     test_output(
-      get_check_name(),
+      test_name,
       "PASS",
       "No filters present.",
       verbose = verbose,
@@ -50,7 +51,7 @@ check_filter_whitespace <- function(
 
     if (length(white_spaces) == 0) {
       test_output(
-        get_check_name(),
+        test_name,
         "PASS",
         "No filter labels contain leading or trailing whitespace.",
         verbose = verbose,
@@ -60,7 +61,7 @@ check_filter_whitespace <- function(
       count_ws <- length(white_spaces)
 
       test_output(
-        get_check_name(),
+        test_name,
         "FAIL",
         paste0(
           count_ws,

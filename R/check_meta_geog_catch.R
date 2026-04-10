@@ -23,6 +23,7 @@ check_meta_geog_catch <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  test_name <- test_name
   # Regex matching common geography-related column names
   potential_ob_units_regex <- paste0(
     "(^(country|sch|prov|inst|estab|reg|la|local|",
@@ -68,7 +69,7 @@ check_meta_geog_catch <- function(
 
   if (length(caught_filters) == 0) {
     test_output(
-      get_check_name(),
+      test_name,
       "PASS",
       "No filters appear to be mislabelled geography columns.",
       verbose = verbose,
@@ -76,7 +77,7 @@ check_meta_geog_catch <- function(
     )
   } else {
     test_output(
-      get_check_name(),
+      test_name,
       "FAIL",
       cli::pluralize(
         "The following {cli::qty(length(caught_filters))}filter{?s} ",

@@ -19,6 +19,7 @@ check_time_period_six <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  test_name <- test_name
   unique_periods <- data |>
     dplyr::distinct(.data$time_period) |>
     dplyr::pull("time_period")
@@ -31,7 +32,7 @@ check_time_period_six <- function(
     result <- "FAIL"
     return(
       test_output(
-        get_check_name(),
+        test_name,
         result,
         message,
         verbose = verbose,
@@ -76,7 +77,7 @@ check_time_period_six <- function(
   }
 
   test_output(
-    get_check_name(),
+    test_name,
     result,
     message,
     verbose = verbose,

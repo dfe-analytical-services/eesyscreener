@@ -18,11 +18,12 @@ check_meta_label <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  test_name <- test_name
   blank_labels <- sum(is.na(meta$label) | meta$label == "" | meta$label == " ")
 
   if (blank_labels == 0) {
     test_output(
-      get_check_name(),
+      test_name,
       "PASS",
       "The label column is completed for every row in the metadata.",
       verbose = verbose,
@@ -31,7 +32,7 @@ check_meta_label <- function(
   } else {
     if (blank_labels == 1) {
       test_output(
-        get_check_name(),
+        test_name,
         "FAIL",
         paste0(
           "There is a label missing in ",
@@ -43,7 +44,7 @@ check_meta_label <- function(
       )
     } else {
       test_output(
-        get_check_name(),
+        test_name,
         "FAIL",
         paste0(
           "There are labels missing in ",

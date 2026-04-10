@@ -28,10 +28,12 @@ check_filter_group_level <- function(
         .data$filter_grouping_column != ""
     ) |>
     dplyr::select("col_name", "filter_grouping_column")
+  test_name <- get_check_name()
+
   # If no filter groups present, return a message to say so
   if (nrow(filters_and_groups) == 0) {
     return(test_output(
-      get_check_name(),
+      test_name,
       "PASS",
       "There are no filter groups present.",
       verbose = verbose,
@@ -76,7 +78,7 @@ check_filter_group_level <- function(
   # failed pairs
   if (number_of_failed_pairs == 0) {
     test_output(
-      get_check_name(),
+      test_name,
       "PASS",
       message = paste0(
         "All filter groups have an equal or lower number of",
@@ -88,7 +90,7 @@ check_filter_group_level <- function(
   } else {
     if (number_of_failed_pairs == 1) {
       test_output(
-        get_check_name(),
+        test_name,
         "FAIL",
         message = paste0(
           "The filter group '",
@@ -107,7 +109,7 @@ check_filter_group_level <- function(
       )
     } else {
       test_output(
-        get_check_name(),
+        test_name,
         "FAIL",
         message = paste0(
           "The following filter groups each have more levels",

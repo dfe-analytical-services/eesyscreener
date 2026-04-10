@@ -22,13 +22,14 @@ precheck_col_req_data <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  test_name <- test_name
   missing_cols <- eesyscreener::req_data_cols[
     !eesyscreener::req_data_cols %in% names(data)
   ]
 
   if (length(missing_cols) == 0) {
     test_output(
-      get_check_name(),
+      test_name,
       "PASS",
       "All of the required columns are present in the data file.",
       verbose = verbose,
@@ -37,7 +38,7 @@ precheck_col_req_data <- function(
   } else {
     if (length(missing_cols) == 1) {
       test_output(
-        get_check_name(),
+        test_name,
         "FAIL",
         paste0(
           "The following required column is missing from the data file: '",
@@ -49,7 +50,7 @@ precheck_col_req_data <- function(
       )
     } else {
       test_output(
-        get_check_name(),
+        test_name,
         "FAIL",
         paste0(
           "The following required columns are missing from the data file:",

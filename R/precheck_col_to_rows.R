@@ -25,12 +25,13 @@ precheck_col_to_rows <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  test_name <- test_name
   data_cols <- length(dplyr::tbl_vars(data)) - 5
   meta_rows <- nrow(meta)
 
   if (data_cols < meta_rows) {
     test_output(
-      get_check_name(),
+      test_name,
       "FAIL",
       paste0(
         "There are more rows in the metadata file (",
@@ -46,7 +47,7 @@ precheck_col_to_rows <- function(
   } else {
     if (data_cols == meta_rows) {
       test_output(
-        get_check_name(),
+        test_name,
         "PASS",
         paste0(
           "There are an equal number of rows in the metadata file (",
@@ -60,7 +61,7 @@ precheck_col_to_rows <- function(
       )
     } else {
       test_output(
-        get_check_name(),
+        test_name,
         "PASS",
         paste0(
           "There are fewer rows in the metadata file (",

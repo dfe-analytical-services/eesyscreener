@@ -17,6 +17,7 @@ check_meta_fil_grp_dupe <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  test_name <- test_name
   filter_groups <- meta |>
     dplyr::filter(
       !is.na(.data$filter_grouping_column),
@@ -26,7 +27,7 @@ check_meta_fil_grp_dupe <- function(
 
   if (length(filter_groups) == 0) {
     test_output(
-      get_check_name(),
+      test_name,
       "PASS",
       "There are no filter groups present.",
       verbose = verbose,
@@ -35,7 +36,7 @@ check_meta_fil_grp_dupe <- function(
   } else if (length(filter_groups) != dplyr::n_distinct(filter_groups)) {
     duplicates <- unique(filter_groups[duplicated(filter_groups)])
     test_output(
-      get_check_name(),
+      test_name,
       "FAIL",
       paste0(
         "There are duplicate filter_group values: ",
@@ -47,7 +48,7 @@ check_meta_fil_grp_dupe <- function(
     )
   } else {
     test_output(
-      get_check_name(),
+      test_name,
       "PASS",
       "All of the filter_group values are unique.",
       verbose = verbose,

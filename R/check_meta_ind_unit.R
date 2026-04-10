@@ -15,6 +15,7 @@
 #' @export
 
 check_meta_ind_unit <- function(meta, verbose = FALSE, stop_on_error = FALSE) {
+  test_name <- test_name
   filtered_positions <- which(
     meta$col_type == "Filter" &
       !is.na(meta$indicator_unit) &
@@ -28,7 +29,7 @@ check_meta_ind_unit <- function(meta, verbose = FALSE, stop_on_error = FALSE) {
 
   if (length(indicator_units) > 0) {
     test_output(
-      get_check_name(),
+      test_name,
       "FAIL",
       paste0(
         "Filters should not have an indicator_unit value in",
@@ -46,7 +47,7 @@ check_meta_ind_unit <- function(meta, verbose = FALSE, stop_on_error = FALSE) {
     )
   } else {
     test_output(
-      get_check_name(),
+      test_name,
       "PASS",
       "No filters have an indicator_unit value.",
       verbose = verbose,
