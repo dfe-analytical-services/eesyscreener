@@ -22,3 +22,4 @@
 ^MIGRATION_CONTEXT_PACK\.md$
 ^migration-progress\.csv$
 ^migration_examples\.md$
+^docker$

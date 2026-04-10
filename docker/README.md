@@ -9,7 +9,7 @@ These instructions assume you already have Docker installed. If you don't, pleas
 2. Build the image:
 
 	```sh
-	docker build -f inst/docker/Dockerfile-eesyscreener-dev -t eesyscreener-dev .
+	docker build -f docker/Dockerfile-eesyscreener-dev -t eesyscreener-dev .
 	```
 
 3. Start a container:
