@@ -19,7 +19,9 @@ get_check_name <- function() {
       return(sub("^(check|precheck)_", "", fn_name))
     }
   }
-  stop("get_check_name() must be called from within a check_ or precheck_ function.")
+  stop(
+    "get_check_name() must be called from within a check_ or precheck_ function."
+  )
 }
 
 #' Handle null filenames
