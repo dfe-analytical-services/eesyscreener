@@ -22,7 +22,7 @@ check_meta_filter_group_match <- function(
 
   if (length(meta_filter_groups) == 0) {
     test_output(
-      "filter_groups_match",
+      "meta_filter_group_match",
       "PASS",
       "There are no filter groups present.",
       verbose = verbose,
@@ -37,7 +37,7 @@ check_meta_filter_group_match <- function(
 
     if (n_groups_not_in_data == 0) {
       test_output(
-        "filter_groups_match",
+        "meta_filter_group_match",
         "PASS",
         "All filter groups from the metadata were found in the data file.",
         verbose = verbose,
@@ -46,7 +46,7 @@ check_meta_filter_group_match <- function(
     } else {
       if (n_groups_not_in_data == 1) {
         test_output(
-          "filter_groups_match",
+          "meta_filter_group_match",
           "FAIL",
           paste0(
             "The following filter group from the metadata was not found ",
@@ -59,7 +59,7 @@ check_meta_filter_group_match <- function(
         )
       } else {
         test_output(
-          "filter_groups_match",
+          "meta_filter_group_match",
           "FAIL",
           paste0(
             "The following filter groups from the metadata were not found ",

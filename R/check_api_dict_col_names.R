@@ -18,7 +18,7 @@ check_api_dict_col_names <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  test_name <- "check_api_dict_col_names"
+  test_name <- "api_dict_col_names"
 
   dd_col_names <- eesyscreener::data_dictionary |>
     dplyr::select("col_name", "col_name_parent", "col_type") |>

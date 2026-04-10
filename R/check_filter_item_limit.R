@@ -27,7 +27,7 @@ check_filter_item_limit <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  test_name <- "check_filter_item_limit"
+  test_name <- "filter_item_limit"
 
   filters_and_groups <- meta |>
     get_cols_meta(grouping_cols = TRUE, excl_indicators = TRUE)
@@ -47,7 +47,13 @@ check_filter_item_limit <- function(
       filters = filters_and_groups,
       nentries = sapply(
         filters_and_groups,
-        function(col) dplyr::n_distinct(data[[col]])
+        function(col) {
+          data |>
+            dplyr::select(dplyr::all_of(col)) |>
+            dplyr::distinct() |>
+            dplyr::count() |>
+            dplyr::pull("n")
+        }
       )
     )
     if (all(counts$nentries <= filter_item_limit)) {

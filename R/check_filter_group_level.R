@@ -31,7 +31,7 @@ check_filter_group_level <- function(
   # If no filter groups present, return a message to say so
   if (nrow(filters_and_groups) == 0) {
     return(test_output(
-      "filter_grouping_level",
+      "filter_group_level",
       "PASS",
       "There are no filter groups present.",
       verbose = verbose,
@@ -41,19 +41,27 @@ check_filter_group_level <- function(
 
   # Count levels for each filter and group and pass if groups have fewer
   # levels than filters
-  # For each value in col_name
+  count_distinct <- function(x) {
+    data |>
+      dplyr::select(dplyr::all_of(x)) |>
+      dplyr::distinct() |>
+      dplyr::count() |>
+      dplyr::pull("n")
+  }
+  filter_levels <- vapply(
+    filters_and_groups$col_name,
+    count_distinct,
+    integer(1)
+  )
+  group_levels <- vapply(
+    filters_and_groups$filter_grouping_column,
+    count_distinct,
+    integer(1)
+  )
   extended_meta <- filters_and_groups |>
     dplyr::mutate(
-      filter_levels = vapply(
-        .data$col_name,
-        \(x) dplyr::n_distinct(data[[x]]),
-        integer(1)
-      ),
-      group_levels = vapply(
-        .data$filter_grouping_column,
-        \(x) dplyr::n_distinct(data[[x]]),
-        integer(1)
-      ),
+      filter_levels = filter_levels,
+      group_levels = group_levels,
       pre_result = dplyr::case_when(
         filter_levels >= group_levels ~ "PASS",
         TRUE ~ "FAIL"
@@ -68,7 +76,7 @@ check_filter_group_level <- function(
   # failed pairs
   if (number_of_failed_pairs == 0) {
     test_output(
-      "filter_grouping_level",
+      "filter_group_level",
       "PASS",
       message = paste0(
         "All filter groups have an equal or lower number of",
@@ -80,7 +88,7 @@ check_filter_group_level <- function(
   } else {
     if (number_of_failed_pairs == 1) {
       test_output(
-        "filter_grouping_level",
+        "filter_group_level",
         "FAIL",
         message = paste0(
           "The filter group '",
@@ -99,7 +107,7 @@ check_filter_group_level <- function(
       )
     } else {
       test_output(
-        "filter_grouping_level",
+        "filter_group_level",
         "FAIL",
         message = paste0(
           "The following filter groups each have more levels",

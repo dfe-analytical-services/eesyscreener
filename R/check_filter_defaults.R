@@ -24,7 +24,7 @@ check_filter_defaults <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  test_name <- "check_filter_defaults"
+  test_name <- "filter_defaults"
   guidance_url <- render_url(
     "statistics-production/ud.html#aggregates-and-default-filters"
   )

@@ -61,7 +61,13 @@ api_char_limit <- function(
     )
   }
 
-  test_name <- paste0("check_api_char_", type)
+  type_to_name <- c(
+    "column-name" = "col_name",
+    "column-label" = "col_label",
+    "location-code" = "loc_code",
+    "column-item" = "filter_items"
+  )
+  test_name <- paste0("api_char_", type_to_name[[type]])
   max_length <- eesyscreener::api_char_limits$char_limit[
     eesyscreener::api_char_limits$id == type
   ]

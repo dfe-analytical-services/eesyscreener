@@ -19,7 +19,11 @@ check_ind_invalid_entry <- function(
   stop_on_error = FALSE
 ) {
   ind_invalid_entry_check <- function(i) {
-    if (any(c(eesyscreener::legacy_gss_symbols, "") %in% data[[i]])) {
+    col_vals <- data |>
+      dplyr::select(dplyr::all_of(i)) |>
+      dplyr::distinct() |>
+      dplyr::pull(1)
+    if (any(c(eesyscreener::legacy_gss_symbols, "") %in% col_vals)) {
       "FAIL"
     } else {
       "PASS"
@@ -38,7 +42,7 @@ check_ind_invalid_entry <- function(
 
   if (all(pre_result$values == "PASS")) {
     test_output(
-      "check_ind_invalid_entry",
+      "ind_invalid_entry",
       "PASS",
       "There are no blank values or GSS legacy symbols in any indicators.",
       verbose = verbose,
@@ -46,7 +50,7 @@ check_ind_invalid_entry <- function(
     )
   } else {
     test_output(
-      "check_ind_invalid_entry",
+      "ind_invalid_entry",
       "FAIL",
       paste0(
         cli::pluralize(

@@ -27,7 +27,7 @@ check_meta_filter_group_duplicate <- function(
 
   if (length(filter_groups) == 0) {
     test_output(
-      "filter_group_duplicate",
+      "meta_filter_group_duplicate",
       "PASS",
       "There are no filter groups present.",
       verbose = verbose,
@@ -36,7 +36,7 @@ check_meta_filter_group_duplicate <- function(
   } else if (length(filter_groups) != dplyr::n_distinct(filter_groups)) {
     duplicates <- unique(filter_groups[duplicated(filter_groups)])
     test_output(
-      "filter_group_duplicate",
+      "meta_filter_group_duplicate",
       "FAIL",
       paste0(
         "There are duplicate filter_group values: ",
@@ -48,7 +48,7 @@ check_meta_filter_group_duplicate <- function(
     )
   } else {
     test_output(
-      "filter_group_duplicate",
+      "meta_filter_group_duplicate",
       "PASS",
       "All of the filter_group values are unique.",
       verbose = verbose,

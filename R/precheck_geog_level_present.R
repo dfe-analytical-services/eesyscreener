@@ -22,7 +22,7 @@ precheck_geog_level_present <- function(
 
   if (all(geo_levels == "National")) {
     return(test_output(
-      "precheck_geog_level_present",
+      "geog_level_present",
       "PASS",
       "There is only National level data in the file.",
       verbose = verbose,
@@ -54,7 +54,7 @@ precheck_geog_level_present <- function(
 
   if (length(missing_cols) == 0) {
     test_output(
-      "precheck_geog_level_present",
+      "geog_level_present",
       "PASS",
       paste0(
         "The geography columns are present as expected for",
@@ -66,7 +66,7 @@ precheck_geog_level_present <- function(
   } else {
     missing_cols <- paste0("'", missing_cols, "'", sep = "")
     test_output(
-      "precheck_geog_level_present",
+      "geog_level_present",
       "FAIL",
       paste0(
         "Given that the following geographic_level values are present: '",

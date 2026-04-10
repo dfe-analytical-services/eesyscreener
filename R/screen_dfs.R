@@ -79,7 +79,8 @@ screen_dfs <- function(
 
   # Check columns ----------------------------------------------------------
   check_col_results <- rbind(
-    check_col_names_spaces(data, vb, soe)
+    check_col_names_spaces(data, vb, soe),
+    check_col_snake_case(data, vb, soe)
   )
 
   all_results <- all_results |>
@@ -127,15 +128,20 @@ screen_dfs <- function(
   check_meta_results <- rbind(
     check_meta_duplicate_label(meta, vb, soe),
     check_meta_filter_group(meta, vb, soe),
+    check_meta_filter_group_duplicate(meta, vb, soe),
     check_meta_filter_group_is_filter(meta, vb, soe),
     check_meta_filter_group_match(data, meta, vb, soe),
+    check_meta_filter_group_stripped(data, meta, vb, soe),
     check_meta_label(meta, vb, soe),
     check_meta_filter_hint(meta, vb, soe),
+    check_meta_geog_catch(meta, vb, soe),
     check_meta_indicator_dp(meta, vb, soe),
     check_meta_col_name_spaces(meta, vb, soe),
     check_meta_col_name_duplicate(meta, vb, soe),
     check_meta_ind_dp_set(meta, vb, soe),
+    check_meta_ind_dp_values(meta, vb, soe),
     check_meta_ind_unit(meta, vb, soe),
+    check_meta_ind_unit_validation(meta, vb, soe),
     check_meta_indicator_grouping(meta, vb, soe)
   )
 
@@ -162,44 +168,15 @@ screen_dfs <- function(
 
   # Precheck time -------------------------------------------------------------
   precheck_time_results <- rbind(
-    precheck_time_id_valid(data, vb, soe)
+    precheck_time_period_num(data, vb, soe),
+    precheck_time_id_valid(data, vb, soe),
+    precheck_time_id_mix(data, vb, soe)
   )
 
   all_results <- all_results |>
     rbind(
       precheck_time_results |>
         dplyr::mutate(stage = "Precheck time")
-    )
-
-  write_json_log(
-    all_results,
-    log_key = log_key,
-    log_dir = log_dir,
-    data_details = data_details
-  )
-
-  if (any(all_results[["result"]] == "FAIL")) {
-    return(as.data.frame(all_results))
-  }
-
-  # Check Time ----------------------------------------------------------------
-  check_time_results <- rbind(
-    check_time_period(
-      data,
-      verbose = verbose,
-      stop_on_error = stop_on_error
-    ),
-    check_time_period_six(
-      data,
-      verbose = verbose,
-      stop_on_error = stop_on_error
-    )
-  )
-
-  all_results <- all_results |>
-    rbind(
-      check_time_results |>
-        dplyr::mutate(stage = "Check time")
     )
 
   write_json_log(
@@ -244,9 +221,42 @@ screen_dfs <- function(
     return(as.data.frame(all_results))
   }
 
+  # Check Time ----------------------------------------------------------------
+  check_time_results <- rbind(
+    check_time_period(
+      data,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    ),
+    check_time_period_six(
+      data,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    )
+  )
+
+  all_results <- all_results |>
+    rbind(
+      check_time_results |>
+        dplyr::mutate(stage = "Check time")
+    )
+
+  write_json_log(
+    all_results,
+    log_key = log_key,
+    log_dir = log_dir,
+    data_details = data_details
+  )
+
+  if (any(all_results[["result"]] == "FAIL")) {
+    return(as.data.frame(all_results))
+  }
+
   # Check Filters -------------------------------------------------------------
   check_filter_results <- rbind(
     check_filter_defaults(data, meta, vb, soe),
+    check_filter_group_level(data, meta, verbose = vb, stop_on_error = soe),
+    check_filter_item_limit(data, meta, verbose = vb, stop_on_error = soe),
     check_filter_whitespace(data, meta, vb, soe)
   )
 
@@ -267,6 +277,28 @@ screen_dfs <- function(
     return(as.data.frame(all_results))
   }
 
+  # Check Indicators ----------------------------------------------------------
+  check_ind_results <- rbind(
+    check_ind_invalid_entry(data, meta, vb, soe)
+  )
+
+  all_results <- all_results |>
+    rbind(
+      check_ind_results |>
+        dplyr::mutate(stage = "Check indicators")
+    )
+
+  write_json_log(
+    all_results,
+    log_key = log_key,
+    log_dir = log_dir,
+    data_details = data_details
+  )
+
+  if (any(all_results[["result"]] == "FAIL")) {
+    return(as.data.frame(all_results))
+  }
+
   # Check API -----------------------------------------------------------------
   check_api_results <- rbind(
     check_api_char_col_name(data, vb, soe),
@@ -274,6 +306,13 @@ screen_dfs <- function(
     check_api_char_loc_code(data, vb, soe),
     check_api_char_filter_items(data, meta, vb, soe)
   )
+
+  if (dd_checks) {
+    check_api_results <- rbind(
+      check_api_results,
+      check_api_dict_col_names(meta, vb, soe)
+    )
+  }
 
   all_results <- all_results |>
     rbind(

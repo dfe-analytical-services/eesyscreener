@@ -30,7 +30,7 @@ check_meta_filter_group_stripped <- function(
   # If there are no filter_grouping_column entries, pass test
   if (length(meta_filter_groups) == 0) {
     test_output(
-      "filter_group_stripped",
+      "meta_filter_group_stripped",
       "PASS",
       "There are no filter groups present.",
       verbose = verbose,
@@ -40,9 +40,13 @@ check_meta_filter_group_stripped <- function(
     # Pull unique filter group items for all entries in filter_grouping_column
     raw_filter_groups <- lapply(
       meta_filter_groups,
-      function(column) data[[column]]
-    ) |>
-      lapply(unique)
+      function(column) {
+        data |>
+          dplyr::select(dplyr::all_of(column)) |>
+          dplyr::distinct() |>
+          dplyr::pull(1)
+      }
+    )
     # Strip non-alphanumeric characters from the filter group items, and
     # select uniques
     stripped_filter_groups <- lapply(
@@ -58,7 +62,7 @@ check_meta_filter_group_stripped <- function(
     # If there are some (greater than 0) failed_cols, fail test
     if (length(failed_cols) > 0) {
       test_output(
-        "filter_group_stripped",
+        "meta_filter_group_stripped",
         "FAIL",
         paste0(
           "The number of unique filter groups should not change when ",
@@ -73,7 +77,7 @@ check_meta_filter_group_stripped <- function(
       # Else if there are no failed_cols (not greater than 0), pass test
     } else {
       test_output(
-        "filter_group_stripped",
+        "meta_filter_group_stripped",
         "PASS",
         paste0(
           "There are no issues when stripping non-alphanumeric",

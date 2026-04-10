@@ -25,7 +25,7 @@ check_filenames_match <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  test_name <- "check_filenames_match"
+  test_name <- "filenames_match"
 
   if (
     metafilename == stringr::str_replace(datafilename, "\\.csv", "\\.meta.csv")

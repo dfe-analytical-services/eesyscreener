@@ -26,7 +26,7 @@ check_meta_col_name_duplicate <- function(
 
   if (length(duplicated_col_names) == 0) {
     test_output(
-      "col_name_duplicate",
+      "meta_col_name_duplicate",
       "result" = "PASS",
       "All col_name values are unique.",
       verbose = verbose,
@@ -35,7 +35,7 @@ check_meta_col_name_duplicate <- function(
   } else {
     if (length(duplicated_col_names) == 1) {
       test_output(
-        "col_name_duplicate",
+        "meta_col_name_duplicate",
         "result" = "FAIL",
         paste0(
           "The following col_name value is duplicated in the metadata file: '",
@@ -47,7 +47,7 @@ check_meta_col_name_duplicate <- function(
       )
     } else {
       test_output(
-        "col_name_duplicate",
+        "meta_col_name_duplicate",
         "result" = "FAIL",
         paste0(
           "The following col_name values are duplicated",

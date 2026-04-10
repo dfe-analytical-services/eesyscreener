@@ -18,27 +18,48 @@ check_meta_ind_dp_values <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  if (all(is.na(meta$indicator_dp))) {
+  # Normalise: treat blank strings as NA; fail if non-blank values can't be
+  # converted to numeric
+  ind_dp <- meta$indicator_dp
+  if (is.character(ind_dp)) {
+    blanked <- ifelse(trimws(ind_dp) == "", NA_character_, ind_dp)
+    non_blank <- blanked[!is.na(blanked)]
+    coerced <- suppressWarnings(as.numeric(non_blank))
+    if (any(is.na(coerced))) {
+      return(test_output(
+        "meta_ind_dp_values",
+        "FAIL",
+        paste0(
+          "The indicator_dp column must only contain blanks,",
+          " zero, or positive integer values in the metadata file."
+        ),
+        verbose = verbose,
+        stop_on_error = stop_on_error
+      ))
+    }
+    ind_dp <- suppressWarnings(as.numeric(blanked))
+  }
+
+  if (all(is.na(ind_dp))) {
     test_output(
-      "ind_dp_values",
+      "meta_ind_dp_values",
       "PASS",
       "The indicator_dp column only contains blanks.",
       verbose = verbose,
       stop_on_error = stop_on_error
     )
   } else {
-    if (is.numeric(meta$indicator_dp)) {
+    if (is.numeric(ind_dp)) {
       is_integer <- function(x) {
-        test <- all.equal(x, as.integer(x), check.attributes = FALSE)
-        if (test == TRUE) {
-          TRUE
-        } else {
-          FALSE
+        if (is.na(x)) {
+          return(TRUE)
         }
+        test <- all.equal(x, as.integer(x), check.attributes = FALSE)
+        isTRUE(test)
       }
 
-      meta$integer <- lapply(meta$indicator_dp, is_integer)
-      meta$notNegative <- lapply(meta$indicator_dp, function(x) x >= 0)
+      meta$integer <- lapply(ind_dp, is_integer)
+      meta$notNegative <- lapply(ind_dp, function(x) is.na(x) || x >= 0)
       failed_rows <- rbind(
         meta |> dplyr::filter(integer == FALSE),
         meta |> dplyr::filter(.data$notNegative == FALSE)
@@ -46,7 +67,7 @@ check_meta_ind_dp_values <- function(
 
       if (nrow(failed_rows) != 0) {
         test_output(
-          "ind_dp_values",
+          "meta_ind_dp_values",
           "FAIL",
           paste0(
             "The indicator_dp column must only contain blanks,",
@@ -57,7 +78,7 @@ check_meta_ind_dp_values <- function(
         )
       } else {
         test_output(
-          "ind_dp_values",
+          "meta_ind_dp_values",
           "PASS",
           paste0(
             "The indicator_dp column only contains blanks,",
@@ -69,7 +90,7 @@ check_meta_ind_dp_values <- function(
       }
     } else {
       test_output(
-        "ind_dp_values",
+        "meta_ind_dp_values",
         "FAIL",
         paste0(
           "The indicator_dp column must only contain blanks,",

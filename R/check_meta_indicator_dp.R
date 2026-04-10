@@ -27,7 +27,7 @@ check_meta_indicator_dp <- function(
 
   if (length(indicator_dps) == 0) {
     test_output(
-      "indicator_dp",
+      "meta_indicator_dp",
       "PASS",
       "No filters have an indicator_dp value.",
       verbose = verbose,
@@ -35,7 +35,7 @@ check_meta_indicator_dp <- function(
     )
   } else {
     test_output(
-      "indicator_dp",
+      "meta_indicator_dp",
       "FAIL",
       "Filters should not have an indicator_dp value in the metadata file.",
       verbose = verbose,

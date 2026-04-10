@@ -27,7 +27,7 @@ check_meta_indicator_grouping <- function(
 
   if (length(indicator_groups) == 0) {
     test_output(
-      "indicator_grouping",
+      "meta_indicator_grouping",
       "PASS",
       "No filters have an indicator_grouping value.",
       verbose = verbose,
@@ -35,7 +35,7 @@ check_meta_indicator_grouping <- function(
     )
   } else {
     test_output(
-      "indicator_grouping",
+      "meta_indicator_grouping",
       "FAIL",
       paste0(
         "Filters should not have an indicator_grouping",

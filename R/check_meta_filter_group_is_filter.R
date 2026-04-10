@@ -22,7 +22,7 @@ check_meta_filter_group_is_filter <- function(
 
   if (length(meta_filter_groups) == 0) {
     test_output(
-      "filter_group_is_filter",
+      "meta_filter_group_is_filter",
       "PASS",
       "There are no filter groups present.",
       verbose = verbose,
@@ -35,7 +35,7 @@ check_meta_filter_group_is_filter <- function(
 
     if (length(filter_group_not_in_filter) == 0) {
       test_output(
-        "filter_group_is_filter",
+        "meta_filter_group_is_filter",
         "PASS",
         "All filter groups are included in the col_name column.",
         verbose = verbose,
@@ -43,7 +43,7 @@ check_meta_filter_group_is_filter <- function(
       )
     } else {
       test_output(
-        "filter_group_is_filter",
+        "meta_filter_group_is_filter",
         "WARNING",
         paste0(
           "Filter groups should appear in the col_name column in the ",
