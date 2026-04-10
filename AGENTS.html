@@ -69,6 +69,7 @@
 <span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a></span>
 <span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="co"># Rebuild the documentation site</span></span>
 <span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="fu">pkgdown::build_site()</span></span></code></pre></div>
+<p>If the data dictionary test, or example output test fails, the first fix to try is regenerating the data objects by using <code>source("data-raw/data_dictionary.R")</code> (or <code>source("data-raw/example_output.R")</code>) and then run the tests again, often that will fix the issue.</p>
 </div>
 <div class="section level3">
 <h3 id="key-dependencies">Key Dependencies<a class="anchor" aria-label="anchor" href="#key-dependencies"></a></h3>
@@ -125,10 +126,18 @@
 </ol><p>Each check function follows the naming pattern: - <strong><code>precheck_*</code></strong> – Early validation that blocks on failure - <strong><code>check_*</code></strong> – Content validation that can produce warnings</p>
 </div>
 <div class="section level3">
+<h3 id="naming-conventions-for-check-functions">Naming Conventions for Check Functions<a class="anchor" aria-label="anchor" href="#naming-conventions-for-check-functions"></a></h3>
+<p>All check and precheck functions follow consistent naming patterns defined in <code>_pkgdown.yml</code>. The general structure is:</p>
+<pre><code>check_&lt;area&gt;_&lt;what&gt;()      # Examples: check_meta_label, check_filter_defaults
+precheck_&lt;area&gt;_&lt;what&gt;()   # Examples: precheck_col_req_data, precheck_geog_level</code></pre>
+<p><strong>Common abbreviations used for brevity:</strong> - <code>col</code> – column - <code>meta</code> – metadata - <code>fil_grp</code> – filter group - <code>dupe</code> – duplicate - <code>ind</code> – indicator - <code>dp</code> – decimal places - <code>geog</code> – geography - <code>ob</code> – observation - <code>loc</code> – location</p>
+<p><strong>Examples of abbreviated function names:</strong> - <code><a href="reference/check_meta_dupe_label.html">check_meta_dupe_label()</a></code> – checks for duplicate indicator labels - <code><a href="reference/check_meta_fil_grp.html">check_meta_fil_grp()</a></code> – validates filter group structure - <code><a href="reference/check_meta_fil_grp_is_fil.html">check_meta_fil_grp_is_fil()</a></code> – verifies filter group values are filters - <code><a href="reference/check_api_char_col_name.html">check_api_char_col_name()</a></code> – validates column name character limits for API</p>
+</div>
+<div class="section level3">
 <h3 id="output-format">Output Format<a class="anchor" aria-label="anchor" href="#output-format"></a></h3>
 <p>All checks return a consistent data frame with columns: - <code>check</code>: Name of the check function - <code>result</code>: “PASS”, “FAIL”, or “WARNING” - <code>message</code>: Human-readable feedback - <code>guidance_url</code>: Optional link to documentation - <code>stage</code>: Which screening stage the check belongs to</p>
 <p>The <code><a href="reference/screen_csv.html">screen_csv()</a></code> and <code><a href="reference/screen_dfs.html">screen_dfs()</a></code> functions return a list:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  results_table <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">...</span><span class="op">)</span>,     <span class="co"># All check results</span></span>
 <span>  overall_stage <span class="op">=</span> <span class="st">"Precheck columns"</span>,  <span class="co"># Where screening stopped</span></span>
@@ -142,8 +151,10 @@
 <div class="section level3">
 <h3 id="r-directory--core-functions">R/ Directory – Core Functions<a class="anchor" aria-label="anchor" href="#r-directory--core-functions"></a></h3>
 <p><strong>Main screening:</strong> - <code>screen_csv.R</code> – Entry point for file-based screening - <code>screen_dfs.R</code> – Core logic orchestrating all checks - <code>screen_filenames.R</code> – File naming validation only</p>
-<p><strong>Individual check functions (~39 total):</strong> - Organized by check type: <code>precheck_*.R</code> and <code>check_*.R</code> - Each file contains one public function with roxygen2 documentation - Checks are composed of simple, focused validation logic</p>
-<p><strong>Utilities (R/utils.R):</strong> - <code>test_output()</code> – Standardizes check result data frames - <code>null_filename()</code> – Handles filename display in messages - <code>validate_arg_*()</code> – Argument validation helpers - <code>write_json_log()</code> – Logging infrastructure for API usage</p>
+<p><strong>screen_dfs Architecture:</strong> The <code><a href="reference/screen_dfs.html">screen_dfs()</a></code> function executes checks in stages using the <code>run_and_log_check()</code> helper (defined in <code>utils.R</code>). This helper: - Accumulates results across stages - Adds stage metadata to each check result - Logs results to JSON (if <code>log_key</code> provided) - Returns early on FAIL (stops further checks)</p>
+<p>Code structure: uses shorthand variables <code>vb</code> (verbose) and <code>soe</code> (stop_on_error) throughout to reduce function call verbosity and improve readability.</p>
+<p><strong>Individual check functions (~39 total):</strong> - Organized by check type: <code>precheck_*.R</code> and <code>check_*.R</code> - Each file contains one public function with roxygen2 documentation - Checks are composed of simple, focused validation logic - Must follow consistent argument order: <code>data/meta</code> inputs, <code>verbose = FALSE</code>, <code>stop_on_error = FALSE</code>, then function-specific parameters</p>
+<p><strong>Utilities (R/utils.R):</strong> - <code>test_output()</code> – Standardizes check result data frames - <code>null_filename()</code> – Handles filename display in messages - <code>validate_arg_*()</code> – Argument validation helpers - <code>write_json_log()</code> – Logging infrastructure for API usage - <code>run_and_log_check()</code> – Helper that handles stage management, logging, and early-return logic - <code>get_check_name()</code> – Automatically extracts check name from calling function (reduces hardcoding)</p>
 <p><strong>Reference data (R/reference_values.R, R/example_datasets.R):</strong> - Exports acceptable values, time identifiers, filter groups - Example data for documentation and testing</p>
 </div>
 <div class="section level3">
@@ -162,10 +173,19 @@
 </div>
 <div class="section level2">
 <h2 id="adding-a-new-check">Adding a New Check<a class="anchor" aria-label="anchor" href="#adding-a-new-check"></a></h2>
+<div class="section level3">
+<h3 id="function-argument-conventions">Function argument conventions<a class="anchor" aria-label="anchor" href="#function-argument-conventions"></a></h3>
+<p>All <code>precheck_*()</code> and <code>check_*()</code> functions must follow a consistent argument order:</p>
+<ol style="list-style-type: decimal"><li>
+<code>data</code> and/or <code>meta</code> (the data inputs)</li>
+<li><code>verbose = FALSE</code></li>
+<li><code>stop_on_error = FALSE</code></li>
+<li>Any additional function-specific parameters (with defaults)</li>
+</ol><p>This allows <code><a href="reference/screen_dfs.html">screen_dfs()</a></code> to call all checks with positional arguments for the common parameters (e.g. <code>check_foo(data, meta, vb, soe)</code>). Function-specific parameters must always be passed by name.</p>
 <p>When adding a new validation:</p>
 <ol style="list-style-type: decimal"><li>
 <p><strong>Create R file</strong> – <code>R/check_my_validation.R</code> with:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' @export</span></span>
 <span><span class="va">check_my_validation</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">meta</span>, <span class="va">verbose</span> <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">stop_on_error</span> <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="co"># validation logic</span></span>
@@ -183,6 +203,7 @@
 <li><p><strong>Document</strong> – roxygen2 comments with <code>@export</code>, examples, and <code>@param</code> descriptions</p></li>
 <li><p><strong>Update NAMESPACE</strong> – Run <code>devtools::document()</code></p></li>
 </ol></div>
+</div>
 <div class="section level2">
 <h2 id="important-details">Important Details<a class="anchor" aria-label="anchor" href="#important-details"></a></h2>
 <div class="section level3">
@@ -218,7 +239,7 @@
 <h2 id="common-development-tasks">Common Development Tasks<a class="anchor" aria-label="anchor" href="#common-development-tasks"></a></h2>
 <div class="section level3">
 <h3 id="debugging-a-check">Debugging a Check<a class="anchor" aria-label="anchor" href="#debugging-a-check"></a></h3>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load test data</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">example_data</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">example_meta</span><span class="op">)</span></span>
@@ -232,13 +253,13 @@
 <div class="section level3">
 <h3 id="updating-reference-data">Updating Reference Data<a class="anchor" aria-label="anchor" href="#updating-reference-data"></a></h3>
 <p>Edit the script in <code>data-raw/</code>, then run:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">load_all</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/source.html" class="external-link">source</a></span><span class="op">(</span><span class="st">"data-raw/my_data.R"</span><span class="op">)</span>  <span class="co"># Regenerates data/my_data.rda</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="generating-documentation">Generating Documentation<a class="anchor" aria-label="anchor" href="#generating-documentation"></a></h3>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">document</span><span class="op">(</span><span class="op">)</span>           <span class="co"># Update NAMESPACE and man/ from roxygen2</span></span>
 <span><span class="fu">pkgdown</span><span class="fu">::</span><span class="fu"><a href="https://pkgdown.r-lib.org/reference/build_site.html" class="external-link">build_site</a></span><span class="op">(</span><span class="op">)</span>         <span class="co"># Generate HTML documentation site</span></span></code></pre></div>
 </div>
@@ -257,7 +278,12 @@
 <li>Each check should test its happy path and failure conditions</li>
 <li>Avoid mocking; use real but minimal data</li>
 <li>Tests verify both the result and the message text as sometimes there are multiple variants of the message text</li>
-</ul></div>
+</ul><div class="section level3">
+<h3 id="test-coverage-and-integration">Test Coverage and Integration<a class="anchor" aria-label="anchor" href="#test-coverage-and-integration"></a></h3>
+<p>The <code>test-example_output_coverage.R</code> test ensures that <strong>every exported <code>check_*()</code> and <code>precheck_*()</code> function is called by <code><a href="reference/screen_dfs.html">screen_dfs()</a></code></strong>. This test automatically fails if a new check is added but not integrated into the screening pipeline.</p>
+<p>When adding a new check: 1. Create the check function and its test file 2. Add the check to the appropriate stage in <code><a href="reference/screen_dfs.html">screen_dfs()</a></code> (see “Adding a New Check” section above) 3. Run tests — the coverage test will confirm integration 4. If the coverage test fails, verify the check is in the correct <code>run_and_log_check()</code> block</p>
+</div>
+</div>
 <div class="section level2">
 <h2 id="key-files-to-know">Key Files to Know<a class="anchor" aria-label="anchor" href="#key-files-to-know"></a></h2>
 <table class="table"><colgroup><col width="40%"><col width="60%"></colgroup><thead><tr class="header"><th>File</th>

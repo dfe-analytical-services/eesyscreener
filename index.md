@@ -1,7 +1,5 @@
 # eesyscreener [![]()](https://dfe-analytical-services.github.io/eesyscreener/)
 
-\[IN DEVELOPMENT\]
-
 This is a package designed to provide documentation and reusable code
 supporting the data standards for the [explore education statistics
 (EES) platform](https://explore-education-statistics.service.gov.uk/).
@@ -29,12 +27,13 @@ The package contains:
 
 - A core
   [`screen_csv()`](https://dfe-analytical-services.github.io/eesyscreener/reference/screen_csv.md)
-  function, built from
+  function that will screen a pair of data and meta CSV files. This is
+  built from
   [`screen_dfs()`](https://dfe-analytical-services.github.io/eesyscreener/reference/screen_dfs.md),
   and
   [`screen_filenames()`](https://dfe-analytical-services.github.io/eesyscreener/reference/screen_filenames.md)
-  and the constituent individual checks, as well as a related wrapper
-  function `screen_zip()`
+  and the constituent individual `precheck_*()` and `check_*()`
+  functions.
 - Data objects containing required, optional, and acceptable values for
   use within explore education statistics
 - Functions to generate test data
@@ -76,20 +75,20 @@ result <- eesyscreener::screen_csv(
 
 result$results_table |>
   head()
-#>                             check result
-#> 1      check_filename_data_spaces   PASS
-#> 2  check_filename_metadata_spaces   PASS
-#> 3     check_filename_data_special   PASS
-#> 4 check_filename_metadata_special   PASS
-#> 5           check_filenames_match   PASS
-#> 6                    col_req_meta   PASS
+#>              check result
+#> 1  filename_spaces   PASS
+#> 2  filename_spaces   PASS
+#> 3 filename_special   PASS
+#> 4 filename_special   PASS
+#> 5  filenames_match   PASS
+#> 6     col_req_meta   PASS
 #>                                                            message guidance_url
-#> 1                 'data.csv' does not have spaces in the filename.           NA
-#> 2            'data.meta.csv' does not have spaces in the filename.           NA
-#> 3              'data.csv' does not contain any special characters.           NA
-#> 4         'data.meta.csv' does not contain any special characters.           NA
-#> 5 The names of the files follow the recommended naming convention.           NA
-#> 6    All of the required columns are present in the metadata file.           NA
+#> 1                 'data.csv' does not have spaces in the filename.         <NA>
+#> 2            'data.meta.csv' does not have spaces in the filename.         <NA>
+#> 3              'data.csv' does not contain any special characters.         <NA>
+#> 4         'data.meta.csv' does not contain any special characters.         <NA>
+#> 5 The names of the files follow the recommended naming convention.         <NA>
+#> 6    All of the required columns are present in the metadata file.         <NA>
 #>              stage
 #> 1         filename
 #> 2         filename
@@ -187,54 +186,202 @@ write.csv(eesyscreener::example_meta, meta_file, row.names = FALSE)
 
 eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> $results_table
-#>                               check result
-#> 1        check_filename_data_spaces   PASS
-#> 2    check_filename_metadata_spaces   PASS
-#> 3       check_filename_data_special   PASS
-#> 4   check_filename_metadata_special   PASS
-#> 5             check_filenames_match   PASS
-#> 6                      col_req_meta   PASS
-#> 7                  col_invalid_meta   PASS
-#> 8                      col_req_data   PASS
-#> 9                       col_to_rows   PASS
-#> 10                    meta_col_type   PASS
-#> 11                     meta_ob_unit   PASS
-#> 12                    meta_col_name   PASS
-#> 13                    meta_col_name   PASS
-#> 14                    time_id_valid   PASS
-#> 15 check_api_char_limit_column-name   PASS
-#>                                                                                                       message
-#> 1                                                            'data.csv' does not have spaces in the filename.
-#> 2                                                       'data.meta.csv' does not have spaces in the filename.
-#> 3                                                         'data.csv' does not contain any special characters.
-#> 4                                                    'data.meta.csv' does not contain any special characters.
-#> 5                                            The names of the files follow the recommended naming convention.
-#> 6                                               All of the required columns are present in the metadata file.
-#> 7                                                          There are no invalid columns in the metadata file.
-#> 8                                                   All of the required columns are present in the data file.
-#> 9  There are an equal number of rows in the metadata file (3) and non-mandatory columns in the data file (3).
-#> 10                                                                col_type is always 'Filter' or 'Indicator'.
-#> 11                                            No observational units have been included in the metadata file.
-#> 12                                            The col_name column is completed for every row in the metadata.
-#> 13                                                   The indicator_dp column is completed for all indicators.
-#> 14                                                                  The time_identifier values are all valid.
-#> 15                          All filter / indicator names are less than or equal to the character limit of 50.
-#>    guidance_url            stage
-#> 1            NA         filename
-#> 2            NA         filename
-#> 3            NA         filename
-#> 4            NA         filename
-#> 5            NA         filename
-#> 6            NA Precheck columns
-#> 7            NA Precheck columns
-#> 8            NA Precheck columns
-#> 9            NA Precheck columns
-#> 10           NA    Precheck meta
-#> 11           NA    Precheck meta
-#> 12           NA    Precheck meta
-#> 13           NA       Check meta
-#> 14           NA    Precheck time
-#> 15           NA        Check API
+#>                       check  result
+#> 1           filename_spaces    PASS
+#> 2           filename_spaces    PASS
+#> 3          filename_special    PASS
+#> 4          filename_special    PASS
+#> 5           filenames_match    PASS
+#> 6              col_req_meta    PASS
+#> 7          col_invalid_meta    PASS
+#> 8              col_req_data    PASS
+#> 9               col_to_rows    PASS
+#> 10         col_names_spaces    PASS
+#> 11           col_snake_case    PASS
+#> 12            meta_col_type    PASS
+#> 13             meta_ob_unit    PASS
+#> 14            meta_col_name    PASS
+#> 15          meta_dupe_label    PASS
+#> 16             meta_fil_grp    PASS
+#> 17        meta_fil_grp_dupe    PASS
+#> 18      meta_fil_grp_is_fil    PASS
+#> 19       meta_fil_grp_match    PASS
+#> 20    meta_fil_grp_stripped    PASS
+#> 21               meta_label    PASS
+#> 22         meta_filter_hint    PASS
+#> 23          meta_geog_catch    PASS
+#> 24        meta_indicator_dp    PASS
+#> 25     meta_col_name_spaces    PASS
+#> 26       meta_col_name_dupe    PASS
+#> 27          meta_ind_dp_set    PASS
+#> 28       meta_ind_dp_values    PASS
+#> 29            meta_ind_unit    PASS
+#> 30 meta_ind_unit_validation    PASS
+#> 31  meta_indicator_grouping    PASS
+#> 32          time_period_num    PASS
+#> 33            time_id_valid    PASS
+#> 34              time_id_mix    PASS
+#> 35               geog_level    PASS
+#> 36       geog_level_present    PASS
+#> 37              time_period    PASS
+#> 38          time_period_six    PASS
+#> 39          filter_defaults WARNING
+#> 40       filter_group_level    PASS
+#> 41        filter_item_limit    PASS
+#> 42        filter_whitespace    PASS
+#> 43        ind_invalid_entry    PASS
+#> 44        api_char_col_name    PASS
+#> 45       api_char_col_label    PASS
+#> 46        api_char_loc_code    PASS
+#> 47    api_char_filter_items    PASS
+#> 48       api_dict_col_names    PASS
+#>                                                                                                                                                    message
+#> 1                                                                                                         'data.csv' does not have spaces in the filename.
+#> 2                                                                                                    'data.meta.csv' does not have spaces in the filename.
+#> 3                                                                                                      'data.csv' does not contain any special characters.
+#> 4                                                                                                 'data.meta.csv' does not contain any special characters.
+#> 5                                                                                         The names of the files follow the recommended naming convention.
+#> 6                                                                                            All of the required columns are present in the metadata file.
+#> 7                                                                                                       There are no invalid columns in the metadata file.
+#> 8                                                                                                All of the required columns are present in the data file.
+#> 9                                               There are an equal number of rows in the metadata file (3) and non-mandatory columns in the data file (3).
+#> 10                                                                                              There are no spaces in the variable names in the datafile.
+#> 11                                                                                   The variable names in the data file follow the snake_case convention.
+#> 12                                                                                                             col_type is always 'Filter' or 'Indicator'.
+#> 13                                                                                         No observational units have been included in the metadata file.
+#> 14                                                                                         The col_name column is completed for every row in the metadata.
+#> 15                                                                                                                                  All labels are unique.
+#> 16                                                                                                      No indicators have a filter_grouping_column value.
+#> 17                                                                                                                     There are no filter groups present.
+#> 18                                                                                                                     There are no filter groups present.
+#> 19                                                                                                                     There are no filter groups present.
+#> 20                                                                                                                     There are no filter groups present.
+#> 21                                                                                            The label column is completed for every row in the metadata.
+#> 22                                                                                                                 No indicators have a filter_hint value.
+#> 23                                                                                                  No filters appear to be mislabelled geography columns.
+#> 24                                                                                                                  No filters have an indicator_dp value.
+#> 25                                                                                                             There are no spaces in the col_name values.
+#> 26                                                                                                                         All col_name values are unique.
+#> 27                                                                                                The indicator_dp column is completed for all indicators.
+#> 28                                                                         The indicator_dp column only contains blanks, zero, or positive integer values.
+#> 29                                                                                                                No filters have an indicator_unit value.
+#> 30                                                                                                                     The indicator_unit values are valid
+#> 31                                                                                                            No filters have an indicator_grouping value.
+#> 32                                                                                                    The time_period column only contains numeric values.
+#> 33                                                                                                               The time_identifier values are all valid.
+#> 34                                                                                                    There is only one time_identifier value in the data.
+#> 35                                                                                                              The geographic_level values are all valid.
+#> 36                                                                                                          There is only National level data in the file.
+#> 37                                                                             The time_period length matches the time_identifier values in the data file.
+#> 38                                                                                            The six digit time_period values refer to consecutive years.
+#> 39 A 'Total' entry or default filter item should be specified for the following filters and / or filter_groups where applicable: 'sex', 'education_phase'.
+#> 40                                                                                                                     There are no filter groups present.
+#> 41                                                                                             All filters and groups have less than 25000 unique entries.
+#> 42                                                                                                No filter labels contain leading or trailing whitespace.
+#> 43                                                                                      There are no blank values or GSS legacy symbols in any indicators.
+#> 44                                                                       All filter / indicator names are less than or equal to the character limit of 50.
+#> 45                                                                     All filter / indicator labels are less than or equal to the character limit of 100.
+#> 46                                                                                 All location codes are less than or equal to the character limit of 30.
+#> 47                                                                 All filter items / location names are less than or equal to the character limit of 120.
+#> 48                                                                                                  All col_names are consistent with the data dictionary.
+#>                                                                                                             guidance_url
+#> 1                                                                                                                   <NA>
+#> 2                                                                                                                   <NA>
+#> 3                                                                                                                   <NA>
+#> 4                                                                                                                   <NA>
+#> 5                                                                                                                   <NA>
+#> 6                                                                                                                   <NA>
+#> 7                                                                                                                   <NA>
+#> 8                                                                                                                   <NA>
+#> 9                                                                                                                   <NA>
+#> 10                                                                                                                  <NA>
+#> 11                                                                                                                  <NA>
+#> 12                                                                                                                  <NA>
+#> 13                                                                                                                  <NA>
+#> 14                                                                                                                  <NA>
+#> 15                                                                                                                  <NA>
+#> 16                                                                                                                  <NA>
+#> 17                                                                                                                  <NA>
+#> 18                                                                                                                  <NA>
+#> 19                                                                                                                  <NA>
+#> 20                                                                                                                  <NA>
+#> 21                                                                                                                  <NA>
+#> 22                                                                                                                  <NA>
+#> 23                                                                                                                  <NA>
+#> 24                                                                                                                  <NA>
+#> 25                                                                                                                  <NA>
+#> 26                                                                                                                  <NA>
+#> 27                                                                                                                  <NA>
+#> 28                                                                                                                  <NA>
+#> 29                                                                                                                  <NA>
+#> 30                                                                                                                  <NA>
+#> 31                                                                                                                  <NA>
+#> 32                                                                                                                  <NA>
+#> 33                                                                                                                  <NA>
+#> 34                                                                                                                  <NA>
+#> 35                                                                                                                  <NA>
+#> 36                                                                                                                  <NA>
+#> 37                                                                                                                  <NA>
+#> 38                                                                                                                  <NA>
+#> 39 https://dfe-analytical-services.github.io/analysts-guide/statistics-production/ud.html#aggregates-and-default-filters
+#> 40                                                                                                                  <NA>
+#> 41                                                                                                                  <NA>
+#> 42                                                                                                                  <NA>
+#> 43                                                                                                                  <NA>
+#> 44                                                                                                                  <NA>
+#> 45                                                                                                                  <NA>
+#> 46                                                                                                                  <NA>
+#> 47                                                                                                                  <NA>
+#> 48                                                                                                                  <NA>
+#>                 stage
+#> 1            filename
+#> 2            filename
+#> 3            filename
+#> 4            filename
+#> 5            filename
+#> 6    Precheck columns
+#> 7    Precheck columns
+#> 8    Precheck columns
+#> 9    Precheck columns
+#> 10      Check columns
+#> 11      Check columns
+#> 12      Precheck meta
+#> 13      Precheck meta
+#> 14      Precheck meta
+#> 15         Check meta
+#> 16         Check meta
+#> 17         Check meta
+#> 18         Check meta
+#> 19         Check meta
+#> 20         Check meta
+#> 21         Check meta
+#> 22         Check meta
+#> 23         Check meta
+#> 24         Check meta
+#> 25         Check meta
+#> 26         Check meta
+#> 27         Check meta
+#> 28         Check meta
+#> 29         Check meta
+#> 30         Check meta
+#> 31         Check meta
+#> 32      Precheck time
+#> 33      Precheck time
+#> 34      Precheck time
+#> 35 Precheck geography
+#> 36 Precheck geography
+#> 37         Check time
+#> 38         Check time
+#> 39      Check filters
+#> 40      Check filters
+#> 41      Check filters
+#> 42      Check filters
+#> 43   Check indicators
+#> 44          Check API
+#> 45          Check API
+#> 46          Check API
+#> 47          Check API
+#> 48          Check API
 #> 
 #> $overall_stage
 #> [1] "Passed"
@@ -259,16 +406,16 @@ write.csv(eesyscreener::example_meta[, -1], meta_file, row.names = FALSE)
 
 eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> $results_table
-#>                             check result
-#> 1      check_filename_data_spaces   PASS
-#> 2  check_filename_metadata_spaces   PASS
-#> 3     check_filename_data_special   PASS
-#> 4 check_filename_metadata_special   PASS
-#> 5           check_filenames_match   PASS
-#> 6                    col_req_meta   FAIL
-#> 7                col_invalid_meta   PASS
-#> 8                    col_req_data   PASS
-#> 9                     col_to_rows   PASS
+#>              check result
+#> 1  filename_spaces   PASS
+#> 2  filename_spaces   PASS
+#> 3 filename_special   PASS
+#> 4 filename_special   PASS
+#> 5  filenames_match   PASS
+#> 6     col_req_meta   FAIL
+#> 7 col_invalid_meta   PASS
+#> 8     col_req_data   PASS
+#> 9      col_to_rows   PASS
 #>                                                                                                      message
 #> 1                                                           'data.csv' does not have spaces in the filename.
 #> 2                                                      'data.meta.csv' does not have spaces in the filename.
@@ -317,21 +464,41 @@ write.csv(eesyscreener::example_meta, meta_file, row.names = FALSE)
 
 eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> $results_table
-#>                              check result
-#> 1       check_filename_data_spaces   PASS
-#> 2   check_filename_metadata_spaces   PASS
-#> 3      check_filename_data_special   PASS
-#> 4  check_filename_metadata_special   PASS
-#> 5            check_filenames_match   PASS
-#> 6                     col_req_meta   PASS
-#> 7                 col_invalid_meta   PASS
-#> 8                     col_req_data   PASS
-#> 9                      col_to_rows   PASS
-#> 10                   meta_col_type   PASS
-#> 11                    meta_ob_unit   PASS
-#> 12                   meta_col_name   PASS
-#> 13                   meta_col_name   PASS
-#> 14                   time_id_valid   FAIL
+#>                       check result
+#> 1           filename_spaces   PASS
+#> 2           filename_spaces   PASS
+#> 3          filename_special   PASS
+#> 4          filename_special   PASS
+#> 5           filenames_match   PASS
+#> 6              col_req_meta   PASS
+#> 7          col_invalid_meta   PASS
+#> 8              col_req_data   PASS
+#> 9               col_to_rows   PASS
+#> 10         col_names_spaces   PASS
+#> 11           col_snake_case   PASS
+#> 12            meta_col_type   PASS
+#> 13             meta_ob_unit   PASS
+#> 14            meta_col_name   PASS
+#> 15          meta_dupe_label   PASS
+#> 16             meta_fil_grp   PASS
+#> 17        meta_fil_grp_dupe   PASS
+#> 18      meta_fil_grp_is_fil   PASS
+#> 19       meta_fil_grp_match   PASS
+#> 20    meta_fil_grp_stripped   PASS
+#> 21               meta_label   PASS
+#> 22         meta_filter_hint   PASS
+#> 23          meta_geog_catch   PASS
+#> 24        meta_indicator_dp   PASS
+#> 25     meta_col_name_spaces   PASS
+#> 26       meta_col_name_dupe   PASS
+#> 27          meta_ind_dp_set   PASS
+#> 28       meta_ind_dp_values   PASS
+#> 29            meta_ind_unit   PASS
+#> 30 meta_ind_unit_validation   PASS
+#> 31  meta_indicator_grouping   PASS
+#> 32          time_period_num   PASS
+#> 33            time_id_valid   FAIL
+#> 34              time_id_mix   FAIL
 #>                                                                                                       message
 #> 1                                                            'data.csv' does not have spaces in the filename.
 #> 2                                                       'data.meta.csv' does not have spaces in the filename.
@@ -342,11 +509,31 @@ eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> 7                                                          There are no invalid columns in the metadata file.
 #> 8                                                   All of the required columns are present in the data file.
 #> 9  There are an equal number of rows in the metadata file (3) and non-mandatory columns in the data file (3).
-#> 10                                                                col_type is always 'Filter' or 'Indicator'.
-#> 11                                            No observational units have been included in the metadata file.
-#> 12                                            The col_name column is completed for every row in the metadata.
-#> 13                                                   The indicator_dp column is completed for all indicators.
-#> 14                                                 The following invalid time_identifier was found: 'parsec'.
+#> 10                                                 There are no spaces in the variable names in the datafile.
+#> 11                                      The variable names in the data file follow the snake_case convention.
+#> 12                                                                col_type is always 'Filter' or 'Indicator'.
+#> 13                                            No observational units have been included in the metadata file.
+#> 14                                            The col_name column is completed for every row in the metadata.
+#> 15                                                                                     All labels are unique.
+#> 16                                                         No indicators have a filter_grouping_column value.
+#> 17                                                                        There are no filter groups present.
+#> 18                                                                        There are no filter groups present.
+#> 19                                                                        There are no filter groups present.
+#> 20                                                                        There are no filter groups present.
+#> 21                                               The label column is completed for every row in the metadata.
+#> 22                                                                    No indicators have a filter_hint value.
+#> 23                                                     No filters appear to be mislabelled geography columns.
+#> 24                                                                     No filters have an indicator_dp value.
+#> 25                                                                There are no spaces in the col_name values.
+#> 26                                                                            All col_name values are unique.
+#> 27                                                   The indicator_dp column is completed for all indicators.
+#> 28                            The indicator_dp column only contains blanks, zero, or positive integer values.
+#> 29                                                                   No filters have an indicator_unit value.
+#> 30                                                                        The indicator_unit values are valid
+#> 31                                                               No filters have an indicator_grouping value.
+#> 32                                                       The time_period column only contains numeric values.
+#> 33                                                 The following invalid time_identifier was found: 'parsec'.
+#> 34 The datafile is mixing incompatible time identifiers. Allowable values with ' parsec ' present, are: '  '.
 #>                                                                                                            guidance_url
 #> 1                                                                                                                  <NA>
 #> 2                                                                                                                  <NA>
@@ -361,7 +548,27 @@ eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> 11                                                                                                                 <NA>
 #> 12                                                                                                                 <NA>
 #> 13                                                                                                                 <NA>
-#> 14 https://dfe-analytical-services.github.io/analysts-guide/statistics-production/ud.html#list-of-allowable-time-values
+#> 14                                                                                                                 <NA>
+#> 15                                                                                                                 <NA>
+#> 16                                                                                                                 <NA>
+#> 17                                                                                                                 <NA>
+#> 18                                                                                                                 <NA>
+#> 19                                                                                                                 <NA>
+#> 20                                                                                                                 <NA>
+#> 21                                                                                                                 <NA>
+#> 22                                                                                                                 <NA>
+#> 23                                                                                                                 <NA>
+#> 24                                                                                                                 <NA>
+#> 25                                                                                                                 <NA>
+#> 26                                                                                                                 <NA>
+#> 27                                                                                                                 <NA>
+#> 28                                                                                                                 <NA>
+#> 29                                                                                                                 <NA>
+#> 30                                                                                                                 <NA>
+#> 31                                                                                                                 <NA>
+#> 32                                                                                                                 <NA>
+#> 33 https://dfe-analytical-services.github.io/analysts-guide/statistics-production/ud.html#list-of-allowable-time-values
+#> 34 https://dfe-analytical-services.github.io/analysts-guide/statistics-production/ud.html#list-of-allowable-time-values
 #>               stage
 #> 1          filename
 #> 2          filename
@@ -372,11 +579,31 @@ eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> 7  Precheck columns
 #> 8  Precheck columns
 #> 9  Precheck columns
-#> 10    Precheck meta
-#> 11    Precheck meta
+#> 10    Check columns
+#> 11    Check columns
 #> 12    Precheck meta
-#> 13       Check meta
-#> 14    Precheck time
+#> 13    Precheck meta
+#> 14    Precheck meta
+#> 15       Check meta
+#> 16       Check meta
+#> 17       Check meta
+#> 18       Check meta
+#> 19       Check meta
+#> 20       Check meta
+#> 21       Check meta
+#> 22       Check meta
+#> 23       Check meta
+#> 24       Check meta
+#> 25       Check meta
+#> 26       Check meta
+#> 27       Check meta
+#> 28       Check meta
+#> 29       Check meta
+#> 30       Check meta
+#> 31       Check meta
+#> 32    Precheck time
+#> 33    Precheck time
+#> 34    Precheck time
 #> 
 #> $overall_stage
 #> [1] "Precheck time checks"
@@ -406,38 +633,70 @@ write.csv(
 
 eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> $results_table
-#>                               check  result
-#> 1        check_filename_data_spaces    PASS
-#> 2    check_filename_metadata_spaces    PASS
-#> 3       check_filename_data_special    PASS
-#> 4   check_filename_metadata_special    PASS
-#> 5             check_filenames_match    PASS
-#> 6                      col_req_meta    PASS
-#> 7                  col_invalid_meta    PASS
-#> 8                      col_req_data    PASS
-#> 9                       col_to_rows    PASS
-#> 10                    meta_col_type    PASS
-#> 11                     meta_ob_unit    PASS
-#> 12                    meta_col_name    PASS
-#> 13                    meta_col_name WARNING
-#> 14                    time_id_valid    PASS
-#> 15 check_api_char_limit_column-name    PASS
-#>                                                                                                                                      message
-#> 1                                                                                           'data.csv' does not have spaces in the filename.
-#> 2                                                                                      'data.meta.csv' does not have spaces in the filename.
-#> 3                                                                                        'data.csv' does not contain any special characters.
-#> 4                                                                                   'data.meta.csv' does not contain any special characters.
-#> 5                                                                           The names of the files follow the recommended naming convention.
-#> 6                                                                              All of the required columns are present in the metadata file.
-#> 7                                                                                         There are no invalid columns in the metadata file.
-#> 8                                                                                  All of the required columns are present in the data file.
-#> 9                                 There are an equal number of rows in the metadata file (3) and non-mandatory columns in the data file (3).
-#> 10                                                                                               col_type is always 'Filter' or 'Indicator'.
-#> 11                                                                           No observational units have been included in the metadata file.
-#> 12                                                                           The col_name column is completed for every row in the metadata.
-#> 13 enrolment_count does not have a specified number of decimal places in the metadata file, this should be explicitly stated where possible.
-#> 14                                                                                                 The time_identifier values are all valid.
-#> 15                                                         All filter / indicator names are less than or equal to the character limit of 50.
+#>                       check result
+#> 1           filename_spaces   PASS
+#> 2           filename_spaces   PASS
+#> 3          filename_special   PASS
+#> 4          filename_special   PASS
+#> 5           filenames_match   PASS
+#> 6              col_req_meta   PASS
+#> 7          col_invalid_meta   PASS
+#> 8              col_req_data   PASS
+#> 9               col_to_rows   PASS
+#> 10         col_names_spaces   PASS
+#> 11           col_snake_case   PASS
+#> 12            meta_col_type   PASS
+#> 13             meta_ob_unit   PASS
+#> 14            meta_col_name   PASS
+#> 15          meta_dupe_label   PASS
+#> 16             meta_fil_grp   PASS
+#> 17        meta_fil_grp_dupe   PASS
+#> 18      meta_fil_grp_is_fil   PASS
+#> 19       meta_fil_grp_match   PASS
+#> 20    meta_fil_grp_stripped   PASS
+#> 21               meta_label   PASS
+#> 22         meta_filter_hint   PASS
+#> 23          meta_geog_catch   PASS
+#> 24        meta_indicator_dp   FAIL
+#> 25     meta_col_name_spaces   PASS
+#> 26       meta_col_name_dupe   PASS
+#> 27          meta_ind_dp_set   PASS
+#> 28       meta_ind_dp_values   FAIL
+#> 29            meta_ind_unit   PASS
+#> 30 meta_ind_unit_validation   PASS
+#> 31  meta_indicator_grouping   PASS
+#>                                                                                                       message
+#> 1                                                            'data.csv' does not have spaces in the filename.
+#> 2                                                       'data.meta.csv' does not have spaces in the filename.
+#> 3                                                         'data.csv' does not contain any special characters.
+#> 4                                                    'data.meta.csv' does not contain any special characters.
+#> 5                                            The names of the files follow the recommended naming convention.
+#> 6                                               All of the required columns are present in the metadata file.
+#> 7                                                          There are no invalid columns in the metadata file.
+#> 8                                                   All of the required columns are present in the data file.
+#> 9  There are an equal number of rows in the metadata file (3) and non-mandatory columns in the data file (3).
+#> 10                                                 There are no spaces in the variable names in the datafile.
+#> 11                                      The variable names in the data file follow the snake_case convention.
+#> 12                                                                col_type is always 'Filter' or 'Indicator'.
+#> 13                                            No observational units have been included in the metadata file.
+#> 14                                            The col_name column is completed for every row in the metadata.
+#> 15                                                                                     All labels are unique.
+#> 16                                                         No indicators have a filter_grouping_column value.
+#> 17                                                                        There are no filter groups present.
+#> 18                                                                        There are no filter groups present.
+#> 19                                                                        There are no filter groups present.
+#> 20                                                                        There are no filter groups present.
+#> 21                                               The label column is completed for every row in the metadata.
+#> 22                                                                    No indicators have a filter_hint value.
+#> 23                                                     No filters appear to be mislabelled geography columns.
+#> 24                                        Filters should not have an indicator_dp value in the metadata file.
+#> 25                                                                There are no spaces in the col_name values.
+#> 26                                                                            All col_name values are unique.
+#> 27                                                   The indicator_dp column is completed for all indicators.
+#> 28   The indicator_dp column must only contain blanks, zero, or positive integer values in the metadata file.
+#> 29                                                                   No filters have an indicator_unit value.
+#> 30                                                                        The indicator_unit values are valid
+#> 31                                                               No filters have an indicator_grouping value.
 #>    guidance_url            stage
 #> 1            NA         filename
 #> 2            NA         filename
@@ -448,21 +707,37 @@ eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> 7            NA Precheck columns
 #> 8            NA Precheck columns
 #> 9            NA Precheck columns
-#> 10           NA    Precheck meta
-#> 11           NA    Precheck meta
+#> 10           NA    Check columns
+#> 11           NA    Check columns
 #> 12           NA    Precheck meta
-#> 13           NA       Check meta
-#> 14           NA    Precheck time
-#> 15           NA        Check API
+#> 13           NA    Precheck meta
+#> 14           NA    Precheck meta
+#> 15           NA       Check meta
+#> 16           NA       Check meta
+#> 17           NA       Check meta
+#> 18           NA       Check meta
+#> 19           NA       Check meta
+#> 20           NA       Check meta
+#> 21           NA       Check meta
+#> 22           NA       Check meta
+#> 23           NA       Check meta
+#> 24           NA       Check meta
+#> 25           NA       Check meta
+#> 26           NA       Check meta
+#> 27           NA       Check meta
+#> 28           NA       Check meta
+#> 29           NA       Check meta
+#> 30           NA       Check meta
+#> 31           NA       Check meta
 #> 
 #> $overall_stage
-#> [1] "Passed"
+#> [1] "Check meta checks"
 #> 
 #> $passed
-#> [1] TRUE
+#> [1] FALSE
 #> 
 #> $api_suitable
-#> [1] TRUE
+#> [1] FALSE
 
 invisible(file.remove(data_file))
 invisible(file.remove(meta_file))
@@ -486,69 +761,105 @@ write.csv(
 )
 eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> $results_table
-#>                              check  result
-#> 1       check_filename_data_spaces    PASS
-#> 2   check_filename_metadata_spaces    PASS
-#> 3      check_filename_data_special    PASS
-#> 4  check_filename_metadata_special    PASS
-#> 5            check_filenames_match    PASS
-#> 6                     col_req_meta    PASS
-#> 7                 col_invalid_meta    PASS
-#> 8                     col_req_data    PASS
-#> 9                      col_to_rows    PASS
-#> 10                   meta_col_type    PASS
-#> 11                    meta_ob_unit    PASS
-#> 12                   meta_col_name    PASS
-#> 13                   meta_col_name WARNING
-#> 14                   time_id_valid    FAIL
-#>                                                                                                                                      message
-#> 1                                                                                           'data.csv' does not have spaces in the filename.
-#> 2                                                                                      'data.meta.csv' does not have spaces in the filename.
-#> 3                                                                                        'data.csv' does not contain any special characters.
-#> 4                                                                                   'data.meta.csv' does not contain any special characters.
-#> 5                                                                           The names of the files follow the recommended naming convention.
-#> 6                                                                              All of the required columns are present in the metadata file.
-#> 7                                                                                         There are no invalid columns in the metadata file.
-#> 8                                                                                  All of the required columns are present in the data file.
-#> 9                                 There are an equal number of rows in the metadata file (3) and non-mandatory columns in the data file (3).
-#> 10                                                                                               col_type is always 'Filter' or 'Indicator'.
-#> 11                                                                           No observational units have been included in the metadata file.
-#> 12                                                                           The col_name column is completed for every row in the metadata.
-#> 13 enrolment_count does not have a specified number of decimal places in the metadata file, this should be explicitly stated where possible.
-#> 14                                                                                The following invalid time_identifier was found: 'parsec'.
-#>                                                                                                            guidance_url
-#> 1                                                                                                                  <NA>
-#> 2                                                                                                                  <NA>
-#> 3                                                                                                                  <NA>
-#> 4                                                                                                                  <NA>
-#> 5                                                                                                                  <NA>
-#> 6                                                                                                                  <NA>
-#> 7                                                                                                                  <NA>
-#> 8                                                                                                                  <NA>
-#> 9                                                                                                                  <NA>
-#> 10                                                                                                                 <NA>
-#> 11                                                                                                                 <NA>
-#> 12                                                                                                                 <NA>
-#> 13                                                                                                                 <NA>
-#> 14 https://dfe-analytical-services.github.io/analysts-guide/statistics-production/ud.html#list-of-allowable-time-values
-#>               stage
-#> 1          filename
-#> 2          filename
-#> 3          filename
-#> 4          filename
-#> 5          filename
-#> 6  Precheck columns
-#> 7  Precheck columns
-#> 8  Precheck columns
-#> 9  Precheck columns
-#> 10    Precheck meta
-#> 11    Precheck meta
-#> 12    Precheck meta
-#> 13       Check meta
-#> 14    Precheck time
+#>                       check result
+#> 1           filename_spaces   PASS
+#> 2           filename_spaces   PASS
+#> 3          filename_special   PASS
+#> 4          filename_special   PASS
+#> 5           filenames_match   PASS
+#> 6              col_req_meta   PASS
+#> 7          col_invalid_meta   PASS
+#> 8              col_req_data   PASS
+#> 9               col_to_rows   PASS
+#> 10         col_names_spaces   PASS
+#> 11           col_snake_case   PASS
+#> 12            meta_col_type   PASS
+#> 13             meta_ob_unit   PASS
+#> 14            meta_col_name   PASS
+#> 15          meta_dupe_label   PASS
+#> 16             meta_fil_grp   PASS
+#> 17        meta_fil_grp_dupe   PASS
+#> 18      meta_fil_grp_is_fil   PASS
+#> 19       meta_fil_grp_match   PASS
+#> 20    meta_fil_grp_stripped   PASS
+#> 21               meta_label   PASS
+#> 22         meta_filter_hint   PASS
+#> 23          meta_geog_catch   PASS
+#> 24        meta_indicator_dp   FAIL
+#> 25     meta_col_name_spaces   PASS
+#> 26       meta_col_name_dupe   PASS
+#> 27          meta_ind_dp_set   PASS
+#> 28       meta_ind_dp_values   FAIL
+#> 29            meta_ind_unit   PASS
+#> 30 meta_ind_unit_validation   PASS
+#> 31  meta_indicator_grouping   PASS
+#>                                                                                                       message
+#> 1                                                            'data.csv' does not have spaces in the filename.
+#> 2                                                       'data.meta.csv' does not have spaces in the filename.
+#> 3                                                         'data.csv' does not contain any special characters.
+#> 4                                                    'data.meta.csv' does not contain any special characters.
+#> 5                                            The names of the files follow the recommended naming convention.
+#> 6                                               All of the required columns are present in the metadata file.
+#> 7                                                          There are no invalid columns in the metadata file.
+#> 8                                                   All of the required columns are present in the data file.
+#> 9  There are an equal number of rows in the metadata file (3) and non-mandatory columns in the data file (3).
+#> 10                                                 There are no spaces in the variable names in the datafile.
+#> 11                                      The variable names in the data file follow the snake_case convention.
+#> 12                                                                col_type is always 'Filter' or 'Indicator'.
+#> 13                                            No observational units have been included in the metadata file.
+#> 14                                            The col_name column is completed for every row in the metadata.
+#> 15                                                                                     All labels are unique.
+#> 16                                                         No indicators have a filter_grouping_column value.
+#> 17                                                                        There are no filter groups present.
+#> 18                                                                        There are no filter groups present.
+#> 19                                                                        There are no filter groups present.
+#> 20                                                                        There are no filter groups present.
+#> 21                                               The label column is completed for every row in the metadata.
+#> 22                                                                    No indicators have a filter_hint value.
+#> 23                                                     No filters appear to be mislabelled geography columns.
+#> 24                                        Filters should not have an indicator_dp value in the metadata file.
+#> 25                                                                There are no spaces in the col_name values.
+#> 26                                                                            All col_name values are unique.
+#> 27                                                   The indicator_dp column is completed for all indicators.
+#> 28   The indicator_dp column must only contain blanks, zero, or positive integer values in the metadata file.
+#> 29                                                                   No filters have an indicator_unit value.
+#> 30                                                                        The indicator_unit values are valid
+#> 31                                                               No filters have an indicator_grouping value.
+#>    guidance_url            stage
+#> 1            NA         filename
+#> 2            NA         filename
+#> 3            NA         filename
+#> 4            NA         filename
+#> 5            NA         filename
+#> 6            NA Precheck columns
+#> 7            NA Precheck columns
+#> 8            NA Precheck columns
+#> 9            NA Precheck columns
+#> 10           NA    Check columns
+#> 11           NA    Check columns
+#> 12           NA    Precheck meta
+#> 13           NA    Precheck meta
+#> 14           NA    Precheck meta
+#> 15           NA       Check meta
+#> 16           NA       Check meta
+#> 17           NA       Check meta
+#> 18           NA       Check meta
+#> 19           NA       Check meta
+#> 20           NA       Check meta
+#> 21           NA       Check meta
+#> 22           NA       Check meta
+#> 23           NA       Check meta
+#> 24           NA       Check meta
+#> 25           NA       Check meta
+#> 26           NA       Check meta
+#> 27           NA       Check meta
+#> 28           NA       Check meta
+#> 29           NA       Check meta
+#> 30           NA       Check meta
+#> 31           NA       Check meta
 #> 
 #> $overall_stage
-#> [1] "Precheck time checks"
+#> [1] "Check meta checks"
 #> 
 #> $passed
 #> [1] FALSE
@@ -578,38 +889,104 @@ write.csv(eesyscreener::example_api_long_meta, meta_file, row.names = FALSE)
 
 eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> $results_table
-#>                               check  result
-#> 1        check_filename_data_spaces    PASS
-#> 2    check_filename_metadata_spaces    PASS
-#> 3       check_filename_data_special    PASS
-#> 4   check_filename_metadata_special    PASS
-#> 5             check_filenames_match    PASS
-#> 6                      col_req_meta    PASS
-#> 7                  col_invalid_meta    PASS
-#> 8                      col_req_data    PASS
-#> 9                       col_to_rows    PASS
-#> 10                    meta_col_type    PASS
-#> 11                     meta_ob_unit    PASS
-#> 12                    meta_col_name    PASS
-#> 13                    meta_col_name    PASS
-#> 14                    time_id_valid    PASS
-#> 15 check_api_char_limit_column-name WARNING
-#>                                                                                                                                                           message
-#> 1                                                                                                                'data.csv' does not have spaces in the filename.
-#> 2                                                                                                           'data.meta.csv' does not have spaces in the filename.
-#> 3                                                                                                             'data.csv' does not contain any special characters.
-#> 4                                                                                                        'data.meta.csv' does not contain any special characters.
-#> 5                                                                                                The names of the files follow the recommended naming convention.
-#> 6                                                                                                   All of the required columns are present in the metadata file.
-#> 7                                                                                                              There are no invalid columns in the metadata file.
-#> 8                                                                                                       All of the required columns are present in the data file.
-#> 9                                                      There are an equal number of rows in the metadata file (4) and non-mandatory columns in the data file (4).
-#> 10                                                                                                                    col_type is always 'Filter' or 'Indicator'.
-#> 11                                                                                                No observational units have been included in the metadata file.
-#> 12                                                                                                The col_name column is completed for every row in the metadata.
-#> 13                                                                                                       The indicator_dp column is completed for all indicators.
-#> 14                                                                                                                      The time_identifier values are all valid.
-#> 15 The following filter / indicator names exceed the character limit of 50 for type 'column-name': "mahoooooooooooooooooooooooooooooooooooooooooooooooooooosive".
+#>                       check  result
+#> 1           filename_spaces    PASS
+#> 2           filename_spaces    PASS
+#> 3          filename_special    PASS
+#> 4          filename_special    PASS
+#> 5           filenames_match    PASS
+#> 6              col_req_meta    PASS
+#> 7          col_invalid_meta    PASS
+#> 8              col_req_data    PASS
+#> 9               col_to_rows    PASS
+#> 10         col_names_spaces    PASS
+#> 11           col_snake_case    PASS
+#> 12            meta_col_type    PASS
+#> 13             meta_ob_unit    PASS
+#> 14            meta_col_name    PASS
+#> 15          meta_dupe_label    PASS
+#> 16             meta_fil_grp    PASS
+#> 17        meta_fil_grp_dupe    PASS
+#> 18      meta_fil_grp_is_fil    PASS
+#> 19       meta_fil_grp_match    PASS
+#> 20    meta_fil_grp_stripped    PASS
+#> 21               meta_label    PASS
+#> 22         meta_filter_hint    PASS
+#> 23          meta_geog_catch    PASS
+#> 24        meta_indicator_dp    PASS
+#> 25     meta_col_name_spaces    PASS
+#> 26       meta_col_name_dupe    PASS
+#> 27          meta_ind_dp_set    PASS
+#> 28       meta_ind_dp_values    PASS
+#> 29            meta_ind_unit    PASS
+#> 30 meta_ind_unit_validation    PASS
+#> 31  meta_indicator_grouping    PASS
+#> 32          time_period_num    PASS
+#> 33            time_id_valid    PASS
+#> 34              time_id_mix    PASS
+#> 35               geog_level    PASS
+#> 36       geog_level_present    PASS
+#> 37              time_period    PASS
+#> 38          time_period_six    PASS
+#> 39          filter_defaults WARNING
+#> 40       filter_group_level    PASS
+#> 41        filter_item_limit    PASS
+#> 42        filter_whitespace    PASS
+#> 43        ind_invalid_entry    PASS
+#> 44        api_char_col_name WARNING
+#> 45       api_char_col_label WARNING
+#> 46        api_char_loc_code    PASS
+#> 47    api_char_filter_items    PASS
+#> 48       api_dict_col_names WARNING
+#>                                                                                                                                                                                                                                                                                                                                       message
+#> 1                                                                                                                                                                                                                                                                                            'data.csv' does not have spaces in the filename.
+#> 2                                                                                                                                                                                                                                                                                       'data.meta.csv' does not have spaces in the filename.
+#> 3                                                                                                                                                                                                                                                                                         'data.csv' does not contain any special characters.
+#> 4                                                                                                                                                                                                                                                                                    'data.meta.csv' does not contain any special characters.
+#> 5                                                                                                                                                                                                                                                                            The names of the files follow the recommended naming convention.
+#> 6                                                                                                                                                                                                                                                                               All of the required columns are present in the metadata file.
+#> 7                                                                                                                                                                                                                                                                                          There are no invalid columns in the metadata file.
+#> 8                                                                                                                                                                                                                                                                                   All of the required columns are present in the data file.
+#> 9                                                                                                                                                                                                                                  There are an equal number of rows in the metadata file (4) and non-mandatory columns in the data file (4).
+#> 10                                                                                                                                                                                                                                                                                 There are no spaces in the variable names in the datafile.
+#> 11                                                                                                                                                                                                                                                                      The variable names in the data file follow the snake_case convention.
+#> 12                                                                                                                                                                                                                                                                                                col_type is always 'Filter' or 'Indicator'.
+#> 13                                                                                                                                                                                                                                                                            No observational units have been included in the metadata file.
+#> 14                                                                                                                                                                                                                                                                            The col_name column is completed for every row in the metadata.
+#> 15                                                                                                                                                                                                                                                                                                                     All labels are unique.
+#> 16                                                                                                                                                                                                                                                                                         No indicators have a filter_grouping_column value.
+#> 17                                                                                                                                                                                                                                                                                                        There are no filter groups present.
+#> 18                                                                                                                                                                                                                                                                                                        There are no filter groups present.
+#> 19                                                                                                                                                                                                                                                                                                        There are no filter groups present.
+#> 20                                                                                                                                                                                                                                                                                                        There are no filter groups present.
+#> 21                                                                                                                                                                                                                                                                               The label column is completed for every row in the metadata.
+#> 22                                                                                                                                                                                                                                                                                                    No indicators have a filter_hint value.
+#> 23                                                                                                                                                                                                                                                                                     No filters appear to be mislabelled geography columns.
+#> 24                                                                                                                                                                                                                                                                                                     No filters have an indicator_dp value.
+#> 25                                                                                                                                                                                                                                                                                                There are no spaces in the col_name values.
+#> 26                                                                                                                                                                                                                                                                                                            All col_name values are unique.
+#> 27                                                                                                                                                                                                                                                                                   The indicator_dp column is completed for all indicators.
+#> 28                                                                                                                                                                                                                                                            The indicator_dp column only contains blanks, zero, or positive integer values.
+#> 29                                                                                                                                                                                                                                                                                                   No filters have an indicator_unit value.
+#> 30                                                                                                                                                                                                                                                                                                        The indicator_unit values are valid
+#> 31                                                                                                                                                                                                                                                                                               No filters have an indicator_grouping value.
+#> 32                                                                                                                                                                                                                                                                                       The time_period column only contains numeric values.
+#> 33                                                                                                                                                                                                                                                                                                  The time_identifier values are all valid.
+#> 34                                                                                                                                                                                                                                                                                       There is only one time_identifier value in the data.
+#> 35                                                                                                                                                                                                                                                                                                 The geographic_level values are all valid.
+#> 36                                                                                                                                                                                                                                                                                             There is only National level data in the file.
+#> 37                                                                                                                                                                                                                                                                The time_period length matches the time_identifier values in the data file.
+#> 38                                                                                                                                                                                                                                                                               The six digit time_period values refer to consecutive years.
+#> 39                                                                                                                     A 'Total' entry or default filter item should be specified for the following filters and / or filter_groups where applicable: 'sex', 'education_phase', 'mahoooooooooooooooooooooooooooooooooooooooooooooooooooosive'.
+#> 40                                                                                                                                                                                                                                                                                                        There are no filter groups present.
+#> 41                                                                                                                                                                                                                                                                                All filters and groups have less than 25000 unique entries.
+#> 42                                                                                                                                                                                                                                                                                   No filter labels contain leading or trailing whitespace.
+#> 43                                                                                                                                                                                                                                                                         There are no blank values or GSS legacy symbols in any indicators.
+#> 44                                                                                                                                                                             The following filter / indicator names exceed the character limit of 50 for type 'column-name': "mahoooooooooooooooooooooooooooooooooooooooooooooooooooosive".
+#> 45 The following filter / indicator labels exceed the character limit of 100 for type 'column-label': "A very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very long column name".
+#> 46                                                                                                                                                                                                                                                                    All location codes are less than or equal to the character limit of 30.
+#> 47                                                                                                                                                                                                                                                    All filter items / location names are less than or equal to the character limit of 120.
+#> 48                                                                                                                                    The following column(s) are not present in the data dictionary and should not be used as part of an API data set until resolved.  Filters: mahoooooooooooooooooooooooooooooooooooooooooooooooooooosive.
 #>                                                                                                                                              guidance_url
 #> 1                                                                                                                                                    <NA>
 #> 2                                                                                                                                                    <NA>
@@ -625,23 +1002,89 @@ eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
 #> 12                                                                                                                                                   <NA>
 #> 13                                                                                                                                                   <NA>
 #> 14                                                                                                                                                   <NA>
-#> 15 https://dfe-analytical-services.github.io/analysts-guide/statistics-production/api-data-standards.html#character-limits-for-col_names-and-filter-items
-#>               stage
-#> 1          filename
-#> 2          filename
-#> 3          filename
-#> 4          filename
-#> 5          filename
-#> 6  Precheck columns
-#> 7  Precheck columns
-#> 8  Precheck columns
-#> 9  Precheck columns
-#> 10    Precheck meta
-#> 11    Precheck meta
-#> 12    Precheck meta
-#> 13       Check meta
-#> 14    Precheck time
-#> 15        Check API
+#> 15                                                                                                                                                   <NA>
+#> 16                                                                                                                                                   <NA>
+#> 17                                                                                                                                                   <NA>
+#> 18                                                                                                                                                   <NA>
+#> 19                                                                                                                                                   <NA>
+#> 20                                                                                                                                                   <NA>
+#> 21                                                                                                                                                   <NA>
+#> 22                                                                                                                                                   <NA>
+#> 23                                                                                                                                                   <NA>
+#> 24                                                                                                                                                   <NA>
+#> 25                                                                                                                                                   <NA>
+#> 26                                                                                                                                                   <NA>
+#> 27                                                                                                                                                   <NA>
+#> 28                                                                                                                                                   <NA>
+#> 29                                                                                                                                                   <NA>
+#> 30                                                                                                                                                   <NA>
+#> 31                                                                                                                                                   <NA>
+#> 32                                                                                                                                                   <NA>
+#> 33                                                                                                                                                   <NA>
+#> 34                                                                                                                                                   <NA>
+#> 35                                                                                                                                                   <NA>
+#> 36                                                                                                                                                   <NA>
+#> 37                                                                                                                                                   <NA>
+#> 38                                                                                                                                                   <NA>
+#> 39                                  https://dfe-analytical-services.github.io/analysts-guide/statistics-production/ud.html#aggregates-and-default-filters
+#> 40                                                                                                                                                   <NA>
+#> 41                                                                                                                                                   <NA>
+#> 42                                                                                                                                                   <NA>
+#> 43                                                                                                                                                   <NA>
+#> 44 https://dfe-analytical-services.github.io/analysts-guide/statistics-production/api-data-standards.html#character-limits-for-col_names-and-filter-items
+#> 45 https://dfe-analytical-services.github.io/analysts-guide/statistics-production/api-data-standards.html#character-limits-for-col_names-and-filter-items
+#> 46                                                                                                                                                   <NA>
+#> 47                                                                                                                                                   <NA>
+#> 48                                                 https://dfe-analytical-services.github.io/analysts-guide/statistics-production/api-data-standards.html
+#>                 stage
+#> 1            filename
+#> 2            filename
+#> 3            filename
+#> 4            filename
+#> 5            filename
+#> 6    Precheck columns
+#> 7    Precheck columns
+#> 8    Precheck columns
+#> 9    Precheck columns
+#> 10      Check columns
+#> 11      Check columns
+#> 12      Precheck meta
+#> 13      Precheck meta
+#> 14      Precheck meta
+#> 15         Check meta
+#> 16         Check meta
+#> 17         Check meta
+#> 18         Check meta
+#> 19         Check meta
+#> 20         Check meta
+#> 21         Check meta
+#> 22         Check meta
+#> 23         Check meta
+#> 24         Check meta
+#> 25         Check meta
+#> 26         Check meta
+#> 27         Check meta
+#> 28         Check meta
+#> 29         Check meta
+#> 30         Check meta
+#> 31         Check meta
+#> 32      Precheck time
+#> 33      Precheck time
+#> 34      Precheck time
+#> 35 Precheck geography
+#> 36 Precheck geography
+#> 37         Check time
+#> 38         Check time
+#> 39      Check filters
+#> 40      Check filters
+#> 41      Check filters
+#> 42      Check filters
+#> 43   Check indicators
+#> 44          Check API
+#> 45          Check API
+#> 46          Check API
+#> 47          Check API
+#> 48          Check API
 #> 
 #> $overall_stage
 #> [1] "Passed"

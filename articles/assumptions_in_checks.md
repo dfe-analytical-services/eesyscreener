@@ -59,6 +59,9 @@ Most groups have a `precheck_*()` grouping, e.g. `precheck_time_*()` and
 there is every chance that you could get unexpected errors in the
 `check_*()` functions.
 
-For example
-
-…
+For example, if you run
+[`check_meta_ind_dp_values()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_ind_dp_values.md)
+without first running
+[`precheck_meta_col_type()`](https://dfe-analytical-services.github.io/eesyscreener/reference/precheck_meta_col_type.md),
+you might get an error if the `col_type` column doesn’t exist or isn’t
+the correct type.

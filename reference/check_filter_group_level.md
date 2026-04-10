@@ -45,6 +45,6 @@ Other check_filter:
 ``` r
 check_filter_group_level(example_data, example_meta)
 #> ✔ There are no filter groups present.
-#>                   check result                             message guidance_url
-#> 1 filter_grouping_level   PASS There are no filter groups present.           NA
+#>                check result                             message guidance_url
+#> 1 filter_group_level   PASS There are no filter groups present.           NA
 ```

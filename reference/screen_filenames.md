@@ -60,12 +60,12 @@ it will check they follow the filename conventions.
 
 ``` r
 screen_filenames("myfile.csv", "myfile.meta.csv")
-#>                             check result
-#> 1      check_filename_data_spaces   PASS
-#> 2  check_filename_metadata_spaces   PASS
-#> 3     check_filename_data_special   PASS
-#> 4 check_filename_metadata_special   PASS
-#> 5           check_filenames_match   PASS
+#>              check result
+#> 1  filename_spaces   PASS
+#> 2  filename_spaces   PASS
+#> 3 filename_special   PASS
+#> 4 filename_special   PASS
+#> 5  filenames_match   PASS
 #>                                                            message guidance_url
 #> 1               'myfile.csv' does not have spaces in the filename.           NA
 #> 2          'myfile.meta.csv' does not have spaces in the filename.           NA
@@ -85,12 +85,12 @@ screen_filenames("myfile.csv", "mymeta.csv", verbose = TRUE)
 #> ✔ 'mymeta.csv' does not contain any special characters.
 #> ✖ The filenames do not follow the recommended naming convention. Based on the given data filename, the metadata filename is expected to be 'myfile.meta.csv''.
 #> ✔ Filenames passed all checks
-#>                             check result
-#> 1      check_filename_data_spaces   PASS
-#> 2  check_filename_metadata_spaces   PASS
-#> 3     check_filename_data_special   PASS
-#> 4 check_filename_metadata_special   PASS
-#> 5           check_filenames_match   FAIL
+#>              check result
+#> 1  filename_spaces   PASS
+#> 2  filename_spaces   PASS
+#> 3 filename_special   PASS
+#> 4 filename_special   PASS
+#> 5  filenames_match   FAIL
 #>                                                                                                                                                        message
 #> 1                                                                                                           'myfile.csv' does not have spaces in the filename.
 #> 2                                                                                                           'mymeta.csv' does not have spaces in the filename.

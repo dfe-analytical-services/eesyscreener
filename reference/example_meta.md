@@ -46,7 +46,7 @@ A data frame with 3 rows and 9 columns:
 
 - filter_default:
 
-  Filter default item
+  Value to use as the default value if not 'Total'
 
 ## Source
 

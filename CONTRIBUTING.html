@@ -51,9 +51,10 @@
 <p>The <code>screen_*()</code> functions are the key user facing exports of the package.</p>
 <p><code><a href="reference/screen_csv.html">screen_csv()</a></code> is expected to be the primary function used, it takes a pair of CSV files and screens them.</p>
 <ul><li>One script per exported function (except for data objects or if internal and in <code>R/utils.R</code>)</li>
-<li>All individual checks should be named in accordance with the naming conventions in the <code>_pkgdown.yml</code> file</li>
+<li>All individual checks should be named in accordance with the naming conventions (see “Naming Conventions” section below)</li>
 <li>Due to the extensive use of check / test in this package, internal functions handling argument validation should follow the <code>validate_arg_*()</code> convention</li>
 <li>All <code>check_*()</code> functions must return a consistent list structure</li>
+<li>All <code>precheck_*()</code> and <code>check_*()</code> functions must use a consistent argument order: data/meta inputs first, then <code>verbose = FALSE</code>, then <code>stop_on_error = FALSE</code>, then any function-specific optional parameters. This enables <code><a href="reference/screen_dfs.html">screen_dfs()</a></code> to call checks with positional arguments.</li>
 <li>
 <code>R/utils.R</code> contains all internal functions</li>
 <li>
@@ -62,6 +63,99 @@
 <li>Think about dependencies between functions - explain any in the <code>assumptions_in_checks.Rmd</code> vignette</li>
 </ul></div>
 <div class="section level2">
+<h2 id="naming-conventions">Naming Conventions<a class="anchor" aria-label="anchor" href="#naming-conventions"></a></h2>
+<p>Follow these patterns when naming new check functions. Consistency is crucial as names are used in <code>_pkgdown.yml</code> to group checks for documentation.</p>
+<div class="section level3">
+<h3 id="general-pattern">General Pattern<a class="anchor" aria-label="anchor" href="#general-pattern"></a></h3>
+<pre><code>check_&lt;area&gt;_&lt;what&gt;()      # Content validation (can produce warnings)
+precheck_&lt;area&gt;_&lt;what&gt;()   # Early validation (blocks on failure)</code></pre>
+</div>
+<div class="section level3">
+<h3 id="area-prefixes">Area Prefixes<a class="anchor" aria-label="anchor" href="#area-prefixes"></a></h3>
+<table class="table"><thead><tr class="header"><th>Area</th>
+<th>Prefix</th>
+<th>Notes</th>
+</tr></thead><tbody><tr class="odd"><td>Columns</td>
+<td><code>col_</code></td>
+<td>Generic column properties</td>
+</tr><tr class="even"><td>Metadata</td>
+<td><code>meta_</code></td>
+<td>Metadata file validation</td>
+</tr><tr class="odd"><td>Data</td>
+<td><code>data_</code></td>
+<td>Data file content validation</td>
+</tr><tr class="even"><td>Filters</td>
+<td><code>filter_</code></td>
+<td>Filter group logic</td>
+</tr><tr class="odd"><td>Indicators</td>
+<td><code>ind_</code></td>
+<td>Indicator-specific rules</td>
+</tr><tr class="even"><td>Geography</td>
+<td><code>geog_</code></td>
+<td>Geographic hierarchy validation</td>
+</tr><tr class="odd"><td>Time</td>
+<td><code>time_</code></td>
+<td>Time period validation</td>
+</tr><tr class="even"><td>API</td>
+<td><code>api_</code></td>
+<td>API-specific constraints</td>
+</tr><tr class="odd"><td>Filename</td>
+<td><code>filename_</code></td>
+<td>File naming conventions</td>
+</tr></tbody></table></div>
+<div class="section level3">
+<h3 id="abbreviations-for-brevity">Abbreviations for Brevity<a class="anchor" aria-label="anchor" href="#abbreviations-for-brevity"></a></h3>
+<p>Use these standard abbreviations in function names to keep them concise while remaining readable:</p>
+<table class="table"><thead><tr class="header"><th>Full Term</th>
+<th>Abbreviation</th>
+<th>Context</th>
+</tr></thead><tbody><tr class="odd"><td>column</td>
+<td><code>col</code></td>
+<td><code>check_col_names_spaces</code></td>
+</tr><tr class="even"><td>metadata</td>
+<td><code>meta</code></td>
+<td><code>check_meta_label</code></td>
+</tr><tr class="odd"><td>filter_group</td>
+<td><code>fil_grp</code></td>
+<td><code>check_meta_fil_grp</code></td>
+</tr><tr class="even"><td>duplicate</td>
+<td><code>dupe</code></td>
+<td><code>check_meta_dupe_label</code></td>
+</tr><tr class="odd"><td>is_filter</td>
+<td><code>is_fil</code></td>
+<td><code>check_meta_fil_grp_is_fil</code></td>
+</tr><tr class="even"><td>indicator</td>
+<td><code>ind</code></td>
+<td><code>check_ind_invalid_entry</code></td>
+</tr><tr class="odd"><td>decimal_places</td>
+<td><code>dp</code></td>
+<td><code>check_meta_ind_dp_values</code></td>
+</tr><tr class="even"><td>geography</td>
+<td><code>geog</code></td>
+<td><code>precheck_geog_level</code></td>
+</tr><tr class="odd"><td>observation_unit</td>
+<td><code>ob</code></td>
+<td><code>precheck_meta_ob_unit</code></td>
+</tr><tr class="even"><td>location</td>
+<td><code>loc</code></td>
+<td><code>check_api_char_loc_code</code></td>
+</tr></tbody></table></div>
+<div class="section level3">
+<h3 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h3>
+<p><strong>Good naming:</strong> - <code><a href="reference/check_meta_dupe_label.html">check_meta_dupe_label()</a></code> – finds duplicate indicator labels in metadata - <code><a href="reference/check_meta_fil_grp_is_fil.html">check_meta_fil_grp_is_fil()</a></code> – validates that filter group items are valid filters - <code><a href="reference/check_api_char_col_name.html">check_api_char_col_name()</a></code> – validates column name length for API publishing - <code><a href="reference/precheck_geog_level.html">precheck_geog_level()</a></code> – ensures geographic level column exists - <code><a href="reference/check_filter_defaults.html">check_filter_defaults()</a></code> – validates default filter selections</p>
+<p><strong>Anti-patterns to avoid:</strong> - ❌ <code>check_metadata_duplicate_indicator_label()</code> – too verbose - ❌ <code>check_something_validation()</code> – redundant (checks are validation by nature) - ❌ <code>check_foo_and_bar()</code> – combines too many concepts</p>
+</div>
+<div class="section level3">
+<h3 id="adding-to-_pkgdownyml">Adding to _pkgdown.yml<a class="anchor" aria-label="anchor" href="#adding-to-_pkgdownyml"></a></h3>
+<p>When adding a new check: 1. Add a new <code>check_*()</code> or <code>precheck_*()</code> function following the naming pattern 2. Update <code>_pkgdown.yml</code> to include it in the appropriate category section 3. The documentation site will automatically group it with related checks</p>
+<p>Example in <code>_pkgdown.yml</code>:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="kw">-</span><span class="at"> </span><span class="fu">title</span><span class="kw">:</span><span class="at"> Metadata checks</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="at">  </span><span class="fu">contents</span><span class="kw">:</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> starts_with("check_meta_")</span></span></code></pre></div>
+<p>This automatically picks up all <code>check_meta_*</code> functions.</p>
+</div>
+</div>
+<div class="section level2">
 <h2 id="stylistic-preferences">Stylistic preferences<a class="anchor" aria-label="anchor" href="#stylistic-preferences"></a></h2>
 <p>This package has a big priority on efficiency, we need to keep it fast so the Shiny app and API endpoint are responsive even with larger files</p>
 <ul><li>performance profile and use the fastest available functions</li>
@@ -69,7 +163,7 @@
 <li>avoid duplication between functions</li>
 <li>don’t validate arguments in individual <code>precheck_*()</code> or <code>check_*()</code> functions</li>
 </ul><p>duckplyr seems to be the fastest approach, take the following example code, just aimed at checking if the time_identifier values are valid</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Base R</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">setdiff</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">time_identifier</span><span class="op">)</span><span class="op">)</span>,</span>
@@ -133,7 +227,7 @@
 <ol start="2" style="list-style-type: lower-alpha"><li><p>Create and use helper functions (if you haven’t already), place any helper functions in <code>R/utils.R</code>, mark as @keywords internal</p></li>
 <li><p>Avoid bringing in too many new dependencies, try rewriting in base R where possible</p></li>
 <li><p>Use <code>microbenchmark</code> to experiment to find the most efficient approach (speed is king here) e.g.</p></li>
-</ol><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+</ol><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_data.html">example_data</a></span></span>
 <span></span>
 <span><span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu">microbenchmark</span><span class="op">(</span></span>

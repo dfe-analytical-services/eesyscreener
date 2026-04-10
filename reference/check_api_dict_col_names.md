@@ -28,14 +28,17 @@ check_api_dict_col_names(meta, verbose = FALSE, stop_on_error = FALSE)
 ## See also
 
 Other check_api:
-[`check_api_char_limit()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_api_char_limit.md)
+[`check_api_char_col_label()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_api_char_col_label.md),
+[`check_api_char_col_name()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_api_char_col_name.md),
+[`check_api_char_filter_items()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_api_char_filter_items.md),
+[`check_api_char_loc_code()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_api_char_loc_code.md)
 
 ## Examples
 
 ``` r
 check_api_dict_col_names(example_meta)
-#>                      check result
-#> 1 check_api_dict_col_names   PASS
+#>                check result
+#> 1 api_dict_col_names   PASS
 #>                                                  message guidance_url
 #> 1 All col_names are consistent with the data dictionary.           NA
 ```

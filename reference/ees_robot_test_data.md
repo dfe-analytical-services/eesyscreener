@@ -1,8 +1,9 @@
-# A set of the robot test files as used in EES UI tests. These are available from: https://github.com/dfe-analytical-services/explore-education-statistics/tree/dev/tests/robot-tests/tests/files
+# A set of the robot test files as used in EES UI tests. These are available from: https://github.com/dfe-analytical-services/explore-education-statistics/ tree/dev/tests/robot-tests/tests/files
 
 A set of the robot test files as used in EES UI tests. These are
 available from:
-https://github.com/dfe-analytical-services/explore-education-statistics/tree/dev/tests/robot-tests/tests/files
+https://github.com/dfe-analytical-services/explore-education-statistics/
+tree/dev/tests/robot-tests/tests/files
 
 ## Usage
 

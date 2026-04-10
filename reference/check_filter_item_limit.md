@@ -11,9 +11,9 @@ within the admin system.
 check_filter_item_limit(
   data,
   meta,
-  filter_item_limit = 25000,
   verbose = FALSE,
-  stop_on_error = FALSE
+  stop_on_error = FALSE,
+  filter_item_limit = 25000
 )
 ```
 
@@ -27,11 +27,6 @@ check_filter_item_limit(
 
   A character string of the metadata filename to check
 
-- filter_item_limit:
-
-  The maximum number of unique items allowed in a single filter. Default
-  as used by the screener: 25000
-
 - verbose:
 
   logical, if TRUE prints feedback messages to console for every test,
@@ -41,6 +36,11 @@ check_filter_item_limit(
 
   logical, if TRUE will stop with an error if the result is "FAIL", and
   will throw genuine warning if result is "WARNING"
+
+- filter_item_limit:
+
+  The maximum number of unique items allowed in a single filter. Default
+  as used by the screener: 25000
 
 ## Value
 
@@ -57,8 +57,8 @@ Other check_filter:
 
 ``` r
 check_filter_item_limit(example_data, example_meta)
-#>                     check result
-#> 1 check_filter_item_limit   PASS
+#>               check result
+#> 1 filter_item_limit   PASS
 #>                                                       message guidance_url
 #> 1 All filters and groups have less than 25000 unique entries.           NA
 ```

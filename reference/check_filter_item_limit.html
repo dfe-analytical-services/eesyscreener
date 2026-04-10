@@ -56,9 +56,9 @@ cause performance issues within the admin system.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">check_filter_item_limit</span><span class="op">(</span></span>
 <span>  <span class="va">data</span>,</span>
 <span>  <span class="va">meta</span>,</span>
-<span>  filter_item_limit <span class="op">=</span> <span class="fl">25000</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  stop_on_error <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  stop_on_error <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  filter_item_limit <span class="op">=</span> <span class="fl">25000</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -74,11 +74,6 @@ cause performance issues within the admin system.</p>
 <dd><p>A character string of the metadata filename to check</p></dd>
 
 
-<dt id="arg-filter-item-limit">filter_item_limit<a class="anchor" aria-label="anchor" href="#arg-filter-item-limit"></a></dt>
-<dd><p>The maximum number of unique items allowed in a single filter. Default
-as used by the screener: 25000</p></dd>
-
-
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
 <dd><p>logical, if TRUE prints feedback messages to console for
 every test, if FALSE run silently</p></dd>
@@ -87,6 +82,11 @@ every test, if FALSE run silently</p></dd>
 <dt id="arg-stop-on-error">stop_on_error<a class="anchor" aria-label="anchor" href="#arg-stop-on-error"></a></dt>
 <dd><p>logical, if TRUE will stop with an error if the result
 is "FAIL", and will throw genuine warning if result is "WARNING"</p></dd>
+
+
+<dt id="arg-filter-item-limit">filter_item_limit<a class="anchor" aria-label="anchor" href="#arg-filter-item-limit"></a></dt>
+<dd><p>The maximum number of unique items allowed in a
+single filter. Default as used by the screener: 25000</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -104,8 +104,8 @@ is "FAIL", and will throw genuine warning if result is "WARNING"</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">check_filter_item_limit</span><span class="op">(</span><span class="va">example_data</span>, <span class="va">example_meta</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                     check result</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 check_filter_item_limit   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               check result</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 filter_item_limit   PASS</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                       message guidance_url</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 All filters and groups have less than 25000 unique entries.           NA</span>
 </code></pre></div>

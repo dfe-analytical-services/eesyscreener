@@ -97,14 +97,14 @@ is "FAIL", and will throw genuine warning if result is "WARNING"</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">check_filenames_match</span><span class="op">(</span><span class="st">"datafile.csv"</span>, <span class="st">"datafile.meta.csv"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                   check result</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 check_filenames_match   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             check result</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 filenames_match   PASS</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                            message guidance_url</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 The names of the files follow the recommended naming convention.           NA</span>
 <span class="r-in"><span><span class="fu">check_filenames_match</span><span class="op">(</span><span class="st">"datafile.csv"</span>, <span class="st">"metafile.csv"</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> The filenames do not follow the recommended naming convention. Based on the given data filename, the metadata filename is expected to be 'datafile.meta.csv''.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                   check result</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 check_filenames_match   FAIL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             check result</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 filenames_match   FAIL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                                                          message</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 The filenames do not follow the recommended naming convention. Based on the given data filename, the metadata filename is expected to be 'datafile.meta.csv''.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   guidance_url</span>

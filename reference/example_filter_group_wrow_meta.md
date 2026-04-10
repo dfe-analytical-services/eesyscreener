@@ -45,6 +45,10 @@ A data frame with 3 rows and 8 columns:
 
   Grouping column showing a filter hierarchy
 
+- filter_default:
+
+  Value to use as the default value if not 'Total'
+
 ## Source
 
 maintained by explore.statistics@education.gov.uk

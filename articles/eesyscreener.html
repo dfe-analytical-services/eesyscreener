@@ -161,7 +161,7 @@ speed up the screening for larger files if their machine allows
 of results, with optional console output and error triggers</p>
 <p>Standard pattern:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">test_output</span>(</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="st">"test_name"</span>, <span class="co"># name of check</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="fu">get_check_name</span>(), <span class="co"># name of check function</span></span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="st">"PASS"</span>, <span class="co"># result of check, one of 'PASS', 'FAIL', 'WARNING'</span></span>
 <span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>  <span class="fu">paste0</span>(<span class="st">"'"</span>, filename, <span class="st">"' does not contain any special characters."</span>), <span class="co"># feedback message for user, avoid HTML, keep to a simple string</span></span>
 <span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>  <span class="st">"https://dfe-analytical-services.github.io/analysts-guide/"</span>, <span class="co"># optional URL for guidance, can just not include as will default to NA</span></span>

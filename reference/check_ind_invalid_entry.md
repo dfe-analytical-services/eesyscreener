@@ -37,16 +37,16 @@ a single row data frame
 
 ``` r
 check_ind_invalid_entry(example_data, example_meta)
-#>                     check result
-#> 1 check_ind_invalid_entry   PASS
+#>               check result
+#> 1 ind_invalid_entry   PASS
 #>                                                              message
 #> 1 There are no blank values or GSS legacy symbols in any indicators.
 #>   guidance_url
 #> 1           NA
 check_ind_invalid_entry(example_data, example_meta, verbose = TRUE)
 #> ✔ There are no blank values or GSS legacy symbols in any indicators.
-#>                     check result
-#> 1 check_ind_invalid_entry   PASS
+#>               check result
+#> 1 ind_invalid_entry   PASS
 #>                                                              message
 #> 1 There are no blank values or GSS legacy symbols in any indicators.
 #>   guidance_url

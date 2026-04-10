@@ -37,20 +37,20 @@ Other precheck_geog:
 
 ``` r
 precheck_geog_level_present(example_data)
-#>                         check result
-#> 1 precheck_geog_level_present   PASS
-#>                                          message guidance_url
-#> 1 There is only National level data in the file.           NA
+#>                check result                                        message
+#> 1 geog_level_present   PASS There is only National level data in the file.
+#>   guidance_url
+#> 1           NA
 precheck_geog_level_present(example_data, verbose = TRUE)
 #> ✔ There is only National level data in the file.
-#>                         check result
-#> 1 precheck_geog_level_present   PASS
-#>                                          message guidance_url
-#> 1 There is only National level data in the file.           NA
+#>                check result                                        message
+#> 1 geog_level_present   PASS There is only National level data in the file.
+#>   guidance_url
+#> 1           NA
 precheck_geog_level_present(example_comma_data, verbose = TRUE)
 #> ✔ The geography columns are present as expected for the geographic_level values in the file.
-#>                         check result
-#> 1 precheck_geog_level_present   PASS
+#>                check result
+#> 1 geog_level_present   PASS
 #>                                                                                      message
 #> 1 The geography columns are present as expected for the geographic_level values in the file.
 #>   guidance_url

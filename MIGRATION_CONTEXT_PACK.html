@@ -74,7 +74,7 @@
 </tr></thead><tbody><tr class="odd"><td>Exported check functions</td>
 <td><code>check_&lt;area&gt;_&lt;what&gt;()</code></td>
 <td>
-<code><a href="reference/check_meta_duplicate_label.html">check_meta_duplicate_label()</a></code>, <code><a href="reference/check_filter_defaults.html">check_filter_defaults()</a></code>
+<code><a href="reference/check_meta_dupe_label.html">check_meta_dupe_label()</a></code>, <code><a href="reference/check_filter_defaults.html">check_filter_defaults()</a></code>
 </td>
 </tr><tr class="even"><td>Exported precheck functions</td>
 <td><code>precheck_&lt;area&gt;_&lt;what&gt;()</code></td>
@@ -94,26 +94,26 @@
 </tr><tr class="odd"><td>Internal helpers</td>
 <td>Descriptive snake_case</td>
 <td>
-<code>test_output()</code>, <code>null_filename()</code>, <code>get_cols_meta()</code>
+<code>test_output()</code>, <code>null_filename()</code>, <code>get_check_name()</code>
 </td>
 </tr><tr class="even"><td>Test name passed to <code>test_output()</code>
 </td>
 <td>Short snake_case identifier (no <code>check_</code>/<code>precheck_</code> prefix)</td>
 <td>
-<code>"meta_duplicate_label"</code>, <code>"col_req_meta"</code>, <code>"geographic_level"</code>
+<code>"meta_dupe_label"</code>, <code>"col_req_meta"</code>, <code>"geog_level"</code>
 </td>
 </tr><tr class="odd"><td>File names</td>
 <td>Match function name exactly</td>
-<td><code>R/check_meta_duplicate_label.R</code></td>
+<td><code>R/check_meta_dupe_label.R</code></td>
 </tr><tr class="even"><td>Test file names</td>
 <td><code>test-&lt;function_name&gt;.R</code></td>
-<td><code>tests/testthat/test-check_meta_duplicate_label.R</code></td>
+<td><code>tests/testthat/test-check_meta_dupe_label.R</code></td>
 </tr><tr class="odd"><td>Reference data objects</td>
 <td>Descriptive snake_case</td>
 <td>
 <code>req_meta_cols</code>, <code>acceptable_time_ids</code>, <code>geography_df</code>
 </td>
-</tr></tbody></table><p><strong>Important</strong>: Check names in <code>_pkgdown.yml</code> must align with the naming convention. All individual checks should be named in accordance with the groupings defined there.</p>
+</tr></tbody></table><p><strong>Important</strong>: - Check names in <code>_pkgdown.yml</code> must align with the naming convention. All individual checks should be named in accordance with the groupings defined there. - Use standard abbreviations for brevity (e.g., <code>dupe</code> for duplicate, <code>fil_grp</code> for filter_group, <code>ind</code> for indicator) — see CONTRIBUTING.md for the full list of abbreviations used in this codebase.</p>
 </div>
 <div class="section level3">
 <h3 id="id_22-file-structure">2.2 File Structure<a class="anchor" aria-label="anchor" href="#id_22-file-structure"></a></h3>
@@ -151,7 +151,8 @@ data/                         # Compiled .rda reference data</code></pre>
 <code>stop_on_error</code> (logical): If TRUE, aborts on FAIL, warns on WARNING.</li>
 <li>Some functions only take <code>meta</code>, some take <code>data</code>, some take both <code>data</code> and <code>meta</code>.</li>
 <li>Some functions have additional specific parameters (e.g., <code>custom_name</code> in <code><a href="reference/check_filename_spaces.html">check_filename_spaces()</a></code>).</li>
-</ul><p><strong>Critical rule</strong>: Do NOT validate arguments inside individual <code>precheck_*()</code> or <code>check_*()</code> functions. Argument validation happens only in the <code>screen_*()</code> orchestrators via <code>validate_arg_*()</code> helpers.</p>
+</ul><p><strong>Argument order is mandatory</strong>: <code>data</code>/<code>meta</code> first, then <code>verbose = FALSE</code>, then <code>stop_on_error = FALSE</code>, then any function-specific optional parameters. This fixed order allows <code><a href="reference/screen_dfs.html">screen_dfs()</a></code> to call all checks with positional arguments for the common parameters (e.g., <code>check_foo(data, meta, vb, soe)</code>). Function-specific parameters must always be passed by name at the call site.</p>
+<p><strong>Critical rule</strong>: Do NOT validate arguments inside individual <code>precheck_*()</code> or <code>check_*()</code> functions. Argument validation happens only in the <code>screen_*()</code> orchestrators via <code>validate_arg_*()</code> helpers.</p>
 </div>
 <div class="section level3">
 <h3 id="id_24-return-values">2.4 Return Values<a class="anchor" aria-label="anchor" href="#id_24-return-values"></a></h3>
@@ -179,10 +180,10 @@ data/                         # Compiled .rda reference data</code></pre>
 <h3 id="id_25-message-patterns">2.5 Message Patterns<a class="anchor" aria-label="anchor" href="#id_25-message-patterns"></a></h3>
 <p>Messages follow consistent grammatical patterns:</p>
 <ul><li>
-<strong>PASS (nothing found)</strong>: <code>"All labels are unique."</code>, <code>"No indicators have a filter_grouping_column value."</code>
+<strong>PASS (nothing found)</strong>: <code>"All labels are unique."</code>, <code>"No indicators have a filter group specified."</code>
 </li>
 <li>
-<strong>PASS (positive confirmation)</strong>: <code>"The geographic_level values are all valid."</code>
+<strong>PASS (positive confirmation)</strong>: <code>"The geographic level values are all valid."</code>
 </li>
 <li>
 <strong>FAIL (singular)</strong>: <code>"The following label is duplicated in the metadata file: 'X'."</code>
@@ -195,6 +196,7 @@ data/                         # Compiled .rda reference data</code></pre>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"'"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">values</span>, collapse <span class="op">=</span> <span class="st">"', '"</span><span class="op">)</span>, <span class="st">"'."</span><span class="op">)</span></span></code></pre></div>
 <p>Many functions handle singular / plural messages separately (different wording for 1 vs many failures). This is a convention in the codebase.</p>
 <p>Use <code><a href="https://cli.r-lib.org/reference/pluralize.html" class="external-link">cli::pluralize()</a></code> or <code><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf()</a></code> to consolidate singular and plural messages where appropriate to reduce the number of lines of code necessary.</p>
+<p><strong>Important</strong>: Do not include HTML tags in message strings. Messages are used across multiple contexts (CLI, API, Shiny) and should be plain text only.</p>
 </div>
 <div class="section level3">
 <h3 id="id_26-dependency-management">2.6 Dependency Management<a class="anchor" aria-label="anchor" href="#id_26-dependency-management"></a></h3>
@@ -402,8 +404,19 @@ data/                         # Compiled .rda reference data</code></pre>
 </ol></div>
 <div class="section level4">
 <h4 id="step-3-add-reference-data-if-needed">Step 3: Add Reference Data (if needed)<a class="anchor" aria-label="anchor" href="#step-3-add-reference-data-if-needed"></a></h4>
-<p>If the check uses hardcoded values from <code>R/knownVariables.r</code>: 1. Create a script in <code>data-raw/</code> to generate the data. 2. Execute the script to create the data object as <code>.rda</code> in <code>data/</code>. 3. Document in <code>R/reference_values.R</code>.</p>
-</div>
+<p>If the check uses hardcoded values from <code>R/knownVariables.r</code>: 1. Create a script in <code>data-raw/</code> to generate the data. 2. Execute the script to create the data object as <code>.rda</code> in <code>data/</code>. 3. Document in <code>R/reference_values.R</code>. 4. Add tests in <code>tests/testthat/</code>.</p>
+<p>If the check uses data read in from a CSV file within that original repo. Add the CSV as a data object, e.g. countries.csv. Then create a data object that reads from that repo directly like we have for the data dictionary data object already.</p>
+<p>For example where in <code>R/knownVariables.r</code> there is <code>countries &lt;- suppressMessages(read_csv("data/country.csv"))</code>.</p>
+<ol style="list-style-type: decimal"><li>Create a script in <code>data-raw/</code> as follows:</li>
+</ol><pre><code><span><span class="va">countries</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span></span>
+<span>  <span class="fu">render_url</span><span class="op">(</span><span class="st">"data/countries.csv"</span>, domain <span class="op">=</span> <span class="st">"screener_app_repo"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">usethis</span><span class="fu">::</span><span class="fu"><a href="https://usethis.r-lib.org/reference/use_data.html" class="external-link">use_data</a></span><span class="op">(</span><span class="va">countries</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre>
+<ol start="2" style="list-style-type: decimal"><li>Execute that script, to generate the data object.</li>
+<li>Add documentation for the data object in <code>R/reference_values.R</code>.</li>
+<li>Add tests for the data object in <code>tests/testthat/</code> ensuring that the output format and class remains stable, avoid being too strict on row rumbers as these can change.</li>
+</ol></div>
 <div class="section level4">
 <h4 id="step-4-wire-into-the-screening-pipeline">Step 4: Wire into the Screening Pipeline<a class="anchor" aria-label="anchor" href="#step-4-wire-into-the-screening-pipeline"></a></h4>
 <ol style="list-style-type: decimal"><li>Add the function call to the appropriate stage in <code>R/screen_dfs.R</code>. If the appropriate stage does not already exist, insert a new stage and adapt the code around it accordingly.</li>
@@ -415,7 +428,7 @@ data/                         # Compiled .rda reference data</code></pre>
 <p>Adding a new check to the screening pipeline increases the number of rows in the results table. The <code>example_output</code> dataset must be regenerated to stay in sync, otherwise the <code>test-screen_csv.R</code> log row count test will fail.</p>
 <ol style="list-style-type: decimal"><li>
 <p>Run the regeneration script:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">load_all</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/source.html" class="external-link">source</a></span><span class="op">(</span><span class="st">"data-raw/example_output.R"</span><span class="op">)</span></span></code></pre></div>
 </li>
@@ -489,6 +502,8 @@ data/                         # Compiled .rda reference data</code></pre>
 <td>Modified — regenerated to include the new check’s result row</td>
 </tr><tr class="odd"><td><code>data/*.rda</code></td>
 <td>Modified/added — only if new reference data is needed</td>
+</tr><tr class="even"><td><code>data-raw/*.R</code></td>
+<td>Modified/added — only if new reference data is needed</td>
 </tr></tbody></table></div>
 <div class="section level3">
 <h3 id="id_62-pr-description-pattern">6.2 PR Description Pattern<a class="anchor" aria-label="anchor" href="#id_62-pr-description-pattern"></a></h3>
@@ -519,7 +534,7 @@ data/                         # Compiled .rda reference data</code></pre>
 <h2 id="id_8-golden-patterns">8. Golden Patterns<a class="anchor" aria-label="anchor" href="#id_8-golden-patterns"></a></h2>
 <div class="section level3">
 <h3 id="id_81-canonical-migrated-function-meta-only-check">8.1 Canonical Migrated Function (meta-only check)<a class="anchor" aria-label="anchor" href="#id_81-canonical-migrated-function-meta-only-check"></a></h3>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' Check there are no duplicate labels</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' Ensure that each entry under label is unique in the metafile.</span></span>
@@ -540,47 +555,32 @@ data/                         # Compiled .rda reference data</code></pre>
 <span>  <span class="va">stop_on_error</span> <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">duplicated_labels</span> <span class="op">&lt;-</span> <span class="va">meta</span><span class="op">$</span><span class="va">label</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html" class="external-link">duplicated</a></span><span class="op">(</span><span class="va">meta</span><span class="op">$</span><span class="va">label</span><span class="op">)</span><span class="op">]</span></span>
+<span>  <span class="va">check_name</span> <span class="op">&lt;-</span> <span class="fu">get_check_name</span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">duplicated_labels</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="fu">test_output</span><span class="op">(</span></span>
-<span>      <span class="st">"meta_duplicate_label"</span>,</span>
+<span>      <span class="va">check_name</span>,</span>
 <span>      <span class="st">"PASS"</span>,</span>
 <span>      <span class="st">"All labels are unique."</span>,</span>
 <span>      verbose <span class="op">=</span> <span class="va">verbose</span>,</span>
 <span>      stop_on_error <span class="op">=</span> <span class="va">stop_on_error</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
-<span>    <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">duplicated_labels</span><span class="op">)</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="op">{</span></span>
-<span>      <span class="fu">test_output</span><span class="op">(</span></span>
-<span>        <span class="st">"meta_duplicate_label"</span>,</span>
-<span>        <span class="st">"FAIL"</span>,</span>
-<span>        <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span></span>
-<span>          <span class="st">"The following label is duplicated in the metadata file: '"</span>,</span>
-<span>          <span class="va">duplicated_labels</span>,</span>
-<span>          <span class="st">"'."</span></span>
-<span>        <span class="op">)</span>,</span>
-<span>        verbose <span class="op">=</span> <span class="va">verbose</span>,</span>
-<span>        stop_on_error <span class="op">=</span> <span class="va">stop_on_error</span></span>
-<span>      <span class="op">)</span></span>
-<span>    <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
-<span>      <span class="fu">test_output</span><span class="op">(</span></span>
-<span>        <span class="st">"meta_duplicate_label"</span>,</span>
-<span>        <span class="st">"FAIL"</span>,</span>
-<span>        <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span></span>
-<span>          <span class="st">"The following labels are duplicated in the metadata file: '"</span>,</span>
-<span>          <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">duplicated_labels</span>, collapse <span class="op">=</span> <span class="st">"', '"</span><span class="op">)</span>,</span>
-<span>          <span class="st">"'."</span></span>
-<span>        <span class="op">)</span>,</span>
-<span>        verbose <span class="op">=</span> <span class="va">verbose</span>,</span>
-<span>        stop_on_error <span class="op">=</span> <span class="va">stop_on_error</span></span>
-<span>      <span class="op">)</span></span>
-<span>    <span class="op">}</span></span>
+<span>    <span class="fu">test_output</span><span class="op">(</span></span>
+<span>      <span class="va">check_name</span>,</span>
+<span>      <span class="st">"FAIL"</span>,</span>
+<span>      <span class="fu">cli</span><span class="fu">::</span><span class="fu"><a href="https://cli.r-lib.org/reference/pluralize.html" class="external-link">pluralize</a></span><span class="op">(</span></span>
+<span>        <span class="st">"The following label{?s} {?is/are} duplicated in the metadata file: {.val {duplicated_labels}}."</span></span>
+<span>      <span class="op">)</span>,</span>
+<span>      verbose <span class="op">=</span> <span class="va">verbose</span>,</span>
+<span>      stop_on_error <span class="op">=</span> <span class="va">stop_on_error</span></span>
+<span>    <span class="op">)</span></span>
 <span>  <span class="op">}</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="id_82-canonical-migrated-function-data--meta-check-with-dplyr">8.2 Canonical Migrated Function (data + meta check with dplyr)<a class="anchor" aria-label="anchor" href="#id_82-canonical-migrated-function-data--meta-check-with-dplyr"></a></h3>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' Check filter groups match in meta and data</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' Ensure all filter groups from the meta data are found in the data file.</span></span>
@@ -592,15 +592,17 @@ data/                         # Compiled .rda reference data</code></pre>
 <span><span class="co">#' @family check_meta</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' @examples</span></span>
-<span><span class="co">#' check_meta_filter_group_match(example_data, example_meta)</span></span>
-<span><span class="co">#' check_meta_filter_group_match(example_data, example_meta, verbose = TRUE)</span></span>
+<span><span class="co">#' check_meta_fil_grp_match(example_data, example_meta)</span></span>
+<span><span class="co">#' check_meta_fil_grp_match(example_data, example_meta, verbose = TRUE)</span></span>
 <span><span class="co">#' @export</span></span>
-<span><span class="va">check_meta_filter_group_match</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span></span>
+<span><span class="va">check_meta_fil_grp_match</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span></span>
 <span>  <span class="va">data</span>,</span>
 <span>  <span class="va">meta</span>,</span>
 <span>  <span class="va">verbose</span> <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">stop_on_error</span> <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">check_name</span> <span class="op">&lt;-</span> <span class="fu">get_check_name</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
 <span>  <span class="va">meta_filter_groups</span> <span class="op">&lt;-</span> <span class="va">meta</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span></span>
 <span>      <span class="op">!</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">filter_grouping_column</span><span class="op">)</span> <span class="op">|</span></span>
@@ -608,68 +610,52 @@ data/                         # Compiled .rda reference data</code></pre>
 <span>    <span class="op">)</span></span>
 <span></span>
 <span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">meta_filter_groups</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="fu">test_output</span><span class="op">(</span></span>
-<span>      <span class="st">"filter_groups_match"</span>,</span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="fu">test_output</span><span class="op">(</span></span>
+<span>      <span class="va">check_name</span>,</span>
 <span>      <span class="st">"PASS"</span>,</span>
 <span>      <span class="st">"There are no filter groups present."</span>,</span>
 <span>      verbose <span class="op">=</span> <span class="va">verbose</span>,</span>
 <span>      stop_on_error <span class="op">=</span> <span class="va">stop_on_error</span></span>
+<span>    <span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span></span>
+<span>  <span class="va">filter_groups_not_in_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">setdiff</a></span><span class="op">(</span></span>
+<span>    <span class="va">meta_filter_groups</span><span class="op">$</span><span class="va">filter_grouping_column</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">filter_groups_not_in_data</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="fu">test_output</span><span class="op">(</span></span>
+<span>      <span class="va">check_name</span>,</span>
+<span>      <span class="st">"PASS"</span>,</span>
+<span>      <span class="st">"All filter groups from the metadata were found in the data file."</span>,</span>
+<span>      verbose <span class="op">=</span> <span class="va">verbose</span>,</span>
+<span>      stop_on_error <span class="op">=</span> <span class="va">stop_on_error</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
-<span>    <span class="va">filter_groups_not_in_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">setdiff</a></span><span class="op">(</span></span>
-<span>      <span class="va">meta_filter_groups</span><span class="op">$</span><span class="va">filter_grouping_column</span>,</span>
-<span>      <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span>
+<span>    <span class="fu">test_output</span><span class="op">(</span></span>
+<span>      <span class="va">check_name</span>,</span>
+<span>      <span class="st">"FAIL"</span>,</span>
+<span>      <span class="fu">cli</span><span class="fu">::</span><span class="fu"><a href="https://cli.r-lib.org/reference/pluralize.html" class="external-link">pluralize</a></span><span class="op">(</span></span>
+<span>        <span class="st">"The following filter group{?s} from the metadata {?was/were} not "</span>,</span>
+<span>        <span class="st">"found as {?a variable/variables} in the data file: "</span>,</span>
+<span>        <span class="st">"{.val {filter_groups_not_in_data}}."</span></span>
+<span>      <span class="op">)</span>,</span>
+<span>      verbose <span class="op">=</span> <span class="va">verbose</span>,</span>
+<span>      stop_on_error <span class="op">=</span> <span class="va">stop_on_error</span></span>
 <span>    <span class="op">)</span></span>
-<span>    <span class="va">number_filter_groups_not_in_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">filter_groups_not_in_data</span><span class="op">)</span></span>
-<span></span>
-<span>    <span class="kw">if</span> <span class="op">(</span><span class="va">number_filter_groups_not_in_data</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span>      <span class="fu">test_output</span><span class="op">(</span></span>
-<span>        <span class="st">"filter_groups_match"</span>,</span>
-<span>        <span class="st">"PASS"</span>,</span>
-<span>        <span class="st">"All filter groups from the metadata were found in the data file."</span>,</span>
-<span>        verbose <span class="op">=</span> <span class="va">verbose</span>,</span>
-<span>        stop_on_error <span class="op">=</span> <span class="va">stop_on_error</span></span>
-<span>      <span class="op">)</span></span>
-<span>    <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
-<span>      <span class="kw">if</span> <span class="op">(</span><span class="va">number_filter_groups_not_in_data</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="op">{</span></span>
-<span>        <span class="fu">test_output</span><span class="op">(</span></span>
-<span>          <span class="st">"filter_groups_match"</span>,</span>
-<span>          <span class="st">"FAIL"</span>,</span>
-<span>          <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span></span>
-<span>            <span class="st">"The following filter group from the metadata was not found "</span>,</span>
-<span>            <span class="st">"as a variable in the data file: '"</span>,</span>
-<span>            <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">filter_groups_not_in_data</span>, collapse <span class="op">=</span> <span class="st">"', '"</span><span class="op">)</span>,</span>
-<span>            <span class="st">"'."</span></span>
-<span>          <span class="op">)</span>,</span>
-<span>          verbose <span class="op">=</span> <span class="va">verbose</span>,</span>
-<span>          stop_on_error <span class="op">=</span> <span class="va">stop_on_error</span></span>
-<span>        <span class="op">)</span></span>
-<span>      <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
-<span>        <span class="fu">test_output</span><span class="op">(</span></span>
-<span>          <span class="st">"filter_groups_match"</span>,</span>
-<span>          <span class="st">"FAIL"</span>,</span>
-<span>          <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span></span>
-<span>            <span class="st">"The following filter groups from the metadata were not found "</span>,</span>
-<span>            <span class="st">"as variables in the data file: '"</span>,</span>
-<span>            <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">filter_groups_not_in_data</span>, collapse <span class="op">=</span> <span class="st">"', '"</span><span class="op">)</span>,</span>
-<span>            <span class="st">"'."</span></span>
-<span>          <span class="op">)</span>,</span>
-<span>          verbose <span class="op">=</span> <span class="va">verbose</span>,</span>
-<span>          stop_on_error <span class="op">=</span> <span class="va">stop_on_error</span></span>
-<span>        <span class="op">)</span></span>
-<span>      <span class="op">}</span></span>
-<span>    <span class="op">}</span></span>
 <span>  <span class="op">}</span></span>
 <span><span class="op">}</span></span></code></pre></div>
+<p>Key patterns used here (vs the simpler meta-only check in 8.1): - <code>check_name &lt;- get_check_name()</code> — no hardcoded string; stays in sync if the function is renamed. - Early <code><a href="https://rdrr.io/r/base/function.html" class="external-link">return()</a></code> on the short-circuit PASS branch (section 9.7). - <code><a href="https://cli.r-lib.org/reference/pluralize.html" class="external-link">cli::pluralize()</a></code> replaces a nested <code>if/else</code> for singular/plural messages (section 2.5). - Intermediate result stored in a named variable before the final <code>if/else</code> — avoids repeating the dplyr chain.</p>
 </div>
 <div class="section level3">
 <h3 id="id_83-canonical-test-file">8.3 Canonical Test File<a class="anchor" aria-label="anchor" href="#id_83-canonical-test-file"></a></h3>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">test_that</span><span class="op">(</span><span class="st">"passes when all labels are unique"</span>, <span class="op">{</span></span>
 <span>  <span class="va">meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="fu">expect_equal</span><span class="op">(</span><span class="fu"><a href="reference/check_meta_duplicate_label.html">check_meta_duplicate_label</a></span><span class="op">(</span><span class="va">meta</span><span class="op">)</span><span class="op">$</span><span class="va">result</span>, <span class="st">"PASS"</span><span class="op">)</span></span>
-<span>  <span class="fu">expect_no_error</span><span class="op">(</span><span class="fu"><a href="reference/check_meta_duplicate_label.html">check_meta_duplicate_label</a></span><span class="op">(</span><span class="va">meta</span>, stop_on_error <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="fu">expect_no_error</span><span class="op">(</span><span class="fu"><a href="reference/check_meta_duplicate_label.html">check_meta_duplicate_label</a></span><span class="op">(</span></span>
+<span>  <span class="fu">expect_equal</span><span class="op">(</span><span class="fu">check_meta_duplicate_label</span><span class="op">(</span><span class="va">meta</span><span class="op">)</span><span class="op">$</span><span class="va">result</span>, <span class="st">"PASS"</span><span class="op">)</span></span>
+<span>  <span class="fu">expect_no_error</span><span class="op">(</span><span class="fu">check_meta_duplicate_label</span><span class="op">(</span><span class="va">meta</span>, stop_on_error <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu">expect_no_error</span><span class="op">(</span><span class="fu">check_meta_duplicate_label</span><span class="op">(</span></span>
 <span>    <span class="va">example_meta</span>,</span>
 <span>    stop_on_error <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span>  <span class="op">)</span><span class="op">)</span></span>
@@ -677,24 +663,24 @@ data/                         # Compiled .rda reference data</code></pre>
 <span></span>
 <span><span class="fu">test_that</span><span class="op">(</span><span class="st">"fails with one duplicate label"</span>, <span class="op">{</span></span>
 <span>  <span class="va">meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"A"</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="fu">expect_equal</span><span class="op">(</span><span class="fu"><a href="reference/check_meta_duplicate_label.html">check_meta_duplicate_label</a></span><span class="op">(</span><span class="va">meta</span><span class="op">)</span><span class="op">$</span><span class="va">result</span>, <span class="st">"FAIL"</span><span class="op">)</span></span>
-<span>  <span class="fu">expect_error</span><span class="op">(</span><span class="fu"><a href="reference/check_meta_duplicate_label.html">check_meta_duplicate_label</a></span><span class="op">(</span><span class="va">meta</span>, stop_on_error <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu">expect_equal</span><span class="op">(</span><span class="fu">check_meta_duplicate_label</span><span class="op">(</span><span class="va">meta</span><span class="op">)</span><span class="op">$</span><span class="va">result</span>, <span class="st">"FAIL"</span><span class="op">)</span></span>
+<span>  <span class="fu">expect_error</span><span class="op">(</span><span class="fu">check_meta_duplicate_label</span><span class="op">(</span><span class="va">meta</span>, stop_on_error <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">test_that</span><span class="op">(</span><span class="st">"fails with multiple duplicate labels"</span>, <span class="op">{</span></span>
 <span>  <span class="va">meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="fu">expect_equal</span><span class="op">(</span><span class="fu"><a href="reference/check_meta_duplicate_label.html">check_meta_duplicate_label</a></span><span class="op">(</span><span class="va">meta</span><span class="op">)</span><span class="op">$</span><span class="va">result</span>, <span class="st">"FAIL"</span><span class="op">)</span></span>
-<span>  <span class="fu">expect_error</span><span class="op">(</span><span class="fu"><a href="reference/check_meta_duplicate_label.html">check_meta_duplicate_label</a></span><span class="op">(</span><span class="va">meta</span>, stop_on_error <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu">expect_equal</span><span class="op">(</span><span class="fu">check_meta_duplicate_label</span><span class="op">(</span><span class="va">meta</span><span class="op">)</span><span class="op">$</span><span class="va">result</span>, <span class="st">"FAIL"</span><span class="op">)</span></span>
+<span>  <span class="fu">expect_error</span><span class="op">(</span><span class="fu">check_meta_duplicate_label</span><span class="op">(</span><span class="va">meta</span>, stop_on_error <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">test_that</span><span class="op">(</span><span class="st">"handles numeric values in label"</span>, <span class="op">{</span></span>
 <span>  <span class="va">meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="fu">expect_equal</span><span class="op">(</span><span class="fu"><a href="reference/check_meta_duplicate_label.html">check_meta_duplicate_label</a></span><span class="op">(</span><span class="va">meta</span><span class="op">)</span><span class="op">$</span><span class="va">result</span>, <span class="st">"PASS"</span><span class="op">)</span></span>
-<span>  <span class="fu">expect_no_error</span><span class="op">(</span><span class="fu"><a href="reference/check_meta_duplicate_label.html">check_meta_duplicate_label</a></span><span class="op">(</span><span class="va">meta</span>, stop_on_error <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu">expect_equal</span><span class="op">(</span><span class="fu">check_meta_duplicate_label</span><span class="op">(</span><span class="va">meta</span><span class="op">)</span><span class="op">$</span><span class="va">result</span>, <span class="st">"PASS"</span><span class="op">)</span></span>
+<span>  <span class="fu">expect_no_error</span><span class="op">(</span><span class="fu">check_meta_duplicate_label</span><span class="op">(</span><span class="va">meta</span>, stop_on_error <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span>  <span class="va">meta2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="fu">expect_equal</span><span class="op">(</span><span class="fu"><a href="reference/check_meta_duplicate_label.html">check_meta_duplicate_label</a></span><span class="op">(</span><span class="va">meta2</span><span class="op">)</span><span class="op">$</span><span class="va">result</span>, <span class="st">"FAIL"</span><span class="op">)</span></span>
-<span>  <span class="fu">expect_error</span><span class="op">(</span><span class="fu"><a href="reference/check_meta_duplicate_label.html">check_meta_duplicate_label</a></span><span class="op">(</span><span class="va">meta2</span>, stop_on_error <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu">expect_equal</span><span class="op">(</span><span class="fu">check_meta_duplicate_label</span><span class="op">(</span><span class="va">meta2</span><span class="op">)</span><span class="op">$</span><span class="va">result</span>, <span class="st">"FAIL"</span><span class="op">)</span></span>
+<span>  <span class="fu">expect_error</span><span class="op">(</span><span class="fu">check_meta_duplicate_label</span><span class="op">(</span><span class="va">meta2</span>, stop_on_error <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -703,6 +689,74 @@ data/                         # Compiled .rda reference data</code></pre>
 <p><strong>Title</strong>: Adding the check_meta_duplicate_label() function</p>
 <p>Copied across the duplicate label check from the dfe-published-data-qa repository (originally <code>duplicate_label()</code> in <code>R/mainTests.r</code>). This adds the check as a function named <code>check_meta_duplicate_label</code> into the package, with tests and documentation.</p>
 </blockquote>
+</div>
+<div class="section level3">
+<h3 id="id_85-canonical-screen_dfs-stage-block">8.5 Canonical <code>screen_dfs()</code> stage block<a class="anchor" aria-label="anchor" href="#id_85-canonical-screen_dfs-stage-block"></a></h3>
+<p>Every stage in <code><a href="reference/screen_dfs.html">screen_dfs()</a></code> follows this pattern using the <code>run_and_log_check()</code> helper:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Check &lt;area&gt; ----------------------------------------------------------------</span></span>
+<span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">run_and_log_check</span><span class="op">(</span></span>
+<span>  <span class="va">all_results</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span></span>
+<span>    <span class="fu">check_area_thing_one</span><span class="op">(</span><span class="va">data</span>, <span class="va">meta</span>, <span class="va">vb</span>, <span class="va">soe</span><span class="op">)</span>,</span>
+<span>    <span class="fu">check_area_thing_two</span><span class="op">(</span><span class="va">data</span>, <span class="va">meta</span>, <span class="va">vb</span>, <span class="va">soe</span><span class="op">)</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  <span class="st">"Check &lt;area&gt;"</span>,</span>
+<span>  <span class="va">log_key</span>,</span>
+<span>  <span class="va">log_dir</span>,</span>
+<span>  <span class="va">data_details</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">all_results</span> <span class="op">&lt;-</span> <span class="va">res</span><span class="op">$</span><span class="va">all_results</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">early_return</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">all_results</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<p>Rules: - <code>vb</code> and <code>soe</code> are shorthands for <code>verbose</code> and <code>stop_on_error</code> set at the top of <code><a href="reference/screen_dfs.html">screen_dfs()</a></code>. - Checks are called with <strong>positional arguments</strong> for the common parameters (see section 2.3). - <code>run_and_log_check()</code> handles: appending the <code>stage</code> column, calling <code>write_json_log()</code>, and detecting any <code>"FAIL"</code> for early-exit signalling. - All stages follow this exact three-line pattern (<code>res &lt;- ...</code>, <code>all_results &lt;- res$all_results</code>, <code>if (res$early_return) ...</code>). - The Check API stage is the only exception — it builds <code>check_api_results</code> separately before passing to <code>run_and_log_check()</code> because of the conditional <code>dd_checks</code> block.</p>
+</div>
+<div class="section level3">
+<h3 id="id_86-grouped-export-file-pattern-shared-internal-helper">8.6 Grouped-export file pattern (shared internal helper)<a class="anchor" aria-label="anchor" href="#id_86-grouped-export-file-pattern-shared-internal-helper"></a></h3>
+<p>When several exported <code>check_api_*()</code> functions all delegate to one internal helper that calls <code>test_output()</code>, they live together in one file. The file is named after the shared concept (e.g., <code>check_api_char_limit.R</code>), not any single exported function.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Internal helper — calls test_output() directly, builds its own test_name</span></span>
+<span><span class="va">some_helper</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">values</span>, <span class="va">type</span>, <span class="va">verbose</span> <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">stop_on_error</span> <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">test_name</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"api_"</span>, <span class="va">type_map</span><span class="op">[[</span><span class="va">type</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
+<span>  <span class="co"># ... shared logic ...</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="va">problem</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="fu">test_output</span><span class="op">(</span></span>
+<span>      <span class="va">test_name</span>, <span class="st">"WARNING"</span>, <span class="va">message</span>,</span>
+<span>      guidance_url <span class="op">=</span> <span class="fu">render_url</span><span class="op">(</span><span class="st">"..."</span><span class="op">)</span>,</span>
+<span>      verbose <span class="op">=</span> <span class="va">verbose</span>,</span>
+<span>      stop_on_error <span class="op">=</span> <span class="va">stop_on_error</span></span>
+<span>    <span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span>  <span class="fu">test_output</span><span class="op">(</span><span class="va">test_name</span>, <span class="st">"PASS"</span>, <span class="va">pass_message</span>, verbose <span class="op">=</span> <span class="va">verbose</span>,</span>
+<span>              stop_on_error <span class="op">=</span> <span class="va">stop_on_error</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co">#' Check thing A</span></span>
+<span><span class="co">#' @inheritParams precheck_col_req_data</span></span>
+<span><span class="co">#' @inherit check_filename_spaces return</span></span>
+<span><span class="co">#' @family check_api</span></span>
+<span><span class="co">#' @examples</span></span>
+<span><span class="co">#' check_api_thing_a(example_data)</span></span>
+<span><span class="co">#' check_api_thing_a(example_data, verbose = TRUE)</span></span>
+<span><span class="co">#' @export</span></span>
+<span><span class="va">check_api_thing_a</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">verbose</span> <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">stop_on_error</span> <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu">some_helper</span><span class="op">(</span><span class="va">data</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/tbl_vars.html" class="external-link">tbl_vars</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"type-a"</span>, <span class="va">verbose</span>, <span class="va">stop_on_error</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co">#' Check thing B</span></span>
+<span><span class="co">#' @inheritParams precheck_col_req_meta</span></span>
+<span><span class="co">#' @inherit check_filename_spaces return</span></span>
+<span><span class="co">#' @family check_api</span></span>
+<span><span class="co">#' @examples</span></span>
+<span><span class="co">#' check_api_thing_b(example_meta)</span></span>
+<span><span class="co">#' check_api_thing_b(example_meta, verbose = TRUE)</span></span>
+<span><span class="co">#' @export</span></span>
+<span><span class="va">check_api_thing_b</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">meta</span>, <span class="va">verbose</span> <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">stop_on_error</span> <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu">some_helper</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">meta</span><span class="op">$</span><span class="va">label</span><span class="op">)</span>, <span class="st">"type-b"</span>, <span class="va">verbose</span>, <span class="va">stop_on_error</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<p>This is the only sanctioned deviation from “one exported function per file”. It applies when: 1. The exported functions are thin wrappers over one shared internal helper. 2. All belong to the same <code>@family</code> group. 3. Keeping them together makes the shared helper easier to find and maintain.</p>
+<p>Because <code>get_check_name()</code> walks up the call stack looking for a <code>check_</code>/<code>precheck_</code> prefix, it works correctly even when the internal helper passes through a wrapper — but the internal helper itself cannot use <code>get_check_name()</code> and must construct the test name from its own logic.</p>
 <hr></div>
 </div>
 <div class="section level2">
@@ -725,7 +779,11 @@ data/                         # Compiled .rda reference data</code></pre>
 </ul></div>
 <div class="section level3">
 <h3 id="id_92-test_output-first-argument">9.2 test_output() First Argument<a class="anchor" aria-label="anchor" href="#id_92-test_output-first-argument"></a></h3>
-<p>The <code>test_name</code> argument passed to <code>test_output()</code> should be a short identifier that omits the <code>check_</code>/<code>precheck_</code> prefix. For example, <code><a href="reference/check_meta_duplicate_label.html">check_meta_duplicate_label()</a></code> passes <code>"meta_duplicate_label"</code> and <code><a href="reference/precheck_geog_level.html">precheck_geog_level()</a></code> passes <code>"geographic_level"</code>. This is the value that appears in the <code>check</code> column of the results data frame.</p>
+<p>The <code>test_name</code> argument passed to <code>test_output()</code> is a short identifier that omits the <code>check_</code>/<code>precheck_</code> prefix — for example, <code><a href="reference/check_meta_dupe_label.html">check_meta_dupe_label()</a></code> produces <code>"meta_dupe_label"</code> and <code><a href="reference/precheck_geog_level.html">precheck_geog_level()</a></code> produces <code>"geog_level"</code>. This is the value that appears in the <code>check</code> column of the results data frame.</p>
+<p><strong>Always derive this with <code>get_check_name()</code></strong> rather than writing a string literal. This keeps the check name automatically in sync if the function is ever renamed:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">check_name</span> <span class="op">&lt;-</span> <span class="fu">get_check_name</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>Call it at the top of the function body, before any logic. The only exception is internal non-<code>check_</code>/<code>precheck_</code> helpers (like <code>api_char_limit()</code>) that call <code>test_output()</code> directly — those must build the test name themselves because <code>get_check_name()</code> looks for a <code>check_</code> or <code>precheck_</code> prefix in the call stack.</p>
 </div>
 <div class="section level3">
 <h3 id="id_93-example-data-always-passes">9.3 Example Data Always Passes<a class="anchor" aria-label="anchor" href="#id_93-example-data-always-passes"></a></h3>
@@ -737,7 +795,8 @@ data/                         # Compiled .rda reference data</code></pre>
 </div>
 <div class="section level3">
 <h3 id="id_96-duckplyr-activation">9.6 duckplyr Activation<a class="anchor" aria-label="anchor" href="#id_96-duckplyr-activation"></a></h3>
-<p><code><a href="https://duckplyr.tidyverse.org/reference/methods_overwrite.html" class="external-link">duckplyr::methods_overwrite()</a></code> is called in <code><a href="reference/screen_dfs.html">screen_dfs()</a></code> only after the metadata checks (since meta is always small). Data-touching checks that run after this point benefit from duckplyr’s DuckDB backend. Functions that operate on the <code>data</code> argument before this point should still use dplyr verbs (they’ll just run as regular dplyr).</p>
+<p><code><a href="reference/screen_dfs.html">screen_dfs()</a></code> calls <code>suppressMessages(duckplyr::methods_restore())</code> at the very start of the function (before any check stages run), then converts <code>data</code> to a duckdb tibble with <code><a href="https://duckplyr.tidyverse.org/reference/duckdb_tibble.html" class="external-link">duckplyr::as_duckdb_tibble()</a></code> — but only if it is not already one (checked via <code><a href="https://duckplyr.tidyverse.org/reference/duckdb_tibble.html" class="external-link">duckplyr::is_duckdb_tibble()</a></code>). The <code>meta</code> data frame is left as a plain data frame throughout since it is always small.</p>
+<p>Individual <code>check_*()</code> and <code>precheck_*()</code> functions do not activate duckplyr themselves; they receive whatever frame <code><a href="reference/screen_dfs.html">screen_dfs()</a></code> has prepared and should use dplyr verbs throughout.</p>
 </div>
 <div class="section level3">
 <h3 id="id_97-no-explicit-return-statements-usually">9.7 No Explicit Return Statements (Usually)<a class="anchor" aria-label="anchor" href="#id_97-no-explicit-return-statements-usually"></a></h3>
@@ -765,7 +824,7 @@ data/                         # Compiled .rda reference data</code></pre>
 </div>
 <div class="section level3">
 <h3 id="id_912-log-integration">9.12 Log Integration<a class="anchor" aria-label="anchor" href="#id_912-log-integration"></a></h3>
-<p>When wiring a new check into <code><a href="reference/screen_dfs.html">screen_dfs()</a></code>, the stage results must be passed to <code>write_json_log()</code> after each stage completes. Follow the existing pattern.</p>
+<p>When wiring a new check into <code><a href="reference/screen_dfs.html">screen_dfs()</a></code>, use the <code>run_and_log_check()</code> helper (see section 8.5). It handles appending the <code>stage</code> column, calling <code>write_json_log()</code>, and signalling an early-return if any result is <code>"FAIL"</code>. Do not call <code>write_json_log()</code> or <code>cbind("stage" = ...)</code> directly in <code><a href="reference/screen_dfs.html">screen_dfs()</a></code>.</p>
 </div>
 </div>
 </div>

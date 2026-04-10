@@ -38,14 +38,10 @@ Other precheck_geog:
 
 ``` r
 precheck_geog_level(example_data)
-#>              check result                                    message
-#> 1 geographic_level   PASS The geographic_level values are all valid.
-#>   guidance_url
-#> 1           NA
+#>        check result                                    message guidance_url
+#> 1 geog_level   PASS The geographic_level values are all valid.           NA
 precheck_geog_level(example_data, verbose = TRUE)
 #> ✔ The geographic_level values are all valid.
-#>              check result                                    message
-#> 1 geographic_level   PASS The geographic_level values are all valid.
-#>   guidance_url
-#> 1           NA
+#>        check result                                    message guidance_url
+#> 1 geog_level   PASS The geographic_level values are all valid.           NA
 ```

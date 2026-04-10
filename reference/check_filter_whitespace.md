@@ -1,7 +1,7 @@
-# Check no filter values have leading or trailing whitespaces
+# Check no filter values have leading or trailing whitespace
 
 This function checks if the provided filter values contain any leading
-or trailing whitespaces.
+or trailing whitespace.
 
 ## Usage
 

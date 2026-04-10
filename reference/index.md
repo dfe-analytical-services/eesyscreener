@@ -44,7 +44,8 @@
 - [`ees_robot_test_data`](https://dfe-analytical-services.github.io/eesyscreener/reference/ees_robot_test_data.md)
   : A set of the robot test files as used in EES UI tests. These are
   available from:
-  https://github.com/dfe-analytical-services/explore-education-statistics/tree/dev/tests/robot-tests/tests/files
+  https://github.com/dfe-analytical-services/explore-education-statistics/
+  tree/dev/tests/robot-tests/tests/files
 
 ## Generate test files
 
@@ -70,6 +71,8 @@ e.g. mandatory column names
   : Acceptable geographic levels and their associated columns
 - [`api_char_limits`](https://dfe-analytical-services.github.io/eesyscreener/reference/api_char_limits.md)
   : API character limits
+- [`data_dictionary`](https://dfe-analytical-services.github.io/eesyscreener/reference/data_dictionary.md)
+  : Data dictionary
 - [`gss_symbols`](https://dfe-analytical-services.github.io/eesyscreener/reference/gss_symbols.md)
   : Acceptable values for GSS symbols
 - [`legacy_gss_symbols`](https://dfe-analytical-services.github.io/eesyscreener/reference/legacy_gss_symbols.md)
@@ -116,21 +119,21 @@ validate core assumptions about the metadata file itself.
 
 ## Metadata checks
 
-- [`check_meta_col_name_duplicate()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_col_name_duplicate.md)
+- [`check_meta_col_name_dupe()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_col_name_dupe.md)
   : Check there are no duplicated column names
 - [`check_meta_col_name_spaces()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_col_name_spaces.md)
   : Check that no col_name values have spaces
-- [`check_meta_duplicate_label()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_duplicate_label.md)
+- [`check_meta_dupe_label()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_dupe_label.md)
   : Check there are no duplicate labels
-- [`check_meta_filter_group()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_group.md)
+- [`check_meta_fil_grp()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_fil_grp.md)
   : Check filter_group is not set for indicator rows
-- [`check_meta_filter_group_duplicate()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_group_duplicate.md)
+- [`check_meta_fil_grp_dupe()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_fil_grp_dupe.md)
   : Check all of the filter_group values are unique
-- [`check_meta_filter_group_is_filter()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_group_is_filter.md)
+- [`check_meta_fil_grp_is_fil()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_fil_grp_is_fil.md)
   : Check that filter groups are filters
-- [`check_meta_filter_group_match()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_group_match.md)
+- [`check_meta_fil_grp_match()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_fil_grp_match.md)
   : Check filter groups match in meta and data
-- [`check_meta_filter_group_stripped()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_group_stripped.md)
+- [`check_meta_fil_grp_stripped()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_fil_grp_stripped.md)
   : Check filter groups are unique when stripping non-alphanumeric
   characters
 - [`check_meta_filter_hint()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_filter_hint.md)
@@ -197,7 +200,7 @@ validate core assumptions about the geography columns.
 ## Filter checks
 
 - [`check_filter_defaults()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_filter_defaults.md)
-  : Check filenames line up between data and metadata files
+  : Check default filter values are present in data
 - [`check_filter_group_level()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_filter_group_level.md)
   : Check filter groups have an equal or lower number of levels
 - [`check_filter_item_limit()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_filter_item_limit.md)
@@ -206,7 +209,7 @@ validate core assumptions about the geography columns.
   service against accidental data issues that can cause performance
   issues within the admin system.
 - [`check_filter_whitespace()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_filter_whitespace.md)
-  : Check no filter values have leading or trailing whitespaces
+  : Check no filter values have leading or trailing whitespace
 
 ## Indicator checks
 
@@ -224,7 +227,13 @@ validate core assumptions about the geography columns.
 
 ## API specific checks
 
-- [`check_api_char_limit()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_api_char_limit.md)
-  : Check if values exceed a character limit
+- [`check_api_char_col_label()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_api_char_col_label.md)
+  : Check if column labels exceed a character limit
+- [`check_api_char_col_name()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_api_char_col_name.md)
+  : Check if column names exceed a character limit
+- [`check_api_char_filter_items()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_api_char_filter_items.md)
+  : Check if filter items or location names exceed character limit
+- [`check_api_char_loc_code()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_api_char_loc_code.md)
+  : Check if location codes exceed a character limit
 - [`check_api_dict_col_names()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_api_dict_col_names.md)
   : Check if col_names are present in the data dictionary

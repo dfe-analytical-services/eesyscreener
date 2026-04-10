@@ -123,8 +123,10 @@ e.g. <code>precheck_time_*()</code> and <code>check_time_*()</code>. If
 the <code>precheck_*()</code> functions are not ran first, there is
 every chance that you could get unexpected errors in the
 <code>check_*()</code> functions.</p>
-<p>For example</p>
-<p>…</p>
+<p>For example, if you run <code><a href="../reference/check_meta_ind_dp_values.html">check_meta_ind_dp_values()</a></code>
+without first running <code><a href="../reference/precheck_meta_col_type.html">precheck_meta_col_type()</a></code>, you might
+get an error if the <code>col_type</code> column doesn’t exist or isn’t
+the correct type.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

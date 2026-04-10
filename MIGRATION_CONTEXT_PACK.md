@@ -46,19 +46,22 @@ package (`eesyscreener`). The legacy code lives primarily in
 
 | Entity                              | Convention                                                   | Examples                                                                                                                                                                                                                                                                                                         |
 |-------------------------------------|--------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Exported check functions            | `check_<area>_<what>()`                                      | [`check_meta_duplicate_label()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_duplicate_label.md), [`check_filter_defaults()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_filter_defaults.md)                                                         |
+| Exported check functions            | `check_<area>_<what>()`                                      | [`check_meta_dupe_label()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_dupe_label.md), [`check_filter_defaults()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_filter_defaults.md)                                                                   |
 | Exported precheck functions         | `precheck_<area>_<what>()`                                   | [`precheck_col_req_data()`](https://dfe-analytical-services.github.io/eesyscreener/reference/precheck_col_req_data.md), [`precheck_geog_level()`](https://dfe-analytical-services.github.io/eesyscreener/reference/precheck_geog_level.md)                                                                       |
 | Exported screen functions           | `screen_<scope>()`                                           | [`screen_csv()`](https://dfe-analytical-services.github.io/eesyscreener/reference/screen_csv.md), [`screen_dfs()`](https://dfe-analytical-services.github.io/eesyscreener/reference/screen_dfs.md), [`screen_filenames()`](https://dfe-analytical-services.github.io/eesyscreener/reference/screen_filenames.md) |
 | Internal argument validators        | `validate_arg_<what>()`                                      | `validate_arg_filenames()`, `validate_arg_dfs()`                                                                                                                                                                                                                                                                 |
-| Internal helpers                    | Descriptive snake_case                                       | `test_output()`, `null_filename()`, `get_cols_meta()`                                                                                                                                                                                                                                                            |
-| Test name passed to `test_output()` | Short snake_case identifier (no `check_`/`precheck_` prefix) | `"meta_duplicate_label"`, `"col_req_meta"`, `"geographic_level"`                                                                                                                                                                                                                                                 |
-| File names                          | Match function name exactly                                  | `R/check_meta_duplicate_label.R`                                                                                                                                                                                                                                                                                 |
-| Test file names                     | `test-<function_name>.R`                                     | `tests/testthat/test-check_meta_duplicate_label.R`                                                                                                                                                                                                                                                               |
+| Internal helpers                    | Descriptive snake_case                                       | `test_output()`, `null_filename()`, `get_check_name()`                                                                                                                                                                                                                                                           |
+| Test name passed to `test_output()` | Short snake_case identifier (no `check_`/`precheck_` prefix) | `"meta_dupe_label"`, `"col_req_meta"`, `"geog_level"`                                                                                                                                                                                                                                                            |
+| File names                          | Match function name exactly                                  | `R/check_meta_dupe_label.R`                                                                                                                                                                                                                                                                                      |
+| Test file names                     | `test-<function_name>.R`                                     | `tests/testthat/test-check_meta_dupe_label.R`                                                                                                                                                                                                                                                                    |
 | Reference data objects              | Descriptive snake_case                                       | `req_meta_cols`, `acceptable_time_ids`, `geography_df`                                                                                                                                                                                                                                                           |
 
-**Important**: Check names in `_pkgdown.yml` must align with the naming
-convention. All individual checks should be named in accordance with the
-groupings defined there.
+**Important**: - Check names in `_pkgdown.yml` must align with the
+naming convention. All individual checks should be named in accordance
+with the groupings defined there. - Use standard abbreviations for
+brevity (e.g., `dupe` for duplicate, `fil_grp` for filter_group, `ind`
+for indicator) — see CONTRIBUTING.md for the full list of abbreviations
+used in this codebase.
 
 ### 2.2 File Structure
 
@@ -103,6 +106,14 @@ check_something <- function(
   `custom_name` in
   [`check_filename_spaces()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_filename_spaces.md)).
 
+**Argument order is mandatory**: `data`/`meta` first, then
+`verbose = FALSE`, then `stop_on_error = FALSE`, then any
+function-specific optional parameters. This fixed order allows
+[`screen_dfs()`](https://dfe-analytical-services.github.io/eesyscreener/reference/screen_dfs.md)
+to call all checks with positional arguments for the common parameters
+(e.g., `check_foo(data, meta, vb, soe)`). Function-specific parameters
+must always be passed by name at the call site.
+
 **Critical rule**: Do NOT validate arguments inside individual
 `precheck_*()` or `check_*()` functions. Argument validation happens
 only in the `screen_*()` orchestrators via `validate_arg_*()` helpers.
@@ -127,9 +138,9 @@ The `screen_*()` functions aggregate these via
 Messages follow consistent grammatical patterns:
 
 - **PASS (nothing found)**: `"All labels are unique."`,
-  `"No indicators have a filter_grouping_column value."`
+  `"No indicators have a filter group specified."`
 - **PASS (positive confirmation)**:
-  `"The geographic_level values are all valid."`
+  `"The geographic level values are all valid."`
 - **FAIL (singular)**:
   `"The following label is duplicated in the metadata file: 'X'."`
 - **FAIL (plural)**:
@@ -149,6 +160,10 @@ Use [`cli::pluralize()`](https://cli.r-lib.org/reference/pluralize.html)
 or [`sprintf()`](https://rdrr.io/r/base/sprintf.html) to consolidate
 singular and plural messages where appropriate to reduce the number of
 lines of code necessary.
+
+**Important**: Do not include HTML tags in message strings. Messages are
+used across multiple contexts (CLI, API, Shiny) and should be plain text
+only.
 
 ### 2.6 Dependency Management
 
@@ -381,7 +396,31 @@ test_that("fails with multiple <problems>", {
 If the check uses hardcoded values from `R/knownVariables.r`: 1. Create
 a script in `data-raw/` to generate the data. 2. Execute the script to
 create the data object as `.rda` in `data/`. 3. Document in
-`R/reference_values.R`.
+`R/reference_values.R`. 4. Add tests in `tests/testthat/`.
+
+If the check uses data read in from a CSV file within that original
+repo. Add the CSV as a data object, e.g. countries.csv. Then create a
+data object that reads from that repo directly like we have for the data
+dictionary data object already.
+
+For example where in `R/knownVariables.r` there is
+`countries <- suppressMessages(read_csv("data/country.csv"))`.
+
+1.  Create a script in `data-raw/` as follows:
+
+&nbsp;
+
+    countries <- readr::read_csv(
+      render_url("data/countries.csv", domain = "screener_app_repo")
+    )
+
+    usethis::use_data(countries, overwrite = TRUE)
+
+2.  Execute that script, to generate the data object.
+3.  Add documentation for the data object in `R/reference_values.R`.
+4.  Add tests for the data object in `tests/testthat/` ensuring that the
+    output format and class remains stable, avoid being too strict on
+    row rumbers as these can change.
 
 #### Step 4: Wire into the Screening Pipeline
 
@@ -474,6 +513,7 @@ Every migration PR should include changes to:
 | `_pkgdown.yml`                          | Modified — only if a new section is needed                   |
 | `data/example_output.rda`               | Modified — regenerated to include the new check’s result row |
 | `data/*.rda`                            | Modified/added — only if new reference data is needed        |
+| `data-raw/*.R`                          | Modified/added — only if new reference data is needed        |
 
 ### 6.2 PR Description Pattern
 
@@ -540,41 +580,26 @@ check_meta_duplicate_label <- function(
   stop_on_error = FALSE
 ) {
   duplicated_labels <- meta$label[duplicated(meta$label)]
+  check_name <- get_check_name()
 
   if (length(duplicated_labels) == 0) {
     test_output(
-      "meta_duplicate_label",
+      check_name,
       "PASS",
       "All labels are unique.",
       verbose = verbose,
       stop_on_error = stop_on_error
     )
   } else {
-    if (length(duplicated_labels) == 1) {
-      test_output(
-        "meta_duplicate_label",
-        "FAIL",
-        paste0(
-          "The following label is duplicated in the metadata file: '",
-          duplicated_labels,
-          "'."
-        ),
-        verbose = verbose,
-        stop_on_error = stop_on_error
-      )
-    } else {
-      test_output(
-        "meta_duplicate_label",
-        "FAIL",
-        paste0(
-          "The following labels are duplicated in the metadata file: '",
-          paste0(duplicated_labels, collapse = "', '"),
-          "'."
-        ),
-        verbose = verbose,
-        stop_on_error = stop_on_error
-      )
-    }
+    test_output(
+      check_name,
+      "FAIL",
+      cli::pluralize(
+        "The following label{?s} {?is/are} duplicated in the metadata file: {.val {duplicated_labels}}."
+      ),
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    )
   }
 }
 ```
@@ -593,15 +618,17 @@ check_meta_duplicate_label <- function(
 #' @family check_meta
 #'
 #' @examples
-#' check_meta_filter_group_match(example_data, example_meta)
-#' check_meta_filter_group_match(example_data, example_meta, verbose = TRUE)
+#' check_meta_fil_grp_match(example_data, example_meta)
+#' check_meta_fil_grp_match(example_data, example_meta, verbose = TRUE)
 #' @export
-check_meta_filter_group_match <- function(
+check_meta_fil_grp_match <- function(
   data,
   meta,
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  check_name <- get_check_name()
+
   meta_filter_groups <- meta |>
     dplyr::filter(
       !(is.na(.data$filter_grouping_column) |
@@ -609,60 +636,53 @@ check_meta_filter_group_match <- function(
     )
 
   if (nrow(meta_filter_groups) == 0) {
-    test_output(
-      "filter_groups_match",
+    return(test_output(
+      check_name,
       "PASS",
       "There are no filter groups present.",
       verbose = verbose,
       stop_on_error = stop_on_error
+    ))
+  }
+
+  filter_groups_not_in_data <- setdiff(
+    meta_filter_groups$filter_grouping_column,
+    names(data)
+  )
+
+  if (length(filter_groups_not_in_data) == 0) {
+    test_output(
+      check_name,
+      "PASS",
+      "All filter groups from the metadata were found in the data file.",
+      verbose = verbose,
+      stop_on_error = stop_on_error
     )
   } else {
-    filter_groups_not_in_data <- setdiff(
-      meta_filter_groups$filter_grouping_column,
-      names(data)
+    test_output(
+      check_name,
+      "FAIL",
+      cli::pluralize(
+        "The following filter group{?s} from the metadata {?was/were} not ",
+        "found as {?a variable/variables} in the data file: ",
+        "{.val {filter_groups_not_in_data}}."
+      ),
+      verbose = verbose,
+      stop_on_error = stop_on_error
     )
-    number_filter_groups_not_in_data <- length(filter_groups_not_in_data)
-
-    if (number_filter_groups_not_in_data == 0) {
-      test_output(
-        "filter_groups_match",
-        "PASS",
-        "All filter groups from the metadata were found in the data file.",
-        verbose = verbose,
-        stop_on_error = stop_on_error
-      )
-    } else {
-      if (number_filter_groups_not_in_data == 1) {
-        test_output(
-          "filter_groups_match",
-          "FAIL",
-          paste0(
-            "The following filter group from the metadata was not found ",
-            "as a variable in the data file: '",
-            paste0(filter_groups_not_in_data, collapse = "', '"),
-            "'."
-          ),
-          verbose = verbose,
-          stop_on_error = stop_on_error
-        )
-      } else {
-        test_output(
-          "filter_groups_match",
-          "FAIL",
-          paste0(
-            "The following filter groups from the metadata were not found ",
-            "as variables in the data file: '",
-            paste0(filter_groups_not_in_data, collapse = "', '"),
-            "'."
-          ),
-          verbose = verbose,
-          stop_on_error = stop_on_error
-        )
-      }
-    }
   }
 }
 ```
+
+Key patterns used here (vs the simpler meta-only check in 8.1): -
+`check_name <- get_check_name()` — no hardcoded string; stays in sync if
+the function is renamed. - Early
+[`return()`](https://rdrr.io/r/base/function.html) on the short-circuit
+PASS branch (section 9.7). -
+[`cli::pluralize()`](https://cli.r-lib.org/reference/pluralize.html)
+replaces a nested `if/else` for singular/plural messages (section
+2.5). - Intermediate result stored in a named variable before the final
+`if/else` — avoids repeating the dplyr chain.
 
 ### 8.3 Canonical Test File
 
@@ -709,6 +729,104 @@ test_that("handles numeric values in label", {
 > adds the check as a function named `check_meta_duplicate_label` into
 > the package, with tests and documentation.
 
+### 8.5 Canonical `screen_dfs()` stage block
+
+Every stage in
+[`screen_dfs()`](https://dfe-analytical-services.github.io/eesyscreener/reference/screen_dfs.md)
+follows this pattern using the `run_and_log_check()` helper:
+
+``` r
+# Check <area> ----------------------------------------------------------------
+res <- run_and_log_check(
+  all_results,
+  rbind(
+    check_area_thing_one(data, meta, vb, soe),
+    check_area_thing_two(data, meta, vb, soe)
+  ),
+  "Check <area>",
+  log_key,
+  log_dir,
+  data_details
+)
+all_results <- res$all_results
+if (res$early_return) {
+  return(as.data.frame(all_results))
+}
+```
+
+Rules: - `vb` and `soe` are shorthands for `verbose` and `stop_on_error`
+set at the top of
+[`screen_dfs()`](https://dfe-analytical-services.github.io/eesyscreener/reference/screen_dfs.md). -
+Checks are called with **positional arguments** for the common
+parameters (see section 2.3). - `run_and_log_check()` handles: appending
+the `stage` column, calling `write_json_log()`, and detecting any
+`"FAIL"` for early-exit signalling. - All stages follow this exact
+three-line pattern (`res <- ...`, `all_results <- res$all_results`,
+`if (res$early_return) ...`). - The Check API stage is the only
+exception — it builds `check_api_results` separately before passing to
+`run_and_log_check()` because of the conditional `dd_checks` block.
+
+### 8.6 Grouped-export file pattern (shared internal helper)
+
+When several exported `check_api_*()` functions all delegate to one
+internal helper that calls `test_output()`, they live together in one
+file. The file is named after the shared concept (e.g.,
+`check_api_char_limit.R`), not any single exported function.
+
+``` r
+# Internal helper — calls test_output() directly, builds its own test_name
+some_helper <- function(values, type, verbose = FALSE, stop_on_error = FALSE) {
+  test_name <- paste0("api_", type_map[[type]])
+  # ... shared logic ...
+  if (problem) {
+    return(test_output(
+      test_name, "WARNING", message,
+      guidance_url = render_url("..."),
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    ))
+  }
+  test_output(test_name, "PASS", pass_message, verbose = verbose,
+              stop_on_error = stop_on_error)
+}
+
+#' Check thing A
+#' @inheritParams precheck_col_req_data
+#' @inherit check_filename_spaces return
+#' @family check_api
+#' @examples
+#' check_api_thing_a(example_data)
+#' check_api_thing_a(example_data, verbose = TRUE)
+#' @export
+check_api_thing_a <- function(data, verbose = FALSE, stop_on_error = FALSE) {
+  some_helper(data |> dplyr::tbl_vars(), "type-a", verbose, stop_on_error)
+}
+
+#' Check thing B
+#' @inheritParams precheck_col_req_meta
+#' @inherit check_filename_spaces return
+#' @family check_api
+#' @examples
+#' check_api_thing_b(example_meta)
+#' check_api_thing_b(example_meta, verbose = TRUE)
+#' @export
+check_api_thing_b <- function(meta, verbose = FALSE, stop_on_error = FALSE) {
+  some_helper(as.character(meta$label), "type-b", verbose, stop_on_error)
+}
+```
+
+This is the only sanctioned deviation from “one exported function per
+file”. It applies when: 1. The exported functions are thin wrappers over
+one shared internal helper. 2. All belong to the same `@family` group.
+3. Keeping them together makes the shared helper easier to find and
+maintain.
+
+Because `get_check_name()` walks up the call stack looking for a
+`check_`/`precheck_` prefix, it works correctly even when the internal
+helper passes through a wrapper — but the internal helper itself cannot
+use `get_check_name()` and must construct the test name from its own
+logic.
+
 ------------------------------------------------------------------------
 
 ## 9. Inferred Rules (Not Explicitly Stated)
@@ -730,13 +848,27 @@ anywhere:
 
 ### 9.2 test_output() First Argument
 
-The `test_name` argument passed to `test_output()` should be a short
-identifier that omits the `check_`/`precheck_` prefix. For example,
-[`check_meta_duplicate_label()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_duplicate_label.md)
-passes `"meta_duplicate_label"` and
+The `test_name` argument passed to `test_output()` is a short identifier
+that omits the `check_`/`precheck_` prefix — for example,
+[`check_meta_dupe_label()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_dupe_label.md)
+produces `"meta_dupe_label"` and
 [`precheck_geog_level()`](https://dfe-analytical-services.github.io/eesyscreener/reference/precheck_geog_level.md)
-passes `"geographic_level"`. This is the value that appears in the
-`check` column of the results data frame.
+produces `"geog_level"`. This is the value that appears in the `check`
+column of the results data frame.
+
+**Always derive this with `get_check_name()`** rather than writing a
+string literal. This keeps the check name automatically in sync if the
+function is ever renamed:
+
+``` r
+check_name <- get_check_name()
+```
+
+Call it at the top of the function body, before any logic. The only
+exception is internal non-`check_`/`precheck_` helpers (like
+`api_char_limit()`) that call `test_output()` directly — those must
+build the test name themselves because `get_check_name()` looks for a
+`check_` or `precheck_` prefix in the call stack.
 
 ### 9.3 Example Data Always Passes
 
@@ -755,14 +887,20 @@ later checks.
 
 ### 9.6 duckplyr Activation
 
-[`duckplyr::methods_overwrite()`](https://duckplyr.tidyverse.org/reference/methods_overwrite.html)
-is called in
 [`screen_dfs()`](https://dfe-analytical-services.github.io/eesyscreener/reference/screen_dfs.md)
-only after the metadata checks (since meta is always small).
-Data-touching checks that run after this point benefit from duckplyr’s
-DuckDB backend. Functions that operate on the `data` argument before
-this point should still use dplyr verbs (they’ll just run as regular
-dplyr).
+calls `suppressMessages(duckplyr::methods_restore())` at the very start
+of the function (before any check stages run), then converts `data` to a
+duckdb tibble with
+[`duckplyr::as_duckdb_tibble()`](https://duckplyr.tidyverse.org/reference/duckdb_tibble.html)
+— but only if it is not already one (checked via
+[`duckplyr::is_duckdb_tibble()`](https://duckplyr.tidyverse.org/reference/duckdb_tibble.html)).
+The `meta` data frame is left as a plain data frame throughout since it
+is always small.
+
+Individual `check_*()` and `precheck_*()` functions do not activate
+duckplyr themselves; they receive whatever frame
+[`screen_dfs()`](https://dfe-analytical-services.github.io/eesyscreener/reference/screen_dfs.md)
+has prepared and should use dplyr verbs throughout.
 
 ### 9.7 No Explicit Return Statements (Usually)
 
@@ -809,5 +947,8 @@ guidance URLs if they are included in the original function.
 
 When wiring a new check into
 [`screen_dfs()`](https://dfe-analytical-services.github.io/eesyscreener/reference/screen_dfs.md),
-the stage results must be passed to `write_json_log()` after each stage
-completes. Follow the existing pattern.
+use the `run_and_log_check()` helper (see section 8.5). It handles
+appending the `stage` column, calling `write_json_log()`, and signalling
+an early-return if any result is `"FAIL"`. Do not call
+`write_json_log()` or `cbind("stage" = ...)` directly in
+[`screen_dfs()`](https://dfe-analytical-services.github.io/eesyscreener/reference/screen_dfs.md).

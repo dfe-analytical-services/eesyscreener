@@ -71,7 +71,8 @@ is "FAIL", and will throw genuine warning if result is "WARNING"</p></dd>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>NA in the column names don't contain spaces so won't count and are validated against elsewhere.'</p>
+    <p>NA in the column names don't contain spaces so won't count and are
+validated against elsewhere.'</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -85,14 +86,14 @@ is "FAIL", and will throw genuine warning if result is "WARNING"</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">check_meta_col_name_spaces</span><span class="op">(</span><span class="va">example_meta</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             check result                                     message</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 col_name_spaces   PASS There are no spaces in the col_name values.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  check result                                     message</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 meta_col_name_spaces   PASS There are no spaces in the col_name values.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   guidance_url</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1           NA</span>
 <span class="r-in"><span><span class="fu">check_meta_col_name_spaces</span><span class="op">(</span><span class="va">example_meta</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> There are no spaces in the col_name values.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             check result                                     message</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 col_name_spaces   PASS There are no spaces in the col_name values.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  check result                                     message</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 meta_col_name_spaces   PASS There are no spaces in the col_name values.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   guidance_url</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1           NA</span>
 </code></pre></div>
