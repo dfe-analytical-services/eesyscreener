@@ -17,6 +17,7 @@
 #'
 #' @examples
 #' check_filter_defaults(example_data, example_meta)
+#' check_filter_defaults(example_filter_group, example_filter_group_meta)
 #' @export
 check_filter_defaults <- function(
   data,

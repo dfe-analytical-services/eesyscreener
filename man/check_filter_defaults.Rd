@@ -27,6 +27,7 @@ the corresponding columns of the data file.
 }
 \examples{
 check_filter_defaults(example_data, example_meta)
+check_filter_defaults(example_filter_group, example_filter_group_meta)
 }
 \seealso{
 Other check_filter: 
