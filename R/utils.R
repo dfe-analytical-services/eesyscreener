@@ -564,7 +564,7 @@ run_and_log_check <- function(
     )
 
   write_json_log(
-    check_results,
+    check_results |> dplyr::mutate(stage = stage),
     log_key = log_key,
     log_dir = log_dir,
     data_details = data_details
