@@ -16,7 +16,7 @@ precheck_geog_level_present <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  test_name <- test_name
+  test_name <- get_check_name()
   geo_levels <- data |>
     dplyr::distinct(.data$geographic_level) |>
     dplyr::pull("geographic_level")

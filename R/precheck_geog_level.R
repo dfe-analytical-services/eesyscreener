@@ -18,7 +18,7 @@ precheck_geog_level <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  test_name <- test_name
+  test_name <- get_check_name()
   # Pull all unique geographic levels from the data set
   present_geographic_levels <- data |>
     dplyr::pull(.data$geographic_level) |>

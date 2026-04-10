@@ -17,7 +17,7 @@ check_meta_fil_grp_dupe <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  test_name <- test_name
+  test_name <- get_check_name()
   filter_groups <- meta |>
     dplyr::filter(
       !is.na(.data$filter_grouping_column),

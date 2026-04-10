@@ -18,7 +18,7 @@ check_meta_filter_hint <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  test_name <- test_name
+  test_name <- get_check_name()
   invalid_filter_hint <- meta |>
     dplyr::filter(
       .data$col_type == "Indicator" &

@@ -17,7 +17,7 @@ check_meta_dupe_label <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  test_name <- test_name
+  test_name <- get_check_name()
   duplicated_labels <- meta$label[duplicated(meta$label)]
 
   if (length(duplicated_labels) == 0) {

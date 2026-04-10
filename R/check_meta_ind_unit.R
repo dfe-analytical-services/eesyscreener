@@ -15,7 +15,7 @@
 #' @export
 
 check_meta_ind_unit <- function(meta, verbose = FALSE, stop_on_error = FALSE) {
-  test_name <- test_name
+  test_name <- get_check_name()
   filtered_positions <- which(
     meta$col_type == "Filter" &
       !is.na(meta$indicator_unit) &

@@ -21,7 +21,7 @@ precheck_meta_col_type <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  test_name <- test_name
+  test_name <- get_check_name()
   unique_types <- unique(meta$col_type)
   invalid_types <- setdiff(unique_types, c("Filter", "Indicator"))
 

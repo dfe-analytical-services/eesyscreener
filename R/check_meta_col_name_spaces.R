@@ -20,7 +20,7 @@ check_meta_col_name_spaces <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  test_name <- test_name
+  test_name <- get_check_name()
   col_name_space_pos <- grep("\\s", meta$col_name)
 
   if (length(col_name_space_pos) > 0) {

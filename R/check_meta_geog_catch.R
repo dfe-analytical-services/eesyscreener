@@ -23,7 +23,7 @@ check_meta_geog_catch <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  test_name <- test_name
+  test_name <- get_check_name()
   # Regex matching common geography-related column names
   potential_ob_units_regex <- paste0(
     "(^(country|sch|prov|inst|estab|reg|la|local|",

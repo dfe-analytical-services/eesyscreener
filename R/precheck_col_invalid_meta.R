@@ -22,7 +22,7 @@ precheck_col_invalid_meta <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  test_name <- test_name
+  test_name <- get_check_name()
   invalid_meta_cols <- setdiff(
     names(meta),
     c(eesyscreener::req_meta_cols, eesyscreener::optional_meta_cols)

@@ -18,7 +18,7 @@ check_meta_fil_grp_match <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  test_name <- test_name
+  test_name <- get_check_name()
   meta_filter_groups <- get_filter_groups(meta)
 
   if (length(meta_filter_groups) == 0) {

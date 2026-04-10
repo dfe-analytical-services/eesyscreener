@@ -18,7 +18,7 @@ check_meta_ind_dp_set <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  test_name <- test_name
+  test_name <- get_check_name()
   blank_ind_dp <- meta |>
     dplyr::filter(
       .data$col_type == "Indicator",

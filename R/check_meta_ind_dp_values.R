@@ -18,7 +18,7 @@ check_meta_ind_dp_values <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  test_name <- test_name
+  test_name <- get_check_name()
   # Normalise: treat blank strings as NA; fail if non-blank values can't be
   # converted to numeric
   ind_dp <- meta$indicator_dp

@@ -17,7 +17,7 @@ precheck_meta_col_name <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  test_name <- test_name
+  test_name <- get_check_name()
   blank_col_names <- sum(is.na(meta$col_name) | trimws(meta$col_name) == "")
 
   if (blank_col_names == 0) {

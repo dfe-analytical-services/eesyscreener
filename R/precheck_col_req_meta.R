@@ -17,7 +17,7 @@ precheck_col_req_meta <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  test_name <- test_name
+  test_name <- get_check_name()
   missing_cols <- eesyscreener::req_meta_cols[
     !eesyscreener::req_meta_cols %in% names(meta)
   ]

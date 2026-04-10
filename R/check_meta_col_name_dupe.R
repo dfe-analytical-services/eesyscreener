@@ -22,7 +22,7 @@ check_meta_col_name_dupe <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  test_name <- test_name
+  test_name <- get_check_name()
   duplicated_col_names <- meta$col_name[duplicated(meta$col_name)]
 
   if (length(duplicated_col_names) == 0) {

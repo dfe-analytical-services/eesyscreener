@@ -18,7 +18,7 @@ precheck_meta_ob_unit <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  test_name <- test_name
+  test_name <- get_check_name()
   cols_in_meta <- get_cols_meta(meta, grouping_cols = TRUE)
 
   acceptable_ob_exc_sch_prov <- setdiff(

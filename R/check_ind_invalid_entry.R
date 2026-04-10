@@ -30,7 +30,7 @@ check_ind_invalid_entry <- function(
     }
   }
 
-  test_name <- test_name
+  test_name <- get_check_name()
   indicators <- meta |>
     dplyr::filter(.data$col_type == "Indicator") |>
     dplyr::pull(.data$col_name) |>

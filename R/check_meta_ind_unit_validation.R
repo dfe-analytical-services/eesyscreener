@@ -18,7 +18,7 @@ check_meta_ind_unit_validation <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  test_name <- test_name
+  test_name <- get_check_name()
   # Pull all unique indicator_unit entries that are neither empty nor NA
   present_indictor_units <- meta |>
     dplyr::filter(

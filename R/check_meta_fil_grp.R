@@ -18,7 +18,7 @@ check_meta_fil_grp <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  test_name <- test_name
+  test_name <- get_check_name()
   invalid_filter_grouping_column <- meta |>
     dplyr::filter(
       .data$col_type == "Indicator",

@@ -19,7 +19,7 @@ check_meta_fil_grp_stripped <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  test_name <- test_name
+  test_name <- get_check_name()
   # Pull all filter_grouping_column entries that are neither empty nor NA
   meta_filter_groups <- meta |>
     dplyr::filter(
