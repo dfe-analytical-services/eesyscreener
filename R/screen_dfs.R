@@ -81,7 +81,8 @@ screen_dfs <- function(
     all_results,
     rbind(
       check_col_names_spaces(data, vb, soe),
-      check_col_snake_case(data, vb, soe)
+      check_col_snake_case(data, vb, soe),
+      check_col_var_start(data, vb, soe)
     ),
     "Check columns",
     log_key,

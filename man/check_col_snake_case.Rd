@@ -27,4 +27,8 @@ letters or special characters as a warning.
 check_col_snake_case(example_data)
 check_col_snake_case(example_data, verbose = TRUE)
 }
+\seealso{
+Other check_col: 
+\code{\link{check_col_var_start}()}
+}
 \concept{check_col}
