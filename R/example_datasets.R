@@ -32,7 +32,7 @@
 #'   \item{indicator_dp}{Number of decimal places}
 #'   \item{filter_hint}{Optional hint text to accompany filter}
 #'   \item{filter_grouping_column}{Grouping column showing a filter hierarchy}
-#'   \item{filter_default}{Filter default item}
+#'   \item{filter_default}{Value to use as the default value if not 'Total'}
 #' }
 #' @source maintained by explore.statistics@@education.gov.uk
 "example_meta"
@@ -72,6 +72,7 @@
 #'   \item{indicator_dp}{Number of decimal places}
 #'   \item{filter_hint}{Optional hint text to accompany filter}
 #'   \item{filter_grouping_column}{Grouping column showing a filter hierarchy}
+#'   \item{filter_default}{Value to use as the default value if not 'Total'}
 #' }
 #' @source maintained by explore.statistics@@education.gov.uk
 "example_filter_group_meta"
@@ -111,6 +112,7 @@
 #'   \item{indicator_dp}{Number of decimal places}
 #'   \item{filter_hint}{Optional hint text to accompany filter}
 #'   \item{filter_grouping_column}{Grouping column showing a filter hierarchy}
+#'   \item{filter_default}{Value to use as the default value if not 'Total'}
 #' }
 #' @source maintained by explore.statistics@@education.gov.uk
 "example_filter_group_wrow_meta"
@@ -146,12 +148,14 @@
 #'   \item{indicator_dp}{Number of decimal places}
 #'   \item{filter_hint}{Optional hint text to accompany filter}
 #'   \item{filter_grouping_column}{Grouping column showing a filter hierarchy}
+#'   \item{filter_default}{Value to use as the default value if not 'Total'}
 #' }
 #' @source maintained by explore.statistics@@education.gov.uk
 "example_api_long_meta"
 
 # Example comma data ====
-#' Example data that contains strings containing commas beyond the default sniffing length.
+#' Example data that contains strings containing commas beyond the default
+#' sniffing length.
 #' The original can be obtained from the EES test suite
 #'
 #' @format A data frame with 22,005 rows and 11 columns:
@@ -184,6 +188,7 @@
 #'   \item{indicator_dp}{Number of decimal places}
 #'   \item{filter_hint}{Optional hint text to accompany filter}
 #'   \item{filter_grouping_column}{Grouping column showing a filter hierarchy}
+#'   \item{filter_default}{Value to use as the default value if not 'Total'}
 #' }
 #' @source maintained by explore.statistics@@education.gov.uk
 "example_comma_meta"
@@ -192,7 +197,8 @@
 # Example screening output ====
 #' Example screening output pre-generated from example_data and example_meta
 #'
-#' @format A data frame with the same number of rows as there are tests in the package, and 5 columns:
+#' @format A data frame with the same number of rows as there are tests in
+#' the package, and 5 columns:
 #' \describe{
 #'   \item{check}{Name of the check}
 #'   \item{result}{Check result: PASS / FAIL / WARNING}
@@ -205,10 +211,13 @@
 
 
 # EES robot test data ====
-#' A set of the robot test files as used in EES UI tests. These are available from:
-#' https://github.com/dfe-analytical-services/explore-education-statistics/tree/dev/tests/robot-tests/tests/files
+#' A set of the robot test files as used in EES UI tests. These are
+#' available from:
+#' https://github.com/dfe-analytical-services/explore-education-statistics/
+#' tree/dev/tests/robot-tests/tests/files
 #'
-#' @format A list of 14 robot test examples, with each element of the list containing
+#' @format A list of 14 robot test examples, with each element of the list
+#' containing
 #' \describe{
 #'   \item{robot name}{Name of the robot test data}
 #'   \item{data}{The robot test data}

@@ -30,6 +30,7 @@ reference:
   - starts_with("acceptable_")
   - geography_df
   - api_char_limits
+  - data_dictionary
   - gss_symbols
   - legacy_gss_symbols
   - four_digit_identifiers

@@ -19,7 +19,8 @@ is "FAIL", and will throw genuine warning if result is "WARNING"}
 a single row data frame
 }
 \description{
-Ensure there are no blank cells in the label column for every row in the metafile
+Ensure there are no blank cells in the label column for every row in
+the metafile
 }
 \examples{
 check_meta_label(example_meta)
@@ -27,13 +28,13 @@ check_meta_label(example_meta, verbose = TRUE)
 }
 \seealso{
 Other check_meta: 
-\code{\link{check_meta_col_name_duplicate}()},
-\code{\link{check_meta_duplicate_label}()},
-\code{\link{check_meta_filter_group}()},
-\code{\link{check_meta_filter_group_duplicate}()},
-\code{\link{check_meta_filter_group_is_filter}()},
-\code{\link{check_meta_filter_group_match}()},
-\code{\link{check_meta_filter_group_stripped}()},
+\code{\link{check_meta_col_name_dupe}()},
+\code{\link{check_meta_dupe_label}()},
+\code{\link{check_meta_fil_grp}()},
+\code{\link{check_meta_fil_grp_dupe}()},
+\code{\link{check_meta_fil_grp_is_fil}()},
+\code{\link{check_meta_fil_grp_match}()},
+\code{\link{check_meta_fil_grp_stripped}()},
 \code{\link{check_meta_filter_hint}()},
 \code{\link{check_meta_geog_catch}()},
 \code{\link{check_meta_ind_dp_set}()},

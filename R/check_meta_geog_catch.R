@@ -23,9 +23,11 @@ check_meta_geog_catch <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  test_name <- get_check_name()
   # Regex matching common geography-related column names
   potential_ob_units_regex <- paste0(
-    "(^(country|sch|prov|inst|estab|reg|la|local|rsc|pfa|pcon|lep|mca|oa|ward|mat)",
+    "(^(country|sch|prov|inst|estab|reg|la|local|",
+    "rsc|pfa|pcon|lep|mca|oa|ward|mat)",
     ".*(name|code|urn|ukprn|number|upin|id)$)",
     "|(^(laestab|estab|sch|school|schools|prov|provider|providers|inst|",
     "institution|institutions|name|code|urn|ukprn|number|upin|id|region|",
@@ -67,7 +69,7 @@ check_meta_geog_catch <- function(
 
   if (length(caught_filters) == 0) {
     test_output(
-      "meta_geog_catch",
+      test_name,
       "PASS",
       "No filters appear to be mislabelled geography columns.",
       verbose = verbose,
@@ -75,7 +77,7 @@ check_meta_geog_catch <- function(
     )
   } else {
     test_output(
-      "meta_geog_catch",
+      test_name,
       "FAIL",
       cli::pluralize(
         "The following {cli::qty(length(caught_filters))}filter{?s} ",

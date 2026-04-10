@@ -18,6 +18,7 @@ check_meta_filter_hint <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  test_name <- get_check_name()
   invalid_filter_hint <- meta |>
     dplyr::filter(
       .data$col_type == "Indicator" &
@@ -28,7 +29,7 @@ check_meta_filter_hint <- function(
 
   if (length(invalid_filter_hint) == 0) {
     test_output(
-      "meta_filter_hint",
+      test_name,
       "PASS",
       "No indicators have a filter_hint value.",
       verbose = verbose,
@@ -36,7 +37,7 @@ check_meta_filter_hint <- function(
     )
   } else {
     test_output(
-      "meta_filter_hint",
+      test_name,
       "FAIL",
       paste0(
         "Indicators should not have a filter_hint value in the metadata file. ",

@@ -5,12 +5,12 @@
 #'
 #' @param data A character string of the data filename to check
 #' @param meta A character string of the metadata filename to check
-#' @param filter_item_limit The maximum number of unique items allowed in a single filter. Default
-#' as used by the screener: 25000
 #' @param verbose logical, if TRUE prints feedback messages to console for
 #' every test, if FALSE run silently
 #' @param stop_on_error logical, if TRUE will stop with an error if the result
 #' is "FAIL", and will throw genuine warning if result is "WARNING"
+#' @param filter_item_limit The maximum number of unique items allowed in a
+#' single filter. Default as used by the screener: 25000
 #'
 #' @inherit check_filename_spaces return
 #'
@@ -22,11 +22,11 @@
 check_filter_item_limit <- function(
   data,
   meta,
-  filter_item_limit = 25000,
   verbose = FALSE,
-  stop_on_error = FALSE
+  stop_on_error = FALSE,
+  filter_item_limit = 25000
 ) {
-  test_name <- "check_filter_item_limit"
+  test_name <- get_check_name()
 
   filters_and_groups <- meta |>
     get_cols_meta(grouping_cols = TRUE, excl_indicators = TRUE)
@@ -46,7 +46,13 @@ check_filter_item_limit <- function(
       filters = filters_and_groups,
       nentries = sapply(
         filters_and_groups,
-        function(col) dplyr::n_distinct(data[[col]])
+        function(col) {
+          data |>
+            dplyr::select(dplyr::all_of(col)) |>
+            dplyr::distinct() |>
+            dplyr::count() |>
+            dplyr::pull("n")
+        }
       )
     )
     if (all(counts$nentries <= filter_item_limit)) {
@@ -65,14 +71,15 @@ check_filter_item_limit <- function(
       )
     } else {
       large_filter_sets <- counts |>
-        dplyr::filter(nentries > filter_item_limit) |>
-        dplyr::pull(filters)
+        dplyr::filter(.data$nentries > filter_item_limit) |>
+        dplyr::pull("filters")
       return(
         test_output(
           test_name,
           "FAIL",
           paste0(
-            "The following filters or filter groups contain more than the advised maximum number of unique entries: '",
+            "The following filters or filter groups contain",
+            " more than the advised maximum number of unique entries: '",
             paste(large_filter_sets, collapse = "', '"),
             "'."
           ),

@@ -6,7 +6,7 @@ test_that("passes when all time_identifier values are compatible", {
   expect_no_error(precheck_time_id_mix(data, stop_on_error = TRUE))
 })
 
-test_that("passes when multiple compatible time_identifier values are present", {
+test_that("passes when multiple compatible time_identifier values present", {
   group <- eesyscreener::acceptable_time_ids[[1]]
   data <- data.frame(time_identifier = group)
   expect_equal(precheck_time_id_mix(data)$result, "PASS")

@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_filter_defaults.R
 \name{check_filter_defaults}
 \alias{check_filter_defaults}
-\title{Check filenames line up between data and metadata files}
+\title{Check default filter values are present in data}
 \usage{
 check_filter_defaults(data, meta, verbose = FALSE, stop_on_error = FALSE)
 }
@@ -21,14 +21,13 @@ is "FAIL", and will throw genuine warning if result is "WARNING"}
 a single row data frame
 }
 \description{
-Making sure the data and metadata file follow the pattern of:
-\itemize{
-\item datafile.csv (data file)
-\item datafile.meta.csv (metadata file)
-}
+Ensures that all filter columns and filter groups in the metadata have a
+default filter value (usually "Total"), and that this value is present in
+the corresponding columns of the data file.
 }
 \examples{
 check_filter_defaults(example_data, example_meta)
+check_filter_defaults(example_filter_group, example_filter_group_meta)
 }
 \seealso{
 Other check_filter: 

@@ -9,14 +9,15 @@
 #' @family check_meta
 #'
 #' @examples
-#' check_meta_filter_group_duplicate(example_meta)
-#' check_meta_filter_group_duplicate(example_meta, verbose = TRUE)
+#' check_meta_fil_grp_dupe(example_meta)
+#' check_meta_fil_grp_dupe(example_meta, verbose = TRUE)
 #' @export
-check_meta_filter_group_duplicate <- function(
+check_meta_fil_grp_dupe <- function(
   meta,
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  test_name <- get_check_name()
   filter_groups <- meta |>
     dplyr::filter(
       !is.na(.data$filter_grouping_column),
@@ -26,7 +27,7 @@ check_meta_filter_group_duplicate <- function(
 
   if (length(filter_groups) == 0) {
     test_output(
-      "filter_group_duplicate",
+      test_name,
       "PASS",
       "There are no filter groups present.",
       verbose = verbose,
@@ -35,7 +36,7 @@ check_meta_filter_group_duplicate <- function(
   } else if (length(filter_groups) != dplyr::n_distinct(filter_groups)) {
     duplicates <- unique(filter_groups[duplicated(filter_groups)])
     test_output(
-      "filter_group_duplicate",
+      test_name,
       "FAIL",
       paste0(
         "There are duplicate filter_group values: ",
@@ -47,7 +48,7 @@ check_meta_filter_group_duplicate <- function(
     )
   } else {
     test_output(
-      "filter_group_duplicate",
+      test_name,
       "PASS",
       "All of the filter_group values are unique.",
       verbose = verbose,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_filter_whitespace.R
 \name{check_filter_whitespace}
 \alias{check_filter_whitespace}
-\title{Check no filter values have leading or trailing whitespaces}
+\title{Check no filter values have leading or trailing whitespace}
 \usage{
 check_filter_whitespace(data, meta, verbose = FALSE, stop_on_error = FALSE)
 }
@@ -21,7 +21,8 @@ is "FAIL", and will throw genuine warning if result is "WARNING"}
 a single row data frame
 }
 \description{
-This function checks if the provided filter values contain any leading or trailing whitespaces.
+This function checks if the provided filter values contain any leading or
+trailing whitespace.
 }
 \examples{
 check_filter_whitespace(example_data, example_meta)

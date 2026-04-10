@@ -23,7 +23,10 @@ test_that("the function fails with spaces in column names", {
   expect_equal(result$result, "FAIL")
   expect_equal(
     result$message,
-    "The following variable names each have at least one space that needs removing: 'var 1', 'var 3'."
+    paste0(
+      "The following variable names each have at least one space",
+      " that needs removing: 'var 1', 'var 3'."
+    )
   )
 })
 #test that the function fails with a single space in a column name
@@ -34,12 +37,15 @@ test_that("the function fails with a single space in a column name", {
   expect_equal(result$result, "FAIL")
   expect_equal(
     result$message,
-    "The following variable name has at least one space that needs removing: 'var 1'."
+    paste0(
+      "The following variable name has at least one space",
+      " that needs removing: 'var 1'."
+    )
   )
 })
 
-#test that the data fails when table is read from csv with spaces in column names
-test_that("the function fails when table is read from csv with spaces in column names", {
+# test fails when table is read from csv with spaces in column names
+test_that("fails when table is read from csv with spaces in col names", {
   temp_file <- tempfile(fileext = ".csv")
   write.csv(
     df |>
@@ -52,7 +58,10 @@ test_that("the function fails when table is read from csv with spaces in column 
   expect_equal(result$result, "FAIL")
   expect_equal(
     result$message,
-    "The following variable name has at least one space that needs removing: 'var 1'."
+    paste0(
+      "The following variable name has at least one space",
+      " that needs removing: 'var 1'."
+    )
   )
   unlink(temp_file)
 })

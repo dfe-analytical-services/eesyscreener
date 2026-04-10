@@ -18,6 +18,7 @@ precheck_meta_ob_unit <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  test_name <- get_check_name()
   cols_in_meta <- get_cols_meta(meta, grouping_cols = TRUE)
 
   acceptable_ob_exc_sch_prov <- setdiff(
@@ -32,7 +33,7 @@ precheck_meta_ob_unit <- function(
 
   if (length(ob_units_in_meta) == 0) {
     test_output(
-      "meta_ob_unit",
+      test_name,
       "PASS",
       paste(
         "No observational units have been included in the metadata",
@@ -43,7 +44,7 @@ precheck_meta_ob_unit <- function(
     )
   } else if (length(ob_units_in_meta) == 1) {
     test_output(
-      "meta_ob_unit",
+      test_name,
       "FAIL",
       paste0(
         "The following observational unit needs removing from the metadata",
@@ -56,7 +57,7 @@ precheck_meta_ob_unit <- function(
     )
   } else {
     test_output(
-      "meta_ob_unit",
+      test_name,
       "FAIL",
       paste0(
         "The following observational units need removing from the metadata",

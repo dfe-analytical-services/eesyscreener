@@ -1,3 +1,32 @@
+#' Get the check name from the calling function
+#'
+#' Derives the check name by getting the name of the function that called this
+#' helper, and stripping the `check_` or `precheck_` prefix. This keeps the
+#' check name in `test_output()` automatically in sync with the function name.
+#'
+#' Walks up the call stack to find the nearest `check_` or `precheck_` function,
+#' so it works whether called directly or passed through helpers like
+#' `test_output()`.
+#'
+#' @keywords internal
+#' @noRd
+#' @returns A single character string with the check name
+get_check_name <- function() {
+  for (i in seq_len(sys.nframe() - 1)) {
+    call <- sys.call(-i)
+    fn_name <- as.character(call[[1]])
+    if (grepl("^(check|precheck)_", fn_name)) {
+      return(sub("^(check|precheck)_", "", fn_name))
+    }
+  }
+  stop(
+    paste0(
+      "get_check_name() must be called from within a check_ or precheck_",
+      " function."
+    )
+  )
+}
+
 #' Handle null filenames
 #'
 #' Helper function to handle null filenames and return a string for the
@@ -161,24 +190,30 @@ read_ees_files <- function(datapath, metapath) {
   data_mime <- mime::guess_type(datapath)
   meta_mime <- mime::guess_type(metapath)
   if (
-    !identical(data_mime, "text/csv") &
+    !identical(data_mime, "text/csv") &&
       !identical(data_mime, "application/gzip")
   ) {
     cli::cli_abort(
       sprintf(
-        "Data file at %s does not have a CSV or GZIP MIME type.\nMIME type found: %s",
+        paste0(
+          "Data file at %s does not have a CSV or GZIP MIME type.",
+          "\nMIME type found: %s"
+        ),
         datapath,
         data_mime
       )
     )
   }
   if (
-    !identical(meta_mime, "text/csv") &
+    !identical(meta_mime, "text/csv") &&
       !identical(data_mime, "application.gzip")
   ) {
     cli::cli_abort(
       sprintf(
-        "Meta data file at %s does not have a CSV or GZIP MIME type.\nMIME type found: %s",
+        paste0(
+          "Meta data file at %s does not have a CSV or GZIP",
+          " MIME type.\nMIME type found: %s"
+        ),
         metapath,
         meta_mime
       )
@@ -218,7 +253,8 @@ read_ees_files <- function(datapath, metapath) {
 
 #' Write out CSV files
 #'
-#' Helper for writing out CSV files in a standard way. Provides some standard cleaning for writing
+#' Helper for writing out CSV files in a standard way. Provides some standard
+#' cleaning for writing
 #' data frame contents to CSV to handle things like NAs.
 #'
 #' @param data Data to be written out
@@ -229,7 +265,9 @@ read_ees_files <- function(datapath, metapath) {
 #' @examples
 #' # Create temp files for the example
 #' temp_dir <- tempdir()
-#' write_ees_files(example_data, example_meta, outdir = temp_dir, stub = "example")
+#' write_ees_files(
+#'   example_data, example_meta, outdir = temp_dir, stub = "example"
+#' )
 #'
 #' # Clean up temp files
 #' file.remove(path(temp_dir, paste0("example.csv")))
@@ -280,23 +318,22 @@ get_cols_meta <- function(
   excl_indicators = FALSE
 ) {
   if (excl_indicators) {
-    meta <- meta |>
-      dplyr::filter(col_type != "Indicator")
+    meta <- meta[meta$col_type != "Indicator", ]
   }
   cols <- meta$col_name
   if (grouping_cols) {
     cols <- c(cols, meta$filter_grouping_column)
   }
-  unique(cols[!is.na(cols) & cols != ""])
+
+  cols |>
+    remove_nas_blanks() |>
+    unique()
 }
 
-#' Get all column names referenced in metadata
+#' Get all acceptable observation unit columns
 #'
-#' Get the names of all indicators, filters, and filter groups that are
-#' referenced in the metadata.
-#'
-#' Assumes the col_name, and filter_grouping_column are present in the
-#' metadata.
+#' Gets the names of all acceptable observation unit columns, including time and
+#' geographic identifiers.
 #'
 #' @param meta data.frame of the metadata
 #' @param grouping_cols logical, if TRUE will include filter grouping columns
@@ -312,7 +349,7 @@ get_acceptable_ob_units <- function() {
     )],
     use.names = FALSE
   ) |>
-    stats::na.omit()
+    remove_nas_blanks()
 
   c(
     "time_period",
@@ -322,34 +359,92 @@ get_acceptable_ob_units <- function() {
   )
 }
 
-#' Check if any values are longer than a specified length
+#' Get all geographic code columns
 #'
-#' Helper function to check if any values in a vector exceed a specified
-#' length. Used for validating column names and values within columns.
+#' Gets the names of all geographic code columns from the geography dataframe
 #'
-#' @param values character vector of values to check
-#' @param max_length maximum allowed character length for values
-#'
-#' @returns a data.frame with columns 'value', 'length', and 'exceeds_max'
 #' @keywords internal
 #' @noRd
-char_limits <- function(values, max_length) {
-  lengths <- nchar(values)
-  exceeds_max <- lengths > max_length
-
-  data.frame(
-    value = values,
-    length = lengths,
-    exceeds_max = exceeds_max
-  )
+#' @returns character vector of column names
+get_geo_code_cols <- function() {
+  c(
+    eesyscreener::geography_df$code_field,
+    eesyscreener::geography_df$code_field_secondary
+  ) |>
+    remove_nas_blanks() |>
+    unique()
 }
 
+#' Get all geographic name columns
+#'
+#' Gets the names of all geographic name columns from the geography dataframe
+#'
+#' @keywords internal
+#' @noRd
+#' @returns character vector of column names
+get_geo_name_cols <- function() {
+  eesyscreener::geography_df$name_field |>
+    remove_nas_blanks() |>
+    unique()
+}
+
+#' Get all filter grouping columns
+#'
+#' Gets the names of all filter grouping columns from the metadata
+#'
+#' @keywords internal
+#' @noRd
+#' @returns character vector of column names
+get_filter_groups <- function(meta) {
+  meta$filter_grouping_column |>
+    remove_nas_blanks()
+}
+
+#' Get all filter and filter grouping columns
+#'
+#' Gets the names of all filter and filter grouping columns from the metadata
+#'
+#' @param include_filter_groups logical, if TRUE will include filter grouping
+#' columns, if FALSE will only return filter columns, defaults to FALSE
+#' @keywords internal
+#' @noRd
+#' @returns character vector of column names
+get_filters <- function(meta, include_filter_groups = FALSE) {
+  filter_cols <- meta$col_name[meta$col_type == "Filter"]
+
+  if (!include_filter_groups) {
+    return(filter_cols)
+  }
+
+  c(filter_cols, get_filter_groups(meta))
+}
+
+#' Remove NAs and blank strings from a vector
+#'
+#' Can be used at the end of a pipe to remove both NA values and blank strings.
+#'
+#' This is generally used to filter out valid blank values to allow the checks
+#' to only look at anything that wouldn't be read as blank by EES.
+#'
+#' @param vector A vector
+#' @returns The input with NAs and blank strings removed
+#' @keywords internal
+#' @noRd
+remove_nas_blanks <- function(vector) {
+  if (is.vector(vector)) {
+    vector[!is.na(vector) & vector != ""]
+  } else {
+    stop("Input must be a vector.")
+  }
+}
 
 #' Write eesyscreener results to log file
 #'
 #' @param results list of resuts returned by eesyscreener checks
-#' @param file_details list of file details to pass to the log. Can include filename and filesize
-#' @param data_details list of data details to pass to the log. Can include ncols and nrows
+#' @param file_details list of file details to pass to the log. Can include
+#' filename and filesize
+#' @param data_details list of data details to pass to the log. Can include
+#' ncols and nrows
 #' @inheritParams screen_dfs
 #' @returns NULL
 #' @keywords internal
@@ -361,34 +456,40 @@ write_json_log <- function(
   file_details = list(filename = NULL, filesize = NULL),
   data_details = list(nrows = NULL, ncols = NULL)
 ) {
-  if (!is.null(log_key) & !is.null(log_dir)) {
+  if (!is.null(log_key) && !is.null(log_dir)) {
     log_file <- paste0("eesyscreener_log_", log_key, ".json")
-    log_path = file.path(log_dir, log_file)
+    log_path <- file.path(log_dir, log_file)
     if (file.exists(log_path)) {
       log <- jsonlite::read_json(log_path, simplifyVector = TRUE)
       if (!is.null(log$results)) {
-        results <- log$results |>
+        log_results <- log$results
+        # TODO: See if I can remove this relatively hacky workaround
+        # to make tests pass
+        if ("guidance_url" %in% names(log_results)) {
+          log_results$guidance_url[log_results$guidance_url == "NA"] <- NA
+        }
+        results <- log_results |>
           rbind(results) |>
           dplyr::distinct()
       }
-      log$progress <- nrow(results) / nrow(example_output) * 100.
+      log$progress <- nrow(results) / nrow(eesyscreener::example_output) * 100.
       log$log_time <- Sys.time()
       log$results <- results
       if (!is.null(file_details$filename)) {
-        log$filename = file_details$filename
+        log$filename <- file_details$filename
       }
       if (!is.null(file_details$filesize)) {
-        log$filesize = file_details$filesize
+        log$filesize <- file_details$filesize
       }
       if (!is.null(data_details$nrows)) {
-        log$nrows = data_details$nrows
+        log$nrows <- data_details$nrows
       }
       if (!is.null(data_details$ncols)) {
-        log$ncols = data_details$ncols
+        log$ncols <- data_details$ncols
       }
     } else {
       log <- list(
-        progress = nrow(results) / nrow(example_output) * 100.,
+        progress = nrow(results) / nrow(eesyscreener::example_output) * 100.,
         status = "Initiating screening",
         filename = file_details$filename,
         filesize = file_details$filesize,
@@ -422,7 +523,8 @@ write_json_log <- function(
 #' Render standard URL
 #'
 #' @param slug string to paste to base domain
-#' @param domain base domain. Can be "analysts_guide", "ees", "dfe_github" or "screener_app_repo"
+#' @param domain base domain. Can be "analysts_guide", "ees", "dfe_github"
+#' or "screener_app_repo"
 #' @returns String containing URL
 #' @keywords internal
 #' @noRd
@@ -430,16 +532,76 @@ render_url <- function(slug, domain = "analysts_guide") {
   if (
     !domain %in% c("analysts_guide", "ees", "dfe_github", "screener_app_repo")
   ) {
-    stop("Please choose one of 'ag', 'ees' or 'dfe_guthub'")
+    stop(
+      paste0(
+        "Please choose one of 'analysts_guide', 'ees', 'dfe_github' or",
+        " 'screener_app_repo'"
+      )
+    )
   }
   url <- list(
-    analysts_guide = "https://dfe-analytical-services.github.io/analysts-guide/",
+    analysts_guide = paste0(
+      "https://dfe-analytical-services.github.io/",
+      "analysts-guide/"
+    ),
     ees = "https://explore-education-statistics.service.gov.uk/",
     dfe_github = "https://github.com/dfe-analytical-services/",
-    screener_app_repo = "https://raw.githubusercontent.com/dfe-analytical-services/dfe-published-data-qa/refs/heads/main/"
+    screener_app_repo = paste0(
+      "https://raw.githubusercontent.com/dfe-analytical-services/",
+      "dfe-published-data-qa/refs/heads/main/"
+    )
   )
   paste0(
     url[domain],
     slug
   )
+}
+
+#' Run a check, log the results, and determine if early return is needed
+#'
+#' This is used in the screen_dfs function and appends new check results to
+#' the existing results, updates (or creates) a JSON log, and checks if any
+#' check has failed. If any result is "FAIL", it signals an early return is
+#' needed.
+#'
+#' @param all_results A data frame containing all previous check results.
+#' @param check_results A data frame with the results of the current check.
+#' @param stage Character. The name of the current stage to annotate in the
+#' results.
+#' @param log_key Character. The key to use for logging.
+#' @param log_dir Character. The directory where logs should be written.
+#' @param data_details List. Additional details about the data to include in
+#' the log.
+#'
+#' @return A list with two elements: {all_results} (the updated results data
+#' frame)
+#'   and {early_return} (logical, TRUE if any result is "FAIL").
+#'
+#' @keywords internal
+#' @noRd
+run_and_log_check <- function(
+  all_results,
+  check_results,
+  stage,
+  log_key,
+  log_dir,
+  data_details
+) {
+  all_results <- all_results |>
+    rbind(
+      check_results |>
+        dplyr::mutate(stage = stage)
+    )
+
+  write_json_log(
+    check_results |> dplyr::mutate(stage = stage),
+    log_key = log_key,
+    log_dir = log_dir,
+    data_details = data_details
+  )
+
+  if (any(all_results[["result"]] == "FAIL")) {
+    return(list(all_results = all_results, early_return = TRUE))
+  }
+  list(all_results = all_results, early_return = FALSE)
 }

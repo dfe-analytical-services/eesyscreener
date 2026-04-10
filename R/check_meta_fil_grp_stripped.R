@@ -10,25 +10,27 @@
 #' @family check_meta
 #'
 #' @examples
-#' check_meta_filter_group_stripped(example_data, example_meta)
-#' check_meta_filter_group_stripped(example_data, example_meta, verbose = TRUE)
+#' check_meta_fil_grp_stripped(example_data, example_meta)
+#' check_meta_fil_grp_stripped(example_data, example_meta, verbose = TRUE)
 #' @export
-check_meta_filter_group_stripped <- function(
+check_meta_fil_grp_stripped <- function(
   data,
   meta,
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  test_name <- get_check_name()
   # Pull all filter_grouping_column entries that are neither empty nor NA
   meta_filter_groups <- meta |>
     dplyr::filter(
-      !(is.na(filter_grouping_column) | filter_grouping_column == "")
+      !(is.na(.data$filter_grouping_column) |
+        .data$filter_grouping_column == "") # nolint: indentation_linter
     ) |>
-    dplyr::pull(filter_grouping_column)
+    dplyr::pull(.data$filter_grouping_column)
   # If there are no filter_grouping_column entries, pass test
   if (length(meta_filter_groups) == 0) {
     test_output(
-      "filter_group_stripped",
+      test_name,
       "PASS",
       "There are no filter groups present.",
       verbose = verbose,
@@ -38,10 +40,15 @@ check_meta_filter_group_stripped <- function(
     # Pull unique filter group items for all entries in filter_grouping_column
     raw_filter_groups <- lapply(
       meta_filter_groups,
-      function(column) data[[column]]
-    ) |>
-      lapply(unique)
-    # Strip non-alphanumeric characters from the filter group items, and select uniques
+      function(column) {
+        data |>
+          dplyr::select(dplyr::all_of(column)) |>
+          dplyr::distinct() |>
+          dplyr::pull(1)
+      }
+    )
+    # Strip non-alphanumeric characters from the filter group items, and
+    # select uniques
     stripped_filter_groups <- lapply(
       raw_filter_groups,
       function(x) gsub("[^[:alnum:]]", "", x)
@@ -55,7 +62,7 @@ check_meta_filter_group_stripped <- function(
     # If there are some (greater than 0) failed_cols, fail test
     if (length(failed_cols) > 0) {
       test_output(
-        "filter_group_stripped",
+        test_name,
         "FAIL",
         paste0(
           "The number of unique filter groups should not change when ",
@@ -70,11 +77,11 @@ check_meta_filter_group_stripped <- function(
       # Else if there are no failed_cols (not greater than 0), pass test
     } else {
       test_output(
-        "filter_group_stripped",
+        test_name,
         "PASS",
         paste0(
-          "There are no issues when stripping non-alphanumeric characters from ",
-          "filter groups."
+          "There are no issues when stripping non-alphanumeric",
+          " characters from filter groups."
         ),
         verbose = verbose,
         stop_on_error = stop_on_error

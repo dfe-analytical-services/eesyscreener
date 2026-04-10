@@ -44,6 +44,4 @@ For example, `precheck_meta_col_type()` requires the `col_type` column to be pre
 
 Most groups have a `precheck_*()` grouping, e.g. `precheck_time_*()` and `check_time_*()`. If the `precheck_*()` functions are not ran first, there is every chance that you could get unexpected errors in the `check_*()` functions.
 
-For example
-
-...
+For example, if you run `check_meta_ind_dp_values()` without first running `precheck_meta_col_type()`, you might get an error if the `col_type` column doesn't exist or isn't the correct type.

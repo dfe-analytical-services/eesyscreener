@@ -1,13 +1,14 @@
 test_that("Output structure is as expected", {
   # Start by creating some temporary CSVs
-  test_dir = tempdir()
+  test_dir <- tempdir()
   paths <- write_ees_files(example_data, example_meta, test_dir, "example")
 
   output <- screen_csv(
     paths$data_path,
     paths$meta_path,
     "data.csv",
-    "data.meta.csv"
+    "data.meta.csv",
+    verbose = TRUE
   )
 
   # Clean up temp files
@@ -37,7 +38,7 @@ test_that("Output structure is as expected", {
   ))
 
   for (col in c("check", "message", "stage")) {
-    expect_false(any(is.na(output$results_table[[col]])))
+    expect_false(anyNA(output$results_table[[col]]))
     expect_false(any(output$results_table[[col]] == ""))
   }
 
@@ -72,7 +73,7 @@ test_that("Substitutes in filenames if not given", {
 })
 
 test_that("Example file passes", {
-  test_dir = tempdir()
+  test_dir <- tempdir()
   paths <- write_ees_files(example_data, example_meta, test_dir, "example")
 
   output <- screen_csv(
@@ -134,7 +135,7 @@ test_that("Fails gracefully if it's not a CSV", {
   writeLines(c("This is not a CSV file"), txt_file)
   writeLines(c("This is not a CSV file"), txt_meta)
 
-  test_dir = tempdir()
+  test_dir <- tempdir()
   paths <- write_ees_files(example_data, example_meta, test_dir, "example")
 
   expect_error(
@@ -157,7 +158,7 @@ test_that("Fails gracefully if it's not a CSV", {
 })
 
 test_that("Example file fails with filename", {
-  test_dir = tempdir()
+  test_dir <- tempdir()
   paths <- write_ees_files(example_data, example_meta, test_dir, "example")
 
   expect_equal(
@@ -233,7 +234,7 @@ test_that("fails check dfs", {
 })
 
 test_that("api_suitable returns FALSE for unsuitable files", {
-  test_dir = tempdir()
+  test_dir <- tempdir()
   paths <- write_ees_files(
     example_api_long,
     example_api_long_meta,
@@ -265,7 +266,7 @@ test_that("api_suitable returns FALSE for unsuitable files", {
 })
 
 test_that("screen_csv completes for file containing commas in strings", {
-  test_dir = tempdir()
+  test_dir <- tempdir()
   paths <- write_ees_files(
     example_comma_data,
     example_comma_meta,
@@ -286,18 +287,18 @@ test_that("screen_csv completes for file containing commas in strings", {
   file.remove(paths$meta_path)
 })
 
-# If adding new tests, then this will fail if you haven't also updated the example output. Make
-# sure you update example_output using the script in data_raw after you've added a new check.
-# Another point of failure that this test can pick up on is if you've added a new family of tests
-# and either you've not folded it into the results collation properly or you've not done the stage
-# to write the results to the logfile.
+# If adding new tests, this will fail if you haven't also updated the example
+# output. Make sure you update example_output using the script in data_raw
+# after you've added a new check. Another point of failure is if you've added
+# a new family of tests and either you've not folded it into the results
+# collation properly or you've not done the stage to write to the logfile.
 test_that("Log file generation works as expected", {
-  test_dir = tempdir()
+  test_dir <- tempdir()
   paths <- write_ees_files(example_data, example_meta, test_dir, "log-test")
 
   log_key <- "zxc987_1"
-  log_file = paste0("eesyscreener_log_", log_key, ".json")
-  log_path = file.path(test_dir, log_file)
+  log_file <- paste0("eesyscreener_log_", log_key, ".json")
+  log_path <- file.path(test_dir, log_file)
   result <- screen_csv(
     paths$data_path,
     paths$meta_path,
@@ -308,7 +309,7 @@ test_that("Log file generation works as expected", {
   )
   expect_true(file.exists(log_path))
 
-  # Check if `example_output` is up to date with the current results being produced
+  # Check if `example_output` is up to date with the current results
   expect_equal(
     jsonlite::read_json(log_path, simplifyVector = TRUE)$results |> nrow(),
     example_output |> nrow()

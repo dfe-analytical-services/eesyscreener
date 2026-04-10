@@ -1,6 +1,7 @@
 #' Check indicator_dp only contains blanks or positive integer values.
 #'
-#' This function checks that The indicator_dp column only contains blanks or positive integer values.
+#' This function checks that The indicator_dp column only contains blanks or
+#' positive integer values.
 #'
 #' @inheritParams precheck_meta_col_type
 #'
@@ -17,54 +18,89 @@ check_meta_ind_dp_values <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  if (all(is.na(meta$indicator_dp))) {
+  test_name <- get_check_name()
+  # Normalise: treat blank strings as NA; fail if non-blank values can't be
+  # converted to numeric
+  ind_dp <- meta$indicator_dp
+  if (is.character(ind_dp)) {
+    blanked <- ifelse(trimws(ind_dp) == "", NA_character_, ind_dp)
+    non_blank <- blanked[!is.na(blanked)]
+    coerced <- suppressWarnings(as.numeric(non_blank))
+    if (any(is.na(coerced))) {
+      return(test_output(
+        test_name,
+        "FAIL",
+        paste0(
+          "The indicator_dp column must only contain blanks,",
+          " zero, or positive integer values in the metadata file."
+        ),
+        verbose = verbose,
+        stop_on_error = stop_on_error
+      ))
+    }
+    ind_dp <- suppressWarnings(as.numeric(blanked))
+  }
+
+  if (all(is.na(ind_dp))) {
     test_output(
-      "ind_dp_values",
+      test_name,
       "PASS",
       "The indicator_dp column only contains blanks.",
       verbose = verbose,
       stop_on_error = stop_on_error
     )
   } else {
-    if (is.numeric(meta$indicator_dp)) {
-      isInteger <- function(x) {
-        test <- all.equal(x, as.integer(x), check.attributes = FALSE)
-        if (test == TRUE) {
+    if (is.numeric(ind_dp)) {
+      is_integer <- function(x) {
+        if (is.na(x)) {
           return(TRUE)
-        } else {
-          return(FALSE)
         }
+        test <- all.equal(x, as.integer(x), check.attributes = FALSE)
+        isTRUE(test)
       }
 
-      meta$integer <- lapply(meta$indicator_dp, isInteger)
-      meta$notNegative <- lapply(meta$indicator_dp, function(x) x >= 0)
+      meta$integer <- vapply(ind_dp, is_integer, logical(1))
+      meta$notNegative <- vapply(
+        ind_dp,
+        function(x) is.na(x) || x >= 0,
+        logical(1)
+      )
       failed_rows <- rbind(
-        meta |> dplyr::filter(integer == FALSE),
-        meta |> dplyr::filter(notNegative == FALSE)
+        meta |> dplyr::filter(!.data$integer),
+        meta |> dplyr::filter(!.data$notNegative)
       )
 
       if (nrow(failed_rows) != 0) {
         test_output(
-          "ind_dp_values",
+          test_name,
           "FAIL",
-          "The indicator_dp column must only contain blanks, zero, or positive integer values in the metadata file.",
+          paste0(
+            "The indicator_dp column must only contain blanks,",
+            " zero, or positive integer values in the metadata file."
+          ),
           verbose = verbose,
           stop_on_error = stop_on_error
         )
       } else {
         test_output(
-          "ind_dp_values",
+          test_name,
           "PASS",
-          "The indicator_dp column only contains blanks, zero, or positive integer values.",
+          paste0(
+            "The indicator_dp column only contains blanks,",
+            " zero, or positive integer values."
+          ),
           verbose = verbose,
           stop_on_error = stop_on_error
         )
       }
     } else {
       test_output(
-        "ind_dp_values",
+        test_name,
         "FAIL",
-        "The indicator_dp column must only contain blanks, zero, or positive integer values in the metadata file.",
+        paste0(
+          "The indicator_dp column must only contain blanks,",
+          " zero, or positive integer values in the metadata file."
+        ),
         verbose = verbose,
         stop_on_error = stop_on_error
       )

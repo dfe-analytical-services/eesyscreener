@@ -24,6 +24,9 @@ check_api_dict_col_names(example_meta)
 }
 \seealso{
 Other check_api: 
-\code{\link{check_api_char_limit}()}
+\code{\link{check_api_char_col_label}()},
+\code{\link{check_api_char_col_name}()},
+\code{\link{check_api_char_filter_items}()},
+\code{\link{check_api_char_loc_code}()}
 }
 \concept{check_api}

@@ -22,7 +22,8 @@ a single row data frame
 Checks the metadata file's col_name column for values that contain spaces.
 }
 \details{
-NA in the column names don't contain spaces so won't count and are validated against elsewhere.'
+NA in the column names don't contain spaces so won't count and are
+validated against elsewhere.'
 }
 \examples{
 check_meta_col_name_spaces(example_meta)

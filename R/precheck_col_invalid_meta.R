@@ -22,6 +22,7 @@ precheck_col_invalid_meta <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  test_name <- get_check_name()
   invalid_meta_cols <- setdiff(
     names(meta),
     c(eesyscreener::req_meta_cols, eesyscreener::optional_meta_cols)
@@ -29,7 +30,7 @@ precheck_col_invalid_meta <- function(
 
   if (length(invalid_meta_cols) == 0) {
     test_output(
-      "col_invalid_meta",
+      test_name,
       "result" = "PASS",
       "There are no invalid columns in the metadata file.",
       verbose = verbose,
@@ -38,7 +39,7 @@ precheck_col_invalid_meta <- function(
   } else {
     if (length(invalid_meta_cols) == 1) {
       test_output(
-        "col_invalid_meta",
+        test_name,
         "result" = "FAIL",
         paste(invalid_meta_cols, "is an invalid column in the metadata file."),
         verbose = verbose,
@@ -46,7 +47,7 @@ precheck_col_invalid_meta <- function(
       )
     } else {
       test_output(
-        "col_invalid_meta",
+        test_name,
         "result" = "FAIL",
         paste(
           "These are invalid columns in the metadata file:",

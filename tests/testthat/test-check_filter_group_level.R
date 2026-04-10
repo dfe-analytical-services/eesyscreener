@@ -28,7 +28,10 @@ test_that("passes when ethnicity_major and ethnicity_minor have equal levels", {
   expect_equal(result$result, "PASS")
   expect_match(
     result$message,
-    "All filter groups have an equal or lower number of levels than their corresponding filter."
+    paste0(
+      "All filter groups have an equal or lower number of",
+      " levels than their corresponding filter."
+    )
   )
 })
 
@@ -49,7 +52,10 @@ test_that("passes when filter group has fewer levels than filter", {
   expect_equal(result$result, "PASS")
   expect_match(
     result$message,
-    "All filter groups have an equal or lower number of levels than their corresponding filter."
+    paste0(
+      "All filter groups have an equal or lower number of",
+      " levels than their corresponding filter."
+    )
   )
 })
 

@@ -18,16 +18,17 @@ check_api_dict_col_names <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  test_name <- paste0("check_api_dict_col_names")
-  dd_col_names <- data_dictionary |>
-    dplyr::select(col_name, col_name_parent, col_type) |>
+  test_name <- get_check_name()
+
+  dd_col_names <- eesyscreener::data_dictionary |>
+    dplyr::select("col_name", "col_name_parent", "col_type") |>
     tidyr::pivot_longer(
-      c(col_name, col_name_parent),
+      c("col_name", "col_name_parent"),
       values_to = "col_name"
     ) |>
-    dplyr::select(-name) |>
+    dplyr::select(-"name") |>
     dplyr::distinct() |>
-    dplyr::arrange(col_type, col_name) |>
+    dplyr::arrange(.data$col_type, .data$col_name) |>
     dplyr::mutate(standard_col = TRUE)
 
   non_standard_col_names <- meta |>
@@ -55,11 +56,11 @@ check_api_dict_col_names <- function(
     )
   } else {
     non_standard_indicators <- non_standard_col_names |>
-      dplyr::filter(col_type == "Indicator") |>
+      dplyr::filter(.data$col_type == "Indicator") |>
       dplyr::pull("col_name") |>
       paste(collapse = ", ")
     non_standard_filters <- non_standard_col_names |>
-      dplyr::filter(col_type == "Filter") |>
+      dplyr::filter(.data$col_type == "Filter") |>
       dplyr::pull("col_name") |>
       paste(collapse = ", ")
     test_output(

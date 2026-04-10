@@ -68,12 +68,17 @@ example_api_long_meta <- example_meta |>
     data.frame(
       col_name = "mahoooooooooooooooooooooooooooooooooooooooooooooooooooosive",
       col_type = "Filter",
-      label = "A very long column name",
+      label = paste(
+        "A",
+        paste(rep("very", 42), collapse = " "),
+        "long column name"
+      ),
       indicator_grouping = "",
       indicator_unit = "",
       indicator_dp = "",
       filter_hint = "",
-      filter_grouping_column = ""
+      filter_grouping_column = "",
+      filter_default = ""
     )
   )
 
@@ -100,7 +105,10 @@ example_comma_draft <- example_data |>
 
 if (!"old_la_code" %in% names(example_comma_draft)) {
   warning(
-    "old_la_code not found in dfeR fetch_las(). Are you using the most up to date version of dfeR?"
+    paste0(
+      "old_la_code not found in dfeR fetch_las(). ",
+      "Are you using the most up to date version of dfeR?"
+    )
   )
 }
 

@@ -1,6 +1,7 @@
-#' Check no filter values have leading or trailing whitespaces
+#' Check no filter values have leading or trailing whitespace
 #'
-#' This function checks if the provided filter values contain any leading or trailing whitespaces.
+#' This function checks if the provided filter values contain any leading or
+#' trailing whitespace.
 #'
 #' @inheritParams precheck_col_to_rows
 #'
@@ -18,46 +19,39 @@ check_filter_whitespace <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  filters <- meta |>
-    dplyr::filter(col_type == "Filter") |>
-    dplyr::pull(col_name)
+  test_name <- get_check_name()
+  filters <- get_filters(meta)
 
   if (length(filters) == 0) {
     test_output(
-      "filter_whitespace",
+      test_name,
       "PASS",
       "No filters present.",
       verbose = verbose,
       stop_on_error = stop_on_error
     )
   } else {
-    geo_cols <- as.character(geography_df[, 2:4])
+    geo_cols <- as.character(eesyscreener::geography_df[, 2:4])
     geo_cols <- geo_cols[!is.na(geo_cols)]
 
-    filter_values <- data |>
-      dplyr::mutate_if(lubridate::is.Date, as.character) |>
-      dplyr::select(
-        dplyr::all_of(filters),
-        dplyr::any_of(geo_cols)
-      ) |>
-      dplyr::mutate_if(is.numeric, as.character) |>
-      tidyr::pivot_longer(
-        dplyr::everything(),
-        values_drop_na = TRUE,
-        names_to = "filter",
-        values_to = "filter_label"
-      ) |>
-      dplyr::distinct()
+    cols_to_check <- intersect(
+      c(filters, geo_cols),
+      dplyr::tbl_vars(data)
+    )
 
-    filter_values_trimmed <- filter_values |>
-      dplyr::mutate(filter_label = stringr::str_trim(filter_label))
-
-    white_spaces <- dplyr::setdiff(filter_values, filter_values_trimmed) |>
-      dplyr::pull(filter_label)
+    white_spaces <- unlist(lapply(cols_to_check, function(col) {
+      vals <- data |>
+        dplyr::select(dplyr::all_of(col)) |>
+        dplyr::distinct() |>
+        dplyr::pull(1) |>
+        as.character()
+      vals <- vals[!is.na(vals)]
+      vals[vals != stringr::str_trim(vals)]
+    }))
 
     if (length(white_spaces) == 0) {
       test_output(
-        "filter_whitespace",
+        test_name,
         "PASS",
         "No filter labels contain leading or trailing whitespace.",
         verbose = verbose,
@@ -67,7 +61,7 @@ check_filter_whitespace <- function(
       count_ws <- length(white_spaces)
 
       test_output(
-        "filter_whitespace",
+        test_name,
         "FAIL",
         paste0(
           count_ws,

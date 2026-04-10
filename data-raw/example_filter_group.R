@@ -35,7 +35,8 @@ example_filter_group_meta <- data.frame(
   indicator_unit = c("", ""),
   indicator_dp = c(NA, 0),
   filter_hint = c("", ""),
-  filter_grouping_column = c("establishment_type_group", "")
+  filter_grouping_column = c("establishment_type_group", ""),
+  filter_default = c("", "")
 )
 
 usethis::use_data(example_filter_group, overwrite = TRUE)
@@ -56,7 +57,8 @@ example_filter_group_wrow_meta <- rbind(
     indicator_unit = "",
     indicator_dp = NA,
     filter_hint = "",
-    filter_grouping_column = ""
+    filter_grouping_column = "",
+    filter_default = ""
   )
 )
 

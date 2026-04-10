@@ -1,4 +1,4 @@
-test_that("check_filter_defaults gives WARNING correctly when no totals or filter defaults are used", {
+test_that("check_filter_defaults warns when no totals or filter defaults", {
   expect_equal(
     check_filter_defaults(
       example_data,
@@ -9,7 +9,7 @@ test_that("check_filter_defaults gives WARNING correctly when no totals or filte
   )
 })
 
-test_that("check_filter_defaults gives WARNING correctly when read-in meta has NAs under filter defaults", {
+test_that("check_filter_defaults warns with NAs under filter defaults", {
   expect_equal(
     check_filter_defaults(
       example_data,
@@ -85,7 +85,8 @@ test_that("test filter default combinations", {
     "PASS"
   )
 
-  # Case when one filter has a Total and another has neither filter default nor Total
+  # Case when one filter has a Total and another has neither filter default
+  # nor Total
   expect_equal(
     check_filter_defaults(
       example_data |>
@@ -98,7 +99,8 @@ test_that("test filter default combinations", {
     "WARNING"
   )
 
-  # Case when one filter has a filter default and another has neither filter default nor Total
+  # Case when one filter has a filter default and another has neither filter
+  # default nor Total
   expect_equal(
     check_filter_defaults(
       example_data,

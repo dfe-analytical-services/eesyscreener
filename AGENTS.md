@@ -33,6 +33,8 @@ devtools::document()
 pkgdown::build_site()
 ```
 
+If the data dictionary test, or example output test fails, the first fix to try is regenerating the data objects by using `source("data-raw/data_dictionary.R")` (or `source("data-raw/example_output.R")`) and then run the tests again, often that will fix the issue.
+
 ### Key Dependencies
 
 - **Core**: dplyr, stringr, tidyr, lubridate (data manipulation)
@@ -74,6 +76,32 @@ Each check function follows the naming pattern:
 - **`precheck_*`** – Early validation that blocks on failure
 - **`check_*`** – Content validation that can produce warnings
 
+### Naming Conventions for Check Functions
+
+All check and precheck functions follow consistent naming patterns defined in `_pkgdown.yml`. The general structure is:
+
+```
+check_<area>_<what>()      # Examples: check_meta_label, check_filter_defaults
+precheck_<area>_<what>()   # Examples: precheck_col_req_data, precheck_geog_level
+```
+
+**Common abbreviations used for brevity:**
+- `col` – column
+- `meta` – metadata
+- `fil_grp` – filter group
+- `dupe` – duplicate
+- `ind` – indicator
+- `dp` – decimal places
+- `geog` – geography
+- `ob` – observation
+- `loc` – location
+
+**Examples of abbreviated function names:**
+- `check_meta_dupe_label()` – checks for duplicate indicator labels
+- `check_meta_fil_grp()` – validates filter group structure
+- `check_meta_fil_grp_is_fil()` – verifies filter group values are filters
+- `check_api_char_col_name()` – validates column name character limits for API
+
 ### Output Format
 
 All checks return a consistent data frame with columns:
@@ -102,16 +130,28 @@ list(
 - `screen_dfs.R` – Core logic orchestrating all checks
 - `screen_filenames.R` – File naming validation only
 
+**screen_dfs Architecture:**
+The `screen_dfs()` function executes checks in stages using the `run_and_log_check()` helper (defined in `utils.R`). This helper:
+- Accumulates results across stages
+- Adds stage metadata to each check result
+- Logs results to JSON (if `log_key` provided)
+- Returns early on FAIL (stops further checks)
+
+Code structure: uses shorthand variables `vb` (verbose) and `soe` (stop_on_error) throughout to reduce function call verbosity and improve readability.
+
 **Individual check functions (~39 total):**
 - Organized by check type: `precheck_*.R` and `check_*.R`
 - Each file contains one public function with roxygen2 documentation
 - Checks are composed of simple, focused validation logic
+- Must follow consistent argument order: `data/meta` inputs, `verbose = FALSE`, `stop_on_error = FALSE`, then function-specific parameters
 
 **Utilities (R/utils.R):**
 - `test_output()` – Standardizes check result data frames
 - `null_filename()` – Handles filename display in messages
 - `validate_arg_*()` – Argument validation helpers
 - `write_json_log()` – Logging infrastructure for API usage
+- `run_and_log_check()` – Helper that handles stage management, logging, and early-return logic
+- `get_check_name()` – Automatically extracts check name from calling function (reduces hardcoding)
 
 **Reference data (R/reference_values.R, R/example_datasets.R):**
 - Exports acceptable values, time identifiers, filter groups
@@ -135,6 +175,17 @@ Pre-computed RDA files loaded at package startup:
 - Test data copied from fixtures via `tests/utils/copy_check_data.R`
 
 ## Adding a New Check
+
+### Function argument conventions
+
+All `precheck_*()` and `check_*()` functions must follow a consistent argument order:
+
+1. `data` and/or `meta` (the data inputs)
+2. `verbose = FALSE`
+3. `stop_on_error = FALSE`
+4. Any additional function-specific parameters (with defaults)
+
+This allows `screen_dfs()` to call all checks with positional arguments for the common parameters (e.g. `check_foo(data, meta, vb, soe)`). Function-specific parameters must always be passed by name.
 
 When adding a new validation:
 
@@ -231,6 +282,16 @@ pkgdown::build_site()         # Generate HTML documentation site
 - Each check should test its happy path and failure conditions
 - Avoid mocking; use real but minimal data
 - Tests verify both the result and the message text as sometimes there are multiple variants of the message text
+
+### Test Coverage and Integration
+
+The `test-example_output_coverage.R` test ensures that **every exported `check_*()` and `precheck_*()` function is called by `screen_dfs()`**. This test automatically fails if a new check is added but not integrated into the screening pipeline.
+
+When adding a new check:
+1. Create the check function and its test file
+2. Add the check to the appropriate stage in `screen_dfs()` (see "Adding a New Check" section above)
+3. Run tests — the coverage test will confirm integration
+4. If the coverage test fails, verify the check is in the correct `run_and_log_check()` block
 
 ## Key Files to Know
 

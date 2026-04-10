@@ -8,10 +8,11 @@
 #' @param data data.frame, for the data table, more efficient if supplied as a
 #' lazy duckplyr data.frame
 #' @param meta data.frame, for the metadata table
-#' @param log_key keystring for creating log file. If given, the screening will
+#' @param log_key Keystring for creating log file. If given, the screening will
 #' write a log file to disk called eesyscreening_log_<log_key>.json default=NULL
 #' @param log_dir Directory within which to place the log file. default="./"
-#' @param dd_checks Run the Data dictionary tests, default=TRUE (this is implemented to allow devs
+#' @param dd_checks Run the Data dictionary tests, default=TRUE (this is
+#' implemented to allow devs
 #' to update robot test data to be consistent with data dictionary tests).
 #' @param verbose logical, if TRUE prints feedback messages to console for
 #' every test, if FALSE run silently
@@ -36,417 +37,248 @@ screen_dfs <- function(
   prudence = "lavish"
 ) {
   validate_arg_dfs(data, meta)
+
   validate_arg_logical(verbose, "verbose")
   validate_arg_logical(stop_on_error, "stop_on_error")
 
-  data <- duckplyr::as_duckdb_tibble(data, prudence = prudence)
+  # Shorthand for easier script reading
+  vb <- verbose
+  soe <- stop_on_error
+
+  if (!duckplyr::is_duckdb_tibble(data)) {
+    data <- duckplyr::as_duckdb_tibble(data, prudence = prudence)
+  }
   data_details <- list(
     ncols = data |> dplyr::tbl_vars() |> length(),
     nrows = data |> dplyr::count() |> dplyr::pull("n")
   )
 
+  suppressMessages(duckplyr::methods_restore())
+
+  all_results <- NULL
+
   # Precheck columns ----------------------------------------------------------
-  precheck_col_results <- rbind(
-    precheck_col_req_meta(
-      meta,
-      verbose = verbose,
-      stop_on_error = stop_on_error
+  res <- run_and_log_check(
+    all_results,
+    rbind(
+      precheck_col_req_meta(meta, vb, soe),
+      precheck_col_invalid_meta(meta, vb, soe),
+      precheck_col_req_data(data, vb, soe),
+      precheck_col_to_rows(data, meta, vb, soe)
     ),
-    precheck_col_invalid_meta(
-      meta,
-      verbose = verbose,
-      stop_on_error = stop_on_error
-    ),
-    precheck_col_req_data(
-      data,
-      verbose = verbose,
-      stop_on_error = stop_on_error
-    ),
-    precheck_col_to_rows(
-      data,
-      meta,
-      verbose = verbose,
-      stop_on_error = stop_on_error
-    ),
-    check_meta_col_name_spaces(
-      meta,
-      verbose = verbose,
-      stop_on_error = stop_on_error
-    ),
-    check_meta_col_name_duplicate(
-      meta,
-      verbose = verbose,
-      stop_on_error = stop_on_error
-    )
+    "Precheck columns",
+    log_key,
+    log_dir,
+    data_details
   )
-
-  precheck_col_results <- precheck_col_results |>
-    cbind("stage" = "Precheck columns")
-
-  write_json_log(
-    precheck_col_results,
-    log_key = log_key,
-    log_dir = log_dir,
-    data_details = data_details
-  )
-
-  if (any(precheck_col_results[["result"]] == "FAIL")) {
-    return(as.data.frame(precheck_col_results))
+  all_results <- res$all_results
+  if (res$early_return) {
+    return(as.data.frame(all_results))
   }
 
-  # Check columns ----------------------------------------------------------
-
-  check_col_results <- rbind(
-    check_col_names_spaces(
-      data,
-      verbose = verbose,
-      stop_on_error = stop_on_error
-    )
+  # Check columns -------------------------------------------------------------
+  res <- run_and_log_check(
+    all_results,
+    rbind(
+      check_col_names_spaces(data, vb, soe),
+      check_col_snake_case(data, vb, soe)
+    ),
+    "Check columns",
+    log_key,
+    log_dir,
+    data_details
   )
-
-  check_col_results <- check_col_results |>
-    cbind("stage" = "Check columns")
-
-  write_json_log(
-    check_col_results,
-    log_key = log_key,
-    log_dir = log_dir,
-    data_details = data_details
-  )
-
-  check_col_results <- precheck_col_results |>
-    rbind(check_col_results)
+  all_results <- res$all_results
+  if (res$early_return) {
+    return(as.data.frame(all_results))
+  }
 
   # Precheck meta -------------------------------------------------------------
-  precheck_meta_results <- rbind(
-    precheck_meta_col_type(
-      meta,
-      verbose = verbose,
-      stop_on_error = stop_on_error
-    ),
-    precheck_meta_ob_unit(
-      meta,
-      verbose = verbose,
-      stop_on_error = stop_on_error
-    ),
-    precheck_meta_col_name(
-      meta,
-      verbose = verbose,
-      stop_on_error = stop_on_error
-    )
-  )
-
-  precheck_meta_results <- precheck_meta_results |>
-    cbind("stage" = "Precheck meta")
-  write_json_log(
-    precheck_meta_results,
-    log_key = log_key,
-    log_dir = log_dir,
-    data_details = data_details
-  )
-
-  precheck_meta_results <- check_col_results |>
+  res <- run_and_log_check(
+    all_results,
     rbind(
-      precheck_meta_results
-    )
-
-  if (any(precheck_meta_results[["result"]] == "FAIL")) {
-    return(as.data.frame(precheck_meta_results))
+      precheck_meta_col_type(meta, vb, soe),
+      precheck_meta_ob_unit(meta, vb, soe),
+      precheck_meta_col_name(meta, vb, soe)
+    ),
+    "Precheck meta",
+    log_key,
+    log_dir,
+    data_details
+  )
+  all_results <- res$all_results
+  if (res$early_return) {
+    return(as.data.frame(all_results))
   }
 
   # Check meta ----------------------------------------------------------------
-  check_meta_results <- rbind(
-    check_meta_duplicate_label(
-      meta,
-      verbose = verbose,
-      stop_on_error = stop_on_error
-    ),
-    check_meta_filter_group(meta, verbose, stop_on_error),
-    check_meta_filter_group_is_filter(
-      meta,
-      verbose = verbose,
-      stop_on_error = stop_on_error
-    ),
-    check_meta_filter_group_match(
-      data,
-      meta,
-      verbose = verbose,
-      stop_on_error = stop_on_error
-    ),
-    check_meta_filter_group_stripped(
-      data,
-      meta,
-      verbose = verbose,
-      stop_on_error = stop_on_error
-    ),
-    check_meta_label(meta, verbose, stop_on_error),
-    check_meta_filter_hint(meta, verbose, stop_on_error),
-    check_meta_indicator_dp(meta, verbose, stop_on_error),
-    check_meta_ind_dp_set(meta, verbose, stop_on_error),
-    check_meta_ind_unit(meta, verbose, stop_on_error),
-    check_meta_ind_unit_validation(meta, verbose, stop_on_error),
-    check_meta_indicator_grouping(meta, verbose, stop_on_error),
-    check_meta_ind_dp_values(meta, verbose, stop_on_error)
-  )
-
-  check_meta_results <- check_meta_results |>
-    cbind("stage" = "Check meta")
-
-  write_json_log(
-    check_meta_results,
-    log_key = log_key,
-    log_dir = log_dir,
-    data_details = data_details
-  )
-
-  check_meta_results <- precheck_meta_results |>
+  res <- run_and_log_check(
+    all_results,
     rbind(
-      check_meta_results
-    )
-
-  if (any(check_meta_results[["result"]] == "FAIL")) {
-    return(as.data.frame(check_meta_results))
-  }
-
-  # Check indicators ----------------------------------------------------------
-
-  check_ind_results <- rbind(
-    check_ind_invalid_entry(
-      data,
-      meta,
-      verbose = verbose,
-      stop_on_error = stop_on_error
-    )
+      check_meta_dupe_label(meta, vb, soe),
+      check_meta_fil_grp(meta, vb, soe),
+      check_meta_fil_grp_dupe(meta, vb, soe),
+      check_meta_fil_grp_is_fil(meta, vb, soe),
+      check_meta_fil_grp_match(data, meta, vb, soe),
+      check_meta_fil_grp_stripped(data, meta, vb, soe),
+      check_meta_label(meta, vb, soe),
+      check_meta_filter_hint(meta, vb, soe),
+      check_meta_geog_catch(meta, vb, soe),
+      check_meta_indicator_dp(meta, vb, soe),
+      check_meta_col_name_spaces(meta, vb, soe),
+      check_meta_col_name_dupe(meta, vb, soe),
+      check_meta_ind_dp_set(meta, vb, soe),
+      check_meta_ind_dp_values(meta, vb, soe),
+      check_meta_ind_unit(meta, vb, soe),
+      check_meta_ind_unit_validation(meta, vb, soe),
+      check_meta_indicator_grouping(meta, vb, soe)
+    ),
+    "Check meta",
+    log_key,
+    log_dir,
+    data_details
   )
-
-  check_ind_results <- check_ind_results |>
-    cbind("stage" = "Check indicators")
-
-  write_json_log(
-    check_ind_results,
-    log_key = log_key,
-    log_dir = log_dir,
-    data_details = data_details
-  )
-
-  check_ind_results <- check_meta_results |>
-    rbind(
-      check_ind_results
-    )
-
-  if (any(check_ind_results[["result"]] == "FAIL")) {
-    return(as.data.frame(check_ind_results))
+  all_results <- res$all_results
+  if (res$early_return) {
+    return(as.data.frame(all_results))
   }
 
   # Turn on duckdb ------------------------------------------------------------
   # Only doing this here as not necessary for the metadata checks
   suppressMessages(duckplyr::methods_overwrite())
 
-  # Some other bits -----------------------------------------------------------
-
   # Precheck time -------------------------------------------------------------
-  precheck_time_results <- rbind(
-    precheck_time_id_valid(
-      data,
-      verbose = verbose,
-      stop_on_error = stop_on_error
-    ),
-    precheck_time_id_mix(
-      data,
-      verbose = verbose,
-      stop_on_error = stop_on_error
-    ),
-    precheck_time_period_num(
-      data,
-      verbose = verbose,
-      stop_on_error = stop_on_error
-    )
-  )
-
-  precheck_time_results <- precheck_time_results |>
-    cbind("stage" = "Precheck time")
-
-  write_json_log(
-    precheck_time_results,
-    log_key = log_key,
-    log_dir = log_dir,
-    data_details = data_details
-  )
-
-  precheck_time_results <- check_ind_results |>
+  res <- run_and_log_check(
+    all_results,
     rbind(
-      precheck_time_results
-    )
-
-  if (any(precheck_time_results[["result"]] == "FAIL")) {
-    return(as.data.frame(precheck_time_results))
+      precheck_time_period_num(data, vb, soe),
+      precheck_time_id_valid(data, vb, soe),
+      precheck_time_id_mix(data, vb, soe)
+    ),
+    "Precheck time",
+    log_key,
+    log_dir,
+    data_details
+  )
+  all_results <- res$all_results
+  if (res$early_return) {
+    return(as.data.frame(all_results))
   }
 
-  # Check Time ----------------------------------------------------------------
-  check_time_results <- rbind(
-    check_time_period(
-      data,
-      verbose = verbose,
-      stop_on_error = stop_on_error
-    ),
-    check_time_period_six(
-      data,
-      verbose = verbose,
-      stop_on_error = stop_on_error
-    )
-  )
-
-  check_time_results <- check_time_results |>
-    cbind("stage" = "Check time")
-
-  write_json_log(
-    check_time_results,
-    log_key = log_key,
-    log_dir = log_dir,
-    data_details = data_details
-  )
-
-  check_time_results <- precheck_time_results |>
+  # Precheck geography --------------------------------------------------------
+  res <- run_and_log_check(
+    all_results,
     rbind(
-      check_time_results
-    )
-
-  if (any(check_time_results[["result"]] == "FAIL")) {
-    return(as.data.frame(check_time_results))
+      precheck_geog_level(data, vb, soe),
+      precheck_geog_level_present(data, vb, soe)
+    ),
+    "Precheck geography",
+    log_key,
+    log_dir,
+    data_details
+  )
+  all_results <- res$all_results
+  if (res$early_return) {
+    return(as.data.frame(all_results))
   }
 
-  # Precheck geog -------------------------------------------------------------
-  precheck_geography_results <- rbind(
-    precheck_geog_level(
-      data,
-      verbose = verbose,
-      stop_on_error = stop_on_error
-    ),
-    precheck_geog_level_present(
-      data,
-      verbose = verbose,
-      stop_on_error = stop_on_error
-    )
-  )
-
-  precheck_geography_results <- precheck_geography_results |>
-    cbind("stage" = "Precheck geography")
-
-  write_json_log(
-    precheck_geography_results,
-    log_key = log_key,
-    log_dir = log_dir,
-    data_details = data_details
-  )
-
-  precheck_geography_results <- check_time_results |>
+  # Check time ----------------------------------------------------------------
+  res <- run_and_log_check(
+    all_results,
     rbind(
-      precheck_geography_results
-    )
-
-  if (any(precheck_geography_results[["result"]] == "FAIL")) {
-    return(as.data.frame(precheck_geography_results))
+      check_time_period(data, vb, soe),
+      check_time_period_six(data, vb, soe)
+    ),
+    "Check time",
+    log_key,
+    log_dir,
+    data_details
+  )
+  all_results <- res$all_results
+  if (res$early_return) {
+    return(as.data.frame(all_results))
   }
 
-  # Check Filters -------------------------------------------------------------
-  check_filter_results <- rbind(
-    check_filter_defaults(
-      data,
-      meta,
-      verbose = verbose,
-      stop_on_error = stop_on_error
-    ),
-    check_filter_whitespace(
-      data,
-      meta,
-      verbose = verbose,
-      stop_on_error = stop_on_error
-    ),
-    check_filter_group_level(
-      data,
-      meta,
-      verbose,
-      stop_on_error
-    ),
-    check_filter_item_limit(
-      data,
-      meta,
-      verbose = verbose,
-      stop_on_error = stop_on_error
-    )
-  )
-
-  check_filter_results <- check_filter_results |>
-    cbind("stage" = "Check filters")
-
-  write_json_log(
-    check_filter_results,
-    log_key = log_key,
-    log_dir = log_dir,
-    data_details = data_details
-  )
-
-  check_filter_results <- precheck_geography_results |>
+  # Check filters -------------------------------------------------------------
+  res <- run_and_log_check(
+    all_results,
     rbind(
-      check_filter_results
-    )
+      check_filter_defaults(data, meta, vb, soe),
+      check_filter_group_level(data, meta, vb, soe),
+      check_filter_item_limit(data, meta, vb, soe),
+      check_filter_whitespace(data, meta, vb, soe)
+    ),
+    "Check filters",
+    log_key,
+    log_dir,
+    data_details
+  )
+  all_results <- res$all_results
+  if (res$early_return) {
+    return(as.data.frame(all_results))
+  }
 
-  if (any(check_filter_results[["result"]] == "FAIL")) {
-    return(as.data.frame(check_filter_results))
+  # Check indicators ----------------------------------------------------------
+  res <- run_and_log_check(
+    all_results,
+    rbind(
+      check_ind_invalid_entry(data, meta, vb, soe)
+    ),
+    "Check indicators",
+    log_key,
+    log_dir,
+    data_details
+  )
+  all_results <- res$all_results
+  if (res$early_return) {
+    return(as.data.frame(all_results))
   }
 
   # Check API -----------------------------------------------------------------
   check_api_results <- rbind(
-    check_api_char_limit(
-      meta[["col_name"]],
-      "column-name",
-      verbose = verbose,
-      stop_on_error = stop_on_error
-    )
+    check_api_char_col_name(data, vb, soe),
+    check_api_char_col_label(meta, vb, soe),
+    check_api_char_loc_code(data, vb, soe),
+    check_api_char_filter_items(data, meta, vb, soe)
   )
 
   if (dd_checks) {
     check_api_results <- rbind(
       check_api_results,
-      check_api_dict_col_names(
-        meta,
-        verbose = verbose,
-        stop_on_error = stop_on_error
-      )
+      check_api_dict_col_names(meta, vb, soe)
     )
   }
 
-  check_api_results <- check_api_results |>
-    cbind("stage" = "Check API")
-  write_json_log(
+  res <- run_and_log_check(
+    all_results,
     check_api_results,
-    log_key = log_key,
-    log_dir = log_dir,
-    data_details = data_details
+    "Check API",
+    log_key,
+    log_dir,
+    data_details
   )
-
-  api_pass <- all(check_api_results[["result"]] == "PASS")
-
-  final_results <- check_filter_results |>
-    rbind(
-      check_api_results
-    )
-
-  if (any(final_results[["result"]] == "FAIL")) {
-    return(as.data.frame(final_results))
+  all_results <- res$all_results
+  if (res$early_return) {
+    return(as.data.frame(all_results))
   }
 
   # Success return ------------------------------------------------------------
-  if (api_pass && verbose) {
-    cli::cli_alert_success("Data and metadata passed all checks")
-  } else if (verbose) {
-    cli::cli_alert_info(
-      paste(
-        "Data and metadata passed, but warnings prevent it being suitable for",
-        "the API"
+  api_pass <- all(
+    all_results[all_results[["stage"]] == "Check API", "result"] == "PASS"
+  )
+
+  if (verbose) {
+    if (api_pass) {
+      cli::cli_alert_success("Data and metadata passed all checks")
+    } else {
+      cli::cli_alert_info(
+        paste(
+          "Data and metadata passed, but warnings prevent it",
+          "being suitable for the API"
+        )
       )
-    )
+    }
   }
 
-  final_results
+  as.data.frame(all_results)
 }

@@ -21,12 +21,13 @@ precheck_meta_col_type <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  test_name <- get_check_name()
   unique_types <- unique(meta$col_type)
   invalid_types <- setdiff(unique_types, c("Filter", "Indicator"))
 
   if (length(invalid_types) == 0) {
     test_output(
-      "meta_col_type",
+      test_name,
       "PASS",
       "col_type is always 'Filter' or 'Indicator'.",
       verbose = verbose,
@@ -35,7 +36,7 @@ precheck_meta_col_type <- function(
   } else {
     if (length(invalid_types) == 1) {
       test_output(
-        "meta_col_type",
+        test_name,
         "FAIL",
         paste0(
           "The following invalid col_type value was found in the metadata",
@@ -48,7 +49,7 @@ precheck_meta_col_type <- function(
       )
     } else {
       test_output(
-        "meta_col_type",
+        test_name,
         "FAIL",
         paste0(
           "The following invalid col_type values were found in the metadata",

@@ -5,5 +5,6 @@ test_that("get_acceptable_ob_units returns expected structure and values", {
   expect_true("geographic_level" %in% result)
   expect_true("country_code" %in% result)
   expect_false(anyNA(result))
+  expect_false(any(result == ""))
   expect_true(length(unique(result)) == length(result))
 })

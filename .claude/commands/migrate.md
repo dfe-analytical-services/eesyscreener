@@ -1,4 +1,4 @@
-Using MIGRATION_CONTEXT_PACK.md and migration_examples.md (both in the current repo) as your primary guide, migrate the `$ARGUMENTS` function from the `dfe-published-data-qa` repo (at `c:/code_projects/dfe-published-data-qa`) into this `eesyscreener` package.
+Using MIGRATION_CONTEXT_PACK.md and .github/CONTRIBUTING.md as your primary guide, migrate the `$ARGUMENTS` function from the `dfe-published-data-qa` repo (at `c:/code_projects/dfe-published-data-qa`) into this `eesyscreener` package.
 
 The legacy function will be somewhere in `R/mainTests.r`, `R/preCheck1.r`, `R/preCheck2.r`, or `R/knownVariables.r` in that repo — search for it there.
 

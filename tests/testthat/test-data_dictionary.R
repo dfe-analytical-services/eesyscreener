@@ -25,7 +25,7 @@ test_that("Check for non-standard characters", {
   )
 })
 
-test_that("Package data dictionary is up to date with source from thescreener app", {
+test_that("Package data dictionary is up to date with source from app", {
   source_data_dictionary <- readr::read_csv(
     render_url("data/data-dictionary.csv", domain = "screener_app_repo")
   )

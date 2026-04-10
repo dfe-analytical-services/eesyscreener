@@ -21,12 +21,13 @@ lazy duckplyr data.frame}
 
 \item{meta}{data.frame, for the metadata table}
 
-\item{log_key}{keystring for creating log file. If given, the screening will
+\item{log_key}{Keystring for creating log file. If given, the screening will
 write a log file to disk called eesyscreening_log_<log_key>.json default=NULL}
 
 \item{log_dir}{Directory within which to place the log file. default="./"}
 
-\item{dd_checks}{Run the Data dictionary tests, default=TRUE (this is implemented to allow devs
+\item{dd_checks}{Run the Data dictionary tests, default=TRUE (this is
+implemented to allow devs
 to update robot test data to be consistent with data dictionary tests).}
 
 \item{verbose}{logical, if TRUE prints feedback messages to console for

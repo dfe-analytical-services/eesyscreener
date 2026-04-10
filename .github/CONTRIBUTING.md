@@ -17,13 +17,86 @@ The `screen_*()` functions are the key user facing exports of the package.
 `screen_csv()` is expected to be the primary function used, it takes a pair of CSV files and screens them.
 
 - One script per exported function (except for data objects or if internal and in `R/utils.R`)
-- All individual checks should be named in accordance with the naming conventions in the `_pkgdown.yml` file
+- All individual checks should be named in accordance with the naming conventions (see "Naming Conventions" section below)
 - Due to the extensive use of check / test in this package, internal functions handling argument validation should follow the `validate_arg_*()` convention
 - All `check_*()` functions must return a consistent list structure
+- All `precheck_*()` and `check_*()` functions must use a consistent argument order: data/meta inputs first, then `verbose = FALSE`, then `stop_on_error = FALSE`, then any function-specific optional parameters. This enables `screen_dfs()` to call checks with positional arguments.
 - `R/utils.R` contains all internal functions
 - `data-raw/` contains the source code for example data and hardcoded variables
 - Use RDS as the main format for permanent test data (beware it automatically does some cleaning!), make temp CSV files or create a data.frame in code if needed
 - Think about dependencies between functions - explain any in the `assumptions_in_checks.Rmd` vignette
+
+## Naming Conventions
+
+Follow these patterns when naming new check functions. Consistency is crucial as names are used in `_pkgdown.yml` to group checks for documentation.
+
+### General Pattern
+
+```
+check_<area>_<what>()      # Content validation (can produce warnings)
+precheck_<area>_<what>()   # Early validation (blocks on failure)
+```
+
+### Area Prefixes
+
+| Area | Prefix | Notes |
+|------|--------|-------|
+| Columns | `col_` | Generic column properties |
+| Metadata | `meta_` | Metadata file validation |
+| Data | `data_` | Data file content validation |
+| Filters | `filter_` | Filter group logic |
+| Indicators | `ind_` | Indicator-specific rules |
+| Geography | `geog_` | Geographic hierarchy validation |
+| Time | `time_` | Time period validation |
+| API | `api_` | API-specific constraints |
+| Filename | `filename_` | File naming conventions |
+
+### Abbreviations for Brevity
+
+Use these standard abbreviations in function names to keep them concise while remaining readable:
+
+| Full Term | Abbreviation | Context |
+|-----------|--------------|---------|
+| column | `col` | `check_col_names_spaces` |
+| metadata | `meta` | `check_meta_label` |
+| filter_group | `fil_grp` | `check_meta_fil_grp` |
+| duplicate | `dupe` | `check_meta_dupe_label` |
+| is_filter | `is_fil` | `check_meta_fil_grp_is_fil` |
+| indicator | `ind` | `check_ind_invalid_entry` |
+| decimal_places | `dp` | `check_meta_ind_dp_values` |
+| geography | `geog` | `precheck_geog_level` |
+| observation_unit | `ob` | `precheck_meta_ob_unit` |
+| location | `loc` | `check_api_char_loc_code` |
+
+### Examples
+
+**Good naming:**
+- `check_meta_dupe_label()` – finds duplicate indicator labels in metadata
+- `check_meta_fil_grp_is_fil()` – validates that filter group items are valid filters
+- `check_api_char_col_name()` – validates column name length for API publishing
+- `precheck_geog_level()` – ensures geographic level column exists
+- `check_filter_defaults()` – validates default filter selections
+
+**Anti-patterns to avoid:**
+- ❌ `check_metadata_duplicate_indicator_label()` – too verbose
+- ❌ `check_something_validation()` – redundant (checks are validation by nature)
+- ❌ `check_foo_and_bar()` – combines too many concepts
+
+### Adding to _pkgdown.yml
+
+When adding a new check:
+1. Add a new `check_*()` or `precheck_*()` function following the naming pattern
+2. Update `_pkgdown.yml` to include it in the appropriate category section
+3. The documentation site will automatically group it with related checks
+
+Example in `_pkgdown.yml`:
+```yaml
+- title: Metadata checks
+  contents:
+  - starts_with("check_meta_")
+```
+
+This automatically picks up all `check_meta_*` functions.
 
 ## Stylistic preferences
 

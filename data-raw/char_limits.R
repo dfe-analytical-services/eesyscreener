@@ -14,7 +14,7 @@ api_char_limits <- data.frame(
   char_limit = c(
     30,
     50,
-    80,
+    100,
     120
   )
 )

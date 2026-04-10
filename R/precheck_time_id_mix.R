@@ -17,12 +17,13 @@ precheck_time_id_mix <- function(
 ) {
   # Grab the first time identifier to use as a base for checking rest of file
   base_identifier <- data |>
-    dplyr::slice(1) |>
-    dplyr::pull("time_identifier")
+    dplyr::distinct(.data$time_identifier) |>
+    dplyr::pull("time_identifier") |>
+    utils::head(1)
 
   match_base_identifier <- function(possible_level) {
     if (base_identifier %in% possible_level) {
-      return(possible_level)
+      possible_level
     }
   }
 
@@ -35,14 +36,17 @@ precheck_time_id_mix <- function(
     dplyr::distinct(.data$time_identifier) |>
     dplyr::pull("time_identifier")
 
-  test_name <- "time_id_mix"
+  test_name <- get_check_name()
   guidance_url <- NA
 
   # Check if all unique_time_ids are in base_level
   if (!all(unique_time_ids %in% base_level)) {
     result <- "FAIL"
     message <- paste(
-      "The datafile is mixing incompatible time identifiers. Allowable values with '",
+      paste0(
+        "The datafile is mixing incompatible time identifiers.",
+        " Allowable values with '"
+      ),
       paste(base_identifier),
       "' present, are: '",
       paste(base_level, collapse = "', '"),
