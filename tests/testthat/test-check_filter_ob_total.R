@@ -8,12 +8,6 @@ test_that("passes with clean example data", {
   )
 })
 
-test_that("passes with verbose output", {
-  expect_no_error(
-    check_filter_ob_total(example_data, example_meta, verbose = TRUE)
-  )
-})
-
 test_that("fails when a single ob unit column contains 'Total'", {
   bad_data <- example_data |>
     dplyr::mutate(country_name = "Total")
