@@ -167,6 +167,22 @@ screen_dfs <- function(
   # Only doing this here as not necessary for the metadata checks
   suppressMessages(duckplyr::methods_overwrite())
 
+  # Precheck filters ----------------------------------------------------------
+  res <- run_and_log_check(
+    all_results,
+    rbind(
+      precheck_filter_not_singular(data, meta, vb, soe)
+    ),
+    "Precheck filters",
+    log_key,
+    log_dir,
+    data_details
+  )
+  all_results <- res$all_results
+  if (res$early_return) {
+    return(as.data.frame(all_results))
+  }
+
   # Precheck time -------------------------------------------------------------
   res <- run_and_log_check(
     all_results,
