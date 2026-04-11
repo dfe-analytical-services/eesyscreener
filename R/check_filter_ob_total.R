@@ -36,16 +36,6 @@ check_filter_ob_total <- function(
   ob_units <- get_acceptable_ob_units()
   ob_units_no_sch_prov <- ob_units[!ob_units %in% sch_prov_names]
 
-  # Regex matching common geography-related column names
-  potential_ob_units_regex <- paste0(
-    "(^(country|sch|prov|inst|estab|reg|la|local|",
-    "rsc|pfa|pcon|lep|mca|oa|ward|mat)",
-    ".*(name|code|urn|ukprn|number|upin|id)$)",
-    "|(^(laestab|estab|sch|school|schools|prov|provider|providers|inst|",
-    "institution|institutions|name|code|urn|ukprn|number|upin|id|region|",
-    "la|lad|rsc|pcon|lep|mca|oa|ward|mat)$)"
-  )
-
   data_cols <- dplyr::tbl_vars(data)
 
   # Columns to check: acceptable ob units present in data plus regex matches

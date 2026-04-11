@@ -89,6 +89,17 @@
 #' @source maintained by explore.statistics@@education.gov.uk
 "api_char_limits"
 
+# Potential observational unit column regex ====
+#' Regex pattern for potential observational unit columns
+#'
+#' A regex pattern that matches common geography-related and other observational
+#' unit column names (e.g. names containing prefixes like "la", "reg", "pcon"
+#' or suffixes like "name", "code", "urn", "ukprn").
+#'
+#' @format A length-1 character vector containing a regex pattern
+#' @source maintained by explore.statistics@@education.gov.uk
+"potential_ob_units_regex"
+
 # Data dictionary ====
 #' Data dictionary
 #'
