@@ -22,15 +22,9 @@ precheck_cross_meta_to_data <- function(
 ) {
   check_name <- get_check_name()
 
-  filter_groups <- meta |>
-    dplyr::filter(
-      !(is.na(.data$filter_grouping_column) |
-        .data$filter_grouping_column == "")
-    ) |>
-    dplyr::pull(.data$filter_grouping_column)
+  filters <- get_filters(meta, include_filter_groups = TRUE)
 
-  meta_variables <- unique(c(meta$col_name, filter_groups))
-  missing_variables <- setdiff(meta_variables, names(data))
+  missing_variables <- setdiff(filters, names(data))
 
   if (length(missing_variables) == 0) {
     test_output(

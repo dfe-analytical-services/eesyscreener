@@ -357,9 +357,25 @@ Adding a new check to the screening pipeline increases the number of rows in the
    - FAIL case with multiple problems
    - Edge cases (NAs, empty strings, etc.)
    - `stop_on_error = TRUE` for both PASS and FAIL paths
+   - Any singular and plural versions of error messages to ensure all paths work
+
+Note: Use versions of example data as listed in R/example_datasets.R for the tests, then adapt that as needed, this will ensure minimal but realistic test data is used. E.g.
+
+```r
+expect_warning(
+  check_api_char_loc_code(
+    example_data |>
+      dplyr::mutate(country_code = paste(rep("E88", 20), collapse = "")),
+    stop_on_error = TRUE
+  ),
+  "exceed the character limit"
+)
+```
+
 
 #### Step 6: Update Documentation and Namespace
 
+0. Run `air format .` (direct in terminal, not an R command) to format the files
 1. Run `devtools::document()` to regenerate `NAMESPACE` and `man/` pages.
 2. Add the function to the appropriate section in `_pkgdown.yml` if a new section is needed.
 3. Verify the function appears correctly in documentation with `?function_name`.
@@ -376,9 +392,12 @@ Adding a new check to the screening pipeline increases the number of rows in the
    - Remove unnecessary intermediate objects.
 2. Combine singular / plural messages where appropriate using cli::pluralize() or sprintf()
 3. Run `devtools::test()` to ensure the behaviour has not changed at all
+4. Run `air format .` (direct in terminal, not an R command) to format the files
+5. Run `devtools::load_all(); lintr::lint_package()` to check for linting issues
 
 #### Step 8: Commit and PR
 
+0. Run `air format .` (direct in terminal, not an R command) to format the files
 1. Commit all changes (function, tests, NAMESPACE, man pages, screen_dfs.R changes, any new data).
 2. Create PR following the PR conventions below.
 
@@ -411,6 +430,7 @@ Based on the example PRs (#6, #7, #12, #42), descriptions should:
 - Reference the legacy source (which file/function it was migrated from).
 - Note any conflicts with other in-flight PRs.
 - Keep it concise (2--4 sentences).
+- Link to the GitHub main branch version of the script that contains the original function to allow for easy review 
 
 Example:
 > Copied across the 'filter group match' function from the dfe-published-data-qa repository. This adds the check as a function named `check_meta_filter_group_match` into the new package.
