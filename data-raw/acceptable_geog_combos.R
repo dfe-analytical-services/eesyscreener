@@ -17,3 +17,11 @@ acceptable_extra_geog_options <- readr::read_csv(
   as.data.frame()
 
 usethis::use_data(acceptable_extra_geog_options, overwrite = TRUE)
+
+acceptable_regions <- readr::read_csv(
+  render_url("data/regions.csv", domain = "screener_app_repo"),
+  show_col_types = FALSE
+) |>
+  as.data.frame()
+
+usethis::use_data(acceptable_regions, overwrite = TRUE)

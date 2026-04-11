@@ -278,7 +278,8 @@ screen_dfs <- function(
   res <- run_and_log_check(
     all_results,
     rbind(
-      check_geog_country_combos(data, vb, soe)
+      check_geog_country_combos(data, vb, soe),
+      check_geog_region_combos(data, vb, soe)
     ),
     "Check geography",
     log_key,

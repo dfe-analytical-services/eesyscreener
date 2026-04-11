@@ -35,6 +35,7 @@ check_geog_region_for_lad(example_data)
 Other check_geog: 
 \code{\link{check_geog_country_combos}()},
 \code{\link{check_geog_ignored_rows}()},
+\code{\link{check_geog_region_combos}()},
 \code{\link{check_geog_region_for_la}()}
 }
 \concept{check_geog}

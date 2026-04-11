@@ -113,6 +113,19 @@
 #' @source dfe-published-data-qa screener app repo, data/country.csv
 "acceptable_countries"
 
+# Regions lookup ====
+#' Regions lookup
+#'
+#' A data frame of valid region codes and names as used in EES data files.
+#'
+#' @format A data.frame with columns:
+#' \describe{
+#' \item{region_code}{GSS region code}
+#' \item{region_name}{Region name matching the code}
+#' }
+#' @source dfe-published-data-qa screener app repo, data/regions.csv
+"acceptable_regions"
+
 # Extra geography options ====
 #' Extra geography options
 #'
