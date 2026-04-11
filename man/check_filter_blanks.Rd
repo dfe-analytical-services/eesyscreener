@@ -23,7 +23,7 @@ a single row data frame
 \description{
 Checks that no filter or filter group columns contain blank (empty string)
 values. Every cell in a filter or filter group column must have a value. If
-a row represents no specific breakdown, such as 'all genders', the value
+a row represents no specific breakdown, such as 'All genders', the value
 should be 'Total' rather than left blank.
 }
 \examples{

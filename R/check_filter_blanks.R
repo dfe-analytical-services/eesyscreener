@@ -2,7 +2,7 @@
 #'
 #' Checks that no filter or filter group columns contain blank (empty string)
 #' values. Every cell in a filter or filter group column must have a value. If
-#' a row represents no specific breakdown, such as 'all genders', the value
+#' a row represents no specific breakdown, such as 'All genders', the value
 #' should be 'Total' rather than left blank.
 #'
 #' @inheritParams precheck_col_to_rows
@@ -60,11 +60,10 @@ check_filter_blanks <- function(
       test_name,
       "FAIL",
       cli::pluralize(
-        "There {cli::qty(length(cols_with_blanks))}{?is a/are} blank ",
-        "{?value/values} in the following filter or filter group column{?s}: '",
+        "There {cli::qty(length(cols_with_blanks))}is at least one blank",
+        " value in the following filter or filter group column{?s}: '",
         paste0(cols_with_blanks, collapse = "', '"),
-        "'. These cells must have a value. If they represent no specific ",
-        "breakdown, such as 'all genders', use 'Total'."
+        "'. All filter cells must have a value."
       ),
       verbose = verbose,
       stop_on_error = stop_on_error
