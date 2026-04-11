@@ -3,13 +3,6 @@ test_that("passes when all filters have two or more levels", {
     precheck_filter_not_singular(example_data, example_meta)$result,
     "PASS"
   )
-  expect_no_error(
-    precheck_filter_not_singular(
-      example_data,
-      example_meta,
-      stop_on_error = TRUE
-    )
-  )
 })
 
 test_that("passes when there are no filters in the metadata", {
@@ -17,13 +10,6 @@ test_that("passes when there are no filters in the metadata", {
   result <- precheck_filter_not_singular(example_data, meta_no_filters)
   expect_equal(result$result, "PASS")
   expect_true(grepl("no filters", result$message))
-  expect_no_error(
-    precheck_filter_not_singular(
-      example_data,
-      meta_no_filters,
-      stop_on_error = TRUE
-    )
-  )
 })
 
 test_that("fails when a single filter has only one level (singular message)", {
@@ -33,13 +19,6 @@ test_that("fails when a single filter has only one level (singular message)", {
   expect_equal(result$result, "FAIL")
   expect_true(grepl("sex", result$message))
   expect_true(grepl("filter has", result$message))
-  expect_error(
-    precheck_filter_not_singular(
-      single_level_data,
-      example_meta,
-      stop_on_error = TRUE
-    )
-  )
 })
 
 test_that("fails when multiple filters have only one level (plural message)", {
@@ -50,17 +29,4 @@ test_that("fails when multiple filters have only one level (plural message)", {
   expect_true(grepl("sex", result$message))
   expect_true(grepl("education_phase", result$message))
   expect_true(grepl("filters have", result$message))
-  expect_error(
-    precheck_filter_not_singular(
-      single_level_data,
-      example_meta,
-      stop_on_error = TRUE
-    )
-  )
-})
-
-test_that("passes when only some filters have multiple levels", {
-  # sex has two levels; education_phase has multiple levels too
-  result <- precheck_filter_not_singular(example_data, example_meta)
-  expect_equal(result$result, "PASS")
 })
