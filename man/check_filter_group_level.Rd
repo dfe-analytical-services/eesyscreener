@@ -4,7 +4,7 @@
 \alias{check_filter_group_level}
 \title{Check filter groups have an equal or lower number of levels}
 \usage{
-check_filter_group_level(data, meta, verbose = TRUE, stop_on_error = FALSE)
+check_filter_group_level(data, meta, verbose = FALSE, stop_on_error = FALSE)
 }
 \arguments{
 \item{data}{A data frame of the data file}

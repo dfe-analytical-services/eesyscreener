@@ -3,12 +3,14 @@ test_that("Output structure is as expected", {
   test_dir <- tempdir()
   paths <- write_ees_files(example_data, example_meta, test_dir, "example")
 
-  output <- screen_csv(
-    paths$data_path,
-    paths$meta_path,
-    "data.csv",
-    "data.meta.csv",
-    verbose = TRUE
+  output <- suppressMessages(
+    screen_csv(
+      paths$data_path,
+      paths$meta_path,
+      "data.csv",
+      "data.meta.csv",
+      verbose = TRUE
+    )
   )
 
   # Clean up temp files
@@ -96,12 +98,14 @@ test_that("Example file passes", {
   )
 
   expect_no_error(
-    screen_csv(
-      paths$data_path,
-      paths$meta_path,
-      "data.csv",
-      "data.meta.csv",
-      verbose = TRUE
+    suppressMessages(
+      screen_csv(
+        paths$data_path,
+        paths$meta_path,
+        "data.csv",
+        "data.meta.csv",
+        verbose = TRUE
+      )
     )
   )
 
@@ -172,13 +176,15 @@ test_that("Example file fails with filename", {
   )
 
   expect_error(
-    screen_csv(
-      paths$data_path,
-      paths$meta_path,
-      "data.csv",
-      "meta.csv",
-      verbose = TRUE,
-      stop_on_error = TRUE
+    suppressMessages(
+      screen_csv(
+        paths$data_path,
+        paths$meta_path,
+        "data.csv",
+        "meta.csv",
+        verbose = TRUE,
+        stop_on_error = TRUE
+      )
     ),
     "The filenames do not follow the recommended naming convention"
   )
@@ -251,13 +257,15 @@ test_that("api_suitable returns FALSE for unsuitable files", {
   expect_true(!is.null(result$api_suitable))
   expect_false(result$api_suitable)
 
-  expect_warning(
-    screen_csv(
-      paths$data_path,
-      paths$meta_path,
-      "api.csv",
-      "api.meta.csv",
-      stop_on_error = TRUE
+  suppressWarnings(
+    expect_warning(
+      screen_csv(
+        paths$data_path,
+        paths$meta_path,
+        "api.csv",
+        "api.meta.csv",
+        stop_on_error = TRUE
+      )
     )
   )
 
