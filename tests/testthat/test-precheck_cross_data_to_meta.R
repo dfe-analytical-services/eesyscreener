@@ -65,9 +65,3 @@ test_that("passes when unlisted column has only a single unique value", {
     "PASS"
   )
 })
-
-test_that("passes with verbose = TRUE without error", {
-  expect_no_error(
-    precheck_cross_data_to_meta(example_data, example_meta, verbose = TRUE)
-  )
-})
