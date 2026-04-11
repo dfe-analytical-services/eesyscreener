@@ -1305,6 +1305,12 @@ These can be run on any file, regardless of type or structure.
 
 ## Pre-checks on filters
 
+These checks should be run before any other filter checks, as they
+validate core assumptions about the filter columns.
+
+- [`precheck_filter_not_singular()`](https://dfe-analytical-services.github.io/eesyscreener/reference/precheck_filter_not_singular.md)
+  : Check all filters have more than one level
+
 ## Pre-checks on time columns
 
 These checks should be run before any other time checks, as they
