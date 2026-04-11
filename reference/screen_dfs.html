@@ -151,20 +151,21 @@ be "stingy" and "thrifty".</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 34              time_id_mix   PASS</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 35               geog_level   PASS</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 36       geog_level_present   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 37              time_period   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 38          time_period_six   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 39          filter_defaults   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 40       filter_group_level   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 41        filter_item_limit   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 42        filter_whitespace   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 43          filter_ob_total   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 44            filter_blanks   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 45        ind_invalid_entry   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 46        api_char_col_name   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 47       api_char_col_label   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 48        api_char_loc_code   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 49    api_char_filter_items   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 50       api_dict_col_names   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37        geog_ignored_rows   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 38              time_period   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 39          time_period_six   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 40          filter_defaults   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 41       filter_group_level   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 42        filter_item_limit   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 43        filter_whitespace   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 44          filter_ob_total   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 45            filter_blanks   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 46        ind_invalid_entry   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 47        api_char_col_name   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 48       api_char_col_label   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 49        api_char_loc_code   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 50    api_char_filter_items   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 51       api_dict_col_names   PASS</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                       message</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1                                               All of the required columns are present in the metadata file.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                          There are no invalid columns in the metadata file.</span>
@@ -202,20 +203,21 @@ be "stingy" and "thrifty".</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 34                                                       There is only one time_identifier value in the data.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 35                                                                 The geographic_level values are all valid.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 36                                                             There is only National level data in the file.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 37                                The time_period length matches the time_identifier values in the data file.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 38                                               The six digit time_period values refer to consecutive years.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 39                                                 All filters and groups have a default filter item present.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 40                                                                        There are no filter groups present.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 41                                                All filters and groups have less than 25000 unique entries.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 42                                                   No filter labels contain leading or trailing whitespace.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 43                                        There are no Total or All values in the observational unit columns.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 44                                           There are no blank values in any filter or filter group columns.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 45                                         There are no blank values or GSS legacy symbols in any indicators.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 46                          All filter / indicator names are less than or equal to the character limit of 50.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 47                        All filter / indicator labels are less than or equal to the character limit of 100.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 48                                    All location codes are less than or equal to the character limit of 30.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 49                    All filter items / location names are less than or equal to the character limit of 120.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 50                                                     All col_names are consistent with the data dictionary.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37                                                 No rows in the file will be ignored by the EES table tool.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 38                                The time_period length matches the time_identifier values in the data file.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 39                                               The six digit time_period values refer to consecutive years.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 40                                                 All filters and groups have a default filter item present.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 41                                                                        There are no filter groups present.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 42                                                All filters and groups have less than 25000 unique entries.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 43                                                   No filter labels contain leading or trailing whitespace.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 44                                        There are no Total or All values in the observational unit columns.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 45                                           There are no blank values in any filter or filter group columns.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 46                                         There are no blank values or GSS legacy symbols in any indicators.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 47                          All filter / indicator names are less than or equal to the character limit of 50.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 48                        All filter / indicator labels are less than or equal to the character limit of 100.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 49                                    All location codes are less than or equal to the character limit of 30.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 50                    All filter items / location names are less than or equal to the character limit of 120.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 51                                                     All col_names are consistent with the data dictionary.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    guidance_url               stage</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1            NA    Precheck columns</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2            NA    Precheck columns</span>
@@ -253,20 +255,21 @@ be "stingy" and "thrifty".</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 34           NA       Precheck time</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 35           NA  Precheck geography</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 36           NA  Precheck geography</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 37           NA          Check time</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37           NA     Check geography</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 38           NA          Check time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 39           NA       Check filters</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 39           NA          Check time</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 40           NA       Check filters</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 41           NA       Check filters</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 42           NA       Check filters</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 43           NA       Check filters</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 44           NA       Check filters</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 45           NA    Check indicators</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 46           NA           Check API</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 45           NA       Check filters</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 46           NA    Check indicators</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 47           NA           Check API</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 48           NA           Check API</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 49           NA           Check API</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 50           NA           Check API</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 51           NA           Check API</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

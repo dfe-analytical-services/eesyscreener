@@ -240,6 +240,9 @@ validate core assumptions about the geography columns.
 
 ## Geography checks
 
+- [`check_geog_ignored_rows()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_ignored_rows.md)
+  : Check for rows ignored by the EES table tool
+
 ## Time checks
 
 - [`check_time_period()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_time_period.md)
