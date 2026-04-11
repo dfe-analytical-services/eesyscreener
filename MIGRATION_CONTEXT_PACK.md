@@ -234,33 +234,57 @@ Tests use `testthat` edition 3. Each test file contains multiple `test_that()` b
 
 ### 4.3 Canonical Test Pattern
 
+Prefer building on package example datasets rather than constructing minimal inline data frames. Use `rbind()` or `dplyr::mutate()` to introduce failures on top of the example data. This ensures tests exercise realistic data shapes and avoids missing columns that real data has.
+
 ```r
 test_that("passes when <condition>", {
-  # Inline test data
-  meta <- data.frame(col_name = c("A", "B", "C"))
-  expect_equal(check_something(meta)$result, "PASS")
-  expect_no_error(check_something(meta, stop_on_error = TRUE))
-  # Also test with package example data
+  expect_equal(check_something(example_meta)$result, "PASS")
   expect_no_error(check_something(example_meta, stop_on_error = TRUE))
 })
 
-test_that("fails with one <problem>", {
-  meta <- data.frame(col_name = c("A", "B", "A"))
-  expect_equal(check_something(meta)$result, "FAIL")
-  expect_error(check_something(meta, stop_on_error = TRUE))
+test_that("fails with one <problem> (singular message)", {
+  result <- check_something(
+    example_meta |>
+      rbind(data.frame(col_name = "bad_value", label = "X", ...))
+  )
+  expect_equal(result$result, "FAIL")
+  expect_true(grepl("bad_value", result$message))
+  expect_true(grepl("label is", result$message))  # singular form
+  expect_error(
+    check_something(
+      example_meta |>
+        rbind(data.frame(col_name = "bad_value", label = "X", ...)),
+      stop_on_error = TRUE
+    )
+  )
 })
 
-test_that("fails with multiple <problems>", {
-  meta <- data.frame(col_name = c("A", "A", "B", "B"))
-  expect_equal(check_something(meta)$result, "FAIL")
-  expect_error(check_something(meta, stop_on_error = TRUE))
+test_that("fails with multiple <problems> (plural message)", {
+  result <- check_something(
+    example_meta |>
+      rbind(data.frame(col_name = c("bad_1", "bad_2"), label = c("X", "Y"), ...))
+  )
+  expect_equal(result$result, "FAIL")
+  expect_true(grepl("bad_1", result$message))
+  expect_true(grepl("bad_2", result$message))
+  expect_true(grepl("labels are", result$message))  # plural form
+  expect_error(
+    check_something(
+      example_meta |>
+        rbind(data.frame(col_name = c("bad_1", "bad_2"), label = c("X", "Y"), ...)),
+      stop_on_error = TRUE
+    )
+  )
 })
 ```
 
+Only use a fully inline `data.frame()` when the test genuinely requires a schema that doesn't exist in any example dataset, or when testing a very specific edge case that would be awkward to construct from an example base.
+
 ### 4.4 Test Data
 
-- **Inline `data.frame()` construction** is the primary approach for test data - create minimal data frames that exercise the specific check.
-- **Package example datasets** (`example_data`, `example_meta`) should always be tested as a PASS case via `expect_no_error(fn(example_data, stop_on_error = TRUE))`.
+- **Package example datasets** (`example_data`, `example_meta`, `example_filter_group_wrow`, etc. — see `R/example_datasets.R`) are the **preferred base** for test data. Use `rbind()` or `dplyr::mutate()` to introduce the failing condition on top of them.
+- **Inline `data.frame()` construction** is acceptable only when the test requires a schema that no example dataset provides, or when an edge case is too awkward to build from example data.
+- **Package example datasets must always be tested as a PASS case** via `expect_no_error(fn(example_data, stop_on_error = TRUE))`.
 - **Temp CSV files** when testing file I/O (e.g., `screen_csv` tests).
 - **No mocking** --- use real but minimal data.
 
@@ -289,6 +313,7 @@ test_that("fails with multiple <problems>", {
 2. Understand what it checks, what inputs it needs, and what output it produces.
 3. Identify any hardcoded reference data it uses from `R/knownVariables.r`.
 4. Understand what the new function name should be and what family of functions (e.g. precheck_time) that it should belong to. Ask for clarification if unsure.
+5. **Read `R/utils.R` in full** to understand all available internal helpers before writing any logic. Many common operations (filtering columns by type, extracting filter groups, removing NAs/blanks, etc.) already have helpers. Use them rather than re-implementing inline.
 
 #### Step 2: Create the initial Function File
 
@@ -395,7 +420,7 @@ expect_warning(
 4. Run `air format .` (direct in terminal, not an R command) to format the files
 5. Run `devtools::load_all(); lintr::lint_package()` to check for linting issues
 
-#### Step 8: Commit and PR
+#### Step 9: Commit and PR
 
 0. Run `air format .` (direct in terminal, not an R command) to format the files
 1. Commit all changes (function, tests, NAMESPACE, man pages, screen_dfs.R changes, any new data).
@@ -499,7 +524,10 @@ check_meta_duplicate_label <- function(
       check_name,
       "FAIL",
       cli::pluralize(
-        "The following label{?s} {?is/are} duplicated in the metadata file: {.val {duplicated_labels}}."
+        "The following {cli::qty(length(duplicated_labels))}label{?s} ",
+        "{?is/are} duplicated in the metadata file: '",
+        paste0(duplicated_labels, collapse = "', '"),
+        "'."
       ),
       verbose = verbose,
       stop_on_error = stop_on_error
@@ -567,9 +595,11 @@ check_meta_fil_grp_match <- function(
       check_name,
       "FAIL",
       cli::pluralize(
-        "The following filter group{?s} from the metadata {?was/were} not ",
-        "found as {?a variable/variables} in the data file: ",
-        "{.val {filter_groups_not_in_data}}."
+        "The following {cli::qty(length(filter_groups_not_in_data))}filter group{?s} ",
+        "from the metadata {?was/were} not found as ",
+        "{?a variable/variables} in the data file: '",
+        paste0(filter_groups_not_in_data, collapse = "', '"),
+        "'."
       ),
       verbose = verbose,
       stop_on_error = stop_on_error

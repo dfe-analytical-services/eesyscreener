@@ -152,6 +152,14 @@ Code structure: uses shorthand variables `vb` (verbose) and `soe` (stop_on_error
 - `write_json_log()` – Logging infrastructure for API usage
 - `run_and_log_check()` – Helper that handles stage management, logging, and early-return logic
 - `get_check_name()` – Automatically extracts check name from calling function (reduces hardcoding)
+- `get_filters(meta, include_filter_groups = FALSE)` – Returns character vector of filter column names from meta; set `include_filter_groups = TRUE` to also include `filter_grouping_column` values
+- `get_filter_groups(meta)` – Returns non-NA, non-blank `filter_grouping_column` values from meta
+- `get_cols_meta(meta, ...)` – Extracts column names from meta by type/criteria
+- `get_geo_code_cols()` / `get_geo_name_cols()` – Returns geography code/name column name vectors
+- `remove_nas_blanks(vector)` – Removes NAs and empty strings from a vector
+- `render_url(slug, domain)` – Constructs guidance URLs for `test_output(guidance_url = ...)`
+
+**Always read `R/utils.R` before writing any filtering, extraction, or transformation logic** — many common operations already have helpers.
 
 **Reference data (R/reference_values.R, R/example_datasets.R):**
 - Exports acceptable values, time identifiers, filter groups
@@ -193,9 +201,10 @@ When adding a new validation:
    ```r
    #' @export
    check_my_validation <- function(data, meta, verbose = FALSE, stop_on_error = FALSE) {
+     check_name <- get_check_name()  # never hardcode the name string
      # validation logic
      test_output(
-       "check_my_validation",
+       check_name,
        "PASS",  # or "FAIL"/"WARNING"
        "message...",
        verbose = verbose,
@@ -278,10 +287,10 @@ pkgdown::build_site()         # Generate HTML documentation site
 
 ## Testing Philosophy
 
-- Tests use example datasets built into the package
+- **Prefer package example datasets as the base for test data** — use `rbind()` or `dplyr::mutate()` on `example_data`, `example_meta`, `example_filter_group_wrow`, etc. (see `R/example_datasets.R`) to introduce the failing condition. Only construct a full inline `data.frame()` when no example dataset has the right schema.
 - Each check should test its happy path and failure conditions
 - Avoid mocking; use real but minimal data
-- Tests verify both the result and the message text as sometimes there are multiple variants of the message text
+- Tests verify both the result and the message text — including both singular and plural forms of messages where applicable (e.g. `"variable was"` vs `"variables were"`)
 
 ### Test Coverage and Integration
 
