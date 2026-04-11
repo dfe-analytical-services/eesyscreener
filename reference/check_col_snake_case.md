@@ -30,6 +30,11 @@ check_col_snake_case(data, verbose = FALSE, stop_on_error = FALSE)
 
 a single row data frame
 
+## See also
+
+Other check_col:
+[`check_col_var_start()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_col_var_start.md)
+
 ## Examples
 
 ``` r
