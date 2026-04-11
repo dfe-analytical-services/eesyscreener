@@ -31,6 +31,7 @@ check_filter_defaults(example_filter_group, example_filter_group_meta)
 }
 \seealso{
 Other check_filter: 
+\code{\link{check_filter_blanks}()},
 \code{\link{check_filter_group_level}()},
 \code{\link{check_filter_item_limit}()},
 \code{\link{check_filter_ob_total}()},

@@ -227,7 +227,8 @@ screen_dfs <- function(
       check_filter_group_level(data, meta, vb, soe),
       check_filter_item_limit(data, meta, vb, soe),
       check_filter_whitespace(data, meta, vb, soe),
-      check_filter_ob_total(data, meta, vb, soe)
+      check_filter_ob_total(data, meta, vb, soe),
+      check_filter_blanks(data, meta, vb, soe)
     ),
     "Check filters",
     log_key,
