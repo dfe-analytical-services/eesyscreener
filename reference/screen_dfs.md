@@ -117,12 +117,13 @@ screen_dfs(example_data, example_meta)
 #> 41        filter_item_limit   PASS
 #> 42        filter_whitespace   PASS
 #> 43          filter_ob_total   PASS
-#> 44        ind_invalid_entry   PASS
-#> 45        api_char_col_name   PASS
-#> 46       api_char_col_label   PASS
-#> 47        api_char_loc_code   PASS
-#> 48    api_char_filter_items   PASS
-#> 49       api_dict_col_names   PASS
+#> 44            filter_blanks   PASS
+#> 45        ind_invalid_entry   PASS
+#> 46        api_char_col_name   PASS
+#> 47       api_char_col_label   PASS
+#> 48        api_char_loc_code   PASS
+#> 49    api_char_filter_items   PASS
+#> 50       api_dict_col_names   PASS
 #>                                                                                                       message
 #> 1                                               All of the required columns are present in the metadata file.
 #> 2                                                          There are no invalid columns in the metadata file.
@@ -167,12 +168,13 @@ screen_dfs(example_data, example_meta)
 #> 41                                                All filters and groups have less than 25000 unique entries.
 #> 42                                                   No filter labels contain leading or trailing whitespace.
 #> 43                                        There are no Total or All values in the observational unit columns.
-#> 44                                         There are no blank values or GSS legacy symbols in any indicators.
-#> 45                          All filter / indicator names are less than or equal to the character limit of 50.
-#> 46                        All filter / indicator labels are less than or equal to the character limit of 100.
-#> 47                                    All location codes are less than or equal to the character limit of 30.
-#> 48                    All filter items / location names are less than or equal to the character limit of 120.
-#> 49                                                     All col_names are consistent with the data dictionary.
+#> 44                                           There are no blank values in any filter or filter group columns.
+#> 45                                         There are no blank values or GSS legacy symbols in any indicators.
+#> 46                          All filter / indicator names are less than or equal to the character limit of 50.
+#> 47                        All filter / indicator labels are less than or equal to the character limit of 100.
+#> 48                                    All location codes are less than or equal to the character limit of 30.
+#> 49                    All filter items / location names are less than or equal to the character limit of 120.
+#> 50                                                     All col_names are consistent with the data dictionary.
 #>    guidance_url               stage
 #> 1            NA    Precheck columns
 #> 2            NA    Precheck columns
@@ -217,10 +219,11 @@ screen_dfs(example_data, example_meta)
 #> 41           NA       Check filters
 #> 42           NA       Check filters
 #> 43           NA       Check filters
-#> 44           NA    Check indicators
-#> 45           NA           Check API
+#> 44           NA       Check filters
+#> 45           NA    Check indicators
 #> 46           NA           Check API
 #> 47           NA           Check API
 #> 48           NA           Check API
 #> 49           NA           Check API
+#> 50           NA           Check API
 ```

@@ -36,6 +36,7 @@ a single row data frame
 ## See also
 
 Other check_filter:
+[`check_filter_blanks()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_filter_blanks.md),
 [`check_filter_defaults()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_filter_defaults.md),
 [`check_filter_item_limit()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_filter_item_limit.md),
 [`check_filter_ob_total()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_filter_ob_total.md),

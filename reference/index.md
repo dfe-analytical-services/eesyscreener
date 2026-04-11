@@ -217,6 +217,8 @@ validate core assumptions about the geography columns.
 
 ## Filter checks
 
+- [`check_filter_blanks()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_filter_blanks.md)
+  : Check for blank values in filter and filter group columns
 - [`check_filter_defaults()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_filter_defaults.md)
   : Check default filter values are present in data
 - [`check_filter_group_level()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_filter_group_level.md)
