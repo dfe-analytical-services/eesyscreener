@@ -2,7 +2,11 @@
 
 test_that("passes for example files", {
   expect_no_error(screen_dfs(example_data, example_meta, stop_on_error = TRUE))
-  expect_no_error(screen_dfs(example_data, example_meta, verbose = TRUE))
+  expect_no_error(suppressMessages(screen_dfs(
+    example_data,
+    example_meta,
+    verbose = TRUE
+  )))
   expect_no_error(screen_dfs(example_data, example_meta))
 })
 

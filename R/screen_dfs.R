@@ -80,7 +80,8 @@ screen_dfs <- function(
   res <- run_and_log_check(
     all_results,
     rbind(
-      precheck_cross_meta_to_data(data, meta, vb, soe)
+      precheck_cross_meta_to_data(data, meta, vb, soe),
+      precheck_cross_data_to_meta(data, meta, vb, soe)
     ),
     "Precheck cross-file",
     log_key,
@@ -98,7 +99,9 @@ screen_dfs <- function(
     rbind(
       check_col_names_spaces(data, vb, soe),
       check_col_snake_case(data, vb, soe),
-      check_col_var_start(data, vb, soe)
+      check_col_var_start(data, vb, soe),
+      check_col_ind_smushed(meta, vb, soe),
+      check_col_var_characteristic(meta, vb, soe)
     ),
     "Check columns",
     log_key,

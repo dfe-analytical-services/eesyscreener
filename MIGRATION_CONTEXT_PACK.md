@@ -390,6 +390,7 @@ expect_warning(
 1. Run `devtools::document()` to regenerate `NAMESPACE` and `man/` pages.
 2. Add the function to the appropriate section in `_pkgdown.yml` if a new section is needed.
 3. Verify the function appears correctly in documentation with `?function_name`.
+4. Regenerate the example output data object with `source("data-raw/example_output.R")`.
 
 #### Step 7: Verify
 

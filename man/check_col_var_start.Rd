@@ -28,6 +28,8 @@ check_col_var_start(example_data, verbose = TRUE)
 }
 \seealso{
 Other check_col: 
-\code{\link{check_col_snake_case}()}
+\code{\link{check_col_ind_smushed}()},
+\code{\link{check_col_snake_case}()},
+\code{\link{check_col_var_characteristic}()}
 }
 \concept{check_col}

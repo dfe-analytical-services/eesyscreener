@@ -5,11 +5,13 @@ test_that("passes for valid filenames", {
   )
   expect_true(all(res$result == "PASS"))
   expect_no_error(
-    screen_filenames(
-      "datafile.csv",
-      "datafile.meta.csv",
-      verbose = TRUE,
-      stop_on_error = TRUE
+    suppressMessages(
+      screen_filenames(
+        "datafile.csv",
+        "datafile.meta.csv",
+        verbose = TRUE,
+        stop_on_error = TRUE
+      )
     )
   )
 })

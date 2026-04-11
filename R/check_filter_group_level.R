@@ -18,7 +18,7 @@
 check_filter_group_level <- function(
   data,
   meta,
-  verbose = TRUE,
+  verbose = FALSE,
   stop_on_error = FALSE
 ) {
   filters_and_groups <- meta |>
