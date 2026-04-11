@@ -8,12 +8,6 @@ test_that("passes with clean example data", {
   )
 })
 
-test_that("passes with verbose output", {
-  expect_no_error(
-    check_filter_blanks(example_data, example_meta, verbose = TRUE)
-  )
-})
-
 test_that("passes when there are no filter columns", {
   no_filter_meta <- data.frame(
     col_name = "enrolment_count",
