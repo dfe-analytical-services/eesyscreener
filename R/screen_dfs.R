@@ -99,6 +99,7 @@ screen_dfs <- function(
       check_col_names_spaces(data, vb, soe),
       check_col_snake_case(data, vb, soe),
       check_col_var_start(data, vb, soe),
+      check_col_ind_smushed(meta, vb, soe),
       check_col_var_characteristic(meta, vb, soe)
     ),
     "Check columns",
