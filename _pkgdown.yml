@@ -35,6 +35,7 @@ reference:
   - legacy_gss_symbols
   - four_digit_identifiers
   - six_digit_identifiers
+  - potential_ob_units_regex
 
 - title: Filename checks
   contents:

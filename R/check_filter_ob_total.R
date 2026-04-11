@@ -67,7 +67,7 @@ check_filter_ob_total <- function(
     return(test_output(
       test_name,
       "PASS",
-      "There are no Total or All values in the observational unit columns.",
+      "No observational unit columns were found in this data to check.",
       verbose = verbose,
       stop_on_error = stop_on_error
     ))
