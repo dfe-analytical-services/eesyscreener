@@ -32,4 +32,8 @@ immediately.
 check_geog_region_for_la(example_data)
 check_geog_region_for_la(example_data, verbose = TRUE)
 }
+\seealso{
+Other check_geog: 
+\code{\link{check_geog_ignored_rows}()}
+}
 \concept{check_geog}
