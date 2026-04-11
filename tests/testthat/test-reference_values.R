@@ -59,6 +59,57 @@ test_that("geography_df has expected values in key columns", {
   expect_true("school_laestab" %in% geography_df$code_field_secondary)
 })
 
+# Potential ob units regex ====================================================
+test_that("potential_ob_units_regex has correct type and length", {
+  expect_type(potential_ob_units_regex, "character")
+  expect_length(potential_ob_units_regex, 1)
+})
+
+test_that("potential_ob_units_regex matches known geography column names", {
+  expect_true(grepl(
+    potential_ob_units_regex,
+    "country_name",
+    ignore.case = TRUE
+  ))
+  expect_true(grepl(
+    potential_ob_units_regex,
+    "country_code",
+    ignore.case = TRUE
+  ))
+  expect_true(grepl(potential_ob_units_regex, "la_name", ignore.case = TRUE))
+  expect_true(grepl(potential_ob_units_regex, "region", ignore.case = TRUE))
+  expect_true(grepl(potential_ob_units_regex, "school_urn", ignore.case = TRUE))
+  expect_true(grepl(
+    potential_ob_units_regex,
+    "provider_ukprn",
+    ignore.case = TRUE
+  ))
+  expect_true(grepl(potential_ob_units_regex, "laestab", ignore.case = TRUE))
+})
+
+test_that("potential_ob_units_regex does not match non-geography col names", {
+  expect_false(grepl(
+    potential_ob_units_regex,
+    "time_period",
+    ignore.case = TRUE
+  ))
+  expect_false(grepl(
+    potential_ob_units_regex,
+    "time_identifier",
+    ignore.case = TRUE
+  ))
+  expect_false(grepl(
+    potential_ob_units_regex,
+    "geographic_level",
+    ignore.case = TRUE
+  ))
+  expect_false(grepl(
+    potential_ob_units_regex,
+    "filter_col",
+    ignore.case = TRUE
+  ))
+})
+
 # Char limits =================================================================
 test_that("returns correct columns and types", {
   result <- char_limits(c("A", "BB", "CCC"), 2)
