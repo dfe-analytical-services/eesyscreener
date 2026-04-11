@@ -239,6 +239,22 @@ screen_dfs <- function(
     return(as.data.frame(all_results))
   }
 
+  # Check geography -----------------------------------------------------------
+  res <- run_and_log_check(
+    all_results,
+    rbind(
+      check_geog_country_combos(data, vb, soe)
+    ),
+    "Check geography",
+    log_key,
+    log_dir,
+    data_details
+  )
+  all_results <- res$all_results
+  if (res$early_return) {
+    return(as.data.frame(all_results))
+  }
+
   # Check indicators ----------------------------------------------------------
   res <- run_and_log_check(
     all_results,

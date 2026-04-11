@@ -100,6 +100,34 @@
 #' @source maintained by explore.statistics@@education.gov.uk
 "potential_ob_units_regex"
 
+# Countries lookup ====
+#' Countries lookup
+#'
+#' A data frame of valid country codes and names as used in EES data files.
+#'
+#' @format A data.frame with columns:
+#' \describe{
+#' \item{country_code}{GSS country code}
+#' \item{country_name}{Country name matching the code}
+#' }
+#' @source dfe-published-data-qa screener app repo, data/country.csv
+"countries"
+
+# Universal geography options ====
+#' Universal geography options
+#'
+#' A data frame of universal geography code and name options that are
+#' acceptable for any geography level (e.g. "Not applicable", "Unknown").
+#'
+#' @format A data.frame with columns:
+#' \describe{
+#' \item{code}{GSS geography code}
+#' \item{name}{Geography name matching the code}
+#' }
+#' @source dfe-published-data-qa screener app repo,
+#'   data/universal_geog_options.csv
+"universal_geog_options"
+
 # Data dictionary ====
 #' Data dictionary
 #'
