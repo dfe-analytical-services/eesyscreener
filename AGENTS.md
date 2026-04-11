@@ -12,25 +12,33 @@ This file provides guidance to Claude Code (claude.ai/code) or other AI agents w
 
 ### Building and Running Tests
 
+Run R commands via `Rscript -e "..."` in the terminal. Chain multiple expressions with `;`.
+
 ```bash
-# Load package in development mode (requires R with devtools)
-devtools::load_all()
+# Load package in development mode
+Rscript -e "devtools::load_all()"
 
 # Run all tests (fast, no build — use this for quick iteration)
-devtools::test()
+Rscript -e "devtools::test()"
 
 # Run tests for a specific file
-devtools::test(filter = "test_name")
+Rscript -e "devtools::test(filter = 'test_name')"
 
 # Full package check — R CMD check including build, examples, vignettes, and tests
 # Use this as the final verification before committing/pushing
-devtools::check()
+Rscript -e "devtools::check()"
 
 # Generate documentation from roxygen2 comments
-devtools::document()
+Rscript -e "devtools::document()"
+
+# Lint the package
+Rscript -e "devtools::load_all(); lintr::lint_package()"
+
+# Format R code (run directly in terminal, not via Rscript)
+air format .
 
 # Rebuild the documentation site
-pkgdown::build_site()
+Rscript -e "pkgdown::build_site()"
 ```
 
 If the data dictionary test, or example output test fails, the first fix to try is regenerating the data objects by using `source("data-raw/data_dictionary.R")` (or `source("data-raw/example_output.R")`) and then run the tests again, often that will fix the issue.
@@ -152,6 +160,14 @@ Code structure: uses shorthand variables `vb` (verbose) and `soe` (stop_on_error
 - `write_json_log()` – Logging infrastructure for API usage
 - `run_and_log_check()` – Helper that handles stage management, logging, and early-return logic
 - `get_check_name()` – Automatically extracts check name from calling function (reduces hardcoding)
+- `get_filters(meta, include_filter_groups = FALSE)` – Returns character vector of filter column names from meta; set `include_filter_groups = TRUE` to also include `filter_grouping_column` values
+- `get_filter_groups(meta)` – Returns non-NA, non-blank `filter_grouping_column` values from meta
+- `get_cols_meta(meta, ...)` – Extracts column names from meta by type/criteria
+- `get_geo_code_cols()` / `get_geo_name_cols()` – Returns geography code/name column name vectors
+- `remove_nas_blanks(vector)` – Removes NAs and empty strings from a vector
+- `render_url(slug, domain)` – Constructs guidance URLs for `test_output(guidance_url = ...)`
+
+**Always read `R/utils.R` before writing any filtering, extraction, or transformation logic** — many common operations already have helpers.
 
 **Reference data (R/reference_values.R, R/example_datasets.R):**
 - Exports acceptable values, time identifiers, filter groups
@@ -193,9 +209,10 @@ When adding a new validation:
    ```r
    #' @export
    check_my_validation <- function(data, meta, verbose = FALSE, stop_on_error = FALSE) {
+     check_name <- get_check_name()  # never hardcode the name string
      # validation logic
      test_output(
-       "check_my_validation",
+       check_name,
        "PASS",  # or "FAIL"/"WARNING"
        "message...",
        verbose = verbose,
@@ -278,10 +295,12 @@ pkgdown::build_site()         # Generate HTML documentation site
 
 ## Testing Philosophy
 
-- Tests use example datasets built into the package
+- **Prefer package example datasets as the base for test data** — use `rbind()` or `dplyr::mutate()` on `example_data`, `example_meta`, `example_filter_group_wrow`, etc. (see `R/example_datasets.R`) to introduce the failing condition. Only construct a full inline `data.frame()` when no example dataset has the right schema.
+- **Extract test data to a local variable** when construction spans more than one line — assign to `bad_data` / `bad_meta` before asserting, then reuse the same variable for both the result check and the `stop_on_error` check. Never construct the same data frame twice in one `test_that()` block.
 - Each check should test its happy path and failure conditions
 - Avoid mocking; use real but minimal data
-- Tests verify both the result and the message text as sometimes there are multiple variants of the message text
+- Tests verify both the result and the message text — including both singular and plural forms of messages where applicable (e.g. `"variable was"` vs `"variables were"`)
+- **Edge case tests must actually test the edge case** — don't re-run an existing assertion under a different label; construct data that would fail if the edge case were not handled (e.g. set `filter_grouping_column = NA_character_` to verify NAs are ignored, not just re-run the standard PASS case)
 
 ### Test Coverage and Integration
 

@@ -46,6 +46,12 @@ reference:
   contents:
   - starts_with("precheck_col_")
 
+- title: Pre-checks across data and metadata
+  description: |
+    These checks validate consistency between the data file and metadata file.
+  contents:
+  - starts_with("precheck_cross_")
+
 - title: Pre-checks on metadata
   description: |
     These checks should be run before any other metadata checks, as they validate core assumptions about the metadata file itself.

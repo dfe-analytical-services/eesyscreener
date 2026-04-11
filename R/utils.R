@@ -431,6 +431,9 @@ get_filters <- function(meta, include_filter_groups = FALSE) {
 #' @keywords internal
 #' @noRd
 remove_nas_blanks <- function(vector) {
+  if (is.null(vector)) {
+    return(NULL)
+  }
   if (is.vector(vector)) {
     vector[!is.na(vector) & vector != ""]
   } else {
