@@ -242,6 +242,11 @@ validate core assumptions about the geography columns.
 
 - [`check_geog_ignored_rows()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_ignored_rows.md)
   : Check for rows ignored by the EES table tool
+- [`check_geog_region_for_la()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_region_for_la.md)
+  : Check that region columns are complete for Local authority rows
+- [`check_geog_region_for_lad()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_region_for_lad.md)
+  : Check that region columns are complete for Local authority district
+  rows
 
 ## Time checks
 

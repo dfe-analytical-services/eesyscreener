@@ -1,9 +1,13 @@
 # Check for rows ignored by the EES table tool
 
 Identifies rows at geographic levels that are ignored by the EES table
-tool: School, Provider, Institution, and Planning area. Warns if any
-such rows are present alongside other levels, and fails if School and
-Provider data have been mixed together.
+tool: School, Provider, Institution, and Planning area. Highlights in
+the message if any such rows are present alongside other levels, and
+fails if:
+
+- School and Provider data have been mixed together OR
+
+- The file only contains Planning area or Institution data
 
 ## Usage
 
@@ -31,16 +35,16 @@ check_geog_ignored_rows(data, verbose = FALSE, stop_on_error = FALSE)
 
 a single row data frame
 
+## See also
+
+Other check_geog:
+[`check_geog_region_for_la()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_region_for_la.md),
+[`check_geog_region_for_lad()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_region_for_lad.md)
+
 ## Examples
 
 ``` r
 check_geog_ignored_rows(example_data)
-#>               check result
-#> 1 geog_ignored_rows   PASS
-#>                                                      message guidance_url
-#> 1 No rows in the file will be ignored by the EES table tool.           NA
-check_geog_ignored_rows(example_data, verbose = TRUE)
-#> ✔ No rows in the file will be ignored by the EES table tool.
 #>               check result
 #> 1 geog_ignored_rows   PASS
 #>                                                      message guidance_url

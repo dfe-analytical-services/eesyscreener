@@ -110,21 +110,23 @@ screen_dfs(example_data, example_meta)
 #> 34              time_id_mix   PASS
 #> 35               geog_level   PASS
 #> 36       geog_level_present   PASS
-#> 37        geog_ignored_rows   PASS
-#> 38              time_period   PASS
-#> 39          time_period_six   PASS
-#> 40          filter_defaults   PASS
-#> 41       filter_group_level   PASS
-#> 42        filter_item_limit   PASS
-#> 43        filter_whitespace   PASS
-#> 44          filter_ob_total   PASS
-#> 45            filter_blanks   PASS
-#> 46        ind_invalid_entry   PASS
-#> 47        api_char_col_name   PASS
-#> 48       api_char_col_label   PASS
-#> 49        api_char_loc_code   PASS
-#> 50    api_char_filter_items   PASS
-#> 51       api_dict_col_names   PASS
+#> 37              time_period   PASS
+#> 38          time_period_six   PASS
+#> 39        geog_ignored_rows   PASS
+#> 40       geog_region_for_la   PASS
+#> 41      geog_region_for_lad   PASS
+#> 42          filter_defaults   PASS
+#> 43       filter_group_level   PASS
+#> 44        filter_item_limit   PASS
+#> 45        filter_whitespace   PASS
+#> 46          filter_ob_total   PASS
+#> 47            filter_blanks   PASS
+#> 48        ind_invalid_entry   PASS
+#> 49        api_char_col_name   PASS
+#> 50       api_char_col_label   PASS
+#> 51        api_char_loc_code   PASS
+#> 52    api_char_filter_items   PASS
+#> 53       api_dict_col_names   PASS
 #>                                                                                                       message
 #> 1                                               All of the required columns are present in the metadata file.
 #> 2                                                          There are no invalid columns in the metadata file.
@@ -162,21 +164,23 @@ screen_dfs(example_data, example_meta)
 #> 34                                                       There is only one time_identifier value in the data.
 #> 35                                                                 The geographic_level values are all valid.
 #> 36                                                             There is only National level data in the file.
-#> 37                                                 No rows in the file will be ignored by the EES table tool.
-#> 38                                The time_period length matches the time_identifier values in the data file.
-#> 39                                               The six digit time_period values refer to consecutive years.
-#> 40                                                 All filters and groups have a default filter item present.
-#> 41                                                                        There are no filter groups present.
-#> 42                                                All filters and groups have less than 25000 unique entries.
-#> 43                                                   No filter labels contain leading or trailing whitespace.
-#> 44                                        There are no Total or All values in the observational unit columns.
-#> 45                                           There are no blank values in any filter or filter group columns.
-#> 46                                         There are no blank values or GSS legacy symbols in any indicators.
-#> 47                          All filter / indicator names are less than or equal to the character limit of 50.
-#> 48                        All filter / indicator labels are less than or equal to the character limit of 100.
-#> 49                                    All location codes are less than or equal to the character limit of 30.
-#> 50                    All filter items / location names are less than or equal to the character limit of 120.
-#> 51                                                     All col_names are consistent with the data dictionary.
+#> 37                                The time_period length matches the time_identifier values in the data file.
+#> 38                                               The six digit time_period values refer to consecutive years.
+#> 39                                                 No rows in the file will be ignored by the EES table tool.
+#> 40                                                   There is no Local authority level data in the data file.
+#> 41                                          There is no Local authority district level data in the data file.
+#> 42                                                 All filters and groups have a default filter item present.
+#> 43                                                                        There are no filter groups present.
+#> 44                                                All filters and groups have less than 25000 unique entries.
+#> 45                                                   No filter labels contain leading or trailing whitespace.
+#> 46                                        There are no Total or All values in the observational unit columns.
+#> 47                                           There are no blank values in any filter or filter group columns.
+#> 48                                         There are no blank values or GSS legacy symbols in any indicators.
+#> 49                          All filter / indicator names are less than or equal to the character limit of 50.
+#> 50                        All filter / indicator labels are less than or equal to the character limit of 100.
+#> 51                                    All location codes are less than or equal to the character limit of 30.
+#> 52                    All filter items / location names are less than or equal to the character limit of 120.
+#> 53                                                     All col_names are consistent with the data dictionary.
 #>    guidance_url               stage
 #> 1            NA    Precheck columns
 #> 2            NA    Precheck columns
@@ -214,19 +218,21 @@ screen_dfs(example_data, example_meta)
 #> 34           NA       Precheck time
 #> 35           NA  Precheck geography
 #> 36           NA  Precheck geography
-#> 37           NA     Check geography
+#> 37           NA          Check time
 #> 38           NA          Check time
-#> 39           NA          Check time
-#> 40           NA       Check filters
-#> 41           NA       Check filters
+#> 39           NA     Check geography
+#> 40           NA     Check geography
+#> 41           NA     Check geography
 #> 42           NA       Check filters
 #> 43           NA       Check filters
 #> 44           NA       Check filters
 #> 45           NA       Check filters
-#> 46           NA    Check indicators
-#> 47           NA           Check API
-#> 48           NA           Check API
+#> 46           NA       Check filters
+#> 47           NA       Check filters
+#> 48           NA    Check indicators
 #> 49           NA           Check API
 #> 50           NA           Check API
 #> 51           NA           Check API
+#> 52           NA           Check API
+#> 53           NA           Check API
 ```
