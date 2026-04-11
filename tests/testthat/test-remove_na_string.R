@@ -8,6 +8,10 @@ test_that("Removes NAs and blank strings from a numeric vector", {
   expect_equal(remove_nas_blanks(x), c("1", "2", "3"))
 })
 
+test_that("Returns NULL if given NULL", {
+  expect_null(remove_nas_blanks(NULL))
+})
+
 test_that("Errors on unsupported input types", {
   expect_error(
     remove_nas_blanks(as.data.frame(c(1, 2, NA), c("A", "B", "C"))),
