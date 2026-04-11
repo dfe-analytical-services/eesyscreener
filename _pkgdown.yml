@@ -108,6 +108,8 @@ reference:
   - starts_with("check_ind_")
 
 - title: Geography checks
+  contents:
+  - starts_with("check_geog_")
 
 - title: Time checks
   contents:

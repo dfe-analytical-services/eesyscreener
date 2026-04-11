@@ -235,6 +235,24 @@ screen_dfs <- function(
     return(as.data.frame(all_results))
   }
 
+  # Check geography -----------------------------------------------------------
+  res <- run_and_log_check(
+    all_results,
+    rbind(
+      check_geog_ignored_rows(data, vb, soe),
+      check_geog_region_for_la(data, vb, soe),
+      check_geog_region_for_lad(data, vb, soe)
+    ),
+    "Check geography",
+    log_key,
+    log_dir,
+    data_details
+  )
+  all_results <- res$all_results
+  if (res$early_return) {
+    return(as.data.frame(all_results))
+  }
+
   # Check filters -------------------------------------------------------------
   res <- run_and_log_check(
     all_results,
@@ -243,7 +261,8 @@ screen_dfs <- function(
       check_filter_group_level(data, meta, vb, soe),
       check_filter_item_limit(data, meta, vb, soe),
       check_filter_whitespace(data, meta, vb, soe),
-      check_filter_ob_total(data, meta, vb, soe)
+      check_filter_ob_total(data, meta, vb, soe),
+      check_filter_blanks(data, meta, vb, soe)
     ),
     "Check filters",
     log_key,
