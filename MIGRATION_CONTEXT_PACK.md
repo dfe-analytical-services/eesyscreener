@@ -243,38 +243,24 @@ test_that("passes when <condition>", {
 })
 
 test_that("fails with one <problem> (singular message)", {
-  result <- check_something(
-    example_meta |>
-      rbind(data.frame(col_name = "bad_value", label = "X", ...))
-  )
+  bad_meta <- example_meta |>
+    rbind(data.frame(col_name = "bad_value", label = "X", ...))
+  result <- check_something(bad_meta)
   expect_equal(result$result, "FAIL")
   expect_true(grepl("bad_value", result$message))
   expect_true(grepl("label is", result$message))  # singular form
-  expect_error(
-    check_something(
-      example_meta |>
-        rbind(data.frame(col_name = "bad_value", label = "X", ...)),
-      stop_on_error = TRUE
-    )
-  )
+  expect_error(check_something(bad_meta, stop_on_error = TRUE))
 })
 
 test_that("fails with multiple <problems> (plural message)", {
-  result <- check_something(
-    example_meta |>
-      rbind(data.frame(col_name = c("bad_1", "bad_2"), label = c("X", "Y"), ...))
-  )
+  bad_meta <- example_meta |>
+    rbind(data.frame(col_name = c("bad_1", "bad_2"), label = c("X", "Y"), ...))
+  result <- check_something(bad_meta)
   expect_equal(result$result, "FAIL")
   expect_true(grepl("bad_1", result$message))
   expect_true(grepl("bad_2", result$message))
   expect_true(grepl("labels are", result$message))  # plural form
-  expect_error(
-    check_something(
-      example_meta |>
-        rbind(data.frame(col_name = c("bad_1", "bad_2"), label = c("X", "Y"), ...)),
-      stop_on_error = TRUE
-    )
-  )
+  expect_error(check_something(bad_meta, stop_on_error = TRUE))
 })
 ```
 
