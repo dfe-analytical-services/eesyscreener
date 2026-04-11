@@ -80,6 +80,10 @@ reference:
   - starts_with("check_general_")
 
 - title: Pre-checks on filters
+  description: |
+    These checks should be run before any other filter checks, as they validate core assumptions about the filter columns.
+  contents:
+  - starts_with("precheck_filter_")
 
 - title: Pre-checks on time columns
   description: |
