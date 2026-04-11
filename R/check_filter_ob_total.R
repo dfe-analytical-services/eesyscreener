@@ -41,7 +41,11 @@ check_filter_ob_total <- function(
   # Columns to check: acceptable ob units present in data plus regex matches
   ob_cols <- unique(c(
     intersect(ob_units_no_sch_prov, data_cols),
-    data_cols[grepl(potential_ob_units_regex, data_cols, ignore.case = TRUE)]
+    data_cols[grepl(
+      eesyscreener::potential_ob_units_regex,
+      data_cols,
+      ignore.case = TRUE
+    )]
   ))
 
   # If the only filter is school_name or provider_name, exclude those columns

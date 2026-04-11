@@ -96,7 +96,7 @@
 #' unit column names (e.g. names containing prefixes like "la", "reg", "pcon"
 #' or suffixes like "name", "code", "urn", "ukprn").
 #'
-#' @format A length-1 character vector containing a regex pattern
+#' @format A length 1 character vector containing a regex pattern
 #' @source maintained by explore.statistics@@education.gov.uk
 "potential_ob_units_regex"
 

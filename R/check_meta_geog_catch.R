@@ -53,7 +53,7 @@ check_meta_geog_catch <- function(
   }
 
   caught_filters <- filters_and_groups[grepl(
-    potential_ob_units_regex,
+    eesyscreener::potential_ob_units_regex,
     filters_and_groups,
     ignore.case = TRUE
   )]
