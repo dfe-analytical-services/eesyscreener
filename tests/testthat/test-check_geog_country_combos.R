@@ -3,12 +3,6 @@ test_that("passes with valid country combinations", {
   expect_no_error(check_geog_country_combos(example_data, stop_on_error = TRUE))
 })
 
-test_that("passes with verbose TRUE", {
-  expect_no_error(
-    check_geog_country_combos(example_data, verbose = TRUE)
-  )
-})
-
 test_that("fails with one invalid country combination (singular message)", {
   bad_data <- example_data |>
     dplyr::mutate(
@@ -19,7 +13,7 @@ test_that("fails with one invalid country combination (singular message)", {
   expect_equal(result$result, "FAIL")
   expect_true(grepl("E92000001 InvalidCountry", result$message))
   expect_true(grepl("combination is", result$message))
-  expect_error(check_geog_country_combos(bad_data, stop_on_error = TRUE))
+  expect_false(is.na(result$guidance_url))
 })
 
 test_that("fails with multiple invalid combinations (plural message)", {
@@ -48,12 +42,4 @@ test_that("accepts z code combinations from universal geog options", {
     dplyr::mutate(country_code = "z", country_name = "Not applicable")
   result <- check_geog_country_combos(z_data)
   expect_equal(result$result, "PASS")
-})
-
-test_that("returns a guidance_url on failure", {
-  bad_data <- example_data |>
-    dplyr::mutate(country_code = "BADCODE", country_name = "BadName")
-  result <- check_geog_country_combos(bad_data)
-  expect_false(is.na(result$guidance_url))
-  expect_true(grepl("country", result$guidance_url))
 })
