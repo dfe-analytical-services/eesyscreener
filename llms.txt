@@ -1219,6 +1219,14 @@ the files.
 - [`precheck_col_to_rows()`](https://dfe-analytical-services.github.io/eesyscreener/reference/precheck_col_to_rows.md)
   : Quick check of data columns vs metadata rows
 
+## Pre-checks across data and metadata
+
+These checks validate consistency between the data file and metadata
+file.
+
+- [`precheck_cross_meta_to_data()`](https://dfe-analytical-services.github.io/eesyscreener/reference/precheck_cross_meta_to_data.md)
+  : Check all metadata variables exist in the data file
+
 ## Pre-checks on metadata
 
 These checks should be run before any other metadata checks, as they

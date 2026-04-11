@@ -51,24 +51,31 @@
 <strong>Direct R Usage</strong>: Analysts integrating checks into their own data preparation pipelines</li>
 </ol><div class="section level3">
 <h3 id="building-and-running-tests">Building and Running Tests<a class="anchor" aria-label="anchor" href="#building-and-running-tests"></a></h3>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># Load package in development mode (requires R with devtools)</span></span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">devtools::load_all()</span></span>
+<p>Run R commands via <code>Rscript -e "..."</code> in the terminal. Chain multiple expressions with <code>;</code>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># Load package in development mode</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">"devtools::load_all()"</span></span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co"># Run all tests (fast, no build — use this for quick iteration)</span></span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">devtools::test()</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">"devtools::test()"</span></span>
 <span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a></span>
 <span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co"># Run tests for a specific file</span></span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="ex">devtools::test</span><span class="er">(</span><span class="ex">filter</span> = <span class="st">"test_name"</span><span class="kw">)</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">"devtools::test(filter = 'test_name')"</span></span>
 <span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a></span>
 <span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co"># Full package check — R CMD check including build, examples, vignettes, and tests</span></span>
 <span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co"># Use this as the final verification before committing/pushing</span></span>
-<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="fu">devtools::check()</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">"devtools::check()"</span></span>
 <span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a></span>
 <span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="co"># Generate documentation from roxygen2 comments</span></span>
-<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="fu">devtools::document()</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">"devtools::document()"</span></span>
 <span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="co"># Rebuild the documentation site</span></span>
-<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="fu">pkgdown::build_site()</span></span></code></pre></div>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="co"># Lint the package</span></span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">"devtools::load_all(); lintr::lint_package()"</span></span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a><span class="co"># Format R code (run directly in terminal, not via Rscript)</span></span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a><span class="ex">air</span> format .</span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a><span class="co"># Rebuild the documentation site</span></span>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">"pkgdown::build_site()"</span></span></code></pre></div>
 <p>If the data dictionary test, or example output test fails, the first fix to try is regenerating the data objects by using <code>source("data-raw/data_dictionary.R")</code> (or <code>source("data-raw/example_output.R")</code>) and then run the tests again, often that will fix the issue.</p>
 </div>
 <div class="section level3">
@@ -154,7 +161,8 @@ precheck_&lt;area&gt;_&lt;what&gt;()   # Examples: precheck_col_req_data, preche
 <p><strong>screen_dfs Architecture:</strong> The <code><a href="reference/screen_dfs.html">screen_dfs()</a></code> function executes checks in stages using the <code>run_and_log_check()</code> helper (defined in <code>utils.R</code>). This helper: - Accumulates results across stages - Adds stage metadata to each check result - Logs results to JSON (if <code>log_key</code> provided) - Returns early on FAIL (stops further checks)</p>
 <p>Code structure: uses shorthand variables <code>vb</code> (verbose) and <code>soe</code> (stop_on_error) throughout to reduce function call verbosity and improve readability.</p>
 <p><strong>Individual check functions (~39 total):</strong> - Organized by check type: <code>precheck_*.R</code> and <code>check_*.R</code> - Each file contains one public function with roxygen2 documentation - Checks are composed of simple, focused validation logic - Must follow consistent argument order: <code>data/meta</code> inputs, <code>verbose = FALSE</code>, <code>stop_on_error = FALSE</code>, then function-specific parameters</p>
-<p><strong>Utilities (R/utils.R):</strong> - <code>test_output()</code> – Standardizes check result data frames - <code>null_filename()</code> – Handles filename display in messages - <code>validate_arg_*()</code> – Argument validation helpers - <code>write_json_log()</code> – Logging infrastructure for API usage - <code>run_and_log_check()</code> – Helper that handles stage management, logging, and early-return logic - <code>get_check_name()</code> – Automatically extracts check name from calling function (reduces hardcoding)</p>
+<p><strong>Utilities (R/utils.R):</strong> - <code>test_output()</code> – Standardizes check result data frames - <code>null_filename()</code> – Handles filename display in messages - <code>validate_arg_*()</code> – Argument validation helpers - <code>write_json_log()</code> – Logging infrastructure for API usage - <code>run_and_log_check()</code> – Helper that handles stage management, logging, and early-return logic - <code>get_check_name()</code> – Automatically extracts check name from calling function (reduces hardcoding) - <code>get_filters(meta, include_filter_groups = FALSE)</code> – Returns character vector of filter column names from meta; set <code>include_filter_groups = TRUE</code> to also include <code>filter_grouping_column</code> values - <code>get_filter_groups(meta)</code> – Returns non-NA, non-blank <code>filter_grouping_column</code> values from meta - <code>get_cols_meta(meta, ...)</code> – Extracts column names from meta by type/criteria - <code>get_geo_code_cols()</code> / <code>get_geo_name_cols()</code> – Returns geography code/name column name vectors - <code>remove_nas_blanks(vector)</code> – Removes NAs and empty strings from a vector - <code>render_url(slug, domain)</code> – Constructs guidance URLs for <code>test_output(guidance_url = ...)</code></p>
+<p><strong>Always read <code>R/utils.R</code> before writing any filtering, extraction, or transformation logic</strong> — many common operations already have helpers.</p>
 <p><strong>Reference data (R/reference_values.R, R/example_datasets.R):</strong> - Exports acceptable values, time identifiers, filter groups - Example data for documentation and testing</p>
 </div>
 <div class="section level3">
@@ -188,9 +196,10 @@ precheck_&lt;area&gt;_&lt;what&gt;()   # Examples: precheck_col_req_data, preche
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' @export</span></span>
 <span><span class="va">check_my_validation</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">meta</span>, <span class="va">verbose</span> <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">stop_on_error</span> <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">check_name</span> <span class="op">&lt;-</span> <span class="fu">get_check_name</span><span class="op">(</span><span class="op">)</span>  <span class="co"># never hardcode the name string</span></span>
 <span>  <span class="co"># validation logic</span></span>
 <span>  <span class="fu">test_output</span><span class="op">(</span></span>
-<span>    <span class="st">"check_my_validation"</span>,</span>
+<span>    <span class="va">check_name</span>,</span>
 <span>    <span class="st">"PASS"</span>,  <span class="co"># or "FAIL"/"WARNING"</span></span>
 <span>    <span class="st">"message..."</span>,</span>
 <span>    verbose <span class="op">=</span> <span class="va">verbose</span>,</span>
@@ -274,10 +283,15 @@ precheck_&lt;area&gt;_&lt;what&gt;()   # Examples: precheck_col_req_data, preche
 </div>
 <div class="section level2">
 <h2 id="testing-philosophy">Testing Philosophy<a class="anchor" aria-label="anchor" href="#testing-philosophy"></a></h2>
-<ul><li>Tests use example datasets built into the package</li>
+<ul><li>
+<strong>Prefer package example datasets as the base for test data</strong> — use <code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind()</a></code> or <code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">dplyr::mutate()</a></code> on <code>example_data</code>, <code>example_meta</code>, <code>example_filter_group_wrow</code>, etc. (see <code>R/example_datasets.R</code>) to introduce the failing condition. Only construct a full inline <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> when no example dataset has the right schema.</li>
+<li>
+<strong>Extract test data to a local variable</strong> when construction spans more than one line — assign to <code>bad_data</code> / <code>bad_meta</code> before asserting, then reuse the same variable for both the result check and the <code>stop_on_error</code> check. Never construct the same data frame twice in one <code>test_that()</code> block.</li>
 <li>Each check should test its happy path and failure conditions</li>
 <li>Avoid mocking; use real but minimal data</li>
-<li>Tests verify both the result and the message text as sometimes there are multiple variants of the message text</li>
+<li>Tests verify both the result and the message text — including both singular and plural forms of messages where applicable (e.g. <code>"variable was"</code> vs <code>"variables were"</code>)</li>
+<li>
+<strong>Edge case tests must actually test the edge case</strong> — don’t re-run an existing assertion under a different label; construct data that would fail if the edge case were not handled (e.g. set <code>filter_grouping_column = NA_character_</code> to verify NAs are ignored, not just re-run the standard PASS case)</li>
 </ul><div class="section level3">
 <h3 id="test-coverage-and-integration">Test Coverage and Integration<a class="anchor" aria-label="anchor" href="#test-coverage-and-integration"></a></h3>
 <p>The <code>test-example_output_coverage.R</code> test ensures that <strong>every exported <code>check_*()</code> and <code>precheck_*()</code> function is called by <code><a href="reference/screen_dfs.html">screen_dfs()</a></code></strong>. This test automatically fails if a new check is added but not integrated into the screening pipeline.</p>
