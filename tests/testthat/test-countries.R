@@ -4,7 +4,7 @@ test_that("countries has expected columns", {
 
 test_that("countries has no duplicate combinations", {
   expect_equal(
-    countries |>
+    acceptable_countries |>
       dplyr::summarise(
         count = dplyr::n(),
         .by = c("country_code", "country_name")
@@ -16,8 +16,8 @@ test_that("countries has no duplicate combinations", {
 })
 
 test_that("countries contains England", {
-  expect_true("England" %in% countries$country_name)
-  expect_true("E92000001" %in% countries$country_code)
+  expect_true("England" %in% acceptable_countries$country_name)
+  expect_true("E92000001" %in% acceptable_countries$country_code)
 })
 
 test_that("countries is in sync with source", {
@@ -25,5 +25,5 @@ test_that("countries is in sync with source", {
     render_url("data/country.csv", domain = "screener_app_repo"),
     show_col_types = FALSE
   )
-  expect_equal(nrow(countries), nrow(source_countries))
+  expect_equal(nrow(acceptable_countries), nrow(source_countries))
 })

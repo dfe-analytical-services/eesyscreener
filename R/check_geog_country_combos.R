@@ -22,8 +22,8 @@ check_geog_country_combos <- function(
   test_name <- get_check_name()
 
   valid_combos <- rbind(
-    eesyscreener::countries,
-    eesyscreener::universal_geog_options |>
+    eesyscreener::acceptable_countries,
+    eesyscreener::acceptable_extra_geog_options |>
       dplyr::rename(country_code = "code", country_name = "name")
   )
 

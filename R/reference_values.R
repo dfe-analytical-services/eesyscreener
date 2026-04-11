@@ -111,10 +111,10 @@
 #' \item{country_name}{Country name matching the code}
 #' }
 #' @source dfe-published-data-qa screener app repo, data/country.csv
-"countries"
+"acceptable_countries"
 
-# Universal geography options ====
-#' Universal geography options
+# Extra geography options ====
+#' Extra geography options
 #'
 #' A data frame of universal geography code and name options that are
 #' acceptable for any geography level (e.g. "Not applicable", "Unknown").
@@ -126,7 +126,7 @@
 #' }
 #' @source dfe-published-data-qa screener app repo,
 #'   data/universal_geog_options.csv
-"universal_geog_options"
+"acceptable_extra_geog_options"
 
 # Data dictionary ====
 #' Data dictionary

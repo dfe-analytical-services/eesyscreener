@@ -27,4 +27,10 @@ excluded from the check.
 check_geog_country_combos(example_data)
 check_geog_country_combos(example_data, verbose = TRUE)
 }
+\seealso{
+Other check_geog: 
+\code{\link{check_geog_ignored_rows}()},
+\code{\link{check_geog_region_for_la}()},
+\code{\link{check_geog_region_for_lad}()}
+}
 \concept{check_geog}
