@@ -30,21 +30,25 @@ test_that("test_output returns NA for guidance_url by default", {
 
 test_that("test_output prints correct message for PASS, WARNING, and FAIL", {
   expect_no_error(
-    test_output(
-      test_name = "test_name",
-      result = "PASS",
-      message = "All good!",
-      verbose = TRUE,
-      stop_on_error = FALSE
+    suppressMessages(
+      test_output(
+        test_name = "test_name",
+        result = "PASS",
+        message = "All good!",
+        verbose = TRUE,
+        stop_on_error = FALSE
+      )
     )
   )
   expect_no_error(
-    test_output(
-      test_name = "test_name",
-      result = "PASS",
-      message = "All good!",
-      verbose = TRUE,
-      stop_on_error = TRUE
+    suppressMessages(
+      test_output(
+        test_name = "test_name",
+        result = "PASS",
+        message = "All good!",
+        verbose = TRUE,
+        stop_on_error = TRUE
+      )
     )
   )
   expect_error(
@@ -58,22 +62,26 @@ test_that("test_output prints correct message for PASS, WARNING, and FAIL", {
     regexp = "This is a failure."
   )
   expect_error(
-    test_output(
-      test_name = "test_name",
-      result = "FAIL",
-      message = "This is a failure.",
-      verbose = TRUE,
-      stop_on_error = TRUE
+    suppressMessages(
+      test_output(
+        test_name = "test_name",
+        result = "FAIL",
+        message = "This is a failure.",
+        verbose = TRUE,
+        stop_on_error = TRUE
+      )
     ),
     regexp = "This is a failure."
   )
   expect_warning(
-    test_output(
-      test_name = "test_name",
-      result = "WARNING",
-      message = "This is a warning.",
-      verbose = TRUE,
-      stop_on_error = TRUE
+    suppressMessages(
+      test_output(
+        test_name = "test_name",
+        result = "WARNING",
+        message = "This is a warning.",
+        verbose = TRUE,
+        stop_on_error = TRUE
+      )
     ),
     regexp = "This is a warning."
   )
