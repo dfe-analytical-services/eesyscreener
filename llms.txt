@@ -1288,6 +1288,8 @@ These checks validate the names of columns in the data files.
   in the variable names of a given data frame.
 - [`check_col_snake_case()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_col_snake_case.md)
   : Check that column names follow snake_case convention
+- [`check_col_var_characteristic()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_col_var_characteristic.md)
+  : Check for characteristic or characteristic_group variable names
 - [`check_col_var_start()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_col_var_start.md)
   : Check that variable names start with a lowercase letter
 
