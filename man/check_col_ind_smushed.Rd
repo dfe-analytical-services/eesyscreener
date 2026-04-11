@@ -32,6 +32,7 @@ check_col_ind_smushed(example_meta, verbose = TRUE)
 \seealso{
 Other check_col: 
 \code{\link{check_col_snake_case}()},
+\code{\link{check_col_var_characteristic}()},
 \code{\link{check_col_var_start}()}
 }
 \concept{check_col}
