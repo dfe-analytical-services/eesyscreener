@@ -521,6 +521,8 @@ expect_warning(
     new section is needed.
 3.  Verify the function appears correctly in documentation with
     `?function_name`.
+4.  Regenerate the example output data object with
+    `source("data-raw/example_output.R")`.
 
 #### Step 7: Verify
 
