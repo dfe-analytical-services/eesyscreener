@@ -38,6 +38,7 @@ check_filter_ob_total(example_data, example_meta, verbose = TRUE)
 }
 \seealso{
 Other check_filter: 
+\code{\link{check_filter_blanks}()},
 \code{\link{check_filter_defaults}()},
 \code{\link{check_filter_group_level}()},
 \code{\link{check_filter_item_limit}()},
