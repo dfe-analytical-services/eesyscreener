@@ -33,6 +33,7 @@ a single row data frame
 ## See also
 
 Other check_col:
+[`check_col_ind_smushed()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_col_ind_smushed.md),
 [`check_col_snake_case()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_col_snake_case.md),
 [`check_col_var_start()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_col_var_start.md)
 

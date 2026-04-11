@@ -1283,6 +1283,8 @@ validate core assumptions about the metadata file itself.
 
 These checks validate the names of columns in the data files.
 
+- [`check_col_ind_smushed()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_col_ind_smushed.md)
+  : Check that no indicator column names contain typical filter entries
 - [`check_col_names_spaces()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_col_names_spaces.md)
   : Check for spaces in variable names This function checks for spaces
   in the variable names of a given data frame.
