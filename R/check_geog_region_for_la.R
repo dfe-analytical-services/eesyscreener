@@ -16,7 +16,6 @@
 #'
 #' @examples
 #' check_geog_region_for_la(example_data)
-#' check_geog_region_for_la(example_data, verbose = TRUE)
 #' @export
 check_geog_region_for_la <- function(
   data,
@@ -65,12 +64,12 @@ check_geog_region_for_la <- function(
     dplyr::select("region_code", "region_name")
 
   missing_codes <- la_region |>
-    dplyr::filter(is.na(.data$region_code)) |>
+    dplyr::filter(is.na(.data$region_code) | .data$region_code == "") |>
     dplyr::count() |>
     dplyr::pull("n")
 
   missing_names <- la_region |>
-    dplyr::filter(is.na(.data$region_name)) |>
+    dplyr::filter(is.na(.data$region_name) | .data$region_name == "") |>
     dplyr::count() |>
     dplyr::pull("n")
 
@@ -79,7 +78,7 @@ check_geog_region_for_la <- function(
       test_name,
       "WARNING",
       paste0(
-        "region_code and/or region_name have missing values for Local ",
+        "region_code and / or region_name have missing values for Local ",
         "authority rows in the data file. It is recommended to include ",
         "the information from these columns for Local authority level data."
       ),

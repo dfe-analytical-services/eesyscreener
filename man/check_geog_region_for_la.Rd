@@ -30,7 +30,6 @@ immediately.
 }
 \examples{
 check_geog_region_for_la(example_data)
-check_geog_region_for_la(example_data, verbose = TRUE)
 }
 \seealso{
 Other check_geog: 

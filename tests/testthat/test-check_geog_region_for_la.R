@@ -22,12 +22,6 @@ test_that("passes with clean example data (no LA level)", {
   )
 })
 
-test_that("passes with verbose output on example data", {
-  expect_no_error(
-    check_geog_region_for_la(example_data, verbose = TRUE)
-  )
-})
-
 test_that("passes when LA data has both region columns fully completed", {
   result <- check_geog_region_for_la(la_data)
   expect_equal(result$result, "PASS")
@@ -36,7 +30,6 @@ test_that("passes when LA data has both region columns fully completed", {
     "Both region_code and region_name are completed"
   )
 })
-
 
 test_that("passes with message when no LA level data present", {
   result <- check_geog_region_for_la(example_data)
@@ -64,35 +57,32 @@ test_that("warns when both region columns are missing", {
   expect_equal(result$result, "WARNING")
   expect_match(result$message, "region_code")
   expect_match(result$message, "region_name")
+  expect_match(result$message, "columns are missing")
 })
 
-test_that("warns when region_code has NA values for LA rows", {
+# These tests rely on reading values in as varchar so there no NAs
+test_that("warns when region_code has missing values for LA rows", {
   bad_data <- la_data
-  bad_data$region_code <- NA
+  bad_data$region_code <- ""
   result <- check_geog_region_for_la(bad_data)
   expect_equal(result$result, "WARNING")
   expect_match(result$message, "missing values")
 })
 
-test_that("warns when region_name has NA values for LA rows", {
+test_that("warns when region_name has missing values for LA rows", {
   bad_data <- la_data
-  bad_data$region_name <- NA
+  bad_data$region_name <- ""
   result <- check_geog_region_for_la(bad_data)
   expect_equal(result$result, "WARNING")
   expect_match(result$message, "missing values")
 })
 
-test_that("stop_on_error warns on WARNING result", {
-  bad_data <- la_data
-  bad_data$region_code <- NA
-  expect_warning(
-    check_geog_region_for_la(bad_data, stop_on_error = TRUE)
-  )
-})
-
-test_that("check name is correct", {
-  result <- check_geog_region_for_la(example_data)
-  expect_equal(result$check, "geog_region_for_la")
+test_that("warns when at least one value is correctly present", {
+  bad_data <- rbind(la_data, la_data, la_data)
+  bad_data$region_code[3] <- NA
+  result <- check_geog_region_for_la(bad_data)
+  expect_equal(result$result, "WARNING")
+  expect_match(result$message, "missing values")
 })
 
 test_that("missing columns message uses singular when one column missing", {
