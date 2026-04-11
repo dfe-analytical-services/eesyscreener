@@ -202,13 +202,14 @@ screen_dfs <- function(
     return(as.data.frame(all_results))
   }
 
-  # Check geography -----------------------------------------------------------
+  # Check time ----------------------------------------------------------------
   res <- run_and_log_check(
     all_results,
     rbind(
-      check_geog_ignored_rows(data, vb, soe)
+      check_time_period(data, vb, soe),
+      check_time_period_six(data, vb, soe)
     ),
-    "Check geography",
+    "Check time",
     log_key,
     log_dir,
     data_details
@@ -218,14 +219,15 @@ screen_dfs <- function(
     return(as.data.frame(all_results))
   }
 
-  # Check time ----------------------------------------------------------------
+  # Check geography -----------------------------------------------------------
   res <- run_and_log_check(
     all_results,
     rbind(
-      check_time_period(data, vb, soe),
-      check_time_period_six(data, vb, soe)
+      check_geog_ignored_rows(data, vb, soe),
+      check_geog_region_for_la(data, vb, soe),
+      check_geog_region_for_lad(data, vb, soe)
     ),
-    "Check time",
+    "Check geography",
     log_key,
     log_dir,
     data_details

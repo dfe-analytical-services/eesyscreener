@@ -20,12 +20,20 @@ a single row data frame
 }
 \description{
 Identifies rows at geographic levels that are ignored by the EES table tool:
-School, Provider, Institution, and Planning area. Warns if any such rows are
-present alongside other levels, and fails if School and Provider data have
-been mixed together.
+School, Provider, Institution, and Planning area. Highlights in the message
+if any such rows are present alongside other levels, and fails if:
+\itemize{
+\item School and Provider data have been mixed together
+OR
+\item The file only contains Planning area or Institution data
+}
 }
 \examples{
 check_geog_ignored_rows(example_data)
-check_geog_ignored_rows(example_data, verbose = TRUE)
+}
+\seealso{
+Other check_geog: 
+\code{\link{check_geog_region_for_la}()},
+\code{\link{check_geog_region_for_lad}()}
 }
 \concept{check_geog}
