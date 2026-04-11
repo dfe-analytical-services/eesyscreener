@@ -81,6 +81,8 @@ e.g. mandatory column names
   : Time identifiers that should have 4 digit numbers
 - [`six_digit_identifiers`](https://dfe-analytical-services.github.io/eesyscreener/reference/six_digit_identifiers.md)
   : Time identifiers that should have 6 digit numbers
+- [`potential_ob_units_regex`](https://dfe-analytical-services.github.io/eesyscreener/reference/potential_ob_units_regex.md)
+  : Regex pattern for potential observational unit columns
 
 ## Filename checks
 
@@ -224,6 +226,8 @@ validate core assumptions about the geography columns.
   contains more than 25,000 unique options, this is to protect the EES
   service against accidental data issues that can cause performance
   issues within the admin system.
+- [`check_filter_ob_total()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_filter_ob_total.md)
+  : Check for Total or All values in observational unit columns
 - [`check_filter_whitespace()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_filter_whitespace.md)
   : Check no filter values have leading or trailing whitespace
 

@@ -157,12 +157,13 @@ be "stingy" and "thrifty".</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 40       filter_group_level   PASS</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 41        filter_item_limit   PASS</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 42        filter_whitespace   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 43        ind_invalid_entry   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 44        api_char_col_name   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 45       api_char_col_label   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 46        api_char_loc_code   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 47    api_char_filter_items   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 48       api_dict_col_names   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 43          filter_ob_total   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 44        ind_invalid_entry   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 45        api_char_col_name   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 46       api_char_col_label   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 47        api_char_loc_code   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 48    api_char_filter_items   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 49       api_dict_col_names   PASS</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                       message</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1                                               All of the required columns are present in the metadata file.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                          There are no invalid columns in the metadata file.</span>
@@ -206,12 +207,13 @@ be "stingy" and "thrifty".</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 40                                                                        There are no filter groups present.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 41                                                All filters and groups have less than 25000 unique entries.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 42                                                   No filter labels contain leading or trailing whitespace.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 43                                         There are no blank values or GSS legacy symbols in any indicators.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 44                          All filter / indicator names are less than or equal to the character limit of 50.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 45                        All filter / indicator labels are less than or equal to the character limit of 100.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 46                                    All location codes are less than or equal to the character limit of 30.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 47                    All filter items / location names are less than or equal to the character limit of 120.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 48                                                     All col_names are consistent with the data dictionary.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 43                                        There are no Total or All values in the observational unit columns.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 44                                         There are no blank values or GSS legacy symbols in any indicators.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 45                          All filter / indicator names are less than or equal to the character limit of 50.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 46                        All filter / indicator labels are less than or equal to the character limit of 100.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 47                                    All location codes are less than or equal to the character limit of 30.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 48                    All filter items / location names are less than or equal to the character limit of 120.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 49                                                     All col_names are consistent with the data dictionary.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    guidance_url               stage</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1            NA    Precheck columns</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2            NA    Precheck columns</span>
@@ -255,12 +257,13 @@ be "stingy" and "thrifty".</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 40           NA       Check filters</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 41           NA       Check filters</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 42           NA       Check filters</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 43           NA    Check indicators</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 44           NA           Check API</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 43           NA       Check filters</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 44           NA    Check indicators</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 45           NA           Check API</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 46           NA           Check API</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 47           NA           Check API</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 48           NA           Check API</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 49           NA           Check API</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

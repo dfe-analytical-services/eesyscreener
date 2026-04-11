@@ -30,6 +30,7 @@
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/check_filter_defaults.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/check_filter_group_level.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/check_filter_item_limit.html</loc></url>
+<url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/check_filter_ob_total.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/check_filter_whitespace.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/check_ind_invalid_entry.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_col_name_dupe.html</loc></url>
@@ -74,6 +75,7 @@
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/index.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/legacy_gss_symbols.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/optional_meta_cols.html</loc></url>
+<url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/potential_ob_units_regex.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/precheck_col_invalid_meta.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/precheck_col_req_data.html</loc></url>
 <url><loc>https://dfe-analytical-services.github.io/eesyscreener/reference/precheck_col_req_meta.html</loc></url>
