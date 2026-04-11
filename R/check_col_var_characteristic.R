@@ -42,7 +42,7 @@ check_col_var_characteristic <- function(
       check_name,
       "WARNING",
       paste0(
-        "The fields 'characteristic' and/or 'characteristic_group' have been",
+        "The fields 'characteristic' and / or 'characteristic_group' have been",
         " included in the data. These are not recommended for use with the EES",
         " Table Tool. Please refer to the guidance pages on filters."
       ),
