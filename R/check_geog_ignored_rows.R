@@ -1,9 +1,12 @@
 #' Check for rows ignored by the EES table tool
 #'
 #' Identifies rows at geographic levels that are ignored by the EES table tool:
-#' School, Provider, Institution, and Planning area. Warns if any such rows are
-#' present alongside other levels, and fails if School and Provider data have
-#' been mixed together.
+#' School, Provider, Institution, and Planning area. Highlights in the message
+#' if any such rows are present alongside other levels, and fails if:
+#' - School and Provider data have been mixed together
+#' OR
+#' - The file only contains Planning area or Institution data
+#'
 #'
 #' @inheritParams check_col_names_spaces
 #'
@@ -13,7 +16,6 @@
 #'
 #' @examples
 #' check_geog_ignored_rows(example_data)
-#' check_geog_ignored_rows(example_data, verbose = TRUE)
 #' @export
 check_geog_ignored_rows <- function(
   data,
@@ -35,12 +37,13 @@ check_geog_ignored_rows <- function(
   if (table_tool_rows == 0) {
     return(test_output(
       test_name,
-      "WARNING",
+      "FAIL",
       paste0(
         "This file only contains rows at Institution or Planning area level, ",
         "which are ignored by the EES table tool. Consider uploading this as ",
         "an ancillary file without the metadata."
       ),
+      guidance_url = render_url("statistics-production/ud.html"),
       verbose = verbose,
       stop_on_error = stop_on_error
     ))
@@ -90,6 +93,7 @@ check_geog_ignored_rows <- function(
         "School and Provider data has been mixed - please contact the ",
         "Explore education statistics platforms team."
       ),
+      guidance_url = render_url("statistics-production/ud.html"),
       verbose = verbose,
       stop_on_error = stop_on_error
     ))
@@ -98,12 +102,11 @@ check_geog_ignored_rows <- function(
   # Some rows will be ignored by the table tool
   test_output(
     test_name,
-    "WARNING",
+    "PASS",
     cli::pluralize(
       "{potential_ignored_rows} row{?s} will be ignored by the EES table ",
       "tool, at School, Provider, Institution, or Planning area level."
     ),
-    guidance_url = render_url("statistics-production/ud.html"),
     verbose = verbose,
     stop_on_error = stop_on_error
   )

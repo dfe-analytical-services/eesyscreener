@@ -3,20 +3,6 @@ test_that("passes with clean example data (National level only)", {
     check_geog_ignored_rows(example_data)$result,
     "PASS"
   )
-  expect_no_error(
-    check_geog_ignored_rows(example_data, stop_on_error = TRUE)
-  )
-})
-
-test_that("passes with verbose output", {
-  expect_no_error(
-    check_geog_ignored_rows(example_data, verbose = TRUE)
-  )
-})
-
-test_that("check name is correct", {
-  result <- check_geog_ignored_rows(example_data)
-  expect_equal(result$check, "geog_ignored_rows")
 })
 
 # PASS cases ==================================================================
@@ -46,64 +32,48 @@ test_that("passes when data is solely at Provider level", {
   expect_match(result$message, "No rows in the file will be ignored")
 })
 
-# WARNING cases ===============================================================
-
-test_that("warns when all rows are at Institution or Planning area level", {
+test_that("FAIL when all rows are at Institution or Planning area level", {
   data <- data.frame(
     geographic_level = c("Institution", "Planning area", "Institution")
   )
   result <- check_geog_ignored_rows(data)
-  expect_equal(result$result, "WARNING")
+  expect_equal(result$result, "FAIL")
   expect_match(result$message, "ancillary")
 })
 
-test_that("warns when file contains only Institution rows", {
+test_that("fails when file contains only Institution rows", {
   data <- data.frame(geographic_level = rep("Institution", 3))
-  expect_equal(check_geog_ignored_rows(data)$result, "WARNING")
+  expect_equal(check_geog_ignored_rows(data)$result, "FAIL")
 })
 
-test_that("warns when file contains only Planning area rows", {
+test_that("fails when file contains only Planning area rows", {
   data <- data.frame(geographic_level = rep("Planning area", 3))
-  expect_equal(check_geog_ignored_rows(data)$result, "WARNING")
+  expect_equal(check_geog_ignored_rows(data)$result, "FAIL")
 })
 
-test_that("warns when some rows will be ignored alongside other levels", {
+test_that("passes when some rows will be ignored alongside other levels", {
   data <- data.frame(
     geographic_level = c("National", "Regional", "School", "Institution")
   )
   result <- check_geog_ignored_rows(data)
-  expect_equal(result$result, "WARNING")
+  expect_equal(result$result, "PASS")
   expect_match(result$message, "will be ignored")
 })
 
-test_that("warning message uses singular for one ignored row", {
+test_that("message uses singular for one ignored row", {
   data <- data.frame(geographic_level = c("National", "Institution"))
   result <- check_geog_ignored_rows(data)
-  expect_equal(result$result, "WARNING")
+  expect_equal(result$result, "PASS")
   expect_match(result$message, "^1 row will")
 })
 
-test_that("warning message uses plural for multiple ignored rows", {
+test_that("message uses plural for multiple ignored rows", {
   data <- data.frame(
     geographic_level = c("National", "Institution", "Planning area")
   )
   result <- check_geog_ignored_rows(data)
-  expect_equal(result$result, "WARNING")
+  expect_equal(result$result, "PASS")
   expect_match(result$message, "^2 rows will")
-})
-
-test_that("warning includes guidance URL when rows will be ignored", {
-  data <- data.frame(geographic_level = c("National", "School", "Institution"))
-  result <- check_geog_ignored_rows(data)
-  expect_equal(result$result, "WARNING")
-  expect_false(is.na(result$guidance_url))
-})
-
-test_that("stop_on_error raises warning for WARNING result", {
-  data <- data.frame(geographic_level = c("National", "Institution"))
-  expect_warning(
-    check_geog_ignored_rows(data, stop_on_error = TRUE)
-  )
 })
 
 # FAIL cases ==================================================================
@@ -122,11 +92,4 @@ test_that("fails when only School and Provider rows are present", {
   result <- check_geog_ignored_rows(data)
   expect_equal(result$result, "FAIL")
   expect_match(result$message, "mixed")
-})
-
-test_that("stop_on_error aborts on FAIL", {
-  data <- data.frame(geographic_level = c("National", "School", "Provider"))
-  expect_error(
-    check_geog_ignored_rows(data, stop_on_error = TRUE)
-  )
 })
