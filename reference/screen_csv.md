@@ -110,31 +110,32 @@ screen_csv(data_path, meta_path)
 #> 8              col_req_data   PASS
 #> 9               col_to_rows   PASS
 #> 10       cross_meta_to_data   PASS
-#> 11         col_names_spaces   PASS
-#> 12           col_snake_case   PASS
-#> 13            col_var_start   PASS
-#> 14          col_ind_smushed   PASS
-#> 15   col_var_characteristic   PASS
-#> 16            meta_col_type   PASS
-#> 17             meta_ob_unit   PASS
-#> 18            meta_col_name   PASS
-#> 19          meta_dupe_label   PASS
-#> 20             meta_fil_grp   PASS
-#> 21        meta_fil_grp_dupe   PASS
-#> 22      meta_fil_grp_is_fil   PASS
-#> 23       meta_fil_grp_match   PASS
-#> 24    meta_fil_grp_stripped   PASS
-#> 25               meta_label   PASS
-#> 26         meta_filter_hint   PASS
-#> 27          meta_geog_catch   PASS
-#> 28        meta_indicator_dp   FAIL
-#> 29     meta_col_name_spaces   PASS
-#> 30       meta_col_name_dupe   PASS
-#> 31          meta_ind_dp_set   PASS
-#> 32       meta_ind_dp_values   FAIL
-#> 33            meta_ind_unit   PASS
-#> 34 meta_ind_unit_validation   PASS
-#> 35  meta_indicator_grouping   PASS
+#> 11       cross_data_to_meta   PASS
+#> 12         col_names_spaces   PASS
+#> 13           col_snake_case   PASS
+#> 14            col_var_start   PASS
+#> 15          col_ind_smushed   PASS
+#> 16   col_var_characteristic   PASS
+#> 17            meta_col_type   PASS
+#> 18             meta_ob_unit   PASS
+#> 19            meta_col_name   PASS
+#> 20          meta_dupe_label   PASS
+#> 21             meta_fil_grp   PASS
+#> 22        meta_fil_grp_dupe   PASS
+#> 23      meta_fil_grp_is_fil   PASS
+#> 24       meta_fil_grp_match   PASS
+#> 25    meta_fil_grp_stripped   PASS
+#> 26               meta_label   PASS
+#> 27         meta_filter_hint   PASS
+#> 28          meta_geog_catch   PASS
+#> 29        meta_indicator_dp   FAIL
+#> 30     meta_col_name_spaces   PASS
+#> 31       meta_col_name_dupe   PASS
+#> 32          meta_ind_dp_set   PASS
+#> 33       meta_ind_dp_values   FAIL
+#> 34            meta_ind_unit   PASS
+#> 35 meta_ind_unit_validation   PASS
+#> 36  meta_indicator_grouping   PASS
 #>                                                                                                       message
 #> 1                                                         'example.csv' does not have spaces in the filename.
 #> 2                                                    'example.meta.csv' does not have spaces in the filename.
@@ -146,31 +147,32 @@ screen_csv(data_path, meta_path)
 #> 8                                                   All of the required columns are present in the data file.
 #> 9  There are an equal number of rows in the metadata file (3) and non-mandatory columns in the data file (3).
 #> 10                                               All variables from the metadata were found in the data file.
-#> 11                                                 There are no spaces in the variable names in the datafile.
-#> 12                                      The variable names in the data file follow the snake_case convention.
-#> 13                                         All variable names in the data file start with a lowercase letter.
-#> 14                                                     No indicators found containing typical filter entries.
-#> 15      Neither 'characteristic' nor 'characteristic_group' were found as listed fields in the metadata file.
-#> 16                                                                col_type is always 'Filter' or 'Indicator'.
-#> 17                                            No observational units have been included in the metadata file.
-#> 18                                            The col_name column is completed for every row in the metadata.
-#> 19                                                                                     All labels are unique.
-#> 20                                                         No indicators have a filter_grouping_column value.
-#> 21                                                                        There are no filter groups present.
+#> 11            All variables in the data file are observational units or are represented in the metadata file.
+#> 12                                                 There are no spaces in the variable names in the datafile.
+#> 13                                      The variable names in the data file follow the snake_case convention.
+#> 14                                         All variable names in the data file start with a lowercase letter.
+#> 15                                                     No indicators found containing typical filter entries.
+#> 16      Neither 'characteristic' nor 'characteristic_group' were found as listed fields in the metadata file.
+#> 17                                                                col_type is always 'Filter' or 'Indicator'.
+#> 18                                            No observational units have been included in the metadata file.
+#> 19                                            The col_name column is completed for every row in the metadata.
+#> 20                                                                                     All labels are unique.
+#> 21                                                         No indicators have a filter_grouping_column value.
 #> 22                                                                        There are no filter groups present.
 #> 23                                                                        There are no filter groups present.
 #> 24                                                                        There are no filter groups present.
-#> 25                                               The label column is completed for every row in the metadata.
-#> 26                                                                    No indicators have a filter_hint value.
-#> 27                                                     No filters appear to be mislabelled geography columns.
-#> 28                                        Filters should not have an indicator_dp value in the metadata file.
-#> 29                                                                There are no spaces in the col_name values.
-#> 30                                                                            All col_name values are unique.
-#> 31                                                   The indicator_dp column is completed for all indicators.
-#> 32   The indicator_dp column must only contain blanks, zero, or positive integer values in the metadata file.
-#> 33                                                                   No filters have an indicator_unit value.
-#> 34                                                                        The indicator_unit values are valid
-#> 35                                                               No filters have an indicator_grouping value.
+#> 25                                                                        There are no filter groups present.
+#> 26                                               The label column is completed for every row in the metadata.
+#> 27                                                                    No indicators have a filter_hint value.
+#> 28                                                     No filters appear to be mislabelled geography columns.
+#> 29                                        Filters should not have an indicator_dp value in the metadata file.
+#> 30                                                                There are no spaces in the col_name values.
+#> 31                                                                            All col_name values are unique.
+#> 32                                                   The indicator_dp column is completed for all indicators.
+#> 33   The indicator_dp column must only contain blanks, zero, or positive integer values in the metadata file.
+#> 34                                                                   No filters have an indicator_unit value.
+#> 35                                                                        The indicator_unit values are valid
+#> 36                                                               No filters have an indicator_grouping value.
 #>    guidance_url               stage
 #> 1            NA            filename
 #> 2            NA            filename
@@ -182,15 +184,15 @@ screen_csv(data_path, meta_path)
 #> 8            NA    Precheck columns
 #> 9            NA    Precheck columns
 #> 10           NA Precheck cross-file
-#> 11           NA       Check columns
+#> 11           NA Precheck cross-file
 #> 12           NA       Check columns
 #> 13           NA       Check columns
 #> 14           NA       Check columns
 #> 15           NA       Check columns
-#> 16           NA       Precheck meta
+#> 16           NA       Check columns
 #> 17           NA       Precheck meta
 #> 18           NA       Precheck meta
-#> 19           NA          Check meta
+#> 19           NA       Precheck meta
 #> 20           NA          Check meta
 #> 21           NA          Check meta
 #> 22           NA          Check meta
@@ -207,6 +209,7 @@ screen_csv(data_path, meta_path)
 #> 33           NA          Check meta
 #> 34           NA          Check meta
 #> 35           NA          Check meta
+#> 36           NA          Check meta
 #> 
 #> $overall_stage
 #> [1] "Check meta checks"
@@ -236,6 +239,7 @@ screen_csv(
 #> ✔ All of the required columns are present in the data file.
 #> ✔ There are an equal number of rows in the metadata file (3) and non-mandatory columns in the data file (3).
 #> ✔ All variables from the metadata were found in the data file.
+#> ✔ All variables in the data file are observational units or are represented in the metadata file.
 #> ✔ There are no spaces in the variable names in the datafile.
 #> ✔ The variable names in the data file follow the snake_case convention.
 #> ✔ All variable names in the data file start with a lowercase letter.
@@ -273,31 +277,32 @@ screen_csv(
 #> 8              col_req_data   PASS
 #> 9               col_to_rows   PASS
 #> 10       cross_meta_to_data   PASS
-#> 11         col_names_spaces   PASS
-#> 12           col_snake_case   PASS
-#> 13            col_var_start   PASS
-#> 14          col_ind_smushed   PASS
-#> 15   col_var_characteristic   PASS
-#> 16            meta_col_type   PASS
-#> 17             meta_ob_unit   PASS
-#> 18            meta_col_name   PASS
-#> 19          meta_dupe_label   PASS
-#> 20             meta_fil_grp   PASS
-#> 21        meta_fil_grp_dupe   PASS
-#> 22      meta_fil_grp_is_fil   PASS
-#> 23       meta_fil_grp_match   PASS
-#> 24    meta_fil_grp_stripped   PASS
-#> 25               meta_label   PASS
-#> 26         meta_filter_hint   PASS
-#> 27          meta_geog_catch   PASS
-#> 28        meta_indicator_dp   FAIL
-#> 29     meta_col_name_spaces   PASS
-#> 30       meta_col_name_dupe   PASS
-#> 31          meta_ind_dp_set   PASS
-#> 32       meta_ind_dp_values   FAIL
-#> 33            meta_ind_unit   PASS
-#> 34 meta_ind_unit_validation   PASS
-#> 35  meta_indicator_grouping   PASS
+#> 11       cross_data_to_meta   PASS
+#> 12         col_names_spaces   PASS
+#> 13           col_snake_case   PASS
+#> 14            col_var_start   PASS
+#> 15          col_ind_smushed   PASS
+#> 16   col_var_characteristic   PASS
+#> 17            meta_col_type   PASS
+#> 18             meta_ob_unit   PASS
+#> 19            meta_col_name   PASS
+#> 20          meta_dupe_label   PASS
+#> 21             meta_fil_grp   PASS
+#> 22        meta_fil_grp_dupe   PASS
+#> 23      meta_fil_grp_is_fil   PASS
+#> 24       meta_fil_grp_match   PASS
+#> 25    meta_fil_grp_stripped   PASS
+#> 26               meta_label   PASS
+#> 27         meta_filter_hint   PASS
+#> 28          meta_geog_catch   PASS
+#> 29        meta_indicator_dp   FAIL
+#> 30     meta_col_name_spaces   PASS
+#> 31       meta_col_name_dupe   PASS
+#> 32          meta_ind_dp_set   PASS
+#> 33       meta_ind_dp_values   FAIL
+#> 34            meta_ind_unit   PASS
+#> 35 meta_ind_unit_validation   PASS
+#> 36  meta_indicator_grouping   PASS
 #>                                                                                                       message
 #> 1                                                            'data.csv' does not have spaces in the filename.
 #> 2                                                       'data.meta.csv' does not have spaces in the filename.
@@ -309,31 +314,32 @@ screen_csv(
 #> 8                                                   All of the required columns are present in the data file.
 #> 9  There are an equal number of rows in the metadata file (3) and non-mandatory columns in the data file (3).
 #> 10                                               All variables from the metadata were found in the data file.
-#> 11                                                 There are no spaces in the variable names in the datafile.
-#> 12                                      The variable names in the data file follow the snake_case convention.
-#> 13                                         All variable names in the data file start with a lowercase letter.
-#> 14                                                     No indicators found containing typical filter entries.
-#> 15      Neither 'characteristic' nor 'characteristic_group' were found as listed fields in the metadata file.
-#> 16                                                                col_type is always 'Filter' or 'Indicator'.
-#> 17                                            No observational units have been included in the metadata file.
-#> 18                                            The col_name column is completed for every row in the metadata.
-#> 19                                                                                     All labels are unique.
-#> 20                                                         No indicators have a filter_grouping_column value.
-#> 21                                                                        There are no filter groups present.
+#> 11            All variables in the data file are observational units or are represented in the metadata file.
+#> 12                                                 There are no spaces in the variable names in the datafile.
+#> 13                                      The variable names in the data file follow the snake_case convention.
+#> 14                                         All variable names in the data file start with a lowercase letter.
+#> 15                                                     No indicators found containing typical filter entries.
+#> 16      Neither 'characteristic' nor 'characteristic_group' were found as listed fields in the metadata file.
+#> 17                                                                col_type is always 'Filter' or 'Indicator'.
+#> 18                                            No observational units have been included in the metadata file.
+#> 19                                            The col_name column is completed for every row in the metadata.
+#> 20                                                                                     All labels are unique.
+#> 21                                                         No indicators have a filter_grouping_column value.
 #> 22                                                                        There are no filter groups present.
 #> 23                                                                        There are no filter groups present.
 #> 24                                                                        There are no filter groups present.
-#> 25                                               The label column is completed for every row in the metadata.
-#> 26                                                                    No indicators have a filter_hint value.
-#> 27                                                     No filters appear to be mislabelled geography columns.
-#> 28                                        Filters should not have an indicator_dp value in the metadata file.
-#> 29                                                                There are no spaces in the col_name values.
-#> 30                                                                            All col_name values are unique.
-#> 31                                                   The indicator_dp column is completed for all indicators.
-#> 32   The indicator_dp column must only contain blanks, zero, or positive integer values in the metadata file.
-#> 33                                                                   No filters have an indicator_unit value.
-#> 34                                                                        The indicator_unit values are valid
-#> 35                                                               No filters have an indicator_grouping value.
+#> 25                                                                        There are no filter groups present.
+#> 26                                               The label column is completed for every row in the metadata.
+#> 27                                                                    No indicators have a filter_hint value.
+#> 28                                                     No filters appear to be mislabelled geography columns.
+#> 29                                        Filters should not have an indicator_dp value in the metadata file.
+#> 30                                                                There are no spaces in the col_name values.
+#> 31                                                                            All col_name values are unique.
+#> 32                                                   The indicator_dp column is completed for all indicators.
+#> 33   The indicator_dp column must only contain blanks, zero, or positive integer values in the metadata file.
+#> 34                                                                   No filters have an indicator_unit value.
+#> 35                                                                        The indicator_unit values are valid
+#> 36                                                               No filters have an indicator_grouping value.
 #>    guidance_url               stage
 #> 1            NA            filename
 #> 2            NA            filename
@@ -345,15 +351,15 @@ screen_csv(
 #> 8            NA    Precheck columns
 #> 9            NA    Precheck columns
 #> 10           NA Precheck cross-file
-#> 11           NA       Check columns
+#> 11           NA Precheck cross-file
 #> 12           NA       Check columns
 #> 13           NA       Check columns
 #> 14           NA       Check columns
 #> 15           NA       Check columns
-#> 16           NA       Precheck meta
+#> 16           NA       Check columns
 #> 17           NA       Precheck meta
 #> 18           NA       Precheck meta
-#> 19           NA          Check meta
+#> 19           NA       Precheck meta
 #> 20           NA          Check meta
 #> 21           NA          Check meta
 #> 22           NA          Check meta
@@ -370,6 +376,7 @@ screen_csv(
 #> 33           NA          Check meta
 #> 34           NA          Check meta
 #> 35           NA          Check meta
+#> 36           NA          Check meta
 #> 
 #> $overall_stage
 #> [1] "Check meta checks"

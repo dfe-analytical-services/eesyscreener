@@ -34,6 +34,11 @@ precheck_cross_meta_to_data(data, meta, verbose = FALSE, stop_on_error = FALSE)
 
 a single row data frame
 
+## See also
+
+Other precheck_cross:
+[`precheck_cross_data_to_meta()`](https://dfe-analytical-services.github.io/eesyscreener/reference/precheck_cross_data_to_meta.md)
+
 ## Examples
 
 ``` r

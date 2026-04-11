@@ -1224,6 +1224,8 @@ the files.
 These checks validate consistency between the data file and metadata
 file.
 
+- [`precheck_cross_data_to_meta()`](https://dfe-analytical-services.github.io/eesyscreener/reference/precheck_cross_data_to_meta.md)
+  : Check all data variables exist in the metadata file
 - [`precheck_cross_meta_to_data()`](https://dfe-analytical-services.github.io/eesyscreener/reference/precheck_cross_meta_to_data.md)
   : Check all metadata variables exist in the data file
 
