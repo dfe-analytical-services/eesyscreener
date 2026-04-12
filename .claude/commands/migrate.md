@@ -14,7 +14,7 @@ Follow all steps in MIGRATION_CONTEXT_PACK.md. At a high level:
 6. Add the function call to the appropriate stage in `R/screen_dfs.R`
 7. Update `_pkgdown.yml` to include the new function under the correct grouping
 8. Run `devtools::document()`, then `devtools::test()` — fix any issues before proceeding
-9. Simplify and improve the function following the guidelines and patterns in this project
+9. Review and improve the code following the guidelines and patterns in this project
 10. Run `air format .` directly in the terminal (not an R command) to format the code
 11. Rerun `devtools::document()`, `devtools::load_all(); lintr::lint_package()` then `devtools::test()` — fix any issues before proceeding
 12. Once everything passes, run `air format .` again in the terminal, then create a branch starting with `claude/`, commit the changes, and open a PR for review
