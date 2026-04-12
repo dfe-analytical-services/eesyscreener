@@ -12,17 +12,17 @@ This file provides guidance to Claude Code (claude.ai/code) or other AI agents w
 
 ### Building and Running Tests
 
-Run R commands via `Rscript -e "..."` in the terminal. Chain multiple expressions with `;`.
+Run R commands via `Rscript -e "..."` in the terminal. Chain multiple lines / expressions with `;`, e.g. `Rsript -e "devtools::load_all(); devtools::test()`.
 
 ```bash
 # Load package in development mode
 Rscript -e "devtools::load_all()"
 
-# Run all tests (fast, no build — use this for quick iteration)
-Rscript -e "devtools::test()"
-
 # Run tests for a specific file
 Rscript -e "devtools::test(filter = 'test_name')"
+
+# Run all tests (fast, no build — use this for quick iteration)
+Rscript -e "devtools::test()"
 
 # Full package check — R CMD check including build, examples, vignettes, and tests
 # Use this as the final verification before committing/pushing
@@ -45,11 +45,10 @@ If the data dictionary test, or example output test fails, the first fix to try 
 
 ### Key Dependencies
 
-- **Core**: dplyr, stringr, tidyr, lubridate (data manipulation)
-- **DuckDB Integration**: duckplyr, duckdb (efficient large-file processing)
+- **Core**: dplyr, stringr, tidyr (data manipulation)
+- **DuckDB Integration**: duckplyr (efficient large-file processing)
 - **Testing**: testthat (version 3.0.0+)
 - **Documentation**: roxygen2, pkgdown
-- **Optional**: dfeR (additional utility functions)
 
 ## Architecture
 
@@ -71,7 +70,7 @@ If the data dictionary test, or example output test fails, the first fix to try 
 
 ### Check Architecture
 
-Checks are organized into **stages**, executed sequentially. If any check fails in a stage, screening stops and returns the failure stage:
+Checks are organized into **stages**, executed sequentially. If any check fails in a stage, screening stops and returns the failure stage. Examples are:
 
 1. **Filename** – Naming conventions and special characters
 2. **Precheck columns** – Required columns, column count matching
@@ -231,29 +230,12 @@ When adding a new validation:
 
 ## Important Details
 
-### Logging
-
-- When `log_key` and `log_dir` are provided, screening appends JSON logs for API usage
-- Each log entry includes results, file metadata, and screening stage
-
 ### Large File Handling
 
 - By default, uses `duckplyr` with DuckDB for efficient processing of large CSVs
 - The `prudence` parameter in `screen_dfs()` controls memory/speed trade-offs
-- Default is "lavish" (conservative memory use)
-
-### Data Dictionary Checks (`dd_checks` parameter)
-
-- Most metadata validation against `data_dictionary.rda` can be disabled via `dd_checks = FALSE`
-- This was added to allow test data updates without breaking robot tests
-
-### Special Features
-
-- **Geographic level support** – Checks validate geographic hierarchy consistency
-- **Filter groups** – Validates indicator grouping and default selections
-- **Time period handling** – Complex validation of time identifiers and 6-week periods
-- **API constraints** – Separate validation for API publishing suitability (warnings only)
-
+- Avoid all unintentional materialisation where possible 
+ 
 ## Common Development Tasks
 
 ### Debugging a Check
@@ -278,19 +260,10 @@ devtools::load_all()
 source("data-raw/my_data.R")  # Regenerates data/my_data.rda
 ```
 
-### Generating Documentation
-
-```r
-devtools::document()           # Update NAMESPACE and man/ from roxygen2
-pkgdown::build_site()         # Generate HTML documentation site
-```
-
 ### Code Style
 
 - Follows tidyverse style guide
-- 2-space indentation (configured in .Rproj)
 - Roxygen2 markdown format for documentation
-- Tests should be clear and cover both success and failure paths
 - Do not include HTML (e.g. `<br>`) in check message strings — messages are used in CLI, API, and Shiny contexts and should be plain text
 
 ## Testing Philosophy
@@ -320,6 +293,3 @@ When adding a new check:
 | `NAMESPACE` | Export declarations (auto-generated from roxygen2) |
 | `_pkgdown.yml` | Documentation site configuration |
 | `.github/workflows/` | CI/CD pipelines (R-CMD-check, coverage, docs) |
-| `eesyscreener.Rproj` | RStudio project file with build settings |
-| `MIGRATION_CONTEXT_PACK.md` | Detailed steps and guidelines for migrating code into this package |
-| `migration_examples.md` | Examples of functions before and after adding into this package |

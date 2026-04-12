@@ -100,6 +100,152 @@
 #' @source maintained by explore.statistics@@education.gov.uk
 "potential_ob_units_regex"
 
+# Countries lookup ====
+#' Countries lookup
+#'
+#' A data frame of valid country codes and names as used in EES data files.
+#'
+#' @format A data.frame with columns:
+#' \describe{
+#' \item{country_code}{GSS country code}
+#' \item{country_name}{Country name matching the code}
+#' }
+#' @source dfe-published-data-qa screener app repo, data/country.csv
+"acceptable_countries"
+
+# Regions lookup ====
+#' Regions lookup
+#'
+#' A data frame of valid region codes and names as used in EES data files.
+#'
+#' @format A data.frame with columns:
+#' \describe{
+#' \item{region_code}{GSS region code}
+#' \item{region_name}{Region name matching the code}
+#' }
+#' @source dfe-published-data-qa screener app repo, data/regions.csv
+"acceptable_regions"
+
+# Local authority districts lookup ====
+#' Local authority districts lookup
+#'
+#' A data frame of valid local authority district code and name combinations as
+#' used in EES data files.
+#'
+#' @format A data.frame with columns:
+#' \describe{
+#' \item{lad_code}{GSS LAD code}
+#' \item{lad_name}{Local authority district name matching the code}
+#' }
+#' @source dfe-published-data-qa screener app repo, data/lads.csv
+"acceptable_lads"
+
+# Local enterprise partnerships lookup ====
+#' Local enterprise partnerships lookup
+#'
+#' A data frame of valid local enterprise partnership code and name combinations
+#' as used in EES data files.
+#'
+#' @format A data.frame with columns:
+#' \describe{
+#' \item{local_enterprise_partnership_code}{GSS LEP code}
+#' \item{local_enterprise_partnership_name}{Local enterprise partnership name
+#'   matching the code}
+#' }
+#' @source dfe-published-data-qa screener app repo, data/leps.csv
+"acceptable_leps"
+
+# English devolved areas lookup ====
+#' English devolved areas lookup
+#'
+#' A data frame of valid English devolved area code and name combinations as
+#' used in EES data files.
+#'
+#' @format A data.frame with columns:
+#' \describe{
+#' \item{english_devolved_area_code}{GSS English devolved area code}
+#' \item{english_devolved_area_name}{English devolved area name matching the
+#'   code}
+#' }
+#' @source dfe-published-data-qa screener app repo,
+#'   data/english_devolved_areas.csv
+"acceptable_edas"
+
+# Local skills improvement plan areas lookup ====
+#' Local skills improvement plan areas lookup
+#'
+#' A data frame of valid local skills improvement plan area code and name
+#' combinations as used in EES data files. Includes both current and
+#' historically renamed entries.
+#'
+#' @format A data.frame with columns:
+#' \describe{
+#' \item{lsip_code}{GSS LSIP code}
+#' \item{lsip_name}{Local skills improvement plan area name matching the code}
+#' }
+#' @source dfe-published-data-qa screener app repo, data/lsips.csv
+"acceptable_lsips"
+
+# Parliamentary constituencies lookup ====
+#' Parliamentary constituencies lookup
+#'
+#' A data frame of valid parliamentary constituency code and name combinations
+#' as used in EES data files. Combines both pre-2024 and 2024 boundary
+#' constituencies.
+#'
+#' @format A data.frame with columns:
+#' \describe{
+#' \item{pcon_code}{GSS parliamentary constituency code}
+#' \item{pcon_name}{Parliamentary constituency name matching the code}
+#' }
+#' @source dfe-published-data-qa screener app repo, data/pcons.csv and
+#'   data/pcon_2024_v2.csv
+"acceptable_pcons"
+
+# Wards lookup ====
+#' Wards lookup
+#'
+#' A data frame of valid ward codes and names as used in EES data files.
+#'
+#' @format A data.frame with columns:
+#' \describe{
+#' \item{ward_code}{GSS ward code}
+#' \item{ward_name}{Ward name matching the code}
+#' }
+#' @source dfe-published-data-qa screener app repo,
+#'   data/ward_lad_la_pcon_hierarchy.csv
+"acceptable_wards"
+
+# Local authorities lookup ====
+#' Local authorities lookup
+#'
+#' A data frame of valid local authority code and name combinations as used
+#' in EES data files.
+#'
+#' @format A data.frame with columns:
+#' \describe{
+#' \item{old_la_code}{Legacy three-digit LA code}
+#' \item{new_la_code}{Current GSS LA code}
+#' \item{la_name}{Local authority name matching the codes}
+#' }
+#' @source dfe-published-data-qa screener app repo, data/las.csv
+"acceptable_las"
+
+# Extra geography options ====
+#' Extra geography options
+#'
+#' A data frame of universal geography code and name options that are
+#' acceptable for any geography level (e.g. "Not applicable", "Unknown").
+#'
+#' @format A data.frame with columns:
+#' \describe{
+#' \item{code}{GSS geography code}
+#' \item{name}{Geography name matching the code}
+#' }
+#' @source dfe-published-data-qa screener app repo,
+#'   data/universal_geog_options.csv
+"acceptable_extra_geog_options"
+
 # Data dictionary ====
 #' Data dictionary
 #'
