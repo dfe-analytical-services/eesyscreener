@@ -35,6 +35,7 @@ Other check_geog:
 \code{\link{check_geog_lad_combos}()},
 \code{\link{check_geog_lep_combos}()},
 \code{\link{check_geog_lsip_combos}()},
+\code{\link{check_geog_other_dupes}()},
 \code{\link{check_geog_pcon_combos}()},
 \code{\link{check_geog_region_combos}()},
 \code{\link{check_geog_region_for_la}()},
