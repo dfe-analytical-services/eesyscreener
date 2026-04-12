@@ -140,6 +140,21 @@
 #' @source dfe-published-data-qa screener app repo, data/lads.csv
 "acceptable_lads"
 
+# Local enterprise partnerships lookup ====
+#' Local enterprise partnerships lookup
+#'
+#' A data frame of valid local enterprise partnership code and name combinations
+#' as used in EES data files.
+#'
+#' @format A data.frame with columns:
+#' \describe{
+#' \item{local_enterprise_partnership_code}{GSS LEP code}
+#' \item{local_enterprise_partnership_name}{Local enterprise partnership name
+#'   matching the code}
+#' }
+#' @source dfe-published-data-qa screener app repo, data/leps.csv
+"acceptable_leps"
+
 # Parliamentary constituencies lookup ====
 #' Parliamentary constituencies lookup
 #'

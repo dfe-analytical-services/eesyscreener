@@ -44,6 +44,18 @@ acceptable_lads <- readr::read_csv(
 
 usethis::use_data(acceptable_lads, overwrite = TRUE)
 
+acceptable_leps <- readr::read_csv(
+  render_url("data/leps.csv", domain = "screener_app_repo"),
+  show_col_types = FALSE
+) |>
+  dplyr::select(
+    "local_enterprise_partnership_code",
+    "local_enterprise_partnership_name"
+  ) |>
+  as.data.frame()
+
+usethis::use_data(acceptable_leps, overwrite = TRUE)
+
 acceptable_pcons <- dplyr::bind_rows(
   readr::read_csv(
     render_url("data/pcons.csv", domain = "screener_app_repo"),

@@ -294,6 +294,41 @@ check_geog_pcon_combos <- function(
   )
 }
 
+#' Check local enterprise partnership code and name combinations
+#'
+#' Checks that all local_enterprise_partnership_code and
+#' local_enterprise_partnership_name combinations in the data file are valid.
+#' Rows where local_enterprise_partnership_code is "x" (the GSS not-available
+#' code) are excluded from the check.
+#'
+#' If either LEP column is absent from the data, the check passes immediately.
+#'
+#' @inheritParams check_col_names_spaces
+#'
+#' @inherit check_filename_spaces return
+#'
+#' @family check_geog
+#'
+#' @examples
+#' check_geog_lep_combos(example_data)
+#' check_geog_lep_combos(example_data, verbose = TRUE)
+#' @export
+check_geog_lep_combos <- function(
+  data,
+  verbose = FALSE,
+  stop_on_error = FALSE
+) {
+  .check_geog_combos(
+    data,
+    code_col = "local_enterprise_partnership_code",
+    name_col = "local_enterprise_partnership_name",
+    acceptable_data = eesyscreener::acceptable_leps,
+    guidance_url = render_url("data/leps.csv", domain = "screener_app_repo"),
+    verbose = verbose,
+    stop_on_error = stop_on_error
+  )
+}
+
 #' Check local authority code and name combinations
 #'
 #' Checks that all old_la_code, new_la_code, and la_name combinations in the
