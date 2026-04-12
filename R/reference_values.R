@@ -155,6 +155,22 @@
 #' @source dfe-published-data-qa screener app repo, data/leps.csv
 "acceptable_leps"
 
+# English devolved areas lookup ====
+#' English devolved areas lookup
+#'
+#' A data frame of valid English devolved area code and name combinations as
+#' used in EES data files.
+#'
+#' @format A data.frame with columns:
+#' \describe{
+#' \item{english_devolved_area_code}{GSS English devolved area code}
+#' \item{english_devolved_area_name}{English devolved area name matching the
+#'   code}
+#' }
+#' @source dfe-published-data-qa screener app repo,
+#'   data/english_devolved_areas.csv
+"acceptable_edas"
+
 # Local skills improvement plan areas lookup ====
 #' Local skills improvement plan areas lookup
 #'

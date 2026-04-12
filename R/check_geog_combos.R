@@ -405,6 +405,45 @@ check_geog_lsip_combos <- function(
   )
 }
 
+#' Check English devolved area code and name combinations
+#'
+#' Checks that all english_devolved_area_code and english_devolved_area_name
+#' combinations in the data file are valid. Rows where
+#' english_devolved_area_code is "x" (the GSS not-available code) are excluded
+#' from the check.
+#'
+#' If either english devolved area column is absent from the data, the check
+#' passes immediately.
+#'
+#' @inheritParams check_col_names_spaces
+#'
+#' @inherit check_filename_spaces return
+#'
+#' @family check_geog
+#'
+#' @examples
+#' check_geog_eda_combos(example_data)
+#' check_geog_eda_combos(example_data, verbose = TRUE)
+#' @export
+check_geog_eda_combos <- function(
+  data,
+  verbose = FALSE,
+  stop_on_error = FALSE
+) {
+  .check_geog_combos(
+    data,
+    code_col = "english_devolved_area_code",
+    name_col = "english_devolved_area_name",
+    acceptable_data = eesyscreener::acceptable_edas,
+    guidance_url = render_url(
+      "data/english_devolved_areas.csv",
+      domain = "screener_app_repo"
+    ),
+    verbose = verbose,
+    stop_on_error = stop_on_error
+  )
+}
+
 #' Check local authority code and name combinations
 #'
 #' Checks that all old_la_code, new_la_code, and la_name combinations in the

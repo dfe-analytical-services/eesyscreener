@@ -83,6 +83,16 @@ acceptable_lsips <- readr::read_csv(
 
 usethis::use_data(acceptable_lsips, overwrite = TRUE)
 
+acceptable_edas <- readr::read_csv(
+  render_url("data/english_devolved_areas.csv", domain = "screener_app_repo"),
+  show_col_types = FALSE
+) |>
+  dplyr::select("english_devolved_area_code", "english_devolved_area_name") |>
+  dplyr::distinct() |>
+  as.data.frame()
+
+usethis::use_data(acceptable_edas, overwrite = TRUE)
+
 acceptable_wards <- readr::read_csv(
   render_url(
     "data/ward_lad_la_pcon_hierarchy.csv",
