@@ -26,29 +26,36 @@ test_that("passes when code is 'x' and name is 'Not available'", {
 })
 
 test_that("fails when one level has code 'x' with wrong name (singular)", {
-  bad_data <- lad_data |>
-    dplyr::mutate(lad_code = "x", lad_name = "Some Place")
+  bad_data <- example_data |>
+    dplyr::mutate(
+      geographic_level = "Provider",
+      provider_ukprn = "x",
+      provider_name = "Some Place"
+    )
   result <- check_geog_na(bad_data)
   expect_equal(result$result, "FAIL")
-  expect_true(grepl("Local authority district", result$message))
+  expect_true(grepl("Provider", result$message))
   expect_true(grepl("level has", result$message))
 })
 
 test_that("fails when multiple levels have wrong names for 'x' code (plural)", {
-  pcon_data <- example_data |>
+  provider_bad <- example_data |>
     dplyr::mutate(
-      geographic_level = "Parliamentary constituency",
-      pcon_code = "x",
-      pcon_name = "Somewhere"
+      geographic_level = "Provider",
+      provider_ukprn = "x",
+      provider_name = "Wrong"
     )
-  bad_data <- dplyr::bind_rows(
-    lad_data |> dplyr::mutate(lad_code = "x", lad_name = "Wrong"),
-    pcon_data
-  )
+  school_bad <- example_data |>
+    dplyr::mutate(
+      geographic_level = "School",
+      school_urn = "x",
+      school_name = "Somewhere"
+    )
+  bad_data <- dplyr::bind_rows(provider_bad, school_bad)
   result <- check_geog_na(bad_data)
   expect_equal(result$result, "FAIL")
-  expect_true(grepl("Local authority district", result$message))
-  expect_true(grepl("Parliamentary constituency", result$message))
+  expect_true(grepl("Provider", result$message))
+  expect_true(grepl("School", result$message))
   expect_true(grepl("levels have", result$message))
   expect_error(check_geog_na(bad_data, stop_on_error = TRUE))
 })

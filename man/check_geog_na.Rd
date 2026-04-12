@@ -22,8 +22,8 @@ a single row data frame
 For geographic levels that have both a code and a name column, checks that
 any location with the GSS not-available code \code{"x"} also has the
 corresponding name \code{"Not available"}. Applies to all geographic levels
-except National, Regional, Local authority, RSC region, Institution, and
-Planning area.
+except those with their own combinations checks, RSC region, Institution,
+and Planning area.
 }
 \examples{
 check_geog_na(example_data)
