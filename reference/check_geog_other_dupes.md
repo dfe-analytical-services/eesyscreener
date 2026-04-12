@@ -1,15 +1,13 @@
-# Check region code and name combinations
+# Check for geography name to code duplicates in lower-level geographies
 
-Checks that all region_code and region_name combinations in the data
-file are valid. For Regional rows, all combinations must be valid. For
-non-Regional rows, only non-empty, non-NA combinations are checked. Rows
-where region_code is "x" (the GSS not-available code) are excluded from
-non-Regional checks.
+Checks that each geography name maps to only one code for Opportunity
+area, MAT, and Sponsor rows. A geography name with multiple different
+codes indicates a data quality issue.
 
 ## Usage
 
 ``` r
-check_geog_region_combos(data, verbose = FALSE, stop_on_error = FALSE)
+check_geog_other_dupes(data, verbose = FALSE, stop_on_error = FALSE)
 ```
 
 ## Arguments
@@ -34,8 +32,8 @@ a single row data frame
 
 ## Details
 
-If either region column is absent from the data, the check passes
-immediately.
+If none of the lower-level geography levels (Opportunity area, MAT,
+Sponsor) are present in the data, the check passes immediately.
 
 ## See also
 
@@ -49,8 +47,8 @@ Other check_geog:
 [`check_geog_lsip_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_lsip_combos.md),
 [`check_geog_na()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_na.md),
 [`check_geog_na_code()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_na_code.md),
-[`check_geog_other_dupes()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_other_dupes.md),
 [`check_geog_pcon_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_pcon_combos.md),
+[`check_geog_region_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_region_combos.md),
 [`check_geog_region_for_la()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_region_for_la.md),
 [`check_geog_region_for_lad()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_region_for_lad.md),
 [`check_geog_ward_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_ward_combos.md)
@@ -58,19 +56,15 @@ Other check_geog:
 ## Examples
 
 ``` r
-check_geog_region_combos(example_data)
-#>                check result
-#> 1 geog_region_combos   PASS
-#>                                                                                   message
-#> 1 At least one of the region_code / region_name columns is not present in this data file.
-#>   guidance_url
-#> 1           NA
-check_geog_region_combos(example_data, verbose = TRUE)
-#> ✔ At least one of the region_code / region_name columns is not present in this data file.
-#>                check result
-#> 1 geog_region_combos   PASS
-#>                                                                                   message
-#> 1 At least one of the region_code / region_name columns is not present in this data file.
-#>   guidance_url
-#> 1           NA
+check_geog_other_dupes(example_data)
+#>              check result
+#> 1 geog_other_dupes   PASS
+#>                                                        message guidance_url
+#> 1 Lower-level geography data is not present in this data file.           NA
+check_geog_other_dupes(example_data, verbose = TRUE)
+#> ✔ Lower-level geography data is not present in this data file.
+#>              check result
+#> 1 geog_other_dupes   PASS
+#>                                                        message guidance_url
+#> 1 Lower-level geography data is not present in this data file.           NA
 ```
