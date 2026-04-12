@@ -22,7 +22,7 @@ a single row data frame
 Checks that for geographic levels with code and name column pairs, any
 location with a name of 'Not available' has the corresponding GSS
 not-available code 'x'. Levels without a code column (RSC region) and
-levels with their own combo lookups (National, Regional, Local authority)
+levels with their own combo lookups (National, Regional etc)
 are excluded. Rows at Institution and Planning area level are also
 excluded as they are ignored by EES.
 }

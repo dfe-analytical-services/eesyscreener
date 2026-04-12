@@ -1,18 +1,18 @@
-# Base data with a testable geographic level (LAD) including lad_code/lad_name
-lad_data <- example_data |>
+# Base data with a testable geographic level (Provider) including provider_ukprn/provider_name
+provider_data <- example_data |>
   dplyr::mutate(
-    geographic_level = "Local authority district",
-    lad_code = "E06000001",
-    lad_name = "Hartlepool"
+    geographic_level = "Provider",
+    provider_ukprn = "10000123",
+    provider_name = "Test Provider"
   )
 
-# LAD data where lad_name is "Not available" and lad_code is correctly "x"
-lad_na_valid <- lad_data |>
-  dplyr::mutate(lad_code = "x", lad_name = "Not available")
+# Provider data where provider_name is "Not available" and provider_ukprn is correctly "x"
+provider_na_valid <- provider_data |>
+  dplyr::mutate(provider_ukprn = "x", provider_name = "Not available")
 
-# LAD data where lad_name is "Not available" but lad_code is wrong
-lad_na_bad <- lad_data |>
-  dplyr::mutate(lad_code = "BADCODE", lad_name = "Not available")
+# Provider data where provider_name is "Not available" but provider_ukprn is wrong
+provider_na_bad <- provider_data |>
+  dplyr::mutate(provider_ukprn = "BADCODE", provider_name = "Not available")
 
 test_that("passes when no testable geographic levels are present", {
   result <- check_geog_na_code(example_data)
@@ -21,42 +21,42 @@ test_that("passes when no testable geographic levels are present", {
 })
 
 test_that("passes when testable levels have valid 'Not available' codes", {
-  result <- check_geog_na_code(lad_na_valid)
+  result <- check_geog_na_code(provider_na_valid)
   expect_equal(result$result, "PASS")
-  expect_no_error(check_geog_na_code(lad_na_valid, stop_on_error = TRUE))
+  expect_no_error(check_geog_na_code(provider_na_valid, stop_on_error = TRUE))
 })
 
 test_that("passes when testable level rows have normal (non-NA) entries", {
-  result <- check_geog_na_code(lad_data)
+  result <- check_geog_na_code(provider_data)
   expect_equal(result$result, "PASS")
-  expect_no_error(check_geog_na_code(lad_data, stop_on_error = TRUE))
+  expect_no_error(check_geog_na_code(provider_data, stop_on_error = TRUE))
 })
 
 test_that("fails with one level having bad 'Not available' code (singular)", {
-  result <- check_geog_na_code(lad_na_bad)
+  result <- check_geog_na_code(provider_na_bad)
   expect_equal(result$result, "FAIL")
-  expect_true(grepl("Local authority district", result$message))
+  expect_true(grepl("Provider", result$message))
   expect_true(grepl("level has", result$message))
   expect_true(grepl("'x'", result$message))
 })
 
 test_that("errors on stop_on_error with failing data", {
-  expect_error(check_geog_na_code(lad_na_bad, stop_on_error = TRUE))
+  expect_error(check_geog_na_code(provider_na_bad, stop_on_error = TRUE))
 })
 
 test_that("fails with multiple levels having bad codes (plural)", {
-  pcon_na_bad <- example_data |>
+  school_na_bad <- example_data |>
     dplyr::mutate(
-      geographic_level = "Parliamentary constituency",
-      pcon_code = "BADPCON",
-      pcon_name = "Not available"
+      geographic_level = "School",
+      school_urn = "BADURN",
+      school_name = "Not available"
     )
 
-  multi_bad <- dplyr::bind_rows(lad_na_bad, pcon_na_bad)
+  multi_bad <- dplyr::bind_rows(provider_na_bad, school_na_bad)
   result <- check_geog_na_code(multi_bad)
   expect_equal(result$result, "FAIL")
-  expect_true(grepl("Local authority district", result$message))
-  expect_true(grepl("Parliamentary constituency", result$message))
+  expect_true(grepl("Provider", result$message))
+  expect_true(grepl("School", result$message))
   expect_true(grepl("levels have", result$message))
 })
 

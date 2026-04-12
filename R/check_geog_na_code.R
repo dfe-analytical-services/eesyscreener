@@ -3,7 +3,7 @@
 #' Checks that for geographic levels with code and name column pairs, any
 #' location with a name of 'Not available' has the corresponding GSS
 #' not-available code 'x'. Levels without a code column (RSC region) and
-#' levels with their own combo lookups (National, Regional, Local authority)
+#' levels with their own combo lookups (National, Regional etc)
 #' are excluded. Rows at Institution and Planning area level are also
 #' excluded as they are ignored by EES.
 #'
@@ -24,13 +24,19 @@ check_geog_na_code <- function(data, verbose = FALSE, stop_on_error = FALSE) {
   test_name <- get_check_name()
 
   # Levels excluded from this check:
-  # - National, Regional, Local authority: have dedicated combo lookup checks
+  # - National, Regional, LA etc: have dedicated combo lookup checks
   # - RSC region: has no code column
   # - Institution, Planning area: ignored by EES
   excluded_levels <- c(
     "National",
     "Regional",
     "Local authority",
+    "Local authority district",
+    "Parliamentary constituency",
+    "Ward",
+    "Local enterprise partnership",
+    "Local skills improvement plan area",
+    "English devolved area",
     "RSC region",
     "Institution",
     "Planning area"
