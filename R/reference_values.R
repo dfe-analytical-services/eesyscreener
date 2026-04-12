@@ -171,6 +171,20 @@
 #'   data/pcon_2024_v2.csv
 "acceptable_pcons"
 
+# Wards lookup ====
+#' Wards lookup
+#'
+#' A data frame of valid ward codes and names as used in EES data files.
+#'
+#' @format A data.frame with columns:
+#' \describe{
+#' \item{ward_code}{GSS ward code}
+#' \item{ward_name}{Ward name matching the code}
+#' }
+#' @source dfe-published-data-qa screener app repo,
+#'   data/ward_lad_la_pcon_hierarchy.csv
+"acceptable_wards"
+
 # Local authorities lookup ====
 #' Local authorities lookup
 #'

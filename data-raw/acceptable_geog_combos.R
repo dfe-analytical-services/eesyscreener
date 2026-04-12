@@ -72,3 +72,16 @@ acceptable_pcons <- dplyr::bind_rows(
   as.data.frame()
 
 usethis::use_data(acceptable_pcons, overwrite = TRUE)
+
+acceptable_wards <- readr::read_csv(
+  render_url(
+    "data/ward_lad_la_pcon_hierarchy.csv",
+    domain = "screener_app_repo"
+  ),
+  show_col_types = FALSE
+) |>
+  dplyr::select("ward_code", "ward_name") |>
+  dplyr::distinct() |>
+  as.data.frame()
+
+usethis::use_data(acceptable_wards, overwrite = TRUE)

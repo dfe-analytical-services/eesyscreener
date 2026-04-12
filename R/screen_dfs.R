@@ -280,6 +280,7 @@ screen_dfs <- function(
     rbind(
       check_geog_country_combos(data, vb, soe),
       check_geog_region_combos(data, vb, soe),
+      check_geog_ward_combos(data, vb, soe),
       check_geog_pcon_combos(data, vb, soe),
       check_geog_lad_combos(data, vb, soe),
       check_geog_lep_combos(data, vb, soe),

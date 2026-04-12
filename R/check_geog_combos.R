@@ -329,6 +329,45 @@ check_geog_lep_combos <- function(
   )
 }
 
+#' Check ward code and name combinations
+#'
+#' Checks that all ward_code and ward_name combinations in the data file are
+#' valid. For Ward rows, all combinations must be valid. For non-Ward rows,
+#' only non-empty, non-NA combinations are checked. Rows where ward_code is
+#' "x" (the GSS not-available code) are excluded from non-Ward checks.
+#'
+#' If either ward column is absent from the data, the check passes immediately.
+#'
+#' @inheritParams check_col_names_spaces
+#'
+#' @inherit check_filename_spaces return
+#'
+#' @family check_geog
+#'
+#' @examples
+#' check_geog_ward_combos(example_data)
+#' check_geog_ward_combos(example_data, verbose = TRUE)
+#' @export
+check_geog_ward_combos <- function(
+  data,
+  verbose = FALSE,
+  stop_on_error = FALSE
+) {
+  .check_geog_combos(
+    data,
+    code_col = "ward_code",
+    name_col = "ward_name",
+    acceptable_data = eesyscreener::acceptable_wards,
+    guidance_url = render_url(
+      "data/ward_lad_la_pcon_hierarchy.csv",
+      domain = "screener_app_repo"
+    ),
+    restricted_level = "Ward",
+    verbose = verbose,
+    stop_on_error = stop_on_error
+  )
+}
+
 #' Check local authority code and name combinations
 #'
 #' Checks that all old_la_code, new_la_code, and la_name combinations in the
