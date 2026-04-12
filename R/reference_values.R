@@ -126,6 +126,21 @@
 #' @source dfe-published-data-qa screener app repo, data/regions.csv
 "acceptable_regions"
 
+# Local authorities lookup ====
+#' Local authorities lookup
+#'
+#' A data frame of valid local authority code and name combinations as used
+#' in EES data files.
+#'
+#' @format A data.frame with columns:
+#' \describe{
+#' \item{old_la_code}{Legacy three-digit LA code}
+#' \item{new_la_code}{Current GSS LA code}
+#' \item{la_name}{Local authority name matching the codes}
+#' }
+#' @source dfe-published-data-qa screener app repo, data/las.csv
+"acceptable_las"
+
 # Extra geography options ====
 #' Extra geography options
 #'

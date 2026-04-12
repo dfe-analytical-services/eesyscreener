@@ -25,3 +25,12 @@ acceptable_regions <- readr::read_csv(
   as.data.frame()
 
 usethis::use_data(acceptable_regions, overwrite = TRUE)
+
+acceptable_las <- readr::read_csv(
+  render_url("data/las.csv", domain = "screener_app_repo"),
+  show_col_types = FALSE
+) |>
+  dplyr::select("old_la_code", "new_la_code", "la_name") |>
+  as.data.frame()
+
+usethis::use_data(acceptable_las, overwrite = TRUE)
