@@ -28,7 +28,8 @@
 #' @param extra_code_col string or NULL. An additional code column to include
 #'   in the combination check (e.g. `"old_la_code"` for the LA check). When
 #'   supplied, rows where this column is NA are excluded. Rows where
-#'   `extra_code_col` is `"z"` combined with valid `acceptable_extra_geog_options`
+#'   `extra_code_col` is `"z"` combined with valid
+#'   `acceptable_extra_geog_options`
 #'   entries are also accepted. Default NULL.
 #' @param verbose logical, passed through to `test_output()`
 #' @param stop_on_error logical, passed through to `test_output()`
@@ -78,7 +79,6 @@
   valid_combos <- dplyr::bind_rows(acceptable_data, extra_geog)
 
   code_sym <- rlang::sym(code_col)
-  name_sym <- rlang::sym(name_col)
   distinct_syms <- lapply(all_cols, rlang::sym)
 
   if (!is.null(restricted_level)) {
@@ -104,7 +104,7 @@
     invalid <- dplyr::bind_rows(restricted_invalid, other_invalid) |>
       dplyr::distinct(!!!distinct_syms)
   } else {
-    # No restricted level: exclude na_code (and extra_code_col NAs) from all rows
+    # No restricted level: exclude na_code (and extra_code_col NAs) from all
     filtered_data <- data |>
       dplyr::filter(!!code_sym != na_code)
 
