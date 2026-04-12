@@ -43,6 +43,7 @@ Other check_geog:
 \code{\link{check_geog_na}()},
 \code{\link{check_geog_na_code}()},
 \code{\link{check_geog_pcon_combos}()},
+\code{\link{check_geog_region_col_present}()},
 \code{\link{check_geog_region_combos}()},
 \code{\link{check_geog_region_for_la}()},
 \code{\link{check_geog_region_for_lad}()},
