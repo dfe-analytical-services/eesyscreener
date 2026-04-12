@@ -63,10 +63,30 @@ e.g. mandatory column names
   : Required metadata columns
 - [`optional_meta_cols`](https://dfe-analytical-services.github.io/eesyscreener/reference/optional_meta_cols.md)
   : Optional metadata columns
+- [`acceptable_countries`](https://dfe-analytical-services.github.io/eesyscreener/reference/acceptable_countries.md)
+  : Countries lookup
+- [`acceptable_edas`](https://dfe-analytical-services.github.io/eesyscreener/reference/acceptable_edas.md)
+  : English devolved areas lookup
+- [`acceptable_extra_geog_options`](https://dfe-analytical-services.github.io/eesyscreener/reference/acceptable_extra_geog_options.md)
+  : Extra geography options
 - [`acceptable_indicator_units`](https://dfe-analytical-services.github.io/eesyscreener/reference/acceptable_indicator_units.md)
   : Acceptable values for indicator units
+- [`acceptable_lads`](https://dfe-analytical-services.github.io/eesyscreener/reference/acceptable_lads.md)
+  : Local authority districts lookup
+- [`acceptable_las`](https://dfe-analytical-services.github.io/eesyscreener/reference/acceptable_las.md)
+  : Local authorities lookup
+- [`acceptable_leps`](https://dfe-analytical-services.github.io/eesyscreener/reference/acceptable_leps.md)
+  : Local enterprise partnerships lookup
+- [`acceptable_lsips`](https://dfe-analytical-services.github.io/eesyscreener/reference/acceptable_lsips.md)
+  : Local skills improvement plan areas lookup
+- [`acceptable_pcons`](https://dfe-analytical-services.github.io/eesyscreener/reference/acceptable_pcons.md)
+  : Parliamentary constituencies lookup
+- [`acceptable_regions`](https://dfe-analytical-services.github.io/eesyscreener/reference/acceptable_regions.md)
+  : Regions lookup
 - [`acceptable_time_ids`](https://dfe-analytical-services.github.io/eesyscreener/reference/acceptable_time_ids.md)
   : Acceptable time identifiers
+- [`acceptable_wards`](https://dfe-analytical-services.github.io/eesyscreener/reference/acceptable_wards.md)
+  : Wards lookup
 - [`geography_df`](https://dfe-analytical-services.github.io/eesyscreener/reference/geography_df.md)
   : Acceptable geographic levels and their associated columns
 - [`api_char_limits`](https://dfe-analytical-services.github.io/eesyscreener/reference/api_char_limits.md)
@@ -246,13 +266,31 @@ validate core assumptions about the geography columns.
 
 ## Geography checks
 
+- [`check_geog_country_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_country_combos.md)
+  : Check country code and name combinations
+- [`check_geog_eda_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_eda_combos.md)
+  : Check English devolved area code and name combinations
 - [`check_geog_ignored_rows()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_ignored_rows.md)
   : Check for rows ignored by the EES table tool
+- [`check_geog_la_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_la_combos.md)
+  : Check local authority code and name combinations
+- [`check_geog_lad_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_lad_combos.md)
+  : Check local authority district code and name combinations
+- [`check_geog_lep_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_lep_combos.md)
+  : Check local enterprise partnership code and name combinations
+- [`check_geog_lsip_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_lsip_combos.md)
+  : Check local skills improvement plan area code and name combinations
+- [`check_geog_pcon_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_pcon_combos.md)
+  : Check parliamentary constituency code and name combinations
+- [`check_geog_region_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_region_combos.md)
+  : Check region code and name combinations
 - [`check_geog_region_for_la()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_region_for_la.md)
   : Check that region columns are complete for Local authority rows
 - [`check_geog_region_for_lad()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_region_for_lad.md)
   : Check that region columns are complete for Local authority district
   rows
+- [`check_geog_ward_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_ward_combos.md)
+  : Check ward code and name combinations
 
 ## Time checks
 

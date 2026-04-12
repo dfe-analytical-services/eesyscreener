@@ -1,18 +1,15 @@
-# Check for rows ignored by the EES table tool
+# Check local skills improvement plan area code and name combinations
 
-Identifies rows at geographic levels that are ignored by the EES table
-tool: School, Provider, Institution, and Planning area. Highlights in
-the message if any such rows are present alongside other levels, and
-fails if:
-
-- School and Provider data have been mixed together OR
-
-- The file only contains Planning area or Institution data
+Checks that all lsip_code and lsip_name combinations in the data file
+are valid. For Local skills improvement plan area rows, all combinations
+must be valid. For non-LSIP rows, only non-empty, non-NA combinations
+are checked. Rows where lsip_code is "x" (the GSS not-available code)
+are excluded from non-LSIP checks.
 
 ## Usage
 
 ``` r
-check_geog_ignored_rows(data, verbose = FALSE, stop_on_error = FALSE)
+check_geog_lsip_combos(data, verbose = FALSE, stop_on_error = FALSE)
 ```
 
 ## Arguments
@@ -35,15 +32,20 @@ check_geog_ignored_rows(data, verbose = FALSE, stop_on_error = FALSE)
 
 a single row data frame
 
+## Details
+
+If either lsip column is absent from the data, the check passes
+immediately.
+
 ## See also
 
 Other check_geog:
 [`check_geog_country_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_country_combos.md),
 [`check_geog_eda_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_eda_combos.md),
+[`check_geog_ignored_rows()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_ignored_rows.md),
 [`check_geog_la_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_la_combos.md),
 [`check_geog_lad_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_lad_combos.md),
 [`check_geog_lep_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_lep_combos.md),
-[`check_geog_lsip_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_lsip_combos.md),
 [`check_geog_pcon_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_pcon_combos.md),
 [`check_geog_region_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_region_combos.md),
 [`check_geog_region_for_la()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_region_for_la.md),
@@ -53,9 +55,19 @@ Other check_geog:
 ## Examples
 
 ``` r
-check_geog_ignored_rows(example_data)
-#>               check result
-#> 1 geog_ignored_rows   PASS
-#>                                                      message guidance_url
-#> 1 No rows in the file will be ignored by the EES table tool.           NA
+check_geog_lsip_combos(example_data)
+#>              check result
+#> 1 geog_lsip_combos   PASS
+#>                                                                               message
+#> 1 At least one of the lsip_code / lsip_name columns is not present in this data file.
+#>   guidance_url
+#> 1           NA
+check_geog_lsip_combos(example_data, verbose = TRUE)
+#> ✔ At least one of the lsip_code / lsip_name columns is not present in this data file.
+#>              check result
+#> 1 geog_lsip_combos   PASS
+#>                                                                               message
+#> 1 At least one of the lsip_code / lsip_name columns is not present in this data file.
+#>   guidance_url
+#> 1           NA
 ```

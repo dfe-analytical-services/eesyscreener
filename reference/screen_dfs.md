@@ -122,67 +122,85 @@ screen_dfs(example_data, example_meta)
 #> 46        filter_whitespace   PASS
 #> 47          filter_ob_total   PASS
 #> 48            filter_blanks   PASS
-#> 49        ind_invalid_entry   PASS
-#> 50        api_char_col_name   PASS
-#> 51       api_char_col_label   PASS
-#> 52        api_char_loc_code   PASS
-#> 53    api_char_filter_items   PASS
-#> 54       api_dict_col_names   PASS
-#>                                                                                                       message
-#> 1                                               All of the required columns are present in the metadata file.
-#> 2                                                          There are no invalid columns in the metadata file.
-#> 3                                                   All of the required columns are present in the data file.
-#> 4  There are an equal number of rows in the metadata file (3) and non-mandatory columns in the data file (3).
-#> 5                                                All variables from the metadata were found in the data file.
-#> 6             All variables in the data file are observational units or are represented in the metadata file.
-#> 7                                                  There are no spaces in the variable names in the datafile.
-#> 8                                       The variable names in the data file follow the snake_case convention.
-#> 9                                          All variable names in the data file start with a lowercase letter.
-#> 10                                                     No indicators found containing typical filter entries.
-#> 11      Neither 'characteristic' nor 'characteristic_group' were found as listed fields in the metadata file.
-#> 12                                                                col_type is always 'Filter' or 'Indicator'.
-#> 13                                            No observational units have been included in the metadata file.
-#> 14                                            The col_name column is completed for every row in the metadata.
-#> 15                                                                                     All labels are unique.
-#> 16                                                         No indicators have a filter_grouping_column value.
-#> 17                                                                        There are no filter groups present.
-#> 18                                                                        There are no filter groups present.
-#> 19                                                                        There are no filter groups present.
-#> 20                                                                        There are no filter groups present.
-#> 21                                               The label column is completed for every row in the metadata.
-#> 22                                                                    No indicators have a filter_hint value.
-#> 23                                                     No filters appear to be mislabelled geography columns.
-#> 24                                                                     No filters have an indicator_dp value.
-#> 25                                                                There are no spaces in the col_name values.
-#> 26                                                                            All col_name values are unique.
-#> 27                                                   The indicator_dp column is completed for all indicators.
-#> 28                            The indicator_dp column only contains blanks, zero, or positive integer values.
-#> 29                                                                   No filters have an indicator_unit value.
-#> 30                                                                        The indicator_unit values are valid
-#> 31                                                               No filters have an indicator_grouping value.
-#> 32                                                                       All filters have two or more levels.
-#> 33                                                       The time_period column only contains numeric values.
-#> 34                                                                  The time_identifier values are all valid.
-#> 35                                                       There is only one time_identifier value in the data.
-#> 36                                                                 The geographic_level values are all valid.
-#> 37                                                             There is only National level data in the file.
-#> 38                                The time_period length matches the time_identifier values in the data file.
-#> 39                                               The six digit time_period values refer to consecutive years.
-#> 40                                                 No rows in the file will be ignored by the EES table tool.
-#> 41                                                   There is no Local authority level data in the data file.
-#> 42                                          There is no Local authority district level data in the data file.
-#> 43                                                 All filters and groups have a default filter item present.
-#> 44                                                                        There are no filter groups present.
-#> 45                                                All filters and groups have less than 25000 unique entries.
-#> 46                                                   No filter labels contain leading or trailing whitespace.
-#> 47                                        There are no Total or All values in the observational unit columns.
-#> 48                                           There are no blank values in any filter or filter group columns.
-#> 49                                         There are no blank values or GSS legacy symbols in any indicators.
-#> 50                          All filter / indicator names are less than or equal to the character limit of 50.
-#> 51                        All filter / indicator labels are less than or equal to the character limit of 100.
-#> 52                                    All location codes are less than or equal to the character limit of 30.
-#> 53                    All filter items / location names are less than or equal to the character limit of 120.
-#> 54                                                     All col_names are consistent with the data dictionary.
+#> 49      geog_country_combos   PASS
+#> 50       geog_region_combos   PASS
+#> 51         geog_ward_combos   PASS
+#> 52         geog_pcon_combos   PASS
+#> 53          geog_lad_combos   PASS
+#> 54          geog_lep_combos   PASS
+#> 55         geog_lsip_combos   PASS
+#> 56          geog_eda_combos   PASS
+#> 57           geog_la_combos   PASS
+#> 58        ind_invalid_entry   PASS
+#> 59        api_char_col_name   PASS
+#> 60       api_char_col_label   PASS
+#> 61        api_char_loc_code   PASS
+#> 62    api_char_filter_items   PASS
+#> 63       api_dict_col_names   PASS
+#>                                                                                                                                message
+#> 1                                                                        All of the required columns are present in the metadata file.
+#> 2                                                                                   There are no invalid columns in the metadata file.
+#> 3                                                                            All of the required columns are present in the data file.
+#> 4                           There are an equal number of rows in the metadata file (3) and non-mandatory columns in the data file (3).
+#> 5                                                                         All variables from the metadata were found in the data file.
+#> 6                                      All variables in the data file are observational units or are represented in the metadata file.
+#> 7                                                                           There are no spaces in the variable names in the datafile.
+#> 8                                                                The variable names in the data file follow the snake_case convention.
+#> 9                                                                   All variable names in the data file start with a lowercase letter.
+#> 10                                                                              No indicators found containing typical filter entries.
+#> 11                               Neither 'characteristic' nor 'characteristic_group' were found as listed fields in the metadata file.
+#> 12                                                                                         col_type is always 'Filter' or 'Indicator'.
+#> 13                                                                     No observational units have been included in the metadata file.
+#> 14                                                                     The col_name column is completed for every row in the metadata.
+#> 15                                                                                                              All labels are unique.
+#> 16                                                                                  No indicators have a filter_grouping_column value.
+#> 17                                                                                                 There are no filter groups present.
+#> 18                                                                                                 There are no filter groups present.
+#> 19                                                                                                 There are no filter groups present.
+#> 20                                                                                                 There are no filter groups present.
+#> 21                                                                        The label column is completed for every row in the metadata.
+#> 22                                                                                             No indicators have a filter_hint value.
+#> 23                                                                              No filters appear to be mislabelled geography columns.
+#> 24                                                                                              No filters have an indicator_dp value.
+#> 25                                                                                         There are no spaces in the col_name values.
+#> 26                                                                                                     All col_name values are unique.
+#> 27                                                                            The indicator_dp column is completed for all indicators.
+#> 28                                                     The indicator_dp column only contains blanks, zero, or positive integer values.
+#> 29                                                                                            No filters have an indicator_unit value.
+#> 30                                                                                                 The indicator_unit values are valid
+#> 31                                                                                        No filters have an indicator_grouping value.
+#> 32                                                                                                All filters have two or more levels.
+#> 33                                                                                The time_period column only contains numeric values.
+#> 34                                                                                           The time_identifier values are all valid.
+#> 35                                                                                There is only one time_identifier value in the data.
+#> 36                                                                                          The geographic_level values are all valid.
+#> 37                                                                                      There is only National level data in the file.
+#> 38                                                         The time_period length matches the time_identifier values in the data file.
+#> 39                                                                        The six digit time_period values refer to consecutive years.
+#> 40                                                                          No rows in the file will be ignored by the EES table tool.
+#> 41                                                                            There is no Local authority level data in the data file.
+#> 42                                                                   There is no Local authority district level data in the data file.
+#> 43                                                                          All filters and groups have a default filter item present.
+#> 44                                                                                                 There are no filter groups present.
+#> 45                                                                         All filters and groups have less than 25000 unique entries.
+#> 46                                                                            No filter labels contain leading or trailing whitespace.
+#> 47                                                                 There are no Total or All values in the observational unit columns.
+#> 48                                                                    There are no blank values in any filter or filter group columns.
+#> 49                                                                             All country_code / country_name combinations are valid.
+#> 50                                             At least one of the region_code / region_name columns is not present in this data file.
+#> 51                                                 At least one of the ward_code / ward_name columns is not present in this data file.
+#> 52                                                 At least one of the pcon_code / pcon_name columns is not present in this data file.
+#> 53                                                   At least one of the lad_code / lad_name columns is not present in this data file.
+#> 54 At least one of the local_enterprise_partnership_code / local_enterprise_partnership_name columns is not present in this data file.
+#> 55                                                 At least one of the lsip_code / lsip_name columns is not present in this data file.
+#> 56               At least one of the english_devolved_area_code / english_devolved_area_name columns is not present in this data file.
+#> 57                                   At least one of the old_la_code / new_la_code / la_name columns is not present in this data file.
+#> 58                                                                  There are no blank values or GSS legacy symbols in any indicators.
+#> 59                                                   All filter / indicator names are less than or equal to the character limit of 50.
+#> 60                                                 All filter / indicator labels are less than or equal to the character limit of 100.
+#> 61                                                             All location codes are less than or equal to the character limit of 30.
+#> 62                                             All filter items / location names are less than or equal to the character limit of 120.
+#> 63                                                                              All col_names are consistent with the data dictionary.
 #>    guidance_url               stage
 #> 1            NA    Precheck columns
 #> 2            NA    Precheck columns
@@ -232,10 +250,19 @@ screen_dfs(example_data, example_meta)
 #> 46           NA       Check filters
 #> 47           NA       Check filters
 #> 48           NA       Check filters
-#> 49           NA    Check indicators
-#> 50           NA           Check API
-#> 51           NA           Check API
-#> 52           NA           Check API
-#> 53           NA           Check API
-#> 54           NA           Check API
+#> 49           NA     Check geography
+#> 50           NA     Check geography
+#> 51           NA     Check geography
+#> 52           NA     Check geography
+#> 53           NA     Check geography
+#> 54           NA     Check geography
+#> 55           NA     Check geography
+#> 56           NA     Check geography
+#> 57           NA     Check geography
+#> 58           NA    Check indicators
+#> 59           NA           Check API
+#> 60           NA           Check API
+#> 61           NA           Check API
+#> 62           NA           Check API
+#> 63           NA           Check API
 ```

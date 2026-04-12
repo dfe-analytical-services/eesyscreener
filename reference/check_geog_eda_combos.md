@@ -1,18 +1,14 @@
-# Check for rows ignored by the EES table tool
+# Check English devolved area code and name combinations
 
-Identifies rows at geographic levels that are ignored by the EES table
-tool: School, Provider, Institution, and Planning area. Highlights in
-the message if any such rows are present alongside other levels, and
-fails if:
-
-- School and Provider data have been mixed together OR
-
-- The file only contains Planning area or Institution data
+Checks that all english_devolved_area_code and
+english_devolved_area_name combinations in the data file are valid. Rows
+where english_devolved_area_code is "x" (the GSS not-available code) are
+excluded from the check.
 
 ## Usage
 
 ``` r
-check_geog_ignored_rows(data, verbose = FALSE, stop_on_error = FALSE)
+check_geog_eda_combos(data, verbose = FALSE, stop_on_error = FALSE)
 ```
 
 ## Arguments
@@ -35,11 +31,16 @@ check_geog_ignored_rows(data, verbose = FALSE, stop_on_error = FALSE)
 
 a single row data frame
 
+## Details
+
+If either english devolved area column is absent from the data, the
+check passes immediately.
+
 ## See also
 
 Other check_geog:
 [`check_geog_country_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_country_combos.md),
-[`check_geog_eda_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_eda_combos.md),
+[`check_geog_ignored_rows()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_ignored_rows.md),
 [`check_geog_la_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_la_combos.md),
 [`check_geog_lad_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_lad_combos.md),
 [`check_geog_lep_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_lep_combos.md),
@@ -53,9 +54,19 @@ Other check_geog:
 ## Examples
 
 ``` r
-check_geog_ignored_rows(example_data)
-#>               check result
-#> 1 geog_ignored_rows   PASS
-#>                                                      message guidance_url
-#> 1 No rows in the file will be ignored by the EES table tool.           NA
+check_geog_eda_combos(example_data)
+#>             check result
+#> 1 geog_eda_combos   PASS
+#>                                                                                                                 message
+#> 1 At least one of the english_devolved_area_code / english_devolved_area_name columns is not present in this data file.
+#>   guidance_url
+#> 1           NA
+check_geog_eda_combos(example_data, verbose = TRUE)
+#> ✔ At least one of the english_devolved_area_code / english_devolved_area_name columns is not present in this data file.
+#>             check result
+#> 1 geog_eda_combos   PASS
+#>                                                                                                                 message
+#> 1 At least one of the english_devolved_area_code / english_devolved_area_name columns is not present in this data file.
+#>   guidance_url
+#> 1           NA
 ```

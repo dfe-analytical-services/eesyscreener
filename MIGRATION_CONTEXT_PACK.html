@@ -38,826 +38,159 @@
 
 <div id="migration-context-pack" class="section level1">
 
-<p>Reference document for migrating legacy R Shiny checks from <a href="https://github.com/dfe-analytical-services/dfe-published-data-qa/" class="external-link">dfe-published-data-qa</a> into the <code>eesyscreener</code> R package.</p>
+<p>Reference document for migrating legacy R Shiny checks from <a href="https://github.com/dfe-analytical-services/dfe-published-data-qa/" class="external-link">dfe-published-data-qa</a> into the <code>eesyscreener</code> R package. See also <code>.github/CONTRIBUTING.md</code>.</p>
 <hr><div class="section level2">
 <h2 id="id_1-migration-principles">1. Migration Principles<a class="anchor" aria-label="anchor" href="#id_1-migration-principles"></a></h2>
-<div class="section level3">
-<h3 id="what-the-migration-is">What the migration is<a class="anchor" aria-label="anchor" href="#what-the-migration-is"></a></h3>
-<p>Functions from a monolithic Shiny app (<code>dfe-published-data-qa</code>) are being extracted one-at-a-time into a standalone, documented, tested R package (<code>eesyscreener</code>). The legacy code lives primarily in <code>R/mainTests.r</code>, <code>R/preCheck1.r</code>, <code>R/preCheck2.r</code>, and <code>R/knownVariables.r</code> in the Shiny app repo.</p>
-</div>
-<div class="section level3">
-<h3 id="why">Why<a class="anchor" aria-label="anchor" href="#why"></a></h3>
-<ul><li>
-<strong>Reusability</strong>: The package is consumed in at least three contexts: a Shiny app, a Plumber API, and direct R usage by analysts.</li>
-<li>
-<strong>Performance</strong>: The Shiny app and API must be responsive even with files of 5+ million rows. DuckDB/duckplyr is used for speed.</li>
-<li>
-<strong>Maintainability</strong>: One function per file, one test file per function, consistent interfaces, roxygen2 documentation.</li>
-</ul></div>
-<div class="section level3">
-<h3 id="core-philosophy">Core philosophy<a class="anchor" aria-label="anchor" href="#core-philosophy"></a></h3>
-<ul><li>One check at a time, unless a utility function covers multiple checks.</li>
-<li>Minimise new dependencies; prefer base R or dplyr (which piggybacks on duckplyr for performance).</li>
-<li>Simplify during migration, do not bring over legacy complexity if it is unnecessary, use the opportunity to improve the code.</li>
-<li>Strip out any HTML tags from the message strings returned, they are no longer required.</li>
-<li>Speed is king. Prioritise large-file performance over small-file performance. Avoid operations that force full materialisation of lazy duckplyr data frames.</li>
+<p>Functions from <code>dfe-published-data-qa</code> (primarily <code>R/mainTests.r</code>, <code>R/preCheck1.r</code>, <code>R/preCheck2.r</code>, <code>R/knownVariables.r</code>) are extracted one-at-a-time into a standalone, tested R package.</p>
+<ul><li>One check at a time. Simplify during migration — do not carry over legacy complexity unnecessarily.</li>
+<li>Speed is king. Prefer dplyr (duckplyr-compatible) over base R. Avoid forcing materialisation of lazy data frames.</li>
+<li>Minimise new dependencies. Prefer base R or dplyr.</li>
+<li>Strip HTML tags from all message strings — plain text only.</li>
 </ul><hr></div>
-</div>
 <div class="section level2">
-<h2 id="id_2-coding-conventions">2. Coding Conventions<a class="anchor" aria-label="anchor" href="#id_2-coding-conventions"></a></h2>
-<div class="section level3">
-<h3 id="id_21-naming">2.1 Naming<a class="anchor" aria-label="anchor" href="#id_21-naming"></a></h3>
-<table class="table"><colgroup><col width="27%"><col width="37%"><col width="34%"></colgroup><thead><tr class="header"><th>Entity</th>
+<h2 id="id_2-naming--file-conventions">2. Naming &amp; File Conventions<a class="anchor" aria-label="anchor" href="#id_2-naming--file-conventions"></a></h2>
+<table class="table"><colgroup><col width="28%"><col width="39%"><col width="32%"></colgroup><thead><tr class="header"><th>Entity</th>
 <th>Convention</th>
-<th>Examples</th>
-</tr></thead><tbody><tr class="odd"><td>Exported check functions</td>
+<th>Example</th>
+</tr></thead><tbody><tr class="odd"><td>Exported check</td>
 <td><code>check_&lt;area&gt;_&lt;what&gt;()</code></td>
-<td>
-<code><a href="reference/check_meta_dupe_label.html">check_meta_dupe_label()</a></code>, <code><a href="reference/check_filter_defaults.html">check_filter_defaults()</a></code>
-</td>
-</tr><tr class="even"><td>Exported precheck functions</td>
+<td><code><a href="reference/check_meta_dupe_label.html">check_meta_dupe_label()</a></code></td>
+</tr><tr class="even"><td>Exported precheck</td>
 <td><code>precheck_&lt;area&gt;_&lt;what&gt;()</code></td>
-<td>
-<code><a href="reference/precheck_col_req_data.html">precheck_col_req_data()</a></code>, <code><a href="reference/precheck_geog_level.html">precheck_geog_level()</a></code>
-</td>
-</tr><tr class="odd"><td>Exported screen functions</td>
+<td><code><a href="reference/precheck_geog_level.html">precheck_geog_level()</a></code></td>
+</tr><tr class="odd"><td>Exported screen</td>
 <td><code>screen_&lt;scope&gt;()</code></td>
-<td>
-<code><a href="reference/screen_csv.html">screen_csv()</a></code>, <code><a href="reference/screen_dfs.html">screen_dfs()</a></code>, <code><a href="reference/screen_filenames.html">screen_filenames()</a></code>
-</td>
-</tr><tr class="even"><td>Internal argument validators</td>
+<td><code><a href="reference/screen_csv.html">screen_csv()</a></code></td>
+</tr><tr class="even"><td>Internal validator</td>
 <td><code>validate_arg_&lt;what&gt;()</code></td>
-<td>
-<code>validate_arg_filenames()</code>, <code>validate_arg_dfs()</code>
-</td>
-</tr><tr class="odd"><td>Internal helpers</td>
-<td>Descriptive snake_case</td>
-<td>
-<code>test_output()</code>, <code>null_filename()</code>, <code>get_check_name()</code>
-</td>
-</tr><tr class="even"><td>Test name passed to <code>test_output()</code>
-</td>
-<td>Short snake_case identifier (no <code>check_</code>/<code>precheck_</code> prefix)</td>
-<td>
-<code>"meta_dupe_label"</code>, <code>"col_req_meta"</code>, <code>"geog_level"</code>
-</td>
-</tr><tr class="odd"><td>File names</td>
+<td><code>validate_arg_dfs()</code></td>
+</tr><tr class="odd"><td>Test name (in <code>test_output()</code>)</td>
+<td>Short snake_case, no <code>check_</code>/<code>precheck_</code> prefix</td>
+<td><code>"meta_dupe_label"</code></td>
+</tr><tr class="even"><td>R file</td>
 <td>Match function name exactly</td>
 <td><code>R/check_meta_dupe_label.R</code></td>
-</tr><tr class="even"><td>Test file names</td>
+</tr><tr class="odd"><td>Test file</td>
 <td><code>test-&lt;function_name&gt;.R</code></td>
 <td><code>tests/testthat/test-check_meta_dupe_label.R</code></td>
-</tr><tr class="odd"><td>Reference data objects</td>
-<td>Descriptive snake_case</td>
-<td>
-<code>req_meta_cols</code>, <code>acceptable_time_ids</code>, <code>geography_df</code>
-</td>
-</tr></tbody></table><p><strong>Important</strong>: - Check names in <code>_pkgdown.yml</code> must align with the naming convention. All individual checks should be named in accordance with the groupings defined there. - Use standard abbreviations for brevity (e.g., <code>dupe</code> for duplicate, <code>fil_grp</code> for filter_group, <code>ind</code> for indicator) — see CONTRIBUTING.md for the full list of abbreviations used in this codebase.</p>
+</tr></tbody></table><p>Use standard abbreviations from CONTRIBUTING.md (e.g. <code>dupe</code>, <code>fil_grp</code>, <code>ind</code>). Check names in <code>_pkgdown.yml</code> must match these conventions.</p>
+<div class="section level3">
+<h3 id="function-signature-mandatory-argument-order">Function signature (mandatory argument order)<a class="anchor" aria-label="anchor" href="#function-signature-mandatory-argument-order"></a></h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>check_something <span class="ot">&lt;-</span> <span class="cf">function</span>(data, meta, <span class="at">verbose =</span> <span class="cn">FALSE</span>, <span class="at">stop_on_error =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p><code>data</code>/<code>meta</code> first, then <code>verbose</code>, then <code>stop_on_error</code>, then any function-specific optional params (always passed by name at call sites). This fixed order lets <code><a href="reference/screen_dfs.html">screen_dfs()</a></code> call checks positionally.</p>
+<p><strong>Do NOT validate arguments inside <code>check_*()</code> or <code>precheck_*()</code></strong> — validation belongs in <code>screen_*()</code> orchestrators via <code>validate_arg_*()</code>.</p>
 </div>
 <div class="section level3">
-<h3 id="id_22-file-structure">2.2 File Structure<a class="anchor" aria-label="anchor" href="#id_22-file-structure"></a></h3>
-<pre><code>R/
-  check_&lt;area&gt;_&lt;what&gt;.R       # One exported function per file
-  precheck_&lt;area&gt;_&lt;what&gt;.R    # One exported function per file
-  screen_*.R                  # Orchestrator functions
-  utils.R                     # ALL internal/helper functions
-  reference_values.R          # Documentation for exported data objects
-  example_datasets.R          # Documentation for example data
-  eesyscreener-package.R      # Package-level documentation
-
-tests/
-  testthat.R                  # Standard testthat bootstrap
-  testthat/
-    test-&lt;function_name&gt;.R    # One test file per function
-  utils/
-    copy_check_data.R         # Script to copy CSV test data from legacy repo
-    benchmarking.R            # Benchmarking utilities
-
-data-raw/                     # Source scripts for .rda files
-data/                         # Compiled .rda reference data</code></pre>
+<h3 id="return-value">Return value<a class="anchor" aria-label="anchor" href="#return-value"></a></h3>
+<p>Every check returns <code>test_output(check_name, result, message, verbose, stop_on_error)</code> — a single-row data frame with columns: <code>check</code>, <code>result</code> (<code>"PASS"</code>/<code>"FAIL"</code>/<code>"WARNING"</code>), <code>message</code>, <code>guidance_url</code>.</p>
 </div>
 <div class="section level3">
-<h3 id="id_23-function-signatures">2.3 Function Signatures<a class="anchor" aria-label="anchor" href="#id_23-function-signatures"></a></h3>
-<p>Every <code>check_*()</code> and <code>precheck_*()</code> function follows a consistent signature pattern:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>check_something <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  data,            <span class="co"># and/or meta, or other primary input</span></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="at">stop_on_error =</span> <span class="cn">FALSE</span></span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>)</span></code></pre></div>
+<h3 id="message-patterns">Message patterns<a class="anchor" aria-label="anchor" href="#message-patterns"></a></h3>
 <ul><li>
-<code>verbose</code> (logical): If TRUE, prints feedback messages via <code>cli</code>.</li>
-<li>
-<code>stop_on_error</code> (logical): If TRUE, aborts on FAIL, warns on WARNING.</li>
-<li>Some functions only take <code>meta</code>, some take <code>data</code>, some take both <code>data</code> and <code>meta</code>.</li>
-<li>Some functions have additional specific parameters (e.g., <code>custom_name</code> in <code><a href="reference/check_filename_spaces.html">check_filename_spaces()</a></code>).</li>
-</ul><p><strong>Argument order is mandatory</strong>: <code>data</code>/<code>meta</code> first, then <code>verbose = FALSE</code>, then <code>stop_on_error = FALSE</code>, then any function-specific optional parameters. This fixed order allows <code><a href="reference/screen_dfs.html">screen_dfs()</a></code> to call all checks with positional arguments for the common parameters (e.g., <code>check_foo(data, meta, vb, soe)</code>). Function-specific parameters must always be passed by name at the call site.</p>
-<p><strong>Critical rule</strong>: Do NOT validate arguments inside individual <code>precheck_*()</code> or <code>check_*()</code> functions. Argument validation happens only in the <code>screen_*()</code> orchestrators via <code>validate_arg_*()</code> helpers.</p>
-</div>
-<div class="section level3">
-<h3 id="id_24-return-values">2.4 Return Values<a class="anchor" aria-label="anchor" href="#id_24-return-values"></a></h3>
-<p>Every check function returns the result of <code>test_output()</code>, which produces a single-row <code>data.frame</code> with columns:</p>
-<table class="table"><colgroup><col width="36%"><col width="27%"><col width="36%"></colgroup><thead><tr class="header"><th>Column</th>
-<th>Type</th>
-<th>Values</th>
-</tr></thead><tbody><tr class="odd"><td><code>check</code></td>
-<td>character</td>
-<td>Short test name (e.g., <code>"meta_duplicate_label"</code>)</td>
-</tr><tr class="even"><td><code>result</code></td>
-<td>character</td>
-<td>
-<code>"PASS"</code>, <code>"FAIL"</code>, or <code>"WARNING"</code>
-</td>
-</tr><tr class="odd"><td><code>message</code></td>
-<td>character</td>
-<td>Human-readable feedback</td>
-</tr><tr class="even"><td><code>guidance_url</code></td>
-<td>character or NA</td>
-<td>Optional URL to documentation</td>
-</tr></tbody></table><p>The <code>screen_*()</code> functions aggregate these via <code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind()</a></code> and add a <code>stage</code> column.</p>
-</div>
-<div class="section level3">
-<h3 id="id_25-message-patterns">2.5 Message Patterns<a class="anchor" aria-label="anchor" href="#id_25-message-patterns"></a></h3>
-<p>Messages follow consistent grammatical patterns:</p>
-<ul><li>
-<strong>PASS (nothing found)</strong>: <code>"All labels are unique."</code>, <code>"No indicators have a filter group specified."</code>
+<strong>PASS</strong>: <code>"All labels are unique."</code> / <code>"The geographic level values are all valid."</code>
 </li>
 <li>
-<strong>PASS (positive confirmation)</strong>: <code>"The geographic level values are all valid."</code>
+<strong>FAIL</strong>: Use <code><a href="https://cli.r-lib.org/reference/pluralize.html" class="external-link">cli::pluralize()</a></code> for singular/plural: <code>"The following label is/are duplicated: 'X'."</code>
 </li>
-<li>
-<strong>FAIL (singular)</strong>: <code>"The following label is duplicated in the metadata file: 'X'."</code>
+<li>Format failing values: <code>paste0("'", paste0(values, collapse = "', '"), "'")</code>
 </li>
-<li>
-<strong>FAIL (plural)</strong>: <code>"The following labels are duplicated in the metadata file: 'X', 'Y'."</code>
-</li>
-</ul><p>When failing values are listed, they are formatted with single quotes and joined with <code>"', '"</code>:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"'"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">values</span>, collapse <span class="op">=</span> <span class="st">"', '"</span><span class="op">)</span>, <span class="st">"'."</span><span class="op">)</span></span></code></pre></div>
-<p>Many functions handle singular / plural messages separately (different wording for 1 vs many failures). This is a convention in the codebase.</p>
-<p>Use <code><a href="https://cli.r-lib.org/reference/pluralize.html" class="external-link">cli::pluralize()</a></code> or <code><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf()</a></code> to consolidate singular and plural messages where appropriate to reduce the number of lines of code necessary.</p>
-<p><strong>Important</strong>: Do not include HTML tags in message strings. Messages are used across multiple contexts (CLI, API, Shiny) and should be plain text only.</p>
-</div>
-<div class="section level3">
-<h3 id="id_26-dependency-management">2.6 Dependency Management<a class="anchor" aria-label="anchor" href="#id_26-dependency-management"></a></h3>
-<ul><li>
-<strong>Prefer dplyr verbs</strong> that work with duckplyr for performance (duckplyr is enabled via <code><a href="https://duckplyr.tidyverse.org/reference/methods_overwrite.html" class="external-link">duckplyr::methods_overwrite()</a></code> in <code><a href="reference/screen_dfs.html">screen_dfs()</a></code>).</li>
-<li>
-<strong>Use <code>.data$column_name</code></strong> pronoun from rlang when using dplyr in package code (avoids “no visible binding” notes). The package imports <code><a href="https://rlang.r-lib.org/reference/dot-data.html" class="external-link">rlang::.data</a></code>.</li>
-<li>
-<strong>Pipe operator</strong>: Use the base R pipe <code>|&gt;</code> (not magrittr <code>%&gt;%</code>).</li>
-<li>
-<strong>Avoid adding new dependencies</strong> unless the performance benefit is substantial and proven via benchmarking.</li>
-<li>
-<strong>dplyr over base R</strong> for data manipulation - it’s faster on large files via duckplyr.</li>
-<li>
-<strong>cli</strong> for user-facing messages (<code><a href="https://cli.r-lib.org/reference/cli_abort.html" class="external-link">cli::cli_abort()</a></code>, <code><a href="https://cli.r-lib.org/reference/cli_abort.html" class="external-link">cli::cli_warn()</a></code>, <code>cli::cli_alert_*</code>).</li>
-<li>
-<strong>No data.table</strong> — converting between data.frame and data.table costs time.</li>
 </ul></div>
 <div class="section level3">
-<h3 id="id_27-error-handling">2.7 Error Handling<a class="anchor" aria-label="anchor" href="#id_27-error-handling"></a></h3>
-<ul><li>Use <code><a href="https://cli.r-lib.org/reference/cli_abort.html" class="external-link">cli::cli_abort()</a></code> for errors (not <code><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop()</a></code>).</li>
-<li>Use <code><a href="https://cli.r-lib.org/reference/cli_abort.html" class="external-link">cli::cli_warn()</a></code> for warnings (not <code><a href="https://rdrr.io/r/base/warning.html" class="external-link">warning()</a></code>).</li>
-<li>The <code>test_output()</code> helper handles the <code>stop_on_error</code> logic centrally: if <code>stop_on_error = TRUE</code>, FAIL results call <code><a href="https://cli.r-lib.org/reference/cli_abort.html" class="external-link">cli::cli_abort()</a></code> and WARNING results call <code><a href="https://cli.r-lib.org/reference/cli_abort.html" class="external-link">cli::cli_warn()</a></code>.</li>
-<li>Argument validation uses <code><a href="https://cli.r-lib.org/reference/cli_abort.html" class="external-link">cli::cli_abort()</a></code> directly in <code>validate_arg_*()</code> functions in <code>utils.R</code>.</li>
-</ul></div>
-<div class="section level3">
-<h3 id="id_28-internal-helper-conventions">2.8 Internal Helper Conventions<a class="anchor" aria-label="anchor" href="#id_28-internal-helper-conventions"></a></h3>
-<ul><li>All internal helpers go in <code>R/utils.R</code>.</li>
-<li>Mark with <code>@keywords internal</code> and <code>@noRd</code> (no separate <code>.Rd</code> file generated).</li>
-<li>Include <code>@returns</code> in roxygen2 documentation even for internal functions.</li>
-<li>Helper functions should be reusable and avoid duplication between check functions.</li>
+<h3 id="dependency-rules">Dependency rules<a class="anchor" aria-label="anchor" href="#dependency-rules"></a></h3>
+<ul><li>Use <code>.data$column_name</code> pronoun (rlang) in dplyr package code.</li>
+<li>Use base R pipe <code>|&gt;</code> (not <code>%&gt;%</code>).</li>
+<li>
+<code><a href="https://cli.r-lib.org/reference/cli_abort.html" class="external-link">cli::cli_abort()</a></code> for errors, <code><a href="https://cli.r-lib.org/reference/cli_abort.html" class="external-link">cli::cli_warn()</a></code> for warnings (not <code><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop()</a></code>/<code><a href="https://rdrr.io/r/base/warning.html" class="external-link">warning()</a></code>).</li>
+<li>All internal helpers go in <code>R/utils.R</code> (<code>@keywords internal</code>, <code>@noRd</code>). <strong>Read <code>R/utils.R</code> in full before writing any new logic</strong> — many helpers already exist.</li>
 </ul><hr></div>
 </div>
 <div class="section level2">
 <h2 id="id_3-documentation-conventions">3. Documentation Conventions<a class="anchor" aria-label="anchor" href="#id_3-documentation-conventions"></a></h2>
-<div class="section level3">
-<h3 id="id_31-roxygen2-structure">3.1 roxygen2 Structure<a class="anchor" aria-label="anchor" href="#id_31-roxygen2-structure"></a></h3>
-<p>Every exported function must have:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#' Title (one line, sentence case)</span></span>
+<p>Every exported function needs:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#' Title (sentence case)</span></span>
 <span><span class="co">#'</span></span>
-<span><span class="co">#' Description paragraph.</span></span>
+<span><span class="co">#' Description.</span></span>
 <span><span class="co">#'</span></span>
-<span><span class="co">#' @param name Description (or use @inheritParams)</span></span>
+<span><span class="co">#' @inheritParams precheck_meta_col_type   # or precheck_col_to_rows / check_col_names_spaces</span></span>
 <span><span class="co">#' @inherit check_filename_spaces return</span></span>
-<span><span class="co">#' @family &lt;group_name&gt;</span></span>
+<span><span class="co">#' @family check_meta                      # match _pkgdown.yml grouping</span></span>
 <span><span class="co">#' @examples</span></span>
-<span><span class="co">#' function_name(example_data)</span></span>
-<span><span class="co">#' function_name(example_data, verbose = TRUE)</span></span>
+<span><span class="co">#' check_something(example_meta)</span></span>
 <span><span class="co">#' @export</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="id_32-key-documentation-patterns">3.2 Key Documentation Patterns<a class="anchor" aria-label="anchor" href="#id_32-key-documentation-patterns"></a></h3>
-<table class="table"><colgroup><col width="56%"><col width="43%"></colgroup><thead><tr class="header"><th>Pattern</th>
-<th>Usage</th>
-</tr></thead><tbody><tr class="odd"><td><code>@inheritParams precheck_meta_col_type</code></td>
-<td>Inherit <code>meta</code>, <code>verbose</code>, <code>stop_on_error</code> params</td>
-</tr><tr class="even"><td><code>@inheritParams precheck_col_to_rows</code></td>
-<td>Inherit <code>data</code>, <code>meta</code>, <code>verbose</code>, <code>stop_on_error</code> params</td>
-</tr><tr class="odd"><td><code>@inheritParams check_col_names_spaces</code></td>
-<td>Inherit <code>data</code>, <code>verbose</code>, <code>stop_on_error</code> params</td>
-</tr><tr class="even"><td><code>@inherit check_filename_spaces return</code></td>
-<td>Copy return documentation</td>
-</tr><tr class="odd"><td><code>@family check_meta</code></td>
-<td>Group in pkgdown docs (use the <code>_pkgdown.yml</code> categories)</td>
+<p>Key <code>@inheritParams</code> sources:</p>
+<table class="table"><thead><tr class="header"><th>Params needed</th>
+<th>Inherit from</th>
+</tr></thead><tbody><tr class="odd"><td>
+<code>meta</code>, <code>verbose</code>, <code>stop_on_error</code>
+</td>
+<td><code>precheck_meta_col_type</code></td>
 </tr><tr class="even"><td>
-<code>@keywords internal</code> + <code>@noRd</code>
+<code>data</code>, <code>meta</code>, <code>verbose</code>, <code>stop_on_error</code>
 </td>
-<td>For internal functions in <code>utils.R</code>
+<td><code>precheck_col_to_rows</code></td>
+</tr><tr class="odd"><td>
+<code>data</code>, <code>verbose</code>, <code>stop_on_error</code>
 </td>
-</tr></tbody></table><p><strong>Minimise duplication</strong>: Use <code>@inheritParams</code> extensively rather than redefining parameter descriptions. Find the most appropriate existing function that already defines the params you need.</p>
-</div>
-<div class="section level3">
-<h3 id="id_33-examples">3.3 Examples<a class="anchor" aria-label="anchor" href="#id_33-examples"></a></h3>
-<ul><li>Every exported function must have at least two examples: one basic call, one with <code>verbose = TRUE</code>.</li>
-<li>Use the package’s built-in example datasets (<code>example_data</code>, <code>example_meta</code>, <code>example_filter_group</code>, etc.).</li>
-<li>Examples must be runnable without external files.</li>
-</ul></div>
-<div class="section level3">
-<h3 id="id_34-return-documentation">3.4 Return Documentation<a class="anchor" aria-label="anchor" href="#id_34-return-documentation"></a></h3>
-<p>The canonical return description is inherited from <code>check_filename_spaces</code>:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#' @return a single row data frame</span></span></code></pre></div>
-<p>Use <code>@inherit check_filename_spaces return</code> rather than rewriting this.</p>
-</div>
-<div class="section level3">
-<h3 id="id_35-family-tags">3.5 Family Tags<a class="anchor" aria-label="anchor" href="#id_35-family-tags"></a></h3>
-<p>Family tags must correspond to the groupings in <code>_pkgdown.yml</code>:</p>
-<ul><li>
-<code>@family filename</code> — filename checks</li>
-<li>
-<code>@family precheck_col</code> — precheck column checks</li>
-<li>
-<code>@family precheck_meta</code> — precheck metadata checks</li>
-<li>
-<code>@family check_meta</code> — metadata checks</li>
-<li>
-<code>@family precheck_time</code> — precheck time checks</li>
-<li>
-<code>@family check_time</code> — time checks</li>
-<li>
-<code>@family precheck_geog</code> — geography prechecks</li>
-<li>
-<code>@family check_filter</code> — filter checks</li>
-<li>
-<code>@family check_api</code> — API-specific checks</li>
-</ul><hr></div>
-</div>
+<td><code>check_col_names_spaces</code></td>
+</tr></tbody></table><p>Family tags (must match <code>_pkgdown.yml</code>): <code>filename</code>, <code>precheck_col</code>, <code>precheck_meta</code>, <code>check_meta</code>, <code>precheck_time</code>, <code>check_time</code>, <code>precheck_geog</code>, <code>check_filter</code>, <code>check_api</code>.</p>
+<hr></div>
 <div class="section level2">
 <h2 id="id_4-testing-conventions">4. Testing Conventions<a class="anchor" aria-label="anchor" href="#id_4-testing-conventions"></a></h2>
-<div class="section level3">
-<h3 id="id_41-test-file-naming">4.1 Test File Naming<a class="anchor" aria-label="anchor" href="#id_41-test-file-naming"></a></h3>
-<ul><li>One test file per function: <code>test-&lt;function_name&gt;.R</code>
-</li>
-<li>Located in <code>tests/testthat/</code>
-</li>
-<li>The function name in the filename matches the R file name exactly</li>
-</ul></div>
-<div class="section level3">
-<h3 id="id_42-test-structure">4.2 Test Structure<a class="anchor" aria-label="anchor" href="#id_42-test-structure"></a></h3>
-<p>Tests use <code>testthat</code> edition 3. Each test file contains multiple <code>test_that()</code> blocks covering:</p>
-<ol style="list-style-type: decimal"><li>
-<strong>Happy path (PASS)</strong> — with inline data and with package example data</li>
-<li>
-<strong>Failure cases</strong> — one failing value, multiple failing values</li>
-<li>
-<strong>Edge cases</strong> — empty inputs, NAs, blanks, numeric values where strings expected</li>
-<li>
-<strong><code>stop_on_error</code> behaviour</strong> — <code>expect_no_error()</code> for PASS, <code>expect_error()</code> for FAIL</li>
-</ol></div>
-<div class="section level3">
-<h3 id="id_43-canonical-test-pattern">4.3 Canonical Test Pattern<a class="anchor" aria-label="anchor" href="#id_43-canonical-test-pattern"></a></h3>
-<p>Prefer building on package example datasets rather than constructing minimal inline data frames. Use <code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind()</a></code> or <code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">dplyr::mutate()</a></code> to introduce failures on top of the example data. This ensures tests exercise realistic data shapes and avoids missing columns that real data has.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">test_that</span><span class="op">(</span><span class="st">"passes when &lt;condition&gt;"</span>, <span class="op">{</span></span>
-<span>  <span class="fu">expect_equal</span><span class="op">(</span><span class="fu">check_something</span><span class="op">(</span><span class="va">example_meta</span><span class="op">)</span><span class="op">$</span><span class="va">result</span>, <span class="st">"PASS"</span><span class="op">)</span></span>
-<span>  <span class="fu">expect_no_error</span><span class="op">(</span><span class="fu">check_something</span><span class="op">(</span><span class="va">example_meta</span>, stop_on_error <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">}</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">test_that</span><span class="op">(</span><span class="st">"fails with one &lt;problem&gt; (singular message)"</span>, <span class="op">{</span></span>
-<span>  <span class="va">bad_meta</span> <span class="op">&lt;-</span> <span class="va">example_meta</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>col_name <span class="op">=</span> <span class="st">"bad_value"</span>, label <span class="op">=</span> <span class="st">"X"</span>, <span class="va">...</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">check_something</span><span class="op">(</span><span class="va">bad_meta</span><span class="op">)</span></span>
-<span>  <span class="fu">expect_equal</span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">result</span>, <span class="st">"FAIL"</span><span class="op">)</span></span>
-<span>  <span class="fu">expect_true</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"bad_value"</span>, <span class="va">result</span><span class="op">$</span><span class="va">message</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="fu">expect_true</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"label is"</span>, <span class="va">result</span><span class="op">$</span><span class="va">message</span><span class="op">)</span><span class="op">)</span>  <span class="co"># singular form</span></span>
-<span>  <span class="fu">expect_error</span><span class="op">(</span><span class="fu">check_something</span><span class="op">(</span><span class="va">bad_meta</span>, stop_on_error <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">}</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">test_that</span><span class="op">(</span><span class="st">"fails with multiple &lt;problems&gt; (plural message)"</span>, <span class="op">{</span></span>
-<span>  <span class="va">bad_meta</span> <span class="op">&lt;-</span> <span class="va">example_meta</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>col_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"bad_1"</span>, <span class="st">"bad_2"</span><span class="op">)</span>, label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"X"</span>, <span class="st">"Y"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">check_something</span><span class="op">(</span><span class="va">bad_meta</span><span class="op">)</span></span>
-<span>  <span class="fu">expect_equal</span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">result</span>, <span class="st">"FAIL"</span><span class="op">)</span></span>
-<span>  <span class="fu">expect_true</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"bad_1"</span>, <span class="va">result</span><span class="op">$</span><span class="va">message</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="fu">expect_true</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"bad_2"</span>, <span class="va">result</span><span class="op">$</span><span class="va">message</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="fu">expect_true</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"labels are"</span>, <span class="va">result</span><span class="op">$</span><span class="va">message</span><span class="op">)</span><span class="op">)</span>  <span class="co"># plural form</span></span>
-<span>  <span class="fu">expect_error</span><span class="op">(</span><span class="fu">check_something</span><span class="op">(</span><span class="va">bad_meta</span>, stop_on_error <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
-<p>Only use a fully inline <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> when the test genuinely requires a schema that doesn’t exist in any example dataset, or when testing a very specific edge case that would be awkward to construct from an example base.</p>
-</div>
-<div class="section level3">
-<h3 id="id_44-test-data">4.4 Test Data<a class="anchor" aria-label="anchor" href="#id_44-test-data"></a></h3>
-<ul><li>
-<strong>Package example datasets</strong> (<code>example_data</code>, <code>example_meta</code>, <code>example_filter_group_wrow</code>, etc. — see <code>R/example_datasets.R</code>) are the <strong>preferred base</strong> for test data. Use <code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind()</a></code> or <code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">dplyr::mutate()</a></code> to introduce the failing condition on top of them.</li>
-<li>
-<strong>Inline <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> construction</strong> is acceptable only when the test requires a schema that no example dataset provides, or when an edge case is too awkward to build from example data.</li>
-<li>
-<strong>Package example datasets must always be tested as a PASS case</strong> via <code>expect_no_error(fn(example_data, stop_on_error = TRUE))</code>.</li>
-<li>
-<strong>Temp CSV files</strong> when testing file I/O (e.g., <code>screen_csv</code> tests).</li>
-<li>
-<strong>No mocking</strong> — use real but minimal data.</li>
-</ul></div>
-<div class="section level3">
-<h3 id="id_45-what-to-test">4.5 What to Test<a class="anchor" aria-label="anchor" href="#id_45-what-to-test"></a></h3>
-<ul><li>The <code>$result</code> field of the returned data frame (<code>"PASS"</code>, <code>"FAIL"</code>, <code>"WARNING"</code>)</li>
-<li>The <code>stop_on_error</code> behaviour (errors and no-errors)</li>
-<li>Message content when it matters (use <code><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl()</a></code> on <code>$message</code>)</li>
-<li>Edge cases: NAs, empty strings, single values, large value sets</li>
-<li>Every function must have at least one test with an expected failure</li>
-</ul></div>
-<div class="section level3">
-<h3 id="id_46-what-not-to-test-in-individual-check-tests">4.6 What NOT to Test in Individual Check Tests<a class="anchor" aria-label="anchor" href="#id_46-what-not-to-test-in-individual-check-tests"></a></h3>
-<ul><li>Argument validation (that’s the orchestrator’s job)</li>
-<li>Integration with the screening pipeline (that’s <code>test-screen_dfs.R</code>)</li>
-</ul><hr></div>
-</div>
+<p>Canonical test file reference: <code>tests/testthat/test-check_geog_lad_combos.R</code></p>
+<p>Every test file must cover:</p>
+<ol style="list-style-type: decimal"><li>PASS with package example data</li>
+<li>FAIL with one problem (singular message form)</li>
+<li>FAIL with multiple problems (plural message form, <code>expect_error(..., stop_on_error = TRUE)</code>)</li>
+<li>Edge cases: NAs, empty strings, single values</li>
+</ol><p>Prefer building on package example datasets via <code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind()</a></code> or <code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">dplyr::mutate()</a></code> over fully inline <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> construction. Only use inline construction when no example dataset provides the required schema.</p>
+<p>Do NOT test argument validation (that’s the orchestrator’s job), verbose / stop on error (covered by <code>test-test_output.R</code>) or pipeline integration (that’s <code>test-screen_dfs.R</code>).</p>
+<hr></div>
 <div class="section level2">
 <h2 id="id_5-migration-workflow">5. Migration Workflow<a class="anchor" aria-label="anchor" href="#id_5-migration-workflow"></a></h2>
-<div class="section level3">
-<h3 id="step-by-step-process-for-migrating-a-single-check-function">Step-by-step process for migrating a single check function<a class="anchor" aria-label="anchor" href="#step-by-step-process-for-migrating-a-single-check-function"></a></h3>
-<div class="section level4">
-<h4 id="step-1-identify-and-analyse-the-legacy-function">Step 1: Identify and Analyse the Legacy Function<a class="anchor" aria-label="anchor" href="#step-1-identify-and-analyse-the-legacy-function"></a></h4>
-<ol style="list-style-type: decimal"><li>Find the function in the legacy repo (<code>dfe-published-data-qa</code>), noting its location (e.g., <code>R/mainTests.r</code>).</li>
-<li>Understand what it checks, what inputs it needs, and what output it produces.</li>
-<li>Identify any hardcoded reference data it uses from <code>R/knownVariables.r</code>.</li>
-<li>Understand what the new function name should be and what family of functions (e.g. precheck_time) that it should belong to. Ask for clarification if unsure.</li>
-<li>
-<strong>Read <code>R/utils.R</code> in full</strong> to understand all available internal helpers before writing any logic. Many common operations (filtering columns by type, extracting filter groups, removing NAs/blanks, etc.) already have helpers. Use them rather than re-implementing inline.</li>
-</ol></div>
-<div class="section level4">
-<h4 id="step-2-create-the-initial-function-file">Step 2: Create the initial Function File<a class="anchor" aria-label="anchor" href="#step-2-create-the-initial-function-file"></a></h4>
-<ol start="0" style="list-style-type: decimal"><li>Create a new branch based off of the latest from main, following the format <code>claude/&lt;function-name&gt;</code>
+<p><strong>Before starting</strong>: create a branch <code>claude/&lt;function-name&gt;</code> off latest <code>main</code>.</p>
+<table class="table"><colgroup><col width="42%"><col width="57%"></colgroup><thead><tr class="header"><th>Step</th>
+<th>Action</th>
+</tr></thead><tbody><tr class="odd"><td>1. Analyse</td>
+<td>Find function in legacy repo. Identify inputs, outputs, hardcoded reference data. Read <code>R/utils.R</code> in full.</td>
+</tr><tr class="even"><td>2. Create function file</td>
+<td>
+<code>R/&lt;name&gt;.R</code> with standard signature, <code>test_output()</code> returns, full roxygen2 docs, two <code>@examples</code>.</td>
+</tr><tr class="odd"><td>3. Reference data</td>
+<td>If using <code>R/knownVariables.r</code> values: create <code>data-raw/</code> script, run it, document in <code>R/reference_values.R</code>. If from a CSV: <code>render_url("data/file.csv", domain = "screener_app_repo")</code> — see <code>data-raw/</code> for existing examples.</td>
+</tr><tr class="even"><td>4. Wire into pipeline</td>
+<td>Add to appropriate stage in <code>R/screen_dfs.R</code> via <code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind()</a></code>.</td>
+</tr><tr class="odd"><td>4b. Regenerate example output</td>
+<td>
+<code>devtools::load_all(); source("data-raw/example_output.R")</code> — required whenever a check is added to the pipeline.</td>
+</tr><tr class="even"><td>5. Write tests</td>
+<td>
+<code>tests/testthat/test-&lt;name&gt;.R</code> — see Section 4.</td>
+</tr><tr class="odd"><td>6. Format &amp; document</td>
+<td>
+<code>air format .</code> (terminal, not R), then <code>devtools::document()</code>. Add to <code>_pkgdown.yml</code> if new section needed.</td>
+</tr><tr class="even"><td>7. Verify</td>
+<td>
+<code>devtools::test()</code> — all tests must pass.</td>
+</tr><tr class="odd"><td>8. Simplify</td>
+<td>Replace <code>sapply</code> with vectorised/dplyr. Consolidate singular/plural messages with <code><a href="https://cli.r-lib.org/reference/pluralize.html" class="external-link">cli::pluralize()</a></code>. Re-run tests, format, lint: <code>devtools::load_all(); lintr::lint_package()</code>.</td>
+</tr><tr class="even"><td>9. Commit &amp; PR</td>
+<td>Commit function + tests + NAMESPACE + man pages + screen_dfs.R + any data. PR title: <code>"Add &lt;function_name&gt;()"</code>. Description: what it checks, legacy source file/function, any in-flight conflicts.</td>
+</tr><tr class="odd"><td>10. CI</td>
+<td>Confirm all GitHub Actions pass; fix failures in a follow-up commit.</td>
+</tr></tbody></table><div class="section level3">
+<h3 id="canonical-function-examples">Canonical function examples<a class="anchor" aria-label="anchor" href="#canonical-function-examples"></a></h3>
+<ul><li>Meta-only check: <code>R/check_meta_duplicate_label.R</code>
 </li>
-<li>Create <code>R/&lt;check_or_precheck&gt;_&lt;area&gt;_&lt;what&gt;.R</code>.</li>
-<li>Write the function with the standard signature (<code>verbose</code>, <code>stop_on_error</code>).</li>
-<li>Use <code>test_output()</code> for all return paths.</li>
-<li>Add roxygen2 documentation:
-<ul><li>Use <code>@inheritParams</code> from the most appropriate existing function.</li>
-<li>Use <code>@inherit check_filename_spaces return</code>.</li>
-<li>Set the correct <code>@family</code> tag.</li>
-<li>Add at least two <code>@examples</code>.</li>
-<li>Add <code>@export</code>.</li>
-</ul></li>
-</ol></div>
-<div class="section level4">
-<h4 id="step-3-add-reference-data-if-needed">Step 3: Add Reference Data (if needed)<a class="anchor" aria-label="anchor" href="#step-3-add-reference-data-if-needed"></a></h4>
-<p>If the check uses hardcoded values from <code>R/knownVariables.r</code>: 1. Create a script in <code>data-raw/</code> to generate the data. 2. Execute the script to create the data object as <code>.rda</code> in <code>data/</code>. 3. Document in <code>R/reference_values.R</code>. 4. Add tests in <code>tests/testthat/</code>.</p>
-<p>If the check uses data read in from a CSV file within that original repo. Add the CSV as a data object, e.g. countries.csv. Then create a data object that reads from that repo directly like we have for the data dictionary data object already.</p>
-<p>For example where in <code>R/knownVariables.r</code> there is <code>countries &lt;- suppressMessages(read_csv("data/country.csv"))</code>.</p>
-<ol style="list-style-type: decimal"><li>Create a script in <code>data-raw/</code> as follows:</li>
-</ol><pre><code><span><span class="va">countries</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span></span>
-<span>  <span class="fu">render_url</span><span class="op">(</span><span class="st">"data/countries.csv"</span>, domain <span class="op">=</span> <span class="st">"screener_app_repo"</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">usethis</span><span class="fu">::</span><span class="fu"><a href="https://usethis.r-lib.org/reference/use_data.html" class="external-link">use_data</a></span><span class="op">(</span><span class="va">countries</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre>
-<ol start="2" style="list-style-type: decimal"><li>Execute that script, to generate the data object.</li>
-<li>Add documentation for the data object in <code>R/reference_values.R</code>.</li>
-<li>Add tests for the data object in <code>tests/testthat/</code> ensuring that the output format and class remains stable, avoid being too strict on row rumbers as these can change.</li>
-</ol></div>
-<div class="section level4">
-<h4 id="step-4-wire-into-the-screening-pipeline">Step 4: Wire into the Screening Pipeline<a class="anchor" aria-label="anchor" href="#step-4-wire-into-the-screening-pipeline"></a></h4>
-<ol style="list-style-type: decimal"><li>Add the function call to the appropriate stage in <code>R/screen_dfs.R</code>. If the appropriate stage does not already exist, insert a new stage and adapt the code around it accordingly.</li>
-<li>Follow the existing pattern: <code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind()</a></code> the result into the stage’s results accumulator.</li>
-<li>Ensure the stage ordering is correct (prechecks before checks, blocking stages before non-blocking).</li>
-</ol></div>
-<div class="section level4">
-<h4 id="step-4b-regenerate-example-output">Step 4b: Regenerate Example Output<a class="anchor" aria-label="anchor" href="#step-4b-regenerate-example-output"></a></h4>
-<p>Adding a new check to the screening pipeline increases the number of rows in the results table. The <code>example_output</code> dataset must be regenerated to stay in sync, otherwise the <code>test-screen_csv.R</code> log row count test will fail.</p>
-<ol style="list-style-type: decimal"><li>
-<p>Run the regeneration script:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">load_all</span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/source.html" class="external-link">source</a></span><span class="op">(</span><span class="st">"data-raw/example_output.R"</span><span class="op">)</span></span></code></pre></div>
+<li>Data + meta check: <code>R/check_meta_fil_grp_match.R</code>
 </li>
-<li><p>This updates <code>data/example_output.rda</code> to include the new check’s result row.</p></li>
-<li><p>Commit the updated <code>data/example_output.rda</code> alongside the other changes.</p></li>
-</ol></div>
-<div class="section level4">
-<h4 id="step-5-write-tests">Step 5: Write Tests<a class="anchor" aria-label="anchor" href="#step-5-write-tests"></a></h4>
-<ol style="list-style-type: decimal"><li>Create <code>tests/testthat/test-&lt;function_name&gt;.R</code>.</li>
-<li>Write tests covering:
-<ul><li>PASS case with inline data</li>
-<li>PASS case with <code>example_data</code>/<code>example_meta</code>
+<li>Check with reference data: <code>R/check_geog_region_combos.R</code> + <code>data-raw/acceptable_regions.R</code>
 </li>
-<li>FAIL case with one problem</li>
-<li>FAIL case with multiple problems</li>
-<li>Edge cases (NAs, empty strings, etc.)</li>
-<li>
-<code>stop_on_error = TRUE</code> for both PASS and FAIL paths</li>
-<li>Any singular and plural versions of error messages to ensure all paths work</li>
-</ul></li>
-</ol><p>Note: Use versions of example data as listed in R/example_datasets.R for the tests, then adapt that as needed, this will ensure minimal but realistic test data is used. E.g.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">expect_warning</span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="reference/check_api_char_loc_code.html">check_api_char_loc_code</a></span><span class="op">(</span></span>
-<span>    <span class="va">example_data</span> <span class="op">|&gt;</span></span>
-<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>country_code <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"E88"</span>, <span class="fl">20</span><span class="op">)</span>, collapse <span class="op">=</span> <span class="st">""</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>    stop_on_error <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span>  <span class="op">)</span>,</span>
-<span>  <span class="st">"exceed the character limit"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level4">
-<h4 id="step-6-update-documentation-and-namespace">Step 6: Update Documentation and Namespace<a class="anchor" aria-label="anchor" href="#step-6-update-documentation-and-namespace"></a></h4>
-<ol start="0" style="list-style-type: decimal"><li>Run <code>air format .</code> (direct in terminal, not an R command) to format the files</li>
-<li>Run <code>devtools::document()</code> to regenerate <code>NAMESPACE</code> and <code>man/</code> pages.</li>
-<li>Add the function to the appropriate section in <code>_pkgdown.yml</code> if a new section is needed.</li>
-<li>Verify the function appears correctly in documentation with <code>?function_name</code>.</li>
-<li>Regenerate the example output data object with <code>source("data-raw/example_output.R")</code>.</li>
-</ol></div>
-<div class="section level4">
-<h4 id="step-7-verify">Step 7: Verify<a class="anchor" aria-label="anchor" href="#step-7-verify"></a></h4>
-<ol style="list-style-type: decimal"><li>Run <code>devtools::test()</code> - all tests must pass.</li>
-</ol></div>
-<div class="section level4">
-<h4 id="step-8-iterate-and-improve">Step 8: Iterate and improve<a class="anchor" aria-label="anchor" href="#step-8-iterate-and-improve"></a></h4>
-<ol style="list-style-type: decimal"><li>Simplify the legacy code that was migrated:
-<ul><li>Replace <code>sapply</code> patterns with vectorised or dplyr approaches.</li>
-<li>Use dplyr verbs where possible for duckplyr compatibility.</li>
-<li>Remove unnecessary intermediate objects.</li>
-</ul></li>
-<li>Combine singular / plural messages where appropriate using cli::pluralize() or sprintf()</li>
-<li>Run <code>devtools::test()</code> to ensure the behaviour has not changed at all</li>
-<li>Run <code>air format .</code> (direct in terminal, not an R command) to format the files</li>
-<li>Run <code>devtools::load_all(); lintr::lint_package()</code> to check for linting issues</li>
-</ol></div>
-<div class="section level4">
-<h4 id="step-9-commit-and-pr">Step 9: Commit and PR<a class="anchor" aria-label="anchor" href="#step-9-commit-and-pr"></a></h4>
-<ol start="0" style="list-style-type: decimal"><li>Run <code>air format .</code> (direct in terminal, not an R command) to format the files</li>
-<li>Commit all changes (function, tests, NAMESPACE, man pages, screen_dfs.R changes, any new data).</li>
-<li>Create PR following the PR conventions below.</li>
-</ol><hr></div>
-</div>
-</div>
-<div class="section level2">
-<h2 id="id_6-pr-conventions">6. PR Conventions<a class="anchor" aria-label="anchor" href="#id_6-pr-conventions"></a></h2>
-<div class="section level3">
-<h3 id="id_61-what-a-migration-pr-contains">6.1 What a Migration PR Contains<a class="anchor" aria-label="anchor" href="#id_61-what-a-migration-pr-contains"></a></h3>
-<p>Every migration PR should include changes to:</p>
-<table class="table"><colgroup><col width="42%"><col width="57%"></colgroup><thead><tr class="header"><th>File</th>
-<th>Change</th>
-</tr></thead><tbody><tr class="odd"><td><code>R/&lt;function_name&gt;.R</code></td>
-<td>New file — the migrated check function</td>
-</tr><tr class="even"><td><code>R/screen_dfs.R</code></td>
-<td>Modified — wire the new check into the pipeline</td>
-</tr><tr class="odd"><td><code>tests/testthat/test-&lt;function_name&gt;.R</code></td>
-<td>New file — tests for the check</td>
-</tr><tr class="even"><td><code>NAMESPACE</code></td>
-<td>Modified — auto-generated export declaration</td>
-</tr><tr class="odd"><td><code>man/&lt;function_name&gt;.Rd</code></td>
-<td>New file — auto-generated documentation</td>
-</tr><tr class="even"><td>
-<code>man/*.Rd</code> (other)</td>
-<td>Modified — auto-updated from <code>@inheritParams</code> changes</td>
-</tr><tr class="odd"><td><code>_pkgdown.yml</code></td>
-<td>Modified — only if a new section is needed</td>
-</tr><tr class="even"><td><code>data/example_output.rda</code></td>
-<td>Modified — regenerated to include the new check’s result row</td>
-</tr><tr class="odd"><td><code>data/*.rda</code></td>
-<td>Modified/added — only if new reference data is needed</td>
-</tr><tr class="even"><td><code>data-raw/*.R</code></td>
-<td>Modified/added — only if new reference data is needed</td>
-</tr></tbody></table></div>
-<div class="section level3">
-<h3 id="id_62-pr-description-pattern">6.2 PR Description Pattern<a class="anchor" aria-label="anchor" href="#id_62-pr-description-pattern"></a></h3>
-<p>Based on the example PRs (#6, #7, #12, #42), descriptions should:</p>
-<ul><li>State what function was added and what it checks.</li>
-<li>Reference the legacy source (which file/function it was migrated from).</li>
-<li>Note any conflicts with other in-flight PRs.</li>
-<li>Keep it concise (2–4 sentences).</li>
-<li>Link to the GitHub main branch version of the script that contains the original function to allow for easy review</li>
-</ul><p>Example: &gt; Copied across the ‘filter group match’ function from the dfe-published-data-qa repository. This adds the check as a function named <code>check_meta_filter_group_match</code> into the new package.</p>
-</div>
-<div class="section level3">
-<h3 id="id_63-pr-titles">6.3 PR Titles<a class="anchor" aria-label="anchor" href="#id_63-pr-titles"></a></h3>
-<p>Based on the examples: - <code>"Add the check_meta_duplicate_label() function"</code> - <code>"Add precheck_col_name_duplicate"</code> - <code>"Add filter group match function"</code></p>
-<p>Short, descriptive, focused on what was added.</p>
-</div>
-<div class="section level3">
-<h3 id="id_64-scope">6.4 Scope<a class="anchor" aria-label="anchor" href="#id_64-scope"></a></h3>
-<ul><li>One check function per PR (unless closely related utility functions are needed).</li>
-<li>Do not mix migration work with unrelated refactoring.</li>
 </ul><hr></div>
 </div>
 <div class="section level2">
-<h2 id="id_7-review-the-ci-on-the-pr">7. Review the CI on the PR<a class="anchor" aria-label="anchor" href="#id_7-review-the-ci-on-the-pr"></a></h2>
-<ol style="list-style-type: decimal"><li>Check that all GitHub actions are passing on the PR</li>
-</ol><p>If any are failing, review the logs to understand the failures then fix them in an additional commit.</p>
-<hr></div>
-<div class="section level2">
-<h2 id="id_8-golden-patterns">8. Golden Patterns<a class="anchor" aria-label="anchor" href="#id_8-golden-patterns"></a></h2>
-<div class="section level3">
-<h3 id="id_81-canonical-migrated-function-meta-only-check">8.1 Canonical Migrated Function (meta-only check)<a class="anchor" aria-label="anchor" href="#id_81-canonical-migrated-function-meta-only-check"></a></h3>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#' Check there are no duplicate labels</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' Ensure that each entry under label is unique in the metafile.</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' @inheritParams precheck_meta_col_type</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' @inherit check_filename_spaces return</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' @family check_meta</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' @examples</span></span>
-<span><span class="co">#' check_meta_duplicate_label(example_meta)</span></span>
-<span><span class="co">#' check_meta_duplicate_label(example_meta, verbose = TRUE)</span></span>
-<span><span class="co">#' @export</span></span>
-<span><span class="va">check_meta_duplicate_label</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span></span>
-<span>  <span class="va">meta</span>,</span>
-<span>  <span class="va">verbose</span> <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  <span class="va">stop_on_error</span> <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">duplicated_labels</span> <span class="op">&lt;-</span> <span class="va">meta</span><span class="op">$</span><span class="va">label</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html" class="external-link">duplicated</a></span><span class="op">(</span><span class="va">meta</span><span class="op">$</span><span class="va">label</span><span class="op">)</span><span class="op">]</span></span>
-<span>  <span class="va">check_name</span> <span class="op">&lt;-</span> <span class="fu">get_check_name</span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">duplicated_labels</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="fu">test_output</span><span class="op">(</span></span>
-<span>      <span class="va">check_name</span>,</span>
-<span>      <span class="st">"PASS"</span>,</span>
-<span>      <span class="st">"All labels are unique."</span>,</span>
-<span>      verbose <span class="op">=</span> <span class="va">verbose</span>,</span>
-<span>      stop_on_error <span class="op">=</span> <span class="va">stop_on_error</span></span>
-<span>    <span class="op">)</span></span>
-<span>  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
-<span>    <span class="fu">test_output</span><span class="op">(</span></span>
-<span>      <span class="va">check_name</span>,</span>
-<span>      <span class="st">"FAIL"</span>,</span>
-<span>      <span class="fu">cli</span><span class="fu">::</span><span class="fu"><a href="https://cli.r-lib.org/reference/pluralize.html" class="external-link">pluralize</a></span><span class="op">(</span></span>
-<span>        <span class="st">"The following {cli::qty(length(duplicated_labels))}label{?s} "</span>,</span>
-<span>        <span class="st">"{?is/are} duplicated in the metadata file: '"</span>,</span>
-<span>        <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">duplicated_labels</span>, collapse <span class="op">=</span> <span class="st">"', '"</span><span class="op">)</span>,</span>
-<span>        <span class="st">"'."</span></span>
-<span>      <span class="op">)</span>,</span>
-<span>      verbose <span class="op">=</span> <span class="va">verbose</span>,</span>
-<span>      stop_on_error <span class="op">=</span> <span class="va">stop_on_error</span></span>
-<span>    <span class="op">)</span></span>
-<span>  <span class="op">}</span></span>
-<span><span class="op">}</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="id_82-canonical-migrated-function-data--meta-check-with-dplyr">8.2 Canonical Migrated Function (data + meta check with dplyr)<a class="anchor" aria-label="anchor" href="#id_82-canonical-migrated-function-data--meta-check-with-dplyr"></a></h3>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#' Check filter groups match in meta and data</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' Ensure all filter groups from the meta data are found in the data file.</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' @inheritParams precheck_col_to_rows</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' @inherit check_filename_spaces return</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' @family check_meta</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' @examples</span></span>
-<span><span class="co">#' check_meta_fil_grp_match(example_data, example_meta)</span></span>
-<span><span class="co">#' check_meta_fil_grp_match(example_data, example_meta, verbose = TRUE)</span></span>
-<span><span class="co">#' @export</span></span>
-<span><span class="va">check_meta_fil_grp_match</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span></span>
-<span>  <span class="va">data</span>,</span>
-<span>  <span class="va">meta</span>,</span>
-<span>  <span class="va">verbose</span> <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  <span class="va">stop_on_error</span> <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">check_name</span> <span class="op">&lt;-</span> <span class="fu">get_check_name</span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span>  <span class="va">meta_filter_groups</span> <span class="op">&lt;-</span> <span class="va">meta</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span></span>
-<span>      <span class="op">!</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">filter_grouping_column</span><span class="op">)</span> <span class="op">|</span></span>
-<span>        <span class="va">.data</span><span class="op">$</span><span class="va">filter_grouping_column</span> <span class="op">==</span> <span class="st">""</span><span class="op">)</span></span>
-<span>    <span class="op">)</span></span>
-<span></span>
-<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">meta_filter_groups</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="fu">test_output</span><span class="op">(</span></span>
-<span>      <span class="va">check_name</span>,</span>
-<span>      <span class="st">"PASS"</span>,</span>
-<span>      <span class="st">"There are no filter groups present."</span>,</span>
-<span>      verbose <span class="op">=</span> <span class="va">verbose</span>,</span>
-<span>      stop_on_error <span class="op">=</span> <span class="va">stop_on_error</span></span>
-<span>    <span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="op">}</span></span>
-<span></span>
-<span>  <span class="va">filter_groups_not_in_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">setdiff</a></span><span class="op">(</span></span>
-<span>    <span class="va">meta_filter_groups</span><span class="op">$</span><span class="va">filter_grouping_column</span>,</span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
-<span></span>
-<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">filter_groups_not_in_data</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="fu">test_output</span><span class="op">(</span></span>
-<span>      <span class="va">check_name</span>,</span>
-<span>      <span class="st">"PASS"</span>,</span>
-<span>      <span class="st">"All filter groups from the metadata were found in the data file."</span>,</span>
-<span>      verbose <span class="op">=</span> <span class="va">verbose</span>,</span>
-<span>      stop_on_error <span class="op">=</span> <span class="va">stop_on_error</span></span>
-<span>    <span class="op">)</span></span>
-<span>  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
-<span>    <span class="fu">test_output</span><span class="op">(</span></span>
-<span>      <span class="va">check_name</span>,</span>
-<span>      <span class="st">"FAIL"</span>,</span>
-<span>      <span class="fu">cli</span><span class="fu">::</span><span class="fu"><a href="https://cli.r-lib.org/reference/pluralize.html" class="external-link">pluralize</a></span><span class="op">(</span></span>
-<span>        <span class="st">"The following {cli::qty(length(filter_groups_not_in_data))}filter group{?s} "</span>,</span>
-<span>        <span class="st">"from the metadata {?was/were} not found as "</span>,</span>
-<span>        <span class="st">"{?a variable/variables} in the data file: '"</span>,</span>
-<span>        <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">filter_groups_not_in_data</span>, collapse <span class="op">=</span> <span class="st">"', '"</span><span class="op">)</span>,</span>
-<span>        <span class="st">"'."</span></span>
-<span>      <span class="op">)</span>,</span>
-<span>      verbose <span class="op">=</span> <span class="va">verbose</span>,</span>
-<span>      stop_on_error <span class="op">=</span> <span class="va">stop_on_error</span></span>
-<span>    <span class="op">)</span></span>
-<span>  <span class="op">}</span></span>
-<span><span class="op">}</span></span></code></pre></div>
-<p>Key patterns used here (vs the simpler meta-only check in 8.1): - <code>check_name &lt;- get_check_name()</code> — no hardcoded string; stays in sync if the function is renamed. - Early <code><a href="https://rdrr.io/r/base/function.html" class="external-link">return()</a></code> on the short-circuit PASS branch (section 9.7). - <code><a href="https://cli.r-lib.org/reference/pluralize.html" class="external-link">cli::pluralize()</a></code> replaces a nested <code>if/else</code> for singular/plural messages (section 2.5). - Intermediate result stored in a named variable before the final <code>if/else</code> — avoids repeating the dplyr chain.</p>
-</div>
-<div class="section level3">
-<h3 id="id_83-canonical-test-file">8.3 Canonical Test File<a class="anchor" aria-label="anchor" href="#id_83-canonical-test-file"></a></h3>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">test_that</span><span class="op">(</span><span class="st">"passes when all labels are unique"</span>, <span class="op">{</span></span>
-<span>  <span class="va">meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="fu">expect_equal</span><span class="op">(</span><span class="fu">check_meta_duplicate_label</span><span class="op">(</span><span class="va">meta</span><span class="op">)</span><span class="op">$</span><span class="va">result</span>, <span class="st">"PASS"</span><span class="op">)</span></span>
-<span>  <span class="fu">expect_no_error</span><span class="op">(</span><span class="fu">check_meta_duplicate_label</span><span class="op">(</span><span class="va">meta</span>, stop_on_error <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="fu">expect_no_error</span><span class="op">(</span><span class="fu">check_meta_duplicate_label</span><span class="op">(</span></span>
-<span>    <span class="va">example_meta</span>,</span>
-<span>    stop_on_error <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span>  <span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">}</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">test_that</span><span class="op">(</span><span class="st">"fails with one duplicate label"</span>, <span class="op">{</span></span>
-<span>  <span class="va">meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"A"</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="fu">expect_equal</span><span class="op">(</span><span class="fu">check_meta_duplicate_label</span><span class="op">(</span><span class="va">meta</span><span class="op">)</span><span class="op">$</span><span class="va">result</span>, <span class="st">"FAIL"</span><span class="op">)</span></span>
-<span>  <span class="fu">expect_error</span><span class="op">(</span><span class="fu">check_meta_duplicate_label</span><span class="op">(</span><span class="va">meta</span>, stop_on_error <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">}</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">test_that</span><span class="op">(</span><span class="st">"fails with multiple duplicate labels"</span>, <span class="op">{</span></span>
-<span>  <span class="va">meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="fu">expect_equal</span><span class="op">(</span><span class="fu">check_meta_duplicate_label</span><span class="op">(</span><span class="va">meta</span><span class="op">)</span><span class="op">$</span><span class="va">result</span>, <span class="st">"FAIL"</span><span class="op">)</span></span>
-<span>  <span class="fu">expect_error</span><span class="op">(</span><span class="fu">check_meta_duplicate_label</span><span class="op">(</span><span class="va">meta</span>, stop_on_error <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">}</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">test_that</span><span class="op">(</span><span class="st">"handles numeric values in label"</span>, <span class="op">{</span></span>
-<span>  <span class="va">meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="fu">expect_equal</span><span class="op">(</span><span class="fu">check_meta_duplicate_label</span><span class="op">(</span><span class="va">meta</span><span class="op">)</span><span class="op">$</span><span class="va">result</span>, <span class="st">"PASS"</span><span class="op">)</span></span>
-<span>  <span class="fu">expect_no_error</span><span class="op">(</span><span class="fu">check_meta_duplicate_label</span><span class="op">(</span><span class="va">meta</span>, stop_on_error <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span>  <span class="va">meta2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="fu">expect_equal</span><span class="op">(</span><span class="fu">check_meta_duplicate_label</span><span class="op">(</span><span class="va">meta2</span><span class="op">)</span><span class="op">$</span><span class="va">result</span>, <span class="st">"FAIL"</span><span class="op">)</span></span>
-<span>  <span class="fu">expect_error</span><span class="op">(</span><span class="fu">check_meta_duplicate_label</span><span class="op">(</span><span class="va">meta2</span>, stop_on_error <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="id_84-canonical-pr-description">8.4 Canonical PR Description<a class="anchor" aria-label="anchor" href="#id_84-canonical-pr-description"></a></h3>
-<blockquote>
-<p><strong>Title</strong>: Adding the check_meta_duplicate_label() function</p>
-<p>Copied across the duplicate label check from the dfe-published-data-qa repository (originally <code>duplicate_label()</code> in <code>R/mainTests.r</code>). This adds the check as a function named <code>check_meta_duplicate_label</code> into the package, with tests and documentation.</p>
-</blockquote>
-</div>
-<div class="section level3">
-<h3 id="id_85-canonical-screen_dfs-stage-block">8.5 Canonical <code>screen_dfs()</code> stage block<a class="anchor" aria-label="anchor" href="#id_85-canonical-screen_dfs-stage-block"></a></h3>
-<p>Every stage in <code><a href="reference/screen_dfs.html">screen_dfs()</a></code> follows this pattern using the <code>run_and_log_check()</code> helper:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Check &lt;area&gt; ----------------------------------------------------------------</span></span>
-<span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">run_and_log_check</span><span class="op">(</span></span>
-<span>  <span class="va">all_results</span>,</span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span></span>
-<span>    <span class="fu">check_area_thing_one</span><span class="op">(</span><span class="va">data</span>, <span class="va">meta</span>, <span class="va">vb</span>, <span class="va">soe</span><span class="op">)</span>,</span>
-<span>    <span class="fu">check_area_thing_two</span><span class="op">(</span><span class="va">data</span>, <span class="va">meta</span>, <span class="va">vb</span>, <span class="va">soe</span><span class="op">)</span></span>
-<span>  <span class="op">)</span>,</span>
-<span>  <span class="st">"Check &lt;area&gt;"</span>,</span>
-<span>  <span class="va">log_key</span>,</span>
-<span>  <span class="va">log_dir</span>,</span>
-<span>  <span class="va">data_details</span></span>
-<span><span class="op">)</span></span>
-<span><span class="va">all_results</span> <span class="op">&lt;-</span> <span class="va">res</span><span class="op">$</span><span class="va">all_results</span></span>
-<span><span class="kw">if</span> <span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">early_return</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">all_results</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">}</span></span></code></pre></div>
-<p>Rules: - <code>vb</code> and <code>soe</code> are shorthands for <code>verbose</code> and <code>stop_on_error</code> set at the top of <code><a href="reference/screen_dfs.html">screen_dfs()</a></code>. - Checks are called with <strong>positional arguments</strong> for the common parameters (see section 2.3). - <code>run_and_log_check()</code> handles: appending the <code>stage</code> column, calling <code>write_json_log()</code>, and detecting any <code>"FAIL"</code> for early-exit signalling. - All stages follow this exact three-line pattern (<code>res &lt;- ...</code>, <code>all_results &lt;- res$all_results</code>, <code>if (res$early_return) ...</code>). - The Check API stage is the only exception — it builds <code>check_api_results</code> separately before passing to <code>run_and_log_check()</code> because of the conditional <code>dd_checks</code> block.</p>
-</div>
-<div class="section level3">
-<h3 id="id_86-grouped-export-file-pattern-shared-internal-helper">8.6 Grouped-export file pattern (shared internal helper)<a class="anchor" aria-label="anchor" href="#id_86-grouped-export-file-pattern-shared-internal-helper"></a></h3>
-<p>When several exported <code>check_api_*()</code> functions all delegate to one internal helper that calls <code>test_output()</code>, they live together in one file. The file is named after the shared concept (e.g., <code>check_api_char_limit.R</code>), not any single exported function.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Internal helper — calls test_output() directly, builds its own test_name</span></span>
-<span><span class="va">some_helper</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">values</span>, <span class="va">type</span>, <span class="va">verbose</span> <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">stop_on_error</span> <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">test_name</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"api_"</span>, <span class="va">type_map</span><span class="op">[[</span><span class="va">type</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
-<span>  <span class="co"># ... shared logic ...</span></span>
-<span>  <span class="kw">if</span> <span class="op">(</span><span class="va">problem</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="fu">test_output</span><span class="op">(</span></span>
-<span>      <span class="va">test_name</span>, <span class="st">"WARNING"</span>, <span class="va">message</span>,</span>
-<span>      guidance_url <span class="op">=</span> <span class="fu">render_url</span><span class="op">(</span><span class="st">"..."</span><span class="op">)</span>,</span>
-<span>      verbose <span class="op">=</span> <span class="va">verbose</span>,</span>
-<span>      stop_on_error <span class="op">=</span> <span class="va">stop_on_error</span></span>
-<span>    <span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="op">}</span></span>
-<span>  <span class="fu">test_output</span><span class="op">(</span><span class="va">test_name</span>, <span class="st">"PASS"</span>, <span class="va">pass_message</span>, verbose <span class="op">=</span> <span class="va">verbose</span>,</span>
-<span>              stop_on_error <span class="op">=</span> <span class="va">stop_on_error</span><span class="op">)</span></span>
-<span><span class="op">}</span></span>
-<span></span>
-<span><span class="co">#' Check thing A</span></span>
-<span><span class="co">#' @inheritParams precheck_col_req_data</span></span>
-<span><span class="co">#' @inherit check_filename_spaces return</span></span>
-<span><span class="co">#' @family check_api</span></span>
-<span><span class="co">#' @examples</span></span>
-<span><span class="co">#' check_api_thing_a(example_data)</span></span>
-<span><span class="co">#' check_api_thing_a(example_data, verbose = TRUE)</span></span>
-<span><span class="co">#' @export</span></span>
-<span><span class="va">check_api_thing_a</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">verbose</span> <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">stop_on_error</span> <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="fu">some_helper</span><span class="op">(</span><span class="va">data</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/tbl_vars.html" class="external-link">tbl_vars</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"type-a"</span>, <span class="va">verbose</span>, <span class="va">stop_on_error</span><span class="op">)</span></span>
-<span><span class="op">}</span></span>
-<span></span>
-<span><span class="co">#' Check thing B</span></span>
-<span><span class="co">#' @inheritParams precheck_col_req_meta</span></span>
-<span><span class="co">#' @inherit check_filename_spaces return</span></span>
-<span><span class="co">#' @family check_api</span></span>
-<span><span class="co">#' @examples</span></span>
-<span><span class="co">#' check_api_thing_b(example_meta)</span></span>
-<span><span class="co">#' check_api_thing_b(example_meta, verbose = TRUE)</span></span>
-<span><span class="co">#' @export</span></span>
-<span><span class="va">check_api_thing_b</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">meta</span>, <span class="va">verbose</span> <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">stop_on_error</span> <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="fu">some_helper</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">meta</span><span class="op">$</span><span class="va">label</span><span class="op">)</span>, <span class="st">"type-b"</span>, <span class="va">verbose</span>, <span class="va">stop_on_error</span><span class="op">)</span></span>
-<span><span class="op">}</span></span></code></pre></div>
-<p>This is the only sanctioned deviation from “one exported function per file”. It applies when: 1. The exported functions are thin wrappers over one shared internal helper. 2. All belong to the same <code>@family</code> group. 3. Keeping them together makes the shared helper easier to find and maintain.</p>
-<p>Because <code>get_check_name()</code> walks up the call stack looking for a <code>check_</code>/<code>precheck_</code> prefix, it works correctly even when the internal helper passes through a wrapper — but the internal helper itself cannot use <code>get_check_name()</code> and must construct the test name from its own logic.</p>
-<hr></div>
-</div>
-<div class="section level2">
-<h2 id="id_9-inferred-rules-not-explicitly-stated">9. Inferred Rules (Not Explicitly Stated)<a class="anchor" aria-label="anchor" href="#id_9-inferred-rules-not-explicitly-stated"></a></h2>
-<p>These rules are implied by the codebase patterns but not written anywhere:</p>
-<div class="section level3">
-<h3 id="id_91-code-style">9.1 Code Style<a class="anchor" aria-label="anchor" href="#id_91-code-style"></a></h3>
-<ul><li>
-<strong>2-space indentation</strong> (configured in <code>.Rproj</code>).</li>
-<li>
-<strong>Tidyverse style guide</strong> (no trailing whitespace, spaces around operators, etc.).</li>
-<li>
-<strong>Roxygen2 markdown format</strong> is enabled (<code>Roxygen: list(markdown = TRUE)</code> in DESCRIPTION).</li>
-<li>
-<strong>British English</strong> spelling (<code>Language: en-GB</code> in DESCRIPTION).</li>
-<li>
-<strong>No trailing commas</strong> in function arguments.</li>
-<li>
-<strong>Function arguments on separate lines</strong> when the function definition is long (one argument per line).</li>
-</ul></div>
-<div class="section level3">
-<h3 id="id_92-test_output-first-argument">9.2 test_output() First Argument<a class="anchor" aria-label="anchor" href="#id_92-test_output-first-argument"></a></h3>
-<p>The <code>test_name</code> argument passed to <code>test_output()</code> is a short identifier that omits the <code>check_</code>/<code>precheck_</code> prefix — for example, <code><a href="reference/check_meta_dupe_label.html">check_meta_dupe_label()</a></code> produces <code>"meta_dupe_label"</code> and <code><a href="reference/precheck_geog_level.html">precheck_geog_level()</a></code> produces <code>"geog_level"</code>. This is the value that appears in the <code>check</code> column of the results data frame.</p>
-<p><strong>Always derive this with <code>get_check_name()</code></strong> rather than writing a string literal. This keeps the check name automatically in sync if the function is ever renamed:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">check_name</span> <span class="op">&lt;-</span> <span class="fu">get_check_name</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>Call it at the top of the function body, before any logic. The only exception is internal non-<code>check_</code>/<code>precheck_</code> helpers (like <code>api_char_limit()</code>) that call <code>test_output()</code> directly — those must build the test name themselves because <code>get_check_name()</code> looks for a <code>check_</code> or <code>precheck_</code> prefix in the call stack.</p>
-</div>
-<div class="section level3">
-<h3 id="id_93-example-data-always-passes">9.3 Example Data Always Passes<a class="anchor" aria-label="anchor" href="#id_93-example-data-always-passes"></a></h3>
-<p>The package’s built-in example datasets (<code>example_data</code>, <code>example_meta</code>) must always pass all checks. Every test file should include a test confirming this. If a new check would fail on the example data, update the example data.</p>
-</div>
-<div class="section level3">
-<h3 id="id_95-stage-based-early-exit">9.5 Stage-Based Early Exit<a class="anchor" aria-label="anchor" href="#id_95-stage-based-early-exit"></a></h3>
-<p>In <code><a href="reference/screen_dfs.html">screen_dfs()</a></code>, if any check in a stage returns <code>"FAIL"</code>, screening stops and returns all results accumulated so far. This means prechecks genuinely gate the later checks.</p>
-</div>
-<div class="section level3">
-<h3 id="id_96-duckplyr-activation">9.6 duckplyr Activation<a class="anchor" aria-label="anchor" href="#id_96-duckplyr-activation"></a></h3>
-<p><code><a href="reference/screen_dfs.html">screen_dfs()</a></code> calls <code>suppressMessages(duckplyr::methods_restore())</code> at the very start of the function (before any check stages run), then converts <code>data</code> to a duckdb tibble with <code><a href="https://duckplyr.tidyverse.org/reference/duckdb_tibble.html" class="external-link">duckplyr::as_duckdb_tibble()</a></code> — but only if it is not already one (checked via <code><a href="https://duckplyr.tidyverse.org/reference/duckdb_tibble.html" class="external-link">duckplyr::is_duckdb_tibble()</a></code>). The <code>meta</code> data frame is left as a plain data frame throughout since it is always small.</p>
-<p>Individual <code>check_*()</code> and <code>precheck_*()</code> functions do not activate duckplyr themselves; they receive whatever frame <code><a href="reference/screen_dfs.html">screen_dfs()</a></code> has prepared and should use dplyr verbs throughout.</p>
-</div>
-<div class="section level3">
-<h3 id="id_97-no-explicit-return-statements-usually">9.7 No Explicit Return Statements (Usually)<a class="anchor" aria-label="anchor" href="#id_97-no-explicit-return-statements-usually"></a></h3>
-<p>Most check functions rely on implicit return of the last expression (<code>test_output()</code> call). Explicit <code><a href="https://rdrr.io/r/base/function.html" class="external-link">return()</a></code> is used only for early exits (e.g., when a check can short-circuit before the main logic).</p>
-</div>
-<div class="section level3">
-<h3 id="id_98-consistent-dataframe-construction-in-tests">9.8 Consistent data.frame Construction in Tests<a class="anchor" aria-label="anchor" href="#id_98-consistent-dataframe-construction-in-tests"></a></h3>
-<p>Test data uses simple <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> calls with named columns. Use <code>stringsAsFactors = FALSE</code> when the data contains character columns that might be affected by R’s factor-coercion defaults (though this is less of an issue in R &gt;= 4.0 where <code>stringsAsFactors</code> defaults to FALSE).</p>
-</div>
-<div class="section level3">
-<h3 id="id_99-no-snapshot-tests">9.9 No Snapshot Tests<a class="anchor" aria-label="anchor" href="#id_99-no-snapshot-tests"></a></h3>
-<p>The codebase does not use <code>testthat</code> snapshot tests. All assertions are explicit equality or error/no-error checks.</p>
-</div>
-<div class="section level3">
-<h3 id="id_910-namespace-management">9.10 Namespace Management<a class="anchor" aria-label="anchor" href="#id_910-namespace-management"></a></h3>
-<ul><li>
-<code>NAMESPACE</code> is auto-generated by roxygen2 — never edit manually.</li>
-<li>Run <code>devtools::document()</code> after any changes to <code>@export</code>, <code>@importFrom</code>, or <code>@inheritParams</code>.</li>
-<li>The package imports <code><a href="https://rlang.r-lib.org/reference/dot-data.html" class="external-link">rlang::.data</a></code> at the package level for use in dplyr expressions.</li>
-</ul></div>
-<div class="section level3">
-<h3 id="id_911-guidance-urls">9.11 Guidance URLs<a class="anchor" aria-label="anchor" href="#id_911-guidance-urls"></a></h3>
-<p>The <code>guidance_url</code> parameter in <code>test_output()</code> is used sparingly. Most checks pass <code>NA</code> (the default). Only API checks and checks where external documentation would help the user include a URL, constructed via the internal <code>render_url()</code> helper.</p>
-<p>Do not include a guidance URL unless a test has failed, only include guidance URLs if they are included in the original function.</p>
-</div>
-<div class="section level3">
-<h3 id="id_912-log-integration">9.12 Log Integration<a class="anchor" aria-label="anchor" href="#id_912-log-integration"></a></h3>
-<p>When wiring a new check into <code><a href="reference/screen_dfs.html">screen_dfs()</a></code>, use the <code>run_and_log_check()</code> helper (see section 8.5). It handles appending the <code>stage</code> column, calling <code>write_json_log()</code>, and signalling an early-return if any result is <code>"FAIL"</code>. Do not call <code>write_json_log()</code> or <code>cbind("stage" = ...)</code> directly in <code><a href="reference/screen_dfs.html">screen_dfs()</a></code>.</p>
-</div>
+<h2 id="id_6-what-a-migration-pr-contains">6. What a Migration PR Contains<a class="anchor" aria-label="anchor" href="#id_6-what-a-migration-pr-contains"></a></h2>
+<p>Function file, test file, <code>NAMESPACE</code>, <code>man/</code> pages, <code>R/screen_dfs.R</code>, <code>data/example_output.rda</code>. Plus <code>data/*.rda</code> + <code>data-raw/*.R</code> and <code>_pkgdown.yml</code> only if new reference data or a new section is needed.</p>
 </div>
 </div>
 

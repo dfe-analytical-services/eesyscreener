@@ -50,15 +50,15 @@
 <strong>Direct R Usage</strong>: Analysts integrating checks into their own data preparation pipelines</li>
 </ol><div class="section level3">
 <h3 id="building-and-running-tests">Building and Running Tests<a class="anchor" aria-label="anchor" href="#building-and-running-tests"></a></h3>
-<p>Run R commands via <code>Rscript -e "..."</code> in the terminal. Chain multiple expressions with <code>;</code>.</p>
+<p>Run R commands via <code>Rscript -e "..."</code> in the terminal. Chain multiple lines / expressions with <code>;</code>, e.g. <code>Rsript -e "devtools::load_all(); devtools::test()</code>.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># Load package in development mode</span></span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">"devtools::load_all()"</span></span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co"># Run all tests (fast, no build — use this for quick iteration)</span></span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">"devtools::test()"</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co"># Run tests for a specific file</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">"devtools::test(filter = 'test_name')"</span></span>
 <span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co"># Run tests for a specific file</span></span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">"devtools::test(filter = 'test_name')"</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co"># Run all tests (fast, no build — use this for quick iteration)</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">"devtools::test()"</span></span>
 <span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a></span>
 <span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co"># Full package check — R CMD check including build, examples, vignettes, and tests</span></span>
 <span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co"># Use this as the final verification before committing/pushing</span></span>
@@ -80,15 +80,13 @@
 <div class="section level3">
 <h3 id="key-dependencies">Key Dependencies<a class="anchor" aria-label="anchor" href="#key-dependencies"></a></h3>
 <ul><li>
-<strong>Core</strong>: dplyr, stringr, tidyr, lubridate (data manipulation)</li>
+<strong>Core</strong>: dplyr, stringr, tidyr (data manipulation)</li>
 <li>
-<strong>DuckDB Integration</strong>: duckplyr, duckdb (efficient large-file processing)</li>
+<strong>DuckDB Integration</strong>: duckplyr (efficient large-file processing)</li>
 <li>
 <strong>Testing</strong>: testthat (version 3.0.0+)</li>
 <li>
 <strong>Documentation</strong>: roxygen2, pkgdown</li>
-<li>
-<strong>Optional</strong>: dfeR (additional utility functions)</li>
 </ul></div>
 </div>
 <div class="section level2">
@@ -116,7 +114,7 @@
 </ol></div>
 <div class="section level3">
 <h3 id="check-architecture">Check Architecture<a class="anchor" aria-label="anchor" href="#check-architecture"></a></h3>
-<p>Checks are organized into <strong>stages</strong>, executed sequentially. If any check fails in a stage, screening stops and returns the failure stage:</p>
+<p>Checks are organized into <strong>stages</strong>, executed sequentially. If any check fails in a stage, screening stops and returns the failure stage. Examples are:</p>
 <ol style="list-style-type: decimal"><li>
 <strong>Filename</strong> – Naming conventions and special characters</li>
 <li>
@@ -215,32 +213,10 @@ precheck_&lt;area&gt;_&lt;what&gt;()   # Examples: precheck_col_req_data, preche
 <div class="section level2">
 <h2 id="important-details">Important Details<a class="anchor" aria-label="anchor" href="#important-details"></a></h2>
 <div class="section level3">
-<h3 id="logging">Logging<a class="anchor" aria-label="anchor" href="#logging"></a></h3>
-<ul><li>When <code>log_key</code> and <code>log_dir</code> are provided, screening appends JSON logs for API usage</li>
-<li>Each log entry includes results, file metadata, and screening stage</li>
-</ul></div>
-<div class="section level3">
 <h3 id="large-file-handling">Large File Handling<a class="anchor" aria-label="anchor" href="#large-file-handling"></a></h3>
 <ul><li>By default, uses <code>duckplyr</code> with DuckDB for efficient processing of large CSVs</li>
 <li>The <code>prudence</code> parameter in <code><a href="reference/screen_dfs.html">screen_dfs()</a></code> controls memory/speed trade-offs</li>
-<li>Default is “lavish” (conservative memory use)</li>
-</ul></div>
-<div class="section level3">
-<h3 id="data-dictionary-checks-dd_checks-parameter">Data Dictionary Checks (<code>dd_checks</code> parameter)<a class="anchor" aria-label="anchor" href="#data-dictionary-checks-dd_checks-parameter"></a></h3>
-<ul><li>Most metadata validation against <code>data_dictionary.rda</code> can be disabled via <code>dd_checks = FALSE</code>
-</li>
-<li>This was added to allow test data updates without breaking robot tests</li>
-</ul></div>
-<div class="section level3">
-<h3 id="special-features">Special Features<a class="anchor" aria-label="anchor" href="#special-features"></a></h3>
-<ul><li>
-<strong>Geographic level support</strong> – Checks validate geographic hierarchy consistency</li>
-<li>
-<strong>Filter groups</strong> – Validates indicator grouping and default selections</li>
-<li>
-<strong>Time period handling</strong> – Complex validation of time identifiers and 6-week periods</li>
-<li>
-<strong>API constraints</strong> – Separate validation for API publishing suitability (warnings only)</li>
+<li>Avoid all unintentional materialisation where possible</li>
 </ul></div>
 </div>
 <div class="section level2">
@@ -266,17 +242,9 @@ precheck_&lt;area&gt;_&lt;what&gt;()   # Examples: precheck_col_req_data, preche
 <span><span class="kw"><a href="https://rdrr.io/r/base/source.html" class="external-link">source</a></span><span class="op">(</span><span class="st">"data-raw/my_data.R"</span><span class="op">)</span>  <span class="co"># Regenerates data/my_data.rda</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="generating-documentation">Generating Documentation<a class="anchor" aria-label="anchor" href="#generating-documentation"></a></h3>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">document</span><span class="op">(</span><span class="op">)</span>           <span class="co"># Update NAMESPACE and man/ from roxygen2</span></span>
-<span><span class="fu">pkgdown</span><span class="fu">::</span><span class="fu"><a href="https://pkgdown.r-lib.org/reference/build_site.html" class="external-link">build_site</a></span><span class="op">(</span><span class="op">)</span>         <span class="co"># Generate HTML documentation site</span></span></code></pre></div>
-</div>
-<div class="section level3">
 <h3 id="code-style">Code Style<a class="anchor" aria-label="anchor" href="#code-style"></a></h3>
 <ul><li>Follows tidyverse style guide</li>
-<li>2-space indentation (configured in .Rproj)</li>
 <li>Roxygen2 markdown format for documentation</li>
-<li>Tests should be clear and cover both success and failure paths</li>
 <li>Do not include HTML (e.g. <code>&lt;br&gt;</code>) in check message strings — messages are used in CLI, API, and Shiny contexts and should be plain text</li>
 </ul></div>
 </div>
@@ -299,7 +267,7 @@ precheck_&lt;area&gt;_&lt;what&gt;()   # Examples: precheck_col_req_data, preche
 </div>
 <div class="section level2">
 <h2 id="key-files-to-know">Key Files to Know<a class="anchor" aria-label="anchor" href="#key-files-to-know"></a></h2>
-<table class="table"><colgroup><col width="40%"><col width="60%"></colgroup><thead><tr class="header"><th>File</th>
+<table class="table"><thead><tr class="header"><th>File</th>
 <th>Purpose</th>
 </tr></thead><tbody><tr class="odd"><td><code>DESCRIPTION</code></td>
 <td>Package metadata, dependencies, version</td>
@@ -309,12 +277,6 @@ precheck_&lt;area&gt;_&lt;what&gt;()   # Examples: precheck_col_req_data, preche
 <td>Documentation site configuration</td>
 </tr><tr class="even"><td><code>.github/workflows/</code></td>
 <td>CI/CD pipelines (R-CMD-check, coverage, docs)</td>
-</tr><tr class="odd"><td><code>eesyscreener.Rproj</code></td>
-<td>RStudio project file with build settings</td>
-</tr><tr class="even"><td><code>MIGRATION_CONTEXT_PACK.md</code></td>
-<td>Detailed steps and guidelines for migrating code into this package</td>
-</tr><tr class="odd"><td><code>migration_examples.md</code></td>
-<td>Examples of functions before and after adding into this package</td>
 </tr></tbody></table></div>
 </div>
 
