@@ -72,7 +72,6 @@ Every exported function needs:
 #' @family check_meta                      # match _pkgdown.yml grouping
 #' @examples
 #' check_something(example_meta)
-#' check_something(example_meta, verbose = TRUE)
 #' @export
 ```
 
@@ -94,14 +93,14 @@ Canonical test file reference: `tests/testthat/test-check_geog_lad_combos.R`
 
 Every test file must cover:
 
-1. PASS with package example data (also `expect_no_error(..., stop_on_error = TRUE)`)
+1. PASS with package example data
 2. FAIL with one problem (singular message form)
 3. FAIL with multiple problems (plural message form, `expect_error(..., stop_on_error = TRUE)`)
 4. Edge cases: NAs, empty strings, single values
 
 Prefer building on package example datasets via `rbind()` or `dplyr::mutate()` over fully inline `data.frame()` construction. Only use inline construction when no example dataset provides the required schema.
 
-Do NOT test argument validation (that's the orchestrator's job) or pipeline integration (that's `test-screen_dfs.R`).
+Do NOT test argument validation (that's the orchestrator's job), verbose / stop on error (covered by `test-test_output.R`) or pipeline integration (that's `test-screen_dfs.R`).
 
 ---
 

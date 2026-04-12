@@ -43,3 +43,20 @@ acceptable_lads <- readr::read_csv(
   as.data.frame()
 
 usethis::use_data(acceptable_lads, overwrite = TRUE)
+
+acceptable_pcons <- dplyr::bind_rows(
+  readr::read_csv(
+    render_url("data/pcons.csv", domain = "screener_app_repo"),
+    show_col_types = FALSE
+  ) |>
+    dplyr::select("pcon_code", "pcon_name"),
+  readr::read_csv(
+    render_url("data/pcon_2024_v2.csv", domain = "screener_app_repo"),
+    show_col_types = FALSE
+  ) |>
+    dplyr::select(pcon_code = "PCON24CD", pcon_name = "PCON24NM")
+) |>
+  dplyr::distinct() |>
+  as.data.frame()
+
+usethis::use_data(acceptable_pcons, overwrite = TRUE)

@@ -260,6 +260,40 @@ check_geog_lad_combos <- function(
   )
 }
 
+#' Check parliamentary constituency code and name combinations
+#'
+#' Checks that all pcon_code and pcon_name combinations in the data file are
+#' valid. Rows where pcon_code is "x" (the GSS not-available code) are excluded
+#' from the check.
+#'
+#' If either pcon column is absent from the data, the check passes immediately.
+#'
+#' @inheritParams check_col_names_spaces
+#'
+#' @inherit check_filename_spaces return
+#'
+#' @family check_geog
+#'
+#' @examples
+#' check_geog_pcon_combos(example_data)
+#' check_geog_pcon_combos(example_data, verbose = TRUE)
+#' @export
+check_geog_pcon_combos <- function(
+  data,
+  verbose = FALSE,
+  stop_on_error = FALSE
+) {
+  .check_geog_combos(
+    data,
+    code_col = "pcon_code",
+    name_col = "pcon_name",
+    acceptable_data = eesyscreener::acceptable_pcons,
+    guidance_url = render_url("data/pcons.csv", domain = "screener_app_repo"),
+    verbose = verbose,
+    stop_on_error = stop_on_error
+  )
+}
+
 #' Check local authority code and name combinations
 #'
 #' Checks that all old_la_code, new_la_code, and la_name combinations in the

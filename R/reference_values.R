@@ -140,6 +140,22 @@
 #' @source dfe-published-data-qa screener app repo, data/lads.csv
 "acceptable_lads"
 
+# Parliamentary constituencies lookup ====
+#' Parliamentary constituencies lookup
+#'
+#' A data frame of valid parliamentary constituency code and name combinations
+#' as used in EES data files. Combines both pre-2024 and 2024 boundary
+#' constituencies.
+#'
+#' @format A data.frame with columns:
+#' \describe{
+#' \item{pcon_code}{GSS parliamentary constituency code}
+#' \item{pcon_name}{Parliamentary constituency name matching the code}
+#' }
+#' @source dfe-published-data-qa screener app repo, data/pcons.csv and
+#'   data/pcon_2024_v2.csv
+"acceptable_pcons"
+
 # Local authorities lookup ====
 #' Local authorities lookup
 #'
