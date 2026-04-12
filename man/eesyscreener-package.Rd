@@ -6,6 +6,8 @@
 \alias{eesyscreener-package}
 \title{eesyscreener: Explore education statistics data screening}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 Quality assurance checks used to enforce standards of official statistics files ready for publication on the explore education statistics platform.
 }
 \seealso{
