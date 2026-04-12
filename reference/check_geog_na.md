@@ -1,18 +1,15 @@
-# Check for rows ignored by the EES table tool
+# Check NA geography codes have the correct name
 
-Identifies rows at geographic levels that are ignored by the EES table
-tool: School, Provider, Institution, and Planning area. Highlights in
-the message if any such rows are present alongside other levels, and
-fails if:
-
-- School and Provider data have been mixed together OR
-
-- The file only contains Planning area or Institution data
+For geographic levels that have both a code and a name column, checks
+that any location with the GSS not-available code `"x"` also has the
+corresponding name `"Not available"`. Applies to all geographic levels
+except those with their own combinations checks, RSC region,
+Institution, and Planning area.
 
 ## Usage
 
 ``` r
-check_geog_ignored_rows(data, verbose = FALSE, stop_on_error = FALSE)
+check_geog_na(data, verbose = FALSE, stop_on_error = FALSE)
 ```
 
 ## Arguments
@@ -40,11 +37,11 @@ a single row data frame
 Other check_geog:
 [`check_geog_country_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_country_combos.md),
 [`check_geog_eda_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_eda_combos.md),
+[`check_geog_ignored_rows()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_ignored_rows.md),
 [`check_geog_la_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_la_combos.md),
 [`check_geog_lad_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_lad_combos.md),
 [`check_geog_lep_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_lep_combos.md),
 [`check_geog_lsip_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_lsip_combos.md),
-[`check_geog_na()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_na.md),
 [`check_geog_na_code()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_na_code.md),
 [`check_geog_pcon_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_pcon_combos.md),
 [`check_geog_region_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_region_combos.md),
@@ -55,9 +52,11 @@ Other check_geog:
 ## Examples
 
 ``` r
-check_geog_ignored_rows(example_data)
-#>               check result
-#> 1 geog_ignored_rows   PASS
-#>                                                      message guidance_url
-#> 1 No rows in the file will be ignored by the EES table tool.           NA
+check_geog_na(example_data)
+#>     check result                                  message guidance_url
+#> 1 geog_na   PASS No applicable geographic levels to test.           NA
+check_geog_na(example_data, verbose = TRUE)
+#> ✔ No applicable geographic levels to test.
+#>     check result                                  message guidance_url
+#> 1 geog_na   PASS No applicable geographic levels to test.           NA
 ```
