@@ -24,31 +24,24 @@ check_geog_other_dupes <- function(
 ) {
   test_name <- get_check_name()
 
-  lower_level_geogs <- list(
-    list(
-      level = "Opportunity area",
-      code_col = "opportunity_area_code",
-      name_col = "opportunity_area_name"
-    ),
-    list(
-      level = "MAT",
-      code_col = "trust_id",
-      name_col = "trust_name"
-    ),
-    list(
-      level = "Sponsor",
-      code_col = "sponsor_id",
-      name_col = "sponsor_name"
-    )
-  )
+  lower_level_geogs <- eesyscreener::geography_df |>
+    dplyr::filter(
+      geographic_level %in% c("Opportunity area", "MAT", "Sponsor")
+    ) |>
+    dplyr::select(-c("row_number", "code_field_secondary"))
 
   levels_present <- data |>
     dplyr::distinct(.data$geographic_level) |>
     dplyr::pull("geographic_level")
 
+  # Convert lower_level_geogs to a list of row-lists
+  lower_level_geogs_list <- split(
+    lower_level_geogs,
+    seq_len(nrow(lower_level_geogs))
+  )
   relevant_geogs <- Filter(
-    function(g) g$level %in% levels_present,
-    lower_level_geogs
+    function(g) g[["geographic_level"]] %in% levels_present,
+    lower_level_geogs_list
   )
 
   if (length(relevant_geogs) == 0) {
@@ -64,27 +57,31 @@ check_geog_other_dupes <- function(
   multi_code_names <- character(0)
 
   for (g in relevant_geogs) {
-    col_names <- c(g$code_col, g$name_col)
+    code_col <- g[["code_field"]]
+    name_col <- g[["name_field"]]
+    geog_level <- g[["geographic_level"]]
+    col_names <- c(code_col, name_col)
 
     if (!all(col_names %in% dplyr::tbl_vars(data))) {
       next
     }
 
-    code_sym <- rlang::sym(g$code_col)
-    name_sym <- rlang::sym(g$name_col)
+    # Rename columns to standard names for this iteration
+    data_tmp <- data |>
+      dplyr::filter(.data$geographic_level == geog_level) |>
+      dplyr::rename(code = !!code_col, name = !!name_col)
 
-    dupe_rows <- data |>
-      dplyr::filter(.data$geographic_level == g$level) |>
-      dplyr::distinct(!!name_sym, !!code_sym) |>
-      dplyr::count(!!name_sym, name = "n_codes") |>
-      dplyr::filter(.data$n_codes > 1) |>
+    dupe_rows <- data_tmp |>
+      dplyr::distinct(name, code) |>
+      dplyr::count(name, name = "n_codes") |>
+      dplyr::filter(n_codes > 1) |>
       dplyr::collect()
 
     if (nrow(dupe_rows) > 0) {
       multi_code_names <- c(
         multi_code_names,
         paste0(
-          dupe_rows[[g$name_col]],
+          dupe_rows$name,
           " - ",
           dupe_rows$n_codes,
           " different codes"
