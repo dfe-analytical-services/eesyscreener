@@ -1,13 +1,16 @@
-# Check parliamentary constituency code and name combinations
+# Check 'Not available' location codes
 
-Checks that all pcon_code and pcon_name combinations in the data file
-are valid. Rows where pcon_code is "x" (the GSS not-available code) are
-excluded from the check.
+Checks that for geographic levels with code and name column pairs, any
+location with a name of 'Not available' has the corresponding GSS
+not-available code 'x'. Levels without a code column (RSC region) and
+levels with their own combo lookups (National, Regional etc) are
+excluded. Rows at Institution and Planning area level are also excluded
+as they are ignored by EES.
 
 ## Usage
 
 ``` r
-check_geog_pcon_combos(data, verbose = FALSE, stop_on_error = FALSE)
+check_geog_na_code(data, verbose = FALSE, stop_on_error = FALSE)
 ```
 
 ## Arguments
@@ -32,8 +35,8 @@ a single row data frame
 
 ## Details
 
-If either pcon column is absent from the data, the check passes
-immediately.
+If no applicable geographic levels are present in the data, the check
+passes immediately.
 
 ## See also
 
@@ -45,7 +48,7 @@ Other check_geog:
 [`check_geog_lad_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_lad_combos.md),
 [`check_geog_lep_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_lep_combos.md),
 [`check_geog_lsip_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_lsip_combos.md),
-[`check_geog_na_code()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_na_code.md),
+[`check_geog_pcon_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_pcon_combos.md),
 [`check_geog_region_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_region_combos.md),
 [`check_geog_region_for_la()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_region_for_la.md),
 [`check_geog_region_for_lad()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_region_for_lad.md),
@@ -54,19 +57,19 @@ Other check_geog:
 ## Examples
 
 ``` r
-check_geog_pcon_combos(example_data)
-#>              check result
-#> 1 geog_pcon_combos   PASS
-#>                                                                               message
-#> 1 At least one of the pcon_code / pcon_name columns is not present in this data file.
+check_geog_na_code(example_data)
+#>          check result
+#> 1 geog_na_code   PASS
+#>                                                               message
+#> 1 No applicable geographic levels to check for 'Not available' codes.
 #>   guidance_url
 #> 1           NA
-check_geog_pcon_combos(example_data, verbose = TRUE)
-#> ✔ At least one of the pcon_code / pcon_name columns is not present in this data file.
-#>              check result
-#> 1 geog_pcon_combos   PASS
-#>                                                                               message
-#> 1 At least one of the pcon_code / pcon_name columns is not present in this data file.
+check_geog_na_code(example_data, verbose = TRUE)
+#> ✔ No applicable geographic levels to check for 'Not available' codes.
+#>          check result
+#> 1 geog_na_code   PASS
+#>                                                               message
+#> 1 No applicable geographic levels to check for 'Not available' codes.
 #>   guidance_url
 #> 1           NA
 ```

@@ -116,27 +116,28 @@ screen_dfs(example_data, example_meta)
 #> 40        geog_ignored_rows   PASS
 #> 41       geog_region_for_la   PASS
 #> 42      geog_region_for_lad   PASS
-#> 43          filter_defaults   PASS
-#> 44       filter_group_level   PASS
-#> 45        filter_item_limit   PASS
-#> 46        filter_whitespace   PASS
-#> 47          filter_ob_total   PASS
-#> 48            filter_blanks   PASS
-#> 49      geog_country_combos   PASS
-#> 50       geog_region_combos   PASS
-#> 51         geog_ward_combos   PASS
-#> 52         geog_pcon_combos   PASS
-#> 53          geog_lad_combos   PASS
-#> 54          geog_lep_combos   PASS
-#> 55         geog_lsip_combos   PASS
-#> 56          geog_eda_combos   PASS
-#> 57           geog_la_combos   PASS
-#> 58        ind_invalid_entry   PASS
-#> 59        api_char_col_name   PASS
-#> 60       api_char_col_label   PASS
-#> 61        api_char_loc_code   PASS
-#> 62    api_char_filter_items   PASS
-#> 63       api_dict_col_names   PASS
+#> 43             geog_na_code   PASS
+#> 44          filter_defaults   PASS
+#> 45       filter_group_level   PASS
+#> 46        filter_item_limit   PASS
+#> 47        filter_whitespace   PASS
+#> 48          filter_ob_total   PASS
+#> 49            filter_blanks   PASS
+#> 50      geog_country_combos   PASS
+#> 51       geog_region_combos   PASS
+#> 52         geog_ward_combos   PASS
+#> 53         geog_pcon_combos   PASS
+#> 54          geog_lad_combos   PASS
+#> 55          geog_lep_combos   PASS
+#> 56         geog_lsip_combos   PASS
+#> 57          geog_eda_combos   PASS
+#> 58           geog_la_combos   PASS
+#> 59        ind_invalid_entry   PASS
+#> 60        api_char_col_name   PASS
+#> 61       api_char_col_label   PASS
+#> 62        api_char_loc_code   PASS
+#> 63    api_char_filter_items   PASS
+#> 64       api_dict_col_names   PASS
 #>                                                                                                                                message
 #> 1                                                                        All of the required columns are present in the metadata file.
 #> 2                                                                                   There are no invalid columns in the metadata file.
@@ -180,27 +181,28 @@ screen_dfs(example_data, example_meta)
 #> 40                                                                          No rows in the file will be ignored by the EES table tool.
 #> 41                                                                            There is no Local authority level data in the data file.
 #> 42                                                                   There is no Local authority district level data in the data file.
-#> 43                                                                          All filters and groups have a default filter item present.
-#> 44                                                                                                 There are no filter groups present.
-#> 45                                                                         All filters and groups have less than 25000 unique entries.
-#> 46                                                                            No filter labels contain leading or trailing whitespace.
-#> 47                                                                 There are no Total or All values in the observational unit columns.
-#> 48                                                                    There are no blank values in any filter or filter group columns.
-#> 49                                                                             All country_code / country_name combinations are valid.
-#> 50                                             At least one of the region_code / region_name columns is not present in this data file.
-#> 51                                                 At least one of the ward_code / ward_name columns is not present in this data file.
-#> 52                                                 At least one of the pcon_code / pcon_name columns is not present in this data file.
-#> 53                                                   At least one of the lad_code / lad_name columns is not present in this data file.
-#> 54 At least one of the local_enterprise_partnership_code / local_enterprise_partnership_name columns is not present in this data file.
-#> 55                                                 At least one of the lsip_code / lsip_name columns is not present in this data file.
-#> 56               At least one of the english_devolved_area_code / english_devolved_area_name columns is not present in this data file.
-#> 57                                   At least one of the old_la_code / new_la_code / la_name columns is not present in this data file.
-#> 58                                                                  There are no blank values or GSS legacy symbols in any indicators.
-#> 59                                                   All filter / indicator names are less than or equal to the character limit of 50.
-#> 60                                                 All filter / indicator labels are less than or equal to the character limit of 100.
-#> 61                                                             All location codes are less than or equal to the character limit of 30.
-#> 62                                             All filter items / location names are less than or equal to the character limit of 120.
-#> 63                                                                              All col_names are consistent with the data dictionary.
+#> 43                                                                 No applicable geographic levels to check for 'Not available' codes.
+#> 44                                                                          All filters and groups have a default filter item present.
+#> 45                                                                                                 There are no filter groups present.
+#> 46                                                                         All filters and groups have less than 25000 unique entries.
+#> 47                                                                            No filter labels contain leading or trailing whitespace.
+#> 48                                                                 There are no Total or All values in the observational unit columns.
+#> 49                                                                    There are no blank values in any filter or filter group columns.
+#> 50                                                                             All country_code / country_name combinations are valid.
+#> 51                                             At least one of the region_code / region_name columns is not present in this data file.
+#> 52                                                 At least one of the ward_code / ward_name columns is not present in this data file.
+#> 53                                                 At least one of the pcon_code / pcon_name columns is not present in this data file.
+#> 54                                                   At least one of the lad_code / lad_name columns is not present in this data file.
+#> 55 At least one of the local_enterprise_partnership_code / local_enterprise_partnership_name columns is not present in this data file.
+#> 56                                                 At least one of the lsip_code / lsip_name columns is not present in this data file.
+#> 57               At least one of the english_devolved_area_code / english_devolved_area_name columns is not present in this data file.
+#> 58                                   At least one of the old_la_code / new_la_code / la_name columns is not present in this data file.
+#> 59                                                                  There are no blank values or GSS legacy symbols in any indicators.
+#> 60                                                   All filter / indicator names are less than or equal to the character limit of 50.
+#> 61                                                 All filter / indicator labels are less than or equal to the character limit of 100.
+#> 62                                                             All location codes are less than or equal to the character limit of 30.
+#> 63                                             All filter items / location names are less than or equal to the character limit of 120.
+#> 64                                                                              All col_names are consistent with the data dictionary.
 #>    guidance_url               stage
 #> 1            NA    Precheck columns
 #> 2            NA    Precheck columns
@@ -244,13 +246,13 @@ screen_dfs(example_data, example_meta)
 #> 40           NA     Check geography
 #> 41           NA     Check geography
 #> 42           NA     Check geography
-#> 43           NA       Check filters
+#> 43           NA     Check geography
 #> 44           NA       Check filters
 #> 45           NA       Check filters
 #> 46           NA       Check filters
 #> 47           NA       Check filters
 #> 48           NA       Check filters
-#> 49           NA     Check geography
+#> 49           NA       Check filters
 #> 50           NA     Check geography
 #> 51           NA     Check geography
 #> 52           NA     Check geography
@@ -259,10 +261,11 @@ screen_dfs(example_data, example_meta)
 #> 55           NA     Check geography
 #> 56           NA     Check geography
 #> 57           NA     Check geography
-#> 58           NA    Check indicators
-#> 59           NA           Check API
+#> 58           NA     Check geography
+#> 59           NA    Check indicators
 #> 60           NA           Check API
 #> 61           NA           Check API
 #> 62           NA           Check API
 #> 63           NA           Check API
+#> 64           NA           Check API
 ```

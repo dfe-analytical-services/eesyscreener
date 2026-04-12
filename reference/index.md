@@ -280,6 +280,8 @@ validate core assumptions about the geography columns.
   : Check local enterprise partnership code and name combinations
 - [`check_geog_lsip_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_lsip_combos.md)
   : Check local skills improvement plan area code and name combinations
+- [`check_geog_na_code()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_na_code.md)
+  : Check 'Not available' location codes
 - [`check_geog_pcon_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_pcon_combos.md)
   : Check parliamentary constituency code and name combinations
 - [`check_geog_region_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_region_combos.md)
