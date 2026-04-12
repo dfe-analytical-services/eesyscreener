@@ -447,9 +447,8 @@ check_geog_eda_combos <- function(
 #' Check local authority code and name combinations
 #'
 #' Checks that all old_la_code, new_la_code, and la_name combinations in the
-#' data file are valid. Rows where any of the three columns is NA are excluded.
-#' Rows where new_la_code is blank or "x" (the GSS not-available code) are
-#' also excluded.
+#' data file are valid. Rows where old_la_code is NA are excluded. Rows where
+#' new_la_code is "x" (the GSS not-available code) are also excluded.
 #'
 #' If any of the three LA columns is absent from the data, the check passes
 #' immediately.

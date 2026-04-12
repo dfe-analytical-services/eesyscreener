@@ -1,4 +1,4 @@
-# Valid goeg code and name combinations
+# Valid geog code and name combinations
 # Sources from dfe-published-data-qa repo for now
 # TODO: Move to create from dfeR (or us as a dependency direct)
 
