@@ -155,6 +155,21 @@
 #' @source dfe-published-data-qa screener app repo, data/leps.csv
 "acceptable_leps"
 
+# Local skills improvement plan areas lookup ====
+#' Local skills improvement plan areas lookup
+#'
+#' A data frame of valid local skills improvement plan area code and name
+#' combinations as used in EES data files. Includes both current and
+#' historically renamed entries.
+#'
+#' @format A data.frame with columns:
+#' \describe{
+#' \item{lsip_code}{GSS LSIP code}
+#' \item{lsip_name}{Local skills improvement plan area name matching the code}
+#' }
+#' @source dfe-published-data-qa screener app repo, data/lsips.csv
+"acceptable_lsips"
+
 # Parliamentary constituencies lookup ====
 #' Parliamentary constituencies lookup
 #'

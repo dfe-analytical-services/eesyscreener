@@ -73,6 +73,16 @@ acceptable_pcons <- dplyr::bind_rows(
 
 usethis::use_data(acceptable_pcons, overwrite = TRUE)
 
+acceptable_lsips <- readr::read_csv(
+  render_url("data/lsips.csv", domain = "screener_app_repo"),
+  show_col_types = FALSE
+) |>
+  dplyr::select("lsip_code", "lsip_name") |>
+  dplyr::distinct() |>
+  as.data.frame()
+
+usethis::use_data(acceptable_lsips, overwrite = TRUE)
+
 acceptable_wards <- readr::read_csv(
   render_url(
     "data/ward_lad_la_pcon_hierarchy.csv",
