@@ -1,9 +1,11 @@
 # Check English devolved area code and name combinations
 
 Checks that all english_devolved_area_code and
-english_devolved_area_name combinations in the data file are valid. Rows
-where english_devolved_area_code is "x" (the GSS not-available code) are
-excluded from the check.
+english_devolved_area_name combinations in the data file are valid. For
+English devolved area rows, all combinations must be valid. For non-EDA
+rows, only non-empty, non-NA combinations are checked. Rows where
+english_devolved_area_code is "x" (the GSS not-available code) are
+excluded from non-EDA checks.
 
 ## Usage
 

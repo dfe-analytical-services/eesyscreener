@@ -1,8 +1,10 @@
 # Check local authority district code and name combinations
 
 Checks that all lad_code and lad_name combinations in the data file are
-valid. Rows where lad_code is "x" (the GSS not-available code) are
-excluded from the check.
+valid. For Local authority district rows, all combinations must be
+valid. For non-LAD rows, only non-empty, non-NA combinations are
+checked. Rows where lad_code is "x" (the GSS not-available code) are
+excluded from non-LAD checks.
 
 ## Usage
 

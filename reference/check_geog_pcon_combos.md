@@ -1,8 +1,10 @@
 # Check parliamentary constituency code and name combinations
 
 Checks that all pcon_code and pcon_name combinations in the data file
-are valid. Rows where pcon_code is "x" (the GSS not-available code) are
-excluded from the check.
+are valid. For Parliamentary constituency rows, all combinations must be
+valid. For non-PCON rows, only non-empty, non-NA combinations are
+checked. Rows where pcon_code is "x" (the GSS not-available code) are
+excluded from non-PCON checks.
 
 ## Usage
 

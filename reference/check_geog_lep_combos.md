@@ -2,8 +2,10 @@
 
 Checks that all local_enterprise_partnership_code and
 local_enterprise_partnership_name combinations in the data file are
-valid. Rows where local_enterprise_partnership_code is "x" (the GSS
-not-available code) are excluded from the check.
+valid. For Local enterprise partnership rows, all combinations must be
+valid. For non-LEP rows, only non-empty, non-NA combinations are
+checked. Rows where local_enterprise_partnership_code is "x" (the GSS
+not-available code) are excluded from non-LEP checks.
 
 ## Usage
 
