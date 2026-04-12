@@ -1,8 +1,8 @@
 #' Check geography code and name combinations
 #'
-#' Shared implementation for `check_geog_country_combos()` and
-#' `check_geog_region_combos()`. Validates that all code and name combinations
-#' in the data match the acceptable lookup for that geography type.
+#' Shared implementation for `check_geog_*_combos()`. Validates that all
+#' code and name combinations in the data match the acceptable lookup
+#' for that geography type.
 #'
 #' When `restricted_level` is supplied, rows at that geographic level are
 #' checked without any exclusions (NA and blank codes are treated as invalid).
@@ -66,11 +66,14 @@
       setNames(c(code_col, name_col))
   )
 
+  code_sym <- rlang::sym(code_col)
+  name_sym <- rlang::sym(name_col)
+
   if (!is.null(restricted_level)) {
     # For restricted level rows: check all combos (NA and blank are invalid)
     restricted_invalid <- data |>
       dplyr::filter(.data$geographic_level == restricted_level) |>
-      dplyr::distinct(.data[[code_col]], .data[[name_col]]) |>
+      dplyr::distinct(!!code_sym, !!name_sym) |>
       dplyr::anti_join(valid_combos, by = c(code_col, name_col)) |>
       dplyr::collect()
 
@@ -78,21 +81,21 @@
     other_invalid <- data |>
       dplyr::filter(.data$geographic_level != restricted_level) |>
       dplyr::filter(
-        !is.na(.data[[code_col]]) &
-          .data[[code_col]] != "" &
-          .data[[code_col]] != na_code
+        !is.na(!!code_sym) &
+          !!code_sym != "" &
+          !!code_sym != na_code
       ) |>
-      dplyr::distinct(.data[[code_col]], .data[[name_col]]) |>
+      dplyr::distinct(!!code_sym, !!name_sym) |>
       dplyr::anti_join(valid_combos, by = c(code_col, name_col)) |>
       dplyr::collect()
 
     invalid <- dplyr::bind_rows(restricted_invalid, other_invalid) |>
-      dplyr::distinct(.data[[code_col]], .data[[name_col]])
+      dplyr::distinct(!!code_sym, !!name_sym)
   } else {
     # No restricted level: exclude na_code from all rows
     invalid <- data |>
-      dplyr::filter(.data[[code_col]] != na_code) |>
-      dplyr::distinct(.data[[code_col]], .data[[name_col]]) |>
+      dplyr::filter(!!code_sym != na_code) |>
+      dplyr::distinct(!!code_sym, !!name_sym) |>
       dplyr::anti_join(valid_combos, by = c(code_col, name_col)) |>
       dplyr::collect()
   }

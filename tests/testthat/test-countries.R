@@ -1,5 +1,7 @@
 test_that("countries has expected columns", {
-  expect_true(all(c("country_code", "country_name") %in% names(countries)))
+  expect_true(all(
+    c("country_code", "country_name") %in% names(acceptable_countries)
+  ))
 })
 
 test_that("countries has no duplicate combinations", {
