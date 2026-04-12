@@ -60,16 +60,18 @@ check_geog_other_code_dupes <- function(
     code_sym <- rlang::sym(code_col)
     name_sym <- rlang::sym(name_col)
 
-    data |>
+    res <- data |>
       dplyr::filter(!is.na(!!code_sym) & !!code_sym != "") |>
       dplyr::distinct(!!code_sym, !!name_sym) |>
       dplyr::count(!!code_sym, name = "name_n") |>
       dplyr::filter(.data$name_n > 1) |>
-      dplyr::collect() |>
-      dplyr::mutate(
-        combo = paste0(!!code_sym, " - ", .data$name_n, " different names")
-      ) |>
-      dplyr::pull("combo")
+      dplyr::collect()
+
+    if (nrow(res) == 0) {
+      return(NULL)
+    }
+    # Use base R to create combo column after collect
+    paste0(res[[code_col]], " - ", res$name_n, " different names")
   }) |>
     Filter(Negate(is.null), x = _) |>
     unlist()
