@@ -34,3 +34,12 @@ acceptable_las <- readr::read_csv(
   as.data.frame()
 
 usethis::use_data(acceptable_las, overwrite = TRUE)
+
+acceptable_lads <- readr::read_csv(
+  render_url("data/lads.csv", domain = "screener_app_repo"),
+  show_col_types = FALSE
+) |>
+  dplyr::select("lad_code", "lad_name") |>
+  as.data.frame()
+
+usethis::use_data(acceptable_lads, overwrite = TRUE)

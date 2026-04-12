@@ -226,6 +226,40 @@ check_geog_region_combos <- function(
   )
 }
 
+#' Check local authority district code and name combinations
+#'
+#' Checks that all lad_code and lad_name combinations in the data file are
+#' valid. Rows where lad_code is "x" (the GSS not-available code) are excluded
+#' from the check.
+#'
+#' If either LAD column is absent from the data, the check passes immediately.
+#'
+#' @inheritParams check_col_names_spaces
+#'
+#' @inherit check_filename_spaces return
+#'
+#' @family check_geog
+#'
+#' @examples
+#' check_geog_lad_combos(example_data)
+#' check_geog_lad_combos(example_data, verbose = TRUE)
+#' @export
+check_geog_lad_combos <- function(
+  data,
+  verbose = FALSE,
+  stop_on_error = FALSE
+) {
+  .check_geog_combos(
+    data,
+    code_col = "lad_code",
+    name_col = "lad_name",
+    acceptable_data = eesyscreener::acceptable_lads,
+    guidance_url = render_url("data/lads.csv", domain = "screener_app_repo"),
+    verbose = verbose,
+    stop_on_error = stop_on_error
+  )
+}
+
 #' Check local authority code and name combinations
 #'
 #' Checks that all old_la_code, new_la_code, and la_name combinations in the

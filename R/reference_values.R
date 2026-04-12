@@ -126,6 +126,20 @@
 #' @source dfe-published-data-qa screener app repo, data/regions.csv
 "acceptable_regions"
 
+# Local authority districts lookup ====
+#' Local authority districts lookup
+#'
+#' A data frame of valid local authority district code and name combinations as
+#' used in EES data files.
+#'
+#' @format A data.frame with columns:
+#' \describe{
+#' \item{lad_code}{GSS LAD code}
+#' \item{lad_name}{Local authority district name matching the code}
+#' }
+#' @source dfe-published-data-qa screener app repo, data/lads.csv
+"acceptable_lads"
+
 # Local authorities lookup ====
 #' Local authorities lookup
 #'
