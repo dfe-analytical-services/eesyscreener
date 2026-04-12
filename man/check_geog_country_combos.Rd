@@ -21,7 +21,14 @@ a single row data frame
 \description{
 Checks that all country_code and country_name combinations in the data file
 are valid. Rows where country_code is "x" (the GSS not-available code) are
-excluded from the check.
+excluded. All other combinations, including any with blank or NA codes, are
+checked against the standard geographies lookup and will fail if not found.
+}
+\details{
+No geographic_level distinction is made. This matches the legacy
+\code{country_combinations()} behaviour in dfe-published-data-qa, which filtered
+out "x" uniformly across all rows. Country columns are mandatory in the data
+standard, so blank or NA values at any geographic level are genuine errors.
 }
 \examples{
 check_geog_country_combos(example_data)

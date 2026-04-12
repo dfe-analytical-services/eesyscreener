@@ -20,10 +20,26 @@ a single row data frame
 }
 \description{
 Checks that all old_la_code, new_la_code, and la_name combinations in the
-data file are valid. Rows where old_la_code is NA are excluded. Rows where
-new_la_code is "x" (the GSS not-available code) are also excluded.
+data file are valid against the standard geographies lookup.
 }
 \details{
+No geographic_level distinction is made (unlike most other geography checks).
+All rows are filtered the same way before checking: rows where old_la_code
+is NA are excluded, and rows where new_la_code is "x" (the GSS
+not-available code) are excluded. All remaining combinations — including
+those with blank or NA new_la_code — are checked and will fail if not found
+in the lookup.
+
+Rows where old_la_code is "z" combined with a valid
+\code{acceptable_extra_geog_options} entry are also accepted, to accommodate
+geographies that have no old LA code.
+
+The \code{restricted_level} parameter is not used here because the
+old_la_code NA filter only applies when restricted_level is NULL. If
+"Local authority" were set as the restricted level, LA-level rows with a
+NA old_la_code would be checked without that filter and incorrectly fail,
+since not all LAs have an old code.
+
 If any of the three LA columns is absent from the data, the check passes
 immediately.
 }
