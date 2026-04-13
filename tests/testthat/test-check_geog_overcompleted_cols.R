@@ -192,7 +192,8 @@ test_that("compatible_levels covers all non-National geography_df levels", {
 
     result <- check_geog_overcompleted_cols(bad_data, example_meta)
     expect_equal(
-      result$result, "FAIL",
+      result$result,
+      "FAIL",
       label = paste0(level, " (", col, ") overcompleted on National rows")
     )
   }
