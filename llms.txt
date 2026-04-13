@@ -1154,6 +1154,9 @@ These checks validate the names of columns in the data files.
 
 These can be run on any file, regardless of type or structure.
 
+- [`check_general_null()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_general_null.md)
+  : Check for null and legacy no-data symbols
+
 ## Pre-checks on filters
 
 These checks should be run before any other filter checks, as they
