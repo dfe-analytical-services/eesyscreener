@@ -54,6 +54,9 @@ check_general_dupes <- function(
     dplyr::filter(!.data$geographic_level %in% exclude_levels) |>
     dplyr::select(dplyr::all_of(check_cols))
 
+  # count() is used rather than nrow(), and distinct() is compared against the
+  # total count rather than using count(across(everything())), to avoid
+  # materialisation under duckplyr stingy mode.
   n_total <- filtered_data |>
     dplyr::count() |>
     dplyr::pull("n")

@@ -62,6 +62,31 @@ test_that("detects duplicates in School-only data", {
   expect_equal(result$result, "FAIL")
 })
 
+test_that("excludes only Institution and Planning area for Provider-only", {
+  provider_data <- example_data |>
+    dplyr::mutate(
+      geographic_level = "Provider",
+      provider_urn = paste0("URN", dplyr::row_number()),
+      provider_name = paste0("Provider ", dplyr::row_number())
+    )
+  result <- check_general_dupes(provider_data, example_meta)
+  expect_equal(result$result, "PASS")
+  expect_true(grepl("Institution and Planning area", result$message))
+  expect_false(grepl("Provider,", result$message))
+})
+
+test_that("detects duplicates in Provider-only data", {
+  provider_data <- example_data |>
+    dplyr::mutate(
+      geographic_level = "Provider",
+      provider_urn = paste0("URN", dplyr::row_number()),
+      provider_name = paste0("Provider ", dplyr::row_number())
+    )
+  dupe_provider <- rbind(provider_data, provider_data[1, ])
+  result <- check_general_dupes(dupe_provider, example_meta)
+  expect_equal(result$result, "FAIL")
+})
+
 test_that("ignores rows at excluded geographic levels", {
   mixed_data <- example_data |>
     dplyr::mutate(geographic_level = "National")
@@ -73,11 +98,23 @@ test_that("ignores rows at excluded geographic levels", {
   expect_equal(result$result, "PASS")
 })
 
-test_that("uses filter group columns in duplicate check", {
+test_that("filter group columns are included in the duplicate check key", {
+  # Add a grouping column to the data that is not itself listed as a filter
+  data_with_group_col <- example_data |>
+    dplyr::mutate(sex_group = "All")
+
+  # Meta referencing sex_group as the filter grouping column for sex
   meta_with_group <- example_meta
-  meta_with_group$filter_grouping_column[1] <- "sex"
-  # Adding a duplicate row that differs only on the indicator (not checked)
-  dupe_data <- rbind(example_data, example_data[1, ])
-  result <- check_general_dupes(dupe_data, meta_with_group)
-  expect_equal(result$result, "FAIL")
+  meta_with_group$filter_grouping_column[1] <- "sex_group"
+
+  # Two rows identical in all filter columns but with different sex_group values
+  row_a <- data_with_group_col[1, ] |> dplyr::mutate(sex_group = "Group A")
+  row_b <- data_with_group_col[1, ] |> dplyr::mutate(sex_group = "Group B")
+  combined <- rbind(data_with_group_col, row_a, row_b)
+
+  # With sex_group in the key: row_a and row_b are distinct, no duplicates
+  expect_equal(check_general_dupes(combined, meta_with_group)$result, "PASS")
+
+  # Without sex_group in the key: row_a and row_b look identical → FAIL
+  expect_equal(check_general_dupes(combined, example_meta)$result, "FAIL")
 })
