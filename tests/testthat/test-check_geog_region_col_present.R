@@ -10,6 +10,7 @@ region_data <- example_data |>
 test_that("passes with package example data (no regional columns)", {
   result <- check_geog_region_col_present(example_data)
   expect_equal(result$result, "PASS")
+  expect_equal(result$check, "geog_region_col_present")
   expect_match(result$message, "No regional columns")
 })
 
