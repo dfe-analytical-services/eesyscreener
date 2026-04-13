@@ -40,6 +40,11 @@ Null-like symbols cause a failure; finding legacy no-data symbols
 produces a warning. The GSS provides guidance on the accepted symbols to
 use for representing missing or suppressed data.
 
+## See also
+
+Other check_general:
+[`check_general_dupes()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_general_dupes.md)
+
 ## Examples
 
 ``` r

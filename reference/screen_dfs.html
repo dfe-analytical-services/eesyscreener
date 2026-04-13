@@ -170,93 +170,95 @@ be "stingy" and "thrifty".</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 54        filter_whitespace   PASS</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 55          filter_ob_total   PASS</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 56            filter_blanks   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 57      geog_country_combos   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 58       geog_region_combos   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 59         geog_ward_combos   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 60         geog_pcon_combos   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 61          geog_lad_combos   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 62          geog_lep_combos   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 63         geog_lsip_combos   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 64          geog_eda_combos   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 65           geog_la_combos   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 66        ind_invalid_entry   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 67        api_char_col_name   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 68       api_char_col_label   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 69        api_char_loc_code   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 70    api_char_filter_items   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 71       api_dict_col_names   PASS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                                message</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                                        All of the required columns are present in the metadata file.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                                                   There are no invalid columns in the metadata file.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                                            All of the required columns are present in the data file.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                           There are an equal number of rows in the metadata file (3) and non-mandatory columns in the data file (3).</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                                         All variables from the metadata were found in the data file.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                      All variables in the data file are observational units or are represented in the metadata file.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7                                                                           There are no spaces in the variable names in the datafile.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8                                                                The variable names in the data file follow the snake_case convention.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9                                                                   All variable names in the data file start with a lowercase letter.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10                                                                              No indicators found containing typical filter entries.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11                               Neither 'characteristic' nor 'characteristic_group' were found as listed fields in the metadata file.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12                                                                                         col_type is always 'Filter' or 'Indicator'.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13                                                                     No observational units have been included in the metadata file.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14                                                                     The col_name column is completed for every row in the metadata.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15                                                                                                              All labels are unique.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16                                                                                  No indicators have a filter_grouping_column value.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17                                                                                                 There are no filter groups present.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18                                                                                                 There are no filter groups present.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19                                                                                                 There are no filter groups present.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20                                                                                                 There are no filter groups present.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21                                                                        The label column is completed for every row in the metadata.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22                                                                                             No indicators have a filter_hint value.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23                                                                              No filters appear to be mislabelled geography columns.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24                                                                                              No filters have an indicator_dp value.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25                                                                                         There are no spaces in the col_name values.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26                                                                                                     All col_name values are unique.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27                                                                            The indicator_dp column is completed for all indicators.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28                                                     The indicator_dp column only contains blanks, zero, or positive integer values.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 29                                                                                            No filters have an indicator_unit value.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 30                                                                                                 The indicator_unit values are valid</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 31                                                                                        No filters have an indicator_grouping value.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 32                                             No problematic null or legacy no-data symbols were found in the data or metadata files.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 33                                                                                                All filters have two or more levels.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 34                                                                                The time_period column only contains numeric values.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 35                                                                                           The time_identifier values are all valid.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 36                                                                                There is only one time_identifier value in the data.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 37                                                                                          The geographic_level values are all valid.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 38                                                                                      There is only National level data in the file.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 39                                                         The time_period length matches the time_identifier values in the data file.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 40                                                                        The six digit time_period values refer to consecutive years.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 41                                                                             All geographic level columns are completed as expected.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 42                                                                          No rows in the file will be ignored by the EES table tool.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 43                                                                        Lower-level geography data is not present in this data file.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 44                                                                           No local authority columns are present in this data file.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 45                                                                                  No regional columns are present in this data file.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 46                                                                            There is no Local authority level data in the data file.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 47                                                                   There is no Local authority district level data in the data file.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 48                                                                                            No applicable geographic levels to test.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 49                                                                 No applicable geographic levels to check for 'Not available' codes.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 50                                                                        Lower-level geography data is not present in this data file.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 51                                                                          All filters and groups have a default filter item present.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 52                                                                                                 There are no filter groups present.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 53                                                                         All filters and groups have less than 25000 unique entries.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 54                                                                            No filter labels contain leading or trailing whitespace.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 55                                                                 There are no Total or All values in the observational unit columns.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 56                                                                    There are no blank values in any filter or filter group columns.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 57                                                                             All country_code / country_name combinations are valid.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 58                                             At least one of the region_code / region_name columns is not present in this data file.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 59                                                 At least one of the ward_code / ward_name columns is not present in this data file.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 60                                                 At least one of the pcon_code / pcon_name columns is not present in this data file.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 61                                                   At least one of the lad_code / lad_name columns is not present in this data file.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 62 At least one of the local_enterprise_partnership_code / local_enterprise_partnership_name columns is not present in this data file.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 63                                                 At least one of the lsip_code / lsip_name columns is not present in this data file.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 64               At least one of the english_devolved_area_code / english_devolved_area_name columns is not present in this data file.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 65                                   At least one of the old_la_code / new_la_code / la_name columns is not present in this data file.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 66                                                                  There are no blank values or GSS legacy symbols in any indicators.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 67                                                   All filter / indicator names are less than or equal to the character limit of 50.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 68                                                 All filter / indicator labels are less than or equal to the character limit of 100.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 69                                                             All location codes are less than or equal to the character limit of 30.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 70                                             All filter items / location names are less than or equal to the character limit of 120.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 71                                                                              All col_names are consistent with the data dictionary.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 57            general_dupes   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 58      geog_country_combos   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 59       geog_region_combos   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 60         geog_ward_combos   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 61         geog_pcon_combos   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 62          geog_lad_combos   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 63          geog_lep_combos   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 64         geog_lsip_combos   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 65          geog_eda_combos   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 66           geog_la_combos   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 67        ind_invalid_entry   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 68        api_char_col_name   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 69       api_char_col_label   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 70        api_char_loc_code   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 71    api_char_filter_items   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 72       api_dict_col_names   PASS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                                                           message</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                                                                                   All of the required columns are present in the metadata file.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                                                                                              There are no invalid columns in the metadata file.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                                                                                       All of the required columns are present in the data file.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4                                      There are an equal number of rows in the metadata file (3) and non-mandatory columns in the data file (3).</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5                                                                                    All variables from the metadata were found in the data file.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6                                                 All variables in the data file are observational units or are represented in the metadata file.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7                                                                                      There are no spaces in the variable names in the datafile.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8                                                                           The variable names in the data file follow the snake_case convention.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9                                                                              All variable names in the data file start with a lowercase letter.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10                                                                                         No indicators found containing typical filter entries.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11                                          Neither 'characteristic' nor 'characteristic_group' were found as listed fields in the metadata file.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12                                                                                                    col_type is always 'Filter' or 'Indicator'.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13                                                                                No observational units have been included in the metadata file.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14                                                                                The col_name column is completed for every row in the metadata.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15                                                                                                                         All labels are unique.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16                                                                                             No indicators have a filter_grouping_column value.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17                                                                                                            There are no filter groups present.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18                                                                                                            There are no filter groups present.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19                                                                                                            There are no filter groups present.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20                                                                                                            There are no filter groups present.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21                                                                                   The label column is completed for every row in the metadata.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22                                                                                                        No indicators have a filter_hint value.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23                                                                                         No filters appear to be mislabelled geography columns.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24                                                                                                         No filters have an indicator_dp value.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25                                                                                                    There are no spaces in the col_name values.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26                                                                                                                All col_name values are unique.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27                                                                                       The indicator_dp column is completed for all indicators.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28                                                                The indicator_dp column only contains blanks, zero, or positive integer values.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29                                                                                                       No filters have an indicator_unit value.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30                                                                                                            The indicator_unit values are valid</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 31                                                                                                   No filters have an indicator_grouping value.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32                                                        No problematic null or legacy no-data symbols were found in the data or metadata files.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33                                                                                                           All filters have two or more levels.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 34                                                                                           The time_period column only contains numeric values.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 35                                                                                                      The time_identifier values are all valid.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36                                                                                           There is only one time_identifier value in the data.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37                                                                                                     The geographic_level values are all valid.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 38                                                                                                 There is only National level data in the file.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 39                                                                    The time_period length matches the time_identifier values in the data file.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 40                                                                                   The six digit time_period values refer to consecutive years.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 41                                                                                        All geographic level columns are completed as expected.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 42                                                                                     No rows in the file will be ignored by the EES table tool.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 43                                                                                   Lower-level geography data is not present in this data file.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 44                                                                                      No local authority columns are present in this data file.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 45                                                                                             No regional columns are present in this data file.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 46                                                                                       There is no Local authority level data in the data file.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 47                                                                              There is no Local authority district level data in the data file.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 48                                                                                                       No applicable geographic levels to test.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 49                                                                            No applicable geographic levels to check for 'Not available' codes.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 50                                                                                   Lower-level geography data is not present in this data file.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 51                                                                                     All filters and groups have a default filter item present.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 52                                                                                                            There are no filter groups present.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 53                                                                                    All filters and groups have less than 25000 unique entries.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 54                                                                                       No filter labels contain leading or trailing whitespace.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 55                                                                            There are no Total or All values in the observational unit columns.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 56                                                                               There are no blank values in any filter or filter group columns.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 57 There are no duplicate rows in the data file. Note that School, Provider, Institution, and Planning area rows were not included in this check.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 58                                                                                        All country_code / country_name combinations are valid.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 59                                                        At least one of the region_code / region_name columns is not present in this data file.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 60                                                            At least one of the ward_code / ward_name columns is not present in this data file.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 61                                                            At least one of the pcon_code / pcon_name columns is not present in this data file.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 62                                                              At least one of the lad_code / lad_name columns is not present in this data file.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 63            At least one of the local_enterprise_partnership_code / local_enterprise_partnership_name columns is not present in this data file.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 64                                                            At least one of the lsip_code / lsip_name columns is not present in this data file.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 65                          At least one of the english_devolved_area_code / english_devolved_area_name columns is not present in this data file.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 66                                              At least one of the old_la_code / new_la_code / la_name columns is not present in this data file.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 67                                                                             There are no blank values or GSS legacy symbols in any indicators.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 68                                                              All filter / indicator names are less than or equal to the character limit of 50.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 69                                                            All filter / indicator labels are less than or equal to the character limit of 100.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 70                                                                        All location codes are less than or equal to the character limit of 30.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 71                                                        All filter items / location names are less than or equal to the character limit of 120.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 72                                                                                         All col_names are consistent with the data dictionary.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    guidance_url               stage</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1            NA    Precheck columns</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2            NA    Precheck columns</span>
@@ -314,7 +316,7 @@ be "stingy" and "thrifty".</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 54           NA       Check filters</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 55           NA       Check filters</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 56           NA       Check filters</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 57           NA     Check geography</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 57           NA       Check general</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 58           NA     Check geography</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 59           NA     Check geography</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 60           NA     Check geography</span>
@@ -323,12 +325,13 @@ be "stingy" and "thrifty".</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 63           NA     Check geography</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 64           NA     Check geography</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 65           NA     Check geography</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 66           NA    Check indicators</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 67           NA           Check API</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 66           NA     Check geography</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 67           NA    Check indicators</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 68           NA           Check API</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 69           NA           Check API</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 70           NA           Check API</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 71           NA           Check API</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 72           NA           Check API</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
