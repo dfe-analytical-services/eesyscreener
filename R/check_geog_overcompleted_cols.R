@@ -2,13 +2,31 @@
 #'
 #' Checks that geographic columns (code, name, secondary code) are only
 #' populated for rows where the geographic_level is compatible with that
-#' column. For example, `region_code` should not contain values for
-#' `"National"` rows.
+#' column.
 #'
-#' National columns (country_code, country_name) are never checked as they
-#' are expected at all levels. For School and Provider levels, if the name
-#' column is the only filter in the metadata, the name column is skipped as
-#' it is expected to be populated for all rows.
+#' Geographic data files often contain rows at multiple levels (e.g. National,
+#' Regional, and Local authority). A lower-level row is expected to carry its
+#' parent geography's codes — a Local authority row should have `region_code`
+#' filled in because every LA sits within a region. The reverse is not true: a
+#' Regional row should not have `new_la_code` filled in, because a region is
+#' not a single LA.
+#'
+#' The `compatible_levels` table inside this function encodes which
+#' `geographic_level` values are allowed to have each geography's columns
+#' populated. For most geographies this means: the level itself, plus any
+#' lower-level geographies that are geographically nested within it (e.g.
+#' School, Ward). RSC regions, MATs, and Sponsors are treated differently —
+#' they do not map onto the standard regional hierarchy, so Regional columns
+#' are not expected to be populated for those rows.
+#'
+#' Two exceptions apply:
+#' \itemize{
+#'   \item **National columns** (`country_code`, `country_name`) are expected
+#'     at every level and are never checked.
+#'   \item **School and Provider name columns** — if the school or provider
+#'     name is the only filter in the metadata it is treated as a label column
+#'     that will be populated for all rows, so it is skipped.
+#' }
 #'
 #' @inheritParams precheck_col_to_rows
 #'
@@ -30,14 +48,28 @@ check_geog_overcompleted_cols <- function(
 
   low_levels <- c("School", "Provider", "Institution")
 
-  # Define which geographic levels may legitimately have each level's columns
-
-  # populated. National columns are always allowed so National is excluded
-  # from checking entirely.
+  # For each geography, list every geographic_level that may legitimately have
+  # its columns populated. A level is compatible with its own rows and with
+  # any lower-level geographies that sit within it (e.g. a School row is
+  # expected to carry region_code because the school belongs to a region).
+  # National is omitted entirely — country_code/country_name are expected at
+  # all levels and are never flagged.
+  # Note: RSC regions, MATs, and Sponsors are excluded from Regional's list
+  # because they do not map onto the standard regional hierarchy.
   compatible_levels <- list(
-    "Regional" = setdiff(
-      eesyscreener::geography_df$geographic_level,
-      "National"
+    "Regional" = c(
+      "Regional",
+      "Local skills improvement plan area",
+      "Local authority",
+      "Local enterprise partnership",
+      "Opportunity area",
+      "Local authority district",
+      "Parliamentary constituency",
+      "English devolved area",
+      "Ward",
+      low_levels,
+      "Planning area",
+      "Police force area"
     ),
     "Local authority" = c(
       "Local authority",
@@ -84,7 +116,9 @@ check_geog_overcompleted_cols <- function(
     dplyr::distinct(.data$geographic_level) |>
     dplyr::pull("geographic_level")
 
-  # For School/Provider: if the name is the only filter, skip checking it
+  # Used later to determine whether the School/Provider name special case
+  # applies: if the name column is the sole filter it will be populated for
+  # every row and should not be flagged as overcompleted.
   filters <- meta$col_name[meta$col_type == "Filter"]
   filter_groups <- remove_nas_blanks(meta$filter_grouping_column)
 
@@ -118,6 +152,7 @@ check_geog_overcompleted_cols <- function(
       }
     }
 
+    # Levels present in the data that should NOT have these columns populated.
     incompatible <- setdiff(levels_in_data, compatible_levels[[level]])
 
     if (length(incompatible) == 0) {
@@ -127,6 +162,7 @@ check_geog_overcompleted_cols <- function(
     incompatible_rows <- data |>
       dplyr::filter(.data$geographic_level %in% incompatible)
 
+    # Flag any column that has at least one non-empty value in those rows.
     for (col in cols) {
       col_sym <- rlang::sym(col)
 

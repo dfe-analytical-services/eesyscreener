@@ -28,14 +28,32 @@ a single row data frame
 \description{
 Checks that geographic columns (code, name, secondary code) are only
 populated for rows where the geographic_level is compatible with that
-column. For example, \code{region_code} should not contain values for
-\code{"National"} rows.
+column.
 }
 \details{
-National columns (country_code, country_name) are never checked as they
-are expected at all levels. For School and Provider levels, if the name
-column is the only filter in the metadata, the name column is skipped as
-it is expected to be populated for all rows.
+Geographic data files often contain rows at multiple levels (e.g. National,
+Regional, and Local authority). A lower-level row is expected to carry its
+parent geography's codes — a Local authority row should have \code{region_code}
+filled in because every LA sits within a region. The reverse is not true: a
+Regional row should not have \code{new_la_code} filled in, because a region is
+not a single LA.
+
+The \code{compatible_levels} table inside this function encodes which
+\code{geographic_level} values are allowed to have each geography's columns
+populated. For most geographies this means: the level itself, plus any
+lower-level geographies that are geographically nested within it (e.g.
+School, Ward). RSC regions, MATs, and Sponsors are treated differently —
+they do not map onto the standard regional hierarchy, so Regional columns
+are not expected to be populated for those rows.
+
+Two exceptions apply:
+\itemize{
+\item \strong{National columns} (\code{country_code}, \code{country_name}) are expected
+at every level and are never checked.
+\item \strong{School and Provider name columns} — if the school or provider
+name is the only filter in the metadata it is treated as a label column
+that will be populated for all rows, so it is skipped.
+}
 }
 \examples{
 check_geog_overcompleted_cols(example_data, example_meta)
