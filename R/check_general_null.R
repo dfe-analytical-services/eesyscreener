@@ -33,14 +33,16 @@ check_general_null <- function(
     "symbols-in-tables-definitions-and-help/"
   )
 
-  # Single pass over data columns collecting null and legacy symbols found
+  # Single pass over data columns collecting null and legacy symbols found.
+  # Uses select + distinct + pull per column, which duckplyr can translate to
+  # SQL. as.character() ensures numeric columns compare correctly against the
+  # string literals in null_symbols / legacy_symbols (applied in R after pull,
+  # not in SQL, so it does not affect duckplyr translation).
   data_cols <- dplyr::tbl_vars(data)
   null_in_data <- character(0)
   legacy_in_data <- character(0)
 
   for (col in data_cols) {
-    # as.character() ensures numeric columns compare correctly against the
-    # string literals in null_symbols / legacy_symbols
     col_vals <- data |>
       dplyr::select(dplyr::all_of(col)) |>
       dplyr::distinct() |>
