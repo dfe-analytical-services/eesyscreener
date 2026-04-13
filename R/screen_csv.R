@@ -24,6 +24,10 @@
 #' 2. Overall stage the checks reached
 #' 3. Boolean indicating if the data passed the screening
 #' 4. Boolean indicating if the data is suitable for the API
+#'
+#' If the files cannot be read (e.g. file not found, unsupported encoding, or
+#' non-CSV format), the function returns early with `passed = FALSE` and
+#' `overall_stage = "File read"` rather than throwing an error.
 #' @examples
 #' # Create temp files for the example
 #' data_path <- file.path(tempdir(), "example.csv")
@@ -109,7 +113,28 @@ screen_csv <- function(
   )
 
   # Read in CSV files ---------------------------------------------------------
-  files <- read_ees_files(datapath, metapath)
+  files <- tryCatch(
+    read_ees_files(datapath, metapath),
+    error = function(e) e
+  )
+
+  if (inherits(files, "error")) {
+    return(
+      list(
+        "results_table" = data.frame(
+          check = "file_read",
+          result = "FAIL",
+          message = conditionMessage(files),
+          guidance_url = NA_character_,
+          stage = "File read",
+          row.names = NULL
+        ),
+        "overall_stage" = "File read",
+        "passed" = FALSE,
+        "api_suitable" = FALSE
+      )
+    )
+  }
 
   datafile <- files$data
   metafile <- files$meta

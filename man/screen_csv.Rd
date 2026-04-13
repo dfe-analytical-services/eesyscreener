@@ -56,6 +56,10 @@ A list containing
 \item Boolean indicating if the data passed the screening
 \item Boolean indicating if the data is suitable for the API
 }
+
+If the files cannot be read (e.g. file not found, unsupported encoding, or
+non-CSV format), the function returns early with \code{passed = FALSE} and
+\code{overall_stage = "File read"} rather than throwing an error.
 }
 \description{
 Run all of the checks in the eesyscreener package against your data file and
