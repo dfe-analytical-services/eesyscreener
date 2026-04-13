@@ -239,6 +239,7 @@ screen_dfs <- function(
   res <- run_and_log_check(
     all_results,
     rbind(
+      check_geog_level_completed(data, vb, soe),
       check_geog_ignored_rows(data, vb, soe),
       check_geog_other_dupes(data, vb, soe),
       check_geog_la_col_present(data, vb, soe),
