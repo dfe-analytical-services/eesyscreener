@@ -8,7 +8,7 @@ mat_data <- example_data |>
 test_that("passes when no lower-level geography levels are present", {
   result <- check_geog_other_code_dupes(example_data)
   expect_equal(result$result, "PASS")
-  expect_true(grepl("No lower-level geography", result$message))
+  expect_true(grepl("not present", result$message))
   expect_no_error(check_geog_other_code_dupes(
     example_data,
     stop_on_error = TRUE
