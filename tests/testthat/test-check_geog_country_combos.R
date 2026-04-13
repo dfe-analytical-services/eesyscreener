@@ -30,7 +30,7 @@ test_that("fails with multiple invalid combinations (plural message)", {
   expect_true(grepl("combinations are", result$message))
 })
 
-test_that("ignores rows where country_code is 'x'", {
+test_that("Ignores rows where country_code is 'x'", {
   na_data <- example_data |>
     dplyr::mutate(country_code = "x", country_name = "anything")
   result <- check_geog_country_combos(na_data)
