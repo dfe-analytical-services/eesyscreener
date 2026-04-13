@@ -119,29 +119,20 @@ test_that("filter group columns are included in the duplicate check key", {
   expect_equal(check_general_dupes(combined, example_meta)$result, "FAIL")
 })
 
-test_that("return_dupes returns empty data frame when no duplicates", {
+test_that("return_dupes returns empty data frame with all columns", {
   result <- check_general_dupes(example_data, example_meta, return_dupes = TRUE)
   expect_s3_class(result, "data.frame")
   expect_equal(nrow(result), 0)
+  expect_equal(names(result), names(example_data))
 })
 
-test_that("return_dupes returns all copies of duplicated rows", {
+test_that("return_dupes returns all copies of duplicated rows with all cols", {
   dupe_data <- rbind(example_data, example_data[1:2, ])
   result <- check_general_dupes(dupe_data, example_meta, return_dupes = TRUE)
   expect_s3_class(result, "data.frame")
   # 2 original + 2 copies = 4 rows where the key appears more than once
   expect_equal(nrow(result), 4)
-})
-
-test_that("return_dupes result has the check column names", {
-  result <- check_general_dupes(example_data, example_meta, return_dupes = TRUE)
-  ob_units <- eesyscreener:::get_acceptable_ob_units()
-  filters <- eesyscreener:::get_filters(
-    example_meta,
-    include_filter_groups = TRUE
-  )
-  expected_cols <- intersect(c(ob_units, filters), names(example_data))
-  expect_equal(names(result), expected_cols)
+  expect_equal(names(result), names(dupe_data))
 })
 
 test_that("return_dupes excludes rows at excluded geographic levels", {

@@ -10,9 +10,10 @@
 #' @inheritParams precheck_col_to_rows
 #' @param return_dupes logical, if TRUE returns a data frame of the rows that
 #'   are duplicated (across observational unit and filter columns) instead of
-#'   the standard check result. Rows at excluded geographic levels are not
-#'   included. When there are no duplicates, an empty data frame with the same
-#'   columns is returned. Defaults to FALSE.
+#'   the standard check result. All columns from the original data are
+#'   included. Rows at excluded geographic levels are not included. When there
+#'   are no duplicates, an empty data frame with the same columns is returned.
+#'   Defaults to FALSE.
 #'
 #' @inherit check_filename_spaces return
 #'
@@ -20,7 +21,6 @@
 #'
 #' @examples
 #' check_general_dupes(example_data, example_meta)
-#' check_general_dupes(example_data, example_meta, verbose = TRUE)
 #' check_general_dupes(example_data, example_meta, return_dupes = TRUE)
 #' @export
 check_general_dupes <- function(
@@ -76,15 +76,23 @@ check_general_dupes <- function(
   n_dupe_rows <- n_total - n_distinct
 
   if (return_dupes) {
+    full_filtered_data <- data |>
+      dplyr::filter(!.data$geographic_level %in% exclude_levels)
+
     if (n_dupe_rows == 0) {
-      return(as.data.frame(filtered_data[0, ]))
+      return(as.data.frame(full_filtered_data[0, ]))
     }
+
+    dupe_keys <- filtered_data |>
+      dplyr::group_by(dplyr::across(dplyr::everything())) |>
+      dplyr::filter(dplyr::n() > 1) |>
+      dplyr::ungroup() |>
+      dplyr::distinct()
+
     return(
-      filtered_data |>
-        dplyr::group_by(dplyr::across(dplyr::everything())) |>
-        dplyr::filter(dplyr::n() > 1) |>
-        dplyr::ungroup() |>
-        dplyr::arrange(dplyr::across(dplyr::everything())) |>
+      full_filtered_data |>
+        dplyr::semi_join(dupe_keys, by = check_cols) |>
+        dplyr::arrange(dplyr::across(dplyr::all_of(check_cols))) |>
         as.data.frame()
     )
   }
