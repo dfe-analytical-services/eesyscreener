@@ -23,7 +23,7 @@ check_geog_la_col_present <- function(
 ) {
   test_name <- get_check_name()
 
-  la_cols <- c("new_la_code", "la_name", "old_la_code")
+  la_cols <- get_geog_level_cols("Local authority")
   data_cols <- dplyr::tbl_vars(data)
   present <- intersect(la_cols, data_cols)
   missing <- setdiff(la_cols, data_cols)
