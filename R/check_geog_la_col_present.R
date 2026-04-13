@@ -28,11 +28,21 @@ check_geog_la_col_present <- function(
   present <- intersect(la_cols, data_cols)
   missing <- setdiff(la_cols, data_cols)
 
-  if (length(present) == 0 || length(missing) == 0) {
+  if (length(present) == 0) {
     return(test_output(
       test_name,
       "PASS",
-      "Where local authority columns are present, all three are present.",
+      "No local authority columns are present in the data file.",
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    ))
+  }
+
+  if (length(missing) == 0) {
+    return(test_output(
+      test_name,
+      "PASS",
+      "All three local authority columns are present in the data file.",
       verbose = verbose,
       stop_on_error = stop_on_error
     ))
