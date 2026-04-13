@@ -1,13 +1,13 @@
-# Check that all local authority columns are present together
+# Check region code and name columns are both present
 
-When any of the three local authority columns (`new_la_code`, `la_name`,
-`old_la_code`) appear in the data file, all three must be present. A
-partial set of LA columns indicates a data quality issue.
+When one of `region_code` or `region_name` is present in the data file,
+checks that the other column is also present. If neither column is
+present, the check passes immediately.
 
 ## Usage
 
 ``` r
-check_geog_la_col_present(data, verbose = FALSE, stop_on_error = FALSE)
+check_geog_region_col_present(data, verbose = FALSE, stop_on_error = FALSE)
 ```
 
 ## Arguments
@@ -30,16 +30,13 @@ check_geog_la_col_present(data, verbose = FALSE, stop_on_error = FALSE)
 
 a single row data frame
 
-## Details
-
-If none of the LA columns are present the check passes immediately.
-
 ## See also
 
 Other check_geog:
 [`check_geog_country_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_country_combos.md),
 [`check_geog_eda_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_eda_combos.md),
 [`check_geog_ignored_rows()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_ignored_rows.md),
+[`check_geog_la_col_present()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_la_col_present.md),
 [`check_geog_la_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_la_combos.md),
 [`check_geog_lad_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_lad_combos.md),
 [`check_geog_lep_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_lep_combos.md),
@@ -49,7 +46,6 @@ Other check_geog:
 [`check_geog_other_code_dupes()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_other_code_dupes.md),
 [`check_geog_other_dupes()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_other_dupes.md),
 [`check_geog_pcon_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_pcon_combos.md),
-[`check_geog_region_col_present()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_region_col_present.md),
 [`check_geog_region_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_region_combos.md),
 [`check_geog_region_for_la()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_region_for_la.md),
 [`check_geog_region_for_lad()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_region_for_lad.md),
@@ -58,15 +54,15 @@ Other check_geog:
 ## Examples
 
 ``` r
-check_geog_la_col_present(example_data)
-#>                 check result
-#> 1 geog_la_col_present   PASS
-#>                                                     message guidance_url
-#> 1 No local authority columns are present in this data file.           NA
-check_geog_la_col_present(example_data, verbose = TRUE)
-#> ✔ No local authority columns are present in this data file.
-#>                 check result
-#> 1 geog_la_col_present   PASS
-#>                                                     message guidance_url
-#> 1 No local authority columns are present in this data file.           NA
+check_geog_region_col_present(example_data)
+#>                     check result
+#> 1 geog_region_col_present   PASS
+#>                                              message guidance_url
+#> 1 No regional columns are present in this data file.           NA
+check_geog_region_col_present(example_data, verbose = TRUE)
+#> ✔ No regional columns are present in this data file.
+#>                     check result
+#> 1 geog_region_col_present   PASS
+#>                                              message guidance_url
+#> 1 No regional columns are present in this data file.           NA
 ```

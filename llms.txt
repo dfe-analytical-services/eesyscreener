@@ -1238,6 +1238,8 @@ validate core assumptions about the geography columns.
   geographies
 - [`check_geog_pcon_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_pcon_combos.md)
   : Check parliamentary constituency code and name combinations
+- [`check_geog_region_col_present()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_region_col_present.md)
+  : Check region code and name columns are both present
 - [`check_geog_region_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_region_combos.md)
   : Check region code and name combinations
 - [`check_geog_region_for_la()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_region_for_la.md)
