@@ -38,6 +38,7 @@ Other check_geog:
 \code{\link{check_geog_country_combos}()},
 \code{\link{check_geog_eda_combos}()},
 \code{\link{check_geog_ignored_rows}()},
+\code{\link{check_geog_la_col_present}()},
 \code{\link{check_geog_la_combos}()},
 \code{\link{check_geog_lad_combos}()},
 \code{\link{check_geog_lsip_combos}()},
