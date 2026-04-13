@@ -35,18 +35,35 @@ test_that("Check file_validation files all fail screening", {
   for (filename in data_files) {
     stem <- sub("\\.csv$", "", filename)
     meta_matches <- all_files[grepl(paste0("^", stem, "\\.meta\\."), all_files)]
-    meta_filename <- if (length(meta_matches) > 0) meta_matches[1] else paste0(stem, ".meta.csv")
+    meta_filename <- if (length(meta_matches) > 0) {
+      meta_matches[1]
+    } else {
+      paste0(stem, ".meta.csv")
+    }
 
     data_path <- file.path(test_dir, filename)
     meta_path <- file.path(test_dir, meta_filename)
 
-    download.file(paste0(base_url, utils::URLencode(filename, reserved = TRUE)), data_path, quiet = TRUE, mode = "wb")
+    download.file(
+      paste0(base_url, utils::URLencode(filename, reserved = TRUE)),
+      data_path,
+      quiet = TRUE,
+      mode = "wb"
+    )
     if (length(meta_matches) > 0) {
-      download.file(paste0(base_url, utils::URLencode(meta_filename, reserved = TRUE)), meta_path, quiet = TRUE, mode = "wb")
+      download.file(
+        paste0(base_url, utils::URLencode(meta_filename, reserved = TRUE)),
+        meta_path,
+        quiet = TRUE,
+        mode = "wb"
+      )
     }
 
     screener_output <- expect_no_error(screen_csv(data_path, meta_path))
-    expect_false(screener_output$passed, label = paste("passed is FALSE for", filename))
+    expect_false(
+      screener_output$passed,
+      label = paste("passed is FALSE for", filename)
+    )
 
     file.remove(data_path)
     if (file.exists(meta_path)) file.remove(meta_path)
