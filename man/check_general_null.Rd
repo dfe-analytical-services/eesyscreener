@@ -21,7 +21,7 @@ is "FAIL", and will throw genuine warning if result is "WARNING"}
 a single row data frame
 }
 \description{
-Checks for null-like values (such as "NULL", "null", "NA", "na") in the
+Checks for null-like values (such as "NULL", "NA", and similar) in the
 data and metadata files, and for legacy no-data symbols (such as "N/A",
 ".", "..") in the data file.
 }

@@ -94,6 +94,14 @@ test_that("null symbol in data takes priority over legacy symbol", {
   expect_equal(result$result, "FAIL")
 })
 
+test_that("passes with numeric column containing no null string literals", {
+  # Numeric columns are coerced to character before comparison; values like
+  # 1000 must not match "NA" or any other null_symbol string literal
+  result <- check_general_null(example_data, example_meta)
+  expect_equal(result$result, "PASS")
+  expect_true(is.numeric(example_data$enrolment_count))
+})
+
 test_that("legacy symbols in meta do not trigger a warning", {
   # Legacy no-data symbols are only checked in data, not meta
   bad_meta <- example_meta |>

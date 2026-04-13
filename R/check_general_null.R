@@ -1,6 +1,6 @@
 #' Check for null and legacy no-data symbols
 #'
-#' Checks for null-like values (such as "NULL", "null", "NA", "na") in the
+#' Checks for null-like values (such as "NULL", "NA", and similar) in the
 #' data and metadata files, and for legacy no-data symbols (such as "N/A",
 #' ".", "..") in the data file.
 #'
@@ -39,10 +39,13 @@ check_general_null <- function(
   legacy_in_data <- character(0)
 
   for (col in data_cols) {
+    # as.character() ensures numeric columns compare correctly against the
+    # string literals in null_symbols / legacy_symbols
     col_vals <- data |>
       dplyr::select(dplyr::all_of(col)) |>
       dplyr::distinct() |>
-      dplyr::pull(1)
+      dplyr::pull(1) |>
+      as.character()
     null_in_data <- union(null_in_data, intersect(null_symbols, col_vals))
     legacy_in_data <- union(legacy_in_data, intersect(legacy_symbols, col_vals))
   }
