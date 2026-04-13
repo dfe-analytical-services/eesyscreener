@@ -56,11 +56,15 @@
     test_name,
     "FAIL",
     cli::pluralize(
-      "The following ", level_label, " ",
+      "The following ",
+      level_label,
+      " ",
       "{cli::qty(length(missing))}column{?s} ",
       "{?is/are} missing from the data file: '",
       paste0(missing, collapse = "', '"),
-      "'. When any ", level_label, " column is present, all should be included."
+      "'. When any ",
+      level_label,
+      " column is present, all should be included."
     ),
     verbose = verbose,
     stop_on_error = stop_on_error
