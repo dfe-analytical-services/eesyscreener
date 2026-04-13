@@ -15,7 +15,7 @@ test_that("passes when no LA columns are present", {
 test_that("passes when all three LA columns are present", {
   result <- check_geog_la_col_present(la_data)
   expect_equal(result$result, "PASS")
-  expect_true(grepl("All three local authority columns", result$message))
+  expect_true(grepl("All local authority columns are present", result$message))
   expect_no_error(check_geog_la_col_present(la_data, stop_on_error = TRUE))
 })
 
