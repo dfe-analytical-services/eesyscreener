@@ -1217,6 +1217,8 @@ validate core assumptions about the geography columns.
   : Check English devolved area code and name combinations
 - [`check_geog_ignored_rows()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_ignored_rows.md)
   : Check for rows ignored by the EES table tool
+- [`check_geog_la_col_present()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_la_col_present.md)
+  : Check that all local authority columns are present together
 - [`check_geog_la_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_la_combos.md)
   : Check local authority code and name combinations
 - [`check_geog_lad_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_lad_combos.md)

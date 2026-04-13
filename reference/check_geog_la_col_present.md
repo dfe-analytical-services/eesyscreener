@@ -1,18 +1,13 @@
-# Check for rows ignored by the EES table tool
+# Check that all local authority columns are present together
 
-Identifies rows at geographic levels that are ignored by the EES table
-tool: School, Provider, Institution, and Planning area. Highlights in
-the message if any such rows are present alongside other levels, and
-fails if:
-
-- School and Provider data have been mixed together OR
-
-- The file only contains Planning area or Institution data
+When any of the three local authority columns (`new_la_code`, `la_name`,
+`old_la_code`) appear in the data file, all three must be present. A
+partial set of LA columns indicates a data quality issue.
 
 ## Usage
 
 ``` r
-check_geog_ignored_rows(data, verbose = FALSE, stop_on_error = FALSE)
+check_geog_la_col_present(data, verbose = FALSE, stop_on_error = FALSE)
 ```
 
 ## Arguments
@@ -35,19 +30,22 @@ check_geog_ignored_rows(data, verbose = FALSE, stop_on_error = FALSE)
 
 a single row data frame
 
+## Details
+
+If none of the LA columns are present the check passes immediately.
+
 ## See also
 
 Other check_geog:
 [`check_geog_country_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_country_combos.md),
 [`check_geog_eda_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_eda_combos.md),
-[`check_geog_la_col_present()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_la_col_present.md),
+[`check_geog_ignored_rows()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_ignored_rows.md),
 [`check_geog_la_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_la_combos.md),
 [`check_geog_lad_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_lad_combos.md),
 [`check_geog_lep_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_lep_combos.md),
 [`check_geog_lsip_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_lsip_combos.md),
 [`check_geog_na()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_na.md),
 [`check_geog_na_code()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_na_code.md),
-[`check_geog_other_code_dupes()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_other_code_dupes.md),
 [`check_geog_other_dupes()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_other_dupes.md),
 [`check_geog_pcon_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_pcon_combos.md),
 [`check_geog_region_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_region_combos.md),
@@ -58,9 +56,15 @@ Other check_geog:
 ## Examples
 
 ``` r
-check_geog_ignored_rows(example_data)
-#>               check result
-#> 1 geog_ignored_rows   PASS
-#>                                                      message guidance_url
-#> 1 No rows in the file will be ignored by the EES table tool.           NA
+check_geog_la_col_present(example_data)
+#>                 check result
+#> 1 geog_la_col_present   PASS
+#>                                                    message guidance_url
+#> 1 No local authority columns are present in the data file.           NA
+check_geog_la_col_present(example_data, verbose = TRUE)
+#> ✔ No local authority columns are present in the data file.
+#>                 check result
+#> 1 geog_la_col_present   PASS
+#>                                                    message guidance_url
+#> 1 No local authority columns are present in the data file.           NA
 ```
