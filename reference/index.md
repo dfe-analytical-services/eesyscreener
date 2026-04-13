@@ -284,6 +284,8 @@ validate core assumptions about the geography columns.
   : Check NA geography codes have the correct name
 - [`check_geog_na_code()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_na_code.md)
   : Check 'Not available' location codes
+- [`check_geog_other_code_dupes()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_other_code_dupes.md)
+  : Check other geography code duplicates
 - [`check_geog_other_dupes()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_other_dupes.md)
   : Check for geography name to code duplicates in lower-level
   geographies

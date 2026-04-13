@@ -1,16 +1,14 @@
-# Check local enterprise partnership code and name combinations
+# Check other geography code duplicates
 
-Checks that all local_enterprise_partnership_code and
-local_enterprise_partnership_name combinations in the data file are
-valid. For Local enterprise partnership rows, all combinations must be
-valid. For non-LEP rows, only non-empty, non-NA combinations are
-checked. Rows where local_enterprise_partnership_code is "x" (the GSS
-not-available code) are excluded from non-LEP checks.
+Checks that each geography code in lower-level geographic data
+(Opportunity area, MAT, and Sponsor) has only one assigned geography
+name. A code appearing with two or more distinct names is flagged as a
+failure.
 
 ## Usage
 
 ``` r
-check_geog_lep_combos(data, verbose = FALSE, stop_on_error = FALSE)
+check_geog_other_code_dupes(data, verbose = FALSE, stop_on_error = FALSE)
 ```
 
 ## Arguments
@@ -35,8 +33,8 @@ a single row data frame
 
 ## Details
 
-If either LEP column is absent from the data, the check passes
-immediately.
+If no lower-level geography data is present in the data file, the check
+passes immediately.
 
 ## See also
 
@@ -46,10 +44,10 @@ Other check_geog:
 [`check_geog_ignored_rows()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_ignored_rows.md),
 [`check_geog_la_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_la_combos.md),
 [`check_geog_lad_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_lad_combos.md),
+[`check_geog_lep_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_lep_combos.md),
 [`check_geog_lsip_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_lsip_combos.md),
 [`check_geog_na()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_na.md),
 [`check_geog_na_code()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_na_code.md),
-[`check_geog_other_code_dupes()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_other_code_dupes.md),
 [`check_geog_other_dupes()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_other_dupes.md),
 [`check_geog_pcon_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_pcon_combos.md),
 [`check_geog_region_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_region_combos.md),
@@ -60,19 +58,15 @@ Other check_geog:
 ## Examples
 
 ``` r
-check_geog_lep_combos(example_data)
-#>             check result
-#> 1 geog_lep_combos   PASS
-#>                                                                                                                               message
-#> 1 At least one of the local_enterprise_partnership_code / local_enterprise_partnership_name columns is not present in this data file.
-#>   guidance_url
-#> 1           NA
-check_geog_lep_combos(example_data, verbose = TRUE)
-#> ✔ At least one of the local_enterprise_partnership_code / local_enterprise_partnership_name columns is not present in this data file.
-#>             check result
-#> 1 geog_lep_combos   PASS
-#>                                                                                                                               message
-#> 1 At least one of the local_enterprise_partnership_code / local_enterprise_partnership_name columns is not present in this data file.
-#>   guidance_url
-#> 1           NA
+check_geog_other_code_dupes(example_data)
+#>                   check result
+#> 1 geog_other_code_dupes   PASS
+#>                                                        message guidance_url
+#> 1 Lower-level geography data is not present in this data file.           NA
+check_geog_other_code_dupes(example_data, verbose = TRUE)
+#> ✔ Lower-level geography data is not present in this data file.
+#>                   check result
+#> 1 geog_other_code_dupes   PASS
+#>                                                        message guidance_url
+#> 1 Lower-level geography data is not present in this data file.           NA
 ```
