@@ -21,7 +21,14 @@ a single row data frame
 \description{
 Checks that all country_code and country_name combinations in the data file
 are valid. Rows where country_code is "x" (the GSS not-available code) are
-excluded from the check.
+excluded. All other combinations, including any with blank or NA codes, are
+checked against the standard geographies lookup and will fail if not found.
+}
+\details{
+No geographic_level distinction is made. This matches the legacy
+\code{country_combinations()} behaviour in dfe-published-data-qa, which filtered
+out "x" uniformly across all rows. Country columns are mandatory in the data
+standard, so blank or NA values at any geographic level are genuine errors.
 }
 \examples{
 check_geog_country_combos(example_data)
@@ -31,11 +38,18 @@ check_geog_country_combos(example_data, verbose = TRUE)
 Other check_geog: 
 \code{\link{check_geog_eda_combos}()},
 \code{\link{check_geog_ignored_rows}()},
+\code{\link{check_geog_la_col_present}()},
 \code{\link{check_geog_la_combos}()},
 \code{\link{check_geog_lad_combos}()},
 \code{\link{check_geog_lep_combos}()},
+\code{\link{check_geog_level_completed}()},
 \code{\link{check_geog_lsip_combos}()},
+\code{\link{check_geog_na}()},
+\code{\link{check_geog_na_code}()},
+\code{\link{check_geog_other_code_dupes}()},
+\code{\link{check_geog_other_dupes}()},
 \code{\link{check_geog_pcon_combos}()},
+\code{\link{check_geog_region_col_present}()},
 \code{\link{check_geog_region_combos}()},
 \code{\link{check_geog_region_for_la}()},
 \code{\link{check_geog_region_for_lad}()},

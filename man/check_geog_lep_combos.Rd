@@ -21,8 +21,10 @@ a single row data frame
 \description{
 Checks that all local_enterprise_partnership_code and
 local_enterprise_partnership_name combinations in the data file are valid.
+For Local enterprise partnership rows, all combinations must be valid.
+For non-LEP rows, only non-empty, non-NA combinations are checked.
 Rows where local_enterprise_partnership_code is "x" (the GSS not-available
-code) are excluded from the check.
+code) are excluded from non-LEP checks.
 }
 \details{
 If either LEP column is absent from the data, the check passes immediately.
@@ -36,10 +38,17 @@ Other check_geog:
 \code{\link{check_geog_country_combos}()},
 \code{\link{check_geog_eda_combos}()},
 \code{\link{check_geog_ignored_rows}()},
+\code{\link{check_geog_la_col_present}()},
 \code{\link{check_geog_la_combos}()},
 \code{\link{check_geog_lad_combos}()},
+\code{\link{check_geog_level_completed}()},
 \code{\link{check_geog_lsip_combos}()},
+\code{\link{check_geog_na}()},
+\code{\link{check_geog_na_code}()},
+\code{\link{check_geog_other_code_dupes}()},
+\code{\link{check_geog_other_dupes}()},
 \code{\link{check_geog_pcon_combos}()},
+\code{\link{check_geog_region_col_present}()},
 \code{\link{check_geog_region_combos}()},
 \code{\link{check_geog_region_for_la}()},
 \code{\link{check_geog_region_for_lad}()},

@@ -7,8 +7,18 @@
 #' When `restricted_level` is supplied, rows at that geographic level are
 #' checked without any exclusions (NA and blank codes are treated as invalid).
 #' Rows at other levels have NA, blank, and `na_code` entries excluded before
-#' checking. When `restricted_level` is NULL, `na_code` rows are excluded from
-#' all rows before checking.
+#' checking. This two-tier approach prevents false FAIL results on rows at
+#' non-home geographic levels, where a geography column being blank or NA is
+#' expected (e.g. `region_code` is NA on National-level rows). The legacy
+#' `region_combinations()` in dfe-published-data-qa used this same split.
+#'
+#' When `restricted_level` is NULL, only `na_code` rows are excluded before
+#' checking, and the same filter is applied to every row regardless of
+#' geographic level. This matches the legacy `country_combinations()` behaviour,
+#' which simply filtered out `gssNAvcode` ("x") across all rows without any
+#' geographic_level distinction. Country columns are mandatory in the data
+#' standard, so blank or NA values are genuine errors at any level and should
+#' not be silently excluded.
 #'
 #' Derives the check name from the calling public function via
 #' `get_check_name()`, so the result is correctly labelled regardless of which
@@ -157,7 +167,13 @@
 #'
 #' Checks that all country_code and country_name combinations in the data file
 #' are valid. Rows where country_code is "x" (the GSS not-available code) are
-#' excluded from the check.
+#' excluded. All other combinations, including any with blank or NA codes, are
+#' checked against the standard geographies lookup and will fail if not found.
+#'
+#' No geographic_level distinction is made. This matches the legacy
+#' `country_combinations()` behaviour in dfe-published-data-qa, which filtered
+#' out "x" uniformly across all rows. Country columns are mandatory in the data
+#' standard, so blank or NA values at any geographic level are genuine errors.
 #'
 #' @inheritParams check_col_names_spaces
 #'
@@ -229,8 +245,10 @@ check_geog_region_combos <- function(
 #' Check local authority district code and name combinations
 #'
 #' Checks that all lad_code and lad_name combinations in the data file are
-#' valid. Rows where lad_code is "x" (the GSS not-available code) are excluded
-#' from the check.
+#' valid. For Local authority district rows, all combinations must be valid.
+#' For non-LAD rows, only non-empty, non-NA combinations are checked.
+#' Rows where lad_code is "x" (the GSS not-available code) are excluded
+#' from non-LAD checks.
 #'
 #' If either LAD column is absent from the data, the check passes immediately.
 #'
@@ -255,6 +273,7 @@ check_geog_lad_combos <- function(
     name_col = "lad_name",
     acceptable_data = eesyscreener::acceptable_lads,
     guidance_url = render_url("data/lads.csv", domain = "screener_app_repo"),
+    restricted_level = "Local authority district",
     verbose = verbose,
     stop_on_error = stop_on_error
   )
@@ -263,8 +282,10 @@ check_geog_lad_combos <- function(
 #' Check parliamentary constituency code and name combinations
 #'
 #' Checks that all pcon_code and pcon_name combinations in the data file are
-#' valid. Rows where pcon_code is "x" (the GSS not-available code) are excluded
-#' from the check.
+#' valid. For Parliamentary constituency rows, all combinations must be valid.
+#' For non-PCON rows, only non-empty, non-NA combinations are checked.
+#' Rows where pcon_code is "x" (the GSS not-available code) are excluded
+#' from non-PCON checks.
 #'
 #' If either pcon column is absent from the data, the check passes immediately.
 #'
@@ -289,6 +310,7 @@ check_geog_pcon_combos <- function(
     name_col = "pcon_name",
     acceptable_data = eesyscreener::acceptable_pcons,
     guidance_url = render_url("data/pcons.csv", domain = "screener_app_repo"),
+    restricted_level = "Parliamentary constituency",
     verbose = verbose,
     stop_on_error = stop_on_error
   )
@@ -298,8 +320,10 @@ check_geog_pcon_combos <- function(
 #'
 #' Checks that all local_enterprise_partnership_code and
 #' local_enterprise_partnership_name combinations in the data file are valid.
+#' For Local enterprise partnership rows, all combinations must be valid.
+#' For non-LEP rows, only non-empty, non-NA combinations are checked.
 #' Rows where local_enterprise_partnership_code is "x" (the GSS not-available
-#' code) are excluded from the check.
+#' code) are excluded from non-LEP checks.
 #'
 #' If either LEP column is absent from the data, the check passes immediately.
 #'
@@ -324,6 +348,7 @@ check_geog_lep_combos <- function(
     name_col = "local_enterprise_partnership_name",
     acceptable_data = eesyscreener::acceptable_leps,
     guidance_url = render_url("data/leps.csv", domain = "screener_app_repo"),
+    restricted_level = "Local enterprise partnership",
     verbose = verbose,
     stop_on_error = stop_on_error
   )
@@ -408,9 +433,10 @@ check_geog_lsip_combos <- function(
 #' Check English devolved area code and name combinations
 #'
 #' Checks that all english_devolved_area_code and english_devolved_area_name
-#' combinations in the data file are valid. Rows where
-#' english_devolved_area_code is "x" (the GSS not-available code) are excluded
-#' from the check.
+#' combinations in the data file are valid. For English devolved area rows,
+#' all combinations must be valid. For non-EDA rows, only non-empty, non-NA
+#' combinations are checked. Rows where english_devolved_area_code is "x"
+#' (the GSS not-available code) are excluded from non-EDA checks.
 #'
 #' If either english devolved area column is absent from the data, the check
 #' passes immediately.
@@ -439,6 +465,7 @@ check_geog_eda_combos <- function(
       "data/english_devolved_areas.csv",
       domain = "screener_app_repo"
     ),
+    restricted_level = "English devolved area",
     verbose = verbose,
     stop_on_error = stop_on_error
   )
@@ -447,8 +474,24 @@ check_geog_eda_combos <- function(
 #' Check local authority code and name combinations
 #'
 #' Checks that all old_la_code, new_la_code, and la_name combinations in the
-#' data file are valid. Rows where old_la_code is NA are excluded. Rows where
-#' new_la_code is "x" (the GSS not-available code) are also excluded.
+#' data file are valid against the standard geographies lookup.
+#'
+#' No geographic_level distinction is made (unlike most other geography checks).
+#' All rows are filtered the same way before checking: rows where old_la_code
+#' is NA are excluded, and rows where new_la_code is "x" (the GSS
+#' not-available code) are excluded. All remaining combinations — including
+#' those with blank or NA new_la_code — are checked and will fail if not found
+#' in the lookup.
+#'
+#' Rows where old_la_code is "z" combined with a valid
+#' `acceptable_extra_geog_options` entry are also accepted, to accommodate
+#' geographies that have no old LA code.
+#'
+#' The `restricted_level` parameter is not used here because the
+#' old_la_code NA filter only applies when restricted_level is NULL. If
+#' "Local authority" were set as the restricted level, LA-level rows with a
+#' NA old_la_code would be checked without that filter and incorrectly fail,
+#' since not all LAs have an old code.
 #'
 #' If any of the three LA columns is absent from the data, the check passes
 #' immediately.
@@ -468,6 +511,12 @@ check_geog_la_combos <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  # restricted_level is intentionally not set. The old_la_code NA filter
+  # (extra_code_col) only runs in the else branch (restricted_level = NULL).
+  # If restricted_level = "Local authority" were used, LA-level rows would
+  # bypass that filter and rows with NA old_la_code would fail the anti_join
+  # against valid_combos, producing incorrect FAILs for LAs that have no old
+  # code.
   .check_geog_combos(
     data,
     code_col = "new_la_code",

@@ -388,6 +388,38 @@ get_geo_name_cols <- function() {
     unique()
 }
 
+#' Get columns for a geographic level
+#'
+#' Gets the code, name, and secondary code column names for a given geographic
+#' level from the geography dataframe.
+#'
+#' @param geographic_level character, the geographic level to filter to. Must
+#' match a value in `geography_df$geographic_level`.
+#' @keywords internal
+#' @noRd
+#' @returns character vector of column names
+get_geog_level_cols <- function(geographic_level) {
+  if (!geographic_level %in% eesyscreener::geography_df$geographic_level) {
+    cli::cli_abort(
+      c(
+        "{.val {geographic_level}} is not a valid geographic level.",
+        i = paste0(
+          "Valid levels are: ",
+          "{.val {eesyscreener::geography_df$geographic_level}}."
+        )
+      )
+    )
+  }
+  level_row <- eesyscreener::geography_df[
+    eesyscreener::geography_df$geographic_level == geographic_level,
+  ]
+  unlist(
+    level_row[, c("code_field", "name_field", "code_field_secondary")],
+    use.names = FALSE
+  ) |>
+    remove_nas_blanks()
+}
+
 #' Get all filter grouping columns
 #'
 #' Gets the names of all filter grouping columns from the metadata
