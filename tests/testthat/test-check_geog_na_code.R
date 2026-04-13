@@ -1,4 +1,5 @@
-# Base data with a testable geographic level (Provider) including provider_ukprn/provider_name
+# Base data with a testable geographic level (Provider) including
+# provider_ukprn and provider_name
 provider_data <- example_data |>
   dplyr::mutate(
     geographic_level = "Provider",
@@ -6,11 +7,13 @@ provider_data <- example_data |>
     provider_name = "Test Provider"
   )
 
-# Provider data where provider_name is "Not available" and provider_ukprn is correctly "x"
+# Provider data where provider_name is "Not available" and provider_ukprn
+# is correctly "x"
 provider_na_valid <- provider_data |>
   dplyr::mutate(provider_ukprn = "x", provider_name = "Not available")
 
-# Provider data where provider_name is "Not available" but provider_ukprn is wrong
+# Provider data where provider_name is "Not available" but provider_ukprn
+# is wrong
 provider_na_bad <- provider_data |>
   dplyr::mutate(provider_ukprn = "BADCODE", provider_name = "Not available")
 

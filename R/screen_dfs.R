@@ -167,6 +167,22 @@ screen_dfs <- function(
   # Only doing this here as not necessary for the metadata checks
   suppressMessages(duckplyr::methods_overwrite())
 
+  # Check general -------------------------------------------------------------
+  res <- run_and_log_check(
+    all_results,
+    rbind(
+      check_general_null(data, meta, vb, soe)
+    ),
+    "Check general",
+    log_key,
+    log_dir,
+    data_details
+  )
+  all_results <- res$all_results
+  if (res$early_return) {
+    return(as.data.frame(all_results))
+  }
+
   # Precheck filters ----------------------------------------------------------
   res <- run_and_log_check(
     all_results,
@@ -239,12 +255,16 @@ screen_dfs <- function(
   res <- run_and_log_check(
     all_results,
     rbind(
+      check_geog_level_completed(data, vb, soe),
       check_geog_ignored_rows(data, vb, soe),
       check_geog_other_dupes(data, vb, soe),
+      check_geog_la_col_present(data, vb, soe),
+      check_geog_region_col_present(data, vb, soe),
       check_geog_region_for_la(data, vb, soe),
       check_geog_region_for_lad(data, vb, soe),
       check_geog_na(data, vb, soe),
       check_geog_na_code(data, vb, soe),
+      check_geog_other_code_dupes(data, vb, soe),
       check_geog_overcompleted_cols(data, meta, vb, soe)
     ),
     "Check geography",
@@ -269,6 +289,22 @@ screen_dfs <- function(
       check_filter_blanks(data, meta, vb, soe)
     ),
     "Check filters",
+    log_key,
+    log_dir,
+    data_details
+  )
+  all_results <- res$all_results
+  if (res$early_return) {
+    return(as.data.frame(all_results))
+  }
+
+  # Check general -------------------------------------------------------------
+  res <- run_and_log_check(
+    all_results,
+    rbind(
+      check_general_dupes(data, meta, vb, soe)
+    ),
+    "Check general",
     log_key,
     log_dir,
     data_details
