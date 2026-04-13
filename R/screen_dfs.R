@@ -251,32 +251,6 @@ screen_dfs <- function(
     return(as.data.frame(all_results))
   }
 
-  # Check geography -----------------------------------------------------------
-  res <- run_and_log_check(
-    all_results,
-    rbind(
-      check_geog_level_completed(data, vb, soe),
-      check_geog_ignored_rows(data, vb, soe),
-      check_geog_other_dupes(data, vb, soe),
-      check_geog_la_col_present(data, vb, soe),
-      check_geog_region_col_present(data, vb, soe),
-      check_geog_region_for_la(data, vb, soe),
-      check_geog_region_for_lad(data, vb, soe),
-      check_geog_na(data, vb, soe),
-      check_geog_na_code(data, vb, soe),
-      check_geog_other_code_dupes(data, vb, soe),
-      check_geog_overcompleted_cols(data, meta, vb, soe)
-    ),
-    "Check geography",
-    log_key,
-    log_dir,
-    data_details
-  )
-  all_results <- res$all_results
-  if (res$early_return) {
-    return(as.data.frame(all_results))
-  }
-
   # Check filters -------------------------------------------------------------
   res <- run_and_log_check(
     all_results,
@@ -326,7 +300,18 @@ screen_dfs <- function(
       check_geog_lep_combos(data, vb, soe),
       check_geog_lsip_combos(data, vb, soe),
       check_geog_eda_combos(data, vb, soe),
-      check_geog_la_combos(data, vb, soe)
+      check_geog_la_combos(data, vb, soe),
+      check_geog_level_completed(data, vb, soe),
+      check_geog_ignored_rows(data, vb, soe),
+      check_geog_other_dupes(data, vb, soe),
+      check_geog_la_col_present(data, vb, soe),
+      check_geog_region_col_present(data, vb, soe),
+      check_geog_region_for_la(data, vb, soe),
+      check_geog_region_for_lad(data, vb, soe),
+      check_geog_na(data, vb, soe),
+      check_geog_na_code(data, vb, soe),
+      check_geog_other_code_dupes(data, vb, soe),
+      check_geog_overcompleted_cols(data, meta, vb, soe)
     ),
     "Check geography",
     log_key,
