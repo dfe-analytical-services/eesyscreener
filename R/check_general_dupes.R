@@ -7,6 +7,19 @@
 #' Provider, Institution, and Planning area rows are all excluded from the
 #' duplicate check.
 #'
+#' This check is intended to catch cases where there are multiple observation
+#' values for any option that users would be able to select in the table on
+#' EES. If this were to happen there's no guarantee what the users would see
+#' and the data would be compromised. On top of this, this check will also
+#' catch any full duplicate rows at the same time.
+#'
+#' To help with debugging, the check can optionally return the rows that are
+#' duplicated across the observational unit and filter columns. This way users
+#' can see which rows are duplicated to help with debugging their code. Many
+#' an adamant analyst has challenged this code and said it was wrong before,
+#' however, every single time the code has been proven right. General dupes
+#' never lies!
+#'
 #' @inheritParams precheck_col_to_rows
 #' @param return_dupes logical, if TRUE returns a data frame of the rows that
 #'   are duplicated (across observational unit and filter columns) instead of
