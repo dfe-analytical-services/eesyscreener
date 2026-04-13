@@ -35,6 +35,7 @@ check_geog_ignored_rows(example_data)
 Other check_geog: 
 \code{\link{check_geog_country_combos}()},
 \code{\link{check_geog_eda_combos}()},
+\code{\link{check_geog_la_col_present}()},
 \code{\link{check_geog_la_combos}()},
 \code{\link{check_geog_lad_combos}()},
 \code{\link{check_geog_lep_combos}()},
