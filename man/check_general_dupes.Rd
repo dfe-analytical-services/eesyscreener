@@ -4,7 +4,13 @@
 \alias{check_general_dupes}
 \title{Check for duplicate rows in data}
 \usage{
-check_general_dupes(data, meta, verbose = FALSE, stop_on_error = FALSE)
+check_general_dupes(
+  data,
+  meta,
+  verbose = FALSE,
+  stop_on_error = FALSE,
+  return_dupes = FALSE
+)
 }
 \arguments{
 \item{data}{A data frame of the data file}
@@ -16,6 +22,12 @@ every test, if FALSE run silently}
 
 \item{stop_on_error}{logical, if TRUE will stop with an error if the result
 is "FAIL", and will throw genuine warning if result is "WARNING"}
+
+\item{return_dupes}{logical, if TRUE returns a data frame of the rows that
+are duplicated (across observational unit and filter columns) instead of
+the standard check result. Rows at excluded geographic levels are not
+included. When there are no duplicates, an empty data frame with the same
+columns is returned. Defaults to FALSE.}
 }
 \value{
 a single row data frame
@@ -31,5 +43,6 @@ duplicate check.
 \examples{
 check_general_dupes(example_data, example_meta)
 check_general_dupes(example_data, example_meta, verbose = TRUE)
+check_general_dupes(example_data, example_meta, return_dupes = TRUE)
 }
 \concept{check_general}

@@ -118,3 +118,38 @@ test_that("filter group columns are included in the duplicate check key", {
   # Without sex_group in the key: row_a and row_b look identical → FAIL
   expect_equal(check_general_dupes(combined, example_meta)$result, "FAIL")
 })
+
+test_that("return_dupes returns empty data frame when no duplicates", {
+  result <- check_general_dupes(example_data, example_meta, return_dupes = TRUE)
+  expect_s3_class(result, "data.frame")
+  expect_equal(nrow(result), 0)
+})
+
+test_that("return_dupes returns all copies of duplicated rows", {
+  dupe_data <- rbind(example_data, example_data[1:2, ])
+  result <- check_general_dupes(dupe_data, example_meta, return_dupes = TRUE)
+  expect_s3_class(result, "data.frame")
+  # 2 original + 2 copies = 4 rows where the key appears more than once
+  expect_equal(nrow(result), 4)
+})
+
+test_that("return_dupes result has the check column names", {
+  result <- check_general_dupes(example_data, example_meta, return_dupes = TRUE)
+  ob_units <- eesyscreener:::get_acceptable_ob_units()
+  filters <- eesyscreener:::get_filters(
+    example_meta,
+    include_filter_groups = TRUE
+  )
+  expected_cols <- intersect(c(ob_units, filters), names(example_data))
+  expect_equal(names(result), expected_cols)
+})
+
+test_that("return_dupes excludes rows at excluded geographic levels", {
+  national_data <- example_data |>
+    dplyr::mutate(geographic_level = "National")
+  school_row <- example_data[1, ] |>
+    dplyr::mutate(geographic_level = "School")
+  mixed_data <- rbind(national_data, school_row, school_row)
+  result <- check_general_dupes(mixed_data, example_meta, return_dupes = TRUE)
+  expect_equal(nrow(result), 0)
+})

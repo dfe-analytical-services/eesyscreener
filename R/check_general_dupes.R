@@ -8,6 +8,11 @@
 #' duplicate check.
 #'
 #' @inheritParams precheck_col_to_rows
+#' @param return_dupes logical, if TRUE returns a data frame of the rows that
+#'   are duplicated (across observational unit and filter columns) instead of
+#'   the standard check result. Rows at excluded geographic levels are not
+#'   included. When there are no duplicates, an empty data frame with the same
+#'   columns is returned. Defaults to FALSE.
 #'
 #' @inherit check_filename_spaces return
 #'
@@ -16,12 +21,14 @@
 #' @examples
 #' check_general_dupes(example_data, example_meta)
 #' check_general_dupes(example_data, example_meta, verbose = TRUE)
+#' check_general_dupes(example_data, example_meta, return_dupes = TRUE)
 #' @export
 check_general_dupes <- function(
   data,
   meta,
   verbose = FALSE,
-  stop_on_error = FALSE
+  stop_on_error = FALSE,
+  return_dupes = FALSE
 ) {
   test_name <- get_check_name()
 
@@ -67,6 +74,20 @@ check_general_dupes <- function(
     dplyr::pull("n")
 
   n_dupe_rows <- n_total - n_distinct
+
+  if (return_dupes) {
+    if (n_dupe_rows == 0) {
+      return(as.data.frame(filtered_data[0, ]))
+    }
+    return(
+      filtered_data |>
+        dplyr::group_by(dplyr::across(dplyr::everything())) |>
+        dplyr::filter(dplyr::n() > 1) |>
+        dplyr::ungroup() |>
+        dplyr::arrange(dplyr::across(dplyr::everything())) |>
+        as.data.frame()
+    )
+  }
 
   if (n_dupe_rows == 0) {
     test_output(
