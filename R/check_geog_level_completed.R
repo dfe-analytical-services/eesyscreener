@@ -62,7 +62,7 @@ check_geog_level_completed <- function(
     return(test_output(
       test_name,
       "PASS",
-      "All geographic level columns are completed as expected.",
+      "No valid geographic levels present in the data to test.",
       verbose = verbose,
       stop_on_error = stop_on_error
     ))
