@@ -152,3 +152,48 @@ test_that("low-level geog columns flagged for all other levels", {
   expect_equal(result$result, "FAIL")
   expect_true(grepl("provider_ukprn", result$message))
 })
+
+test_that("compatible_levels covers all non-National geography_df levels", {
+  # Why this test exists
+  # ---------------------
+  # check_geog_overcompleted_cols() contains a hardcoded compatible_levels list
+  # that must stay in sync with geography_df. Any level absent from
+  # compatible_levels is silently skipped by the function, so adding a new row
+  # to geography_df without updating compatible_levels would mean the new
+  # geography is never checked. This test catches that.
+  #
+  # How it works
+  # ------------
+  # For every non-National level in geography_df we build a data frame of
+  # National rows with that level's code column artificially populated
+  # (e.g. region_code = "test_value" on National rows). That is always wrong,
+  # so the check must return FAIL for every iteration.
+  #
+  # If a level is missing from compatible_levels, the function's inner loop
+  # hits `!level %in% names(compatible_levels)` and skips it entirely,
+  # returning PASS instead — which fails this test.
+  non_national <- eesyscreener::geography_df[
+    eesyscreener::geography_df$geographic_level != "National",
+  ]
+
+  for (i in seq_len(nrow(non_national))) {
+    level <- non_national$geographic_level[i]
+    # Prefer code_field; fall back to name_field for levels that have no code
+    # (e.g. RSC region only has rsc_region_lead_name)
+    col <- if (!is.na(non_national$code_field[i])) {
+      non_national$code_field[i]
+    } else {
+      non_national$name_field[i]
+    }
+
+    # National-only data with one geographic column wrongly populated
+    bad_data <- national_data |>
+      dplyr::mutate(!!col := "test_value")
+
+    result <- check_geog_overcompleted_cols(bad_data, example_meta)
+    expect_equal(
+      result$result, "FAIL",
+      label = paste0(level, " (", col, ") overcompleted on National rows")
+    )
+  }
+})

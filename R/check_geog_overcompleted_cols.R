@@ -56,6 +56,12 @@ check_geog_overcompleted_cols <- function(
   # all levels and are never flagged.
   # Note: RSC regions, MATs, and Sponsors are excluded from Regional's list
   # because they do not map onto the standard regional hierarchy.
+  #
+  # COUPLING: this list must stay in sync with geography_df. Whenever a new
+  # row is added to geography_df (data-raw/geography_df.R), add the new level
+  # as a key here with its compatible levels, otherwise the check silently
+  # skips it. The test "compatible_levels covers all non-National geography_df
+  # levels" in test-check_geog_overcompleted_cols.R will fail to alert you.
   compatible_levels <- list(
     "Regional" = c(
       "Regional",
