@@ -41,6 +41,7 @@ Other check_geog:
 \code{\link{check_geog_la_col_present}()},
 \code{\link{check_geog_la_combos}()},
 \code{\link{check_geog_lad_combos}()},
+\code{\link{check_geog_level_completed}()},
 \code{\link{check_geog_lsip_combos}()},
 \code{\link{check_geog_na}()},
 \code{\link{check_geog_na_code}()},
