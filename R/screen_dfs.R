@@ -244,7 +244,8 @@ screen_dfs <- function(
       check_geog_region_for_la(data, vb, soe),
       check_geog_region_for_lad(data, vb, soe),
       check_geog_na(data, vb, soe),
-      check_geog_na_code(data, vb, soe)
+      check_geog_na_code(data, vb, soe),
+      check_geog_other_code_dupes(data, vb, soe)
     ),
     "Check geography",
     log_key,
