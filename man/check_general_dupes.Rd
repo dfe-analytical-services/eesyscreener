@@ -25,9 +25,10 @@ is "FAIL", and will throw genuine warning if result is "WARNING"}
 
 \item{return_dupes}{logical, if TRUE returns a data frame of the rows that
 are duplicated (across observational unit and filter columns) instead of
-the standard check result. Rows at excluded geographic levels are not
-included. When there are no duplicates, an empty data frame with the same
-columns is returned. Defaults to FALSE.}
+the standard check result. All columns from the original data are
+included. Rows at excluded geographic levels are not included. When there
+are no duplicates, an empty data frame with the same columns is returned.
+Defaults to FALSE.}
 }
 \value{
 a single row data frame
@@ -42,7 +43,6 @@ duplicate check.
 }
 \examples{
 check_general_dupes(example_data, example_meta)
-check_general_dupes(example_data, example_meta, verbose = TRUE)
 check_general_dupes(example_data, example_meta, return_dupes = TRUE)
 }
 \concept{check_general}
