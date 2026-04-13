@@ -16,7 +16,6 @@
 #'
 #' @examples
 #' check_general_null(example_data, example_meta)
-#' check_general_null(example_data, example_meta, verbose = TRUE)
 #' @export
 check_general_null <- function(
   data,
@@ -30,8 +29,8 @@ check_general_null <- function(
   legacy_symbols <- c("N/A", "n/a", ".", "..", "-")
 
   gss_guidance_url <- paste0(
-    "https://gss.civilservice.gov.uk/wp-content/uploads/2017/03/",
-    "GSS-Website-Harmonised-Symbols-Supporting-Documentation.pdf"
+    "https://analysisfunction.civilservice.gov.uk/policy-store/",
+    "symbols-in-tables-definitions-and-help/"
   )
 
   # Single pass over data columns collecting null and legacy symbols found

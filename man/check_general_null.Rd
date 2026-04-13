@@ -32,6 +32,5 @@ representing missing or suppressed data.
 }
 \examples{
 check_general_null(example_data, example_meta)
-check_general_null(example_data, example_meta, verbose = TRUE)
 }
 \concept{check_general}
