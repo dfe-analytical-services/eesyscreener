@@ -403,7 +403,10 @@ get_geog_level_cols <- function(geographic_level) {
     cli::cli_abort(
       c(
         "{.val {geographic_level}} is not a valid geographic level.",
-        i = "Valid levels are: {.val {eesyscreener::geography_df$geographic_level}}."
+        i = paste0(
+          "Valid levels are: ",
+          "{.val {eesyscreener::geography_df$geographic_level}}."
+        )
       )
     )
   }

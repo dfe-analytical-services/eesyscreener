@@ -242,6 +242,7 @@ screen_dfs <- function(
       check_geog_ignored_rows(data, vb, soe),
       check_geog_other_dupes(data, vb, soe),
       check_geog_la_col_present(data, vb, soe),
+      check_geog_region_col_present(data, vb, soe),
       check_geog_region_for_la(data, vb, soe),
       check_geog_region_for_lad(data, vb, soe),
       check_geog_na(data, vb, soe),
