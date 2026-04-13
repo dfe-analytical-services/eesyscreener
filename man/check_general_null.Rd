@@ -33,4 +33,8 @@ representing missing or suppressed data.
 \examples{
 check_general_null(example_data, example_meta)
 }
+\seealso{
+Other check_general: 
+\code{\link{check_general_dupes}()}
+}
 \concept{check_general}

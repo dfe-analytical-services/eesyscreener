@@ -297,6 +297,22 @@ screen_dfs <- function(
     return(as.data.frame(all_results))
   }
 
+  # Check general -------------------------------------------------------------
+  res <- run_and_log_check(
+    all_results,
+    rbind(
+      check_general_dupes(data, meta, vb, soe)
+    ),
+    "Check general",
+    log_key,
+    log_dir,
+    data_details
+  )
+  all_results <- res$all_results
+  if (res$early_return) {
+    return(as.data.frame(all_results))
+  }
+
   # Check geography -----------------------------------------------------------
   res <- run_and_log_check(
     all_results,
