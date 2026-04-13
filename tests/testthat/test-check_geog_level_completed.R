@@ -79,3 +79,49 @@ test_that("fails when old_la_code is NA for local authority rows", {
   expect_equal(result$result, "FAIL")
   expect_true(grepl("old_la_code", result$message))
 })
+
+test_that("fails when just one value in a column is NA", {
+  bad_data <- regional_data |>
+    dplyr::mutate(
+      region_code = ifelse(
+        dplyr::row_number() == 4,
+        NA_character_,
+        region_code
+      )
+    )
+  result <- check_geog_level_completed(bad_data)
+  expect_equal(result$result, "FAIL")
+  expect_true(grepl("region_code", result$message))
+})
+
+test_that("fails when just one value in a column is a blank string", {
+  bad_data <- regional_data |>
+    dplyr::mutate(
+      region_name = ifelse(
+        dplyr::row_number() == 2,
+        "",
+        region_name
+      )
+    )
+  result <- check_geog_level_completed(bad_data)
+  expect_equal(result$result, "FAIL")
+  expect_true(grepl("region_name", result$message))
+})
+
+test_that("passes silently when data only contains Planning area rows", {
+  # Planning area is excluded from this check by design; those rows are
+  # flagged as ignored by check_geog_ignored_rows() instead
+  planning_data <- example_data |>
+    dplyr::mutate(geographic_level = "Planning area")
+  result <- check_geog_level_completed(planning_data)
+  expect_equal(result$result, "PASS")
+})
+
+test_that("passes silently when expected columns are absent from data", {
+  # Columns not present in the data at all are skipped here; their absence is
+  # caught by check_geog_la_col_present() / check_geog_region_col_present()
+  regional_no_cols <- example_data |>
+    dplyr::mutate(geographic_level = "Regional")
+  result <- check_geog_level_completed(regional_no_cols)
+  expect_equal(result$result, "PASS")
+})

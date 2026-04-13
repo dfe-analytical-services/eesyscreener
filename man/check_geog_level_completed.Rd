@@ -26,6 +26,19 @@ as it can legitimately be blank for older Local authority records.
 Rows at Planning area level are excluded as they are not used in the table
 tool.
 }
+\details{
+Three cases result in a silent PASS, each intentionally caught by a
+dedicated check elsewhere in the screening pipeline:
+\itemize{
+\item \strong{Planning area rows}: excluded here; flagged by
+\code{\link[=check_geog_ignored_rows]{check_geog_ignored_rows()}}.
+\item \strong{Invalid geographic levels} (not present in \code{geography_df}): skipped
+here; caught upstream by \code{precheck_geog_level()}.
+\item \strong{Missing geography columns} (e.g. \code{region_code} absent from the data
+entirely): silently skipped here; caught by \code{\link[=check_geog_la_col_present]{check_geog_la_col_present()}}
+and \code{\link[=check_geog_region_col_present]{check_geog_region_col_present()}}.
+}
+}
 \examples{
 check_geog_level_completed(example_data)
 check_geog_level_completed(example_data, verbose = TRUE)
@@ -35,13 +48,17 @@ Other check_geog:
 \code{\link{check_geog_country_combos}()},
 \code{\link{check_geog_eda_combos}()},
 \code{\link{check_geog_ignored_rows}()},
+\code{\link{check_geog_la_col_present}()},
 \code{\link{check_geog_la_combos}()},
 \code{\link{check_geog_lad_combos}()},
 \code{\link{check_geog_lep_combos}()},
 \code{\link{check_geog_lsip_combos}()},
 \code{\link{check_geog_na}()},
 \code{\link{check_geog_na_code}()},
+\code{\link{check_geog_other_code_dupes}()},
+\code{\link{check_geog_other_dupes}()},
 \code{\link{check_geog_pcon_combos}()},
+\code{\link{check_geog_region_col_present}()},
 \code{\link{check_geog_region_combos}()},
 \code{\link{check_geog_region_for_la}()},
 \code{\link{check_geog_region_for_lad}()},

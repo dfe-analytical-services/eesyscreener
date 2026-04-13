@@ -7,6 +7,17 @@
 #' Rows at Planning area level are excluded as they are not used in the table
 #' tool.
 #'
+#' Three cases result in a silent PASS, each intentionally caught by a
+#' dedicated check elsewhere in the screening pipeline:
+#'
+#' - **Planning area rows**: excluded here; flagged by
+#'   [check_geog_ignored_rows()].
+#' - **Invalid geographic levels** (not present in `geography_df`): skipped
+#'   here; caught upstream by `precheck_geog_level()`.
+#' - **Missing geography columns** (e.g. `region_code` absent from the data
+#'   entirely): silently skipped here; caught by [check_geog_la_col_present()]
+#'   and [check_geog_region_col_present()].
+#'
 #' @inheritParams check_col_names_spaces
 #'
 #' @inherit check_filename_spaces return
@@ -41,6 +52,8 @@ check_geog_level_completed <- function(
     dplyr::distinct(.data$geographic_level) |>
     dplyr::pull("geographic_level")
 
+  # Levels not in geography_df (e.g. invalid values) silently produce 0 rows
+  # here; precheck_geog_level() catches those upstream before this runs.
   testable_present <- testable_geog[
     testable_geog$geographic_level %in% levels_in_data,
   ]
@@ -64,6 +77,9 @@ check_geog_level_completed <- function(
       testable_present$name_field[i],
       testable_present$code_field_secondary[i]
     )
+    # Columns absent from the data entirely are silently skipped; their
+    # absence is caught by check_geog_la_col_present() /
+    # check_geog_region_col_present().
     expected_cols <- expected_cols[
       !is.na(expected_cols) & expected_cols %in% data_cols
     ]
@@ -76,7 +92,7 @@ check_geog_level_completed <- function(
       function(col) {
         col_sym <- rlang::sym(col)
         level_rows |>
-          dplyr::filter(is.na(!!col_sym)) |>
+          dplyr::filter(is.na(!!col_sym) | !!col_sym == "") |>
           dplyr::count() |>
           dplyr::pull("n") >
           0
