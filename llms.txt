@@ -1225,6 +1225,8 @@ validate core assumptions about the geography columns.
   : Check local authority district code and name combinations
 - [`check_geog_lep_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_lep_combos.md)
   : Check local enterprise partnership code and name combinations
+- [`check_geog_level_completed()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_level_completed.md)
+  : Check geographic level columns are completed
 - [`check_geog_lsip_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_lsip_combos.md)
   : Check local skills improvement plan area code and name combinations
 - [`check_geog_na()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_na.md)
