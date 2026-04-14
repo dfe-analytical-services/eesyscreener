@@ -1,8 +1,7 @@
-# These are effectively integration tests, throwing CSVs as the whole
-# package to ensure that the screening process works as expected.
-#
-# Before running these tests, populate the test data directories by sourcing:
-#   source("tests/utils/download_integration_data.R")
+# These are effectively integration tests, throwing CSVs at the whole
+# package to ensure that the screening process works as expected on
+# known and tested test data, this should be used to capture any edge
+# cases or odd behaviour and ensure the logic runs smoothly on real data.
 #
 # Then run the tests with:
 #   withr::with_envvar(
@@ -13,7 +12,7 @@
 # Helper: screens all data/meta CSV pairs in a local folder.
 # expected_result = TRUE  -> assert passed == TRUE  (file should pass screening)
 # expected_result = FALSE -> assert passed == FALSE (file should fail screening)
-screen_local_folder <- function(folder, expected_result) {
+screen_local_folder <- function(folder, expected_result = NULL) {
   folder_path <- test_path(folder)
 
   all_files <- list.files(folder_path)
@@ -35,11 +34,18 @@ screen_local_folder <- function(folder, expected_result) {
 
     screener_output <- expect_no_error(screen_csv(data_path, meta_path))
 
-    expect_equal(
-      screener_output$passed,
-      expected_result,
-      label = paste("passed ==", expected_result, "for", filename)
-    )
+    if (is.null(expected_result)) {
+      expect_true(
+        is.logical(screener_output$passed),
+        label = paste("passed is a single logical value for", filename)
+      )
+    } else {
+      expect_equal(
+        screener_output$passed,
+        expected_result,
+        label = paste("passed ==", expected_result, "for", filename)
+      )
+    }
   }
 }
 
@@ -50,19 +56,16 @@ integration_skip_conditions <- function() {
     Sys.getenv("RUN_INTEGRATION_TESTS") != "true",
     message = "Set RUN_INTEGRATION_TESTS=true to run integration tests"
   )
-  skip_if_offline()
 }
 
 test_that("All fail-data files return passed = FALSE", {
   integration_skip_conditions()
   skip_if(!dir.exists(test_path("fail-data")))
-  #screen_local_folder("fail-data", expected_result = FALSE) # TODO sift through issues here
-  screen_local_folder("sifted-fail-data", expected_result = FALSE)
+  screen_local_folder("fail-data", expected_result = FALSE)
 })
 
 test_that("All pass-data files return passed = TRUE", {
   integration_skip_conditions()
   skip_if(!dir.exists(test_path("pass-data")))
   screen_local_folder("pass-data", expected_result = TRUE)
-  screen_local_folder("sifted-pass-data", expected_result = TRUE)
 })
