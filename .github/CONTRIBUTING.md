@@ -157,6 +157,54 @@ Uploading the reports using `duckplyr::fallback_upload()` will clear them from y
 
 If you don't care for looking at them more, you can set them to auto upload (and stop shouting at you) with `duckplyr::fallback_config(autoupload = TRUE)`.
 
+### Diagnosing and fixing duckplyr fallbacks
+
+`duckplyr` replaces dplyr generics with DuckDB-backed implementations. When it
+can't translate an operation to DuckDB SQL, it emits an `rlang_message` and
+falls back to plain dplyr. There are two severity levels:
+
+- **"Error processing"** — the message has an error as its parent condition.
+  `expect_no_error()` in testthat 3.3.2 traverses the parent chain and treats
+  this as a test failure.
+- **"Cannot process"** — informational only, no error parent. Does not fail
+  `expect_no_error()` but still represents unhandled fallback behaviour.
+
+The `test-avoid_materialisation.R` test catches both. If it fails, the captured
+fallback message(s) identify which dplyr operation triggered the issue.
+
+#### Common patterns that cause fallbacks
+
+| Pattern | Error / symptom |
+|---|---|
+| `dplyr::mutate(col = local_var)` bare symbol RHS | "object of type 'symbol' is not subsettable" |
+| `dplyr::arrange(.data$col)` | same bare-symbol error via `` `$` `` operator |
+| `dplyr::count(.data$col)` | "Cannot process: `count()` requires columns in `...`"; cascades into `group_by()` fallback |
+| `spec_tbl_df` without `tibble::as_tibble()` conversion | "Must pass a plain data frame or a tibble" |
+| `utils::stack()` output passed to dplyr verbs | factor columns — duckplyr can't build a relation |
+| `vapply()` result used directly in `dplyr::mutate()` | named/multi-element vector → "length(val) == 1 is not TRUE" or "Can't convert named vectors" |
+
+#### Patterns that work fine with duckplyr
+
+- `dplyr::filter(!!col_sym == value)` — bang-bang with `rlang::sym()` is fine
+- `dplyr::filter(.data$col == value)` — `.data$` in `filter()` works (the issue
+  is specific to `arrange()` and `count()`)
+- `dplyr::distinct(!!!syms_vec)` — spliced symbols work
+- `dplyr::select("quoted_col_name")` — string selectors work
+- `dplyr::count(!!rlang::sym("col"))` — bang-bang in `count()` works
+
+#### Diagnosing interactively
+
+1. `pkgload::load_all(".", quiet = TRUE)` to load the source package
+2. `duckplyr::methods_overwrite()` to activate duckplyr globally
+3. Wrap `screen_dfs()` or the suspect check function with
+   `withCallingHandlers(..., rlang_message = function(m) { ... })` to intercept
+   fallback messages and inspect `sys.calls()` for the originating line
+4. Isolate by running individual check functions directly
+5. `duckplyr::methods_restore()` when done
+
+Use temporary `.R` files rather than complex `Rscript -e "..."` invocations to
+avoid shell escaping issues with multi-line code.
+
 ## Process for moving in functions from app
 
 [Tracking spreadsheet set up in sharepoint](https://educationgovuk.sharepoint.com/:x:/r/sites/lveesfa00074/Data%20Insights%20and%20Statistics%20Division/Statistics%20Services%20Unit/Explore%20education%20statistics%20platforms/Screening%20tests%20migration%20tracking.xlsx?d=wdc9cf9ce356b47c6a1d1f11aba8bb96d&csf=1&web=1&e=PSIk6I), this contains a table of all checks, thoughts on new groupings and notes about the migration (including the progress).
