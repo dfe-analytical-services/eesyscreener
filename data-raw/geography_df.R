@@ -1,5 +1,5 @@
 geography_df <- data.frame(
-  row_number = 1:17,
+  row_number = 1:18,
   geographic_level = c(
     "National",
     "Regional",
@@ -17,7 +17,8 @@ geography_df <- data.frame(
     "School",
     "Provider",
     "Institution",
-    "Planning area"
+    "Planning area",
+    "Police force area"
   ),
   code_field = c(
     "country_code",
@@ -36,7 +37,8 @@ geography_df <- data.frame(
     "school_urn",
     "provider_ukprn",
     "institution_id",
-    "planning_area_code"
+    "planning_area_code",
+    "pfa_code"
   ),
   name_field = c(
     "country_name",
@@ -55,7 +57,8 @@ geography_df <- data.frame(
     "school_name",
     "provider_name",
     "institution_name",
-    "planning_area_name"
+    "planning_area_name",
+    "pfa_name"
   ),
   code_field_secondary = c(
     NA,
@@ -72,6 +75,7 @@ geography_df <- data.frame(
     NA,
     NA,
     "school_laestab",
+    NA,
     NA,
     NA,
     NA

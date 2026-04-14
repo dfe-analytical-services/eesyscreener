@@ -29,7 +29,7 @@ test_that("geography_df has correct structure", {
   expect_true(exists("geography_df"))
   expect_s3_class(geography_df, "data.frame")
   expect_equal(ncol(geography_df), 5)
-  expect_equal(nrow(geography_df), 17)
+  expect_equal(nrow(geography_df), 18)
   expect_equal(
     colnames(geography_df),
     c(
@@ -51,7 +51,7 @@ test_that("geography_df columns have expected types", {
 })
 
 test_that("geography_df has expected values in key columns", {
-  expect_equal(geography_df$row_number, 1:17)
+  expect_equal(geography_df$row_number, 1:18)
   expect_true("National" %in% geography_df$geographic_level)
   expect_true("country_code" %in% geography_df$code_field)
   expect_true("country_name" %in% geography_df$name_field)
