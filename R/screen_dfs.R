@@ -53,6 +53,7 @@ screen_dfs <- function(
     nrows = data |> dplyr::count() |> dplyr::pull("n")
   )
 
+  on.exit(suppressMessages(duckplyr::methods_restore()), add = TRUE)
   suppressMessages(duckplyr::methods_restore())
 
   all_results <- NULL

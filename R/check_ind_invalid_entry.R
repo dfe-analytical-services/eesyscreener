@@ -38,8 +38,7 @@ check_ind_invalid_entry <- function(
 
   pre_result <- utils::stack(sapply(indicators, ind_invalid_entry_check))
 
-  invalid_indicators <- dplyr::filter(pre_result, .data$values == "FAIL") |>
-    dplyr::pull(.data$ind)
+  invalid_indicators <- as.character(pre_result$ind[pre_result$values == "FAIL"])
 
   if (all(pre_result$values == "PASS")) {
     test_output(
