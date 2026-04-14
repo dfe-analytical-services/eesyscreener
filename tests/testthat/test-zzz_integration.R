@@ -56,7 +56,7 @@ integration_skip_conditions <- function() {
 test_that("All fail-data files return passed = FALSE", {
   integration_skip_conditions()
   skip_if(!dir.exists(test_path("fail-data")))
-  #screen_local_folder("fail-data", expected_result = FALSE)
+  #screen_local_folder("fail-data", expected_result = FALSE) # TODO sift through issues here
   screen_local_folder("sifted-fail-data", expected_result = FALSE)
 })
 
