@@ -68,10 +68,14 @@ check_filter_group_level <- function(
   filters_and_groups[["filter_levels"]] <- filter_levels
   filters_and_groups[["group_levels"]] <- group_levels
   filters_and_groups[["pre_result"]] <- ifelse(
-    filter_levels >= group_levels, "PASS", "FAIL"
+    filter_levels >= group_levels,
+    "PASS",
+    "FAIL"
   )
   # Create failed pairs data frame
-  failed_pairs <- filters_and_groups[filters_and_groups[["pre_result"]] == "FAIL", ]
+  failed_pairs <- filters_and_groups[
+    filters_and_groups[["pre_result"]] == "FAIL",
+  ]
 
   number_of_failed_pairs <- nrow(failed_pairs)
   # Output results based on whether there is one failed pair or multiple
