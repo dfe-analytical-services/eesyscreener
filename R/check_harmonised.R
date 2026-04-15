@@ -6,10 +6,10 @@
 #
 # - harmonised_col_names: DfE harmonised variable naming standards. Maps search
 #   patterns to the accepted column names for variables covered by DfE's
-#   harmonised data standards (e.g. "ethnic" -> ethnicity_major, ethnicity_minor,
-#   ethnicity_detailed, minority_ethnic). Used to enforce correct column naming
-#   in check_harmonised_variables(), and to derive the expected
-#   characteristic_group display labels in eth_standard_characteristic_groups().
+#   harmonised data standards (e.g. "ethnic" -> ethnicity_major,
+#   ethnicity_minor, ethnicity_detailed, minority_ethnic). Used to enforce
+#   correct column naming in check_harmonised_variables(), and to derive the
+#   expected characteristic_group display labels in eth_std_char_groups().
 #
 # - acceptable_ethnicity_values: GSS-standard ethnicity value pairs. Contains
 #   the accepted (major, minor) combinations as defined by the Government
@@ -22,8 +22,8 @@
 # check_data_dictionary.R, is a separate list maintained for API compatibility.
 # It overlaps with the above for ethnicity column names and some values, but
 # differs in content (e.g. it includes additional aggregate values like
-# "All pupils" and uses only the space-slash format). See check_data_dictionary.R
-# for a full explanation of the distinction.
+# "All pupils" and uses only the space-slash format). See
+# check_data_dictionary.R for a full explanation of the distinction.
 
 # Internal helpers ====
 
@@ -44,7 +44,7 @@
 #' @seealso \code{\link[eesyscreener]{harmonised_col_names}}
 #' @keywords internal
 #' @noRd
-eth_standard_characteristic_groups <- function() {
+eth_std_char_groups <- function() {
   col_names <- unique(
     eesyscreener::harmonised_col_names$col_name_harmonised[
       grepl("ethnic", eesyscreener::harmonised_col_names$col_name_search_string)
@@ -302,8 +302,8 @@ check_harmonised_eth_char_grp <- function(
   # stays in sync with the accepted harmonised column name standards
   # automatically. The snake_case column names (e.g. ethnicity_major) are
   # converted to the Title Case display labels expected in characteristic_group
-  # (e.g. "Ethnicity Major"). See eth_standard_characteristic_groups().
-  standard_characteristics <- eth_standard_characteristic_groups()
+  # (e.g. "Ethnicity Major"). See eth_std_char_groups().
+  standard_characteristics <- eth_std_char_groups()
 
   if (!"characteristic_group" %in% dplyr::tbl_vars(data)) {
     return(test_output(

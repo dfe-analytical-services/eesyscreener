@@ -17,9 +17,10 @@
 #
 # The datasets overlap in domain (e.g. ethnicity_major appears in both
 # data_dictionary and harmonised_col_names), but answer different questions:
-#   - data_dictionary:              "is this column/value valid for the EES API?"
-#   - harmonised_col_names:         "is this column using the DfE standard name?"
-#   - acceptable_ethnicity_values:  "does this value meet GSS ethnicity standards?"
+#   - data_dictionary asks whether a column/value is valid for the EES API
+#   - harmonised_col_names asks whether a column uses the DfE standard name
+#   - acceptable_ethnicity_values asks whether a value meets GSS ethnicity
+#     standards
 #
 # Concretely: data_dictionary contains additional EES-specific aggregate values
 # (e.g. "All pupils", "All Asian / Asian British") not in GSS standards, and
