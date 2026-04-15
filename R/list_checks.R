@@ -24,7 +24,15 @@
 #' @export
 list_checks <- function(print = TRUE) {
   checks <- get_checks_in_order()
-  checks$title <- vapply(checks$function_name, get_rd_title, character(1))
+  rd_db <- tryCatch(
+    tools::Rd_db(package = "eesyscreener"),
+    error = function(e) NULL
+  )
+  checks$title <- vapply(
+    checks$function_name,
+    function(fn) get_rd_title(fn, rd_db),
+    character(1)
+  )
   checks <- checks[, c("function_name", "title", "stage")]
 
   if (print) {
@@ -212,16 +220,21 @@ check_fns_from_rbind <- function(rbind_call, intermediate_vars) {
   fns
 }
 
-# Internal: read title from Rd file -------------------------------------------
-get_rd_title <- function(fn_name) {
-  man_dir <- system.file("man", package = "eesyscreener")
-  rd_file <- file.path(man_dir, paste0(fn_name, ".Rd"))
+# Internal: read title from Rd ------------------------------------------------
+# Tries the installed help database first (available under R CMD check and in
+# installed packages). Falls back to raw .Rd files for devtools::load_all()
+# sessions where the database has not been built.
+get_rd_title <- function(fn_name, rd_db) {
+  rd <- if (!is.null(rd_db)) rd_db[[paste0(fn_name, ".Rd")]] else NULL
 
-  if (!file.exists(rd_file)) {
-    return(NA_character_)
+  if (is.null(rd)) {
+    man_dir <- system.file("man", package = "eesyscreener")
+    rd_file <- file.path(man_dir, paste0(fn_name, ".Rd"))
+    if (!file.exists(rd_file)) {
+      return(NA_character_)
+    }
+    rd <- tools::parse_Rd(rd_file)
   }
-
-  rd <- tools::parse_Rd(rd_file)
 
   for (block in rd) {
     if (identical(attr(block, "Rd_tag"), "\\title")) {
