@@ -3,6 +3,10 @@
 # example_meta has sex (Filter) and education_phase (Filter), both in the
 # data dictionary. Replacing "All pupils" and "All phases" with valid items
 # creates a passing dataset for check_data_dict_fil_item.
+
+# Can be removed when
+# https://github.com/dfe-analytical-services/dfe-published-data-qa/pull/182 is
+# merged and the data dictionary in eesyscreener is regenerated
 dd_pass_data <- example_data |>
   dplyr::mutate(
     sex = dplyr::if_else(.data$sex == "All pupils", "Male", .data$sex),
@@ -95,10 +99,10 @@ test_that("passes when no metadata filter columns are in the data dictionary", {
 
 test_that("warns with singular message for one non-standard filter item", {
   single_bad <- example_data |>
-    dplyr::mutate(sex = "Nonbinary")
+    dplyr::mutate(sex = "So many pupils")
   result <- check_data_dict_fil_item(single_bad, sex_only_meta)
   expect_equal(result$result, "WARNING")
-  expect_true(grepl("sex / Nonbinary", result$message))
+  expect_true(grepl("sex / So many pupils", result$message))
   expect_true(grepl("combination is", result$message))
   expect_false(is.na(result$guidance_url))
 })
@@ -107,21 +111,35 @@ test_that("warns with plural message for multiple non-standard filter items", {
   multi_bad <- example_data |>
     dplyr::mutate(
       sex = dplyr::case_when(
-        .data$sex == "All pupils" ~ "Nonbinary",
-        .data$sex == "Male" ~ "Unknown",
+        .data$sex == "All pupils" ~ "So many pupils",
+        .data$sex == "Male" ~ "Man",
         .default = .data$sex
       )
     )
   result <- check_data_dict_fil_item(multi_bad, sex_only_meta)
   expect_equal(result$result, "WARNING")
-  expect_true(grepl("sex / Nonbinary", result$message))
-  expect_true(grepl("sex / Unknown", result$message))
+  expect_true(grepl("sex / So many pupils", result$message))
+  expect_true(grepl("sex / Man", result$message))
   expect_true(grepl("combinations are", result$message))
 })
 
 test_that("warns for non-standard items across multiple filter columns", {
-  result <- check_data_dict_fil_item(example_data, example_meta)
+  multi_multi_bad <- example_data |>
+    dplyr::mutate(
+      sex = dplyr::case_when(
+        .data$sex == "All pupils" ~ "So many pupils",
+        .data$sex == "Male" ~ "Man",
+        .default = .data$sex
+      ),
+      education_phase = dplyr::case_when(
+        .data$education_phase == "All phases" ~ "Many phase",
+        .data$education_phase == "Primary" ~ "Prime phase",
+        .default = .data$education_phase
+      )
+    )
+
+  result <- check_data_dict_fil_item(multi_multi_bad, example_meta)
   expect_equal(result$result, "WARNING")
-  expect_true(grepl("sex / All pupils", result$message))
-  expect_true(grepl("education_phase / All phases", result$message))
+  expect_true(grepl("sex / So many pupils", result$message))
+  expect_true(grepl("education_phase / Many phase", result$message))
 })

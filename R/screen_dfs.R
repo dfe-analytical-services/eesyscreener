@@ -340,17 +340,15 @@ screen_dfs <- function(
   }
 
   # Check API -----------------------------------------------------------------
-  check_api_results <- rbind(
-    check_api_char_col_name(data, vb, soe),
-    check_api_char_col_label(meta, vb, soe),
-    check_api_char_loc_code(data, vb, soe),
-    check_api_char_filter_items(data, meta, vb, soe)
-  )
-
   if (dd_checks) {
     check_api_results <- rbind(
-      check_api_results,
-      check_api_dict_col_names(meta, vb, soe)
+      check_api_char_col_name(data, vb, soe),
+      check_api_char_col_label(meta, vb, soe),
+      check_api_char_loc_code(data, vb, soe),
+      check_api_char_filter_items(data, meta, vb, soe),
+      check_api_dict_col_names(meta, vb, soe),
+      check_data_dict_col_name(meta, vb, soe),
+      check_data_dict_fil_item(data, meta, vb, soe)
     )
   }
 
@@ -365,25 +363,6 @@ screen_dfs <- function(
   all_results <- res$all_results
   if (res$early_return) {
     return(as.data.frame(all_results))
-  }
-
-  # Check data dictionary -----------------------------------------------------
-  if (dd_checks) {
-    res <- run_and_log_check(
-      all_results,
-      rbind(
-        check_data_dict_col_name(meta, vb, soe),
-        check_data_dict_fil_item(data, meta, vb, soe)
-      ),
-      "Check data dictionary",
-      log_key,
-      log_dir,
-      data_details
-    )
-    all_results <- res$all_results
-    if (res$early_return) {
-      return(as.data.frame(all_results))
-    }
   }
 
   # Success return ------------------------------------------------------------
