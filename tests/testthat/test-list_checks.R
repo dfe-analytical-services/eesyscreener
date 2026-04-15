@@ -13,7 +13,7 @@ test_that("list_checks() covers all exported check / precheck functions", {
   # which breaks the pattern matching and causes all checks to appear missing.
   #
   # This test still runs under R CMD check, so we have coverage.
-  skip_if(isTRUE(getOption("covr.testing")))
+  skip_if(Sys.getenv("COVR_CI") == "true")
   namespace_lines <- readLines(system.file(
     "NAMESPACE",
     package = "eesyscreener"
