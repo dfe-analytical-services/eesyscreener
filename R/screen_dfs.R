@@ -341,7 +341,7 @@ screen_dfs <- function(
 
   # Check harmonised ----------------------------------------------------------
   # dd_checks defaults to TRUE and is only set FALSE by developers using
-  # robot test data. The three checks below require the data dictionary to be
+  # robot test data. The four checks below require the data dictionary to be
   # consistent with the test files, so they are gated here to allow that work.
   if (dd_checks) {
     res <- run_and_log_check(

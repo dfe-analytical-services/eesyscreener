@@ -322,6 +322,9 @@ check_harmonised_eth_char_grp <- function(
     ) |>
     dplyr::collect() |>
     dplyr::filter(
+      # Case-sensitive by design: standard values are Title Case
+      # (e.g. "Ethnicity Major"). Non-Title Case variants like
+      # "ETHNICITY MAJOR" are intentionally flagged as non-standard.
       !grepl(
         paste(standard_characteristics, collapse = "|"),
         .data$characteristic_group

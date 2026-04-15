@@ -78,8 +78,15 @@ test_that("passes when valid combination exists alongside invalid one", {
   mixed_data <- rbind(
     eth_both_data,
     eth_both_data |>
-      dplyr::mutate(ethnicity_major = "White", ethnicity_minor = "Irish")
+      dplyr::mutate(
+        ethnicity_major = "White",
+        ethnicity_minor = "Invalid Minor"
+      )
   )
-  # Both combos are valid
-  expect_equal(check_harmonised_eth_vals(mixed_data)$result, "PASS")
+  # The invalid minor maps to a valid major, so the pair "White / Invalid Minor"
+  # is the only non-standard combination — but "White / Irish" is valid and
+  # present, so check should still warn (not pass)
+  result <- check_harmonised_eth_vals(mixed_data)
+  expect_equal(result$result, "WARNING")
+  expect_true(grepl("Invalid Minor", result$message))
 })

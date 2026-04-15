@@ -50,7 +50,10 @@ test_that("dd_checks = FALSE excludes data dictionary checks", {
   res_table <- screen_dfs(example_data, example_meta, dd_checks = FALSE)
   expect_false("data_dict_col_name" %in% res_table$check)
   expect_false("data_dict_fil_item" %in% res_table$check)
-  expect_false("api_dict_col_names" %in% res_table$check)
+  expect_false("harmonised_variables" %in% res_table$check)
+  expect_false("harmonised_eth_vals" %in% res_table$check)
+  expect_false("harmonised_eth_char_grp" %in% res_table$check)
+  expect_false("harmonised_eth_char_vals" %in% res_table$check)
 })
 
 test_that("dd_checks = FALSE still runs base API checks", {
