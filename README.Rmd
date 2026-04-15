@@ -135,6 +135,18 @@ duckplyr::compute_csv(beefy$data, "beefy_data.csv")
 write.csv(beefy$meta, "beefy_data.meta.csv", row.names = FALSE)
 ```
 
+## Full list of checks
+
+You can use the `list_checks()` function to list out the current set of checks ran by `screen_csv()`, e.g.:
+
+``` r
+# See the printed version in console
+eesyscreener::list_checks()
+
+# Export as a data frame
+df <- eesyscreener::list_checks(print = FALSE)
+```
+
 ## Examples of behaviour
 
 ### Passing file

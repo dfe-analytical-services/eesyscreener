@@ -118,3 +118,7 @@ reference:
 - title: API specific checks
   contents:
   - starts_with("check_api_")
+
+- title: Package helpers
+  contents:
+  - list_checks

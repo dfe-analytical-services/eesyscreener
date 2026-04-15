@@ -34,7 +34,8 @@ Imports:
     rlang,
     stats,
     stringr,
-    tidyr, 
+    tidyr,
+    tools,
     utils
 Suggests:
     dfeR,
