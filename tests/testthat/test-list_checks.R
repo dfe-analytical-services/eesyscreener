@@ -6,6 +6,14 @@ test_that("list_checks() returns a data.frame with correct columns", {
 })
 
 test_that("list_checks() covers all exported check / precheck functions", {
+  # This test is skipped in the covr CI checks...
+  #
+  # list_checks() discovers checks by walking the AST of screen_filenames() and
+  # screen_dfs(). covr instruments those function bodies with counter calls,
+  # which breaks the pattern matching and causes all checks to appear missing.
+  #
+  # This test still runs under R CMD check, so we have coverage.
+  skip_if(requireNamespace("covr", quietly = TRUE) && covr::in_covr())
   namespace_lines <- readLines(system.file(
     "NAMESPACE",
     package = "eesyscreener"
