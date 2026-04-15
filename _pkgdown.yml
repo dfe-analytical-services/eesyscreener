@@ -63,10 +63,6 @@ reference:
   contents:
   - starts_with("check_meta_")
 
-- title: Core data file structure
-  contents:
-  - starts_with("check_data_")
-
 - title: Checks on column names
   description: |
     These checks validate the names of columns in the data files.
@@ -114,6 +110,13 @@ reference:
 - title: Time checks
   contents:
   - starts_with("check_time_")
+
+- title: Data dictionary checks
+  description: |
+    These checks validate that column names and filter items are present in the
+    EES data dictionary, required for API publication.
+  contents:
+  - starts_with("check_data_dict_")
 
 - title: API specific checks
   contents:

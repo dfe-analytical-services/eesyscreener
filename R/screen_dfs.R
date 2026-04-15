@@ -367,6 +367,25 @@ screen_dfs <- function(
     return(as.data.frame(all_results))
   }
 
+  # Check data dictionary -----------------------------------------------------
+  if (dd_checks) {
+    res <- run_and_log_check(
+      all_results,
+      rbind(
+        check_data_dict_col_name(meta, vb, soe),
+        check_data_dict_fil_item(data, meta, vb, soe)
+      ),
+      "Check data dictionary",
+      log_key,
+      log_dir,
+      data_details
+    )
+    all_results <- res$all_results
+    if (res$early_return) {
+      return(as.data.frame(all_results))
+    }
+  }
+
   # Success return ------------------------------------------------------------
   api_pass <- all(
     all_results[all_results[["stage"]] == "Check API", "result"] == "PASS"
