@@ -111,6 +111,13 @@ reference:
   contents:
   - starts_with("check_time_")
 
+- title: Harmonised variable checks
+  description: |
+    These checks validate that column names and filter values conform to the
+    DfE harmonised data standards.
+  contents:
+  - starts_with("check_harmonised_")
+
 - title: API specific checks
   contents:
   - starts_with("check_api_")
