@@ -1,12 +1,16 @@
 test_that("list_checks() returns a data.frame with correct columns", {
-  result <- list_checks(output = "data.frame")
+  result <- list_checks()
 
   expect_s3_class(result, "data.frame")
   expect_named(result, c("function_name", "title", "stage"))
+
+  result_explicit <- list_checks(print = FALSE)
+
+  expect_identical(result, result_explicit)
 })
 
 test_that("list_checks() covers all exported check/precheck functions", {
-  result <- list_checks(output = "data.frame")
+  result <- list_checks()
 
   namespace_lines <- readLines(system.file(
     "NAMESPACE",
@@ -32,7 +36,7 @@ test_that("list_checks() covers all exported check/precheck functions", {
 })
 
 test_that("list_checks() has no NA titles", {
-  result <- list_checks(output = "data.frame")
+  result <- list_checks()
 
   na_fns <- result$function_name[is.na(result$title)]
 
@@ -46,6 +50,6 @@ test_that("list_checks() has no NA titles", {
   )
 })
 
-test_that("list_checks() returns invisibly when output = 'print'", {
-  expect_invisible(list_checks(output = "print"))
+test_that("list_checks() returns invisibly", {
+  expect_invisible(list_checks())
 })

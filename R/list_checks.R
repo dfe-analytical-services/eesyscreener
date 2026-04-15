@@ -84,8 +84,8 @@ extract_filename_checks <- function() {
 # (function_name, stage) pair. screen_dfs() uses three patterns that need
 # handling:
 #   1. Direct run_and_log_check() calls with an inline rbind() of checks
-#   2. Assignments of check groups into intermediate variables (var <- rbind(...))
-#      that are later passed by name to run_and_log_check()
+#   2. Assignments of check groups into intermediate variables
+#      (var <- rbind(...)) that are later passed by name to run_and_log_check()
 #   3. Conditional blocks (if (dd_checks) { ... }) that append optional checks
 #      to an intermediate variable before it is consumed by run_and_log_check()
 extract_df_checks <- function() {
@@ -103,7 +103,7 @@ extract_df_checks <- function() {
 
     # Pattern 1: res <- run_and_log_check(all_results, <checks>, "Stage", ...)
     # The stage label is the 3rd argument; the checks are the 2nd argument and
-    # can be either an inline rbind() or a reference to an intermediate variable.
+    # can be either an inline rbind() or a reference to an intermediate variable
     if (
       identical(stmt[[1]], as.name("<-")) &&
         is.call(stmt[[3]]) &&
