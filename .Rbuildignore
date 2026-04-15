@@ -23,3 +23,8 @@
 ^migration-progress\.csv$
 ^migration_examples\.md$
 ^docker$
+
+^tests/testthat/fail-data/fails_file validation.csv$
+^tests/testthat/fail-data/fails_file validation.meta.csv$
+^tests/testthat/fail-data/filename spaces.csv$
+^tests/testthat/fail-data/filename spaces.meta.csv$

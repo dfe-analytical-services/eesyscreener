@@ -20,7 +20,7 @@ check_api_dict_col_names <- function(
 ) {
   test_name <- get_check_name()
 
-  dd_col_names <- eesyscreener::data_dictionary |>
+  dd_col_names <- tibble::as_tibble(eesyscreener::data_dictionary) |>
     dplyr::select("col_name", "col_name_parent", "col_type") |>
     tidyr::pivot_longer(
       c("col_name", "col_name_parent"),
@@ -28,7 +28,6 @@ check_api_dict_col_names <- function(
     ) |>
     dplyr::select(-"name") |>
     dplyr::distinct() |>
-    dplyr::arrange(.data$col_type, .data$col_name) |>
     dplyr::mutate(standard_col = TRUE)
 
   non_standard_col_names <- meta |>

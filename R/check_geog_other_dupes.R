@@ -75,6 +75,9 @@
       next
     }
 
+    name_sym <- rlang::sym("name")
+    code_sym <- rlang::sym("code")
+
     data_tmp <- data |>
       dplyr::filter(
         .data$geographic_level == geog_level,
@@ -85,8 +88,8 @@
 
     if (check == "by_name") {
       dupe_rows <- data_tmp |>
-        dplyr::distinct(.data$name, .data$code) |>
-        dplyr::count(.data$name, name = "n") |>
+        dplyr::distinct(!!name_sym, !!code_sym) |>
+        dplyr::count(!!name_sym) |>
         dplyr::filter(.data$n > 1) |>
         dplyr::collect()
       if (nrow(dupe_rows) > 0) {
@@ -97,8 +100,8 @@
       }
     } else {
       dupe_rows <- data_tmp |>
-        dplyr::distinct(.data$code, .data$name) |>
-        dplyr::count(.data$code, name = "n") |>
+        dplyr::distinct(!!code_sym, !!name_sym) |>
+        dplyr::count(!!code_sym) |>
         dplyr::filter(.data$n > 1) |>
         dplyr::collect()
       if (nrow(dupe_rows) > 0) {
