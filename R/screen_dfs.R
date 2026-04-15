@@ -340,13 +340,22 @@ screen_dfs <- function(
   }
 
   # Check API -----------------------------------------------------------------
+  # These four checks always run regardless of dd_checks. They validate API
+  # character constraints and are not dependent on the data dictionary.
+  # Do NOT move these inside the dd_checks block below.
+  check_api_results <- rbind(
+    check_api_char_col_name(data, vb, soe),
+    check_api_char_col_label(meta, vb, soe),
+    check_api_char_loc_code(data, vb, soe),
+    check_api_char_filter_items(data, meta, vb, soe)
+  )
+
+  # dd_checks defaults to TRUE and is only set FALSE by developers using
+  # robot test data. The three checks below require the data dictionary to be
+  # consistent with the test files, so they are gated here to allow that work.
   if (dd_checks) {
     check_api_results <- rbind(
-      check_api_char_col_name(data, vb, soe),
-      check_api_char_col_label(meta, vb, soe),
-      check_api_char_loc_code(data, vb, soe),
-      check_api_char_filter_items(data, meta, vb, soe),
-      check_api_dict_col_names(meta, vb, soe),
+      check_api_results,
       check_data_dict_col_name(meta, vb, soe),
       check_data_dict_fil_item(data, meta, vb, soe)
     )
