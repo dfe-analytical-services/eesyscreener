@@ -20,7 +20,6 @@
 ^.claude$
 ^AGENTS\.md$
 ^MIGRATION_CONTEXT_PACK\.md$
-^duckplyr_fallback_fixes.md$
 ^migration-progress\.csv$
 ^migration_examples\.md$
 ^docker$
