@@ -200,10 +200,7 @@ fallback message(s) identify which dplyr operation triggered the issue.
    `withCallingHandlers(..., rlang_message = function(m) { ... })` to intercept
    fallback messages and inspect `sys.calls()` for the originating line
 4. Isolate by running individual check functions directly
-5. `duckplyr::methods_restore()` when done
-
-Use temporary `.R` files rather than complex `Rscript -e "..."` invocations to
-avoid shell escaping issues with multi-line code.
+5. `duckplyr::methods_restore()` if you want to reset to dplyr when done
 
 ## Process for moving in functions from app
 
