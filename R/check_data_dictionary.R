@@ -1,3 +1,32 @@
+# Data source and distinction from check_harmonised.R ====
+#
+# This file uses eesyscreener::data_dictionary, the EES API data dictionary.
+# It defines the column names and filter item values that are acceptable in
+# EES API data sets.
+#
+# This is intentionally separate from the checks in check_harmonised.R:
+#
+# - check_harmonised_* functions enforce DfE harmonised variable naming
+#   conventions (via harmonised_col_names) and GSS value standards (via
+#   acceptable_ethnicity_values). They apply to any EES publication.
+#
+# - check_data_dict_* functions enforce EES API compatibility (via
+#   data_dictionary). They flag issues only relevant to data sets intended
+#   for the EES API, and the reference data is maintained independently of
+#   the GSS standards.
+#
+# The datasets overlap in domain (e.g. ethnicity_major appears in both
+# data_dictionary and harmonised_col_names), but answer different questions:
+#   - data_dictionary:              "is this column/value valid for the EES API?"
+#   - harmonised_col_names:         "is this column using the DfE standard name?"
+#   - acceptable_ethnicity_values:  "does this value meet GSS ethnicity standards?"
+#
+# Concretely: data_dictionary contains additional EES-specific aggregate values
+# (e.g. "All pupils", "All Asian / Asian British") not in GSS standards, and
+# uses only the space-slash format ("Asian / Asian British") rather than both
+# slash formats. A column could pass all harmonised checks but fail data
+# dictionary checks, or vice versa.
+
 # Internal helpers ====
 
 #' Get valid column names from the data dictionary

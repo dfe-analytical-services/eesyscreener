@@ -1,3 +1,109 @@
+# Data sources and their distinct roles ====
+#
+# This file uses two separate reference datasets. Understanding the distinction
+# is important because their values partially overlap but serve different
+# standards and must not be conflated:
+#
+# - harmonised_col_names: DfE harmonised variable naming standards. Maps search
+#   patterns to the accepted column names for variables covered by DfE's
+#   harmonised data standards (e.g. "ethnic" -> ethnicity_major, ethnicity_minor,
+#   ethnicity_detailed, minority_ethnic). Used to enforce correct column naming
+#   in check_harmonised_variables(), and to derive the expected
+#   characteristic_group display labels in eth_standard_characteristic_groups().
+#
+# - acceptable_ethnicity_values: GSS-standard ethnicity value pairs. Contains
+#   the accepted (major, minor) combinations as defined by the Government
+#   Statistical Service. Deliberately includes both slash formats
+#   (e.g. "Asian/Asian British" and "Asian / Asian British") to accommodate
+#   old and new conventions. Used in check_harmonised_eth_vals() and
+#   check_harmonised_eth_char_vals().
+#
+# The EES API data dictionary (eesyscreener::data_dictionary), used in
+# check_data_dictionary.R, is a separate list maintained for API compatibility.
+# It overlaps with the above for ethnicity column names and some values, but
+# differs in content (e.g. it includes additional aggregate values like
+# "All pupils" and uses only the space-slash format). See check_data_dictionary.R
+# for a full explanation of the distinction.
+
+# Internal helpers ====
+
+#' Derive standard ethnicity characteristic_group labels from harmonised data
+#'
+#' Converts the accepted harmonised ethnicity column names from
+#' \code{harmonised_col_names} into the corresponding display labels expected
+#' in the \code{characteristic_group} column (snake_case to Title Case, e.g.
+#' \code{ethnicity_major} -> \code{"Ethnicity Major"}).
+#'
+#' Deriving these from the dataset (rather than hardcoding a parallel list)
+#' ensures \code{check_harmonised_eth_char_grp} stays in sync with the
+#' harmonised column name standards automatically.
+#'
+#' @return Character vector of standard \code{characteristic_group} display
+#'   labels for ethnicity data (e.g. \code{"Ethnicity Major"},
+#'   \code{"Minority Ethnic"}).
+#' @seealso \code{\link[eesyscreener]{harmonised_col_names}}
+#' @keywords internal
+#' @noRd
+eth_standard_characteristic_groups <- function() {
+  col_names <- unique(
+    eesyscreener::harmonised_col_names$col_name_harmonised[
+      grepl("ethnic", eesyscreener::harmonised_col_names$col_name_search_string)
+    ]
+  )
+  tools::toTitleCase(gsub("_", " ", col_names))
+}
+
+#' Build the standard ethnicity non-conformance warning output
+#'
+#' Shared output builder for \code{check_harmonised_eth_vals} and
+#' \code{check_harmonised_eth_char_vals}. Both checks validate ethnicity values
+#' against GSS standards and produce identical WARNING structure when
+#' non-conforming values are found.
+#'
+#' Only the WARNING path is extracted here. The two parent functions have
+#' distinct column guards, distinct inputs, and distinct PASS messages, so only
+#' this shared failure output is consolidated:
+#' \itemize{
+#'   \item \code{check_harmonised_eth_vals} checks dedicated
+#'         \code{ethnicity_major} / \code{ethnicity_minor} columns directly,
+#'         and may report major/minor combinations.
+#'   \item \code{check_harmonised_eth_char_vals} checks the
+#'         \code{characteristic} column, but only for rows where
+#'         \code{characteristic_group} relates to ethnicity.
+#' }
+#'
+#' @param test_name String. The check name from \code{get_check_name()}.
+#' @param nonstandard Character vector of non-conforming values or combinations.
+#' @param value_type String. Either \code{"value"} (default, used when checking
+#'   a single column) or \code{"combination"} (used when checking major/minor
+#'   pairs together). Controls the pluralised warning message.
+#' @param verbose Passed through to \code{test_output()}.
+#' @param stop_on_error Passed through to \code{test_output()}.
+#' @keywords internal
+#' @noRd
+eth_nonconformance_warning <- function(
+  test_name,
+  nonstandard,
+  value_type = "value",
+  verbose,
+  stop_on_error
+) {
+  test_output(
+    test_name,
+    "WARNING",
+    cli::pluralize(
+      "The following {cli::qty(length(nonstandard))}ethnicity filter",
+      " {value_type}{?s} '",
+      paste(nonstandard, collapse = "', '"),
+      "' do{?es/} not conform to the GSS standards.",
+      " Please cross check against the published standards."
+    ),
+    guidance_url = render_url("statistics-production/ud.html#ethnicity"),
+    verbose = verbose,
+    stop_on_error = stop_on_error
+  )
+}
+
 # check_harmonised_variables ====
 
 #' Check col names against harmonised data standards
@@ -119,8 +225,7 @@ check_harmonised_eth_vals <- function(
         )
       ) |>
       dplyr::pull("combined")
-    value_type <- "combination" # nolint: object_usage_linter.
-    # Object is used in cli, but that isn't picked up by lintr
+    value_type <- "combination"
   } else if (has_major) {
     acceptable_major <- dplyr::distinct(
       eesyscreener::acceptable_ethnicity_values,
@@ -154,19 +259,10 @@ check_harmonised_eth_vals <- function(
       stop_on_error = stop_on_error
     )
   } else {
-    test_output(
+    eth_nonconformance_warning(
       test_name,
-      "WARNING",
-      cli::pluralize(
-        "The following {cli::qty(length(nonstandard))}ethnicity filter",
-        " {value_type}{?s} '",
-        paste(nonstandard, collapse = "', '"),
-        "' do{?es/} not conform to the GSS standards.",
-        " Please cross check against the published standards."
-      ),
-      guidance_url = render_url(
-        "statistics-production/ud.html#ethnicity"
-      ),
+      nonstandard,
+      value_type = value_type,
       verbose = verbose,
       stop_on_error = stop_on_error
     )
@@ -202,12 +298,12 @@ check_harmonised_eth_char_grp <- function(
 ) {
   test_name <- get_check_name()
 
-  standard_characteristics <- c(
-    "Ethnicity Major",
-    "Ethnicity Minor",
-    "Ethnicity Detailed",
-    "Minority Ethnic"
-  )
+  # Derived from harmonised_col_names rather than hardcoded, so this list
+  # stays in sync with the accepted harmonised column name standards
+  # automatically. The snake_case column names (e.g. ethnicity_major) are
+  # converted to the Title Case display labels expected in characteristic_group
+  # (e.g. "Ethnicity Major"). See eth_standard_characteristic_groups().
+  standard_characteristics <- eth_standard_characteristic_groups()
 
   if (!"characteristic_group" %in% dplyr::tbl_vars(data)) {
     return(test_output(
@@ -333,19 +429,9 @@ check_harmonised_eth_char_vals <- function(
       stop_on_error = stop_on_error
     )
   } else {
-    test_output(
+    eth_nonconformance_warning(
       test_name,
-      "WARNING",
-      cli::pluralize(
-        "The following {cli::qty(length(nonstandard))}ethnicity filter",
-        " value{?s} '",
-        paste(nonstandard, collapse = "', '"),
-        "' do{?es/} not conform to the GSS standards.",
-        " Please cross check against the published standards."
-      ),
-      guidance_url = render_url(
-        "statistics-production/ud.html#ethnicity"
-      ),
+      nonstandard,
       verbose = verbose,
       stop_on_error = stop_on_error
     )
