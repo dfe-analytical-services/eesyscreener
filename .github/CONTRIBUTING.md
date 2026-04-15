@@ -169,8 +169,14 @@ falls back to plain dplyr. There are two severity levels:
 - **"Cannot process"** — informational only, no error parent. Does not fail
   `expect_no_error()` but still represents unhandled fallback behaviour.
 
-The `test-avoid_materialisation.R` test catches both. If it fails, the captured
-fallback message(s) identify which dplyr operation triggered the issue.
+These fallbacks aren't critical to fix if everything else is passing and it's 
+not causing materialisation in a problematic way (as would be caught by
+`test-avoid_materialisation.R`). However, it's good practice to clean these 
+up and write code that explicitly handles the duckplyr methods properly.
+
+Note that you should be careful to also `lintr::lint_package()` as writing 
+explicit R code also presents challenges, and it's not always easy to manage
+duckplyr methods with the linting expectations of R packages.
 
 #### Common patterns that cause fallbacks
 
@@ -279,9 +285,6 @@ To use `"stingy"` in this way, follow these steps:
 - Run `screen_dfs(<data>, <meta>, prudence = "stingy")`
 - If the lazy table is materialised, an error will be thrown, if it is then identify the guilty line by running:
   - `rlang::last_trace()`
-## Other things to add to the package
-
-TODO: Add trello card workflow
 
 ## List of notes for the main screener when migrating over
 
