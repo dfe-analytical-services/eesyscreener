@@ -36,6 +36,7 @@ reference:
   - four_digit_identifiers
   - six_digit_identifiers
   - potential_ob_units_regex
+  - harmonised_col_names
 
 - title: Filename checks
   contents:
