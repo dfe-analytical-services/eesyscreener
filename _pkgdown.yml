@@ -36,6 +36,7 @@ reference:
   - four_digit_identifiers
   - six_digit_identifiers
   - potential_ob_units_regex
+  - harmonised_col_names
 
 - title: Filename checks
   contents:
@@ -62,10 +63,6 @@ reference:
 - title: Metadata checks
   contents:
   - starts_with("check_meta_")
-
-- title: Core data file structure
-  contents:
-  - starts_with("check_data_")
 
 - title: Checks on column names
   description: |
@@ -115,9 +112,17 @@ reference:
   contents:
   - starts_with("check_time_")
 
+- title: Harmonised variable checks
+  description: |
+    These checks validate that column names and filter values conform to the
+    DfE harmonised data standards.
+  contents:
+  - starts_with("check_harmonised_")
+
 - title: API specific checks
   contents:
   - starts_with("check_api_")
+  - starts_with("check_data_dict_")
 
 - title: Package helpers
   contents:

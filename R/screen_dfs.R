@@ -339,7 +339,34 @@ screen_dfs <- function(
     return(as.data.frame(all_results))
   }
 
+  # Check harmonised ----------------------------------------------------------
+  # dd_checks defaults to TRUE and is only set FALSE by developers using
+  # robot test data. The four checks below require the data dictionary to be
+  # consistent with the test files, so they are gated here to allow that work.
+  if (dd_checks) {
+    res <- run_and_log_check(
+      all_results,
+      rbind(
+        check_harmonised_variables(meta, vb, soe),
+        check_harmonised_eth_vals(data, vb, soe),
+        check_harmonised_eth_char_grp(data, vb, soe),
+        check_harmonised_eth_char_vals(data, vb, soe)
+      ),
+      "Check harmonised",
+      log_key,
+      log_dir,
+      data_details
+    )
+    all_results <- res$all_results
+    if (res$early_return) {
+      return(as.data.frame(all_results))
+    }
+  }
+
   # Check API -----------------------------------------------------------------
+  # These four checks always run regardless of dd_checks. They validate API
+  # character constraints and are not dependent on the data dictionary.
+  # Do NOT move these inside the dd_checks block below.
   check_api_results <- rbind(
     check_api_char_col_name(data, vb, soe),
     check_api_char_col_label(meta, vb, soe),
@@ -350,7 +377,8 @@ screen_dfs <- function(
   if (dd_checks) {
     check_api_results <- rbind(
       check_api_results,
-      check_api_dict_col_names(meta, vb, soe)
+      check_data_dict_col_name(meta, vb, soe),
+      check_data_dict_fil_item(data, meta, vb, soe)
     )
   }
 
