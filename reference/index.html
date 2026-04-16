@@ -237,6 +237,13 @@
 
         <dt>
 
+          <code><a href="acceptable_ethnicity_values.html">acceptable_ethnicity_values</a></code>
+
+        </dt>
+        <dd>Acceptable ethnicity values</dd>
+
+        <dt>
+
           <code><a href="acceptable_extra_geog_options.html">acceptable_extra_geog_options</a></code>
 
         </dt>
@@ -360,6 +367,13 @@
 
         </dt>
         <dd>Regex pattern for potential observational unit columns</dd>
+
+        <dt>
+
+          <code><a href="harmonised_col_names.html">harmonised_col_names</a></code>
+
+        </dt>
+        <dd>Harmonised column names lookup</dd>
       </dl></div><div class="section level2">
       <h2 id="filename-checks">Filename checks<a class="anchor" aria-label="anchor" href="#filename-checks"></a></h2>
 
@@ -609,16 +623,6 @@
         </dt>
         <dd>Check every row has a label</dd>
       </dl></div><div class="section level2">
-      <h2 id="core-data-file-structure">Core data file structure<a class="anchor" aria-label="anchor" href="#core-data-file-structure"></a></h2>
-
-
-
-      <dl></dl></div><div class="section level2">
-
-
-
-
-      <dl></dl></div><div class="section level2">
       <h2 id="checks-on-column-names">Checks on column names<a class="anchor" aria-label="anchor" href="#checks-on-column-names"></a></h2>
 
       <div class="section-desc"><p>These checks validate the names of columns in the data files.</p></div>
@@ -999,6 +1003,43 @@
         </dt>
         <dd>Check that 6 digit time periods give consecutive years</dd>
       </dl></div><div class="section level2">
+      <h2 id="harmonised-variable-checks">Harmonised variable checks<a class="anchor" aria-label="anchor" href="#harmonised-variable-checks"></a></h2>
+
+      <div class="section-desc"><p>These checks validate that column names and filter values conform to the DfE harmonised data standards.</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="check_harmonised_eth_char_grp.html">check_harmonised_eth_char_grp()</a></code>
+
+        </dt>
+        <dd>Check ethnicity characteristic_group values against standards</dd>
+
+        <dt>
+
+          <code><a href="check_harmonised_eth_char_vals.html">check_harmonised_eth_char_vals()</a></code>
+
+        </dt>
+        <dd>Check ethnicity characteristic values against GSS standards</dd>
+
+        <dt>
+
+          <code><a href="check_harmonised_eth_vals.html">check_harmonised_eth_vals()</a></code>
+
+        </dt>
+        <dd>Check ethnicity column values against GSS standards</dd>
+
+        <dt>
+
+          <code><a href="check_harmonised_variables.html">check_harmonised_variables()</a></code>
+
+        </dt>
+        <dd>Check col names against harmonised data standards</dd>
+      </dl></div><div class="section level2">
       <h2 id="api-specific-checks">API specific checks<a class="anchor" aria-label="anchor" href="#api-specific-checks"></a></h2>
 
 
@@ -1038,10 +1079,17 @@
 
         <dt>
 
-          <code><a href="check_api_dict_col_names.html">check_api_dict_col_names()</a></code>
+          <code><a href="check_data_dict_col_name.html">check_data_dict_col_name()</a></code>
 
         </dt>
-        <dd>Check if col_names are present in the data dictionary</dd>
+        <dd>Check col_names against the data dictionary</dd>
+
+        <dt>
+
+          <code><a href="check_data_dict_fil_item.html">check_data_dict_fil_item()</a></code>
+
+        </dt>
+        <dd>Check filter items against the data dictionary</dd>
       </dl></div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>

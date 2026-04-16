@@ -67,6 +67,8 @@ e.g. mandatory column names
   : Countries lookup
 - [`acceptable_edas`](https://dfe-analytical-services.github.io/eesyscreener/reference/acceptable_edas.md)
   : English devolved areas lookup
+- [`acceptable_ethnicity_values`](https://dfe-analytical-services.github.io/eesyscreener/reference/acceptable_ethnicity_values.md)
+  : Acceptable ethnicity values
 - [`acceptable_extra_geog_options`](https://dfe-analytical-services.github.io/eesyscreener/reference/acceptable_extra_geog_options.md)
   : Extra geography options
 - [`acceptable_indicator_units`](https://dfe-analytical-services.github.io/eesyscreener/reference/acceptable_indicator_units.md)
@@ -103,6 +105,8 @@ e.g. mandatory column names
   : Time identifiers that should have 6 digit numbers
 - [`potential_ob_units_regex`](https://dfe-analytical-services.github.io/eesyscreener/reference/potential_ob_units_regex.md)
   : Regex pattern for potential observational unit columns
+- [`harmonised_col_names`](https://dfe-analytical-services.github.io/eesyscreener/reference/harmonised_col_names.md)
+  : Harmonised column names lookup
 
 ## Filename checks
 
@@ -186,8 +190,6 @@ validate core assumptions about the metadata file itself.
   : Check indicator_grouping is blank for all filters
 - [`check_meta_label()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_label.md)
   : Check every row has a label
-
-## Core data file structure
 
 ## Checks on column names
 
@@ -321,6 +323,20 @@ validate core assumptions about the geography columns.
 - [`check_time_period_six()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_time_period_six.md)
   : Check that 6 digit time periods give consecutive years
 
+## Harmonised variable checks
+
+These checks validate that column names and filter values conform to the
+DfE harmonised data standards.
+
+- [`check_harmonised_eth_char_grp()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_harmonised_eth_char_grp.md)
+  : Check ethnicity characteristic_group values against standards
+- [`check_harmonised_eth_char_vals()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_harmonised_eth_char_vals.md)
+  : Check ethnicity characteristic values against GSS standards
+- [`check_harmonised_eth_vals()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_harmonised_eth_vals.md)
+  : Check ethnicity column values against GSS standards
+- [`check_harmonised_variables()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_harmonised_variables.md)
+  : Check col names against harmonised data standards
+
 ## API specific checks
 
 - [`check_api_char_col_label()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_api_char_col_label.md)
@@ -331,5 +347,7 @@ validate core assumptions about the geography columns.
   : Check if filter items or location names exceed character limit
 - [`check_api_char_loc_code()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_api_char_loc_code.md)
   : Check if location codes exceed a character limit
-- [`check_api_dict_col_names()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_api_dict_col_names.md)
-  : Check if col_names are present in the data dictionary
+- [`check_data_dict_col_name()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_data_dict_col_name.md)
+  : Check col_names against the data dictionary
+- [`check_data_dict_fil_item()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_data_dict_fil_item.md)
+  : Check filter items against the data dictionary

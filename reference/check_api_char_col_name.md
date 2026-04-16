@@ -35,8 +35,7 @@ a single row data frame
 Other check_api:
 [`check_api_char_col_label()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_api_char_col_label.md),
 [`check_api_char_filter_items()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_api_char_filter_items.md),
-[`check_api_char_loc_code()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_api_char_loc_code.md),
-[`check_api_dict_col_names()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_api_dict_col_names.md)
+[`check_api_char_loc_code()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_api_char_loc_code.md)
 
 ## Examples
 
