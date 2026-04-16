@@ -246,6 +246,36 @@
 #'   data/universal_geog_options.csv
 "acceptable_extra_geog_options"
 
+# Harmonised column names lookup ====
+#' Harmonised column names lookup
+#'
+#' A data frame mapping search strings (regex fragments) to the corresponding
+#' standard harmonised column names. Used to detect column names that appear
+#' to relate to a harmonised variable but do not use the standard name.
+#'
+#' @format A data.frame with columns:
+#' \describe{
+#' \item{col_name_search_string}{Regex fragment to match against column names}
+#' \item{col_name_harmonised}{The correct harmonised column name}
+#' }
+#' @source dfe-published-data-qa screener app repo,
+#'   data/harmonised_col_names.csv
+"harmonised_col_names"
+
+# Acceptable ethnicity values ====
+#' Acceptable ethnicity values
+#'
+#' A data frame of valid GSS ethnicity major and minor value pairs as used
+#' in EES data files.
+#'
+#' @format A data.frame with columns:
+#' \describe{
+#' \item{ethnicity_major}{GSS ethnicity major group}
+#' \item{ethnicity_minor}{GSS ethnicity minor group}
+#' }
+#' @source dfe-published-data-qa screener app repo, data/ethnicity.csv
+"acceptable_ethnicity_values"
+
 # Data dictionary ====
 #' Data dictionary
 #'
