@@ -169,6 +169,7 @@ extract_df_checks <- function() {
         list(if_body)
       }
       for (sub_stmt in stmts) {
+        # Pattern 3a: var <- rbind(...)
         if (
           is.call(sub_stmt) &&
             identical(sub_stmt[[1]], as.name("<-")) &&
@@ -181,6 +182,32 @@ extract_df_checks <- function() {
             sub_stmt[[3]],
             intermediate_vars
           )
+        }
+        # Pattern 3b: res <- run_and_log_check(..., rbind(...), "Stage", ...)
+        if (
+          is.call(sub_stmt) &&
+            identical(sub_stmt[[1]], as.name("<-")) &&
+            is.call(sub_stmt[[3]]) &&
+            identical(sub_stmt[[3]][[1]], as.name("run_and_log_check"))
+        ) {
+          rlc <- sub_stmt[[3]]
+          stage <- as.character(rlc[[4]])
+          second_arg <- rlc[[3]]
+          if (
+            is.call(second_arg) && identical(second_arg[[1]], as.name("rbind"))
+          ) {
+            fns <- check_fns_from_rbind(second_arg, intermediate_vars)
+          } else if (is.name(second_arg)) {
+            fns <- intermediate_vars[[as.character(second_arg)]]
+          } else {
+            fns <- character(0)
+          }
+          for (fn in fns) {
+            result[[length(result) + 1]] <- list(
+              function_name = fn,
+              stage = stage
+            )
+          }
         }
       }
     }

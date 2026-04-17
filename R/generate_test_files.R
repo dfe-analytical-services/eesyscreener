@@ -46,7 +46,7 @@ generate_test_dfs <- function(
 
   file_pair <- list(data = data, meta = meta)
 
-  return(file_pair)
+  file_pair
 }
 
 #' Generate a data file for testing
@@ -194,7 +194,7 @@ generate_data_file <- function(
     )
   }
 
-  return(test_data)
+  test_data
 }
 
 #' Generate a meta file for testing

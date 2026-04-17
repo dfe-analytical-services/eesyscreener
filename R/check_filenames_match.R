@@ -30,17 +30,15 @@ check_filenames_match <- function(
   if (
     metafilename == stringr::str_replace(datafilename, "\\.csv", "\\.meta.csv")
   ) {
-    return(
-      test_output(
-        test_name,
-        "PASS",
-        paste(
-          "The names of the files follow the recommended naming",
-          "convention."
-        ),
-        verbose = verbose,
-        stop_on_error = stop_on_error
-      )
+    test_output(
+      test_name,
+      "PASS",
+      paste(
+        "The names of the files follow the recommended naming",
+        "convention."
+      ),
+      verbose = verbose,
+      stop_on_error = stop_on_error
     )
   } else {
     test_output(
