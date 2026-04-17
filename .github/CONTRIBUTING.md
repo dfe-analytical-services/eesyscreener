@@ -26,6 +26,30 @@ The `screen_*()` functions are the key user facing exports of the package.
 - Use RDS as the main format for permanent test data (beware it automatically does some cleaning!), make temp CSV files or create a data.frame in code if needed
 - Think about dependencies between functions - explain any in the `assumptions_in_checks.Rmd` vignette
 
+## Tests: Running and Skipping
+
+By default, all tests run when you execute the test suite using `devtools::test()` (also ran within `devtools::check()`). 
+
+We mix unit tests (quick fire function tests) with integration tests (full CSV file testing). The integration tests take a lot longer to run (a few minutes rather than a few seconds) but are essential for verifying that the package works as expected on realistic, end-to-end scenarios and large datasets.
+
+To help make it a speedier / more pleasant developing experience we have flag you can use to skip the integration tests, which you can use for initial testing / iterating of your branch, before then running the full suite once you've fixed any other errors. 
+
+**How to skip integration tests:**  
+Set the environment variable `SKIP_INTEGRATION_TESTS=true` before running tests. This will skip the following scripts:
+- `test-zzz_integration.R`
+- `test-ees-robot-tests.R`
+- `test-screen_csv.R`
+
+You can do this temporarily in R, by simply running the test command with a withr wrapper that sets an envrionment variable just for that command. E.g.
+
+```r
+withr::with_envvar(c(SKIP_INTEGRATION_TESTS = "true"), devtools::test())
+```
+
+This will take test running time down from a few minutes to around 30 seconds or so (will vary based on your machine / environment).
+
+Remember, skipping them can speed up development, but always run the full suite before merging or releasing as they cover lots of edge cases and interactions that you are likely to have missed in your own testing.
+
 ## Naming Conventions
 
 Follow these patterns when naming new check functions. Consistency is crucial as names are used in `_pkgdown.yml` to group checks for documentation.

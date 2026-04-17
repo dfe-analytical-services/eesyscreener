@@ -3,11 +3,13 @@
 # known and tested test data, this should be used to capture any edge
 # cases or odd behaviour and ensure the logic runs smoothly on real data.
 #
-# Then run the tests with:
-#   withr::with_envvar(
-#     c(RUN_INTEGRATION_TESTS = "true"),
-#     devtools::test(filter = "zzz_integration")
-#   )
+
+# Integration tests: these run by default.
+# To skip, set SKIP_INTEGRATION_TESTS=true in your environment.
+skip_if(
+  identical(Sys.getenv("SKIP_INTEGRATION_TESTS"), "true"),
+  "Set SKIP_INTEGRATION_TESTS=false or unset to run integration tests"
+)
 
 # Helper: screens all data/meta CSV pairs in a local folder.
 # expected_result = TRUE  -> assert passed == TRUE  (file should pass screening)
@@ -49,23 +51,13 @@ screen_local_folder <- function(folder, expected_result = NULL) {
   }
 }
 
-integration_skip_conditions <- function() {
-  skip_on_cran()
-  skip_on_ci()
-  skip_if(
-    Sys.getenv("RUN_INTEGRATION_TESTS") != "true",
-    message = "Set RUN_INTEGRATION_TESTS=true to run integration tests"
-  )
-}
 
 test_that("All fail-data files return passed = FALSE", {
-  integration_skip_conditions()
   skip_if(!dir.exists(test_path("fail-data")))
   screen_local_folder("fail-data", expected_result = FALSE)
 })
 
 test_that("All pass-data files return passed = TRUE", {
-  integration_skip_conditions()
   skip_if(!dir.exists(test_path("pass-data")))
   screen_local_folder("pass-data", expected_result = TRUE)
 })
