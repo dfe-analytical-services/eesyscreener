@@ -32,7 +32,9 @@ By default, all tests run when you execute the test suite using `devtools::test(
 
 We mix unit tests (quick fire function tests) with integration tests (full CSV file testing). The integration tests take a lot longer to run (a few minutes rather than a few seconds) but are essential for verifying that the package works as expected on realistic, end-to-end scenarios and large datasets.
 
-To help make it a speedier / more pleasant developing experience we have flag you can use to skip the integration tests, which you can use for initial testing / iterating of your branch, before then running the full suite once you've fixed any other errors. 
+To help make it a speedier / more pleasant developing experience we have flag you can use to skip the integration tests, which you can use for initial testing / iterating of your branch, before then running the full suite once you've fixed any other errors.
+
+The integration tests are skipped on CRAN and in the R-CMD-Check however, they have their own GitHub action as a catch to make sure we still cover them on every PR.
 
 **How to skip integration tests:**  
 Set the environment variable `SKIP_INTEGRATION_TESTS=true` before running tests. This will skip the following scripts:

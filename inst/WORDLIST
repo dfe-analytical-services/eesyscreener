@@ -1,6 +1,7 @@
 CMD
 CSVs
 Codecov
+DfE
 EDA
 EES
 GSS
@@ -26,6 +27,7 @@ com
 csv
 dfe
 dfeR
+dict
 dp
 duckplyr
 eesyscreening

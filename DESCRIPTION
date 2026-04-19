@@ -24,7 +24,7 @@ URL: https://dfe-analytical-services.github.io/eesyscreener/,
     https://github.com/dfe-analytical-services/eesyscreener
 BugReports: https://github.com/dfe-analytical-services/eesyscreener/issues
 Depends: 
-    R (>= 4.1.0)
+    R (>= 4.2.0)
 Imports: 
     cli,
     dplyr,
@@ -34,7 +34,6 @@ Imports:
     rlang,
     stats,
     stringr,
-    tibble,
     tidyr,
     utils
 Suggests:

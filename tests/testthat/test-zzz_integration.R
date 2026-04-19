@@ -5,17 +5,17 @@
 
 skip_integration_tests()
 
-test_that("All fail-data files return passed = FALSE", {
-  screen_local_folder("fail-data", expected_passed = FALSE)
+test_that("All fail files return passed = FALSE", {
+  screen_local_folder("failta", expected_passed = FALSE)
 })
 
-test_that("All pass-data files return passed = TRUE", {
-  screen_local_folder("pass-data", expected_passed = TRUE)
+test_that("All pass files return passed = TRUE", {
+  screen_local_folder("pass", expected_passed = TRUE)
 })
 
-test_that("All files in not-api-data return passed = TRUE / api = FALSE", {
+test_that("All files in pass-warn-api return passed = TRUE / api = FALSE", {
   screen_local_folder(
-    "not-api-data",
+    "pass-warn-api",
     expected_passed = TRUE,
     expected_api_suitable = FALSE
   )
