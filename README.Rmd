@@ -135,111 +135,45 @@ duckplyr::compute_csv(beefy$data, "beefy_data.csv")
 write.csv(beefy$meta, "beefy_data.meta.csv", row.names = FALSE)
 ```
 
-## Examples of behaviour
+## Generating files that trigger different outcomes
 
-### Passing file
+The minimal example above shows the output structure for a file that runs the whole pipeline. Below are code excerpts for creating three other common scenarios — a file that fails a check, a file that cannot be read at all, and a file that passes screening but is not suitable for publishing through the API.
 
-``` {r passing}
-data_file <- tempfile(fileext = ".csv")
-meta_file <- tempfile(fileext = ".meta.csv")
-write.csv(eesyscreener::example_data, data_file, row.names = FALSE)
-write.csv(eesyscreener::example_meta, meta_file, row.names = FALSE)
+### File that fails a check
 
-eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
+Drop a required metadata column to trigger a `FAIL` in the `Precheck columns` stage. `passed` will be `FALSE` and `overall_stage` will be the failing stage.
 
-invisible(file.remove(data_file))
-invisible(file.remove(meta_file))
-```
-
-### Failing file
-
-``` {r failing}
+``` r
 data_file <- tempfile(fileext = ".csv")
 meta_file <- tempfile(fileext = ".meta.csv")
 write.csv(eesyscreener::example_data, data_file, row.names = FALSE)
 write.csv(eesyscreener::example_meta[, -1], meta_file, row.names = FALSE)
 
 eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
-
-invisible(file.remove(data_file))
-invisible(file.remove(meta_file))
 ```
 
-### Failed test with guidance URL
+### File that cannot be read
 
-``` {r guidance}
-data_file <- tempfile(fileext = ".csv")
-meta_file <- tempfile(fileext = ".meta.csv")
-write.csv(
-  eesyscreener::example_data |> dplyr::mutate(time_identifier = "parsec"),
-  data_file,
-  row.names = FALSE
+If either path does not exist (or the file is not a readable CSV), screening stops in the `File read` stage without throwing an error. `passed` will be `FALSE` and `overall_stage` will be `"File read"`.
+
+``` r
+eesyscreener::screen_csv(
+  "does_not_exist.csv",
+  "does_not_exist.meta.csv"
 )
-write.csv(eesyscreener::example_meta, meta_file, row.names = FALSE)
-
-eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
-
-invisible(file.remove(data_file))
-invisible(file.remove(meta_file))
 ```
 
-### Passing with warning
+### File that passes but is not API suitable
 
-``` {r warning}
-data_file <- tempfile(fileext = ".csv")
-meta_file <- tempfile(fileext = ".meta.csv")
-write.csv(eesyscreener::example_data, data_file, row.names = FALSE)
-write.csv(
-  eesyscreener::example_meta |>
-    dplyr::mutate(indicator_dp = NA),
-  meta_file,
-  row.names = FALSE
-)
+The API checks only ever emit warnings — they do not stop screening — but any warning in the API stage prevents the data from being published through the API. The returned `api_suitable` boolean flags this.
 
-eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
-
-invisible(file.remove(data_file))
-invisible(file.remove(meta_file))
-```
-
-### Failing with warning
-
-``` {r failwarn}
-data_file <- tempfile(fileext = ".csv")
-meta_file <- tempfile(fileext = ".meta.csv")
-write.csv(
-  eesyscreener::example_data |> dplyr::mutate(time_identifier = "parsec"),
-  data_file,
-  row.names = FALSE
-)
-write.csv(
-  eesyscreener::example_meta |>
-    dplyr::mutate(indicator_dp = NA),
-  meta_file,
-  row.names = FALSE
-)
-eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
-
-invisible(file.remove(data_file))
-invisible(file.remove(meta_file))
-```
-
-
-### Passing but issues on API checks
-
-Currently the API checks will only give warnings, as they are a warning for all files and don't stop upload. However, any warnings in the API checks will prevent a dataset from being able to be published through the API.
-
-A api_suitable boolean is returned to allow for easy determination of suitability for publishing through the API.
-``` {r apichecks}
+``` r
 data_file <- tempfile(fileext = ".csv")
 meta_file <- tempfile(fileext = ".meta.csv")
 write.csv(eesyscreener::example_api_long, data_file, row.names = FALSE)
 write.csv(eesyscreener::example_api_long_meta, meta_file, row.names = FALSE)
 
 eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
-
-invisible(file.remove(data_file))
-invisible(file.remove(meta_file))
 ```
 
 ## Contributing

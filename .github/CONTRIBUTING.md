@@ -1,6 +1,6 @@
 # Contributing to eesyscreener
 
-Ideas for eesyscreener should first be raised as a [GitHub issue](https://github.com/dfe-analytical-services/eesyscreener/issues) after which anyone is free to write the code and create a pull request for review. 
+Ideas for eesyscreener should first be raised as a [GitHub issue](https://github.com/dfe-analytical-services/eesyscreener/issues) after which anyone is free to write the code and create a pull request for review.
 
 ## Introduction
 
@@ -8,65 +8,65 @@ Ideas for eesyscreener should first be raised as a [GitHub issue](https://github
 
 This package contains the checks used to enforce our [open data standards](https://dfe-analytical-services.github.io/analysts-guide/statistics-production/ud.html).
 
-Before contributing to the package, you should read this, and the vignettes describing the package, to understand all of the logic and decisions made. Particularly the `assumptions_in_checks.Rmd` vignette as that provides crucial information about interdependencies between functions within the package.
+Before contributing, read this guide, skim the package vignettes (especially `assumptions_in_checks.Rmd`), and open up a handful of existing `check_*()` functions with their test files side by side. The checks are small, repetitive and well-exampled — the fastest way to understand how a new one should look is to read an existing one.
+
+## Use the unit tests as documentation
+
+Every `check_*()` and `precheck_*()` function has a matching `tests/testthat/test-<name>.R`. These tests are the **canonical spec** for how a check is supposed to behave — they cover the happy path, the singular and plural failure messages, and any edge cases (NAs, empty strings, "x" codes, etc.).
+
+If you are unsure what a function does or what counts as a valid / invalid input, read its test file first. It is usually quicker than reading the implementation.
+
+Good reference test files to learn from:
+
+- `tests/testthat/test-check_geog_lad_combos.R` – canonical structure for check tests (PASS / singular FAIL / plural FAIL / edge cases)
+- `tests/testthat/test-check_meta_dupe_label.R` – typical metadata-only check
+- `tests/testthat/test-check_meta_fil_grp_match.R` – data + meta check
 
 ## Package structure
 
-The `screen_*()` functions are the key user facing exports of the package.
+The `screen_*()` functions are the key user facing exports of the package. `screen_csv()` is expected to be the primary function used, it takes a pair of CSV files and screens them.
 
-`screen_csv()` is expected to be the primary function used, it takes a pair of CSV files and screens them.
-
-- One script per exported function (except for data objects or if internal and in `R/utils.R`)
-- All individual checks should be named in accordance with the naming conventions (see "Naming Conventions" section below)
+- One script per exported function (except for data objects, or if internal and in `R/utils.R`)
+- All individual checks should be named in accordance with the naming conventions (see "Naming conventions" below)
 - Due to the extensive use of check / test in this package, internal functions handling argument validation should follow the `validate_arg_*()` convention
-- All `check_*()` functions must return a consistent list structure
-- All `precheck_*()` and `check_*()` functions must use a consistent argument order: data/meta inputs first, then `verbose = FALSE`, then `stop_on_error = FALSE`, then any function-specific optional parameters. This enables `screen_dfs()` to call checks with positional arguments.
-- `R/utils.R` contains all internal functions
-- `data-raw/` contains the source code for example data and hardcoded variables
+- All `check_*()` functions must return a consistent list structure (see "Return value" below)
+- All `precheck_*()` and `check_*()` functions must use a consistent argument order: `data` / `meta` inputs first, then `verbose = FALSE`, then `stop_on_error = FALSE`, then any function-specific optional parameters. This enables `screen_dfs()` to call checks with positional arguments.
+- **Do NOT validate arguments inside `check_*()` or `precheck_*()`** — validation belongs in the top-level `screen_*()` functions only. See `assumptions_in_checks.Rmd` for why.
+- `R/utils.R` contains all internal helpers. **Read it in full before writing any filtering, extraction, or transformation logic** — many common operations already have helpers (e.g. `get_filters()`, `get_geo_code_cols()`, `remove_nas_blanks()`, `render_url()`).
+- `data-raw/` contains the source code for example data and hardcoded reference values. Each `data-raw/*.R` script regenerates a matching `data/*.rda`.
 - Use RDS as the main format for permanent test data (beware it automatically does some cleaning!), make temp CSV files or create a data.frame in code if needed
-- Think about dependencies between functions - explain any in the `assumptions_in_checks.Rmd` vignette
+- Think about dependencies between functions — document any in `assumptions_in_checks.Rmd`
 
-## Tests: Running and Skipping
+### Return value
 
-By default, all tests run when you execute the test suite using `devtools::test()` (also ran within `devtools::check()`). 
+Every check returns `test_output(check_name, result, message, verbose, stop_on_error)` — a single-row data frame with columns: `check`, `result` (`"PASS"` / `"FAIL"` / `"WARNING"`), `message`, `guidance_url`. The `stage` column is added by `run_and_log_check()` when the check runs inside `screen_dfs()`.
 
-We mix unit tests (quick fire function tests) with integration tests (full CSV file testing). The integration tests take a lot longer to run (a few minutes rather than a few seconds) but are essential for verifying that the package works as expected on realistic, end-to-end scenarios and large datasets.
+### Message patterns
 
-To help make it a speedier / more pleasant developing experience we have flag you can use to skip the integration tests, which you can use for initial testing / iterating of your branch, before then running the full suite once you've fixed any other errors.
+- **PASS**: `"All labels are unique."` / `"The geographic level values are all valid."`
+- **FAIL (singular/plural)**: use `cli::pluralize()` so the same message covers one or many failing values: `"The following label {?is/are} duplicated: 'X'."`
+- Format failing values: `paste0("'", paste0(values, collapse = "', '"), "'")`
+- Plain text only. **Do not include HTML** (`<br>`, `<b>`, etc.) — messages are consumed by CLI, API, and Shiny contexts.
 
-The integration tests are skipped on CRAN and in the R-CMD-Check however, they have their own GitHub action as a catch to make sure we still cover them on every PR.
+### Dependency rules
 
-**How to skip integration tests:**  
-Set the environment variable `SKIP_INTEGRATION_TESTS=true` before running tests. This will skip the following scripts:
-- `test-zzz_integration.R`
-- `test-ees-robot-tests.R`
-- `test-screen_csv.R`
-- `test-screen_dfs.R`
+- Use the `.data$column_name` pronoun (rlang) in dplyr package code.
+- Use the base R pipe `|>` (not `%>%`).
+- `cli::cli_abort()` for errors, `cli::cli_warn()` for warnings (not `stop()` / `warning()`).
+- All internal helpers go in `R/utils.R` (`@keywords internal`, `@noRd`).
 
-The logic for this is included in the `tests/testthat/helper-integration.R` file and is automatically loaded by testthat.
-
-You can do this temporarily in R, by simply running the test command with a withr wrapper that sets an envrionment variable just for that command. E.g.
-
-```r
-withr::with_envvar(c(SKIP_INTEGRATION_TESTS = "true"), devtools::test())
-```
-
-This will take test running time down from multiple minutes to around 30 seconds or so (will vary based on your machine / environment).
-
-Remember, skipping them can speed up development, but always run the full suite before merging or releasing as they cover lots of edge cases and interactions that you are likely to have missed in your own testing.
-
-## Naming Conventions
+## Naming conventions
 
 Follow these patterns when naming new check functions. Consistency is crucial as names are used in `_pkgdown.yml` to group checks for documentation.
 
-### General Pattern
+### General pattern
 
 ```
 check_<area>_<what>()      # Content validation (can produce warnings)
 precheck_<area>_<what>()   # Early validation (blocks on failure)
 ```
 
-### Area Prefixes
+### Area prefixes
 
 | Area | Prefix | Notes |
 |------|--------|-------|
@@ -80,11 +80,11 @@ precheck_<area>_<what>()   # Early validation (blocks on failure)
 | API | `api_` | API-specific constraints |
 | Filename | `filename_` | File naming conventions |
 
-### Abbreviations for Brevity
+### Abbreviations for brevity
 
 Use these standard abbreviations in function names to keep them concise while remaining readable:
 
-| Full Term | Abbreviation | Context |
+| Full term | Abbreviation | Context |
 |-----------|--------------|---------|
 | column | `col` | `check_col_names_spaces` |
 | metadata | `meta` | `check_meta_label` |
@@ -107,9 +107,9 @@ Use these standard abbreviations in function names to keep them concise while re
 - `check_filter_defaults()` – validates default filter selections
 
 **Anti-patterns to avoid:**
-- ❌ `check_metadata_duplicate_indicator_label()` – too verbose
-- ❌ `check_something_validation()` – redundant (checks are validation by nature)
-- ❌ `check_foo_and_bar()` – combines too many concepts
+- `check_metadata_duplicate_indicator_label()` – too verbose
+- `check_something_validation()` – redundant (checks are validation by nature)
+- `check_foo_and_bar()` – combines too many concepts
 
 ### Adding to _pkgdown.yml
 
@@ -119,6 +119,7 @@ When adding a new check:
 3. The documentation site will automatically group it with related checks
 
 Example in `_pkgdown.yml`:
+
 ```yaml
 - title: Metadata checks
   contents:
@@ -127,85 +128,165 @@ Example in `_pkgdown.yml`:
 
 This automatically picks up all `check_meta_*` functions.
 
-## Stylistic preferences
+## How to add a new check
 
-This package has a big priority on efficiency, we need to keep it fast so the Shiny app and API endpoint are responsive even with larger files
+1. **Create the R file** – `R/check_<area>_<what>.R` with the standard signature:
 
-- performance profile and use the fastest available functions
-- test on large files (5 million rows and above), and prioritise large file performance over small file performance
-- avoid duplication between functions
-- don't validate arguments in individual `precheck_*()` or `check_*()` functions
+   ```r
+   #' @export
+   check_my_validation <- function(data, meta, verbose = FALSE, stop_on_error = FALSE) {
+     check_name <- get_check_name()  # never hardcode the name string
+     # validation logic
+     test_output(
+       check_name,
+       "PASS",  # or "FAIL" / "WARNING"
+       "message...",
+       verbose = verbose,
+       stop_on_error = stop_on_error
+     )
+   }
+   ```
 
-duckplyr seems to be the fastest approach, take the following example code, just aimed at checking if the time_identifier values are valid
-``` r
-# Base R
-setdiff(
-  unique(as.character(data$time_identifier)),
-  eesyscreener::acceptable_time_ids
+2. **Write the tests first or alongside the function** – see "How to add a new test" below.
+
+3. **Wire it into the pipeline** – add a call in `R/screen_dfs.R` in the appropriate stage (`filename`, `precheck_col`, `precheck_meta`, `check_meta`, `precheck_time`, `check_time`, `precheck_geog`, `check_geog`, `check_filter`, `check_api`) via the existing `run_and_log_check()` / `rbind()` pattern.
+
+4. **Regenerate example output** – required whenever a check is added to the pipeline:
+
+   ```r
+   devtools::load_all()
+   source("data-raw/example_output.R")
+   ```
+
+5. **Document** – roxygen2 with `@export`, `@examples`, and the appropriate `@inheritParams` and `@inherit ... return` tags to avoid duplicating parameter documentation. Pick the nearest donor from the table below:
+
+   | Params needed | Inherit from |
+   |---------------|-------------|
+   | `meta`, `verbose`, `stop_on_error` | `precheck_meta_col_type` |
+   | `data`, `meta`, `verbose`, `stop_on_error` | `precheck_col_to_rows` |
+   | `data`, `verbose`, `stop_on_error` | `check_col_names_spaces` |
+
+   Use `@family` tags that match the `_pkgdown.yml` groupings: `filename`, `precheck_col`, `precheck_meta`, `check_meta`, `precheck_time`, `check_time`, `precheck_geog`, `check_geog`, `check_filter`, `check_api`.
+
+6. **Update `_pkgdown.yml`** only if a new section is needed (existing sections pick up new functions automatically via `starts_with()`).
+
+7. **Regenerate NAMESPACE and docs** – `Rscript -e "devtools::document()"`.
+
+8. **Format and lint** – `air format .` (terminal) and `Rscript -e "devtools::load_all(); lintr::lint_package()"`.
+
+9. **Run the full test suite** – `Rscript -e "devtools::test()"`. The `test-example_output_coverage.R` test will fail if you forgot to wire the check into `screen_dfs()`.
+
+### Canonical function examples
+
+- Meta-only check: `R/check_meta_dupe_label.R`
+- Data + meta check: `R/check_meta_fil_grp_match.R`
+- Check with reference data: `R/check_geog_region_combos.R` + `data-raw/acceptable_geog_combos.R`
+
+## How to add a new test
+
+Every check has a test file at `tests/testthat/test-<function_name>.R`. **Use `tests/testthat/test-check_geog_lad_combos.R` as the template** — it covers the full shape.
+
+A new test file must cover:
+
+1. **PASS with package example data** – usually `example_data` / `example_meta` straight from `R/example_datasets.R`.
+2. **FAIL with a single problem** – asserts the singular message form and checks `guidance_url` where relevant.
+3. **FAIL with multiple problems** – asserts the plural message form (`cli::pluralize` output) and exercises `stop_on_error = TRUE` with `expect_error(...)`.
+4. **Edge cases** – NAs, empty strings, single values, `"x"` not-available codes, `"z"` universal codes, absent optional columns.
+
+### Building test data
+
+- **Prefer package example datasets as the base** — use `rbind()` or `dplyr::mutate()` on `example_data`, `example_meta`, `example_filter_group_wrow`, etc. (see `R/example_datasets.R`) to introduce the failing condition. Only construct a full inline `data.frame()` when no example dataset has the right schema.
+- **Extract multi-line construction to a local variable** – assign to `bad_data` / `bad_meta` before asserting, then reuse the same variable for the result check and the `stop_on_error` check. Never construct the same data frame twice in one `test_that()` block.
+- **Edge case tests must actually test the edge case** – don't re-run an existing assertion under a different label; construct data that would fail if the edge case were not handled (e.g. set `filter_grouping_column = NA_character_` to verify NAs are ignored, not just re-run the standard PASS case).
+
+### What not to test
+
+- Do not test argument validation — that is the orchestrator's job, already covered by `test-screen_dfs.R` / `test-screen_csv.R`.
+- Do not test `verbose` / `stop_on_error` plumbing — covered generically by `test-test_output.R`.
+- Do not test pipeline integration — covered by `test-example_output_coverage.R` and the integration tests.
+
+### Running and skipping tests
+
+By default, all tests run via `Rscript -e "devtools::test()"` (also invoked by `devtools::check()`).
+
+We mix unit tests (quick function tests, a few seconds) with integration tests (full CSV screening, a few minutes). The integration tests are essential for end-to-end coverage on realistic files but slow down iteration. Skip them locally with the `SKIP_INTEGRATION_TESTS` environment variable:
+
+```r
+withr::with_envvar(
+  c(SKIP_INTEGRATION_TESTS = "true"),
+  devtools::test()
 )
-
-# dplyr / duckplr (methods_overwrite / methods_restore)
-data |>
-  dplyr::distinct(.data$time_identifier) |>
-  dplyr::anti_join(
-    data.frame("time_identifier" = eesyscreener::acceptable_time_ids),
-    by = "time_identifier"
-  ) |>
-  dplyr::pull(time_identifier)
 ```
 
-Initially the base R looks simpler, less code, so likely faster...
+This skips `test-zzz_integration.R`, `test-ees-robot-tests.R`, `test-screen_csv.R` and `test-screen_dfs.R`, bringing the run down from minutes to ~30 seconds. The gating logic lives in `tests/testthat/helper-integration.R`.
 
-Ran through microbenchmark the results on a ~6 million row data.frame in milliseconds were:
+Integration tests are skipped on CRAN and in R-CMD-check, but have their own GitHub Action so every PR still covers them.
 
-- base R ~ 3,231 ms
-- dplyr ~ 61.6 ms
-- duckplyr ~ 5.7 ms
+Always run the full suite (no skip flag) before merging.
 
-For the eesyscreener::example_data, a tiny file, results were different, though as mentioned above, we should prioritise the larger files as that is where the greatest impact is felt:
+## Working with geography
 
-- base R ~ 62.6 microseconds
-- dplyr ~ 1,865 microseconds
-- duckplr ~ 4,774 microseconds
+Geography is the most branching area of the package — there are ~18 levels (National, Regional, Local authority, etc.) each with their own code / name columns, lookups and per-level checks. When adding, renaming, or tweaking a geographic level, touch these places:
 
-If Frederick hadn't already told us enough times, duck is king. We can write nice readable dplyr code, but utilise the power of the duck. Best of both worlds.
+| File | Role |
+|------|------|
+| `data-raw/geography_df.R` | The master table of levels and their code / name / secondary-code columns. Edit here first. |
+| `data-raw/acceptable_geog_combos.R` | Per-level lookups of valid code / name combinations (e.g. `acceptable_lads`, `acceptable_pcons`). |
+| `R/utils.R` | `get_geo_code_cols()` / `get_geo_name_cols()` return the full list of geography code / name columns. These drive several generic checks — update when adding a level. |
+| `R/check_geog_combos.R` | Houses `.check_geog_combos()` (shared implementation) plus the thin per-level wrappers (`check_geog_lad_combos()`, `check_geog_pcon_combos()`, etc.). To add a level, add another wrapper that calls `.check_geog_combos()` with the right `code_col`, `name_col`, `acceptable_data`, and `restricted_level`. |
+| `R/screen_dfs.R` | Wire the new per-level combos check into the `check_geog` stage. |
+| `tests/testthat/test-check_geog_<level>_combos.R` | Copy the closest existing level's test (e.g. `test-check_geog_lad_combos.R`) and adapt. |
+| `_pkgdown.yml` | Only needs editing if you rename the section heading; new `check_geog_*` functions are picked up by `starts_with()`. |
 
-If you have issues with linting and dplyr variables showing no visible binding, follow the [guide to using dplyr in packages](https://cran.r-project.org/web/packages/dplyr/vignettes/in-packages.html).
+After editing `data-raw/`, regenerate the `.rda` files:
+
+```r
+devtools::load_all()
+source("data-raw/geography_df.R")
+source("data-raw/acceptable_geog_combos.R")
+```
+
+Then regenerate example output if any check or lookup changed:
+
+```r
+source("data-raw/example_output.R")
+```
+
+## Stylistic preferences
+
+This package has a big priority on efficiency — we need to keep it fast so the Shiny app and API endpoint stay responsive on large files.
+
+- Profile performance and use the fastest available approach
+- Test on large files (5 million rows and above), and prioritise large-file performance over small-file performance
+- Avoid duplication between functions — lift shared logic into `R/utils.R`
+- Use `dplyr` verbs that `duckplyr` can translate to DuckDB. `data.table` is rarely necessary and would force data.frame ↔ data.table switching.
+
+A worked example is in the commit history — the three approaches for checking `time_identifier` values against `acceptable_time_ids` benchmarked at 3,231 ms (base R) vs 61.6 ms (dplyr) vs 5.7 ms (duckplyr) on a ~6 million row frame. On tiny files the ordering flips, which is why we weight toward the larger file.
+
+If you have issues with linting and dplyr variables showing "no visible binding", follow the [guide to using dplyr in packages](https://cran.r-project.org/web/packages/dplyr/vignettes/in-packages.html).
+
+You can use `tests/utils/benchmarking.R` as a starting point for `microbenchmark` experiments on large tables.
 
 ### duckplyr messages
 
-duckplyr is particularly verbose, and will tell you when it's falling back to dplyr, often you may get messages like the following:
+duckplyr is verbose and will tell you when it is falling back to dplyr, often with messages like:
 
-> The duckplyr package is configured to fall back to dplyr when it encounters an incompatibility. Fallback events can be collected and uploaded for analysis to guide future development. By default, data will be collected but no data will be uploaded.
+> The duckplyr package is configured to fall back to dplyr when it encounters an incompatibility. Fallback events can be collected and uploaded for analysis to guide future development.
 > i Automatic fallback uploading is not controlled and therefore disabled, see `?duckplyr::fallback()`.
 > v Number of reports ready for upload: 1.
 
-These are safe to ignore, though detail out the places where duckplyr has tried and failed to run, often if you investigate through `duckplyr::fallback_review()` you can pinpoint where in the code you tried to get duckplyr to do something it didn't want.
-
-Uploading the reports using `duckplyr::fallback_upload()` will clear them from your machine and submit to the maintainers.
-
-If you don't care for looking at them more, you can set them to auto upload (and stop shouting at you) with `duckplyr::fallback_config(autoupload = TRUE)`.
+These are safe to ignore. To investigate where a fallback happened, use `duckplyr::fallback_review()`. Uploading with `duckplyr::fallback_upload()` clears them from your machine and submits to the maintainers. To auto-upload (and silence the message) use `duckplyr::fallback_config(autoupload = TRUE)`.
 
 ### Diagnosing and fixing duckplyr fallbacks
 
-`duckplyr` replaces dplyr generics with DuckDB-backed implementations. When it
-can't translate an operation to DuckDB SQL, it emits an `rlang_message` and
-falls back to plain dplyr. There are two severity levels:
+`duckplyr` replaces dplyr generics with DuckDB-backed implementations. When it can't translate an operation to DuckDB SQL, it emits an `rlang_message` and falls back to plain dplyr. Two severity levels:
 
-- **"Error processing"** — the message has an error as its parent condition.
-  `expect_no_error()` in testthat 3.3.2 traverses the parent chain and treats
-  this as a test failure.
-- **"Cannot process"** — informational only, no error parent. Does not fail
-  `expect_no_error()` but still represents unhandled fallback behaviour.
+- **"Error processing"** — the message has an error as its parent condition. `expect_no_error()` in testthat 3.3.2 traverses the parent chain and treats this as a test failure.
+- **"Cannot process"** — informational only, no error parent. Does not fail `expect_no_error()` but still represents unhandled fallback behaviour.
 
-These fallbacks aren't critical to fix if everything else is passing and it's 
-not causing materialisation in a problematic way (as would be caught by
-`test-avoid_materialisation.R`). However, it's good practice to clean these 
-up and write code that explicitly handles the duckplyr methods properly.
+These fallbacks aren't critical to fix if everything else is passing and it's not causing materialisation in a problematic way (as would be caught by `test-avoid_materialisation.R`). It's still good practice to clean them up.
 
-Note that you should be careful to also `lintr::lint_package()` as writing 
-explicit R code also presents challenges, and it's not always easy to manage
-duckplyr methods with the linting expectations of R packages.
+Note: `lintr::lint_package()` can conflict with some of the workarounds, so re-lint after each change.
 
 #### Common patterns that cause fallbacks
 
@@ -221,8 +302,7 @@ duckplyr methods with the linting expectations of R packages.
 #### Patterns that work fine with duckplyr
 
 - `dplyr::filter(!!col_sym == value)` — bang-bang with `rlang::sym()` is fine
-- `dplyr::filter(.data$col == value)` — `.data$` in `filter()` works (the issue
-  is specific to `arrange()` and `count()`)
+- `dplyr::filter(.data$col == value)` — `.data$` in `filter()` works (the issue is specific to `arrange()` and `count()`)
 - `dplyr::distinct(!!!syms_vec)` — spliced symbols work
 - `dplyr::select("quoted_col_name")` — string selectors work
 - `dplyr::count(!!rlang::sym("col"))` — bang-bang in `count()` works
@@ -231,94 +311,15 @@ duckplyr methods with the linting expectations of R packages.
 
 1. `pkgload::load_all(".", quiet = TRUE)` to load the source package
 2. `duckplyr::methods_overwrite()` to activate duckplyr globally
-3. Wrap `screen_dfs()` or the suspect check function with
-   `withCallingHandlers(..., rlang_message = function(m) { ... })` to intercept
-   fallback messages and inspect `sys.calls()` for the originating line
+3. Wrap `screen_dfs()` or the suspect check function with `withCallingHandlers(..., rlang_message = function(m) { ... })` to intercept fallback messages and inspect `sys.calls()` for the originating line
 4. Isolate by running individual check functions directly
 5. `duckplyr::methods_restore()` if you want to reset to dplyr when done
 
-## Process for moving in functions from app
-
-[Tracking spreadsheet set up in sharepoint](https://educationgovuk.sharepoint.com/:x:/r/sites/lveesfa00074/Data%20Insights%20and%20Statistics%20Division/Statistics%20Services%20Unit/Explore%20education%20statistics%20platforms/Screening%20tests%20migration%20tracking.xlsx?d=wdc9cf9ce356b47c6a1d1f11aba8bb96d&csf=1&web=1&e=PSIk6I), this contains a table of all checks, thoughts on new groupings and notes about the migration (including the progress).
-
-Example of adding a new check available in [PR XX]()
-
-Other commits showing checks being added:
-
-- `precheck_col_req_data()`, also showing adding the req_data_cols data object - https://github.com/dfe-analytical-services/eesyscreener/commit/98a84e3e7733e99c0fefc90ddb7d876f793ae780
-- `precheck_meta_col_name()`, simple one that simplifies the original function - https://github.com/dfe-analytical-services/eesyscreener/commit/7e1908f76d5a14d29363fbba45452da8dba60775
-
-1. Tackle one screening check at a time (unless you can create utility functions that cover multiple repeated checks)
-
-2. Set up a new script and test script for the check, copy over the relevant code from https://github.com/dfe-analytical-services/dfe-published-data-qa
-
-3. Add unit tests for the the function
-
-4. Adapt the function so that the input arguments and outputs match existing `check_*` functions
-
-5. Integrate the new `check_*` into the appropriate `screen_dfs()`
-
-6. Document the code inheriting documentation from existing functions where possible
-
-There will be a lot of functions in this package, so we want to minimise the amount of duplicated code.
-
-Use @inheritParams function_name to copy in param definitions from another
-
-Use `#' @inherit check_filename_spaces return`  to copy the return documentation for functions
-
-7. Once setup, review and improve the code 
-
-Make sure the tests are passing and you've commited before this point to ensure you don't inadvertently break anything!
-
-a. Have a look through examples of simplifying the code to see if anything could apply to the function you're working on, e.g. 
-  
-Simplifying a check for missing values, where previously it used a pre_check object and sapply - https://github.com/dfe-analytical-services/eesyscreener/commit/290679711d82529a7d0c54b63cac61ae92a350d8
-
-b. Create and use helper functions (if you haven't already), place any helper functions in `R/utils.R`, mark as @keywords internal
-
-c. Avoid bringing in too many new dependencies, try rewriting in base R where possible
-
-d. Use `microbenchmark` to experiment to find the most efficient approach (speed is king here) e.g.
-
-``` r
-data <- eesyscreener::example_data
-
-microbenchmark::microbenchmark(
-  nrow(data) - nrow(janitor::remove_empty(data, which = "rows", quiet = TRUE)),
-  sum(apply(data, 1, function(row) all(is.na(row) | row == ""))),
-  sum(rowSums(is.na(data) | data == "") == ncol(data)),
-  times = 100000
-)
-```
-
-In this example, the first line requires the janitor package. It is slightly faster with a mean of 115ms, the second line mean was 184ms, and the third line mean was 121ms, as there's a minimal amount between 1 and 3, usually we'd go for option 3 to avoid needing to call in the janitor package as a dependency, keeping this package more lightweight.
-
-However, when testing with a bigger file (~6million rows), the 2nd and 3rd options were so slow to run that microbenchmark was taking too long to produce a result. Clearly using janitor in option 1 has a massive impact when there's more rows, so the decision was made to import the janitor package as the speed benefit was worth the extra dependency.
-
-You can use the `tests/utils/benchmarking.R` script as a starting point, it includes code to generate big tables and run benchmarking. Sometimes the fastest on small files will not be the fastest on bigger ones. Prioritise the bigger files as that's where the biggest impact will be felt.
-
-In particular look at using `dplyr` verbs that can use `duckplyr` for speedier alternatives as we enable duckplyr within the `screen_dfs()`. `data.table` probably isn't necessary and would cause us to need to switch between a data.frame and a data.table costing time. 
-
-TODO: At the end of the migration, we should then plan how to migrate the test data over, so that all of the existing edge cases tested in the R Shiny app can be covered here.
-
-a. Make use of the `tests/utils/copy_check_data.R` script to copy over CSVs from the screener repo and save as RDS files in the tests folder
-
-b. There should be a collection of unit tests and at least one example data file with an expected failure for every function
-
 ## Identifying resource heavy processes
 
-We aim to do everything optimally with lazy loading of the data, however some functions may inadvertantly actualise the whole data frame. To identify these kind of instances, it can be useful to use the `prudence = "stingy"` flag when loading the data. This will cause the code to come to a halt if any significant resources are required by a process handling the lazy table.
-
-To use `"stingy"` in this way, follow these steps:
+We aim to do everything with lazy loading, but some functions may inadvertently materialise the whole data frame. To catch these, use the `prudence = "stingy"` flag when loading:
 
 - Run `screen_dfs(<data>, <meta>, prudence = "stingy")`
-- If the lazy table is materialised, an error will be thrown, if it is then identify the guilty line by running:
-  - `rlang::last_trace()`
+- If the lazy table is materialised, an error will be thrown. Identify the guilty line with `rlang::last_trace()`.
 
-## List of notes for the main screener when migrating over
-
-TODO: Move the images out of screenFiles and into the server part of the app
-
-TODO: Move the character forcing of columns to within the screen files function
-
-TODO: Update the test data and testing approach
+`test-avoid_materialisation.R` exercises this in CI.
