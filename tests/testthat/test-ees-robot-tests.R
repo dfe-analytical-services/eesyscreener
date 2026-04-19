@@ -1,7 +1,4 @@
-skip_if(
-  identical(Sys.getenv("SKIP_INTEGRATION_TESTS"), "true"),
-  "Set SKIP_INTEGRATION_TESTS=false or unset to run integration tests"
-)
+skip_integration_tests()
 # Checking that the screener runs to completion on all robot tests
 test_that("Check EES robot test files", {
   test_dir <- tempdir()

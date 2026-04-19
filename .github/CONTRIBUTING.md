@@ -39,6 +39,9 @@ Set the environment variable `SKIP_INTEGRATION_TESTS=true` before running tests.
 - `test-zzz_integration.R`
 - `test-ees-robot-tests.R`
 - `test-screen_csv.R`
+- `test-screen_dfs.R`
+
+The logic for this is included in the `tests/testthat/helper-integration.R` file and is automatically loaded by testthat.
 
 You can do this temporarily in R, by simply running the test command with a withr wrapper that sets an envrionment variable just for that command. E.g.
 
@@ -46,7 +49,7 @@ You can do this temporarily in R, by simply running the test command with a with
 withr::with_envvar(c(SKIP_INTEGRATION_TESTS = "true"), devtools::test())
 ```
 
-This will take test running time down from a few minutes to around 30 seconds or so (will vary based on your machine / environment).
+This will take test running time down from multiple minutes to around 30 seconds or so (will vary based on your machine / environment).
 
 Remember, skipping them can speed up development, but always run the full suite before merging or releasing as they cover lots of edge cases and interactions that you are likely to have missed in your own testing.
 

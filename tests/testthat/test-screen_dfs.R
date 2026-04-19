@@ -1,7 +1,4 @@
-skip_if(
-  identical(Sys.getenv("SKIP_INTEGRATION_TESTS"), "true"),
-  "Set SKIP_INTEGRATION_TESTS=false or unset to run integration tests"
-)
+skip_integration_tests()
 
 test_that("passes for example files", {
   expect_no_error(suppressMessages(screen_dfs(

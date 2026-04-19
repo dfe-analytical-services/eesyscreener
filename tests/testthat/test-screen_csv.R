@@ -1,7 +1,4 @@
-skip_if(
-  identical(Sys.getenv("SKIP_INTEGRATION_TESTS"), "true"),
-  "Set SKIP_INTEGRATION_TESTS=false or unset to run integration tests"
-)
+skip_integration_tests()
 
 test_that("Output structure is as expected", {
   # Start by creating some temporary CSVs

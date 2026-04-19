@@ -1,3 +1,11 @@
+skip_integration_tests <- function() {
+  skip_on_cran()
+  skip_if(
+    identical(Sys.getenv("SKIP_INTEGRATION_TESTS"), "true"),
+    "Set SKIP_INTEGRATION_TESTS=false or unset to run integration tests"
+  )
+}
+
 # Helper: screens all data/meta CSV pairs in a local folder.
 # expected_passed       = TRUE/FALSE -> asserts screener_output$passed
 # expected_api_suitable = TRUE/FALSE -> asserts screener_output$api_suitable
