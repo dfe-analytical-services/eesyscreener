@@ -2,6 +2,8 @@
 
 Ideas for eesyscreener should first be raised as a [GitHub issue](https://github.com/dfe-analytical-services/eesyscreener/issues) after which anyone is free to write the code and create a pull request for review.
 
+Please also read and follow our [Code of Conduct](CODE_OF_CONDUCT.md) when participating in the project.
+
 ## Introduction
 
 [Explore education statistics (EES)](https://explore-education-statistics.service.gov.uk/) is our bespoke statistics publishing platform, for it to work we rely on standardising the structure of our data files.
@@ -9,6 +11,53 @@ Ideas for eesyscreener should first be raised as a [GitHub issue](https://github
 This package contains the checks used to enforce our [open data standards](https://dfe-analytical-services.github.io/analysts-guide/statistics-production/ud.html).
 
 Before contributing, read this guide, skim the package vignettes (especially `assumptions_in_checks.Rmd`), and open up a handful of existing `check_*()` functions with their test files side by side. The checks are small, repetitive and well-exampled — the fastest way to understand how a new one should look is to read an existing one.
+
+## Setting up for development
+
+You'll need R >= 4.2.0 (see `DESCRIPTION`) and RStudio or a similar R-aware editor.
+
+1. Fork the repo on GitHub and clone your fork locally.
+2. Install the package's development dependencies:
+
+   ```r
+   install.packages("devtools")
+   devtools::install_dev_deps()
+   ```
+
+3. Install the [`air` formatter](https://posit-dev.github.io/air/) — it is used in the pre-PR checklist and CI expects formatted code. Follow the install instructions on the `air` site for your platform.
+4. Sanity-check your setup by loading the package and running the test suite:
+
+   ```r
+   devtools::load_all()
+   devtools::test()
+   ```
+
+   The first run is slow (integration tests screen full CSVs). See [Running and skipping tests](#running-and-skipping-tests) for how to skip them during iteration.
+
+## Before opening a PR
+
+Run through this checklist for every contribution, regardless of what you changed:
+
+1. **Regenerate docs** — `Rscript -e "devtools::document()"` (updates `NAMESPACE` and roxygen `.Rd` files).
+2. **Format** — `air format .` from the terminal.
+3. **Lint** — `Rscript -e "devtools::load_all(); lintr::lint_package()"`.
+4. **Run the full test suite** — `Rscript -e "devtools::test()"`. Do not merge with tests skipped.
+5. **Regenerate example output** if you added or changed a check in the pipeline, or updated any `data-raw/` source:
+
+   ```r
+   devtools::load_all()
+   source("data-raw/example_output.R")
+   ```
+
+6. **Update `NEWS.md`** with a bullet under the current development version heading for any user-facing change (new check, new argument, changed behaviour, bug fix). Internal refactors usually do not need an entry.
+
+## Other kinds of contribution
+
+The "How to add a new check" section below is the most detailed recipe because new checks are the most common contribution, but not the only one:
+
+- **Bug fixes** — follow the "Before opening a PR" checklist. Regression tests belong in the existing `tests/testthat/test-<function>.R` file for the function you're fixing.
+- **Documentation** — roxygen changes still require `devtools::document()`. Vignette edits require a local `devtools::build_vignettes()` to sanity-check.
+- **Reference data** (e.g. new geographic lookups, updated acceptable values) — edit the matching `data-raw/*.R` script and regenerate the `.rda` via `source("data-raw/<script>.R")`. Also regenerate example output afterwards.
 
 ## Use the unit tests as documentation
 
@@ -170,11 +219,7 @@ This automatically picks up all `check_meta_*` functions.
 
 6. **Update `_pkgdown.yml`** only if a new section is needed (existing sections pick up new functions automatically via `starts_with()`).
 
-7. **Regenerate NAMESPACE and docs** – `Rscript -e "devtools::document()"`.
-
-8. **Format and lint** – `air format .` (terminal) and `Rscript -e "devtools::load_all(); lintr::lint_package()"`.
-
-9. **Run the full test suite** – `Rscript -e "devtools::test()"`. The `test-example_output_coverage.R` test will fail if you forgot to wire the check into `screen_dfs()`.
+7. **Run through the [Before opening a PR](#before-opening-a-pr) checklist.** The `test-example_output_coverage.R` test will fail if you forgot to wire the check into `screen_dfs()`.
 
 ### Canonical function examples
 
