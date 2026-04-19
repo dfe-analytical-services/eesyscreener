@@ -35,7 +35,6 @@ check_filename_special <- function(
         use.names = FALSE
       )
     )
-
     test_output(
       test_name,
       "FAIL",

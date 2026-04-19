@@ -1,0 +1,41 @@
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+name: integration-tests
+
+permissions: read-all
+
+jobs:
+  integration-tests:
+    runs-on: ubuntu-latest
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      SKIP_INTEGRATION_TESTS: false
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::devtools
+          needs: check
+
+      - name: Run integration tests
+        shell: Rscript {0}
+        run: |
+          results <- devtools::test(stop_on_failure = FALSE)
+          df <- as.data.frame(results)
+          n_failed <- sum(df$failed)
+          n_warnings <- sum(df$warning)
+          n_skipped <- sum(df$skipped)
+          if (n_failed > 0 || n_warnings > 0 || n_skipped > 0) {
+            message(sprintf("Failed: %d, Warnings: %d, Skipped: %d", n_failed, n_warnings, n_skipped))
+            stop("Tests had failures, warnings, or skips - see above for details")
+          }

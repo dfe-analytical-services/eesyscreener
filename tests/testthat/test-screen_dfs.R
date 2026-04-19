@@ -1,4 +1,4 @@
-# TODO: Add more robust structure tests
+skip_integration_tests()
 
 test_that("passes for example files", {
   expect_no_error(suppressMessages(screen_dfs(

@@ -7,6 +7,6 @@ docs
 inst/doc
 /doc/
 /Meta/
-*.csv
+/*.csv
 eesyscreener_log*json
 .claude/settings.local.json
