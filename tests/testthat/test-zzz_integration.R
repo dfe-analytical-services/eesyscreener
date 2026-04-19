@@ -23,7 +23,7 @@ test_that("All pass-data files return passed = TRUE", {
   screen_local_folder("pass-data", expected_passed = TRUE)
 })
 
-test_that("All files in not-api-data return passed = TRUE and api_suitable = FALSE", {
+test_that("All files in not-api-data return passed = TRUE / api = FALSE", {
   skip_if(
     identical(Sys.getenv("SKIP_INTEGRATION_TESTS"), "true"),
     "Set SKIP_INTEGRATION_TESTS=false or unset to run integration tests"
