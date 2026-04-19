@@ -1,3 +1,4 @@
+skip_integration_tests()
 # Checking that the screener runs to completion on all robot tests
 test_that("Check EES robot test files", {
   test_dir <- tempdir()

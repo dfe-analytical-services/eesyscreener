@@ -27,7 +27,8 @@ check_filter_group_level <- function(
       !is.na(.data$filter_grouping_column) &
         .data$filter_grouping_column != ""
     ) |>
-    dplyr::select("col_name", "filter_grouping_column")
+    dplyr::select("col_name", "filter_grouping_column") |>
+    as.data.frame()
   test_name <- get_check_name()
 
   # If no filter groups present, return a message to say so
@@ -50,28 +51,31 @@ check_filter_group_level <- function(
       dplyr::count() |>
       dplyr::pull("n")
   }
-  filter_levels <- vapply(
+  # unname() is required: vapply() names its output after the input elements,
+  # producing named integer vectors that duckplyr cannot translate when
+  # methods_overwrite() is active. Base R column assignment avoids dplyr mutate
+  # which would also fail with named or multi-element vector constants.
+  filter_levels <- unname(vapply(
     filters_and_groups$col_name,
     count_distinct,
     integer(1)
-  )
-  group_levels <- vapply(
+  ))
+  group_levels <- unname(vapply(
     filters_and_groups$filter_grouping_column,
     count_distinct,
     integer(1)
+  ))
+  filters_and_groups[["filter_levels"]] <- filter_levels
+  filters_and_groups[["group_levels"]] <- group_levels
+  filters_and_groups[["pre_result"]] <- ifelse(
+    filter_levels >= group_levels,
+    "PASS",
+    "FAIL"
   )
-  extended_meta <- filters_and_groups |>
-    dplyr::mutate(
-      filter_levels = filter_levels,
-      group_levels = group_levels,
-      pre_result = dplyr::case_when(
-        filter_levels >= group_levels ~ "PASS",
-        TRUE ~ "FAIL"
-      )
-    )
   # Create failed pairs data frame
-  failed_pairs <- extended_meta |>
-    dplyr::filter(.data$pre_result == "FAIL")
+  failed_pairs <- filters_and_groups[
+    filters_and_groups[["pre_result"]] == "FAIL",
+  ]
 
   number_of_failed_pairs <- nrow(failed_pairs)
   # Output results based on whether there is one failed pair or multiple

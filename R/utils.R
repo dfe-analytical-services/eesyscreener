@@ -622,14 +622,12 @@ run_and_log_check <- function(
   log_dir,
   data_details
 ) {
-  all_results <- all_results |>
-    rbind(
-      check_results |>
-        dplyr::mutate(stage = stage)
-    )
+  check_results[["stage"]] <- stage
+
+  all_results <- rbind(all_results, check_results)
 
   write_json_log(
-    check_results |> dplyr::mutate(stage = stage),
+    check_results,
     log_key = log_key,
     log_dir = log_dir,
     data_details = data_details

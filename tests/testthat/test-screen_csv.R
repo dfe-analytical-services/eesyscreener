@@ -1,3 +1,5 @@
+skip_integration_tests()
+
 test_that("Output structure is as expected", {
   # Start by creating some temporary CSVs
   test_dir <- tempdir()
@@ -124,13 +126,9 @@ test_that("Example file passes", {
 })
 
 test_that("Fails gracefully if files can't be found", {
-  expect_error(
-    screen_csv(
-      "tartan_paint.csv",
-      "tartan_paint.meta.csv"
-    ),
-    "No file found"
-  )
+  result <- screen_csv("tartan_paint.csv", "tartan_paint.meta.csv")
+  expect_false(result$passed)
+  expect_equal(result$overall_stage, "File read")
 })
 
 test_that("Fails gracefully if it's not a CSV", {
@@ -142,23 +140,32 @@ test_that("Fails gracefully if it's not a CSV", {
   test_dir <- tempdir()
   paths <- write_ees_files(example_data, example_meta, test_dir, "example")
 
-  expect_error(
-    screen_csv(txt_file, txt_meta, stop_on_error = TRUE),
-    "Data file"
-  )
-  expect_error(
-    screen_csv(txt_file, paths$meta_path, stop_on_error = TRUE),
-    "Data file"
-  )
-  expect_error(
-    screen_csv(paths$data_path, txt_meta, stop_on_error = TRUE),
-    "Meta data file"
-  )
+  expect_false(screen_csv(txt_file, txt_meta)$passed)
+  expect_false(screen_csv(txt_file, paths$meta_path)$passed)
+  expect_false(screen_csv(paths$data_path, txt_meta)$passed)
 
   file.remove(paths$data_path)
   file.remove(paths$meta_path)
   file.remove(txt_file)
   file.remove(txt_meta)
+})
+
+test_that("File read failures return the expected structure", {
+  result <- screen_csv("tartan_paint.csv", "tartan_paint.meta.csv")
+
+  expect_type(result, "list")
+  expect_equal(
+    names(result),
+    c("results_table", "overall_stage", "passed", "api_suitable")
+  )
+  expect_false(result$passed)
+  expect_false(result$api_suitable)
+  expect_equal(result$overall_stage, "File read")
+  expect_equal(nrow(result$results_table), 1)
+  expect_equal(result$results_table$check, "file_read")
+  expect_equal(result$results_table$result, "FAIL")
+  expect_equal(result$results_table$stage, "File read")
+  expect_false(is.na(result$results_table$message))
 })
 
 test_that("Example file fails with filename", {

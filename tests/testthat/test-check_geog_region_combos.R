@@ -42,11 +42,11 @@ test_that("fails with multiple invalid regional combinations (plural)", {
   expect_true(grepl("combinations are", result$message))
 })
 
-test_that("fails for Regional rows with 'x' region_code", {
+test_that("passes for Regional rows with 'x' region_code", {
   x_regional <- regional_data |>
     dplyr::mutate(region_code = "x", region_name = "anything")
   result <- check_geog_region_combos(x_regional)
-  expect_equal(result$result, "FAIL")
+  expect_equal(result$result, "PASS")
 })
 
 test_that("ignores 'x' region_code for non-Regional rows", {

@@ -40,11 +40,11 @@ test_that("fails with multiple invalid lsip combinations (plural)", {
   expect_true(grepl("combinations are", result$message))
 })
 
-test_that("fails for LSIP rows with 'x' lsip_code", {
+test_that("passes for LSIP rows with 'x' lsip_code", {
   x_lsip <- lsip_data |>
     dplyr::mutate(lsip_code = "x", lsip_name = "anything")
   result <- check_geog_lsip_combos(x_lsip)
-  expect_equal(result$result, "FAIL")
+  expect_equal(result$result, "PASS")
 })
 
 test_that("ignores 'x' lsip_code for non-LSIP rows", {

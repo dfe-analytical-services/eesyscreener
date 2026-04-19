@@ -23,3 +23,7 @@
 ^migration-progress\.csv$
 ^migration_examples\.md$
 ^docker$
+
+^tests/testthat/fail$
+^tests/testthat/pass$
+^tests/testthat/pass-warn-api$

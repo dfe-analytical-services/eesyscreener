@@ -28,18 +28,16 @@ check_filename_spaces <- function(
   test_name <- get_check_name()
 
   if (grepl(" ", filename)) {
-    return(
-      test_output(
-        test_name,
-        "FAIL",
-        paste0(
-          "There are spaces that need removing in '",
-          filename,
-          "' (filename)."
-        ),
-        verbose = verbose,
-        stop_on_error = stop_on_error
-      )
+    test_output(
+      test_name,
+      "FAIL",
+      paste0(
+        "There are spaces that need removing in '",
+        filename,
+        "' (filename)."
+      ),
+      verbose = verbose,
+      stop_on_error = stop_on_error
     )
   } else {
     test_output(

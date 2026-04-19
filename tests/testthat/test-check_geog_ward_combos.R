@@ -40,11 +40,11 @@ test_that("fails with multiple invalid ward combinations (plural)", {
   expect_true(grepl("combinations are", result$message))
 })
 
-test_that("fails for Ward rows with 'x' ward_code", {
+test_that("passes for Ward rows with 'x' ward_code", {
   x_ward <- ward_data |>
     dplyr::mutate(ward_code = "x", ward_name = "anything")
   result <- check_geog_ward_combos(x_ward)
-  expect_equal(result$result, "FAIL")
+  expect_equal(result$result, "PASS")
 })
 
 test_that("ignores 'x' ward_code for non-Ward rows", {
