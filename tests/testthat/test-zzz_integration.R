@@ -6,7 +6,7 @@
 skip_integration_tests()
 
 test_that("All fail files return passed = FALSE", {
-  screen_local_folder("failta", expected_passed = FALSE)
+  screen_local_folder("fail", expected_passed = FALSE)
 })
 
 test_that("All pass files return passed = TRUE", {

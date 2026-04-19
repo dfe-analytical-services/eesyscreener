@@ -29,4 +29,13 @@ jobs:
 
       - name: Run integration tests
         shell: Rscript {0}
-        run: devtools::test()
+        run: |
+          results <- devtools::test(stop_on_failure = FALSE)
+          df <- as.data.frame(results)
+          n_failed <- sum(df$failed)
+          n_warnings <- sum(df$warning)
+          n_skipped <- sum(df$skipped)
+          if (n_failed > 0 || n_warnings > 0 || n_skipped > 0) {
+            message(sprintf("Failed: %d, Warnings: %d, Skipped: %d", n_failed, n_warnings, n_skipped))
+            stop("Tests had failures, warnings, or skips - see above for details")
+          }
