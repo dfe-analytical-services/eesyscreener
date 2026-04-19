@@ -82,30 +82,28 @@ api_char_limit <- function(
 
   if (any(results$exceeds_max)) {
     fail_values <- results$value[results$exceeds_max]
-    return(
-      test_output(
-        test_name,
-        "WARNING",
+    test_output(
+      test_name,
+      "WARNING",
+      paste0(
+        "The following ",
+        pretty_type,
+        " exceed the character limit of ",
+        max_length,
+        " for type '",
+        type,
+        "': ",
+        paste(shQuote(fail_values), collapse = ", "),
+        "."
+      ),
+      render_url(
         paste0(
-          "The following ",
-          pretty_type,
-          " exceed the character limit of ",
-          max_length,
-          " for type '",
-          type,
-          "': ",
-          paste(shQuote(fail_values), collapse = ", "),
-          "."
-        ),
-        render_url(
-          paste0(
-            "statistics-production/api-data-standards.html",
-            "#character-limits-for-col_names-and-filter-items"
-          )
-        ),
-        verbose = verbose,
-        stop_on_error = stop_on_error
-      )
+          "statistics-production/api-data-standards.html",
+          "#character-limits-for-col_names-and-filter-items"
+        )
+      ),
+      verbose = verbose,
+      stop_on_error = stop_on_error
     )
   } else {
     test_output(

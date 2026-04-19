@@ -32,14 +32,12 @@ check_filter_item_limit <- function(
     get_cols_meta(grouping_cols = TRUE, excl_indicators = TRUE)
 
   if (length(filters_and_groups) == 0) {
-    return(
-      test_output(
-        test_name,
-        "PASS",
-        "There are no filters in the data file.",
-        verbose = verbose,
-        stop_on_error = stop_on_error
-      )
+    test_output(
+      test_name,
+      "PASS",
+      "There are no filters in the data file.",
+      verbose = verbose,
+      stop_on_error = stop_on_error
     )
   } else {
     counts <- data.frame(
@@ -56,36 +54,32 @@ check_filter_item_limit <- function(
       )
     )
     if (all(counts$nentries <= filter_item_limit)) {
-      return(
-        test_output(
-          test_name,
-          "PASS",
-          paste(
-            "All filters and groups have less than",
-            filter_item_limit,
-            "unique entries."
-          ),
-          verbose = verbose,
-          stop_on_error = stop_on_error
-        )
+      test_output(
+        test_name,
+        "PASS",
+        paste(
+          "All filters and groups have less than",
+          filter_item_limit,
+          "unique entries."
+        ),
+        verbose = verbose,
+        stop_on_error = stop_on_error
       )
     } else {
       large_filter_sets <- counts |>
         dplyr::filter(.data$nentries > filter_item_limit) |>
         dplyr::pull("filters")
-      return(
-        test_output(
-          test_name,
-          "FAIL",
-          paste0(
-            "The following filters or filter groups contain",
-            " more than the advised maximum number of unique entries: '",
-            paste(large_filter_sets, collapse = "', '"),
-            "'."
-          ),
-          verbose = verbose,
-          stop_on_error = stop_on_error
-        )
+      test_output(
+        test_name,
+        "FAIL",
+        paste0(
+          "The following filters or filter groups contain",
+          " more than the advised maximum number of unique entries: '",
+          paste(large_filter_sets, collapse = "', '"),
+          "'."
+        ),
+        verbose = verbose,
+        stop_on_error = stop_on_error
       )
     }
   }

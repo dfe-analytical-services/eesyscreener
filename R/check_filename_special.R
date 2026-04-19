@@ -35,22 +35,19 @@ check_filename_special <- function(
         use.names = FALSE
       )
     )
-
-    return(
-      test_output(
-        test_name,
-        "FAIL",
-        paste0(
-          "The following special characters need removing from ",
-          filename,
-          " (filename): ",
-          paste0(present_special_characters, collapse = " "),
-          ". Filenames must only contain numbers, letters, hyphens or",
-          " underscores."
-        ),
-        verbose = verbose,
-        stop_on_error = stop_on_error
-      )
+    test_output(
+      test_name,
+      "FAIL",
+      paste0(
+        "The following special characters need removing from ",
+        filename,
+        " (filename): ",
+        paste0(present_special_characters, collapse = " "),
+        ". Filenames must only contain numbers, letters, hyphens or",
+        " underscores."
+      ),
+      verbose = verbose,
+      stop_on_error = stop_on_error
     )
   } else {
     test_output(
