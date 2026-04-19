@@ -34,6 +34,22 @@ The package contains:
   EES
 - Functions to generate test data and example datasets
 
+These checks have steadily evolved over the years, from initial R code
+replacing manual checking of CSV files in Excel, to a [screening report
+generator using
+rmarkdown](https://github.com/dfe-analytical-services/ees-data-screener),
+to the [R Shiny
+app](https://github.com/dfe-analytical-services/dfe-published-data-qa),
+right through to this R package, separating out and documenting the
+logic.
+
+This logic is invaluable in protecting the EES platform against
+malformatted data that could cause unexpected behaviour, bugs, or even
+outages. By having it in R, we allow the analysts supporting the
+platform to contribute and maintain the checks allowing us to use it as
+a harmonising tool, to enforce consistent standards across our open
+data.
+
 ## Installation
 
 eesyscreener is not currently available on CRAN. For the time being you
@@ -117,7 +133,7 @@ write.csv(eesyscreener::example_data, "example_data.csv", row.names = FALSE)
 write.csv(eesyscreener::example_meta[ , -1], "example_data.meta.csv", row.names = FALSE)
 ```
 
-## Next steps
+## Documentation
 
 - [Function
   reference](https://dfe-analytical-services.github.io/eesyscreener/reference/index.html)

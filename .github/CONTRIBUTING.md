@@ -24,7 +24,8 @@ You'll need R >= 4.2.0 (see `DESCRIPTION`) and RStudio or a similar R-aware edit
    devtools::install_dev_deps()
    ```
 
-3. Install the [`air` formatter](https://posit-dev.github.io/air/) — it is used in the pre-PR checklist and CI expects formatted code. Follow the install instructions on the `air` site for your platform.
+3. Install the [`air` formatter](https://posit-dev.github.io/air/) — it is used in the pre-PR checklist and CI expects formatted code. Follow the install instructions on the `air` site for your IDE.
+
 4. Sanity-check your setup by loading the package and running the test suite:
 
    ```r
@@ -32,16 +33,16 @@ You'll need R >= 4.2.0 (see `DESCRIPTION`) and RStudio or a similar R-aware edit
    devtools::test()
    ```
 
-   The first run is slow (integration tests screen full CSVs). See [Running and skipping tests](#running-and-skipping-tests) for how to skip them during iteration.
+   The full test run can take a few minutes (integration tests screen full CSVs). See [Running and skipping tests](#running-and-skipping-tests) for how and when to skip the longer tests.
 
 ## Before opening a PR
 
 Run through this checklist for every contribution, regardless of what you changed:
 
-1. **Regenerate docs** — `Rscript -e "devtools::document()"` (updates `NAMESPACE` and roxygen `.Rd` files).
-2. **Format** — `air format .` from the terminal.
-3. **Lint** — `Rscript -e "devtools::load_all(); lintr::lint_package()"`.
-4. **Run the full test suite** — `Rscript -e "devtools::test()"`. Do not merge with tests skipped.
+1. **Regenerate docs** — `devtools::document()` (updates `NAMESPACE` and roxygen `.Rd` files).
+2. **Format** — `air format .` from the terminal (or automatically on save in your IDE).
+3. **Lint** — `devtools::load_all(); lintr::lint_package()`.
+4. **Run the full test suite** — `devtools::test()`. Do not merge with tests skipped.
 5. **Regenerate example output** if you added or changed a check in the pipeline, or updated any `data-raw/` source:
 
    ```r
@@ -55,8 +56,8 @@ Run through this checklist for every contribution, regardless of what you change
 
 The "How to add a new check" section below is the most detailed recipe because new checks are the most common contribution, but not the only one:
 
-- **Bug fixes** — follow the "Before opening a PR" checklist. Regression tests belong in the existing `tests/testthat/test-<function>.R` file for the function you're fixing.
-- **Documentation** — roxygen changes still require `devtools::document()`. Vignette edits require a local `devtools::build_vignettes()` to sanity-check.
+- **Bug fixes** — follow the "Before opening a PR" checklist. Add a new test in the existing `tests/testthat/test-<function>.R` file for the function you're fixing, or a new example CSV pair in one of the `tests/testthat/` folders as appropriate. If adding a new CSV test pair then ensure they are made as small as possible to minimise the size of the repo.
+- **Documentation** — roxygen changes still require `devtools::document()`. Review the full documentation site locally with `devtools::build_site()`
 - **Reference data** (e.g. new geographic lookups, updated acceptable values) — edit the matching `data-raw/*.R` script and regenerate the `.rda` via `source("data-raw/<script>.R")`. Also regenerate example output afterwards.
 
 ## Use the unit tests as documentation
