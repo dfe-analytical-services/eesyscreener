@@ -4,13 +4,14 @@
 #' code and name combinations in the data match the acceptable lookup
 #' for that geography type.
 #'
-#' When `restricted_level` is supplied, rows at that geographic level are
-#' checked without any exclusions (NA and blank codes are treated as invalid).
-#' Rows at other levels have NA, blank, and `na_code` entries excluded before
-#' checking. This two-tier approach prevents false FAIL results on rows at
-#' non-home geographic levels, where a geography column being blank or NA is
-#' expected (e.g. `region_code` is NA on National-level rows). The legacy
-#' `region_combinations()` in dfe-published-data-qa used this same split.
+#' When `restricted_level` is supplied, rows at that geographic level have NA
+#' and blank codes treated as invalid, but `na_code` ("x") is still excluded
+#' before checking — matching the original dfe-published-data-qa behaviour
+#' where the GSS not-available code was filtered out uniformly regardless of
+#' geographic level. Rows at other levels have NA, blank, and `na_code` entries
+#' excluded before checking. This two-tier approach prevents false FAIL results
+#' on rows at non-home geographic levels, where a geography column being blank
+#' or NA is expected (e.g. `region_code` is NA on National-level rows).
 #'
 #' When `restricted_level` is NULL, only `na_code` rows are excluded before
 #' checking, and the same filter is applied to every row regardless of
@@ -92,9 +93,17 @@
   distinct_syms <- lapply(all_cols, rlang::sym)
 
   if (!is.null(restricted_level)) {
-    # For restricted level rows: check all combos (NA and blank are invalid)
+    # For restricted level rows: NA and blank codes are invalid, but na_code
+    # ("x") is excluded — matching the original dfe-published-data-qa behaviour
+    # where gssNAvcode was filtered out uniformly regardless of geographic
+    # level.
     restricted_invalid <- data |>
       dplyr::filter(.data$geographic_level == restricted_level) |>
+      dplyr::filter(
+        !is.na(!!code_sym) &
+          !!code_sym != "" &
+          !!code_sym != na_code
+      ) |>
       dplyr::distinct(!!!distinct_syms) |>
       dplyr::anti_join(valid_combos, by = all_cols) |>
       dplyr::collect()
