@@ -59,3 +59,42 @@ test_output(
   stop_on_error = FALSE # whether to stop execution and throw on FAIL / warn on WARNING
 )
 ```
+
+## Generating test files
+
+`generate_test_dfs()` creates matching data and metadata frames for any number of time periods, locations, filters and indicators.
+
+```r
+files <- eesyscreener::generate_test_dfs(
+  years = 2013:2015,
+  pcon_names = "Sheffield Central",
+  pcon_codes = "E14000919",
+  num_filters = 2,
+  num_indicators = 3
+)
+
+df <- files$data
+df_meta <- files$meta
+```
+
+### Going bigger
+
+To stress-test on realistic volumes, combine `generate_test_dfs()` with the [dfeR package](https://dfe-analytical-services.github.io/dfeR/) to pass in vectors of Parliamentary Constituencies. Row count is `length(years) * length(pcon_codes) * (5 ^ num_filters)`.
+
+```r
+pcons <- dfeR::fetch_pcons(countries = "England")
+
+beefy <- eesyscreener::generate_test_dfs(
+  years = c(1980:2025),
+  pcon_codes = pcons$pcon_code,
+  pcon_names = pcons$pcon_name,
+  num_filters = 3,
+  num_indicators = 45,
+  verbose = TRUE
+)
+
+# duckplyr is dramatically faster than base R for writing large CSVs
+# (~20 seconds vs ~6 minutes for the frame above)
+duckplyr::compute_csv(beefy$data, "beefy_data.csv")
+write.csv(beefy$meta, "beefy_data.meta.csv", row.names = FALSE)
+```
