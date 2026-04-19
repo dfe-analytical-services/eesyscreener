@@ -122,7 +122,10 @@ is "FAIL", and will throw genuine warning if result is "WARNING"</p></dd>
 <li><p>Overall stage the checks reached</p></li>
 <li><p>Boolean indicating if the data passed the screening</p></li>
 <li><p>Boolean indicating if the data is suitable for the API</p></li>
-</ol></div>
+</ol><p>If the files cannot be read (e.g. file not found, unsupported encoding, or
+non-CSV format), the function returns early with <code>passed = FALSE</code> and
+<code>overall_stage = "File read"</code> rather than throwing an error.</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>

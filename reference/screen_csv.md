@@ -87,6 +87,10 @@ A list containing
 
 4.  Boolean indicating if the data is suitable for the API
 
+If the files cannot be read (e.g. file not found, unsupported encoding,
+or non-CSV format), the function returns early with `passed = FALSE` and
+`overall_stage = "File read"` rather than throwing an error.
+
 ## Examples
 
 ``` r

@@ -53,6 +53,51 @@ files and screens them.
 - Think about dependencies between functions - explain any in the
   `assumptions_in_checks.Rmd` vignette
 
+## Tests: Running and Skipping
+
+By default, all tests run when you execute the test suite using
+`devtools::test()` (also ran within `devtools::check()`).
+
+We mix unit tests (quick fire function tests) with integration tests
+(full CSV file testing). The integration tests take a lot longer to run
+(a few minutes rather than a few seconds) but are essential for
+verifying that the package works as expected on realistic, end-to-end
+scenarios and large datasets.
+
+To help make it a speedier / more pleasant developing experience we have
+flag you can use to skip the integration tests, which you can use for
+initial testing / iterating of your branch, before then running the full
+suite once you’ve fixed any other errors.
+
+The integration tests are skipped on CRAN and in the R-CMD-Check
+however, they have their own GitHub action as a catch to make sure we
+still cover them on every PR.
+
+**How to skip integration tests:**  
+Set the environment variable `SKIP_INTEGRATION_TESTS=true` before
+running tests. This will skip the following scripts: -
+`test-zzz_integration.R` - `test-ees-robot-tests.R` -
+`test-screen_csv.R` - `test-screen_dfs.R`
+
+The logic for this is included in the
+`tests/testthat/helper-integration.R` file and is automatically loaded
+by testthat.
+
+You can do this temporarily in R, by simply running the test command
+with a withr wrapper that sets an envrionment variable just for that
+command. E.g.
+
+``` r
+withr::with_envvar(c(SKIP_INTEGRATION_TESTS = "true"), devtools::test())
+```
+
+This will take test running time down from multiple minutes to around 30
+seconds or so (will vary based on your machine / environment).
+
+Remember, skipping them can speed up development, but always run the
+full suite before merging or releasing as they cover lots of edge cases
+and interactions that you are likely to have missed in your own testing.
+
 ## Naming Conventions
 
 Follow these patterns when naming new check functions. Consistency is
@@ -215,6 +260,69 @@ If you don’t care for looking at them more, you can set them to auto
 upload (and stop shouting at you) with
 `duckplyr::fallback_config(autoupload = TRUE)`.
 
+### Diagnosing and fixing duckplyr fallbacks
+
+`duckplyr` replaces dplyr generics with DuckDB-backed implementations.
+When it can’t translate an operation to DuckDB SQL, it emits an
+`rlang_message` and falls back to plain dplyr. There are two severity
+levels:
+
+- **“Error processing”** — the message has an error as its parent
+  condition. `expect_no_error()` in testthat 3.3.2 traverses the parent
+  chain and treats this as a test failure.
+- **“Cannot process”** — informational only, no error parent. Does not
+  fail `expect_no_error()` but still represents unhandled fallback
+  behaviour.
+
+These fallbacks aren’t critical to fix if everything else is passing and
+it’s not causing materialisation in a problematic way (as would be
+caught by `test-avoid_materialisation.R`). However, it’s good practice
+to clean these up and write code that explicitly handles the duckplyr
+methods properly.
+
+Note that you should be careful to also `lintr::lint_package()` as
+writing explicit R code also presents challenges, and it’s not always
+easy to manage duckplyr methods with the linting expectations of R
+packages.
+
+#### Common patterns that cause fallbacks
+
+| Pattern                                                                                                                                         | Error / symptom                                                                              |
+|-------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|
+| `dplyr::mutate(col = local_var)` bare symbol RHS                                                                                                | “object of type ‘symbol’ is not subsettable”                                                 |
+| `dplyr::arrange(.data$col)`                                                                                                                     | same bare-symbol error via `` `$` `` operator                                                |
+| `dplyr::count(.data$col)`                                                                                                                       | “Cannot process: `count()` requires columns in `...`”; cascades into `group_by()` fallback   |
+| `spec_tbl_df` without [`tibble::as_tibble()`](https://tibble.tidyverse.org/reference/as_tibble.html) conversion                                 | “Must pass a plain data frame or a tibble”                                                   |
+| [`utils::stack()`](https://rdrr.io/r/utils/stack.html) output passed to dplyr verbs                                                             | factor columns — duckplyr can’t build a relation                                             |
+| [`vapply()`](https://rdrr.io/r/base/lapply.html) result used directly in [`dplyr::mutate()`](https://dplyr.tidyverse.org/reference/mutate.html) | named/multi-element vector → “length(val) == 1 is not TRUE” or “Can’t convert named vectors” |
+
+#### Patterns that work fine with duckplyr
+
+- `dplyr::filter(!!col_sym == value)` — bang-bang with
+  [`rlang::sym()`](https://rlang.r-lib.org/reference/sym.html) is fine
+- `dplyr::filter(.data$col == value)` — `.data$` in
+  [`filter()`](https://rdrr.io/r/stats/filter.html) works (the issue is
+  specific to `arrange()` and `count()`)
+- `dplyr::distinct(!!!syms_vec)` — spliced symbols work
+- `dplyr::select("quoted_col_name")` — string selectors work
+- `dplyr::count(!!rlang::sym("col"))` — bang-bang in `count()` works
+
+#### Diagnosing interactively
+
+1.  `pkgload::load_all(".", quiet = TRUE)` to load the source package
+2.  [`duckplyr::methods_overwrite()`](https://duckplyr.tidyverse.org/reference/methods_overwrite.html)
+    to activate duckplyr globally
+3.  Wrap
+    [`screen_dfs()`](https://dfe-analytical-services.github.io/eesyscreener/reference/screen_dfs.md)
+    or the suspect check function with
+    `withCallingHandlers(..., rlang_message = function(m) { ... })` to
+    intercept fallback messages and inspect
+    [`sys.calls()`](https://rdrr.io/r/base/sys.parent.html) for the
+    originating line
+4.  Isolate by running individual check functions directly
+5.  [`duckplyr::methods_restore()`](https://duckplyr.tidyverse.org/reference/methods_overwrite.html)
+    if you want to reset to dplyr when done
+
 ## Process for moving in functions from app
 
 [Tracking spreadsheet set up in
@@ -343,9 +451,6 @@ To use `"stingy"` in this way, follow these steps:
 - If the lazy table is materialised, an error will be thrown, if it is
   then identify the guilty line by running:
   - [`rlang::last_trace()`](https://rlang.r-lib.org/reference/last_error.html)
-    \## Other things to add to the package
-
-TODO: Add trello card workflow
 
 ## List of notes for the main screener when migrating over
 

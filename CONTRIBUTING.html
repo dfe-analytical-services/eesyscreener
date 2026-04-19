@@ -62,6 +62,21 @@
 <li>Think about dependencies between functions - explain any in the <code>assumptions_in_checks.Rmd</code> vignette</li>
 </ul></div>
 <div class="section level2">
+<h2 id="tests-running-and-skipping">Tests: Running and Skipping<a class="anchor" aria-label="anchor" href="#tests-running-and-skipping"></a></h2>
+<p>By default, all tests run when you execute the test suite using <code>devtools::test()</code> (also ran within <code>devtools::check()</code>).</p>
+<p>We mix unit tests (quick fire function tests) with integration tests (full CSV file testing). The integration tests take a lot longer to run (a few minutes rather than a few seconds) but are essential for verifying that the package works as expected on realistic, end-to-end scenarios and large datasets.</p>
+<p>To help make it a speedier / more pleasant developing experience we have flag you can use to skip the integration tests, which you can use for initial testing / iterating of your branch, before then running the full suite once you’ve fixed any other errors.</p>
+<p>The integration tests are skipped on CRAN and in the R-CMD-Check however, they have their own GitHub action as a catch to make sure we still cover them on every PR.</p>
+<p><strong>How to skip integration tests:</strong><br>
+Set the environment variable <code>SKIP_INTEGRATION_TESTS=true</code> before running tests. This will skip the following scripts: - <code>test-zzz_integration.R</code> - <code>test-ees-robot-tests.R</code> - <code>test-screen_csv.R</code> - <code>test-screen_dfs.R</code></p>
+<p>The logic for this is included in the <code>tests/testthat/helper-integration.R</code> file and is automatically loaded by testthat.</p>
+<p>You can do this temporarily in R, by simply running the test command with a withr wrapper that sets an envrionment variable just for that command. E.g.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">withr</span><span class="fu">::</span><span class="fu"><a href="https://withr.r-lib.org/reference/with_envvar.html" class="external-link">with_envvar</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>SKIP_INTEGRATION_TESTS <span class="op">=</span> <span class="st">"true"</span><span class="op">)</span>, <span class="fu">devtools</span><span class="fu">::</span><span class="fu">test</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>This will take test running time down from multiple minutes to around 30 seconds or so (will vary based on your machine / environment).</p>
+<p>Remember, skipping them can speed up development, but always run the full suite before merging or releasing as they cover lots of edge cases and interactions that you are likely to have missed in your own testing.</p>
+</div>
+<div class="section level2">
 <h2 id="naming-conventions">Naming Conventions<a class="anchor" aria-label="anchor" href="#naming-conventions"></a></h2>
 <p>Follow these patterns when naming new check functions. Consistency is crucial as names are used in <code>_pkgdown.yml</code> to group checks for documentation.</p>
 <div class="section level3">
@@ -148,9 +163,9 @@ precheck_&lt;area&gt;_&lt;what&gt;()   # Early validation (blocks on failure)</c
 <h3 id="adding-to-_pkgdownyml">Adding to _pkgdown.yml<a class="anchor" aria-label="anchor" href="#adding-to-_pkgdownyml"></a></h3>
 <p>When adding a new check: 1. Add a new <code>check_*()</code> or <code>precheck_*()</code> function following the naming pattern 2. Update <code>_pkgdown.yml</code> to include it in the appropriate category section 3. The documentation site will automatically group it with related checks</p>
 <p>Example in <code>_pkgdown.yml</code>:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="kw">-</span><span class="at"> </span><span class="fu">title</span><span class="kw">:</span><span class="at"> Metadata checks</span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="at">  </span><span class="fu">contents</span><span class="kw">:</span></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> starts_with("check_meta_")</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="kw">-</span><span class="at"> </span><span class="fu">title</span><span class="kw">:</span><span class="at"> Metadata checks</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="at">  </span><span class="fu">contents</span><span class="kw">:</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> starts_with("check_meta_")</span></span></code></pre></div>
 <p>This automatically picks up all <code>check_meta_*</code> functions.</p>
 </div>
 </div>
@@ -162,7 +177,7 @@ precheck_&lt;area&gt;_&lt;what&gt;()   # Early validation (blocks on failure)</c
 <li>avoid duplication between functions</li>
 <li>don’t validate arguments in individual <code>precheck_*()</code> or <code>check_*()</code> functions</li>
 </ul><p>duckplyr seems to be the fastest approach, take the following example code, just aimed at checking if the time_identifier values are valid</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Base R</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">setdiff</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">data</span><span class="op">$</span><span class="va">time_identifier</span><span class="op">)</span><span class="op">)</span>,</span>
@@ -198,6 +213,62 @@ precheck_&lt;area&gt;_&lt;what&gt;()   # Early validation (blocks on failure)</c
 <p>Uploading the reports using <code><a href="https://duckplyr.tidyverse.org/reference/fallback.html" class="external-link">duckplyr::fallback_upload()</a></code> will clear them from your machine and submit to the maintainers.</p>
 <p>If you don’t care for looking at them more, you can set them to auto upload (and stop shouting at you) with <code>duckplyr::fallback_config(autoupload = TRUE)</code>.</p>
 </div>
+<div class="section level3">
+<h3 id="diagnosing-and-fixing-duckplyr-fallbacks">Diagnosing and fixing duckplyr fallbacks<a class="anchor" aria-label="anchor" href="#diagnosing-and-fixing-duckplyr-fallbacks"></a></h3>
+<p><code>duckplyr</code> replaces dplyr generics with DuckDB-backed implementations. When it can’t translate an operation to DuckDB SQL, it emits an <code>rlang_message</code> and falls back to plain dplyr. There are two severity levels:</p>
+<ul><li>
+<strong>“Error processing”</strong> — the message has an error as its parent condition. <code>expect_no_error()</code> in testthat 3.3.2 traverses the parent chain and treats this as a test failure.</li>
+<li>
+<strong>“Cannot process”</strong> — informational only, no error parent. Does not fail <code>expect_no_error()</code> but still represents unhandled fallback behaviour.</li>
+</ul><p>These fallbacks aren’t critical to fix if everything else is passing and it’s not causing materialisation in a problematic way (as would be caught by <code>test-avoid_materialisation.R</code>). However, it’s good practice to clean these up and write code that explicitly handles the duckplyr methods properly.</p>
+<p>Note that you should be careful to also <code>lintr::lint_package()</code> as writing explicit R code also presents challenges, and it’s not always easy to manage duckplyr methods with the linting expectations of R packages.</p>
+<div class="section level4">
+<h4 id="common-patterns-that-cause-fallbacks">Common patterns that cause fallbacks<a class="anchor" aria-label="anchor" href="#common-patterns-that-cause-fallbacks"></a></h4>
+<table class="table"><colgroup><col width="50%"><col width="50%"></colgroup><thead><tr class="header"><th>Pattern</th>
+<th>Error / symptom</th>
+</tr></thead><tbody><tr class="odd"><td>
+<code>dplyr::mutate(col = local_var)</code> bare symbol RHS</td>
+<td>“object of type ‘symbol’ is not subsettable”</td>
+</tr><tr class="even"><td><code>dplyr::arrange(.data$col)</code></td>
+<td>same bare-symbol error via <code>`$`</code> operator</td>
+</tr><tr class="odd"><td><code>dplyr::count(.data$col)</code></td>
+<td>“Cannot process: <code>count()</code> requires columns in <code>...</code>”; cascades into <code>group_by()</code> fallback</td>
+</tr><tr class="even"><td>
+<code>spec_tbl_df</code> without <code><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">tibble::as_tibble()</a></code> conversion</td>
+<td>“Must pass a plain data frame or a tibble”</td>
+</tr><tr class="odd"><td>
+<code><a href="https://rdrr.io/r/utils/stack.html" class="external-link">utils::stack()</a></code> output passed to dplyr verbs</td>
+<td>factor columns — duckplyr can’t build a relation</td>
+</tr><tr class="even"><td>
+<code><a href="https://rdrr.io/r/base/lapply.html" class="external-link">vapply()</a></code> result used directly in <code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">dplyr::mutate()</a></code>
+</td>
+<td>named/multi-element vector → “length(val) == 1 is not TRUE” or “Can’t convert named vectors”</td>
+</tr></tbody></table></div>
+<div class="section level4">
+<h4 id="patterns-that-work-fine-with-duckplyr">Patterns that work fine with duckplyr<a class="anchor" aria-label="anchor" href="#patterns-that-work-fine-with-duckplyr"></a></h4>
+<ul><li>
+<code>dplyr::filter(!!col_sym == value)</code> — bang-bang with <code><a href="https://rlang.r-lib.org/reference/sym.html" class="external-link">rlang::sym()</a></code> is fine</li>
+<li>
+<code>dplyr::filter(.data$col == value)</code> — <code>.data$</code> in <code><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter()</a></code> works (the issue is specific to <code>arrange()</code> and <code>count()</code>)</li>
+<li>
+<code>dplyr::distinct(!!!syms_vec)</code> — spliced symbols work</li>
+<li>
+<code>dplyr::select("quoted_col_name")</code> — string selectors work</li>
+<li>
+<code>dplyr::count(!!rlang::sym("col"))</code> — bang-bang in <code>count()</code> works</li>
+</ul></div>
+<div class="section level4">
+<h4 id="diagnosing-interactively">Diagnosing interactively<a class="anchor" aria-label="anchor" href="#diagnosing-interactively"></a></h4>
+<ol style="list-style-type: decimal"><li>
+<code>pkgload::load_all(".", quiet = TRUE)</code> to load the source package</li>
+<li>
+<code><a href="https://duckplyr.tidyverse.org/reference/methods_overwrite.html" class="external-link">duckplyr::methods_overwrite()</a></code> to activate duckplyr globally</li>
+<li>Wrap <code><a href="reference/screen_dfs.html">screen_dfs()</a></code> or the suspect check function with <code>withCallingHandlers(..., rlang_message = function(m) { ... })</code> to intercept fallback messages and inspect <code><a href="https://rdrr.io/r/base/sys.parent.html" class="external-link">sys.calls()</a></code> for the originating line</li>
+<li>Isolate by running individual check functions directly</li>
+<li>
+<code><a href="https://duckplyr.tidyverse.org/reference/methods_overwrite.html" class="external-link">duckplyr::methods_restore()</a></code> if you want to reset to dplyr when done</li>
+</ol></div>
+</div>
 </div>
 <div class="section level2">
 <h2 id="process-for-moving-in-functions-from-app">Process for moving in functions from app<a class="anchor" aria-label="anchor" href="#process-for-moving-in-functions-from-app"></a></h2>
@@ -226,7 +297,7 @@ precheck_&lt;area&gt;_&lt;what&gt;()   # Early validation (blocks on failure)</c
 <ol start="2" style="list-style-type: lower-alpha"><li><p>Create and use helper functions (if you haven’t already), place any helper functions in <code>R/utils.R</code>, mark as @keywords internal</p></li>
 <li><p>Avoid bringing in too many new dependencies, try rewriting in base R where possible</p></li>
 <li><p>Use <code>microbenchmark</code> to experiment to find the most efficient approach (speed is king here) e.g.</p></li>
-</ol><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+</ol><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="reference/example_data.html">example_data</a></span></span>
 <span></span>
 <span><span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu">microbenchmark</span><span class="op">(</span></span>
@@ -250,11 +321,9 @@ precheck_&lt;area&gt;_&lt;what&gt;()   # Early validation (blocks on failure)</c
 <ul><li>Run <code>screen_dfs(&lt;data&gt;, &lt;meta&gt;, prudence = "stingy")</code>
 </li>
 <li>If the lazy table is materialised, an error will be thrown, if it is then identify the guilty line by running:
-<ul><li>
-<code><a href="https://rlang.r-lib.org/reference/last_error.html" class="external-link">rlang::last_trace()</a></code> ## Other things to add to the package</li>
+<ul><li><code><a href="https://rlang.r-lib.org/reference/last_error.html" class="external-link">rlang::last_trace()</a></code></li>
 </ul></li>
-</ul><p>TODO: Add trello card workflow</p>
-</div>
+</ul></div>
 <div class="section level2">
 <h2 id="list-of-notes-for-the-main-screener-when-migrating-over">List of notes for the main screener when migrating over<a class="anchor" aria-label="anchor" href="#list-of-notes-for-the-main-screener-when-migrating-over"></a></h2>
 <p>TODO: Move the images out of screenFiles and into the server part of the app</p>
