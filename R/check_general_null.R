@@ -37,7 +37,7 @@ check_general_null <- function(
   # query per column. Character column names are pre-computed in R from the
   # schema — string symbols cannot appear in numeric columns, so numeric columns
   # are safely skipped.
-  char_cols <- names(dplyr::select(data, tidyselect::where(is.character)))
+  char_cols <- names(dplyr::select(data, dplyr::where(is.character)))
 
   if (length(char_cols) > 0) {
     has_null_in_data <- data |>

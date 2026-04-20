@@ -76,8 +76,29 @@ core `screen_csv()` function.
 data_file <- tempfile(fileext = ".csv")
 meta_file <- tempfile(fileext = ".meta.csv")
 
-write.csv(eesyscreener::example_data, data_file, row.names = FALSE)
-write.csv(eesyscreener::example_meta, meta_file, row.names = FALSE)
+duckplyr::compute_csv(eesyscreener::example_data, data_file)
+#> # A duckplyr data frame: 8 variables
+#>   time_period time_identifier geographic_level country_code country_name sex    
+#>         <dbl> <chr>           <chr>            <chr>        <chr>        <chr>  
+#> 1      201718 Academic year   National         E92000001    England      All pu…
+#> 2      201718 Academic year   National         E92000001    England      All pu…
+#> 3      201718 Academic year   National         E92000001    England      All pu…
+#> 4      201718 Academic year   National         E92000001    England      Male   
+#> 5      201718 Academic year   National         E92000001    England      Female 
+#> 6      201718 Academic year   National         E92000001    England      Male   
+#> 7      201718 Academic year   National         E92000001    England      Female 
+#> 8      201718 Academic year   National         E92000001    England      Male   
+#> 9      201718 Academic year   National         E92000001    England      Female 
+#> # ℹ 2 more variables: education_phase <chr>, enrolment_count <dbl>
+duckplyr::compute_csv(eesyscreener::example_meta, meta_file)
+#> # A duckplyr data frame: 9 variables
+#>   col_name        col_type  label indicator_grouping indicator_unit indicator_dp
+#>   <chr>           <chr>     <chr> <chr>              <chr>                 <dbl>
+#> 1 sex             Filter    Sex … <NA>               <NA>                     NA
+#> 2 education_phase Filter    Educ… <NA>               <NA>                     NA
+#> 3 enrolment_count Indicator Numb… <NA>               <NA>                      0
+#> # ℹ 3 more variables: filter_hint <chr>, filter_grouping_column <chr>,
+#> #   filter_default <chr>
 
 result <- eesyscreener::screen_csv(
   data_file,
@@ -111,13 +132,13 @@ result$results_table |>
 #> 6 Precheck columns
 
 result$overall_stage
-#> [1] "Check meta checks"
+#> [1] "Passed"
 
 result$passed
-#> [1] FALSE
+#> [1] TRUE
 
 result$api_suitable
-#> [1] FALSE
+#> [1] TRUE
 
 # Clean up temporary CSV files
 invisible(file.remove(data_file))
@@ -130,12 +151,12 @@ Quick examples of how to make use of the data within the package to
 generate CSVs for testing:
 
 ``` r
-write.csv(eesyscreener::example_data, "example_data.csv", row.names = FALSE)
-write.csv(eesyscreener::example_meta, "example_data.meta.csv", row.names = FALSE)
+duckplyr::compute_csv(eesyscreener::example_data, "example_data.csv")
+duckplyr::compute_csv(eesyscreener::example_meta, "example_data.meta.csv")
 
 # Generate a file pairing that will fail the tests by dropping a key column
-write.csv(eesyscreener::example_data, "example_data.csv", row.names = FALSE)
-write.csv(eesyscreener::example_meta[ , -1], "example_data.meta.csv", row.names = FALSE)
+duckplyr::compute_csv(eesyscreener::example_data, "example_data.csv")
+duckplyr::compute_csv(eesyscreener::example_meta[ , -1], "example_data.meta.csv")
 ```
 
 ## Documentation
@@ -149,8 +170,7 @@ write.csv(eesyscreener::example_meta[ , -1], "example_data.meta.csv", row.names 
   `generate_test_dfs()`
 - [Common file
   failures](https://dfe-analytical-services.github.io/eesyscreener/articles/common_file_failures.html)
-  — recipes for files that fail, cannot be read, or pass screening but
-  are not API-suitable
+  — notes on common failures that analysts might come across
 - [Contributing
   guidelines](https://dfe-analytical-services.github.io/eesyscreener/CONTRIBUTING.html)
   — dev setup and how to add a new check
