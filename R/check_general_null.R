@@ -70,7 +70,12 @@ check_general_null <- function(
     if (has_null_in_data) {
       parts <- c(
         parts,
-        "Problematic null or NA symbols were found in the data file."
+        paste0(
+          "Problematic null or NA symbols were found in the data file.",
+          " The symbols checked for are: '",
+          paste0(null_symbols, collapse = "', '"),
+          "'."
+        )
       )
     }
     if (length(null_in_meta) > 0) {
@@ -99,8 +104,11 @@ check_general_null <- function(
       test_name,
       "WARNING",
       paste0(
-        "Legacy no-data symbols were found in the data file. Please check",
-        " the GSS guidance for advice on the symbols to use for no data."
+        "Legacy no-data symbols were found in the data file.",
+        " The symbols checked for are: '",
+        paste0(legacy_symbols, collapse = "', '"),
+        "'. Please check the GSS guidance for advice on the symbols to",
+        " use for no data."
       ),
       guidance_url = gss_guidance_url,
       verbose = verbose,
