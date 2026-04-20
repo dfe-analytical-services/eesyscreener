@@ -5,6 +5,10 @@
 #' and parses the files and runs the checks in multiple stages, the function
 #' will return early if any check in a stage fails.
 #'
+#' Currently if the data file is smaller than 5 MB it will be read fully into
+#' memory as a data frame, and over 5 MB it will be read lazily using duckdb
+#' to avoid memory issues and speed up the processing of large files.
+#'
 #' @param datapath Path to the data CSV file
 #' @param metapath Path to the meta CSV file
 #' @param datafilename Optional - the name of the data file, if not given it
@@ -97,13 +101,18 @@ screen_csv <- function(
     }
   }
 
+  data_file_size <- file.info(datapath)$size
+
   file_details_log <- list(
     filename = datafilename,
     filesize = paste(
-      (file.info(datapath)$size / 10^6) |> round(digits = 3),
+      (data_file_size / 10^6) |> round(digits = 3),
       "MB"
     )
   )
+
+  # Use plain dplyr for small CSV files under 5 MB to avoid duckdb overhead
+  use_duckdb <- data_file_size >= 5 * 1024^2
 
   write_json_log(
     results = NULL,
@@ -114,7 +123,7 @@ screen_csv <- function(
 
   # Read in CSV files ---------------------------------------------------------
   files <- tryCatch(
-    read_ees_files(datapath, metapath),
+    read_ees_files(datapath, metapath, use_duckdb = use_duckdb),
     error = function(e) e
   )
 
@@ -182,7 +191,8 @@ screen_csv <- function(
     log_dir = log_dir,
     dd_checks = dd_checks,
     verbose = verbose,
-    stop_on_error = stop_on_error
+    stop_on_error = stop_on_error,
+    use_duckdb = use_duckdb
   )
 
   all_results <- rbind(filename_results, dataframe_results)

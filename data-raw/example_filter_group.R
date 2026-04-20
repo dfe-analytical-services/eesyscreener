@@ -16,13 +16,13 @@ example_filter_group <- data.frame(
     "All establishment types"
   ),
   education_phase = c(
-    "All phases",
+    "All schools",
     "Primary",
     "Secondary",
-    "All phases",
+    "All schools",
     "Special",
     "Independent school",
-    "All phases"
+    "All schools"
   ),
   enrolment_count = c(1000, 300, 700, 910, 450, 460, 1910)
 )

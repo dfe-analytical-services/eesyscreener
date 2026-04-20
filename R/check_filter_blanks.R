@@ -35,17 +35,16 @@ check_filter_blanks <- function(
     ))
   }
 
-  cols_with_blanks <- filter_cols[vapply(
-    filter_cols,
-    function(col) {
-      vals <- data |>
-        dplyr::select(dplyr::all_of(col)) |>
-        dplyr::distinct() |>
-        dplyr::pull(1)
-      "" %in% vals
-    },
-    logical(1)
-  )]
+  # Single query across all filter columns. Filter columns are always character
+  # so no type-mismatch risk with the empty-string literal.
+  result_row <- data |>
+    dplyr::summarise(dplyr::across(
+      dplyr::all_of(filter_cols),
+      ~ sum(. == "") > 0
+    )) |>
+    dplyr::collect()
+
+  cols_with_blanks <- names(result_row)[unlist(result_row, use.names = FALSE)]
 
   if (length(cols_with_blanks) == 0) {
     test_output(
