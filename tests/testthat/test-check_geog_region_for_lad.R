@@ -9,7 +9,7 @@ lad_data <- data.frame(
   lad_code = "E06000001",
   lad_name = "Hartlepool",
   sex = "All pupils",
-  education_phase = "All phases",
+  education_phase = "All schools",
   enrolment_count = 100,
   stringsAsFactors = FALSE
 )
