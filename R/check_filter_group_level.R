@@ -47,15 +47,18 @@ check_filter_group_level <- function(
     filters_and_groups$filter_grouping_column
   ))
   counts_row <- data |>
-    dplyr::summarise(dplyr::across(dplyr::all_of(all_cols), ~ dplyr::n_distinct(.))) |>
+    dplyr::summarise(dplyr::across(
+      dplyr::all_of(all_cols),
+      ~ dplyr::n_distinct(.)
+    )) |>
     dplyr::collect()
   counts_vec <- setNames(unlist(counts_row, use.names = FALSE), all_cols)
 
   filter_levels <- unname(counts_vec[filters_and_groups$col_name])
-  group_levels  <- unname(counts_vec[filters_and_groups$filter_grouping_column])
+  group_levels <- unname(counts_vec[filters_and_groups$filter_grouping_column])
 
   filters_and_groups[["filter_levels"]] <- filter_levels
-  filters_and_groups[["group_levels"]]  <- group_levels
+  filters_and_groups[["group_levels"]] <- group_levels
   filters_and_groups[["pre_result"]] <- ifelse(
     filter_levels >= group_levels,
     "PASS",

@@ -318,3 +318,66 @@ You can use `tests/utils/benchmarking.R` as a starting point for `microbenchmark
 duckplyr will fall back to plain dplyr (often verbosely) when it cannot translate an operation to DuckDB, and some operations will quietly materialise a lazy table and defeat the performance work. Both categories are worth keeping an eye on.
 
 See the [Diagnosing duckplyr fallbacks](https://dfe-analytical-services.github.io/eesyscreener/articles/duckplyr_fallbacks.html) vignette for the common triggering patterns, patterns that work fine, diagnostic recipes, and how to use `prudence = "stingy"` to catch unintended materialisation. `test-avoid_materialisation.R` runs the materialisation check in CI.
+
+### Avoid per-column query loops
+
+The costliest anti-pattern in this codebase is iterating over columns and firing a separate DuckDB query per column:
+
+```r
+# Anti-pattern: ~55 queries on beefy data
+for (col in data_cols) {
+  vals <- data |>
+    dplyr::select(dplyr::all_of(col)) |>
+    dplyr::distinct() |>
+    dplyr::pull(1)
+  ...
+}
+```
+
+On a 6 M-row file with 55 columns, this pattern cost ~135 s for `check_general_null` alone. The fix is `summarise(across(...))`, which DuckDB executes as a single aggregation pass.
+
+#### Boolean presence check (does any row match?)
+
+```r
+# Good: 1 query, all character columns at once
+char_cols <- names(dplyr::select(data, where(is.character)))
+
+result_row <- data |>
+  dplyr::summarise(dplyr::across(
+    dplyr::all_of(char_cols),
+    ~ sum(. %in% target_values) > 0
+  )) |>
+  dplyr::collect()
+
+cols_that_match <- names(result_row)[unlist(result_row, use.names = FALSE)]
+```
+
+**Why restrict to character columns?** DuckDB cannot compare a `BIGINT` column to a string literal without an explicit cast, and `as.character()` inside `across()` has no SQL translation in duckplyr. String target values can only appear in `VARCHAR` columns anyway, so skipping numeric columns is both safe and necessary. See `check_general_null.R` and `check_ind_invalid_entry.R`.
+
+**Why pre-compute `char_cols` outside the pipeline?** `where(is.character)` works fine in `select()` (schema inspection only, no data query). But inside `summarise(across(where(is.character), ...))` duckplyr tries to translate the predicate to SQL and fails. Always extract column names first, then pass a plain character vector via `all_of()`.
+
+#### Distinct-count per column
+
+```r
+# Good: 1 query, COUNT(DISTINCT col) for every column
+counts_row <- data |>
+  dplyr::summarise(dplyr::across(
+    dplyr::all_of(cols),
+    ~ dplyr::n_distinct(.)
+  )) |>
+  dplyr::collect()
+
+counts <- setNames(unlist(counts_row, use.names = FALSE), cols)
+```
+
+Note `~ dplyr::n_distinct(.)` — the `dplyr::` prefix is required. Bare `n_distinct` is not found in the `across()` evaluation environment. See `check_filter_item_limit.R` and `check_filter_group_level.R`.
+
+#### Stingy safety
+
+Any new multi-column aggregation must remain lazy until `collect()`. Run the stingy check locally before opening a PR:
+
+```r
+devtools::test(filter = "avoid_materialisation")
+```
+
+If it fails, the operation materialised before `collect()`. The usual fix is the `char_cols` pre-computation above or removing an untranslatable function from the SQL pipeline.

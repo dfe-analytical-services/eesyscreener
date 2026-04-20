@@ -43,7 +43,10 @@ check_ind_invalid_entry <- function(
         ~ sum(. %in% bad_vals) > 0
       )) |>
       dplyr::collect()
-    invalid_indicators <- names(result_row)[unlist(result_row, use.names = FALSE)]
+    invalid_indicators <- names(result_row)[unlist(
+      result_row,
+      use.names = FALSE
+    )]
   } else {
     invalid_indicators <- character(0)
   }
