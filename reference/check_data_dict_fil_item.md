@@ -49,18 +49,14 @@ Other check_data_dict:
 
 ``` r
 check_data_dict_fil_item(example_data, example_meta)
-#>                check  result
-#> 1 data_dict_fil_item WARNING
-#>                                                                                                                                                                                                          message
-#> 1 The following col_name / filter_item combinations are not present in the data dictionary and should not be used as part of an API data set until resolved: 'education_phase / All phases', 'sex / All pupils'.
-#>                                                                                             guidance_url
-#> 1 https://dfe-analytical-services.github.io/analysts-guide/statistics-production/api-data-standards.html
+#>                check result
+#> 1 data_dict_fil_item   PASS
+#>                                                     message guidance_url
+#> 1 All filter items are consistent with the data dictionary.           NA
 check_data_dict_fil_item(example_data, example_meta, verbose = TRUE)
-#> ! The following col_name / filter_item combinations are not present in the data dictionary and should not be used as part of an API data set until resolved: 'education_phase / All phases', 'sex / All pupils'.
-#>                check  result
-#> 1 data_dict_fil_item WARNING
-#>                                                                                                                                                                                                          message
-#> 1 The following col_name / filter_item combinations are not present in the data dictionary and should not be used as part of an API data set until resolved: 'education_phase / All phases', 'sex / All pupils'.
-#>                                                                                             guidance_url
-#> 1 https://dfe-analytical-services.github.io/analysts-guide/statistics-production/api-data-standards.html
+#> ✔ All filter items are consistent with the data dictionary.
+#>                check result
+#> 1 data_dict_fil_item   PASS
+#>                                                     message guidance_url
+#> 1 All filter items are consistent with the data dictionary.           NA
 ```

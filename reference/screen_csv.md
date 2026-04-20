@@ -91,6 +91,13 @@ If the files cannot be read (e.g. file not found, unsupported encoding,
 or non-CSV format), the function returns early with `passed = FALSE` and
 `overall_stage = "File read"` rather than throwing an error.
 
+## Details
+
+Currently if the data file is smaller than 5 MB it will be read fully
+into memory as a data frame, and over 5 MB it will be read lazily using
+duckdb to avoid memory issues and speed up the processing of large
+files.
+
 ## Examples
 
 ``` r
@@ -175,7 +182,7 @@ screen_csv(data_path, meta_path)
 #> 32                                                   The indicator_dp column is completed for all indicators.
 #> 33   The indicator_dp column must only contain blanks, zero, or positive integer values in the metadata file.
 #> 34                                                                   No filters have an indicator_unit value.
-#> 35                                                                        The indicator_unit values are valid
+#> 35                                                                       The indicator_unit values are valid.
 #> 36                                                               No filters have an indicator_grouping value.
 #>    guidance_url               stage
 #> 1            NA            filename
@@ -267,7 +274,7 @@ screen_csv(
 #> ✔ The indicator_dp column is completed for all indicators.
 #> ✖ The indicator_dp column must only contain blanks, zero, or positive integer values in the metadata file.
 #> ✔ No filters have an indicator_unit value.
-#> ✔ The indicator_unit values are valid
+#> ✔ The indicator_unit values are valid.
 #> ✔ No filters have an indicator_grouping value.
 #> $results_table
 #>                       check result
@@ -342,7 +349,7 @@ screen_csv(
 #> 32                                                   The indicator_dp column is completed for all indicators.
 #> 33   The indicator_dp column must only contain blanks, zero, or positive integer values in the metadata file.
 #> 34                                                                   No filters have an indicator_unit value.
-#> 35                                                                        The indicator_unit values are valid
+#> 35                                                                       The indicator_unit values are valid.
 #> 36                                                               No filters have an indicator_grouping value.
 #>    guidance_url               stage
 #> 1            NA            filename

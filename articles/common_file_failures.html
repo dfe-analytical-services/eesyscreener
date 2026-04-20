@@ -6,6 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Common file failures • eesyscreener</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
@@ -36,8 +41,10 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/assumptions_in_checks.html">Assumptions in checks</a></li>
     <li><a class="dropdown-item" href="../articles/common_file_failures.html">Common file failures</a></li>
+    <li><a class="dropdown-item" href="../articles/duckplyr_fallbacks.html">Diagnosing duckplyr fallbacks</a></li>
   </ul>
 </li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -68,47 +75,80 @@
 <p>A guide to common issues with files that trip up analysts, providing
 further information and supporting code to aid in debugging problems
 within data files.</p>
-<p>If your issue is not covered on here, please contact <a href="mailto:explore.statistics@education.gov.uk" class="email">explore.statistics@education.gov.uk</a> for
+<p>If your issue is not covered here, please contact <a href="mailto:explore.statistics@education.gov.uk" class="email">explore.statistics@education.gov.uk</a> for
 assistance.</p>
 <div class="section level2">
 <h2 id="duplicate-rows">Duplicate rows<a class="anchor" aria-label="anchor" href="#duplicate-rows"></a>
 </h2>
-<p>If you have duplicate rows in your file, this check will have picked
-it up, so check for that first. If you still think you have no duplicate
-rows, then read on.</p>
+<p>If you have duplicate rows in your file,
+<code><a href="../reference/check_general_dupes.html">check_general_dupes()</a></code> will have picked them up. If you
+still think you have no duplicates, read on.</p>
 <p>The accuracy of this check has been questioned by many, many analysts
 over the years. Without fail, it has prevailed, exposing case after case
 of duplication. So, leave your indignation at the door, and accept this
 help to find your duplicate rows.</p>
-<p>The <code>check_data_duplicate_rows()</code> function checks for
-duplicate rows across the time, geography and filter columns. This is to
-make sure that there is only one possible value for any combination of
-categories per indicator.</p>
-<p>An example table that does not have duplicate rows overall, but fails
-the <code>check_data_duplicate_rows()</code> function:</p>
+<p>The check looks for duplicates across the combination of
+<strong>observational unit</strong> columns (time, geography) and
+<strong>filter</strong> columns, as defined in your metadata file. That
+means two rows can look different in the indicator columns
+(e.g. different <code>school_count</code> values) and still be flagged —
+the screener has no way to know which indicator value is the “real” one
+for that combination of categories.</p>
+<p>An example table that has no fully identical rows but still fails the
+check:</p>
 <pre><code><span><span class="co">#&gt;   time_period time_identifier geographic_level country_code country_name</span></span>
 <span><span class="co">#&gt; 1        2020   Calendar year         National    E92000001      England</span></span>
 <span><span class="co">#&gt; 2        2020   Calendar year         National    E92000001      England</span></span>
 <span><span class="co">#&gt;   school_count</span></span>
 <span><span class="co">#&gt; 1           10</span></span>
 <span><span class="co">#&gt; 2           20</span></span></code></pre>
-<p>This kind of file causes a big issue for users, as they don’t know
-which value is the real value, leading to confusion and risk of
-misrepresentation.</p>
-<p>First thing you should check in this case is that your metadata file
-is properly set up, if you’ve not assigned filters and indicators
-properly this can easily lead to the site thinking you have duplicate
-rows.</p>
-<p>Assuming all else looks okay, the final route is to find the
-duplicates like this in your file and inspect them to spot what the
-issue might be, use the … argument in the … function, like below.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"></code></pre></div>
+<div class="section level3">
+<h3 id="step-1-check-your-metadata-file-is-set-up-correctly">Step 1 — check your metadata file is set up correctly<a class="anchor" aria-label="anchor" href="#step-1-check-your-metadata-file-is-set-up-correctly"></a>
+</h3>
+<p>If filters and indicators aren’t assigned properly in the metadata,
+the screener can treat columns it expected to be filters as indicators
+(or vice versa), and you end up with apparent duplicates across a
+narrower-than-intended set of columns. Check the <code>col_type</code>
+values in your metadata first.</p>
 </div>
-<div class="section level2">
-<h2 id="pound-symbols">Pound symbols<a class="anchor" aria-label="anchor" href="#pound-symbols"></a>
-</h2>
-<p>…</p>
+<div class="section level3">
+<h3 id="step-2-pull-out-the-duplicated-rows">Step 2 — pull out the duplicated rows<a class="anchor" aria-label="anchor" href="#step-2-pull-out-the-duplicated-rows"></a>
+</h3>
+<p><code><a href="../reference/check_general_dupes.html">check_general_dupes()</a></code> has a <code>return_dupes</code>
+argument. Setting it to <code>TRUE</code> returns a data frame of just
+the rows that are part of duplicated combinations, so you can eyeball
+them and spot the issue.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dfe-analytical-services.github.io/eesyscreener/">eesyscreener</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Replace with your own data / meta — loading from CSV with read.csv() is fine</span></span>
+<span><span class="va">dupes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/check_general_dupes.html">check_general_dupes</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">my_data</span>,</span>
+<span>  meta <span class="op">=</span> <span class="va">my_meta</span>,</span>
+<span>  return_dupes <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Inspect the rows that are part of duplicated combinations</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">dupes</span><span class="op">)</span></span></code></pre></div>
+<p>The returned data frame includes all columns from your original data
+file, sorted by the observational unit and filter columns so that
+duplicated combinations sit next to each other. Common causes that
+become obvious once you look at the rows:</p>
+<ul>
+<li>A filter column in the data file that isn’t listed in the metadata
+(so it doesn’t contribute to the uniqueness check)</li>
+<li>Trailing whitespace or case differences you’d missed
+(e.g. <code>"North East"</code> vs <code>"North East "</code>)</li>
+<li>A single indicator accidentally split across two rows when reshaping
+from wide to long</li>
+</ul>
+<p>Note that School, Provider, Institution, and Planning area rows are
+excluded from the check by default, because the data standard does not
+require them to be unique across the observational unit and filter
+columns alone. The exception is files that contain only School or
+Provider rows — in that case only Institution and Planning area rows are
+excluded. See <code><a href="../reference/check_general_dupes.html">?check_general_dupes</a></code> for the full rules.</p>
+</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

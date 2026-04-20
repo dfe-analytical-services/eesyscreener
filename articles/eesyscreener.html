@@ -6,6 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>eesyscreener • eesyscreener</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
@@ -36,8 +41,10 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/assumptions_in_checks.html">Assumptions in checks</a></li>
     <li><a class="dropdown-item" href="../articles/common_file_failures.html">Common file failures</a></li>
+    <li><a class="dropdown-item" href="../articles/duckplyr_fallbacks.html">Diagnosing duckplyr fallbacks</a></li>
   </ul>
 </li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -77,10 +84,8 @@ data standards</a>.</p>
 <p>The package contains:</p>
 <ul>
 <li>A core <code><a href="../reference/screen_csv.html">screen_csv()</a></code> function, built from
-<code><a href="../reference/screen_dfs.html">screen_dfs()</a></code>, and <code><a href="../reference/screen_filenames.html">screen_filenames()</a></code> and the
-constituent individual checks, as well as a related wrapper function
-<code>screen_zip()</code>
-</li>
+<code><a href="../reference/screen_dfs.html">screen_dfs()</a></code> and <code><a href="../reference/screen_filenames.html">screen_filenames()</a></code> plus the
+constituent individual checks</li>
 <li>Functions to generate test data</li>
 <li>Example datasets to aid testing and demonstration</li>
 <li>Additional functions to aid in screening / preparing data for
@@ -93,80 +98,151 @@ you want help in figuring out why, start off with our
 <h3 id="screen_csv">
 <code>screen_csv()</code><a class="anchor" aria-label="anchor" href="#screen_csv"></a>
 </h3>
-<p><code><a href="../reference/screen_csv.html">screen_csv()</a></code> core function that reads the CSV files, and
-then runs all checks from <code><a href="../reference/screen_filenames.html">screen_filenames()</a></code> and
+<p><code><a href="../reference/screen_csv.html">screen_csv()</a></code> is the core function that reads the CSV
+files and then runs all checks from <code><a href="../reference/screen_filenames.html">screen_filenames()</a></code> and
 <code><a href="../reference/screen_dfs.html">screen_dfs()</a></code>, providing full screening for a given pair of
 CSV files.</p>
-<p>This function is the key function that will be used in both the
-plumber API and the R Shiny app.</p>
-<ul>
-<li>Returns one of the following outputs:
-<ul>
-<li>Structured list, including data.frame of results / feedback</li>
-<li>Console messages</li>
-<li>Errors only - intended to be used within pipelines as a QA function.
-If all passes nothing is returned (maybe an invisible TRUE?)</li>
-</ul>
-</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="screen_zip">
-<code>screen_zip()</code><a class="anchor" aria-label="anchor" href="#screen_zip"></a>
-</h3>
-<p>Future expansion to screen ZIP files, batching multiple file pairs as
-a wrapper around <code><a href="../reference/screen_csv.html">screen_csv()</a></code>.</p>
-<p>Probably not required in the plumber API, but will be helpful for the
-R Shiny app and users more generally for batching of files.</p>
-<p><code>check_zip()</code> does the validation that the ZIP folder
-structure is appropriate prior to batching the file pairs through
-<code><a href="../reference/screen_csv.html">screen_csv()</a></code>.</p>
+<p>This function is the key function used in both the plumber API and
+the R Shiny app. It returns a structured list containing a data frame of
+results, the stage the screening reached, and booleans for overall pass
+and API suitability. With <code>verbose = TRUE</code> it also prints
+messages to the console, and with <code>stop_on_error = TRUE</code> it
+throws on the first FAIL — useful inside analyst pipelines as a hard QA
+gate.</p>
 </div>
 <div class="section level3">
 <h3 id="screen_filenames">
 <code>screen_filenames()</code><a class="anchor" aria-label="anchor" href="#screen_filenames"></a>
 </h3>
 <p>Runs all of the filename screening checks in one go. Exported so it
-can be used in it’s own right to check file name pairings. Used within
+can be used in its own right to check file name pairings. Used within
 <code><a href="../reference/screen_csv.html">screen_csv()</a></code>.</p>
 </div>
 <div class="section level3">
 <h3 id="screen_dfs">
 <code>screen_dfs()</code><a class="anchor" aria-label="anchor" href="#screen_dfs"></a>
 </h3>
-<p>Runs all of the checks against the data and metadata data.frames,
+<p>Runs all of the checks against the data and metadata data frames,
 once read in from the CSV files. Used within
 <code><a href="../reference/screen_csv.html">screen_csv()</a></code>.</p>
-<p>The ordering is important as later tests carry assumptions that
-earlier tests have passed. This is to prevent duplication / unnecessary
-processing of data, as well as simplifying the logic in the later tests.
-This does introduce some overall complexity, particularly for package
-maintainers and any users wanting to use individual tests, and therefore
-there is a vignette that walks through this ordering in greater detail -
-….</p>
-<p>There are a number of stages, which are mirrored in the documentation
-for the individual functions, the <code>_pkgdown.yml</code> file shows
-this, in the order the tests are ran, including the naming
-conventions.</p>
-<ul>
-<li>Stages are grouped by area of the data they relate to</li>
-<li>Pre-checks are run first as the main checks for each area depend on
-them passing</li>
-<li>TODO: We should do in a way that can be parallelised, so users can
-speed up the screening for larger files if their machine allows
-(particularly helpful for the API and Shiny app)</li>
-</ul>
-<p>Each individual precheck / check: - Returns a single row data.frame
-of results, with optional console output and error triggers</p>
-<p>Standard pattern:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">test_output</span>(</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="fu">get_check_name</span>(), <span class="co"># name of check function</span></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>  <span class="st">"PASS"</span>, <span class="co"># result of check, one of 'PASS', 'FAIL', 'WARNING'</span></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>  <span class="fu">paste0</span>(<span class="st">"'"</span>, filename, <span class="st">"' does not contain any special characters."</span>), <span class="co"># feedback message for user, avoid HTML, keep to a simple string</span></span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>  <span class="st">"https://dfe-analytical-services.github.io/analysts-guide/"</span>, <span class="co"># optional URL for guidance, can just not include as will default to NA</span></span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">FALSE</span> <span class="co"># whether to print messages to console</span></span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>  <span class="at">stop_on_error =</span> <span class="cn">FALSE</span> <span class="co"># whether to stop execution and throw error if FAIL, and throw warning if </span><span class="al">WARNING</span></span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>)</span></code></pre></div>
+<p>Ordering matters — later checks carry assumptions that earlier ones
+passed. This prevents duplication and simplifies the logic in later
+checks, at the cost of some complexity for maintainers and anyone
+wanting to use individual checks in isolation. The
+<code>assumptions_in_checks.Rmd</code> vignette walks through those
+assumptions.</p>
+<p>Checks are grouped into stages, which are mirrored in the
+documentation for the individual functions. <code>_pkgdown.yml</code>
+shows the stages in the order they are run. Stages are grouped by area
+of the data they relate to, and pre-checks are run first because the
+main checks for each area depend on them passing.</p>
+<p>Each individual precheck / check returns a single-row data frame of
+results, with optional console output and error triggers. The standard
+pattern is:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">test_output</span><span class="op">(</span></span>
+<span>  <span class="fu">get_check_name</span><span class="op">(</span><span class="op">)</span>, <span class="co"># name of check function</span></span>
+<span>  <span class="st">"PASS"</span>, <span class="co"># result of check, one of 'PASS', 'FAIL', 'WARNING'</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"'"</span>, <span class="va">filename</span>, <span class="st">"' does not contain any special characters."</span><span class="op">)</span>, <span class="co"># feedback message, plain text, no HTML</span></span>
+<span>  <span class="st">"https://dfe-analytical-services.github.io/analysts-guide/"</span>, <span class="co"># optional URL for guidance (defaults to NA if omitted)</span></span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>, <span class="co"># whether to print messages to console</span></span>
+<span>  stop_on_error <span class="op">=</span> <span class="cn">FALSE</span> <span class="co"># whether to stop execution and throw on FAIL / warn on WARNING</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="generating-test-files">Generating test files<a class="anchor" aria-label="anchor" href="#generating-test-files"></a>
+</h2>
+<p><code><a href="../reference/generate_test_dfs.html">generate_test_dfs()</a></code> creates matching data and metadata
+frames for any number of time periods, locations, filters and
+indicators.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">files</span> <span class="op">&lt;-</span> <span class="fu">eesyscreener</span><span class="fu">::</span><span class="fu"><a href="../reference/generate_test_dfs.html">generate_test_dfs</a></span><span class="op">(</span></span>
+<span>  years <span class="op">=</span> <span class="fl">2013</span><span class="op">:</span><span class="fl">2015</span>,</span>
+<span>  pcon_names <span class="op">=</span> <span class="st">"Sheffield Central"</span>,</span>
+<span>  pcon_codes <span class="op">=</span> <span class="st">"E14000919"</span>,</span>
+<span>  num_filters <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  num_indicators <span class="op">=</span> <span class="fl">3</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="va">files</span><span class="op">$</span><span class="va">data</span></span>
+<span><span class="va">df_meta</span> <span class="op">&lt;-</span> <span class="va">files</span><span class="op">$</span><span class="va">meta</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="going-bigger">Going bigger<a class="anchor" aria-label="anchor" href="#going-bigger"></a>
+</h3>
+<p>To stress-test on realistic volumes, combine
+<code><a href="../reference/generate_test_dfs.html">generate_test_dfs()</a></code> with the <a href="https://dfe-analytical-services.github.io/dfeR/" class="external-link">dfeR package</a>
+to pass in vectors of Parliamentary Constituencies. Row count is
+<code>length(years) * length(pcon_codes) * (5 ^ num_filters)</code>.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pcons</span> <span class="op">&lt;-</span> <span class="fu">dfeR</span><span class="fu">::</span><span class="fu"><a href="https://dfe-analytical-services.github.io/dfeR/reference/fetch.html" class="external-link">fetch_pcons</a></span><span class="op">(</span>countries <span class="op">=</span> <span class="st">"England"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">beefy</span> <span class="op">&lt;-</span> <span class="fu">eesyscreener</span><span class="fu">::</span><span class="fu"><a href="../reference/generate_test_dfs.html">generate_test_dfs</a></span><span class="op">(</span></span>
+<span>  years <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1980</span><span class="op">:</span><span class="fl">2025</span><span class="op">)</span>,</span>
+<span>  pcon_codes <span class="op">=</span> <span class="va">pcons</span><span class="op">$</span><span class="va">pcon_code</span>,</span>
+<span>  pcon_names <span class="op">=</span> <span class="va">pcons</span><span class="op">$</span><span class="va">pcon_name</span>,</span>
+<span>  num_filters <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  num_indicators <span class="op">=</span> <span class="fl">45</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># duckplyr is dramatically faster than base R for writing large CSVs</span></span>
+<span><span class="co"># (~20 seconds vs ~6 minutes for the frame above)</span></span>
+<span><span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://duckplyr.tidyverse.org/reference/compute_csv.html" class="external-link">compute_csv</a></span><span class="op">(</span><span class="va">beefy</span><span class="op">$</span><span class="va">data</span>, <span class="st">"beefy_data.csv"</span><span class="op">)</span></span>
+<span><span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://duckplyr.tidyverse.org/reference/compute_csv.html" class="external-link">compute_csv</a></span><span class="op">(</span><span class="va">beefy</span><span class="op">$</span><span class="va">meta</span>, <span class="st">"beefy_data.meta.csv"</span><span class="op">)</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="reading-the-screen_csv-output">Reading the <code>screen_csv()</code> output<a class="anchor" aria-label="anchor" href="#reading-the-screen_csv-output"></a>
+</h2>
+<p>The minimal example in the <a href="https://dfe-analytical-services.github.io/eesyscreener/index.html#minimal-example">README</a>
+shows the output structure for a file that runs the whole pipeline. The
+three scenarios below cover the shapes you are most likely to see when
+something goes wrong — a file that fails a check, a file that cannot be
+read at all, and a file that passes screening but is not suitable for
+publishing through the API.</p>
+<div class="section level3">
+<h3 id="file-that-fails-a-check">File that fails a check<a class="anchor" aria-label="anchor" href="#file-that-fails-a-check"></a>
+</h3>
+<p>Drop a required metadata column to trigger a <code>FAIL</code> in the
+<code>Precheck columns</code> stage. <code>passed</code> will be
+<code>FALSE</code> and <code>overall_stage</code> will be the failing
+stage.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".csv"</span><span class="op">)</span></span>
+<span><span class="va">meta_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".meta.csv"</span><span class="op">)</span></span>
+<span><span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://duckplyr.tidyverse.org/reference/compute_csv.html" class="external-link">compute_csv</a></span><span class="op">(</span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="../reference/example_data.html">example_data</a></span>, <span class="va">data_file</span><span class="op">)</span></span>
+<span><span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://duckplyr.tidyverse.org/reference/compute_csv.html" class="external-link">compute_csv</a></span><span class="op">(</span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="../reference/example_meta.html">example_meta</a></span><span class="op">[</span>, <span class="op">-</span><span class="fl">1</span><span class="op">]</span>, <span class="va">meta_file</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="fu"><a href="../reference/screen_csv.html">screen_csv</a></span><span class="op">(</span><span class="va">data_file</span>, <span class="va">meta_file</span>, <span class="st">"data.csv"</span>, <span class="st">"data.meta.csv"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="file-that-cannot-be-read">File that cannot be read<a class="anchor" aria-label="anchor" href="#file-that-cannot-be-read"></a>
+</h3>
+<p>If either path does not exist (or the file is not a readable CSV),
+screening stops in the <code>File read</code> stage without throwing an
+error. <code>passed</code> will be <code>FALSE</code> and
+<code>overall_stage</code> will be <code>"File read"</code>.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="fu"><a href="../reference/screen_csv.html">screen_csv</a></span><span class="op">(</span></span>
+<span>  <span class="st">"does_not_exist.csv"</span>,</span>
+<span>  <span class="st">"does_not_exist.meta.csv"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="file-that-passes-but-is-not-api-suitable">File that passes but is not API suitable<a class="anchor" aria-label="anchor" href="#file-that-passes-but-is-not-api-suitable"></a>
+</h3>
+<p>The API checks only ever emit warnings — they do not stop screening —
+but any warning in the API stage prevents the data from being published
+through the API. The returned <code>api_suitable</code> boolean flags
+this.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".csv"</span><span class="op">)</span></span>
+<span><span class="va">meta_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".meta.csv"</span><span class="op">)</span></span>
+<span><span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://duckplyr.tidyverse.org/reference/compute_csv.html" class="external-link">compute_csv</a></span><span class="op">(</span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="../reference/example_api_long.html">example_api_long</a></span>, <span class="va">data_file</span><span class="op">)</span></span>
+<span><span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://duckplyr.tidyverse.org/reference/compute_csv.html" class="external-link">compute_csv</a></span><span class="op">(</span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="va"><a href="../reference/example_api_long_meta.html">example_api_long_meta</a></span>, <span class="va">meta_file</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="fu"><a href="../reference/screen_csv.html">screen_csv</a></span><span class="op">(</span><span class="va">data_file</span>, <span class="va">meta_file</span>, <span class="st">"data.csv"</span>, <span class="st">"data.meta.csv"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

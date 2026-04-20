@@ -4,8 +4,9 @@ pkgdown_sha: ~
 articles:
   assumptions_in_checks: assumptions_in_checks.html
   common_file_failures: common_file_failures.html
+  duckplyr_fallbacks: duckplyr_fallbacks.html
   eesyscreener: eesyscreener.html
-last_built: 2026-04-19T15:22Z
+last_built: 2026-04-20T23:06Z
 urls:
   reference: https://dfe-analytical-services.github.io/eesyscreener/reference
   article: https://dfe-analytical-services.github.io/eesyscreener/articles

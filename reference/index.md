@@ -9,11 +9,6 @@
 - [`screen_filenames()`](https://dfe-analytical-services.github.io/eesyscreener/reference/screen_filenames.md)
   : Run all checks against filenames
 
-## Data dictionary
-
-- [`data_dictionary`](https://dfe-analytical-services.github.io/eesyscreener/reference/data_dictionary.md)
-  : Data dictionary
-
 ## Example datasets
 
 - [`example_api_long`](https://dfe-analytical-services.github.io/eesyscreener/reference/example_api_long.md)
@@ -141,6 +136,22 @@ file.
 - [`precheck_cross_meta_to_data()`](https://dfe-analytical-services.github.io/eesyscreener/reference/precheck_cross_meta_to_data.md)
   : Check all metadata variables exist in the data file
 
+## Checks on column names
+
+These checks validate the names of columns in the data files.
+
+- [`check_col_ind_smushed()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_col_ind_smushed.md)
+  : Check that no indicator column names contain typical filter entries
+- [`check_col_names_spaces()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_col_names_spaces.md)
+  : Check for spaces in variable names This function checks for spaces
+  in the variable names of a given data frame.
+- [`check_col_snake_case()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_col_snake_case.md)
+  : Check that column names follow snake_case convention
+- [`check_col_var_characteristic()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_col_var_characteristic.md)
+  : Check for characteristic or characteristic_group variable names
+- [`check_col_var_start()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_col_var_start.md)
+  : Check that variable names start with a lowercase letter
+
 ## Pre-checks on metadata
 
 These checks should be run before any other metadata checks, as they
@@ -191,39 +202,6 @@ validate core assumptions about the metadata file itself.
 - [`check_meta_label()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_meta_label.md)
   : Check every row has a label
 
-## Checks on column names
-
-These checks validate the names of columns in the data files.
-
-- [`check_col_ind_smushed()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_col_ind_smushed.md)
-  : Check that no indicator column names contain typical filter entries
-- [`check_col_names_spaces()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_col_names_spaces.md)
-  : Check for spaces in variable names This function checks for spaces
-  in the variable names of a given data frame.
-- [`check_col_snake_case()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_col_snake_case.md)
-  : Check that column names follow snake_case convention
-- [`check_col_var_characteristic()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_col_var_characteristic.md)
-  : Check for characteristic or characteristic_group variable names
-- [`check_col_var_start()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_col_var_start.md)
-  : Check that variable names start with a lowercase letter
-
-## General checks
-
-These can be run on any file, regardless of type or structure.
-
-- [`check_general_dupes()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_general_dupes.md)
-  : Check for duplicate rows in data
-- [`check_general_null()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_general_null.md)
-  : Check for null and legacy no-data symbols
-
-## Pre-checks on filters
-
-These checks should be run before any other filter checks, as they
-validate core assumptions about the filter columns.
-
-- [`precheck_filter_not_singular()`](https://dfe-analytical-services.github.io/eesyscreener/reference/precheck_filter_not_singular.md)
-  : Check all filters have more than one level
-
 ## Pre-checks on time columns
 
 These checks should be run before any other time checks, as they
@@ -236,6 +214,14 @@ validate core assumptions about the time columns.
 - [`precheck_time_period_num()`](https://dfe-analytical-services.github.io/eesyscreener/reference/precheck_time_period_num.md)
   : Check for any non-numeric time_period values
 
+## Pre-checks on filters
+
+These checks should be run before any other filter checks, as they
+validate core assumptions about the filter columns.
+
+- [`precheck_filter_not_singular()`](https://dfe-analytical-services.github.io/eesyscreener/reference/precheck_filter_not_singular.md)
+  : Check all filters have more than one level
+
 ## Pre-checks on geography columns
 
 These checks should be run before any other geography checks, as they
@@ -246,7 +232,12 @@ validate core assumptions about the geography columns.
 - [`precheck_geog_level_present()`](https://dfe-analytical-services.github.io/eesyscreener/reference/precheck_geog_level_present.md)
   : Check we have the right columns for the geographic level
 
-## General data file checks
+## Time checks
+
+- [`check_time_period()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_time_period.md)
+  : Check that time periods match the time identifier
+- [`check_time_period_six()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_time_period_six.md)
+  : Check that 6 digit time periods give consecutive years
 
 ## Filter checks
 
@@ -265,11 +256,6 @@ validate core assumptions about the geography columns.
   : Check for Total or All values in observational unit columns
 - [`check_filter_whitespace()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_filter_whitespace.md)
   : Check no filter values have leading or trailing whitespace
-
-## Indicator checks
-
-- [`check_ind_invalid_entry()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_ind_invalid_entry.md)
-  : Check for invalid values in indicators
 
 ## Geography checks
 
@@ -316,12 +302,19 @@ validate core assumptions about the geography columns.
 - [`check_geog_ward_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_ward_combos.md)
   : Check ward code and name combinations
 
-## Time checks
+## General checks
 
-- [`check_time_period()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_time_period.md)
-  : Check that time periods match the time identifier
-- [`check_time_period_six()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_time_period_six.md)
-  : Check that 6 digit time periods give consecutive years
+These can be run on any file, regardless of type or structure.
+
+- [`check_general_dupes()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_general_dupes.md)
+  : Check for duplicate rows in data
+- [`check_general_null()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_general_null.md)
+  : Check for null and legacy no-data symbols
+
+## Indicator checks
+
+- [`check_ind_invalid_entry()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_ind_invalid_entry.md)
+  : Check for invalid values in indicators
 
 ## Harmonised variable checks
 

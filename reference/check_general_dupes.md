@@ -1,11 +1,7 @@
 # Check for duplicate rows in data
 
-Checks for duplicate rows across observational unit and filter columns.
-School, Provider, Institution, and Planning area rows are handled
-specially: when data contains exclusively School or Provider rows, only
-Institution and Planning area rows are excluded before checking. In all
-other cases, School, Provider, Institution, and Planning area rows are
-all excluded from the duplicate check.
+Anyone else picturing a cartoon Army general nicknamed 'Dupes'? Just me?
+Nevermind, read on anyway...
 
 ## Usage
 
@@ -53,6 +49,13 @@ check_general_dupes(
 a single row data frame
 
 ## Details
+
+Checks for duplicate rows across observational unit and filter columns.
+School, Provider, Institution, and Planning area rows are handled
+specially: when data contains exclusively School or Provider rows, only
+Institution and Planning area rows are excluded before checking. In all
+other cases, School, Provider, Institution, and Planning area rows are
+all excluded from the duplicate check.
 
 This check is intended to catch cases where there are multiple
 observation values for any option that users would be able to select in
