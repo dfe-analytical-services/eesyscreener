@@ -168,13 +168,15 @@ screen_dfs <- function(
   # Only doing this here as not necessary for the metadata checks
   suppressMessages(duckplyr::methods_overwrite())
 
-  # Check general -------------------------------------------------------------
+  # Precheck time -------------------------------------------------------------
   res <- run_and_log_check(
     all_results,
     rbind(
-      check_general_null(data, meta, vb, soe)
+      precheck_time_period_num(data, vb, soe),
+      precheck_time_id_valid(data, vb, soe),
+      precheck_time_id_mix(data, vb, soe)
     ),
-    "Check general",
+    "Precheck time",
     log_key,
     log_dir,
     data_details
@@ -191,24 +193,6 @@ screen_dfs <- function(
       precheck_filter_not_singular(data, meta, vb, soe)
     ),
     "Precheck filters",
-    log_key,
-    log_dir,
-    data_details
-  )
-  all_results <- res$all_results
-  if (res$early_return) {
-    return(as.data.frame(all_results))
-  }
-
-  # Precheck time -------------------------------------------------------------
-  res <- run_and_log_check(
-    all_results,
-    rbind(
-      precheck_time_period_num(data, vb, soe),
-      precheck_time_id_valid(data, vb, soe),
-      precheck_time_id_mix(data, vb, soe)
-    ),
-    "Precheck time",
     log_key,
     log_dir,
     data_details
@@ -273,22 +257,6 @@ screen_dfs <- function(
     return(as.data.frame(all_results))
   }
 
-  # Check general -------------------------------------------------------------
-  res <- run_and_log_check(
-    all_results,
-    rbind(
-      check_general_dupes(data, meta, vb, soe)
-    ),
-    "Check general",
-    log_key,
-    log_dir,
-    data_details
-  )
-  all_results <- res$all_results
-  if (res$early_return) {
-    return(as.data.frame(all_results))
-  }
-
   # Check geography -----------------------------------------------------------
   res <- run_and_log_check(
     all_results,
@@ -315,6 +283,23 @@ screen_dfs <- function(
       check_geog_overcompleted_cols(data, meta, vb, soe)
     ),
     "Check geography",
+    log_key,
+    log_dir,
+    data_details
+  )
+  all_results <- res$all_results
+  if (res$early_return) {
+    return(as.data.frame(all_results))
+  }
+
+  # Check general -------------------------------------------------------------
+  res <- run_and_log_check(
+    all_results,
+    rbind(
+      check_general_dupes(data, meta, vb, soe),
+      check_general_null(data, meta, vb, soe)
+    ),
+    "Check general",
     log_key,
     log_dir,
     data_details
