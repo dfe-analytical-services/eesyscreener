@@ -138,9 +138,13 @@ test_that("factor columns are not scanned (documents intentional behaviour)", {
   # decides factors should be scanned, flip this assertion and update
   # check_general_null.R to include is.factor in the column filter.
   bad_data <- example_data |>
-    dplyr::mutate(sex = factor(dplyr::if_else(
-      .data$sex == "Male", "NULL", .data$sex
-    )))
+    dplyr::mutate(
+      sex = factor(dplyr::if_else(
+        .data$sex == "Male",
+        "NULL",
+        .data$sex
+      ))
+    )
   result <- check_general_null(bad_data, example_meta)
   expect_equal(result$result, "PASS")
 })
