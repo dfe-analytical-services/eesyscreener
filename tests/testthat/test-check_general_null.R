@@ -112,3 +112,35 @@ test_that("legacy symbols in meta do not trigger a warning", {
   result <- check_general_null(example_data, bad_meta)
   expect_equal(result$result, "PASS")
 })
+
+test_that("character null symbols still caught when data also has numerics", {
+  # Mixed-type input: the where(is.character) filter skips enrolment_count
+  # (numeric) but must still scan the character sex column.
+  bad_data <- example_data |>
+    dplyr::mutate(sex = dplyr::if_else(.data$sex == "Male", "NULL", .data$sex))
+  expect_true(is.numeric(bad_data$enrolment_count))
+  result <- check_general_null(bad_data, example_meta)
+  expect_equal(result$result, "FAIL")
+  expect_true(grepl("data file", result$message))
+})
+
+test_that("passes cleanly when data contains only numeric columns", {
+  # Edge case: char_cols is empty, so the across() branch is skipped.
+  # Must not error on a zero-column all_of() call.
+  numeric_only <- data.frame(a = 1:3, b = 4:6)
+  result <- check_general_null(numeric_only, example_meta)
+  expect_equal(result$result, "PASS")
+})
+
+test_that("factor columns are not scanned (documents intentional behaviour)", {
+  # Factors fail is.character() and are skipped by where(is.character).
+  # A "NULL" factor level should therefore NOT trigger a FAIL. If the team
+  # decides factors should be scanned, flip this assertion and update
+  # check_general_null.R to include is.factor in the column filter.
+  bad_data <- example_data |>
+    dplyr::mutate(sex = factor(dplyr::if_else(
+      .data$sex == "Male", "NULL", .data$sex
+    )))
+  result <- check_general_null(bad_data, example_meta)
+  expect_equal(result$result, "PASS")
+})

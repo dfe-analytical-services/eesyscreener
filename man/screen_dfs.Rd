@@ -40,10 +40,11 @@ is "FAIL", and will throw genuine warning if result is "WARNING"}
 \item{prudence}{prudence as used by duckplyr, default = "lavish". Can also
 be "stingy" and "thrifty".}
 
-\item{use_duckdb}{logical, if TRUE will use duckdb for data manipulation, if
-FALSE will use plain dplyr. Default is TRUE, but for small data frames
-(under 5 MB) it will automatically switch to FALSE to avoid duckdb startup
-overhead.}
+\item{use_duckdb}{logical, if TRUE converts \code{data} to a duckdb tibble and
+runs checks via duckplyr. If FALSE runs checks with plain dplyr on the data
+as provided. Default is TRUE. Note: \code{screen_csv()} sets this automatically
+based on file size (files under 5 MB use FALSE); direct callers of
+\code{screen_dfs()} must choose the flag themselves.}
 }
 \value{
 data.frame containing the results of the screening
