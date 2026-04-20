@@ -12,7 +12,8 @@ screen_dfs(
   dd_checks = TRUE,
   verbose = FALSE,
   stop_on_error = FALSE,
-  prudence = "lavish"
+  prudence = "lavish",
+  use_duckdb = TRUE
 )
 }
 \arguments{
@@ -38,6 +39,11 @@ is "FAIL", and will throw genuine warning if result is "WARNING"}
 
 \item{prudence}{prudence as used by duckplyr, default = "lavish". Can also
 be "stingy" and "thrifty".}
+
+\item{use_duckdb}{logical, if TRUE will use duckdb for data manipulation, if
+FALSE will use plain dplyr. Default is TRUE, but for small data frames
+(under 5 MB) it will automatically switch to FALSE to avoid duckdb startup
+overhead.}
 }
 \value{
 data.frame containing the results of the screening

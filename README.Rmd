@@ -35,6 +35,8 @@ These checks have steadily evolved over the years, from initial R code replacing
 
 This logic is invaluable in protecting the EES platform against malformatted data that could cause unexpected behaviour, bugs, or even outages. By having it in R, we allow the analysts supporting the platform to contribute and maintain the checks allowing us to use it as a harmonising tool, to enforce consistent standards across our open data.
 
+The main `screen_csv()` function will automatically detect the size of the file and decide whether to run the checks in memory (`dplyr`) or lazily using DuckDB methods (`duckplyr`) to try to give the most efficient screening experience for your files.
+
 ## Installation
 
 eesyscreener is not currently available on CRAN. For the time being you can install the development version from GitHub.

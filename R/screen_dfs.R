@@ -20,6 +20,10 @@
 #' is "FAIL", and will throw genuine warning if result is "WARNING"
 #' @param prudence prudence as used by duckplyr, default = "lavish". Can also
 #' be "stingy" and "thrifty".
+#' @param use_duckdb logical, if TRUE will use duckdb for data manipulation, if
+#' FALSE will use plain dplyr. Default is TRUE, but for small data frames
+#' (under 5 MB) it will automatically switch to FALSE to avoid duckdb startup
+#' overhead.
 #'
 #' @inherit screen_filenames return
 #'
@@ -34,7 +38,8 @@ screen_dfs <- function(
   dd_checks = TRUE,
   verbose = FALSE,
   stop_on_error = FALSE,
-  prudence = "lavish"
+  prudence = "lavish",
+  use_duckdb = TRUE
 ) {
   validate_arg_dfs(data, meta)
 
@@ -45,7 +50,7 @@ screen_dfs <- function(
   vb <- verbose
   soe <- stop_on_error
 
-  if (!duckplyr::is_duckdb_tibble(data)) {
+  if (use_duckdb && !duckplyr::is_duckdb_tibble(data)) {
     data <- duckplyr::as_duckdb_tibble(data, prudence = prudence)
   }
   data_details <- list(
@@ -165,8 +170,11 @@ screen_dfs <- function(
   }
 
   # Turn on duckdb ------------------------------------------------------------
-  # Only doing this here as not necessary for the metadata checks
-  suppressMessages(duckplyr::methods_overwrite())
+  # Only doing this here as not necessary for the metadata checks.
+  # Skipped for small files where plain dplyr is used instead.
+  if (use_duckdb) {
+    suppressMessages(duckplyr::methods_overwrite())
+  }
 
   # Precheck time -------------------------------------------------------------
   res <- run_and_log_check(

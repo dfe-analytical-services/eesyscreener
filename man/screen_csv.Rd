@@ -67,6 +67,11 @@ associated metadata file. It takes in the paths to the CSV files then reads
 and parses the files and runs the checks in multiple stages, the function
 will return early if any check in a stage fails.
 }
+\details{
+Currently if the data file is smaller than 5 MB it will be read fully into
+memory as a data frame, and over 5 MB it will be read lazily using duckdb
+to avoid memory issues and speed up the processing of large files.
+}
 \examples{
 # Create temp files for the example
 data_path <- file.path(tempdir(), "example.csv")

@@ -4,6 +4,8 @@ Significant rewrite of the package around a consistent `screen_csv()` /
 `screen_dfs()` orchestration layer, with all checks following the
 `check_*()` / `precheck_*()` naming and return-value conventions.
 
+Performance optimisations including a small file (<5 MB) in-memory screening route.
+
 ## New checks
 
 - `check_col_var_start()`

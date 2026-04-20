@@ -253,7 +253,7 @@ A new test file must cover:
 
 ### Running and skipping tests
 
-By default, all tests run via `Rscript -e "devtools::test()"` (also invoked by `devtools::check()`).
+By default, all tests run via `devtools::test()` (full package checks run with `devtools::check()`, but that skips the integration tests for speed)
 
 We mix unit tests (quick function tests, a few seconds) with integration tests (full CSV screening, a few minutes). The integration tests are essential for end-to-end coverage on realistic files but slow down iteration. Skip them locally with the `SKIP_INTEGRATION_TESTS` environment variable:
 
@@ -302,16 +302,16 @@ source("data-raw/example_output.R")
 
 This package has a big priority on efficiency — we need to keep it fast so the Shiny app and API endpoint stay responsive on large files.
 
+The `screen_csv()` function runs checks lazily on any data files above 5 MB using duckplyr methods overwriting dplyr. For any files under 5 MB it materialises immediately and uses the dplyr methods. This approach gives the 'Hovis Best of Both' of simple efficiency for small files with minimal overhead, but still leverages DuckDB's lazy power for larger datasets.
+
 - Profile performance and use the fastest available approach
 - Test on large files (5 million rows and above), and prioritise large-file performance over small-file performance
 - Avoid duplication between functions — lift shared logic into `R/utils.R`
-- Use `dplyr` verbs that `duckplyr` can translate to DuckDB. `data.table` is rarely necessary and would force data.frame ↔ data.table switching.
-
-A worked example is in the commit history — the three approaches for checking `time_identifier` values against `acceptable_time_ids` benchmarked at 3,231 ms (base R) vs 61.6 ms (dplyr) vs 5.7 ms (duckplyr) on a ~6 million row frame. On tiny files the ordering flips, which is why we weight toward the larger file.
+- Use `dplyr` verbs that `duckplyr` can translate to DuckDB. `data.table`, another traditionally fast R framework for data processing, is not necessary and would force data.frame ↔ data.table switching.
 
 If you have issues with linting and dplyr variables showing "no visible binding", follow the [guide to using dplyr in packages](https://cran.r-project.org/web/packages/dplyr/vignettes/in-packages.html).
 
-You can use `tests/utils/benchmarking.R` as a starting point for `microbenchmark` experiments on large tables.
+You can use `tests/utils/profiling.R` as a starting point for experiments on large tables.
 
 ### duckplyr fallbacks and silent materialisation
 
@@ -321,10 +321,10 @@ See the [Diagnosing duckplyr fallbacks](https://dfe-analytical-services.github.i
 
 ### Avoid per-column query loops
 
-The costliest anti-pattern in this codebase is iterating over columns and firing a separate DuckDB query per column:
+The costliest anti-pattern we found in this codebase was iterating over columns and firing a separate DuckDB query per column:
 
 ```r
-# Anti-pattern: ~55 queries on beefy data
+# Anti-pattern: 1 query per column
 for (col in data_cols) {
   vals <- data |>
     dplyr::select(dplyr::all_of(col)) |>
@@ -334,13 +334,13 @@ for (col in data_cols) {
 }
 ```
 
-On a 6 M-row file with 55 columns, this pattern cost ~135 s for `check_general_null` alone. The fix is `summarise(across(...))`, which DuckDB executes as a single aggregation pass.
+On a 6 M-row file with 55 columns, this pattern cost ~135 s for `check_general_null` alone. The fix is `summarise(across(...))`, which DuckDB executes as a single aggregation pass in around 9 s.
 
 #### Boolean presence check (does any row match?)
 
 ```r
 # Good: 1 query, all character columns at once
-char_cols <- names(dplyr::select(data, where(is.character)))
+char_cols <- names(dplyr::select(data, tidyselect::where(is.character)))
 
 result_row <- data |>
   dplyr::summarise(dplyr::across(

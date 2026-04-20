@@ -50,6 +50,11 @@ platform to contribute and maintain the checks allowing us to use it as
 a harmonising tool, to enforce consistent standards across our open
 data.
 
+The main `screen_csv()` function will automatically detect the size of
+the file and decide whether to run the checks in memory (`dplyr`) or
+lazily using DuckDB methods (`duckplyr`) to try to give the most
+efficient screening experience for your files.
+
 ## Installation
 
 eesyscreener is not currently available on CRAN. For the time being you
