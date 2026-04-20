@@ -17,7 +17,9 @@ bigger_files <- generate_test_dfs(
   verbose = TRUE
 )
 
-# Drop these rows 'E14001487 South Holland and the Deepings', 'E14001127 Bridlington and the Wolds'
+# Drop these rows
+# - 'E14001487 South Holland and the Deepings'
+# - 'E14001127 Bridlington and the Wolds'
 # They have 'the' instead of 'The'
 bigger_data <- bigger_files$data[
   !bigger_files$data$pcon_code %in% c("E14001487", "E14001127"),

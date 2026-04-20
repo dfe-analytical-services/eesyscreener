@@ -33,7 +33,7 @@ check_ind_invalid_entry <- function(
   # literals. Single query across all character indicators.
   char_indicators <- intersect(
     indicators,
-    names(dplyr::select(data, where(is.character)))
+    names(dplyr::select(data, tidyselect::where(is.character)))
   )
 
   if (length(char_indicators) > 0) {
