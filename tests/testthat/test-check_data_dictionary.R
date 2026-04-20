@@ -1,4 +1,3 @@
-# Test data for filter item checks =============================================
 # Meta with only sex as a filter column (used for singular test)
 sex_only_meta <- example_meta |>
   dplyr::filter(

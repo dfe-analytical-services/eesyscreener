@@ -8,10 +8,6 @@ reference:
   contents:
   - starts_with("screen_")
 
-- title: Data dictionary
-  contents:
-  - starts_with("data_dictionary")
-
 - title: Example datasets
   contents:
   - starts_with("example_")
@@ -54,6 +50,12 @@ reference:
   contents:
   - starts_with("precheck_cross_")
 
+- title: Checks on column names
+  description: |
+    These checks validate the names of columns in the data files.
+  contents:
+  - starts_with("check_col_")
+
 - title: Pre-checks on metadata
   description: |
     These checks should be run before any other metadata checks, as they validate core assumptions about the metadata file itself.
@@ -64,17 +66,11 @@ reference:
   contents:
   - starts_with("check_meta_")
 
-- title: Checks on column names
+- title: Pre-checks on time columns
   description: |
-    These checks validate the names of columns in the data files.
+    These checks should be run before any other time checks, as they validate core assumptions about the time columns.
   contents:
-  - starts_with("check_col_")
-
-- title: General checks
-  description: |
-    These can be run on any file, regardless of type or structure.
-  contents:
-  - starts_with("check_general_")
+  - starts_with("precheck_time_")
 
 - title: Pre-checks on filters
   description: |
@@ -82,35 +78,33 @@ reference:
   contents:
   - starts_with("precheck_filter_")
 
-- title: Pre-checks on time columns
-  description: |
-    These checks should be run before any other time checks, as they validate core assumptions about the time columns.
-  contents:
-  - starts_with("precheck_time_")
-
 - title: Pre-checks on geography columns
   description: |
     These checks should be run before any other geography checks, as they validate core assumptions about the geography columns.
   contents:
   - starts_with("precheck_geog_")
 
-- title: General data file checks
+- title: Time checks
+  contents:
+  - starts_with("check_time_")
 
 - title: Filter checks
   contents:
   - starts_with("check_filter_")
 
-- title: Indicator checks
-  contents:
-  - starts_with("check_ind_")
-
 - title: Geography checks
   contents:
   - starts_with("check_geog_")
 
-- title: Time checks
+- title: General checks
+  description: |
+    These can be run on any file, regardless of type or structure.
   contents:
-  - starts_with("check_time_")
+  - starts_with("check_general_")
+
+- title: Indicator checks
+  contents:
+  - starts_with("check_ind_")
 
 - title: Harmonised variable checks
   description: |

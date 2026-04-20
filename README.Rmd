@@ -23,21 +23,19 @@ knitr::opts_chunk$set(
 [![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 <!-- badges: end -->
 
-This is a package designed to provide documentation and reusable code supporting the data standards for the [explore education statistics (EES) platform](https://explore-education-statistics.service.gov.uk/). 
-
-This is the current form and single source of truth for the checks that have steadily evolved over the years, from initial R code replacing manual checking of CSV files in Excel, to a [screening report generator using rmarkdown](https://github.com/dfe-analytical-services/ees-data-screener), to the [R Shiny app](https://github.com/dfe-analytical-services/dfe-published-data-qa), right through to this fully documented R package that has three main use cases:
-
-- Providing the logic behind the [data screener R Shiny app](https://github.com/dfe-analytical-services/dfe-published-data-qa), used to check files before upload
-- Using that logic within EES itself through a [plumber API implementation](https://github.com/dfe-analytical-services/ees-screener-api), screening uploads into the service directly
-- Analysts using the R functions within their own pipelines as pre-emptive quality assurance
+eesyscreener is the single source of truth for the checks that enforce data standards on the [explore education statistics (EES) platform](https://explore-education-statistics.service.gov.uk/). The same logic powers the [data screener Shiny app](https://github.com/dfe-analytical-services/dfe-published-data-qa), the [plumber screening API](https://github.com/dfe-analytical-services/ees-screener-api), and any analyst pipeline that wants to QA files before upload.
 
 The package contains:
 
-- A core `screen_csv()` function that will screen a pair of data and meta CSV files. This is built from `screen_dfs()`, and `screen_filenames()` and the constituent individual `precheck_*()` and `check_*()` functions.
-- Data objects containing required, optional, and acceptable values for use within explore education statistics
-- Functions to generate test data
-- Example datasets to aid testing and demonstration
-- Additional functions to aid in screening / preparing data for EES
+- A core `screen_csv()` function that screens a pair of data and meta CSV files, built from `screen_dfs()`, `screen_filenames()`, and the constituent `precheck_*()` / `check_*()` functions
+- Data objects containing required, optional, and acceptable values for EES
+- Functions to generate test data and example datasets
+
+These checks have steadily evolved over the years, from initial R code replacing manual checking of CSV files in Excel, to a [screening report generator using rmarkdown](https://github.com/dfe-analytical-services/ees-data-screener), to the [R Shiny app](https://github.com/dfe-analytical-services/dfe-published-data-qa), right through to this R package, separating out and documenting the logic.
+
+This logic is invaluable in protecting the EES platform against malformatted data that could cause unexpected behaviour, bugs, or even outages. By having it in R, we allow the analysts supporting the platform to contribute and maintain the checks allowing us to use it as a harmonising tool, to enforce consistent standards across our open data.
+
+The main `screen_csv()` function will automatically detect the size of the file and decide whether to run the checks in memory (`dplyr`) or lazily using DuckDB methods (`duckplyr`) to try to give the most efficient screening experience for your files.
 
 ## Installation
 
@@ -56,8 +54,8 @@ This shows a quick reproducible example you can run in the console to test with.
 data_file <- tempfile(fileext = ".csv")
 meta_file <- tempfile(fileext = ".meta.csv")
 
-write.csv(eesyscreener::example_data, data_file, row.names = FALSE)
-write.csv(eesyscreener::example_meta, meta_file, row.names = FALSE)
+duckplyr::compute_csv(eesyscreener::example_data, data_file)
+duckplyr::compute_csv(eesyscreener::example_meta, meta_file)
 
 result <- eesyscreener::screen_csv(
   data_file,
@@ -84,175 +82,20 @@ invisible(file.remove(meta_file))
 
 Quick examples of how to make use of the data within the package to generate CSVs for testing:
 ``` r
-write.csv(eesyscreener::example_data, "example_data.csv", row.names = FALSE)
-write.csv(eesyscreener::example_meta, "example_data.meta.csv", row.names = FALSE)
+duckplyr::compute_csv(eesyscreener::example_data, "example_data.csv")
+duckplyr::compute_csv(eesyscreener::example_meta, "example_data.meta.csv")
 
 # Generate a file pairing that will fail the tests by dropping a key column
-write.csv(eesyscreener::example_data, "example_data.csv", row.names = FALSE)
-write.csv(eesyscreener::example_meta[ , -1], "example_data.meta.csv", row.names = FALSE)
+duckplyr::compute_csv(eesyscreener::example_data, "example_data.csv")
+duckplyr::compute_csv(eesyscreener::example_meta[ , -1], "example_data.meta.csv")
 ```
 
-## Generate big test files
+## Documentation
 
-If you want to generate larger files for testing with, you can use the `generate_test_dfs()` function to create files with any number of time periods, locations, filters and indicators.
-
-```r
-files <- eesyscreener::generate_test_dfs(
-  years = 2013:2015, 
-  pcon_names = "Sheffield Central", 
-  pcon_codes = "E14000919", 
-  num_filters = 2, 
-  num_indicators = 3
-)
-
-# Data and metadata are returned in a list, to extract:
-df <- files$data
-df_meta <- files$meta
-```
-
-If you want to go bigger, combine with the [dfeR package](https://dfe-analytical-services.github.io/dfeR/), to pass in vectors of Parliamentary Constituencies.
-
-The following example creates an example data and metadata pair with a data set of just over 6 million rows. Formula to calculate rows is:
-
-- length(years) * length(pcon_codes) * (5 ^ num_filters)
-
-```r
-# Get a data frame of all Parliamentary Constituencies in England
-pcons <- dfeR::fetch_pcons(countries = "England")
-
-beefy <- eesyscreener::generate_test_dfs(
-  years = c(1980:2025),
-  pcon_codes = pcons$pcon_code,
-  pcon_names = pcons$pcon_name,
-  num_filters = 3,
-  num_indicators = 45,
-  verbose = TRUE
-)
-
-# Then to create CSVs, use duckplyr as it's a lot faster than base R
-# roughly ~20 seconds compared to ~6 minutes
-duckplyr::compute_csv(beefy$data, "beefy_data.csv")
-write.csv(beefy$meta, "beefy_data.meta.csv", row.names = FALSE)
-```
-
-## Full list of checks
-
-You can use the `list_checks()` function to list out the current set of checks ran by `screen_csv()`, e.g.:
-
-``` r
-# See the printed version in console
-eesyscreener::list_checks()
-
-# Export as a data frame
-df <- eesyscreener::list_checks(print = FALSE)
-```
-
-## Examples of behaviour
-
-### Passing file
-
-``` {r passing}
-data_file <- tempfile(fileext = ".csv")
-meta_file <- tempfile(fileext = ".meta.csv")
-write.csv(eesyscreener::example_data, data_file, row.names = FALSE)
-write.csv(eesyscreener::example_meta, meta_file, row.names = FALSE)
-
-eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
-
-invisible(file.remove(data_file))
-invisible(file.remove(meta_file))
-```
-
-### Failing file
-
-``` {r failing}
-data_file <- tempfile(fileext = ".csv")
-meta_file <- tempfile(fileext = ".meta.csv")
-write.csv(eesyscreener::example_data, data_file, row.names = FALSE)
-write.csv(eesyscreener::example_meta[, -1], meta_file, row.names = FALSE)
-
-eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
-
-invisible(file.remove(data_file))
-invisible(file.remove(meta_file))
-```
-
-### Failed test with guidance URL
-
-``` {r guidance}
-data_file <- tempfile(fileext = ".csv")
-meta_file <- tempfile(fileext = ".meta.csv")
-write.csv(
-  eesyscreener::example_data |> dplyr::mutate(time_identifier = "parsec"),
-  data_file,
-  row.names = FALSE
-)
-write.csv(eesyscreener::example_meta, meta_file, row.names = FALSE)
-
-eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
-
-invisible(file.remove(data_file))
-invisible(file.remove(meta_file))
-```
-
-### Passing with warning
-
-``` {r warning}
-data_file <- tempfile(fileext = ".csv")
-meta_file <- tempfile(fileext = ".meta.csv")
-write.csv(eesyscreener::example_data, data_file, row.names = FALSE)
-write.csv(
-  eesyscreener::example_meta |>
-    dplyr::mutate(indicator_dp = NA),
-  meta_file,
-  row.names = FALSE
-)
-
-eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
-
-invisible(file.remove(data_file))
-invisible(file.remove(meta_file))
-```
-
-### Failing with warning
-
-``` {r failwarn}
-data_file <- tempfile(fileext = ".csv")
-meta_file <- tempfile(fileext = ".meta.csv")
-write.csv(
-  eesyscreener::example_data |> dplyr::mutate(time_identifier = "parsec"),
-  data_file,
-  row.names = FALSE
-)
-write.csv(
-  eesyscreener::example_meta |>
-    dplyr::mutate(indicator_dp = NA),
-  meta_file,
-  row.names = FALSE
-)
-eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
-
-invisible(file.remove(data_file))
-invisible(file.remove(meta_file))
-```
-
-
-### Passing but issues on API checks
-
-Currently the API checks will only give warnings, as they are a warning for all files and don't stop upload. However, any warnings in the API checks will prevent a dataset from being able to be published through the API.
-
-A api_suitable boolean is returned to allow for easy determination of suitability for publishing through the API.
-``` {r apichecks}
-data_file <- tempfile(fileext = ".csv")
-meta_file <- tempfile(fileext = ".meta.csv")
-write.csv(eesyscreener::example_api_long, data_file, row.names = FALSE)
-write.csv(eesyscreener::example_api_long_meta, meta_file, row.names = FALSE)
-
-eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
-
-invisible(file.remove(data_file))
-invisible(file.remove(meta_file))
-```
+- [Function reference](https://dfe-analytical-services.github.io/eesyscreener/reference/index.html) — every exported check, grouped by stage
+- [Getting started vignette](https://dfe-analytical-services.github.io/eesyscreener/articles/eesyscreener.html) — `screen_csv()` internals and how to generate large test files with `generate_test_dfs()`
+- [Common file failures](https://dfe-analytical-services.github.io/eesyscreener/articles/common_file_failures.html) — notes on common failures that analysts might come across
+- [Contributing guidelines](https://dfe-analytical-services.github.io/eesyscreener/CONTRIBUTING.html) — dev setup and how to add a new check
 
 ## Contributing
 

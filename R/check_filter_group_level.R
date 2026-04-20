@@ -31,7 +31,6 @@ check_filter_group_level <- function(
     as.data.frame()
   test_name <- get_check_name()
 
-  # If no filter groups present, return a message to say so
   if (nrow(filters_and_groups) == 0) {
     return(test_output(
       test_name,
@@ -42,29 +41,22 @@ check_filter_group_level <- function(
     ))
   }
 
-  # Count levels for each filter and group and pass if groups have fewer
-  # levels than filters
-  count_distinct <- function(x) {
-    data |>
-      dplyr::select(dplyr::all_of(x)) |>
-      dplyr::distinct() |>
-      dplyr::count() |>
-      dplyr::pull("n")
-  }
-  # unname() is required: vapply() names its output after the input elements,
-  # producing named integer vectors that duckplyr cannot translate when
-  # methods_overwrite() is active. Base R column assignment avoids dplyr mutate
-  # which would also fail with named or multi-element vector constants.
-  filter_levels <- unname(vapply(
+  # Single query: COUNT(DISTINCT col) for all filter and group columns at once.
+  all_cols <- unique(c(
     filters_and_groups$col_name,
-    count_distinct,
-    integer(1)
+    filters_and_groups$filter_grouping_column
   ))
-  group_levels <- unname(vapply(
-    filters_and_groups$filter_grouping_column,
-    count_distinct,
-    integer(1)
-  ))
+  counts_row <- data |>
+    dplyr::summarise(dplyr::across(
+      dplyr::all_of(all_cols),
+      ~ dplyr::n_distinct(.)
+    )) |>
+    dplyr::collect()
+  counts_vec <- setNames(unlist(counts_row, use.names = FALSE), all_cols)
+
+  filter_levels <- unname(counts_vec[filters_and_groups$col_name])
+  group_levels <- unname(counts_vec[filters_and_groups$filter_grouping_column])
+
   filters_and_groups[["filter_levels"]] <- filter_levels
   filters_and_groups[["group_levels"]] <- group_levels
   filters_and_groups[["pre_result"]] <- ifelse(
@@ -72,14 +64,13 @@ check_filter_group_level <- function(
     "PASS",
     "FAIL"
   )
-  # Create failed pairs data frame
+
   failed_pairs <- filters_and_groups[
     filters_and_groups[["pre_result"]] == "FAIL",
   ]
 
   number_of_failed_pairs <- nrow(failed_pairs)
-  # Output results based on whether there is one failed pair or multiple
-  # failed pairs
+
   if (number_of_failed_pairs == 0) {
     test_output(
       test_name,
