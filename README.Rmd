@@ -35,6 +35,8 @@ These checks have steadily evolved over the years, from initial R code replacing
 
 This logic is invaluable in protecting the EES platform against malformatted data that could cause unexpected behaviour, bugs, or even outages. By having it in R, we allow the analysts supporting the platform to contribute and maintain the checks allowing us to use it as a harmonising tool, to enforce consistent standards across our open data.
 
+The main `screen_csv()` function will automatically detect the size of the file and decide whether to run the checks in memory (`dplyr`) or lazily using DuckDB methods (`duckplyr`) to try to give the most efficient screening experience for your files.
+
 ## Installation
 
 eesyscreener is not currently available on CRAN. For the time being you can install the development version from GitHub.
@@ -52,8 +54,8 @@ This shows a quick reproducible example you can run in the console to test with.
 data_file <- tempfile(fileext = ".csv")
 meta_file <- tempfile(fileext = ".meta.csv")
 
-write.csv(eesyscreener::example_data, data_file, row.names = FALSE)
-write.csv(eesyscreener::example_meta, meta_file, row.names = FALSE)
+duckplyr::compute_csv(eesyscreener::example_data, data_file)
+duckplyr::compute_csv(eesyscreener::example_meta, meta_file)
 
 result <- eesyscreener::screen_csv(
   data_file,
@@ -80,19 +82,19 @@ invisible(file.remove(meta_file))
 
 Quick examples of how to make use of the data within the package to generate CSVs for testing:
 ``` r
-write.csv(eesyscreener::example_data, "example_data.csv", row.names = FALSE)
-write.csv(eesyscreener::example_meta, "example_data.meta.csv", row.names = FALSE)
+duckplyr::compute_csv(eesyscreener::example_data, "example_data.csv")
+duckplyr::compute_csv(eesyscreener::example_meta, "example_data.meta.csv")
 
 # Generate a file pairing that will fail the tests by dropping a key column
-write.csv(eesyscreener::example_data, "example_data.csv", row.names = FALSE)
-write.csv(eesyscreener::example_meta[ , -1], "example_data.meta.csv", row.names = FALSE)
+duckplyr::compute_csv(eesyscreener::example_data, "example_data.csv")
+duckplyr::compute_csv(eesyscreener::example_meta[ , -1], "example_data.meta.csv")
 ```
 
 ## Documentation
 
 - [Function reference](https://dfe-analytical-services.github.io/eesyscreener/reference/index.html) — every exported check, grouped by stage
 - [Getting started vignette](https://dfe-analytical-services.github.io/eesyscreener/articles/eesyscreener.html) — `screen_csv()` internals and how to generate large test files with `generate_test_dfs()`
-- [Common file failures](https://dfe-analytical-services.github.io/eesyscreener/articles/common_file_failures.html) — recipes for files that fail, cannot be read, or pass screening but are not API-suitable
+- [Common file failures](https://dfe-analytical-services.github.io/eesyscreener/articles/common_file_failures.html) — notes on common failures that analysts might come across
 - [Contributing guidelines](https://dfe-analytical-services.github.io/eesyscreener/CONTRIBUTING.html) — dev setup and how to add a new check
 
 ## Contributing

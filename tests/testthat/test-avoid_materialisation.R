@@ -6,6 +6,11 @@ test_that("Checks do not pull large data into memory", {
   # development on the EES infrastructure side of things to allow that to run
   # successfully.
   expect_no_error(
-    screen_dfs(example_comma_data, example_comma_meta, prudence = "stingy")
+    screen_dfs(
+      example_comma_data,
+      example_comma_meta,
+      prudence = "stingy",
+      use_duckdb = TRUE
+    )
   )
 })

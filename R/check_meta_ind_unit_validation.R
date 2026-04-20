@@ -37,7 +37,7 @@ check_meta_ind_unit_validation <- function(
     test_output(
       test_name,
       "PASS",
-      "The indicator_unit values are valid",
+      "The indicator_unit values are valid.",
       verbose = verbose,
       stop_on_error = stop_on_error
     )

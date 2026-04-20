@@ -24,7 +24,7 @@ test_that("check_filter_defaults gives a pass when no filters are present", {
   expect_equal(
     check_filter_defaults(
       example_data |>
-        dplyr::filter(sex == "All pupils", education_phase == "All phases") |>
+        dplyr::filter(sex == "All pupils", education_phase == "All schools") |>
         dplyr::select(-c("sex", "education_phase")),
       example_meta |>
         dplyr::filter(col_type != "Filter")
@@ -42,7 +42,7 @@ test_that("test filter default combinations", {
       example_meta |>
         dplyr::mutate(
           filter_default = dplyr::case_when(
-            col_name == "education_phase" ~ "All phases",
+            col_name == "education_phase" ~ "All schools",
             col_name == "sex" ~ "All pupils",
             .default = ""
           )
@@ -77,7 +77,7 @@ test_that("test filter default combinations", {
       example_meta |>
         dplyr::mutate(
           filter_default = dplyr::case_when(
-            col_name == "education_phase" ~ "All phases",
+            col_name == "education_phase" ~ "All schools",
             .default = ""
           )
         )
@@ -107,7 +107,7 @@ test_that("test filter default combinations", {
       example_meta |>
         dplyr::mutate(
           filter_default = dplyr::case_when(
-            col_name == "education_phase" ~ "All phases",
+            col_name == "education_phase" ~ "All schools",
             .default = ""
           )
         )

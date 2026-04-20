@@ -1,7 +1,7 @@
 # Test data for filter item checks =============================================
 
 # example_meta has sex (Filter) and education_phase (Filter), both in the
-# data dictionary. Replacing "All pupils" and "All phases" with valid items
+# data dictionary. Replacing "All pupils" and "All schools" with valid items
 # creates a passing dataset for check_data_dict_fil_item.
 
 # Can be removed when
@@ -11,7 +11,7 @@ dd_pass_data <- example_data |>
   dplyr::mutate(
     sex = dplyr::if_else(.data$sex == "All pupils", "Male", .data$sex),
     education_phase = dplyr::if_else(
-      .data$education_phase == "All phases",
+      .data$education_phase == "All schools",
       "Primary",
       .data$education_phase
     )
@@ -132,7 +132,7 @@ test_that("warns for non-standard items across multiple filter columns", {
         .default = .data$sex
       ),
       education_phase = dplyr::case_when(
-        .data$education_phase == "All phases" ~ "Many phase",
+        .data$education_phase == "All schools" ~ "Many phase",
         .data$education_phase == "Primary" ~ "Prime phase",
         .default = .data$education_phase
       )

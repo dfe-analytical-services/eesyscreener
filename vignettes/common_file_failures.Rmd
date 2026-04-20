@@ -18,47 +18,6 @@ A guide to common issues with files that trip up analysts, providing further inf
 
 If your issue is not covered here, please contact <explore.statistics@education.gov.uk> for assistance.
 
-## Reading the `screen_csv()` output
-
-The minimal example in the [README](https://dfe-analytical-services.github.io/eesyscreener/index.html#minimal-example) shows the output structure for a file that runs the whole pipeline. The three scenarios below cover the shapes you are most likely to see when something goes wrong — a file that fails a check, a file that cannot be read at all, and a file that passes screening but is not suitable for publishing through the API.
-
-### File that fails a check
-
-Drop a required metadata column to trigger a `FAIL` in the `Precheck columns` stage. `passed` will be `FALSE` and `overall_stage` will be the failing stage.
-
-```r
-data_file <- tempfile(fileext = ".csv")
-meta_file <- tempfile(fileext = ".meta.csv")
-write.csv(eesyscreener::example_data, data_file, row.names = FALSE)
-write.csv(eesyscreener::example_meta[, -1], meta_file, row.names = FALSE)
-
-eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
-```
-
-### File that cannot be read
-
-If either path does not exist (or the file is not a readable CSV), screening stops in the `File read` stage without throwing an error. `passed` will be `FALSE` and `overall_stage` will be `"File read"`.
-
-```r
-eesyscreener::screen_csv(
-  "does_not_exist.csv",
-  "does_not_exist.meta.csv"
-)
-```
-
-### File that passes but is not API suitable
-
-The API checks only ever emit warnings — they do not stop screening — but any warning in the API stage prevents the data from being published through the API. The returned `api_suitable` boolean flags this.
-
-```r
-data_file <- tempfile(fileext = ".csv")
-meta_file <- tempfile(fileext = ".meta.csv")
-write.csv(eesyscreener::example_api_long, data_file, row.names = FALSE)
-write.csv(eesyscreener::example_api_long_meta, meta_file, row.names = FALSE)
-
-eesyscreener::screen_csv(data_file, meta_file, "data.csv", "data.meta.csv")
-```
-
 ## Duplicate rows
 
 If you have duplicate rows in your file, `check_general_dupes()` will have picked them up. If you still think you have no duplicates, read on.

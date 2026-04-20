@@ -40,19 +40,19 @@ check_filter_item_limit <- function(
       stop_on_error = stop_on_error
     )
   } else {
+    # Single query: COUNT(DISTINCT col) for every filter column at once.
+    counts_row <- data |>
+      dplyr::summarise(dplyr::across(
+        dplyr::all_of(filters_and_groups),
+        ~ dplyr::n_distinct(.)
+      )) |>
+      dplyr::collect()
+
     counts <- data.frame(
       filters = filters_and_groups,
-      nentries = sapply(
-        filters_and_groups,
-        function(col) {
-          data |>
-            dplyr::select(dplyr::all_of(col)) |>
-            dplyr::distinct() |>
-            dplyr::count() |>
-            dplyr::pull("n")
-        }
-      )
+      nentries = unlist(counts_row, use.names = FALSE)
     )
+
     if (all(counts$nentries <= filter_item_limit)) {
       test_output(
         test_name,

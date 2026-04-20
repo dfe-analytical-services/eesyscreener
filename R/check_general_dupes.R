@@ -1,5 +1,8 @@
 #' Check for duplicate rows in data
 #'
+#' Anyone else picturing a cartoon Army general nicknamed 'Dupes'? Just me?
+#' Nevermind, read on anyway...
+#'
 #' Checks for duplicate rows across observational unit and filter columns.
 #' School, Provider, Institution, and Planning area rows are handled specially:
 #' when data contains exclusively School or Provider rows, only Institution and
