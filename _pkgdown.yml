@@ -117,3 +117,11 @@ reference:
   contents:
   - starts_with("check_api_")
   - starts_with("check_data_dict_")
+
+- title: ZIP structure checks
+  description: |
+    These checks validate the structure of a ZIP archive before it is uploaded
+    to EES. They are orchestrated by `screen_zip_structure()` and called from
+    `screen_zip()`.
+  contents:
+  - starts_with("check_zip_")

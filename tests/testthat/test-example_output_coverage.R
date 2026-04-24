@@ -13,6 +13,10 @@ test_that("every exported check function has a row in example_output", {
 
   stripped <- sub("^(check|precheck)_", "", check_fns)
 
+  # Keep zip checks out of the example output as we only want it to
+  # cover the core checks on a CSV file pair
+  stripped <- stripped[!grepl("^zip_", stripped)]
+
   missing <- setdiff(stripped, example_output$check)
 
   expect_equal(
