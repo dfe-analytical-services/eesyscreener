@@ -12,10 +12,28 @@ test_that("fails when columns are wrong", {
   expect_true(grepl("columns", result$message))
 })
 
-test_that("fails when columns are in wrong order", {
+test_that("passes when columns are in reverse order", {
   names_file <- data.frame(dataset_name = "A", file_name = "a")
   result <- check_zip_names_file_format(names_file)
+  expect_equal(result$result, "PASS")
+})
+
+test_that("fails when names file has an extra column", {
+  names_file <- data.frame(
+    file_name = "a",
+    dataset_name = "A",
+    description = "extra"
+  )
+  result <- check_zip_names_file_format(names_file)
   expect_equal(result$result, "FAIL")
+  expect_true(grepl("description", result$message))
+})
+
+test_that("fails when only one required column is present", {
+  names_file <- data.frame(file_name = "a")
+  result <- check_zip_names_file_format(names_file)
+  expect_equal(result$result, "FAIL")
+  expect_true(grepl("columns", result$message))
 })
 
 test_that("fails for empty names file", {

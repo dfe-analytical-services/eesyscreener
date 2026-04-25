@@ -259,3 +259,58 @@ test_that("all pairs have passed == TRUE when all pairs pass", {
   pair_names <- setdiff(names(result), "zip_structure")
   expect_true(all(vapply(result[pair_names], function(r) r$passed, logical(1))))
 })
+
+test_that("path-traversal entry is rejected by flat structure check", {
+  skip_integration_tests()
+
+  # Build a ZIP whose entry name contains '..' by rooting zip() in a subdir
+  staging <- tempfile()
+  subdir <- file.path(staging, "sub")
+  dir.create(subdir, recursive = TRUE)
+  writeLines("x", file.path(staging, "escape.csv"))
+
+  zippath <- tempfile(fileext = ".zip")
+  suppressWarnings(zip::zip(zippath, files = "../escape.csv", root = subdir))
+  on.exit({
+    unlink(zippath)
+    unlink(staging, recursive = TRUE)
+  })
+
+  result <- screen_zip(zippath)
+
+  flat_row <- result$zip_structure[
+    result$zip_structure$check == "zip_flat_structure",
+  ]
+  expect_equal(flat_row$result, "FAIL")
+  expect_equal(length(setdiff(names(result), "zip_structure")), 0)
+})
+
+test_that("ZIP with only dataset_names.csv and no pairs fails pairs check", {
+  skip_integration_tests()
+
+  names_file <- tempfile()
+  on.exit(unlink(names_file))
+  writeLines(names_file_lines("mydata"), names_file)
+
+  d <- make_zip(
+    files = names_file,
+    names_in_zip = "dataset_names.csv"
+  )
+  on.exit(
+    {
+      unlink(d$zippath)
+      unlink(d$staging, recursive = TRUE)
+    },
+    add = TRUE
+  )
+
+  result <- screen_zip(d$zippath)
+
+  pairs_row <- result$zip_structure[
+    result$zip_structure$check == "zip_pairs",
+  ]
+  expect_equal(pairs_row$result, "FAIL")
+  expect_true(grepl("mydata.csv", pairs_row$message, fixed = TRUE))
+  expect_true(grepl("mydata.meta.csv", pairs_row$message, fixed = TRUE))
+  expect_equal(length(setdiff(names(result), "zip_structure")), 0)
+})

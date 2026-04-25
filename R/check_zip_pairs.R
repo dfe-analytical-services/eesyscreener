@@ -61,8 +61,8 @@ check_zip_pairs <- function(
   if (is.null(names_file_df)) {
     stems <- union(data_stems_in_zip, meta_stems_in_zip)
     unlisted <- character(0)
-    missing_data_label <- "Data files missing for orphan metadata: "
-    missing_meta_label <- "Metadata files missing for data files: "
+    missing_data_label <- "Missing data file: "
+    missing_meta_label <- "Missing metadata file: "
     pass_message <- "Data and metadata files are correctly paired."
     lenient_multi_pair <- length(stems) > 1
   } else {

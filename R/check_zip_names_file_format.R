@@ -29,15 +29,16 @@ check_zip_names_file_format <- function(
   test_name <- get_check_name()
 
   required_cols <- c("file_name", "dataset_name")
+  actual_cols <- names(names_file_df)
 
-  if (!identical(names(names_file_df), required_cols)) {
+  if (!setequal(actual_cols, required_cols) || length(actual_cols) != 2) {
     return(test_output(
       test_name,
       "FAIL",
       paste0(
         "dataset_names.csv must have exactly the columns 'file_name' and ",
-        "'dataset_name' (in that order). Found: ",
-        paste(names(names_file_df), collapse = ", "),
+        "'dataset_name'. Found: ",
+        paste(actual_cols, collapse = ", "),
         "."
       ),
       verbose = verbose,
