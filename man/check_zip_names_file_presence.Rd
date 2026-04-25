@@ -25,14 +25,16 @@ a single row data frame
 }
 \description{
 A \code{dataset_names.csv} names file is required whenever the ZIP contains more
-than one data / meta pair. A ZIP with exactly one data / meta pair is accepted
-without a names file (lenient single-pair path). Returns FAIL when multiple
-pairs are present and no names file is found.
+than one data / meta pair. A ZIP with exactly one data / meta pair is
+accepted without a names file (lenient single-pair path). Returns FAIL when
+multiple pairs are present and no names file is found.
 }
 \examples{
 check_zip_names_file_presence(c("a.csv", "a.meta.csv", "dataset_names.csv"))
 check_zip_names_file_presence(c("a.csv", "a.meta.csv"))
-check_zip_names_file_presence(c("a.csv", "a.meta.csv", "b.csv", "b.meta.csv"))
+check_zip_names_file_presence(
+  c("a.csv", "a.meta.csv", "b.csv", "b.meta.csv")
+)
 }
 \seealso{
 Other check_zip: 

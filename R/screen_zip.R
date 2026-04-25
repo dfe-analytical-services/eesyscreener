@@ -41,12 +41,11 @@ screen_zip <- function(
     df
   }
 
-  readable_result <- check_zip_readable(
+  readable_result <- attach_stage(check_zip_readable(
     zippath,
     verbose = verbose,
     stop_on_error = stop_on_error
-  ) |>
-    attach_stage()
+  ))
 
   if (readable_result$result == "FAIL") {
     return(list(zip_structure = readable_result))
@@ -55,27 +54,22 @@ screen_zip <- function(
   file_entries <- zip::zip_list(zippath)$filename
   has_names_file <- "dataset_names.csv" %in% file_entries
 
-  zip_structure <- readable_result
-  zip_structure <- rbind(
-    zip_structure,
-    check_zip_flat_structure(
+  structure_checks <- list(
+    readable_result,
+    attach_stage(check_zip_flat_structure(
       file_entries,
       verbose = verbose,
       stop_on_error = stop_on_error
-    ) |>
-      attach_stage()
-  )
-  zip_structure <- rbind(
-    zip_structure,
-    check_zip_names_file_presence(
+    )),
+    attach_stage(check_zip_names_file_presence(
       file_entries,
       verbose = verbose,
       stop_on_error = stop_on_error
-    ) |>
-      attach_stage()
+    ))
   )
 
   names_file_df <- NULL
+  format_passed <- TRUE
   if (has_names_file) {
     tmp_names_file <- tempfile()
     dir.create(tmp_names_file)
@@ -85,41 +79,45 @@ screen_zip <- function(
       file.path(tmp_names_file, "dataset_names.csv"),
       stringsAsFactors = FALSE
     )
-    zip_structure <- rbind(
-      zip_structure,
-      check_zip_names_file_format(
-        names_file_df,
-        verbose = verbose,
-        stop_on_error = stop_on_error
-      ) |>
-        attach_stage()
-    )
-    zip_structure <- rbind(
-      zip_structure,
-      check_zip_pairs(
-        file_entries,
-        names_file_df,
-        verbose = verbose,
-        stop_on_error = stop_on_error
-      ) |>
-        attach_stage()
-    )
-  }
-  zip_structure <- rbind(
-    zip_structure,
-    check_zip_no_unreferenced(
-      file_entries,
+    format_result <- attach_stage(check_zip_names_file_format(
       names_file_df,
       verbose = verbose,
       stop_on_error = stop_on_error
-    ) |>
-      attach_stage()
-  )
+    ))
+    structure_checks <- c(structure_checks, list(format_result))
+    format_passed <- format_result$result == "PASS"
+  }
+
+  # Skip pair / unreferenced checks when the names file is malformed — their
+  # inputs would be unreliable and produce noisy false positives.
+  if (format_passed) {
+    structure_checks <- c(
+      structure_checks,
+      list(
+        attach_stage(check_zip_pairs(
+          file_entries,
+          names_file_df,
+          verbose = verbose,
+          stop_on_error = stop_on_error
+        )),
+        attach_stage(check_zip_no_unreferenced(
+          file_entries,
+          names_file_df,
+          verbose = verbose,
+          stop_on_error = stop_on_error
+        ))
+      )
+    )
+  }
+
+  zip_structure <- do.call(rbind, structure_checks)
 
   if (any(zip_structure$result == "FAIL")) {
     return(list(zip_structure = zip_structure))
   }
 
+  # Safe to extract: check_zip_flat_structure has already rejected any entry
+  # containing '/', which guards against path-traversal entries.
   tmp <- tempfile()
   dir.create(tmp)
   on.exit(unlink(tmp, recursive = TRUE), add = TRUE)

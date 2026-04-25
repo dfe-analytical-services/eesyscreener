@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_zip_pairs.R
 \name{check_zip_pairs}
 \alias{check_zip_pairs}
-\title{Check that all data / meta pairs in the names file exist in the ZIP}
+\title{Check that data / meta pairs in the ZIP are complete}
 \usage{
 check_zip_pairs(
   file_entries,
@@ -16,8 +16,8 @@ check_zip_pairs(
 \code{zip::zip_list(zippath)$filename}.}
 
 \item{names_file_df}{A data frame read from \code{dataset_names.csv} with columns
-\code{file_name} and \code{dataset_name}. Each \code{file_name} is a stem (without
-\code{.csv} extension).}
+\code{file_name} and \code{dataset_name}, or \code{NULL} for the single-pair lenient
+path.}
 
 \item{verbose}{logical, if TRUE prints feedback messages to console for
 every test, if FALSE run silently}
@@ -29,15 +29,17 @@ is "FAIL", and will throw genuine warning if result is "WARNING"}
 a single row data frame
 }
 \description{
-For each \code{file_name} stem in \code{dataset_names.csv}, verifies that both
-\verb{\{stem\}.csv} and \verb{\{stem\}.meta.csv} are present at the root of the ZIP.
-Also verifies that every root-level data CSV (excluding \code{dataset_names.csv})
-is referenced in the names file. Returns FAIL if any file is missing or
-unlisted.
+When a names file is supplied, verifies that for each \code{file_name} stem in
+\code{dataset_names.csv} both \verb{\{stem\}.csv} and \verb{\{stem\}.meta.csv} exist at the
+root of the ZIP, and that every root-level data CSV (excluding
+\code{dataset_names.csv}) is referenced in the names file.
 }
 \details{
-Orphan \code{.meta.csv} files (metadata with no matching data file) are not
-detected here — that is handled by \code{check_zip_no_unreferenced()}.
+When \code{names_file_df} is \code{NULL} (single-pair lenient path), stems are
+derived from the union of root-level data CSVs and \code{.meta.csv} files in
+the ZIP, and each stem must have both halves present. This catches
+mismatched stems like \code{a.csv} paired with \code{b.meta.csv}, and orphan
+metadata files with no matching data file.
 }
 \examples{
 entries <- c(
@@ -50,6 +52,10 @@ bad_names_file <- data.frame(
   file_name = c("a", "c"), dataset_name = c("A", "C")
 )
 check_zip_pairs(entries, bad_names_file)
+
+# Lenient single-pair path: stems must match
+check_zip_pairs(c("a.csv", "a.meta.csv"), NULL)
+check_zip_pairs(c("a.csv", "b.meta.csv"), NULL)
 }
 \seealso{
 Other check_zip: 
