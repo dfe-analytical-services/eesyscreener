@@ -35,6 +35,10 @@ Also verifies that every root-level data CSV (excluding \code{dataset_names.csv}
 is referenced in the manifest. Returns FAIL if any file is missing or
 unlisted.
 }
+\details{
+Orphan \code{.meta.csv} files (metadata with no matching data file) are not
+detected here — that is handled by \code{check_zip_no_unreferenced()}.
+}
 \examples{
 entries <- c("a.csv", "a.meta.csv", "b.csv", "b.meta.csv", "dataset_names.csv")
 manifest <- data.frame(file_name = c("a", "b"), dataset_name = c("A", "B"))

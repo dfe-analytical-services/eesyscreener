@@ -4,6 +4,10 @@ skip_integration_tests <- function() {
     identical(Sys.getenv("SKIP_INTEGRATION_TESTS"), "true"),
     "Set SKIP_INTEGRATION_TESTS=false or unset to run integration tests"
   )
+  skip_if(
+    !dir.exists(test_path("pass")),
+    "Test fixtures excluded from package build"
+  )
 }
 
 # Helper: screens all data/meta CSV pairs in a local folder.

@@ -68,8 +68,7 @@ screen_zip <- function(
   on.exit(unlink(tmp, recursive = TRUE), add = TRUE)
   zip::unzip(zippath, exdir = tmp)
 
-  file_entries <- zip::zip_list(zippath)$filename
-  has_manifest <- "dataset_names.csv" %in% file_entries
+  has_manifest <- file.exists(file.path(tmp, "dataset_names.csv"))
 
   if (has_manifest) {
     manifest_df <- utils::read.csv(
@@ -78,9 +77,8 @@ screen_zip <- function(
     )
     stems <- manifest_df$file_name
   } else {
-    data_files <- file_entries[
-      grepl("\\.csv$", file_entries) & !grepl("\\.meta\\.csv$", file_entries)
-    ]
+    extracted <- list.files(tmp, pattern = "\\.csv$")
+    data_files <- extracted[!grepl("\\.meta\\.csv$", extracted)]
     stems <- sub("\\.csv$", "", data_files)
   }
 

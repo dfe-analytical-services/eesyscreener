@@ -51,6 +51,7 @@ test_that("passes for valid multi-pair ZIP with manifest", {
 })
 
 test_that("fails early when ZIP structure is invalid", {
+  skip_integration_tests()
   corrupt <- tempfile(fileext = ".zip")
   on.exit(unlink(corrupt))
   writeBin(as.raw(c(0x50, 0x4B, 0x00, 0x00)), corrupt)

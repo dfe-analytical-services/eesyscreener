@@ -6,6 +6,9 @@
 #' is referenced in the manifest. Returns FAIL if any file is missing or
 #' unlisted.
 #'
+#' Orphan `.meta.csv` files (metadata with no matching data file) are not
+#' detected here — that is handled by `check_zip_no_unreferenced()`.
+#'
 #' @param file_entries A character vector of file paths as returned by
 #'   `zip::zip_list(zippath)$filename`.
 #' @param manifest_df A data frame read from `dataset_names.csv` with columns

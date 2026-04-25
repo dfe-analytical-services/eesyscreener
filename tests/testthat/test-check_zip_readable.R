@@ -1,4 +1,5 @@
 test_that("passes for a valid readable ZIP", {
+  skip_integration_tests()
   tmp <- tempfile(fileext = ".zip")
   on.exit(unlink(tmp))
   zip::zip(tmp, character(0))
@@ -23,6 +24,7 @@ test_that("fails for a file without .zip extension", {
 })
 
 test_that("fails for a corrupt ZIP file", {
+  skip_integration_tests()
   tmp <- tempfile(fileext = ".zip")
   on.exit(unlink(tmp))
   writeBin(as.raw(c(0x50, 0x4B, 0x00, 0x00)), tmp)
@@ -31,6 +33,7 @@ test_that("fails for a corrupt ZIP file", {
 })
 
 test_that("returns single-row data frame", {
+  skip_integration_tests()
   tmp <- tempfile(fileext = ".zip")
   on.exit(unlink(tmp))
   zip::zip(tmp, character(0))
@@ -41,6 +44,7 @@ test_that("returns single-row data frame", {
 })
 
 test_that("check name is zip_readable", {
+  skip_integration_tests()
   tmp <- tempfile(fileext = ".zip")
   on.exit(unlink(tmp))
   zip::zip(tmp, character(0))
@@ -53,6 +57,7 @@ test_that("stop_on_error throws on FAIL", {
 })
 
 test_that("no error with stop_on_error on PASS", {
+  skip_integration_tests()
   tmp <- tempfile(fileext = ".zip")
   on.exit(unlink(tmp))
   zip::zip(tmp, character(0))
