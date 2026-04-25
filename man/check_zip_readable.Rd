@@ -21,18 +21,18 @@ a single row data frame
 \description{
 Verifies that the path points to an existing file with a \code{.zip} extension,
 then attempts to list its contents with \code{zip::zip_list()}. Returns FAIL if
-the file is missing, is not a \code{.zip}, or is corrupt/unreadable.
+the file is missing, is not a \code{.zip}, or is corrupt / unreadable.
 }
 \examples{
 \dontrun{
-check_zip_readable("path/to/upload.zip")
+check_zip_readable("path/to/file.zip")
 }
 }
 \seealso{
 Other check_zip: 
 \code{\link{check_zip_flat_structure}()},
-\code{\link{check_zip_manifest_format}()},
-\code{\link{check_zip_manifest_presence}()},
+\code{\link{check_zip_names_file_format}()},
+\code{\link{check_zip_names_file_presence}()},
 \code{\link{check_zip_no_unreferenced}()},
 \code{\link{check_zip_pairs}()}
 }

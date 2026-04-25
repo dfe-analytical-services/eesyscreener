@@ -25,8 +25,8 @@ make_zip <- function(files, names_in_zip = NULL, extra_files = list()) {
   list(zippath = zippath, staging = staging)
 }
 
-# Helper: build a valid dataset_names.csv manifest as a character vector.
-manifest_lines <- function(stems, names = stems) {
+# Helper: build a valid dataset_names.csv names file as a character vector.
+names_file_lines <- function(stems, names = stems) {
   c("file_name,dataset_name", paste0(stems, ",", names))
 }
 
@@ -39,24 +39,44 @@ fail_file <- function(stem, ext = ".csv") {
   test_path("fail", paste0(stem, ext))
 }
 
-# Helper: assert screen_zip() result matches expectations, mirrors
-# screen_local_folder() from helper-integration.R.
-screen_zip_fixture <- function(
+# Helper: assert screen_zip() result matches expectations.
+zip_fixture <- function(
   zippath,
   expected_passed,
   expected_api_suitable = NULL
 ) {
   result <- expect_no_error(screen_zip(zippath))
 
+  pair_names <- setdiff(names(result), "zip_structure")
+
+  if (length(pair_names) > 0) {
+    all_passed <- all(vapply(
+      result[pair_names],
+      function(r) r$passed,
+      logical(1)
+    ))
+  } else {
+    all_passed <- FALSE
+  }
+
   expect_equal(
-    result$passed,
+    all_passed,
     expected_passed,
     label = paste("passed ==", expected_passed)
   )
 
   if (!is.null(expected_api_suitable)) {
+    if (length(pair_names) > 0) {
+      all_api <- all(vapply(
+        result[pair_names],
+        function(r) r$api_suitable,
+        logical(1)
+      ))
+    } else {
+      all_api <- FALSE
+    }
     expect_equal(
-      result$api_suitable,
+      all_api,
       expected_api_suitable,
       label = paste("api_suitable ==", expected_api_suitable)
     )

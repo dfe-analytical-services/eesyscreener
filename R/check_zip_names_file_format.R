@@ -1,10 +1,10 @@
 #' Check that dataset_names.csv has the correct format
 #'
-#' Validates that the manifest data frame has exactly the columns
+#' Validates that the names file data frame has exactly the columns
 #' `file_name` and `dataset_name` (in that order), is non-empty, contains no
 #' NA values, and has no duplicate `file_name` entries.
 #'
-#' @param manifest_df A data frame read from `dataset_names.csv`.
+#' @param names_file_df A data frame read from `dataset_names.csv`.
 #' @param verbose logical, if TRUE prints feedback messages to console for
 #' every test, if FALSE run silently
 #' @param stop_on_error logical, if TRUE will stop with an error if the result
@@ -16,13 +16,13 @@
 #'
 #' @examples
 #' good <- data.frame(file_name = "data", dataset_name = "My data")
-#' check_zip_manifest_format(good)
+#' check_zip_names_file_format(good)
 #'
 #' bad <- data.frame(file = "data", name = "My data")
-#' check_zip_manifest_format(bad)
+#' check_zip_names_file_format(bad)
 #' @export
-check_zip_manifest_format <- function(
-  manifest_df,
+check_zip_names_file_format <- function(
+  names_file_df,
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
@@ -30,21 +30,22 @@ check_zip_manifest_format <- function(
 
   required_cols <- c("file_name", "dataset_name")
 
-  if (!identical(names(manifest_df), required_cols)) {
+  if (!identical(names(names_file_df), required_cols)) {
     return(test_output(
       test_name,
       "FAIL",
       paste0(
         "dataset_names.csv must have exactly the columns 'file_name' and ",
         "'dataset_name' (in that order). Found: ",
-        paste(names(manifest_df), collapse = ", "), "."
+        paste(names(names_file_df), collapse = ", "),
+        "."
       ),
       verbose = verbose,
       stop_on_error = stop_on_error
     ))
   }
 
-  if (nrow(manifest_df) == 0) {
+  if (nrow(names_file_df) == 0) {
     return(test_output(
       test_name,
       "FAIL",
@@ -54,7 +55,7 @@ check_zip_manifest_format <- function(
     ))
   }
 
-  if (anyNA(manifest_df$file_name) || anyNA(manifest_df$dataset_name)) {
+  if (anyNA(names_file_df$file_name) || anyNA(names_file_df$dataset_name)) {
     return(test_output(
       test_name,
       "FAIL",
@@ -64,14 +65,15 @@ check_zip_manifest_format <- function(
     ))
   }
 
-  dupes <- manifest_df$file_name[duplicated(manifest_df$file_name)]
+  dupes <- names_file_df$file_name[duplicated(names_file_df$file_name)]
   if (length(dupes) > 0) {
     return(test_output(
       test_name,
       "FAIL",
       paste0(
         "dataset_names.csv has duplicate file_name values: ",
-        paste(dupes, collapse = ", "), "."
+        paste(dupes, collapse = ", "),
+        "."
       ),
       verbose = verbose,
       stop_on_error = stop_on_error

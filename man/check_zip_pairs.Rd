@@ -2,11 +2,11 @@
 % Please edit documentation in R/check_zip_pairs.R
 \name{check_zip_pairs}
 \alias{check_zip_pairs}
-\title{Check that all data/meta pairs in the manifest exist in the ZIP}
+\title{Check that all data / meta pairs in the names file exist in the ZIP}
 \usage{
 check_zip_pairs(
   file_entries,
-  manifest_df,
+  names_file_df,
   verbose = FALSE,
   stop_on_error = FALSE
 )
@@ -15,7 +15,7 @@ check_zip_pairs(
 \item{file_entries}{A character vector of file paths as returned by
 \code{zip::zip_list(zippath)$filename}.}
 
-\item{manifest_df}{A data frame read from \code{dataset_names.csv} with columns
+\item{names_file_df}{A data frame read from \code{dataset_names.csv} with columns
 \code{file_name} and \code{dataset_name}. Each \code{file_name} is a stem (without
 \code{.csv} extension).}
 
@@ -32,7 +32,7 @@ a single row data frame
 For each \code{file_name} stem in \code{dataset_names.csv}, verifies that both
 \verb{\{stem\}.csv} and \verb{\{stem\}.meta.csv} are present at the root of the ZIP.
 Also verifies that every root-level data CSV (excluding \code{dataset_names.csv})
-is referenced in the manifest. Returns FAIL if any file is missing or
+is referenced in the names file. Returns FAIL if any file is missing or
 unlisted.
 }
 \details{
@@ -40,18 +40,22 @@ Orphan \code{.meta.csv} files (metadata with no matching data file) are not
 detected here — that is handled by \code{check_zip_no_unreferenced()}.
 }
 \examples{
-entries <- c("a.csv", "a.meta.csv", "b.csv", "b.meta.csv", "dataset_names.csv")
-manifest <- data.frame(file_name = c("a", "b"), dataset_name = c("A", "B"))
-check_zip_pairs(entries, manifest)
+entries <- c(
+  "a.csv", "a.meta.csv", "b.csv", "b.meta.csv", "dataset_names.csv"
+)
+names_file <- data.frame(file_name = c("a", "b"), dataset_name = c("A", "B"))
+check_zip_pairs(entries, names_file)
 
-bad_manifest <- data.frame(file_name = c("a", "c"), dataset_name = c("A", "C"))
-check_zip_pairs(entries, bad_manifest)
+bad_names_file <- data.frame(
+  file_name = c("a", "c"), dataset_name = c("A", "C")
+)
+check_zip_pairs(entries, bad_names_file)
 }
 \seealso{
 Other check_zip: 
 \code{\link{check_zip_flat_structure}()},
-\code{\link{check_zip_manifest_format}()},
-\code{\link{check_zip_manifest_presence}()},
+\code{\link{check_zip_names_file_format}()},
+\code{\link{check_zip_names_file_presence}()},
 \code{\link{check_zip_no_unreferenced}()},
 \code{\link{check_zip_readable}()}
 }

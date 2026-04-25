@@ -1,9 +1,9 @@
-#' Check that a ZIP file contains a dataset_names.csv manifest when required
+#' Check that a ZIP file contains a dataset_names.csv names file when required
 #'
-#' A `dataset_names.csv` manifest is required whenever the ZIP contains more
-#' than one data/meta pair. A ZIP with exactly one data/meta pair is accepted
-#' without a manifest (lenient single-pair path). Returns FAIL when multiple
-#' pairs are present and no manifest is found.
+#' A `dataset_names.csv` names file is required whenever the ZIP contains more
+#' than one data / meta pair. A ZIP with exactly one data / meta pair is
+#' accepted without a names file (lenient single-pair path). Returns FAIL when
+#' multiple pairs are present and no names file is found.
 #'
 #' @param file_entries A character vector of file paths as returned by
 #'   `zip::zip_list(zippath)$filename`.
@@ -17,24 +17,26 @@
 #' @family check_zip
 #'
 #' @examples
-#' check_zip_manifest_presence(c("a.csv", "a.meta.csv", "dataset_names.csv"))
-#' check_zip_manifest_presence(c("a.csv", "a.meta.csv"))
-#' check_zip_manifest_presence(c("a.csv", "a.meta.csv", "b.csv", "b.meta.csv"))
+#' check_zip_names_file_presence(c("a.csv", "a.meta.csv", "dataset_names.csv"))
+#' check_zip_names_file_presence(c("a.csv", "a.meta.csv"))
+#' check_zip_names_file_presence(
+#'   c("a.csv", "a.meta.csv", "b.csv", "b.meta.csv")
+#' )
 #' @export
-check_zip_manifest_presence <- function(
+check_zip_names_file_presence <- function(
   file_entries,
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
   test_name <- get_check_name()
 
-  has_manifest <- "dataset_names.csv" %in% file_entries
+  has_names_file <- "dataset_names.csv" %in% file_entries
 
-  if (has_manifest) {
+  if (has_names_file) {
     return(test_output(
       test_name,
       "PASS",
-      "dataset_names.csv manifest is present.",
+      "dataset_names.csv names file is present.",
       verbose = verbose,
       stop_on_error = stop_on_error
     ))
@@ -50,8 +52,8 @@ check_zip_manifest_presence <- function(
       test_name,
       "PASS",
       paste0(
-        "No dataset_names.csv manifest found. ",
-        "Permitted for a single data/meta pair."
+        "No dataset_names.csv names file found. ",
+        "Permitted for a single data / meta pair."
       ),
       verbose = verbose,
       stop_on_error = stop_on_error
@@ -62,8 +64,9 @@ check_zip_manifest_presence <- function(
     test_name,
     "FAIL",
     paste0(
-      "dataset_names.csv manifest is missing. ",
-      "A manifest is required when the ZIP contains more than one data/meta pair."
+      "dataset_names.csv names file is missing. ",
+      "A names file is required when the ZIP contains ",
+      "more than one data / meta pair."
     ),
     verbose = verbose,
     stop_on_error = stop_on_error

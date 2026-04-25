@@ -32,8 +32,8 @@ check_zip_flat_structure(c("data.csv", "subdir/data.meta.csv"))
 }
 \seealso{
 Other check_zip: 
-\code{\link{check_zip_manifest_format}()},
-\code{\link{check_zip_manifest_presence}()},
+\code{\link{check_zip_names_file_format}()},
+\code{\link{check_zip_names_file_presence}()},
 \code{\link{check_zip_no_unreferenced}()},
 \code{\link{check_zip_pairs}()},
 \code{\link{check_zip_readable}()}

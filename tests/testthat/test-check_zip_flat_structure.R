@@ -11,7 +11,11 @@ test_that("fails for nested file", {
 })
 
 test_that("fails for OS junk nested file", {
-  result <- check_zip_flat_structure(c("data.csv", "data.meta.csv", "__MACOSX/._data.csv"))
+  result <- check_zip_flat_structure(c(
+    "data.csv",
+    "data.meta.csv",
+    "__MACOSX/._data.csv"
+  ))
   expect_equal(result$result, "FAIL")
   expect_true(grepl("__MACOSX", result$message))
 })

@@ -32,32 +32,21 @@ every test, if FALSE run silently}
 is "FAIL", and will throw genuine warning if result is "WARNING"}
 }
 \value{
-A list containing:
-\itemize{
-\item \code{structure_results} — data frame from \code{screen_zip_structure()}
-\item \code{pair_results} — named list of \code{screen_csv()} results, one per
-pair, named by the data file stem
-\item \code{overall_stage} — \code{"ZIP structure"} if structure checks failed,
-\code{"Passed"} if all pairs passed, otherwise the failing stage from the
-first failing pair
-\item \code{passed} — \code{TRUE} only if all structure checks and all pairs passed
-\item \code{api_suitable} — \code{TRUE} only if all structure checks and all pairs
-are API suitable
-}
-
-If \code{screen_zip_structure()} finds any FAIL the function returns early with
-\code{passed = FALSE} and \code{overall_stage = "ZIP structure"} before extracting
-the archive.
+A named list. The first element, \code{zip_structure}, is a data frame
+of ZIP structure check results (columns \code{check}, \code{result}, \code{message},
+\code{guidance_url}, \code{stage}), one row per check. Each subsequent element is a
+\code{screen_csv()} result named by the data file stem (e.g. \code{result$my_data}).
+If any structure check fails the function returns early with only
+\code{zip_structure} present and no pair entries.
 }
 \description{
-Validates the ZIP structure with \code{screen_zip_structure()}, then extracts
-the archive and runs \code{screen_csv()} on every data/meta pair inside it.
-All pairs are always screened — there is no early exit once the structure
-checks pass.
+Validates the ZIP structure by running the \verb{check_zip_*} family of checks,
+then extracts the archive and runs \code{screen_csv()} on every data / meta pair
+inside it. All pairs are always screened — there is no early exit once the
+structure checks pass.
 }
 \examples{
 \dontrun{
-# Build a single-pair ZIP from the built-in example data
 tmp_zip <- tempfile(fileext = ".zip")
 d <- tempfile()
 dir.create(d)
@@ -66,6 +55,6 @@ write.csv(example_meta, file.path(d, "ex.meta.csv"), row.names = FALSE)
 zip::zip(tmp_zip, c("ex.csv", "ex.meta.csv"), root = d)
 
 res <- screen_zip(tmp_zip, verbose = TRUE)
-res$passed
+res$ex$passed
 }
 }

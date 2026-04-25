@@ -121,9 +121,8 @@ reference:
 - title: ZIP screening
   description: |
     Functions for screening ZIP archives for upload to EES. `screen_zip()`
-    validates structure then runs `screen_csv()` on every data/meta pair.
-    `screen_zip_structure()` validates the archive layout only.
+    runs the `check_zip_*` structure checks then calls `screen_csv()` on every
+    data / meta pair inside the archive.
   contents:
   - screen_zip
-  - screen_zip_structure
   - starts_with("check_zip_")

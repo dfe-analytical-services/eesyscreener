@@ -2,7 +2,7 @@
 #'
 #' Verifies that the path points to an existing file with a `.zip` extension,
 #' then attempts to list its contents with `zip::zip_list()`. Returns FAIL if
-#' the file is missing, is not a `.zip`, or is corrupt/unreadable.
+#' the file is missing, is not a `.zip`, or is corrupt / unreadable.
 #'
 #' @param zippath A character string giving the path to the ZIP file.
 #' @param verbose logical, if TRUE prints feedback messages to console for
@@ -16,10 +16,14 @@
 #'
 #' @examples
 #' \dontrun{
-#' check_zip_readable("path/to/upload.zip")
+#' check_zip_readable("path/to/file.zip")
 #' }
 #' @export
-check_zip_readable <- function(zippath, verbose = FALSE, stop_on_error = FALSE) {
+check_zip_readable <- function(
+  zippath,
+  verbose = FALSE,
+  stop_on_error = FALSE
+) {
   test_name <- get_check_name()
 
   if (!file.exists(zippath) || isTRUE(file.info(zippath)$isdir)) {
@@ -52,7 +56,9 @@ check_zip_readable <- function(zippath, verbose = FALSE, stop_on_error = FALSE) 
       test_name,
       "FAIL",
       paste0(
-        "ZIP file could not be read: '", basename(zippath), "'. ",
+        "ZIP file could not be read: '",
+        basename(zippath),
+        "'. ",
         conditionMessage(zip_contents)
       ),
       verbose = verbose,

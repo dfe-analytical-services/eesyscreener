@@ -10,7 +10,7 @@ skip_integration_tests <- function() {
   )
 }
 
-# Helper: screens all data/meta CSV pairs in a local folder.
+# Helper: screens all data / meta CSV pairs in a local folder.
 # expected_passed       = TRUE/FALSE -> asserts screener_output$passed
 # expected_api_suitable = TRUE/FALSE -> asserts screener_output$api_suitable
 # (optional)

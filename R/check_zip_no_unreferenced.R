@@ -1,16 +1,16 @@
 #' Check that the ZIP contains no unreferenced files
 #'
-#' When a manifest is present, the only allowed files are `dataset_names.csv`
+#' When a names file is present, the only allowed files are `dataset_names.csv`
 #' plus `{stem}.csv` and `{stem}.meta.csv` for each `file_name` stem in the
-#' manifest. When no manifest is present (single-pair lenient path, indicated
-#' by `manifest_df = NULL`), the only allowed files are the single data CSV
-#' and its paired `.meta.csv`. Any other file — including OS artefacts
+#' names file. When no names file is present (single-pair lenient path,
+#' indicated by `names_file_df = NULL`), the only allowed files are the single
+#' data CSV and its paired `.meta.csv`. Any other file — including OS artefacts
 #' (`.DS_Store`, `__MACOSX/`), README files, orphan metadata, or stray CSVs
 #' — causes a FAIL.
 #'
 #' @param file_entries A character vector of file paths as returned by
 #'   `zip::zip_list(zippath)$filename`.
-#' @param manifest_df A data frame read from `dataset_names.csv` with columns
+#' @param names_file_df A data frame read from `dataset_names.csv` with columns
 #'   `file_name` and `dataset_name`, or `NULL` for the single-pair lenient
 #'   path.
 #' @param verbose logical, if TRUE prints feedback messages to console for
@@ -24,10 +24,10 @@
 #'
 #' @examples
 #' entries <- c("a.csv", "a.meta.csv", "dataset_names.csv")
-#' manifest <- data.frame(file_name = "a", dataset_name = "A")
-#' check_zip_no_unreferenced(entries, manifest)
+#' names_file <- data.frame(file_name = "a", dataset_name = "A")
+#' check_zip_no_unreferenced(entries, names_file)
 #'
-#' # Single-pair lenient path (no manifest)
+#' # Single-pair lenient path (no names file)
 #' check_zip_no_unreferenced(c("a.csv", "a.meta.csv"), NULL)
 #'
 #' # Stray file causes FAIL
@@ -35,20 +35,20 @@
 #' @export
 check_zip_no_unreferenced <- function(
   file_entries,
-  manifest_df,
+  names_file_df,
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
   test_name <- get_check_name()
 
-  if (is.null(manifest_df)) {
+  if (is.null(names_file_df)) {
     data_files <- file_entries[
       grepl("\\.csv$", file_entries) & !grepl("\\.meta\\.csv$", file_entries)
     ]
     meta_files <- file_entries[grepl("\\.meta\\.csv$", file_entries)]
     allowed <- c(data_files, meta_files)
   } else {
-    stems <- manifest_df$file_name
+    stems <- names_file_df$file_name
     allowed <- c(
       "dataset_names.csv",
       paste0(stems, ".csv"),
@@ -68,7 +68,8 @@ check_zip_no_unreferenced <- function(
       "FAIL",
       paste0(
         "ZIP contains unreferenced files: ",
-        paste(unreferenced, collapse = ", "), "."
+        paste(unreferenced, collapse = ", "),
+        "."
       ),
       verbose = verbose,
       stop_on_error = stop_on_error

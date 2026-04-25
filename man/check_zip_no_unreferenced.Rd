@@ -6,7 +6,7 @@
 \usage{
 check_zip_no_unreferenced(
   file_entries,
-  manifest_df,
+  names_file_df,
   verbose = FALSE,
   stop_on_error = FALSE
 )
@@ -15,7 +15,7 @@ check_zip_no_unreferenced(
 \item{file_entries}{A character vector of file paths as returned by
 \code{zip::zip_list(zippath)$filename}.}
 
-\item{manifest_df}{A data frame read from \code{dataset_names.csv} with columns
+\item{names_file_df}{A data frame read from \code{dataset_names.csv} with columns
 \code{file_name} and \code{dataset_name}, or \code{NULL} for the single-pair lenient
 path.}
 
@@ -29,20 +29,20 @@ is "FAIL", and will throw genuine warning if result is "WARNING"}
 a single row data frame
 }
 \description{
-When a manifest is present, the only allowed files are \code{dataset_names.csv}
+When a names file is present, the only allowed files are \code{dataset_names.csv}
 plus \verb{\{stem\}.csv} and \verb{\{stem\}.meta.csv} for each \code{file_name} stem in the
-manifest. When no manifest is present (single-pair lenient path, indicated
-by \code{manifest_df = NULL}), the only allowed files are the single data CSV
-and its paired \code{.meta.csv}. Any other file — including OS artefacts
+names file. When no names file is present (single-pair lenient path,
+indicated by \code{names_file_df = NULL}), the only allowed files are the single
+data CSV and its paired \code{.meta.csv}. Any other file — including OS artefacts
 (\code{.DS_Store}, \verb{__MACOSX/}), README files, orphan metadata, or stray CSVs
 — causes a FAIL.
 }
 \examples{
 entries <- c("a.csv", "a.meta.csv", "dataset_names.csv")
-manifest <- data.frame(file_name = "a", dataset_name = "A")
-check_zip_no_unreferenced(entries, manifest)
+names_file <- data.frame(file_name = "a", dataset_name = "A")
+check_zip_no_unreferenced(entries, names_file)
 
-# Single-pair lenient path (no manifest)
+# Single-pair lenient path (no names file)
 check_zip_no_unreferenced(c("a.csv", "a.meta.csv"), NULL)
 
 # Stray file causes FAIL
@@ -51,8 +51,8 @@ check_zip_no_unreferenced(c("a.csv", "a.meta.csv", "readme.txt"), NULL)
 \seealso{
 Other check_zip: 
 \code{\link{check_zip_flat_structure}()},
-\code{\link{check_zip_manifest_format}()},
-\code{\link{check_zip_manifest_presence}()},
+\code{\link{check_zip_names_file_format}()},
+\code{\link{check_zip_names_file_presence}()},
 \code{\link{check_zip_pairs}()},
 \code{\link{check_zip_readable}()}
 }

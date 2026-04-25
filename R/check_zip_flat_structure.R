@@ -28,7 +28,8 @@ check_zip_flat_structure <- function(
 ) {
   test_name <- get_check_name()
 
-  # Strip trailing slash from directory entries, then check for remaining slashes
+  # Strip trailing slash from directory entries, then check for remaining
+  # slashes
   normalized <- sub("/$", "", file_entries)
   nested <- grepl("/", normalized)
 
@@ -39,7 +40,8 @@ check_zip_flat_structure <- function(
       "FAIL",
       paste0(
         "ZIP contains files in subdirectories: ",
-        paste(nested_files, collapse = ", "), "."
+        paste(nested_files, collapse = ", "),
+        "."
       ),
       verbose = verbose,
       stop_on_error = stop_on_error

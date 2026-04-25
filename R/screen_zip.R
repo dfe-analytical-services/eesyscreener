@@ -1,33 +1,22 @@
 #' Screen a ZIP archive for upload to EES
 #'
-#' Validates the ZIP structure with `screen_zip_structure()`, then extracts
-#' the archive and runs `screen_csv()` on every data/meta pair inside it.
-#' All pairs are always screened — there is no early exit once the structure
-#' checks pass.
+#' Validates the ZIP structure by running the `check_zip_*` family of checks,
+#' then extracts the archive and runs `screen_csv()` on every data / meta pair
+#' inside it. All pairs are always screened — there is no early exit once the
+#' structure checks pass.
 #'
 #' @param zippath A character string giving the path to the ZIP file.
 #' @inheritParams screen_csv
 #'
-#' @return A list containing:
-#' \itemize{
-#'   \item `structure_results` — data frame from `screen_zip_structure()`
-#'   \item `pair_results` — named list of `screen_csv()` results, one per
-#'     pair, named by the data file stem
-#'   \item `overall_stage` — `"ZIP structure"` if structure checks failed,
-#'     `"Passed"` if all pairs passed, otherwise the failing stage from the
-#'     first failing pair
-#'   \item `passed` — `TRUE` only if all structure checks and all pairs passed
-#'   \item `api_suitable` — `TRUE` only if all structure checks and all pairs
-#'     are API suitable
-#' }
-#'
-#' If `screen_zip_structure()` finds any FAIL the function returns early with
-#' `passed = FALSE` and `overall_stage = "ZIP structure"` before extracting
-#' the archive.
+#' @return A named list. The first element, `zip_structure`, is a data frame
+#'   of ZIP structure check results (columns `check`, `result`, `message`,
+#'   `guidance_url`, `stage`), one row per check. Each subsequent element is a
+#'   `screen_csv()` result named by the data file stem (e.g. `result$my_data`).
+#'   If any structure check fails the function returns early with only
+#'   `zip_structure` present and no pair entries.
 #'
 #' @examples
 #' \dontrun{
-#' # Build a single-pair ZIP from the built-in example data
 #' tmp_zip <- tempfile(fileext = ".zip")
 #' d <- tempfile()
 #' dir.create(d)
@@ -36,7 +25,7 @@
 #' zip::zip(tmp_zip, c("ex.csv", "ex.meta.csv"), root = d)
 #'
 #' res <- screen_zip(tmp_zip, verbose = TRUE)
-#' res$passed
+#' res$ex$passed
 #' }
 #' @export
 screen_zip <- function(
@@ -47,20 +36,88 @@ screen_zip <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  structure_results <- screen_zip_structure(
+  attach_stage <- function(df) {
+    df$stage <- "ZIP structure"
+    df
+  }
+
+  readable_result <- check_zip_readable(
     zippath,
     verbose = verbose,
     stop_on_error = stop_on_error
+  ) |>
+    attach_stage()
+
+  if (readable_result$result == "FAIL") {
+    return(list(zip_structure = readable_result))
+  }
+
+  file_entries <- zip::zip_list(zippath)$filename
+  has_names_file <- "dataset_names.csv" %in% file_entries
+
+  zip_structure <- readable_result
+  zip_structure <- rbind(
+    zip_structure,
+    check_zip_flat_structure(
+      file_entries,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    ) |>
+      attach_stage()
+  )
+  zip_structure <- rbind(
+    zip_structure,
+    check_zip_names_file_presence(
+      file_entries,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    ) |>
+      attach_stage()
   )
 
-  if (any(structure_results$result == "FAIL")) {
-    return(list(
-      structure_results = structure_results,
-      pair_results = list(),
-      overall_stage = "ZIP structure",
-      passed = FALSE,
-      api_suitable = FALSE
-    ))
+  names_file_df <- NULL
+  if (has_names_file) {
+    tmp_names_file <- tempfile()
+    dir.create(tmp_names_file)
+    on.exit(unlink(tmp_names_file, recursive = TRUE), add = TRUE)
+    zip::unzip(zippath, files = "dataset_names.csv", exdir = tmp_names_file)
+    names_file_df <- utils::read.csv(
+      file.path(tmp_names_file, "dataset_names.csv"),
+      stringsAsFactors = FALSE
+    )
+    zip_structure <- rbind(
+      zip_structure,
+      check_zip_names_file_format(
+        names_file_df,
+        verbose = verbose,
+        stop_on_error = stop_on_error
+      ) |>
+        attach_stage()
+    )
+    zip_structure <- rbind(
+      zip_structure,
+      check_zip_pairs(
+        file_entries,
+        names_file_df,
+        verbose = verbose,
+        stop_on_error = stop_on_error
+      ) |>
+        attach_stage()
+    )
+  }
+  zip_structure <- rbind(
+    zip_structure,
+    check_zip_no_unreferenced(
+      file_entries,
+      names_file_df,
+      verbose = verbose,
+      stop_on_error = stop_on_error
+    ) |>
+      attach_stage()
+  )
+
+  if (any(zip_structure$result == "FAIL")) {
+    return(list(zip_structure = zip_structure))
   }
 
   tmp <- tempfile()
@@ -68,27 +125,18 @@ screen_zip <- function(
   on.exit(unlink(tmp, recursive = TRUE), add = TRUE)
   zip::unzip(zippath, exdir = tmp)
 
-  has_manifest <- file.exists(file.path(tmp, "dataset_names.csv"))
-
-  if (has_manifest) {
-    manifest_df <- utils::read.csv(
-      file.path(tmp, "dataset_names.csv"),
-      stringsAsFactors = FALSE
-    )
-    stems <- manifest_df$file_name
+  stems <- if (!is.null(names_file_df)) {
+    names_file_df$file_name
   } else {
     extracted <- list.files(tmp, pattern = "\\.csv$")
-    data_files <- extracted[!grepl("\\.meta\\.csv$", extracted)]
-    stems <- sub("\\.csv$", "", data_files)
+    sub("\\.csv$", "", extracted[!grepl("\\.meta\\.csv$", extracted)])
   }
 
   pair_results <- list()
   for (stem in stems) {
-    data_path <- file.path(tmp, paste0(stem, ".csv"))
-    meta_path <- file.path(tmp, paste0(stem, ".meta.csv"))
     pair_results[[stem]] <- screen_csv(
-      data_path,
-      meta_path,
+      file.path(tmp, paste0(stem, ".csv")),
+      file.path(tmp, paste0(stem, ".meta.csv")),
       datafilename = paste0(stem, ".csv"),
       metafilename = paste0(stem, ".meta.csv"),
       log_key = log_key,
@@ -99,23 +147,5 @@ screen_zip <- function(
     )
   }
 
-  all_passed <- all(vapply(pair_results, function(r) r$passed, logical(1)))
-  all_api_suitable <- all(
-    vapply(pair_results, function(r) r$api_suitable, logical(1))
-  )
-
-  if (!all_passed) {
-    failing <- Filter(function(r) !r$passed, pair_results)
-    overall_stage <- failing[[1]]$overall_stage
-  } else {
-    overall_stage <- "Passed"
-  }
-
-  list(
-    structure_results = structure_results,
-    pair_results = pair_results,
-    overall_stage = overall_stage,
-    passed = all_passed,
-    api_suitable = all_api_suitable
-  )
+  c(list(zip_structure = zip_structure), pair_results)
 }

@@ -2,7 +2,10 @@ test_that("passes for valid single-pair ZIP", {
   skip_integration_tests()
 
   d <- make_zip(
-    files = c(pass_file("passes_everything"), pass_file("passes_everything", ".meta.csv")),
+    files = c(
+      pass_file("passes_everything"),
+      pass_file("passes_everything", ".meta.csv")
+    ),
     names_in_zip = c("passes_everything.csv", "passes_everything.meta.csv")
   )
   on.exit({
@@ -10,17 +13,17 @@ test_that("passes for valid single-pair ZIP", {
     unlink(d$staging, recursive = TRUE)
   })
 
-  screen_zip_fixture(d$zippath, expected_passed = TRUE, expected_api_suitable = TRUE)
+  zip_fixture(d$zippath, expected_passed = TRUE, expected_api_suitable = TRUE)
 })
 
-test_that("passes for valid multi-pair ZIP with manifest", {
+test_that("passes for valid multi-pair ZIP with names file", {
   skip_integration_tests()
 
-  manifest <- tempfile()
-  on.exit(unlink(manifest))
+  names_file <- tempfile()
+  on.exit(unlink(names_file))
   writeLines(
-    manifest_lines(c("passes_everything", "noFilters")),
-    manifest
+    names_file_lines(c("passes_everything", "noFilters")),
+    names_file
   )
 
   d <- make_zip(
@@ -29,7 +32,7 @@ test_that("passes for valid multi-pair ZIP with manifest", {
       pass_file("passes_everything", ".meta.csv"),
       pass_file("noFilters"),
       pass_file("noFilters", ".meta.csv"),
-      manifest
+      names_file
     ),
     names_in_zip = c(
       "passes_everything.csv",
@@ -39,18 +42,22 @@ test_that("passes for valid multi-pair ZIP with manifest", {
       "dataset_names.csv"
     )
   )
-  on.exit({
-    unlink(d$zippath)
-    unlink(d$staging, recursive = TRUE)
-  }, add = TRUE)
+  on.exit(
+    {
+      unlink(d$zippath)
+      unlink(d$staging, recursive = TRUE)
+    },
+    add = TRUE
+  )
 
-  result <- screen_zip_fixture(d$zippath, expected_passed = TRUE)
-  expect_equal(length(result$pair_results), 2)
-  expect_true("passes_everything" %in% names(result$pair_results))
-  expect_true("noFilters" %in% names(result$pair_results))
+  result <- zip_fixture(d$zippath, expected_passed = TRUE)
+  pair_names <- setdiff(names(result), "zip_structure")
+  expect_equal(length(pair_names), 2)
+  expect_true("passes_everything" %in% names(result))
+  expect_true("noFilters" %in% names(result))
 })
 
-test_that("fails early when ZIP structure is invalid", {
+test_that("fails early when ZIP is unreadable", {
   skip_integration_tests()
   corrupt <- tempfile(fileext = ".zip")
   on.exit(unlink(corrupt))
@@ -58,19 +65,87 @@ test_that("fails early when ZIP structure is invalid", {
 
   result <- screen_zip(corrupt)
 
-  expect_false(result$passed)
-  expect_equal(result$overall_stage, "ZIP structure")
-  expect_equal(length(result$pair_results), 0)
+  expect_true(any(result$zip_structure$result == "FAIL"))
+  expect_equal(length(setdiff(names(result), "zip_structure")), 0)
+})
+
+test_that("fails early when ZIP has nested structure", {
+  skip_integration_tests()
+
+  staging <- tempfile()
+  dir.create(staging)
+  subdir <- file.path(staging, "subdir")
+  dir.create(subdir)
+  file.copy(
+    pass_file("passes_everything"),
+    file.path(subdir, "passes_everything.csv")
+  )
+  file.copy(
+    pass_file("passes_everything", ".meta.csv"),
+    file.path(subdir, "passes_everything.meta.csv")
+  )
+
+  zippath <- tempfile(fileext = ".zip")
+  zip::zip(
+    zippath,
+    files = c(
+      "subdir/passes_everything.csv",
+      "subdir/passes_everything.meta.csv"
+    ),
+    root = staging
+  )
+  on.exit({
+    unlink(zippath)
+    unlink(staging, recursive = TRUE)
+  })
+
+  result <- screen_zip(zippath)
+
+  flat_row <- result$zip_structure[
+    result$zip_structure$check == "zip_flat_structure",
+  ]
+  expect_equal(flat_row$result, "FAIL")
+  expect_equal(length(setdiff(names(result), "zip_structure")), 0)
+})
+
+test_that("fails when multi-pair ZIP has no names file", {
+  skip_integration_tests()
+
+  d <- make_zip(
+    files = c(
+      pass_file("passes_everything"),
+      pass_file("passes_everything", ".meta.csv"),
+      pass_file("noFilters"),
+      pass_file("noFilters", ".meta.csv")
+    ),
+    names_in_zip = c(
+      "passes_everything.csv",
+      "passes_everything.meta.csv",
+      "noFilters.csv",
+      "noFilters.meta.csv"
+    )
+  )
+  on.exit({
+    unlink(d$zippath)
+    unlink(d$staging, recursive = TRUE)
+  })
+
+  result <- screen_zip(d$zippath)
+
+  presence_row <- result$zip_structure[
+    result$zip_structure$check == "zip_names_file_presence",
+  ]
+  expect_equal(presence_row$result, "FAIL")
 })
 
 test_that("screens all pairs even when some fail", {
   skip_integration_tests()
 
-  manifest <- tempfile()
-  on.exit(unlink(manifest))
+  names_file <- tempfile()
+  on.exit(unlink(names_file))
   writeLines(
-    manifest_lines(c("passes_everything", "noFilters")),
-    manifest
+    names_file_lines(c("passes_everything", "noFilters")),
+    names_file
   )
 
   d <- make_zip(
@@ -79,7 +154,7 @@ test_that("screens all pairs even when some fail", {
       pass_file("passes_everything", ".meta.csv"),
       pass_file("noFilters"),
       pass_file("noFilters", ".meta.csv"),
-      manifest
+      names_file
     ),
     names_in_zip = c(
       "passes_everything.csv",
@@ -89,22 +164,27 @@ test_that("screens all pairs even when some fail", {
       "dataset_names.csv"
     )
   )
-  on.exit({
-    unlink(d$zippath)
-    unlink(d$staging, recursive = TRUE)
-  }, add = TRUE)
+  on.exit(
+    {
+      unlink(d$zippath)
+      unlink(d$staging, recursive = TRUE)
+    },
+    add = TRUE
+  )
 
   result <- screen_zip(d$zippath)
 
-  # All pairs were screened regardless of outcome
-  expect_equal(length(result$pair_results), 2)
+  expect_equal(length(setdiff(names(result), "zip_structure")), 2)
 })
 
 test_that("returns correct structure fields", {
   skip_integration_tests()
 
   d <- make_zip(
-    files = c(pass_file("passes_everything"), pass_file("passes_everything", ".meta.csv")),
+    files = c(
+      pass_file("passes_everything"),
+      pass_file("passes_everything", ".meta.csv")
+    ),
     names_in_zip = c("passes_everything.csv", "passes_everything.meta.csv")
   )
   on.exit({
@@ -114,25 +194,33 @@ test_that("returns correct structure fields", {
 
   result <- screen_zip(d$zippath)
 
-  expect_true(all(c(
-    "structure_results", "pair_results", "overall_stage", "passed", "api_suitable"
-  ) %in% names(result)))
+  expect_true("zip_structure" %in% names(result))
+  expect_true(is.data.frame(result$zip_structure))
+  expect_true(
+    all(
+      c("check", "result", "message", "guidance_url", "stage") %in%
+        names(result$zip_structure)
+    )
+  )
 
-  expect_true(is.data.frame(result$structure_results))
-  expect_true(is.list(result$pair_results))
-  expect_true(is.character(result$overall_stage))
-  expect_true(is.logical(result$passed))
-  expect_true(is.logical(result$api_suitable))
+  pair_names <- setdiff(names(result), "zip_structure")
+  expect_true(length(pair_names) > 0)
+  expect_true(all(vapply(result[pair_names], is.list, logical(1))))
 })
 
-test_that("failing pair sets overall_stage from that pair's stage", {
+test_that("failing pair has passed == FALSE", {
   skip_integration_tests()
 
-  # Use a file from the fail/ directory
-  fail_files <- list.files(test_path("fail"), pattern = "\\.csv$", full.names = FALSE)
+  fail_files <- list.files(
+    test_path("fail"),
+    pattern = "\\.csv$",
+    full.names = FALSE
+  )
   fail_files <- fail_files[!grepl("\\.meta\\.", fail_files)]
 
-  if (length(fail_files) == 0) skip("No fail fixtures found")
+  if (length(fail_files) == 0) {
+    skip("No fail fixtures found")
+  }
 
   stem <- sub("\\.csv$", "", fail_files[[1]])
 
@@ -147,15 +235,18 @@ test_that("failing pair sets overall_stage from that pair's stage", {
 
   result <- screen_zip(d$zippath)
 
-  expect_false(result$passed)
-  expect_false(result$overall_stage == "ZIP structure")
+  expect_false(result[[stem]]$passed)
+  expect_true(all(result$zip_structure$result == "PASS"))
 })
 
-test_that("overall_stage is Passed when all pairs pass", {
+test_that("all pairs have passed == TRUE when all pairs pass", {
   skip_integration_tests()
 
   d <- make_zip(
-    files = c(pass_file("passes_everything"), pass_file("passes_everything", ".meta.csv")),
+    files = c(
+      pass_file("passes_everything"),
+      pass_file("passes_everything", ".meta.csv")
+    ),
     names_in_zip = c("passes_everything.csv", "passes_everything.meta.csv")
   )
   on.exit({
@@ -165,5 +256,6 @@ test_that("overall_stage is Passed when all pairs pass", {
 
   result <- screen_zip(d$zippath)
 
-  expect_equal(result$overall_stage, "Passed")
+  pair_names <- setdiff(names(result), "zip_structure")
+  expect_true(all(vapply(result[pair_names], function(r) r$passed, logical(1))))
 })

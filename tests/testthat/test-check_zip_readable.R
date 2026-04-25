@@ -40,7 +40,9 @@ test_that("returns single-row data frame", {
   result <- check_zip_readable(tmp)
   expect_true(is.data.frame(result))
   expect_equal(nrow(result), 1)
-  expect_true(all(c("check", "result", "message", "guidance_url") %in% names(result)))
+  expect_true(all(
+    c("check", "result", "message", "guidance_url") %in% names(result)
+  ))
 })
 
 test_that("check name is zip_readable", {
