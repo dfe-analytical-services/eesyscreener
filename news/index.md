@@ -1,6 +1,6 @@
 # Changelog
 
-## eesyscreener (development version)
+## eesyscreener 0.3.0
 
 Significant rewrite of the package around a consistent
 [`screen_csv()`](https://dfe-analytical-services.github.io/eesyscreener/reference/screen_csv.md)

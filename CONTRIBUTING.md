@@ -61,16 +61,19 @@ R-aware editor.
 Run through this checklist for every contribution, regardless of what
 you changed:
 
-1.  **Regenerate docs** — `devtools::document()` (updates `NAMESPACE`
-    and roxygen `.Rd` files).
+1.  **Regenerate docs** —
+    [`devtools::document()`](https://devtools.r-lib.org/reference/document.html)
+    (updates `NAMESPACE` and roxygen `.Rd` files).
 
 2.  **Format** — `air format .` from the terminal (or automatically on
     save in your IDE).
 
-3.  **Lint** — `devtools::load_all(); lintr::lint_package()`.
+3.  **Lint** —
+    [`devtools::load_all(); lintr::lint_package()`](https://devtools.r-lib.org/reference/load_all.html).
 
-4.  **Run the full test suite** — `devtools::test()`. Do not merge with
-    tests skipped.
+4.  **Run the full test suite** —
+    [`devtools::test()`](https://devtools.r-lib.org/reference/test.html).
+    Do not merge with tests skipped.
 
 5.  **Regenerate example output** if you added or changed a check in the
     pipeline, or updated any `data-raw/` source:
@@ -87,9 +90,11 @@ you changed:
 
 ### Running and skipping tests
 
-By default, all tests run via `devtools::test()` (full package checks
-run with `devtools::check()`, but that skips the integration tests for
-speed)
+By default, all tests run via
+[`devtools::test()`](https://devtools.r-lib.org/reference/test.html)
+(full package checks run with
+[`devtools::check()`](https://devtools.r-lib.org/reference/check.html),
+but that skips the integration tests for speed)
 
 We mix unit tests (quick function tests, a few seconds) with integration
 tests (full CSV screening, a few minutes). The integration tests are
@@ -127,8 +132,9 @@ one:
   pair then ensure they are made as small as possible to minimise the
   size of the repo.
 - **Documentation** — roxygen changes still require
-  `devtools::document()`. Review the full documentation site locally
-  with `devtools::build_site()`
+  [`devtools::document()`](https://devtools.r-lib.org/reference/document.html).
+  Review the full documentation site locally with
+  [`devtools::build_site()`](https://devtools.r-lib.org/reference/build_site.html)
 - **Reference data** (e.g. new geographic lookups, updated acceptable
   values) — edit the matching `data-raw/*.R` script and regenerate the
   `.rda` via `source("data-raw/<script>.R")`. Also regenerate example

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">eesyscreener</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,11 +39,11 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="eesyscreener-development-version">eesyscreener (development version)<a class="anchor" aria-label="anchor" href="#eesyscreener-development-version"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.3.0" id="eesyscreener-030">eesyscreener 0.3.0<a class="anchor" aria-label="anchor" href="#eesyscreener-030"></a></h2>
 <p>Significant rewrite of the package around a consistent <code><a href="../reference/screen_csv.html">screen_csv()</a></code> / <code><a href="../reference/screen_dfs.html">screen_dfs()</a></code> orchestration layer, with all checks following the <code>check_*()</code> / <code>precheck_*()</code> naming and return-value conventions.</p>
 <p>Performance optimisations including a small file (&lt;5 MB) in-memory screening route.</p>
 <div class="section level3">
-<h3 id="new-checks-development-version">New checks<a class="anchor" aria-label="anchor" href="#new-checks-development-version"></a></h3>
+<h3 id="new-checks-0-3-0">New checks<a class="anchor" aria-label="anchor" href="#new-checks-0-3-0"></a></h3>
 <ul><li><code><a href="../reference/check_col_var_start.html">check_col_var_start()</a></code></li>
 <li><code><a href="../reference/check_col_var_characteristic.html">check_col_var_characteristic()</a></code></li>
 <li><code><a href="../reference/check_col_ind_smushed.html">check_col_ind_smushed()</a></code></li>
@@ -75,7 +75,7 @@
 <li>Data dictionary checks</li>
 </ul></div>
 <div class="section level3">
-<h3 id="infrastructure-development-version">Infrastructure<a class="anchor" aria-label="anchor" href="#infrastructure-development-version"></a></h3>
+<h3 id="infrastructure-0-3-0">Infrastructure<a class="anchor" aria-label="anchor" href="#infrastructure-0-3-0"></a></h3>
 <ul><li>Geography combo checks consolidated into a single <code>check_geog_combos.R</code> with thin per-level wrappers.</li>
 <li>Integration tests added to exercise full CSV screening end-to-end.</li>
 <li>Testthat output no longer dumps unrelated messages.</li>

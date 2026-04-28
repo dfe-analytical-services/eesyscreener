@@ -268,12 +268,12 @@ fallbacks”.
 
 ## Key files
 
-| File                                  | Purpose                                                                                      |
-|---------------------------------------|----------------------------------------------------------------------------------------------|
-| `DESCRIPTION`                         | Package metadata, dependencies, version                                                      |
-| `NAMESPACE`                           | Export declarations (auto-generated from roxygen2)                                           |
-| `_pkgdown.yml`                        | pkgdown site configuration and check groupings                                               |
-| `.github/CONTRIBUTING.md`             | Authoritative contributor guide — conventions, testing, geography, style                     |
-| `.github/workflows/`                  | CI/CD pipelines (R-CMD-check, coverage, pkgdown, integration)                                |
-| `vignettes/assumptions_in_checks.Rmd` | Explains check ordering and inter-check assumptions                                          |
-| `README.Rmd`                          | Source for README.md — always edit the `.Rmd` and regenerate with `devtools::build_readme()` |
+| File                                  | Purpose                                                                                                                                                |
+|---------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `DESCRIPTION`                         | Package metadata, dependencies, version                                                                                                                |
+| `NAMESPACE`                           | Export declarations (auto-generated from roxygen2)                                                                                                     |
+| `_pkgdown.yml`                        | pkgdown site configuration and check groupings                                                                                                         |
+| `.github/CONTRIBUTING.md`             | Authoritative contributor guide — conventions, testing, geography, style                                                                               |
+| `.github/workflows/`                  | CI/CD pipelines (R-CMD-check, coverage, pkgdown, integration)                                                                                          |
+| `vignettes/assumptions_in_checks.Rmd` | Explains check ordering and inter-check assumptions                                                                                                    |
+| `README.Rmd`                          | Source for README.md — always edit the `.Rmd` and regenerate with [`devtools::build_readme()`](https://devtools.r-lib.org/reference/build_readme.html) |

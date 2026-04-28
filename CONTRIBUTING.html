@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="index.html">eesyscreener</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,33 +62,33 @@
 <li>
 <p>Sanity-check your setup by loading the package and running the test suite:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">load_all</span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">test</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/load_all.html" class="external-link">load_all</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/test.html" class="external-link">test</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>The full test run can take a few minutes (integration tests screen full CSVs). See <a href="#running-and-skipping-tests">Running and skipping tests</a> for how and when to skip the longer tests.</p>
 </li>
 </ol></div>
 <div class="section level2">
 <h2 id="before-opening-a-pr">Before opening a PR<a class="anchor" aria-label="anchor" href="#before-opening-a-pr"></a></h2>
 <p>Run through this checklist for every contribution, regardless of what you changed:</p>
-<ol style="list-style-type: decimal"><li><p><strong>Regenerate docs</strong> — <code>devtools::document()</code> (updates <code>NAMESPACE</code> and roxygen <code>.Rd</code> files).</p></li>
+<ol style="list-style-type: decimal"><li><p><strong>Regenerate docs</strong> — <code><a href="https://devtools.r-lib.org/reference/document.html" class="external-link">devtools::document()</a></code> (updates <code>NAMESPACE</code> and roxygen <code>.Rd</code> files).</p></li>
 <li><p><strong>Format</strong> — <code>air format .</code> from the terminal (or automatically on save in your IDE).</p></li>
-<li><p><strong>Lint</strong> — <code>devtools::load_all(); lintr::lint_package()</code>.</p></li>
-<li><p><strong>Run the full test suite</strong> — <code>devtools::test()</code>. Do not merge with tests skipped.</p></li>
+<li><p><strong>Lint</strong> — <code><a href="https://devtools.r-lib.org/reference/load_all.html" class="external-link">devtools::load_all(); lintr::lint_package()</a></code>.</p></li>
+<li><p><strong>Run the full test suite</strong> — <code><a href="https://devtools.r-lib.org/reference/test.html" class="external-link">devtools::test()</a></code>. Do not merge with tests skipped.</p></li>
 <li>
 <p><strong>Regenerate example output</strong> if you added or changed a check in the pipeline, or updated any <code>data-raw/</code> source:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">load_all</span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/load_all.html" class="external-link">load_all</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/source.html" class="external-link">source</a></span><span class="op">(</span><span class="st">"data-raw/example_output.R"</span><span class="op">)</span></span></code></pre></div>
 </li>
 <li><p><strong>Update <code>NEWS.md</code></strong> with a bullet under the current development version heading for any user-facing change (new check, new argument, changed behaviour, bug fix). Internal refactors usually do not need an entry.</p></li>
 </ol><div class="section level3">
 <h3 id="running-and-skipping-tests">Running and skipping tests<a class="anchor" aria-label="anchor" href="#running-and-skipping-tests"></a></h3>
-<p>By default, all tests run via <code>devtools::test()</code> (full package checks run with <code>devtools::check()</code>, but that skips the integration tests for speed)</p>
+<p>By default, all tests run via <code><a href="https://devtools.r-lib.org/reference/test.html" class="external-link">devtools::test()</a></code> (full package checks run with <code><a href="https://devtools.r-lib.org/reference/check.html" class="external-link">devtools::check()</a></code>, but that skips the integration tests for speed)</p>
 <p>We mix unit tests (quick function tests, a few seconds) with integration tests (full CSV screening, a few minutes). The integration tests are essential for end-to-end coverage on realistic files but slow down iteration. Skip them locally with the <code>SKIP_INTEGRATION_TESTS</code> environment variable:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">withr</span><span class="fu">::</span><span class="fu"><a href="https://withr.r-lib.org/reference/with_envvar.html" class="external-link">with_envvar</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>SKIP_INTEGRATION_TESTS <span class="op">=</span> <span class="st">"true"</span><span class="op">)</span>,</span>
-<span>  <span class="fu">devtools</span><span class="fu">::</span><span class="fu">test</span><span class="op">(</span><span class="op">)</span></span>
+<span>  <span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/test.html" class="external-link">test</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>This skips <code>test-zzz_integration.R</code>, <code>test-ees-robot-tests.R</code>, <code>test-screen_csv.R</code> and <code>test-screen_dfs.R</code>, bringing the run down from minutes to ~30 seconds. The gating logic lives in <code>tests/testthat/helper-integration.R</code>.</p>
 <p>Integration tests are skipped on CRAN and in R-CMD-check, but have their own GitHub Action so every PR still covers them.</p>
@@ -101,7 +101,7 @@
 <ul><li>
 <strong>Bug fixes</strong> — follow the “Before opening a PR” checklist. Add a new test in the existing <code>tests/testthat/test-&lt;function&gt;.R</code> file for the function you’re fixing, or a new example CSV pair in one of the <code>tests/testthat/</code> folders as appropriate. If adding a new CSV test pair then ensure they are made as small as possible to minimise the size of the repo.</li>
 <li>
-<strong>Documentation</strong> — roxygen changes still require <code>devtools::document()</code>. Review the full documentation site locally with <code>devtools::build_site()</code>
+<strong>Documentation</strong> — roxygen changes still require <code><a href="https://devtools.r-lib.org/reference/document.html" class="external-link">devtools::document()</a></code>. Review the full documentation site locally with <code><a href="https://devtools.r-lib.org/reference/build_site.html" class="external-link">devtools::build_site()</a></code>
 </li>
 <li>
 <strong>Reference data</strong> (e.g. new geographic lookups, updated acceptable values) — edit the matching <code>data-raw/*.R</code> script and regenerate the <code>.rda</code> via <code>source("data-raw/&lt;script&gt;.R")</code>. Also regenerate example output afterwards.</li>
@@ -276,7 +276,7 @@ precheck_&lt;area&gt;_&lt;what&gt;()   # Early validation (blocks on failure)</c
 <li>
 <p><strong>Regenerate example output</strong> – required whenever a check is added to the pipeline:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">load_all</span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/load_all.html" class="external-link">load_all</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/source.html" class="external-link">source</a></span><span class="op">(</span><span class="st">"data-raw/example_output.R"</span><span class="op">)</span></span></code></pre></div>
 </li>
 <li>
@@ -359,7 +359,7 @@ precheck_&lt;area&gt;_&lt;what&gt;()   # Early validation (blocks on failure)</c
 <td>Only needs editing if you rename the section heading; new <code>check_geog_*</code> functions are picked up by <code>starts_with()</code>.</td>
 </tr></tbody></table><p>After editing <code>data-raw/</code>, regenerate the <code>.rda</code> files:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">load_all</span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/load_all.html" class="external-link">load_all</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/source.html" class="external-link">source</a></span><span class="op">(</span><span class="st">"data-raw/geography_df.R"</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/source.html" class="external-link">source</a></span><span class="op">(</span><span class="st">"data-raw/acceptable_geog_combos.R"</span><span class="op">)</span></span></code></pre></div>
 <p>Then regenerate example output if any check or lookup changed:</p>
@@ -430,7 +430,7 @@ precheck_&lt;area&gt;_&lt;what&gt;()   # Early validation (blocks on failure)</c
 <h4 id="stingy-safety">Stingy safety<a class="anchor" aria-label="anchor" href="#stingy-safety"></a></h4>
 <p>Any new multi-column aggregation must remain lazy until <code>collect()</code>. Run the stingy check locally before opening a PR:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">test</span><span class="op">(</span>filter <span class="op">=</span> <span class="st">"avoid_materialisation"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/test.html" class="external-link">test</a></span><span class="op">(</span>filter <span class="op">=</span> <span class="st">"avoid_materialisation"</span><span class="op">)</span></span></code></pre></div>
 <p>If it fails, the operation materialised before <code>collect()</code>. The usual fix is the <code>char_cols</code> pre-computation above or removing an untranslatable function from the SQL pipeline.</p>
 </div>
 </div>
