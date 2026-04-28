@@ -1,4 +1,4 @@
-# eesyscreener (development version)
+# eesyscreener 0.3.0
 
 Significant rewrite of the package around a consistent `screen_csv()` /
 `screen_dfs()` orchestration layer, with all checks following the
