@@ -26,11 +26,11 @@ example_data <- data.frame(
     "Female"
   ),
   education_phase = c(
-    "All phases",
+    "All schools",
     "Primary",
     "Secondary",
-    "All phases",
-    "All phases",
+    "All schools",
+    "All schools",
     "Primary",
     "Primary",
     "Secondary",
@@ -48,7 +48,7 @@ example_meta <- data.frame(
   indicator_dp = c(NA, NA, 0),
   filter_hint = c("", "", ""),
   filter_grouping_column = c("", "", ""),
-  filter_default = c("All pupils", "All phases", "")
+  filter_default = c("All pupils", "All schools", "")
 )
 
 usethis::use_data(example_data, overwrite = TRUE)

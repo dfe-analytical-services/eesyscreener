@@ -45,7 +45,7 @@ test_that("fails when a single filter exceeds the item limit", {
 test_that("names all offending filters when multiple exceed the limit", {
   data <- data.frame(
     sex = c("Male", "Female", "All pupils"),
-    phase = c("Primary", "Secondary", "All phases"),
+    phase = c("Primary", "Secondary", "All schools"),
     count = c(1, 2, 3)
   )
   meta <- data.frame(

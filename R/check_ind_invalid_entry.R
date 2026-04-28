@@ -18,31 +18,40 @@ check_ind_invalid_entry <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
-  ind_invalid_entry_check <- function(i) {
-    col_vals <- data |>
-      dplyr::select(dplyr::all_of(i)) |>
-      dplyr::distinct() |>
-      dplyr::pull(1)
-    if (any(c(eesyscreener::legacy_gss_symbols, "") %in% col_vals)) {
-      "FAIL"
-    } else {
-      "PASS"
-    }
-  }
-
   test_name <- get_check_name()
+
   indicators <- meta |>
     dplyr::filter(.data$col_type == "Indicator") |>
     dplyr::pull(.data$col_name) |>
     as.vector()
 
-  pre_result <- utils::stack(sapply(indicators, ind_invalid_entry_check))
+  bad_vals <- c(eesyscreener::legacy_gss_symbols, "")
 
-  invalid_indicators <- as.character(
-    pre_result$ind[pre_result$values == "FAIL"]
+  # Restrict to character columns: numeric indicators cannot contain string
+  # bad_vals, so they trivially pass. Pre-computing char cols from the schema
+  # avoids a type-mismatch error when DuckDB tries to compare BIGINT to string
+  # literals. Single query across all character indicators.
+  char_indicators <- intersect(
+    indicators,
+    names(dplyr::select(data, dplyr::where(is.character)))
   )
 
-  if (all(pre_result$values == "PASS")) {
+  if (length(char_indicators) > 0) {
+    result_row <- data |>
+      dplyr::summarise(dplyr::across(
+        dplyr::all_of(char_indicators),
+        ~ sum(. %in% bad_vals) > 0
+      )) |>
+      dplyr::collect()
+    invalid_indicators <- names(result_row)[unlist(
+      result_row,
+      use.names = FALSE
+    )]
+  } else {
+    invalid_indicators <- character(0)
+  }
+
+  if (length(invalid_indicators) == 0) {
     test_output(
       test_name,
       "PASS",
@@ -61,16 +70,11 @@ check_ind_invalid_entry <- function(
             " with invalid entries"
           )
         ),
-        ifelse(
-          length(invalid_indicators) > 0,
-          paste(
-            ":",
-            paste0(invalid_indicators, collapse = ", "),
-            "contains either a blank or at least one of",
-            paste0(eesyscreener::legacy_gss_symbols, collapse = "', '")
-          ),
-          ""
-        )
+        ": ",
+        paste0(invalid_indicators, collapse = ", "),
+        " contains either a blank or at least one of '",
+        paste0(bad_vals[bad_vals != ""], collapse = "', '"),
+        "'"
       ),
       guidance_url = paste0(
         "https://gss.civilservice.gov.uk/wp-content/uploads/2017/03/",

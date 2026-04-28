@@ -19,7 +19,7 @@ test_that("PASS when data contains all required cols for geographic_level", {
       "All pupils"
     ),
     education_phase = c(
-      "All phases"
+      "All schools"
     ),
     enrolment_count = c(1000),
     la_name = "Bracknell Forest",
@@ -70,7 +70,7 @@ test_that("FAIL when data doesn't contain all required columns for a level", {
       "All pupils"
     ),
     education_phase = c(
-      "All phases"
+      "All schools"
     ),
     enrolment_count = c(1000),
     la_name = "Bracknell Forest",
@@ -105,7 +105,7 @@ test_that("FAIL plural when data doesn't contain multiple required columns", {
       "All pupils"
     ),
     education_phase = c(
-      "All phases"
+      "All schools"
     ),
     enrolment_count = c(1000),
     la_name = "Bracknell Forest"

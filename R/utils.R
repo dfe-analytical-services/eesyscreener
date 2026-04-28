@@ -158,6 +158,10 @@ validate_arg_logical <- function(logical, name) {
 #'
 #' @param datapath Path to the data CSV (or gzipped CSV) file
 #' @param metapath Path to the meta CSV (or gzipped CSV) file
+#' @param use_duckdb logical, if TRUE will use duckdb for reading the files, if
+#' FALSE will read the files fully into memory as data frames. Default is TRUE,
+#' but for small files (under 5 MB) it will automatically switch to FALSE to
+#' avoid duckdb overhead outweighing the benefits.
 #' @return a duckplyr data frame named 'data' and a data table named
 #' 'meta'
 #' @examples
@@ -175,9 +179,8 @@ validate_arg_logical <- function(logical, name) {
 #' file.remove(meta_file)
 #' @keywords internal
 #' @noRd
-read_ees_files <- function(datapath, metapath) {
+read_ees_files <- function(datapath, metapath, use_duckdb = TRUE) {
   # Check if files exist
-
   if (!file.exists(datapath)) {
     cli::cli_abort(sprintf("No file found at %s", datapath))
   }
@@ -221,30 +224,46 @@ read_ees_files <- function(datapath, metapath) {
   }
 
   # Read in the CSV files -----------------------------------------------------
-  # TODO: Add better handling for if there's issues reading the files
-
-  # Check number of columns in data file in order to be able to set them all as
-  # VARCHAR on the actual read in:
-  n_data_cols <- datapath |>
-    duckplyr::read_csv_duckdb(prudence = "thrifty") |>
-    dplyr::tbl_vars() |>
-    length()
-
-  # Lazy reading of data for speed
-  # Setting all columns to VARCHAR as everything can basically contain a
-  # character (i.e. indicators often contain x, c, z, etc)
-  datafile <- datapath |>
-    duckplyr::read_csv_duckdb(
-      options = list(
-        types = list(rep("VARCHAR", n_data_cols)),
-        quote = '"'
-      )
+  # Column count from header only — avoids a full DuckDB schema scan.
+  n_data_cols <- length(
+    scan(
+      datapath,
+      what = "",
+      nlines = 1,
+      sep = ",",
+      quote = '"',
+      quiet = TRUE
     )
+  )
+
+  if (use_duckdb) {
+    # Large files: lazy DuckDB reading for performance.
+    # Setting all columns to VARCHAR as everything can basically contain a
+    # character (i.e. indicators often contain x, c, z, etc)
+    datafile <- datapath |>
+      duckplyr::read_csv_duckdb(
+        options = list(
+          types = list(rep("VARCHAR", n_data_cols)),
+          quote = '"'
+        )
+      )
+  } else {
+    # Small files: use duckplyr reader then collect into memory.
+    # Subsequent checks run via plain dplyr with no
+    # per-query DuckDB overhead.
+    datafile <- datapath |>
+      duckplyr::read_csv_duckdb(
+        options = list(
+          types = list(rep("VARCHAR", n_data_cols)),
+          quote = '"'
+        )
+      ) |>
+      dplyr::collect()
+  }
 
   # Issue with read.csv falling over when handed files from Azure, so using
-  # ...duckplyr as a safer reading in method
-  # Metadata is always tiny so reading fully into memory for simplicity and
-  # ...avoiding fallbacks from duckdb
+  # duckplyr as a safer reading in method.
+  # Metadata is always tiny so reading fully into memory.
   metafile <- duckplyr::read_csv_duckdb(metapath) |>
     dplyr::collect()
 

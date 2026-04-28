@@ -25,7 +25,7 @@ URL: https://dfe-analytical-services.github.io/eesyscreener/,
 BugReports: https://github.com/dfe-analytical-services/eesyscreener/issues
 Depends: 
     R (>= 4.2.0)
-Imports: 
+Imports:
     cli,
     dplyr,
     duckplyr,

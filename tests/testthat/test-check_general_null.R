@@ -3,18 +3,18 @@ test_that("passes with clean example data", {
   expect_equal(result$result, "PASS")
 })
 
-test_that("fails with one null symbol in data (singular message)", {
+test_that("fails with one null symbol in data", {
   bad_data <- example_data |>
     dplyr::mutate(sex = dplyr::if_else(.data$sex == "Male", "NULL", .data$sex))
   result <- check_general_null(bad_data, example_meta)
   expect_equal(result$result, "FAIL")
-  expect_true(grepl("'NULL'", result$message))
-  expect_true(grepl("symbol was", result$message))
+  expect_true(grepl("null or NA symbols", result$message))
+  expect_true(grepl("symbols checked for are", result$message))
   expect_true(grepl("data file", result$message))
   expect_false(is.na(result$guidance_url))
 })
 
-test_that("fails with multiple null symbols in data (plural message)", {
+test_that("fails with multiple null symbols in data", {
   bad_data <- example_data |>
     dplyr::mutate(
       sex = dplyr::if_else(.data$sex == "Male", "NULL", .data$sex),
@@ -55,17 +55,18 @@ test_that("fails with null symbols in both data and meta", {
   expect_true(grepl("metadata file", result$message))
 })
 
-test_that("warns with one legacy no-data symbol in data (singular message)", {
+test_that("warns with one legacy no-data symbol in data", {
   bad_data <- example_data |>
     dplyr::mutate(sex = dplyr::if_else(.data$sex == "Male", "N/A", .data$sex))
   result <- check_general_null(bad_data, example_meta)
   expect_equal(result$result, "WARNING")
-  expect_true(grepl("'N/A'", result$message))
-  expect_true(grepl("symbol was", result$message))
+  expect_true(grepl("Legacy no-data symbols", result$message))
+  expect_true(grepl("symbols checked for are", result$message))
+  expect_true(grepl("data file", result$message))
   expect_false(is.na(result$guidance_url))
 })
 
-test_that("warns with multiple legacy symbols in data (plural message)", {
+test_that("warns with multiple legacy symbols in data", {
   bad_data <- example_data |>
     dplyr::mutate(
       sex = dplyr::if_else(.data$sex == "Male", "N/A", .data$sex),
@@ -109,5 +110,41 @@ test_that("legacy symbols in meta do not trigger a warning", {
       label = dplyr::if_else(.data$label == "Sex of pupil", "N/A", .data$label)
     )
   result <- check_general_null(example_data, bad_meta)
+  expect_equal(result$result, "PASS")
+})
+
+test_that("character null symbols still caught when data also has numerics", {
+  # Mixed-type input: the where(is.character) filter skips enrolment_count
+  # (numeric) but must still scan the character sex column.
+  bad_data <- example_data |>
+    dplyr::mutate(sex = dplyr::if_else(.data$sex == "Male", "NULL", .data$sex))
+  expect_true(is.numeric(bad_data$enrolment_count))
+  result <- check_general_null(bad_data, example_meta)
+  expect_equal(result$result, "FAIL")
+  expect_true(grepl("data file", result$message))
+})
+
+test_that("passes cleanly when data contains only numeric columns", {
+  # Edge case: char_cols is empty, so the across() branch is skipped.
+  # Must not error on a zero-column all_of() call.
+  numeric_only <- data.frame(a = 1:3, b = 4:6)
+  result <- check_general_null(numeric_only, example_meta)
+  expect_equal(result$result, "PASS")
+})
+
+test_that("factor columns are not scanned (documents intentional behaviour)", {
+  # Factors fail is.character() and are skipped by where(is.character).
+  # A "NULL" factor level should therefore NOT trigger a FAIL. If the team
+  # decides factors should be scanned, flip this assertion and update
+  # check_general_null.R to include is.factor in the column filter.
+  bad_data <- example_data |>
+    dplyr::mutate(
+      sex = factor(dplyr::if_else(
+        .data$sex == "Male",
+        "NULL",
+        .data$sex
+      ))
+    )
+  result <- check_general_null(bad_data, example_meta)
   expect_equal(result$result, "PASS")
 })

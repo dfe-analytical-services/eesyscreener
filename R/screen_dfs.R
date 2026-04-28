@@ -20,6 +20,11 @@
 #' is "FAIL", and will throw genuine warning if result is "WARNING"
 #' @param prudence prudence as used by duckplyr, default = "lavish". Can also
 #' be "stingy" and "thrifty".
+#' @param use_duckdb logical, if TRUE converts `data` to a duckdb tibble and
+#' runs checks via duckplyr. If FALSE runs checks with plain dplyr on the data
+#' as provided. Default is TRUE. Note: `screen_csv()` sets this automatically
+#' based on file size (files under 5 MB use FALSE); direct callers of
+#' `screen_dfs()` must choose the flag themselves.
 #'
 #' @inherit screen_filenames return
 #'
@@ -34,7 +39,8 @@ screen_dfs <- function(
   dd_checks = TRUE,
   verbose = FALSE,
   stop_on_error = FALSE,
-  prudence = "lavish"
+  prudence = "lavish",
+  use_duckdb = TRUE
 ) {
   validate_arg_dfs(data, meta)
 
@@ -45,7 +51,7 @@ screen_dfs <- function(
   vb <- verbose
   soe <- stop_on_error
 
-  if (!duckplyr::is_duckdb_tibble(data)) {
+  if (use_duckdb && !duckplyr::is_duckdb_tibble(data)) {
     data <- duckplyr::as_duckdb_tibble(data, prudence = prudence)
   }
   data_details <- list(
@@ -165,16 +171,21 @@ screen_dfs <- function(
   }
 
   # Turn on duckdb ------------------------------------------------------------
-  # Only doing this here as not necessary for the metadata checks
-  suppressMessages(duckplyr::methods_overwrite())
+  # Only doing this here as not necessary for the metadata checks.
+  # Skipped for small files where plain dplyr is used instead.
+  if (use_duckdb) {
+    suppressMessages(duckplyr::methods_overwrite())
+  }
 
-  # Check general -------------------------------------------------------------
+  # Precheck time -------------------------------------------------------------
   res <- run_and_log_check(
     all_results,
     rbind(
-      check_general_null(data, meta, vb, soe)
+      precheck_time_period_num(data, vb, soe),
+      precheck_time_id_valid(data, vb, soe),
+      precheck_time_id_mix(data, vb, soe)
     ),
-    "Check general",
+    "Precheck time",
     log_key,
     log_dir,
     data_details
@@ -191,24 +202,6 @@ screen_dfs <- function(
       precheck_filter_not_singular(data, meta, vb, soe)
     ),
     "Precheck filters",
-    log_key,
-    log_dir,
-    data_details
-  )
-  all_results <- res$all_results
-  if (res$early_return) {
-    return(as.data.frame(all_results))
-  }
-
-  # Precheck time -------------------------------------------------------------
-  res <- run_and_log_check(
-    all_results,
-    rbind(
-      precheck_time_period_num(data, vb, soe),
-      precheck_time_id_valid(data, vb, soe),
-      precheck_time_id_mix(data, vb, soe)
-    ),
-    "Precheck time",
     log_key,
     log_dir,
     data_details
@@ -273,22 +266,6 @@ screen_dfs <- function(
     return(as.data.frame(all_results))
   }
 
-  # Check general -------------------------------------------------------------
-  res <- run_and_log_check(
-    all_results,
-    rbind(
-      check_general_dupes(data, meta, vb, soe)
-    ),
-    "Check general",
-    log_key,
-    log_dir,
-    data_details
-  )
-  all_results <- res$all_results
-  if (res$early_return) {
-    return(as.data.frame(all_results))
-  }
-
   # Check geography -----------------------------------------------------------
   res <- run_and_log_check(
     all_results,
@@ -315,6 +292,23 @@ screen_dfs <- function(
       check_geog_overcompleted_cols(data, meta, vb, soe)
     ),
     "Check geography",
+    log_key,
+    log_dir,
+    data_details
+  )
+  all_results <- res$all_results
+  if (res$early_return) {
+    return(as.data.frame(all_results))
+  }
+
+  # Check general -------------------------------------------------------------
+  res <- run_and_log_check(
+    all_results,
+    rbind(
+      check_general_dupes(data, meta, vb, soe),
+      check_general_null(data, meta, vb, soe)
+    ),
+    "Check general",
     log_key,
     log_dir,
     data_details

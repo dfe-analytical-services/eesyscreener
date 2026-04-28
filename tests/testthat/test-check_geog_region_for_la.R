@@ -9,7 +9,7 @@ la_data <- data.frame(
   new_la_code = "E06000001",
   la_name = "Hartlepool",
   sex = "All pupils",
-  education_phase = "All phases",
+  education_phase = "All schools",
   enrolment_count = 100,
   stringsAsFactors = FALSE
 )

@@ -1,22 +1,3 @@
-# Test data for filter item checks =============================================
-
-# example_meta has sex (Filter) and education_phase (Filter), both in the
-# data dictionary. Replacing "All pupils" and "All phases" with valid items
-# creates a passing dataset for check_data_dict_fil_item.
-
-# Can be removed when
-# https://github.com/dfe-analytical-services/dfe-published-data-qa/pull/182 is
-# merged and the data dictionary in eesyscreener is regenerated
-dd_pass_data <- example_data |>
-  dplyr::mutate(
-    sex = dplyr::if_else(.data$sex == "All pupils", "Male", .data$sex),
-    education_phase = dplyr::if_else(
-      .data$education_phase == "All phases",
-      "Primary",
-      .data$education_phase
-    )
-  )
-
 # Meta with only sex as a filter column (used for singular test)
 sex_only_meta <- example_meta |>
   dplyr::filter(
@@ -82,10 +63,10 @@ test_that("warns for multiple non-standard col_names across types", {
 # check_data_dict_fil_item =====================================================
 
 test_that("passes when all filter items are in the data dictionary", {
-  result <- check_data_dict_fil_item(dd_pass_data, example_meta)
+  result <- check_data_dict_fil_item(example_data, example_meta)
   expect_equal(result$result, "PASS")
   expect_no_error(
-    check_data_dict_fil_item(dd_pass_data, example_meta, stop_on_error = TRUE)
+    check_data_dict_fil_item(example_data, example_meta, stop_on_error = TRUE)
   )
 })
 
@@ -132,7 +113,7 @@ test_that("warns for non-standard items across multiple filter columns", {
         .default = .data$sex
       ),
       education_phase = dplyr::case_when(
-        .data$education_phase == "All phases" ~ "Many phase",
+        .data$education_phase == "All schools" ~ "Many phase",
         .data$education_phase == "Primary" ~ "Prime phase",
         .default = .data$education_phase
       )
