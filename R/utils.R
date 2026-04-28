@@ -499,6 +499,7 @@ remove_nas_blanks <- function(vector) {
 #' filename and filesize
 #' @param data_details list of data details to pass to the log. Can include
 #' ncols and nrows
+#' @param completed parameter to declare tests finished, logical, default=FALSE
 #' @inheritParams screen_dfs
 #' @returns NULL
 #' @keywords internal
@@ -508,7 +509,8 @@ write_json_log <- function(
   log_key = NULL,
   log_dir = NULL,
   file_details = list(filename = NULL, filesize = NULL),
-  data_details = list(nrows = NULL, ncols = NULL)
+  data_details = list(nrows = NULL, ncols = NULL),
+  completed = FALSE
 ) {
   if (!is.null(log_key) && !is.null(log_dir)) {
     log_file <- paste0("eesyscreener_log_", log_key, ".json")
@@ -551,19 +553,25 @@ write_json_log <- function(
         ncols = data_details$ncols,
         start_time = Sys.time(),
         log_time = Sys.time(),
+        completed = FALSE,
         results = results
       )
     }
     if (is.null(results)) {
       log$progress <- 0
     }
+    # Set status params
+    # run_and_log_check() currently sends an early return if any tests
+    # fail, so the logging also reflects that in it's status updates.
     if (any(log$results[["result"]] == "FAIL")) {
       log$status <- "FAIL"
-      log$progress <- 100.
-    } else if (log$progress == 100) {
+      log$completed <- TRUE
+    } else if (log$progress == 100 | completed) {
       log$status <- "PASS"
+      log$completed <- TRUE
     } else {
       log$status <- "Screening not yet completed"
+      log$completed <- FALSE
     }
     jsonlite::write_json(
       log,
@@ -626,6 +634,7 @@ render_url <- function(slug, domain = "analysts_guide") {
 #' @param log_dir Character. The directory where logs should be written.
 #' @param data_details List. Additional details about the data to include in
 #' the log.
+#' @param completed flag to help denote final test in series
 #'
 #' @return A list with two elements: {all_results} (the updated results data
 #' frame)
@@ -639,7 +648,8 @@ run_and_log_check <- function(
   stage,
   log_key,
   log_dir,
-  data_details
+  data_details,
+  completed = FALSE
 ) {
   check_results[["stage"]] <- stage
 
@@ -649,7 +659,8 @@ run_and_log_check <- function(
     check_results,
     log_key = log_key,
     log_dir = log_dir,
-    data_details = data_details
+    data_details = data_details,
+    completed = completed
   )
 
   if (any(all_results[["result"]] == "FAIL")) {
