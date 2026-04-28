@@ -389,7 +389,8 @@ screen_dfs <- function(
     "Check API",
     log_key,
     log_dir,
-    data_details
+    data_details,
+    completed = TRUE # This denotes to the logging that this is the final set of checks
   )
   all_results <- res$all_results
   if (res$early_return) {
