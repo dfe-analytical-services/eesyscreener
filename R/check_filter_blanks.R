@@ -24,7 +24,6 @@ check_filter_blanks <- function(
   test_name <- get_check_name()
 
   filter_cols <- get_filters(meta, include_filter_groups = TRUE) |> unique()
-
   if (length(filter_cols) == 0) {
     return(test_output(
       test_name,
@@ -35,14 +34,22 @@ check_filter_blanks <- function(
     ))
   }
 
+  if (verbose){message("Filters found: ", paste(filter_cols, collapse = ","))}
   # Single query across all filter columns. Filter columns are always character
   # so no type-mismatch risk with the empty-string literal.
   result_row <- data |>
+    dplyr::select(dplyr::all_of(filter_cols)) |>
+    dplyr::mutate(across(everything(), ~ dplyr::if_else(is.na(.), "", .))) |>
     dplyr::summarise(dplyr::across(
       dplyr::all_of(filter_cols),
       ~ sum(. == "") > 0
     )) |>
     dplyr::collect()
+  if (verbose){
+    message(
+      paste0(names(result_row), ": ", result_row,  collapse = ", ")
+    )
+  }
 
   cols_with_blanks <- names(result_row)[unlist(result_row, use.names = FALSE)]
 
