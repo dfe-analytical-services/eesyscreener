@@ -34,7 +34,9 @@ check_filter_blanks <- function(
     ))
   }
 
-  if (verbose){message("Filters found: ", paste(filter_cols, collapse = ","))}
+  if (verbose) {
+    message("Filters found: ", paste(filter_cols, collapse = ","))
+  }
   # Single query across all filter columns. Filter columns are always character
   # so no type-mismatch risk with the empty-string literal.
   result_row <- data |>
@@ -45,9 +47,9 @@ check_filter_blanks <- function(
       ~ sum(. == "") > 0
     )) |>
     dplyr::collect()
-  if (verbose){
+  if (verbose) {
     message(
-      paste0(names(result_row), ": ", result_row,  collapse = ", ")
+      paste0(names(result_row), ": ", result_row, collapse = ", ")
     )
   }
 
