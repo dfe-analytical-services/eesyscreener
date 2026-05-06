@@ -23,6 +23,7 @@ check_general_null <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  start_time <- Sys.time()
   test_name <- get_check_name()
 
   null_symbols <- c("NULL", "Null", "null", "NA", "na")
@@ -94,6 +95,7 @@ check_general_null <- function(
       "FAIL",
       paste(parts, collapse = " "),
       guidance_url = gss_guidance_url,
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     ))
@@ -111,6 +113,7 @@ check_general_null <- function(
         " use for no data."
       ),
       guidance_url = gss_guidance_url,
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     ))
@@ -123,6 +126,7 @@ check_general_null <- function(
       "No problematic null or legacy no-data symbols were found in the",
       " data or metadata files."
     ),
+    duration = Sys.time() - start_time,
     verbose = verbose,
     stop_on_error = stop_on_error
   )

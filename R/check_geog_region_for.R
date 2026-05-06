@@ -25,6 +25,7 @@
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  start_time <- Sys.time()
   test_name <- get_check_name()
 
   has_level <- data |>
@@ -38,6 +39,7 @@
       test_name,
       "PASS",
       paste0("There is no ", level_label, " level data in the data file."),
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     ))
@@ -58,6 +60,7 @@
         level_label,
         " level data."
       ),
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     ))
@@ -89,6 +92,7 @@
         level_label,
         " level data."
       ),
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )
@@ -101,6 +105,7 @@
         level_label,
         " rows in the data file."
       ),
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )

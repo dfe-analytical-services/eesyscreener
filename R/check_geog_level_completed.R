@@ -33,6 +33,7 @@ check_geog_level_completed <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  start_time <- Sys.time()
   test_name <- get_check_name()
 
   # Build testable geography reference:
@@ -63,6 +64,7 @@ check_geog_level_completed <- function(
       test_name,
       "PASS",
       "No valid geographic levels present in the data to test.",
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     ))
@@ -109,6 +111,7 @@ check_geog_level_completed <- function(
       test_name,
       "PASS",
       "All geographic level columns are completed as expected.",
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )
@@ -123,6 +126,7 @@ check_geog_level_completed <- function(
         paste0(incomplete_cols, collapse = "', '"),
         "'."
       ),
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )

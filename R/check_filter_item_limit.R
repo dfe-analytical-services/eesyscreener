@@ -26,6 +26,7 @@ check_filter_item_limit <- function(
   stop_on_error = FALSE,
   filter_item_limit = 25000
 ) {
+  start_time <- Sys.time()
   test_name <- get_check_name()
 
   filters_and_groups <- meta |>
@@ -36,6 +37,7 @@ check_filter_item_limit <- function(
       test_name,
       "PASS",
       "There are no filters in the data file.",
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )
@@ -62,6 +64,7 @@ check_filter_item_limit <- function(
           filter_item_limit,
           "unique entries."
         ),
+        duration = Sys.time() - start_time,
         verbose = verbose,
         stop_on_error = stop_on_error
       )
@@ -78,6 +81,7 @@ check_filter_item_limit <- function(
           paste(large_filter_sets, collapse = "', '"),
           "'."
         ),
+        duration = Sys.time() - start_time,
         verbose = verbose,
         stop_on_error = stop_on_error
       )
