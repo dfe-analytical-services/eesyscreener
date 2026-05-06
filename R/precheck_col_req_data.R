@@ -22,6 +22,7 @@ precheck_col_req_data <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  start_time <- Sys.time()
   test_name <- get_check_name()
   missing_cols <- eesyscreener::req_data_cols[
     !eesyscreener::req_data_cols %in% names(data)
@@ -32,6 +33,7 @@ precheck_col_req_data <- function(
       test_name,
       "PASS",
       "All of the required columns are present in the data file.",
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )
@@ -45,6 +47,7 @@ precheck_col_req_data <- function(
           paste(missing_cols, collapse = "', '"),
           "'."
         ),
+      duration = Sys.time() - start_time,
         verbose = verbose,
         stop_on_error = stop_on_error
       )
@@ -58,6 +61,7 @@ precheck_col_req_data <- function(
           paste(missing_cols, collapse = "', '"),
           "'."
         ),
+      duration = Sys.time() - start_time,
         verbose = verbose,
         stop_on_error = stop_on_error
       )

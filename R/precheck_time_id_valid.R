@@ -15,6 +15,7 @@ precheck_time_id_valid <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  start_time <- Sys.time()
   test_name <- get_check_name()
   invalid_identifiers <- data |>
     dplyr::distinct(.data$time_identifier) |>
@@ -34,6 +35,7 @@ precheck_time_id_valid <- function(
       test_name,
       "PASS",
       "The time_identifier values are all valid.",
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )
@@ -48,6 +50,7 @@ precheck_time_id_valid <- function(
             "https://dfe-analytical-services.github.io/analysts-guide/",
             "statistics-production/ud.html#list-of-allowable-time-values"
           ),
+      duration = Sys.time() - start_time,
           verbose = verbose,
           stop_on_error = stop_on_error
         )
@@ -63,6 +66,7 @@ precheck_time_id_valid <- function(
             "https://dfe-analytical-services.github.io/analysts-guide/",
             "statistics-production/ud.html#list-of-allowable-time-values"
           ),
+      duration = Sys.time() - start_time,
           verbose = verbose,
           stop_on_error = stop_on_error
         )
@@ -79,6 +83,7 @@ precheck_time_id_valid <- function(
           "https://dfe-analytical-services.github.io/analysts-guide/",
           "statistics-production/ud.html#list-of-allowable-time-values"
         ),
+      duration = Sys.time() - start_time,
         verbose = verbose,
         stop_on_error = stop_on_error
       )

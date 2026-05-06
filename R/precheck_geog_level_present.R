@@ -16,6 +16,7 @@ precheck_geog_level_present <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  start_time <- Sys.time()
   test_name <- get_check_name()
   geo_levels <- data |>
     dplyr::distinct(.data$geographic_level) |>
@@ -26,6 +27,7 @@ precheck_geog_level_present <- function(
       test_name,
       "PASS",
       "There is only National level data in the file.",
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     ))
@@ -61,6 +63,7 @@ precheck_geog_level_present <- function(
         "The geography columns are present as expected for",
         " the geographic_level values in the file."
       ),
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )
@@ -79,6 +82,7 @@ precheck_geog_level_present <- function(
           )
         )
       ),
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )
