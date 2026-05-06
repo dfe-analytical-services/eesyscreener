@@ -18,6 +18,7 @@ check_ind_invalid_entry <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  start_time <- Sys.time()
   test_name <- get_check_name()
 
   indicators <- meta |>
@@ -56,6 +57,7 @@ check_ind_invalid_entry <- function(
       test_name,
       "PASS",
       "There are no blank values or GSS legacy symbols in any indicators.",
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )
@@ -80,6 +82,7 @@ check_ind_invalid_entry <- function(
         "https://gss.civilservice.gov.uk/wp-content/uploads/2017/03/",
         "GSS-Website-Harmonised-Symbols-Supporting-Documentation.pdf"
       ),
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )
