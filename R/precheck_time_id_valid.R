@@ -50,7 +50,7 @@ precheck_time_id_valid <- function(
             "https://dfe-analytical-services.github.io/analysts-guide/",
             "statistics-production/ud.html#list-of-allowable-time-values"
           ),
-      duration = Sys.time() - start_time,
+          duration = Sys.time() - start_time,
           verbose = verbose,
           stop_on_error = stop_on_error
         )
@@ -66,7 +66,7 @@ precheck_time_id_valid <- function(
             "https://dfe-analytical-services.github.io/analysts-guide/",
             "statistics-production/ud.html#list-of-allowable-time-values"
           ),
-      duration = Sys.time() - start_time,
+          duration = Sys.time() - start_time,
           verbose = verbose,
           stop_on_error = stop_on_error
         )
@@ -83,7 +83,7 @@ precheck_time_id_valid <- function(
           "https://dfe-analytical-services.github.io/analysts-guide/",
           "statistics-production/ud.html#list-of-allowable-time-values"
         ),
-      duration = Sys.time() - start_time,
+        duration = Sys.time() - start_time,
         verbose = verbose,
         stop_on_error = stop_on_error
       )

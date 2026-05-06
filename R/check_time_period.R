@@ -77,7 +77,7 @@ check_time_period <- function(
     result,
     message,
     guidance_url,
-      duration = Sys.time() - start_time,
+    duration = Sys.time() - start_time,
     verbose = verbose,
     stop_on_error = stop_on_error
   )

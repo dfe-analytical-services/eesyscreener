@@ -47,7 +47,7 @@ precheck_col_req_data <- function(
           paste(missing_cols, collapse = "', '"),
           "'."
         ),
-      duration = Sys.time() - start_time,
+        duration = Sys.time() - start_time,
         verbose = verbose,
         stop_on_error = stop_on_error
       )
@@ -61,7 +61,7 @@ precheck_col_req_data <- function(
           paste(missing_cols, collapse = "', '"),
           "'."
         ),
-      duration = Sys.time() - start_time,
+        duration = Sys.time() - start_time,
         verbose = verbose,
         stop_on_error = stop_on_error
       )

@@ -65,8 +65,12 @@ precheck_time_id_mix <- function(
   }
 
   test_output(
-    test_name, 
-    result, message, guidance_url, 
-      duration = Sys.time() - start_time,
-    verbose, stop_on_error)
+    test_name,
+    result,
+    message,
+    guidance_url,
+    duration = Sys.time() - start_time,
+    verbose,
+    stop_on_error
+  )
 }

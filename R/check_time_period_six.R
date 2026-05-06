@@ -36,7 +36,7 @@ check_time_period_six <- function(
         test_name,
         result,
         message,
-      duration = Sys.time() - start_time,
+        duration = Sys.time() - start_time,
         verbose = verbose,
         stop_on_error = stop_on_error
       )
@@ -82,7 +82,7 @@ check_time_period_six <- function(
     test_name,
     result,
     message,
-      duration = Sys.time() - start_time,
+    duration = Sys.time() - start_time,
     verbose = verbose,
     stop_on_error = stop_on_error
   )

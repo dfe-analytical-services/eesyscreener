@@ -52,7 +52,7 @@ precheck_time_period_num <- function(
     result,
     message,
     guidance_url,
-      duration = Sys.time() - start_time,
+    duration = Sys.time() - start_time,
     verbose = verbose,
     stop_on_error = stop_on_error
   )

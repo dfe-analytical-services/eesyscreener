@@ -58,7 +58,7 @@ precheck_col_to_rows <- function(
           paste(format(data_cols, big.mark = ",")),
           ")."
         ),
-      duration = Sys.time() - start_time,
+        duration = Sys.time() - start_time,
         verbose = verbose,
         stop_on_error = stop_on_error
       )
@@ -73,7 +73,7 @@ precheck_col_to_rows <- function(
           paste(format(data_cols, big.mark = ",")),
           ")."
         ),
-      duration = Sys.time() - start_time,
+        duration = Sys.time() - start_time,
         verbose = verbose,
         stop_on_error = stop_on_error
       )
