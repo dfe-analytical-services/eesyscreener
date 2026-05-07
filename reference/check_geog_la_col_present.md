@@ -66,7 +66,7 @@ check_geog_la_col_present(example_data)
 #>                                                     message guidance_url
 #> 1 No local authority columns are present in this data file.           NA
 #>            duration
-#> 1 0.0004477501 secs
+#> 1 0.0003728867 secs
 check_geog_la_col_present(example_data, verbose = TRUE)
 #> ✔ No local authority columns are present in this data file.
 #>                 check result
@@ -74,5 +74,5 @@ check_geog_la_col_present(example_data, verbose = TRUE)
 #>                                                     message guidance_url
 #> 1 No local authority columns are present in this data file.           NA
 #>           duration
-#> 1 0.001972437 secs
+#> 1 0.001472235 secs
 ```

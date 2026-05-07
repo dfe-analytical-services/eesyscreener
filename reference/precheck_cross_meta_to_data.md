@@ -47,8 +47,8 @@ precheck_cross_meta_to_data(example_data, example_meta)
 #> 1 cross_meta_to_data   PASS
 #>                                                        message guidance_url
 #> 1 All variables from the metadata were found in the data file.           NA
-#>           duration
-#> 1 0.000115633 secs
+#>            duration
+#> 1 9.465218e-05 secs
 precheck_cross_meta_to_data(example_data, example_meta, verbose = TRUE)
 #> ✔ All variables from the metadata were found in the data file.
 #>                check result
@@ -56,5 +56,5 @@ precheck_cross_meta_to_data(example_data, example_meta, verbose = TRUE)
 #>                                                        message guidance_url
 #> 1 All variables from the metadata were found in the data file.           NA
 #>          duration
-#> 1 0.00176692 secs
+#> 1 0.00132823 secs
 ```

@@ -49,5 +49,5 @@ check_filter_group_level(example_data, example_meta)
 #>                check result                             message guidance_url
 #> 1 filter_group_level   PASS There are no filter groups present.           NA
 #>           duration
-#> 1 0.002321243 secs
+#> 1 0.001816511 secs
 ```

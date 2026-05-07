@@ -84,7 +84,7 @@ check_general_dupes(example_data, example_meta)
 #>                                                                                                                                          message
 #> 1 There are no duplicate rows in the data file. Note that School, Provider, Institution, and Planning area rows were not included in this check.
 #>   guidance_url         duration
-#> 1           NA 0.006494045 secs
+#> 1           NA 0.004716635 secs
 check_general_dupes(example_data, example_meta, return_dupes = TRUE)
 #> [1] time_period      time_identifier  geographic_level country_code    
 #> [5] country_name     sex              education_phase  enrolment_count 

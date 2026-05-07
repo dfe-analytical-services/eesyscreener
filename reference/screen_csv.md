@@ -192,10 +192,10 @@ screen_csv(data_path, meta_path)
 #> 5            NA           NA            filename
 #> 6            NA           NA    Precheck columns
 #> 7            NA           NA    Precheck columns
-#> 8            NA 5.459785e-05    Precheck columns
-#> 9            NA 3.798008e-04    Precheck columns
-#> 10           NA 1.506805e-04 Precheck cross-file
-#> 11           NA 2.750635e-03 Precheck cross-file
+#> 8            NA 4.673004e-05    Precheck columns
+#> 9            NA 3.232956e-04    Precheck columns
+#> 10           NA 1.368523e-04 Precheck cross-file
+#> 11           NA 2.200365e-03 Precheck cross-file
 #> 12           NA           NA       Check columns
 #> 13           NA           NA       Check columns
 #> 14           NA           NA       Check columns
@@ -359,10 +359,10 @@ screen_csv(
 #> 5            NA          NA            filename
 #> 6            NA          NA    Precheck columns
 #> 7            NA          NA    Precheck columns
-#> 8            NA 0.001608610    Precheck columns
-#> 9            NA 0.001926422    Precheck columns
-#> 10           NA 0.001699448 Precheck cross-file
-#> 11           NA 0.004283190 Precheck cross-file
+#> 8            NA 0.001185656    Precheck columns
+#> 9            NA 0.001461029    Precheck columns
+#> 10           NA 0.001270294 Precheck cross-file
+#> 11           NA 0.003318071 Precheck cross-file
 #> 12           NA          NA       Check columns
 #> 13           NA          NA       Check columns
 #> 14           NA          NA       Check columns

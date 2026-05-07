@@ -69,8 +69,8 @@ check_geog_eda_combos(example_data)
 #> 1 geog_eda_combos   PASS
 #>                                                                                                                 message
 #> 1 At least one of the english_devolved_area_code / english_devolved_area_name columns is not present in this data file.
-#>   guidance_url         duration
-#> 1           NA 0.000246048 secs
+#>   guidance_url          duration
+#> 1           NA 0.0002164841 secs
 check_geog_eda_combos(example_data, verbose = TRUE)
 #> ✔ At least one of the english_devolved_area_code / english_devolved_area_name columns is not present in this data file.
 #>             check result
@@ -78,5 +78,5 @@ check_geog_eda_combos(example_data, verbose = TRUE)
 #>                                                                                                                 message
 #> 1 At least one of the english_devolved_area_code / english_devolved_area_name columns is not present in this data file.
 #>   guidance_url         duration
-#> 1           NA 0.001883268 secs
+#> 1           NA 0.001404285 secs
 ```

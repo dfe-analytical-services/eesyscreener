@@ -66,6 +66,6 @@ check_geog_ignored_rows(example_data)
 #> 1 geog_ignored_rows   PASS
 #>                                                      message guidance_url
 #> 1 No rows in the file will be ignored by the EES table tool.           NA
-#>          duration
-#> 1 0.00480032 secs
+#>           duration
+#> 1 0.003517389 secs
 ```

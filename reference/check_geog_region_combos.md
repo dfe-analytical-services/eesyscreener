@@ -69,13 +69,13 @@ check_geog_region_combos(example_data)
 #>                                                                                   message
 #> 1 At least one of the region_code / region_name columns is not present in this data file.
 #>   guidance_url          duration
-#> 1           NA 0.0002419949 secs
+#> 1           NA 0.0002186298 secs
 check_geog_region_combos(example_data, verbose = TRUE)
 #> ✔ At least one of the region_code / region_name columns is not present in this data file.
 #>                check result
 #> 1 geog_region_combos   PASS
 #>                                                                                   message
 #> 1 At least one of the region_code / region_name columns is not present in this data file.
-#>   guidance_url        duration
-#> 1           NA 0.00179863 secs
+#>   guidance_url         duration
+#> 1           NA 0.001392603 secs
 ```

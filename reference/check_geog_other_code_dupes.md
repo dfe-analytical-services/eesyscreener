@@ -68,7 +68,7 @@ check_geog_other_code_dupes(example_data)
 #>                                                        message guidance_url
 #> 1 Lower-level geography data is not present in this data file.           NA
 #>           duration
-#> 1 0.003423691 secs
+#> 1 0.002676487 secs
 check_geog_other_code_dupes(example_data, verbose = TRUE)
 #> ✔ Lower-level geography data is not present in this data file.
 #>                   check result
@@ -76,5 +76,5 @@ check_geog_other_code_dupes(example_data, verbose = TRUE)
 #>                                                        message guidance_url
 #> 1 Lower-level geography data is not present in this data file.           NA
 #>           duration
-#> 1 0.004650354 secs
+#> 1 0.003283739 secs
 ```

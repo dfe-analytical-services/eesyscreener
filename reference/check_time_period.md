@@ -43,5 +43,5 @@ check_time_period(example_data)
 #>                                                                       message
 #> 1 The time_period length matches the time_identifier values in the data file.
 #>   guidance_url         duration
-#> 1           NA 0.001769066 secs
+#> 1           NA 0.001752377 secs
 ```

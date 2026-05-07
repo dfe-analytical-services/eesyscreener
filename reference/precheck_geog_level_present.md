@@ -40,13 +40,13 @@ precheck_geog_level_present(example_data)
 #>                check result                                        message
 #> 1 geog_level_present   PASS There is only National level data in the file.
 #>   guidance_url          duration
-#> 1           NA 0.0009901524 secs
+#> 1           NA 0.0008239746 secs
 precheck_geog_level_present(example_data, verbose = TRUE)
 #> ✔ There is only National level data in the file.
 #>                check result                                        message
 #> 1 geog_level_present   PASS There is only National level data in the file.
 #>   guidance_url         duration
-#> 1           NA 0.002449989 secs
+#> 1           NA 0.001882553 secs
 precheck_geog_level_present(example_comma_data, verbose = TRUE)
 #> ✔ The geography columns are present as expected for the geographic_level values in the file.
 #>                check result
@@ -54,5 +54,5 @@ precheck_geog_level_present(example_comma_data, verbose = TRUE)
 #>                                                                                      message
 #> 1 The geography columns are present as expected for the geographic_level values in the file.
 #>   guidance_url        duration
-#> 1           NA 0.02442122 secs
+#> 1           NA 0.02013779 secs
 ```
