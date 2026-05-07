@@ -73,6 +73,7 @@ results, with optional console output and error triggers. The standard
 pattern is:
 
 ``` r
+
 test_output(
   get_check_name(), # name of check function
   "PASS", # result of check, one of 'PASS', 'FAIL', 'WARNING'
@@ -90,6 +91,7 @@ creates matching data and metadata frames for any number of time
 periods, locations, filters and indicators.
 
 ``` r
+
 files <- eesyscreener::generate_test_dfs(
   years = 2013:2015,
   pcon_names = "Sheffield Central",
@@ -111,6 +113,7 @@ to pass in vectors of Parliamentary Constituencies. Row count is
 `length(years) * length(pcon_codes) * (5 ^ num_filters)`.
 
 ``` r
+
 pcons <- dfeR::fetch_pcons(countries = "England")
 
 beefy <- eesyscreener::generate_test_dfs(
@@ -145,6 +148,7 @@ Drop a required metadata column to trigger a `FAIL` in the
 will be the failing stage.
 
 ``` r
+
 data_file <- tempfile(fileext = ".csv")
 meta_file <- tempfile(fileext = ".meta.csv")
 duckplyr::compute_csv(eesyscreener::example_data, data_file)
@@ -160,6 +164,7 @@ screening stops in the `File read` stage without throwing an error.
 `passed` will be `FALSE` and `overall_stage` will be `"File read"`.
 
 ``` r
+
 eesyscreener::screen_csv(
   "does_not_exist.csv",
   "does_not_exist.meta.csv"
@@ -173,6 +178,7 @@ but any warning in the API stage prevents the data from being published
 through the API. The returned `api_suitable` boolean flags this.
 
 ``` r
+
 data_file <- tempfile(fileext = ".csv")
 meta_file <- tempfile(fileext = ".meta.csv")
 duckplyr::compute_csv(eesyscreener::example_api_long, data_file)

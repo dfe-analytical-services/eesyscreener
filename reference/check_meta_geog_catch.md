@@ -63,12 +63,12 @@ Other check_meta:
 check_meta_geog_catch(example_meta)
 #>             check result                                                message
 #> 1 meta_geog_catch   PASS No filters appear to be mislabelled geography columns.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url duration
+#> 1           NA       NA
 check_meta_geog_catch(example_meta, verbose = TRUE)
 #> ✔ No filters appear to be mislabelled geography columns.
 #>             check result                                                message
 #> 1 meta_geog_catch   PASS No filters appear to be mislabelled geography columns.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url duration
+#> 1           NA       NA
 ```

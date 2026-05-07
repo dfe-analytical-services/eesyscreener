@@ -50,14 +50,14 @@ precheck_col_to_rows(example_data, example_meta)
 #> 1 col_to_rows   PASS
 #>                                                                                                      message
 #> 1 There are an equal number of rows in the metadata file (3) and non-mandatory columns in the data file (3).
-#>   guidance_url
-#> 1           NA
+#>   guidance_url          duration
+#> 1           NA 0.0005550385 secs
 precheck_col_to_rows(example_data, example_meta, verbose = TRUE)
 #> ✔ There are an equal number of rows in the metadata file (3) and non-mandatory columns in the data file (3).
 #>         check result
 #> 1 col_to_rows   PASS
 #>                                                                                                      message
 #> 1 There are an equal number of rows in the metadata file (3) and non-mandatory columns in the data file (3).
-#>   guidance_url
-#> 1           NA
+#>   guidance_url         duration
+#> 1           NA 0.002144575 secs
 ```

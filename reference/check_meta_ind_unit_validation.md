@@ -54,12 +54,12 @@ Other check_meta:
 check_meta_ind_unit_validation(example_meta)
 #>                      check result                              message
 #> 1 meta_ind_unit_validation   PASS The indicator_unit values are valid.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url duration
+#> 1           NA       NA
 check_meta_ind_unit_validation(example_meta, verbose = TRUE)
 #> ✔ The indicator_unit values are valid.
 #>                      check result                              message
 #> 1 meta_ind_unit_validation   PASS The indicator_unit values are valid.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url duration
+#> 1           NA       NA
 ```

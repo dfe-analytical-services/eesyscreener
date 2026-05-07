@@ -56,10 +56,14 @@ check_meta_ind_dp_set(example_meta)
 #> 1 meta_ind_dp_set   PASS
 #>                                                    message guidance_url
 #> 1 The indicator_dp column is completed for all indicators.           NA
+#>   duration
+#> 1       NA
 check_meta_ind_dp_set(example_meta, verbose = TRUE)
 #> ✔ The indicator_dp column is completed for all indicators.
 #>             check result
 #> 1 meta_ind_dp_set   PASS
 #>                                                    message guidance_url
 #> 1 The indicator_dp column is completed for all indicators.           NA
+#>   duration
+#> 1       NA
 ```

@@ -51,6 +51,8 @@ check_filter_defaults(example_data, example_meta)
 #> 1 filter_defaults   PASS
 #>                                                      message guidance_url
 #> 1 All filters and groups have a default filter item present.           NA
+#>           duration
+#> 1 0.003122568 secs
 check_filter_defaults(example_filter_group, example_filter_group_meta)
 #>             check  result
 #> 1 filter_defaults WARNING
@@ -58,4 +60,6 @@ check_filter_defaults(example_filter_group, example_filter_group_meta)
 #> 1 A 'Total' entry or default filter item should be specified for the following filters and / or filter_groups where applicable: 'education_phase', 'establishment_type_group'.
 #>                                                                                                            guidance_url
 #> 1 https://dfe-analytical-services.github.io/analysts-guide/statistics-production/ud.html#aggregates-and-default-filters
+#>           duration
+#> 1 0.002753258 secs
 ```

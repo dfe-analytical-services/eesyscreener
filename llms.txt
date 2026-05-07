@@ -50,6 +50,7 @@ eesyscreener is not currently available on CRAN. For the time being you
 can install the development version from GitHub.
 
 ``` r
+
 # install.packages("pak")
 pak::pak("dfe-analytical-services/eesyscreener")
 ```
@@ -63,6 +64,7 @@ core
 function.
 
 ``` r
+
 # Create example temporary CSV files
 data_file <- tempfile(fileext = ".csv")
 meta_file <- tempfile(fileext = ".meta.csv")
@@ -142,6 +144,7 @@ Quick examples of how to make use of the data within the package to
 generate CSVs for testing:
 
 ``` r
+
 duckplyr::compute_csv(eesyscreener::example_data, "example_data.csv")
 duckplyr::compute_csv(eesyscreener::example_meta, "example_data.meta.csv")
 

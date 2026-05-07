@@ -50,19 +50,21 @@ Other filename:
 check_filename_special("datafile.csv")
 #>              check result
 #> 1 filename_special   PASS
-#>                                                   message guidance_url
-#> 1 'datafile.csv' does not contain any special characters.           NA
+#>                                                   message guidance_url duration
+#> 1 'datafile.csv' does not contain any special characters.           NA       NA
 check_filename_special("data+file.meta.csv", verbose = TRUE)
 #> ✖ The following special characters need removing from data+file.meta.csv (filename): +. Filenames must only contain numbers, letters, hyphens or underscores.
 #>              check result
 #> 1 filename_special   FAIL
 #>                                                                                                                                                       message
 #> 1 The following special characters need removing from data+file.meta.csv (filename): +. Filenames must only contain numbers, letters, hyphens or underscores.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url duration
+#> 1           NA       NA
 check_filename_special("datafile.meta.csv", custom_name = "meta")
 #>              check result
 #> 1 filename_special   PASS
 #>                                                        message guidance_url
 #> 1 'datafile.meta.csv' does not contain any special characters.           NA
+#>   duration
+#> 1       NA
 ```

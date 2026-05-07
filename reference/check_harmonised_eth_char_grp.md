@@ -53,12 +53,12 @@ Other check_harmonised:
 check_harmonised_eth_char_grp(example_data)
 #>                     check result                               message
 #> 1 harmonised_eth_char_grp   PASS No characteristic_group column found.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url duration
+#> 1           NA       NA
 check_harmonised_eth_char_grp(example_data, verbose = TRUE)
 #> ✔ No characteristic_group column found.
 #>                     check result                               message
 #> 1 harmonised_eth_char_grp   PASS No characteristic_group column found.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url duration
+#> 1           NA       NA
 ```

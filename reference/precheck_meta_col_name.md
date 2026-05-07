@@ -42,10 +42,14 @@ precheck_meta_col_name(example_meta)
 #> 1 meta_col_name   PASS
 #>                                                           message guidance_url
 #> 1 The col_name column is completed for every row in the metadata.           NA
+#>   duration
+#> 1       NA
 precheck_meta_col_name(example_meta, verbose = TRUE)
 #> ✔ The col_name column is completed for every row in the metadata.
 #>           check result
 #> 1 meta_col_name   PASS
 #>                                                           message guidance_url
 #> 1 The col_name column is completed for every row in the metadata.           NA
+#>   duration
+#> 1       NA
 ```

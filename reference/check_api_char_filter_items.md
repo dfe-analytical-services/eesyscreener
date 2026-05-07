@@ -49,6 +49,6 @@ check_api_char_filter_items(example_data, example_meta)
 #> 1 api_char_filter_items   PASS
 #>                                                                                   message
 #> 1 All filter items / location names are less than or equal to the character limit of 120.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url duration
+#> 1           NA       NA
 ```

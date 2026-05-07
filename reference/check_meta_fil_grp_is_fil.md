@@ -53,8 +53,12 @@ Other check_meta:
 check_meta_fil_grp_is_fil(example_meta)
 #>                 check result                             message guidance_url
 #> 1 meta_fil_grp_is_fil   PASS There are no filter groups present.           NA
+#>   duration
+#> 1       NA
 check_meta_fil_grp_is_fil(example_meta, verbose = TRUE)
 #> ✔ There are no filter groups present.
 #>                 check result                             message guidance_url
 #> 1 meta_fil_grp_is_fil   PASS There are no filter groups present.           NA
+#>   duration
+#> 1       NA
 ```

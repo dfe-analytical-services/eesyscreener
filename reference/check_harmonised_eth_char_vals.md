@@ -51,10 +51,14 @@ check_harmonised_eth_char_vals(example_data)
 #> 1 harmonised_eth_char_vals   PASS
 #>                                                     message guidance_url
 #> 1 No characteristic_group and characteristic columns found.           NA
+#>   duration
+#> 1       NA
 check_harmonised_eth_char_vals(example_data, verbose = TRUE)
 #> ✔ No characteristic_group and characteristic columns found.
 #>                      check result
 #> 1 harmonised_eth_char_vals   PASS
 #>                                                     message guidance_url
 #> 1 No characteristic_group and characteristic columns found.           NA
+#>   duration
+#> 1       NA
 ```

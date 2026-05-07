@@ -72,12 +72,12 @@ screen_filenames("myfile.csv", "myfile.meta.csv")
 #> 3            'myfile.csv' does not contain any special characters.           NA
 #> 4       'myfile.meta.csv' does not contain any special characters.           NA
 #> 5 The names of the files follow the recommended naming convention.           NA
-#>      stage
-#> 1 filename
-#> 2 filename
-#> 3 filename
-#> 4 filename
-#> 5 filename
+#>   duration    stage
+#> 1       NA filename
+#> 2       NA filename
+#> 3       NA filename
+#> 4       NA filename
+#> 5       NA filename
 screen_filenames("myfile.csv", "mymeta.csv", verbose = TRUE)
 #> ✔ 'myfile.csv' does not have spaces in the filename.
 #> ✔ 'mymeta.csv' does not have spaces in the filename.
@@ -97,10 +97,10 @@ screen_filenames("myfile.csv", "mymeta.csv", verbose = TRUE)
 #> 3                                                                                                        'myfile.csv' does not contain any special characters.
 #> 4                                                                                                        'mymeta.csv' does not contain any special characters.
 #> 5 The filenames do not follow the recommended naming convention. Based on the given data filename, the metadata filename is expected to be 'myfile.meta.csv''.
-#>   guidance_url    stage
-#> 1           NA filename
-#> 2           NA filename
-#> 3           NA filename
-#> 4           NA filename
-#> 5           NA filename
+#>   guidance_url duration    stage
+#> 1           NA       NA filename
+#> 2           NA       NA filename
+#> 3           NA       NA filename
+#> 4           NA       NA filename
+#> 5           NA       NA filename
 ```

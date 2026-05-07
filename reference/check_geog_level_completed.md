@@ -82,10 +82,14 @@ check_geog_level_completed(example_data)
 #> 1 geog_level_completed   PASS
 #>                                                   message guidance_url
 #> 1 All geographic level columns are completed as expected.           NA
+#>           duration
+#> 1 0.008739948 secs
 check_geog_level_completed(example_data, verbose = TRUE)
 #> ✔ All geographic level columns are completed as expected.
 #>                  check result
 #> 1 geog_level_completed   PASS
 #>                                                   message guidance_url
 #> 1 All geographic level columns are completed as expected.           NA
+#>           duration
+#> 1 0.009724855 secs
 ```

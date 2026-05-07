@@ -45,14 +45,14 @@ check_col_var_start(example_data)
 #> 1 col_var_start   PASS
 #>                                                              message
 #> 1 All variable names in the data file start with a lowercase letter.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url duration
+#> 1           NA       NA
 check_col_var_start(example_data, verbose = TRUE)
 #> ✔ All variable names in the data file start with a lowercase letter.
 #>           check result
 #> 1 col_var_start   PASS
 #>                                                              message
 #> 1 All variable names in the data file start with a lowercase letter.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url duration
+#> 1           NA       NA
 ```

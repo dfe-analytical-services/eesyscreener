@@ -43,12 +43,12 @@ Other precheck_col:
 precheck_col_invalid_meta(example_meta)
 #>              check result                                            message
 #> 1 col_invalid_meta   PASS There are no invalid columns in the metadata file.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url duration
+#> 1           NA       NA
 precheck_col_invalid_meta(example_meta, verbose = TRUE)
 #> ✔ There are no invalid columns in the metadata file.
 #>              check result                                            message
 #> 1 col_invalid_meta   PASS There are no invalid columns in the metadata file.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url duration
+#> 1           NA       NA
 ```

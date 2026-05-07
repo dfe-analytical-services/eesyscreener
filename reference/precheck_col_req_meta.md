@@ -44,10 +44,14 @@ precheck_col_req_meta(example_meta)
 #> 1 col_req_meta   PASS
 #>                                                         message guidance_url
 #> 1 All of the required columns are present in the metadata file.           NA
+#>   duration
+#> 1       NA
 precheck_col_req_meta(example_meta, verbose = TRUE)
 #> ✔ All of the required columns are present in the metadata file.
 #>          check result
 #> 1 col_req_meta   PASS
 #>                                                         message guidance_url
 #> 1 All of the required columns are present in the metadata file.           NA
+#>   duration
+#> 1       NA
 ```

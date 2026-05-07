@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="index.html">eesyscreener</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,7 +35,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="logo.png" class="logo" alt=""><h1>Contributing to eesyscreener</h1>
-      <small class="dont-index">Source: <a href="https://github.com/dfe-analytical-services/eesyscreener/blob/v0.3.0/.github/CONTRIBUTING.md" class="external-link"><code>.github/CONTRIBUTING.md</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/dfe-analytical-services/eesyscreener/blob/main/.github/CONTRIBUTING.md" class="external-link"><code>.github/CONTRIBUTING.md</code></a></small>
     </div>
 
 <div id="contributing-to-eesyscreener" class="section level1">
@@ -62,33 +62,33 @@
 <li>
 <p>Sanity-check your setup by loading the package and running the test suite:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/load_all.html" class="external-link">load_all</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/test.html" class="external-link">test</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">load_all</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">test</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>The full test run can take a few minutes (integration tests screen full CSVs). See <a href="#running-and-skipping-tests">Running and skipping tests</a> for how and when to skip the longer tests.</p>
 </li>
 </ol></div>
 <div class="section level2">
 <h2 id="before-opening-a-pr">Before opening a PR<a class="anchor" aria-label="anchor" href="#before-opening-a-pr"></a></h2>
 <p>Run through this checklist for every contribution, regardless of what you changed:</p>
-<ol style="list-style-type: decimal"><li><p><strong>Regenerate docs</strong> — <code><a href="https://devtools.r-lib.org/reference/document.html" class="external-link">devtools::document()</a></code> (updates <code>NAMESPACE</code> and roxygen <code>.Rd</code> files).</p></li>
+<ol style="list-style-type: decimal"><li><p><strong>Regenerate docs</strong> — <code>devtools::document()</code> (updates <code>NAMESPACE</code> and roxygen <code>.Rd</code> files).</p></li>
 <li><p><strong>Format</strong> — <code>air format .</code> from the terminal (or automatically on save in your IDE).</p></li>
-<li><p><strong>Lint</strong> — <code><a href="https://devtools.r-lib.org/reference/load_all.html" class="external-link">devtools::load_all(); lintr::lint_package()</a></code>.</p></li>
-<li><p><strong>Run the full test suite</strong> — <code><a href="https://devtools.r-lib.org/reference/test.html" class="external-link">devtools::test()</a></code>. Do not merge with tests skipped.</p></li>
+<li><p><strong>Lint</strong> — <code>devtools::load_all(); lintr::lint_package()</code>.</p></li>
+<li><p><strong>Run the full test suite</strong> — <code>devtools::test()</code>. Do not merge with tests skipped.</p></li>
 <li>
 <p><strong>Regenerate example output</strong> if you added or changed a check in the pipeline, or updated any <code>data-raw/</code> source:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/load_all.html" class="external-link">load_all</a></span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">load_all</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/source.html" class="external-link">source</a></span><span class="op">(</span><span class="st">"data-raw/example_output.R"</span><span class="op">)</span></span></code></pre></div>
 </li>
 <li><p><strong>Update <code>NEWS.md</code></strong> with a bullet under the current development version heading for any user-facing change (new check, new argument, changed behaviour, bug fix). Internal refactors usually do not need an entry.</p></li>
 </ol><div class="section level3">
 <h3 id="running-and-skipping-tests">Running and skipping tests<a class="anchor" aria-label="anchor" href="#running-and-skipping-tests"></a></h3>
-<p>By default, all tests run via <code><a href="https://devtools.r-lib.org/reference/test.html" class="external-link">devtools::test()</a></code> (full package checks run with <code><a href="https://devtools.r-lib.org/reference/check.html" class="external-link">devtools::check()</a></code>, but that skips the integration tests for speed)</p>
+<p>By default, all tests run via <code>devtools::test()</code> (full package checks run with <code>devtools::check()</code>, but that skips the integration tests for speed)</p>
 <p>We mix unit tests (quick function tests, a few seconds) with integration tests (full CSV screening, a few minutes). The integration tests are essential for end-to-end coverage on realistic files but slow down iteration. Skip them locally with the <code>SKIP_INTEGRATION_TESTS</code> environment variable:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">withr</span><span class="fu">::</span><span class="fu"><a href="https://withr.r-lib.org/reference/with_envvar.html" class="external-link">with_envvar</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>SKIP_INTEGRATION_TESTS <span class="op">=</span> <span class="st">"true"</span><span class="op">)</span>,</span>
-<span>  <span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/test.html" class="external-link">test</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  <span class="fu">devtools</span><span class="fu">::</span><span class="fu">test</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>This skips <code>test-zzz_integration.R</code>, <code>test-ees-robot-tests.R</code>, <code>test-screen_csv.R</code> and <code>test-screen_dfs.R</code>, bringing the run down from minutes to ~30 seconds. The gating logic lives in <code>tests/testthat/helper-integration.R</code>.</p>
 <p>Integration tests are skipped on CRAN and in R-CMD-check, but have their own GitHub Action so every PR still covers them.</p>
@@ -101,7 +101,7 @@
 <ul><li>
 <strong>Bug fixes</strong> — follow the “Before opening a PR” checklist. Add a new test in the existing <code>tests/testthat/test-&lt;function&gt;.R</code> file for the function you’re fixing, or a new example CSV pair in one of the <code>tests/testthat/</code> folders as appropriate. If adding a new CSV test pair then ensure they are made as small as possible to minimise the size of the repo.</li>
 <li>
-<strong>Documentation</strong> — roxygen changes still require <code><a href="https://devtools.r-lib.org/reference/document.html" class="external-link">devtools::document()</a></code>. Review the full documentation site locally with <code><a href="https://devtools.r-lib.org/reference/build_site.html" class="external-link">devtools::build_site()</a></code>
+<strong>Documentation</strong> — roxygen changes still require <code>devtools::document()</code>. Review the full documentation site locally with <code>devtools::build_site()</code>
 </li>
 <li>
 <strong>Reference data</strong> (e.g. new geographic lookups, updated acceptable values) — edit the matching <code>data-raw/*.R</code> script and regenerate the <code>.rda</code> via <code>source("data-raw/&lt;script&gt;.R")</code>. Also regenerate example output afterwards.</li>
@@ -170,71 +170,71 @@ precheck_&lt;area&gt;_&lt;what&gt;()   # Early validation (blocks on failure)</c
 </div>
 <div class="section level3">
 <h3 id="area-prefixes">Area prefixes<a class="anchor" aria-label="anchor" href="#area-prefixes"></a></h3>
-<table class="table"><thead><tr class="header"><th>Area</th>
+<table class="table"><thead><tr><th>Area</th>
 <th>Prefix</th>
 <th>Notes</th>
-</tr></thead><tbody><tr class="odd"><td>Columns</td>
+</tr></thead><tbody><tr><td>Columns</td>
 <td><code>col_</code></td>
 <td>Generic column properties</td>
-</tr><tr class="even"><td>Metadata</td>
+</tr><tr><td>Metadata</td>
 <td><code>meta_</code></td>
 <td>Metadata file validation</td>
-</tr><tr class="odd"><td>Data</td>
+</tr><tr><td>Data</td>
 <td><code>data_</code></td>
 <td>Data file content validation</td>
-</tr><tr class="even"><td>Filters</td>
+</tr><tr><td>Filters</td>
 <td><code>filter_</code></td>
 <td>Filter group logic</td>
-</tr><tr class="odd"><td>Indicators</td>
+</tr><tr><td>Indicators</td>
 <td><code>ind_</code></td>
 <td>Indicator-specific rules</td>
-</tr><tr class="even"><td>Geography</td>
+</tr><tr><td>Geography</td>
 <td><code>geog_</code></td>
 <td>Geographic hierarchy validation</td>
-</tr><tr class="odd"><td>Time</td>
+</tr><tr><td>Time</td>
 <td><code>time_</code></td>
 <td>Time period validation</td>
-</tr><tr class="even"><td>API</td>
+</tr><tr><td>API</td>
 <td><code>api_</code></td>
 <td>API-specific constraints</td>
-</tr><tr class="odd"><td>Filename</td>
+</tr><tr><td>Filename</td>
 <td><code>filename_</code></td>
 <td>File naming conventions</td>
 </tr></tbody></table></div>
 <div class="section level3">
 <h3 id="abbreviations-for-brevity">Abbreviations for brevity<a class="anchor" aria-label="anchor" href="#abbreviations-for-brevity"></a></h3>
 <p>Use these standard abbreviations in function names to keep them concise while remaining readable:</p>
-<table class="table"><thead><tr class="header"><th>Full term</th>
+<table class="table"><thead><tr><th>Full term</th>
 <th>Abbreviation</th>
 <th>Context</th>
-</tr></thead><tbody><tr class="odd"><td>column</td>
+</tr></thead><tbody><tr><td>column</td>
 <td><code>col</code></td>
 <td><code>check_col_names_spaces</code></td>
-</tr><tr class="even"><td>metadata</td>
+</tr><tr><td>metadata</td>
 <td><code>meta</code></td>
 <td><code>check_meta_label</code></td>
-</tr><tr class="odd"><td>filter_group</td>
+</tr><tr><td>filter_group</td>
 <td><code>fil_grp</code></td>
 <td><code>check_meta_fil_grp</code></td>
-</tr><tr class="even"><td>duplicate</td>
+</tr><tr><td>duplicate</td>
 <td><code>dupe</code></td>
 <td><code>check_meta_dupe_label</code></td>
-</tr><tr class="odd"><td>is_filter</td>
+</tr><tr><td>is_filter</td>
 <td><code>is_fil</code></td>
 <td><code>check_meta_fil_grp_is_fil</code></td>
-</tr><tr class="even"><td>indicator</td>
+</tr><tr><td>indicator</td>
 <td><code>ind</code></td>
 <td><code>check_ind_invalid_entry</code></td>
-</tr><tr class="odd"><td>decimal_places</td>
+</tr><tr><td>decimal_places</td>
 <td><code>dp</code></td>
 <td><code>check_meta_ind_dp_values</code></td>
-</tr><tr class="even"><td>geography</td>
+</tr><tr><td>geography</td>
 <td><code>geog</code></td>
 <td><code>precheck_geog_level</code></td>
-</tr><tr class="odd"><td>observation_unit</td>
+</tr><tr><td>observation_unit</td>
 <td><code>ob</code></td>
 <td><code>precheck_meta_ob_unit</code></td>
-</tr><tr class="even"><td>location</td>
+</tr><tr><td>location</td>
 <td><code>loc</code></td>
 <td><code>check_api_char_loc_code</code></td>
 </tr></tbody></table></div>
@@ -276,22 +276,22 @@ precheck_&lt;area&gt;_&lt;what&gt;()   # Early validation (blocks on failure)</c
 <li>
 <p><strong>Regenerate example output</strong> – required whenever a check is added to the pipeline:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/load_all.html" class="external-link">load_all</a></span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">load_all</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/source.html" class="external-link">source</a></span><span class="op">(</span><span class="st">"data-raw/example_output.R"</span><span class="op">)</span></span></code></pre></div>
 </li>
 <li>
 <p><strong>Document</strong> – roxygen2 with <code>@export</code>, <code>@examples</code>, and the appropriate <code>@inheritParams</code> and <code>@inherit ... return</code> tags to avoid duplicating parameter documentation. Pick the nearest donor from the table below:</p>
-<table class="table"><thead><tr class="header"><th>Params needed</th>
+<table class="table"><thead><tr><th>Params needed</th>
 <th>Inherit from</th>
-</tr></thead><tbody><tr class="odd"><td>
+</tr></thead><tbody><tr><td>
 <code>meta</code>, <code>verbose</code>, <code>stop_on_error</code>
 </td>
 <td><code>precheck_meta_col_type</code></td>
-</tr><tr class="even"><td>
+</tr><tr><td>
 <code>data</code>, <code>meta</code>, <code>verbose</code>, <code>stop_on_error</code>
 </td>
 <td><code>precheck_col_to_rows</code></td>
-</tr><tr class="odd"><td>
+</tr><tr><td>
 <code>data</code>, <code>verbose</code>, <code>stop_on_error</code>
 </td>
 <td><code>check_col_names_spaces</code></td>
@@ -340,26 +340,26 @@ precheck_&lt;area&gt;_&lt;what&gt;()   # Early validation (blocks on failure)</c
 <div class="section level2">
 <h2 id="working-with-geography">Working with geography<a class="anchor" aria-label="anchor" href="#working-with-geography"></a></h2>
 <p>Geography is the most branching area of the package — there are ~18 levels (National, Regional, Local authority, etc.) each with their own code / name columns, lookups and per-level checks. When adding, renaming, or tweaking a geographic level, touch these places:</p>
-<table class="table"><colgroup><col width="50%"><col width="50%"></colgroup><thead><tr class="header"><th>File</th>
+<table class="table"><colgroup><col width="50%"><col width="50%"></colgroup><thead><tr><th>File</th>
 <th>Role</th>
-</tr></thead><tbody><tr class="odd"><td><code>data-raw/geography_df.R</code></td>
+</tr></thead><tbody><tr><td><code>data-raw/geography_df.R</code></td>
 <td>The master table of levels and their code / name / secondary-code columns. Edit here first.</td>
-</tr><tr class="even"><td><code>data-raw/acceptable_geog_combos.R</code></td>
+</tr><tr><td><code>data-raw/acceptable_geog_combos.R</code></td>
 <td>Per-level lookups of valid code / name combinations (e.g. <code>acceptable_lads</code>, <code>acceptable_pcons</code>).</td>
-</tr><tr class="odd"><td><code>R/utils.R</code></td>
+</tr><tr><td><code>R/utils.R</code></td>
 <td>
 <code>get_geo_code_cols()</code> / <code>get_geo_name_cols()</code> return the full list of geography code / name columns. These drive several generic checks — update when adding a level.</td>
-</tr><tr class="even"><td><code>R/check_geog_combos.R</code></td>
+</tr><tr><td><code>R/check_geog_combos.R</code></td>
 <td>Houses <code>.check_geog_combos()</code> (shared implementation) plus the thin per-level wrappers (<code><a href="reference/check_geog_lad_combos.html">check_geog_lad_combos()</a></code>, <code><a href="reference/check_geog_pcon_combos.html">check_geog_pcon_combos()</a></code>, etc.). To add a level, add another wrapper that calls <code>.check_geog_combos()</code> with the right <code>code_col</code>, <code>name_col</code>, <code>acceptable_data</code>, and <code>restricted_level</code>.</td>
-</tr><tr class="odd"><td><code>R/screen_dfs.R</code></td>
+</tr><tr><td><code>R/screen_dfs.R</code></td>
 <td>Wire the new per-level combos check into the <code>check_geog</code> stage.</td>
-</tr><tr class="even"><td><code>tests/testthat/test-check_geog_&lt;level&gt;_combos.R</code></td>
+</tr><tr><td><code>tests/testthat/test-check_geog_&lt;level&gt;_combos.R</code></td>
 <td>Copy the closest existing level’s test (e.g. <code>test-check_geog_lad_combos.R</code>) and adapt.</td>
-</tr><tr class="odd"><td><code>_pkgdown.yml</code></td>
+</tr><tr><td><code>_pkgdown.yml</code></td>
 <td>Only needs editing if you rename the section heading; new <code>check_geog_*</code> functions are picked up by <code>starts_with()</code>.</td>
 </tr></tbody></table><p>After editing <code>data-raw/</code>, regenerate the <code>.rda</code> files:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/load_all.html" class="external-link">load_all</a></span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">load_all</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/source.html" class="external-link">source</a></span><span class="op">(</span><span class="st">"data-raw/geography_df.R"</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/source.html" class="external-link">source</a></span><span class="op">(</span><span class="st">"data-raw/acceptable_geog_combos.R"</span><span class="op">)</span></span></code></pre></div>
 <p>Then regenerate example output if any check or lookup changed:</p>
@@ -430,7 +430,7 @@ precheck_&lt;area&gt;_&lt;what&gt;()   # Early validation (blocks on failure)</c
 <h4 id="stingy-safety">Stingy safety<a class="anchor" aria-label="anchor" href="#stingy-safety"></a></h4>
 <p>Any new multi-column aggregation must remain lazy until <code>collect()</code>. Run the stingy check locally before opening a PR:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/test.html" class="external-link">test</a></span><span class="op">(</span>filter <span class="op">=</span> <span class="st">"avoid_materialisation"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">test</span><span class="op">(</span>filter <span class="op">=</span> <span class="st">"avoid_materialisation"</span><span class="op">)</span></span></code></pre></div>
 <p>If it fails, the operation materialised before <code>collect()</code>. The usual fix is the <code>char_cols</code> pre-computation above or removing an untranslatable function from the SQL pipeline.</p>
 </div>
 </div>

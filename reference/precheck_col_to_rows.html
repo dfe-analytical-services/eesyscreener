@@ -11,7 +11,7 @@ are rows in the metadata file."><meta property="og:image" content="https://dfe-a
 
     <a class="navbar-brand me-2" href="../index.html">eesyscreener</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +39,7 @@ are rows in the metadata file."><meta property="og:image" content="https://dfe-a
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Quick check of data columns vs metadata rows</h1>
-      <small class="dont-index">Source: <a href="https://github.com/dfe-analytical-services/eesyscreener/blob/v0.3.0/R/precheck_col_to_rows.R" class="external-link"><code>R/precheck_col_to_rows.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/dfe-analytical-services/eesyscreener/blob/main/R/precheck_col_to_rows.R" class="external-link"><code>R/precheck_col_to_rows.R</code></a></small>
       <div class="d-none name"><code>precheck_col_to_rows.Rd</code></div>
     </div>
 
@@ -96,16 +96,16 @@ is "FAIL", and will throw genuine warning if result is "WARNING"</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 col_to_rows   PASS</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                      message</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 There are an equal number of rows in the metadata file (3) and non-mandatory columns in the data file (3).</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   guidance_url</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1           NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   guidance_url          duration</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1           NA 0.0005550385 secs</span>
 <span class="r-in"><span><span class="fu">precheck_col_to_rows</span><span class="op">(</span><span class="va">example_data</span>, <span class="va">example_meta</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> There are an equal number of rows in the metadata file (3) and non-mandatory columns in the data file (3).</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         check result</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 col_to_rows   PASS</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                                      message</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 There are an equal number of rows in the metadata file (3) and non-mandatory columns in the data file (3).</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   guidance_url</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1           NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   guidance_url         duration</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1           NA 0.002144575 secs</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

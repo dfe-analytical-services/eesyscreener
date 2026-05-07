@@ -55,12 +55,14 @@ check_filenames_match("datafile.csv", "datafile.meta.csv")
 #> 1 filenames_match   PASS
 #>                                                            message guidance_url
 #> 1 The names of the files follow the recommended naming convention.           NA
+#>   duration
+#> 1       NA
 check_filenames_match("datafile.csv", "metafile.csv", verbose = TRUE)
 #> ✖ The filenames do not follow the recommended naming convention. Based on the given data filename, the metadata filename is expected to be 'datafile.meta.csv''.
 #>             check result
 #> 1 filenames_match   FAIL
 #>                                                                                                                                                          message
 #> 1 The filenames do not follow the recommended naming convention. Based on the given data filename, the metadata filename is expected to be 'datafile.meta.csv''.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url duration
+#> 1           NA       NA
 ```

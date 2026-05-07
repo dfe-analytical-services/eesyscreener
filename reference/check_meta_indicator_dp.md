@@ -53,8 +53,12 @@ Other check_meta:
 check_meta_indicator_dp(example_meta)
 #>               check result                                message guidance_url
 #> 1 meta_indicator_dp   PASS No filters have an indicator_dp value.           NA
+#>   duration
+#> 1       NA
 check_meta_indicator_dp(example_meta, verbose = TRUE)
 #> ✔ No filters have an indicator_dp value.
 #>               check result                                message guidance_url
 #> 1 meta_indicator_dp   PASS No filters have an indicator_dp value.           NA
+#>   duration
+#> 1       NA
 ```

@@ -54,12 +54,12 @@ Other check_meta:
 check_meta_fil_grp(example_meta)
 #>          check result                                            message
 #> 1 meta_fil_grp   PASS No indicators have a filter_grouping_column value.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url duration
+#> 1           NA       NA
 check_meta_fil_grp(example_meta, verbose = TRUE)
 #> ✔ No indicators have a filter_grouping_column value.
 #>          check result                                            message
 #> 1 meta_fil_grp   PASS No indicators have a filter_grouping_column value.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url duration
+#> 1           NA       NA
 ```

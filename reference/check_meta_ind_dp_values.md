@@ -56,14 +56,14 @@ check_meta_ind_dp_values(example_meta)
 #> 1 meta_ind_dp_values   PASS
 #>                                                                           message
 #> 1 The indicator_dp column only contains blanks, zero, or positive integer values.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url duration
+#> 1           NA       NA
 check_meta_ind_dp_values(example_meta, verbose = TRUE)
 #> ✔ The indicator_dp column only contains blanks, zero, or positive integer values.
 #>                check result
 #> 1 meta_ind_dp_values   PASS
 #>                                                                           message
 #> 1 The indicator_dp column only contains blanks, zero, or positive integer values.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url duration
+#> 1           NA       NA
 ```

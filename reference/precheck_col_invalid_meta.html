@@ -9,7 +9,7 @@ both req_meta_cols and optional_meta_cols."><meta property="og:image" content="h
 
     <a class="navbar-brand me-2" href="../index.html">eesyscreener</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,7 +37,7 @@ both req_meta_cols and optional_meta_cols."><meta property="og:image" content="h
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Check there are no invalid columns in the metadata</h1>
-      <small class="dont-index">Source: <a href="https://github.com/dfe-analytical-services/eesyscreener/blob/v0.3.0/R/precheck_col_invalid_meta.R" class="external-link"><code>R/precheck_col_invalid_meta.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/dfe-analytical-services/eesyscreener/blob/main/R/precheck_col_invalid_meta.R" class="external-link"><code>R/precheck_col_invalid_meta.R</code></a></small>
       <div class="d-none name"><code>precheck_col_invalid_meta.Rd</code></div>
     </div>
 
@@ -87,14 +87,14 @@ is "FAIL", and will throw genuine warning if result is "WARNING"</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">precheck_col_invalid_meta</span><span class="op">(</span><span class="va">example_meta</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              check result                                            message</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 col_invalid_meta   PASS There are no invalid columns in the metadata file.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   guidance_url</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1           NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   guidance_url duration</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1           NA       NA</span>
 <span class="r-in"><span><span class="fu">precheck_col_invalid_meta</span><span class="op">(</span><span class="va">example_meta</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> There are no invalid columns in the metadata file.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              check result                                            message</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 col_invalid_meta   PASS There are no invalid columns in the metadata file.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   guidance_url</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1           NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   guidance_url duration</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1           NA       NA</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

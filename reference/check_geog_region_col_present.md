@@ -61,10 +61,14 @@ check_geog_region_col_present(example_data)
 #> 1 geog_region_col_present   PASS
 #>                                              message guidance_url
 #> 1 No regional columns are present in this data file.           NA
+#>            duration
+#> 1 0.0003926754 secs
 check_geog_region_col_present(example_data, verbose = TRUE)
 #> ✔ No regional columns are present in this data file.
 #>                     check result
 #> 1 geog_region_col_present   PASS
 #>                                              message guidance_url
 #> 1 No regional columns are present in this data file.           NA
+#>           duration
+#> 1 0.002041578 secs
 ```

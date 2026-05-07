@@ -45,8 +45,12 @@ a single row data frame
 precheck_filter_not_singular(example_data, example_meta)
 #>                 check result                              message guidance_url
 #> 1 filter_not_singular   PASS All filters have two or more levels.           NA
+#>           duration
+#> 1 0.007503271 secs
 precheck_filter_not_singular(example_data, example_meta, verbose = TRUE)
 #> ✔ All filters have two or more levels.
 #>                 check result                              message guidance_url
 #> 1 filter_not_singular   PASS All filters have two or more levels.           NA
+#>          duration
+#> 1 0.00410533 secs
 ```

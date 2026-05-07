@@ -13,7 +13,7 @@ checked against the standard geographies lookup and will fail if not found.'><me
 
     <a class="navbar-brand me-2" href="../index.html">eesyscreener</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,7 +41,7 @@ checked against the standard geographies lookup and will fail if not found.'><me
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Check country code and name combinations</h1>
-      <small class="dont-index">Source: <a href="https://github.com/dfe-analytical-services/eesyscreener/blob/v0.3.0/R/check_geog_combos.R" class="external-link"><code>R/check_geog_combos.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/dfe-analytical-services/eesyscreener/blob/main/R/check_geog_combos.R" class="external-link"><code>R/check_geog_combos.R</code></a></small>
       <div class="d-none name"><code>check_geog_country_combos.Rd</code></div>
     </div>
 
@@ -117,12 +117,16 @@ standard, so blank or NA values at any geographic level are genuine errors.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 geog_country_combos   PASS</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                   message guidance_url</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 All country_code / country_name combinations are valid.           NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          duration</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.00352025 secs</span>
 <span class="r-in"><span><span class="fu">check_geog_country_combos</span><span class="op">(</span><span class="va">example_data</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> All country_code / country_name combinations are valid.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 check result</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 geog_country_combos   PASS</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                   message guidance_url</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 All country_code / country_name combinations are valid.           NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           duration</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.004495621 secs</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

@@ -42,12 +42,12 @@ Other precheck_col:
 precheck_col_req_data(example_data)
 #>          check result                                                   message
 #> 1 col_req_data   PASS All of the required columns are present in the data file.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url          duration
+#> 1           NA 8.106232e-05 secs
 precheck_col_req_data(example_data, verbose = TRUE)
 #> ✔ All of the required columns are present in the data file.
 #>          check result                                                   message
 #> 1 col_req_data   PASS All of the required columns are present in the data file.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url         duration
+#> 1           NA 0.001779079 secs
 ```

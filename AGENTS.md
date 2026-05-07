@@ -130,6 +130,7 @@ Every check returns a single-row data frame with columns `check`,
 accumulate these and return:
 
 ``` r
+
 list(
   results_table = data.frame(...),     # all check results with added `stage` column
   overall_stage = "Precheck columns",  # stage where screening stopped
@@ -220,6 +221,7 @@ test”. Two agent-specific reminders:
 ## Debugging a check
 
 ``` r
+
 devtools::load_all()
 
 # Run the whole pipeline with verbose output
@@ -238,6 +240,7 @@ Large-file performance depends on `duckplyr` keeping tables lazy. To
 check for accidental materialisation:
 
 ``` r
+
 eesyscreener::screen_dfs(data, meta, prudence = "stingy")
 # if it errors, then:
 rlang::last_trace()
@@ -268,12 +271,12 @@ fallbacks”.
 
 ## Key files
 
-| File                                  | Purpose                                                                                                                                                |
-|---------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `DESCRIPTION`                         | Package metadata, dependencies, version                                                                                                                |
-| `NAMESPACE`                           | Export declarations (auto-generated from roxygen2)                                                                                                     |
-| `_pkgdown.yml`                        | pkgdown site configuration and check groupings                                                                                                         |
-| `.github/CONTRIBUTING.md`             | Authoritative contributor guide — conventions, testing, geography, style                                                                               |
-| `.github/workflows/`                  | CI/CD pipelines (R-CMD-check, coverage, pkgdown, integration)                                                                                          |
-| `vignettes/assumptions_in_checks.Rmd` | Explains check ordering and inter-check assumptions                                                                                                    |
-| `README.Rmd`                          | Source for README.md — always edit the `.Rmd` and regenerate with [`devtools::build_readme()`](https://devtools.r-lib.org/reference/build_readme.html) |
+| File | Purpose |
+|----|----|
+| `DESCRIPTION` | Package metadata, dependencies, version |
+| `NAMESPACE` | Export declarations (auto-generated from roxygen2) |
+| `_pkgdown.yml` | pkgdown site configuration and check groupings |
+| `.github/CONTRIBUTING.md` | Authoritative contributor guide — conventions, testing, geography, style |
+| `.github/workflows/` | CI/CD pipelines (R-CMD-check, coverage, pkgdown, integration) |
+| `vignettes/assumptions_in_checks.Rmd` | Explains check ordering and inter-check assumptions |
+| `README.Rmd` | Source for README.md — always edit the `.Rmd` and regenerate with `devtools::build_readme()` |

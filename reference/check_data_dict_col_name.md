@@ -41,12 +41,12 @@ Other check_data_dict:
 check_data_dict_col_name(example_meta)
 #>                check result
 #> 1 data_dict_col_name   PASS
-#>                                                  message guidance_url
-#> 1 All col_names are consistent with the data dictionary.           NA
+#>                                                  message guidance_url duration
+#> 1 All col_names are consistent with the data dictionary.           NA       NA
 check_data_dict_col_name(example_meta, verbose = TRUE)
 #> ✔ All col_names are consistent with the data dictionary.
 #>                check result
 #> 1 data_dict_col_name   PASS
-#>                                                  message guidance_url
-#> 1 All col_names are consistent with the data dictionary.           NA
+#>                                                  message guidance_url duration
+#> 1 All col_names are consistent with the data dictionary.           NA       NA
 ```

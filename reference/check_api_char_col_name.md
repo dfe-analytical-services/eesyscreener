@@ -45,6 +45,6 @@ check_api_char_col_name(example_data)
 #> 1 api_char_col_name   PASS
 #>                                                                             message
 #> 1 All filter / indicator names are less than or equal to the character limit of 50.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url duration
+#> 1           NA       NA
 ```

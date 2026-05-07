@@ -41,14 +41,14 @@ check_ind_invalid_entry(example_data, example_meta)
 #> 1 ind_invalid_entry   PASS
 #>                                                              message
 #> 1 There are no blank values or GSS legacy symbols in any indicators.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url         duration
+#> 1           NA 0.002590418 secs
 check_ind_invalid_entry(example_data, example_meta, verbose = TRUE)
 #> ✔ There are no blank values or GSS legacy symbols in any indicators.
 #>               check result
 #> 1 ind_invalid_entry   PASS
 #>                                                              message
 #> 1 There are no blank values or GSS legacy symbols in any indicators.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url         duration
+#> 1           NA 0.003918886 secs
 ```

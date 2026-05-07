@@ -54,8 +54,12 @@ Other check_meta:
 check_meta_filter_hint(example_meta)
 #>              check result                                 message guidance_url
 #> 1 meta_filter_hint   PASS No indicators have a filter_hint value.           NA
+#>   duration
+#> 1       NA
 check_meta_filter_hint(example_meta, verbose = TRUE)
 #> ✔ No indicators have a filter_hint value.
 #>              check result                                 message guidance_url
 #> 1 meta_filter_hint   PASS No indicators have a filter_hint value.           NA
+#>   duration
+#> 1       NA
 ```

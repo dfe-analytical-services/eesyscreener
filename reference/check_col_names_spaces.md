@@ -37,4 +37,6 @@ check_col_names_spaces(example_data)
 #> 1 col_names_spaces   PASS
 #>                                                      message guidance_url
 #> 1 There are no spaces in the variable names in the datafile.           NA
+#>   duration
+#> 1       NA
 ```

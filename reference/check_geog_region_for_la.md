@@ -67,4 +67,6 @@ check_geog_region_for_la(example_data)
 #> 1 geog_region_for_la   PASS
 #>                                                    message guidance_url
 #> 1 There is no Local authority level data in the data file.           NA
+#>           duration
+#> 1 0.002569437 secs
 ```

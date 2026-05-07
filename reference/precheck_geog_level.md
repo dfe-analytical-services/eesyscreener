@@ -40,8 +40,12 @@ Other precheck_geog:
 precheck_geog_level(example_data)
 #>        check result                                    message guidance_url
 #> 1 geog_level   PASS The geographic_level values are all valid.           NA
+#>            duration
+#> 1 0.0004124641 secs
 precheck_geog_level(example_data, verbose = TRUE)
 #> ✔ The geographic_level values are all valid.
 #>        check result                                    message guidance_url
 #> 1 geog_level   PASS The geographic_level values are all valid.           NA
+#>           duration
+#> 1 0.002001286 secs
 ```

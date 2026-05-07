@@ -49,19 +49,21 @@ Other filename:
 check_filename_spaces("datafile.csv")
 #>             check result                                              message
 #> 1 filename_spaces   PASS 'datafile.csv' does not have spaces in the filename.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url duration
+#> 1           NA       NA
 check_filename_spaces("data file.csv", verbose = TRUE)
 #> ✖ There are spaces that need removing in 'data file.csv' (filename).
 #>             check result
 #> 1 filename_spaces   FAIL
 #>                                                              message
 #> 1 There are spaces that need removing in 'data file.csv' (filename).
-#>   guidance_url
-#> 1           NA
+#>   guidance_url duration
+#> 1           NA       NA
 check_filename_spaces("datafile.meta.csv", custom_name = "meta")
 #>             check result
 #> 1 filename_spaces   PASS
 #>                                                     message guidance_url
 #> 1 'datafile.meta.csv' does not have spaces in the filename.           NA
+#>   duration
+#> 1       NA
 ```

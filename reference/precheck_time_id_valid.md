@@ -40,4 +40,6 @@ Other precheck_time:
 precheck_time_id_valid(example_data)
 #>           check result                                   message guidance_url
 #> 1 time_id_valid   PASS The time_identifier values are all valid.           NA
+#>           duration
+#> 1 0.002240658 secs
 ```

@@ -45,14 +45,14 @@ check_col_snake_case(example_data)
 #> 1 col_snake_case   PASS
 #>                                                                 message
 #> 1 The variable names in the data file follow the snake_case convention.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url duration
+#> 1           NA       NA
 check_col_snake_case(example_data, verbose = TRUE)
 #> ✔ The variable names in the data file follow the snake_case convention.
 #>            check result
 #> 1 col_snake_case   PASS
 #>                                                                 message
 #> 1 The variable names in the data file follow the snake_case convention.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url duration
+#> 1           NA       NA
 ```

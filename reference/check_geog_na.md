@@ -61,8 +61,12 @@ Other check_geog:
 check_geog_na(example_data)
 #>     check result                                  message guidance_url
 #> 1 geog_na   PASS No applicable geographic levels to test.           NA
+#>          duration
+#> 1 0.00115633 secs
 check_geog_na(example_data, verbose = TRUE)
 #> ✔ No applicable geographic levels to test.
 #>     check result                                  message guidance_url
 #> 1 geog_na   PASS No applicable geographic levels to test.           NA
+#>           duration
+#> 1 0.006798983 secs
 ```

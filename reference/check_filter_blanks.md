@@ -52,10 +52,14 @@ check_filter_blanks(example_data, example_meta)
 #> 1 filter_blanks   PASS
 #>                                                            message guidance_url
 #> 1 There are no blank values in any filter or filter group columns.           NA
+#>           duration
+#> 1 0.007621288 secs
 check_filter_blanks(example_data, example_meta, verbose = TRUE)
 #> ✔ There are no blank values in any filter or filter group columns.
 #>           check result
 #> 1 filter_blanks   PASS
 #>                                                            message guidance_url
 #> 1 There are no blank values in any filter or filter group columns.           NA
+#>           duration
+#> 1 0.003782511 secs
 ```

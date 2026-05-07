@@ -45,6 +45,6 @@ check_api_char_col_label(example_meta)
 #> 1 api_char_col_label   PASS
 #>                                                                               message
 #> 1 All filter / indicator labels are less than or equal to the character limit of 100.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url duration
+#> 1           NA       NA
 ```

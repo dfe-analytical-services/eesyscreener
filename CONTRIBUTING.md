@@ -35,6 +35,7 @@ R-aware editor.
 2.  Install the package’s development dependencies:
 
     ``` r
+
     install.packages(c("devtools", "pak"))
     pak::local_install_dev_deps()
     ```
@@ -47,6 +48,7 @@ R-aware editor.
     suite:
 
     ``` r
+
     devtools::load_all()
     devtools::test()
     ```
@@ -61,24 +63,22 @@ R-aware editor.
 Run through this checklist for every contribution, regardless of what
 you changed:
 
-1.  **Regenerate docs** —
-    [`devtools::document()`](https://devtools.r-lib.org/reference/document.html)
-    (updates `NAMESPACE` and roxygen `.Rd` files).
+1.  **Regenerate docs** — `devtools::document()` (updates `NAMESPACE`
+    and roxygen `.Rd` files).
 
 2.  **Format** — `air format .` from the terminal (or automatically on
     save in your IDE).
 
-3.  **Lint** —
-    [`devtools::load_all(); lintr::lint_package()`](https://devtools.r-lib.org/reference/load_all.html).
+3.  **Lint** — `devtools::load_all(); lintr::lint_package()`.
 
-4.  **Run the full test suite** —
-    [`devtools::test()`](https://devtools.r-lib.org/reference/test.html).
-    Do not merge with tests skipped.
+4.  **Run the full test suite** — `devtools::test()`. Do not merge with
+    tests skipped.
 
 5.  **Regenerate example output** if you added or changed a check in the
     pipeline, or updated any `data-raw/` source:
 
     ``` r
+
     devtools::load_all()
     source("data-raw/example_output.R")
     ```
@@ -90,11 +90,9 @@ you changed:
 
 ### Running and skipping tests
 
-By default, all tests run via
-[`devtools::test()`](https://devtools.r-lib.org/reference/test.html)
-(full package checks run with
-[`devtools::check()`](https://devtools.r-lib.org/reference/check.html),
-but that skips the integration tests for speed)
+By default, all tests run via `devtools::test()` (full package checks
+run with `devtools::check()`, but that skips the integration tests for
+speed)
 
 We mix unit tests (quick function tests, a few seconds) with integration
 tests (full CSV screening, a few minutes). The integration tests are
@@ -103,6 +101,7 @@ iteration. Skip them locally with the `SKIP_INTEGRATION_TESTS`
 environment variable:
 
 ``` r
+
 withr::with_envvar(
   c(SKIP_INTEGRATION_TESTS = "true"),
   devtools::test()
@@ -132,9 +131,8 @@ one:
   pair then ensure they are made as small as possible to minimise the
   size of the repo.
 - **Documentation** — roxygen changes still require
-  [`devtools::document()`](https://devtools.r-lib.org/reference/document.html).
-  Review the full documentation site locally with
-  [`devtools::build_site()`](https://devtools.r-lib.org/reference/build_site.html)
+  `devtools::document()`. Review the full documentation site locally
+  with `devtools::build_site()`
 - **Reference data** (e.g. new geographic lookups, updated acceptable
   values) — edit the matching `data-raw/*.R` script and regenerate the
   `.rda` via `source("data-raw/<script>.R")`. Also regenerate example
@@ -318,6 +316,7 @@ This automatically picks up all `check_meta_*` functions.
     signature:
 
     ``` r
+
     #' @export
     check_my_validation <- function(data, meta, verbose = FALSE, stop_on_error = FALSE) {
       check_name <- get_check_name()  # never hardcode the name string
@@ -346,6 +345,7 @@ This automatically picks up all `check_meta_*` functions.
     to the pipeline:
 
     ``` r
+
     devtools::load_all()
     source("data-raw/example_output.R")
     ```
@@ -436,19 +436,20 @@ levels (National, Regional, Local authority, etc.) each with their own
 code / name columns, lookups and per-level checks. When adding,
 renaming, or tweaking a geographic level, touch these places:
 
-| File                                              | Role                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-|---------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `data-raw/geography_df.R`                         | The master table of levels and their code / name / secondary-code columns. Edit here first.                                                                                                                                                                                                                                                                                                                                                                                                              |
-| `data-raw/acceptable_geog_combos.R`               | Per-level lookups of valid code / name combinations (e.g. `acceptable_lads`, `acceptable_pcons`).                                                                                                                                                                                                                                                                                                                                                                                                        |
-| `R/utils.R`                                       | `get_geo_code_cols()` / `get_geo_name_cols()` return the full list of geography code / name columns. These drive several generic checks — update when adding a level.                                                                                                                                                                                                                                                                                                                                    |
-| `R/check_geog_combos.R`                           | Houses `.check_geog_combos()` (shared implementation) plus the thin per-level wrappers ([`check_geog_lad_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_lad_combos.md), [`check_geog_pcon_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_pcon_combos.md), etc.). To add a level, add another wrapper that calls `.check_geog_combos()` with the right `code_col`, `name_col`, `acceptable_data`, and `restricted_level`. |
-| `R/screen_dfs.R`                                  | Wire the new per-level combos check into the `check_geog` stage.                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| `tests/testthat/test-check_geog_<level>_combos.R` | Copy the closest existing level’s test (e.g. `test-check_geog_lad_combos.R`) and adapt.                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| `_pkgdown.yml`                                    | Only needs editing if you rename the section heading; new `check_geog_*` functions are picked up by `starts_with()`.                                                                                                                                                                                                                                                                                                                                                                                     |
+| File | Role |
+|----|----|
+| `data-raw/geography_df.R` | The master table of levels and their code / name / secondary-code columns. Edit here first. |
+| `data-raw/acceptable_geog_combos.R` | Per-level lookups of valid code / name combinations (e.g. `acceptable_lads`, `acceptable_pcons`). |
+| `R/utils.R` | `get_geo_code_cols()` / `get_geo_name_cols()` return the full list of geography code / name columns. These drive several generic checks — update when adding a level. |
+| `R/check_geog_combos.R` | Houses `.check_geog_combos()` (shared implementation) plus the thin per-level wrappers ([`check_geog_lad_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_lad_combos.md), [`check_geog_pcon_combos()`](https://dfe-analytical-services.github.io/eesyscreener/reference/check_geog_pcon_combos.md), etc.). To add a level, add another wrapper that calls `.check_geog_combos()` with the right `code_col`, `name_col`, `acceptable_data`, and `restricted_level`. |
+| `R/screen_dfs.R` | Wire the new per-level combos check into the `check_geog` stage. |
+| `tests/testthat/test-check_geog_<level>_combos.R` | Copy the closest existing level’s test (e.g. `test-check_geog_lad_combos.R`) and adapt. |
+| `_pkgdown.yml` | Only needs editing if you rename the section heading; new `check_geog_*` functions are picked up by `starts_with()`. |
 
 After editing `data-raw/`, regenerate the `.rda` files:
 
 ``` r
+
 devtools::load_all()
 source("data-raw/geography_df.R")
 source("data-raw/acceptable_geog_combos.R")
@@ -457,6 +458,7 @@ source("data-raw/acceptable_geog_combos.R")
 Then regenerate example output if any check or lookup changed:
 
 ``` r
+
 source("data-raw/example_output.R")
 ```
 
@@ -510,6 +512,7 @@ The costliest anti-pattern we found in this codebase was iterating over
 columns and firing a separate DuckDB query per column:
 
 ``` r
+
 # Anti-pattern: 1 query per column
 for (col in data_cols) {
   vals <- data |>
@@ -527,6 +530,7 @@ DuckDB executes as a single aggregation pass in around 9 s.
 #### Boolean presence check (does any row match?)
 
 ``` r
+
 # Good: 1 query, all character columns at once
 char_cols <- names(dplyr::select(data, dplyr::where(is.character)))
 
@@ -558,6 +562,7 @@ extract column names first, then pass a plain character vector via
 #### Distinct-count per column
 
 ``` r
+
 # Good: 1 query, COUNT(DISTINCT col) for every column
 counts_row <- data |>
   dplyr::summarise(dplyr::across(
@@ -579,6 +584,7 @@ Any new multi-column aggregation must remain lazy until `collect()`. Run
 the stingy check locally before opening a PR:
 
 ``` r
+
 devtools::test(filter = "avoid_materialisation")
 ```
 

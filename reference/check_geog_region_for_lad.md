@@ -67,6 +67,6 @@ check_geog_region_for_lad(example_data)
 #> 1 geog_region_for_lad   PASS
 #>                                                             message
 #> 1 There is no Local authority district level data in the data file.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url         duration
+#> 1           NA 0.002654314 secs
 ```

@@ -53,12 +53,12 @@ Other check_meta:
 check_meta_indicator_grouping(example_meta)
 #>                     check result                                      message
 #> 1 meta_indicator_grouping   PASS No filters have an indicator_grouping value.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url duration
+#> 1           NA       NA
 check_meta_indicator_grouping(example_meta, verbose = TRUE)
 #> ✔ No filters have an indicator_grouping value.
 #>                     check result                                      message
 #> 1 meta_indicator_grouping   PASS No filters have an indicator_grouping value.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url duration
+#> 1           NA       NA
 ```

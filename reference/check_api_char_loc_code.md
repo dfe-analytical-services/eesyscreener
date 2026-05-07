@@ -45,6 +45,6 @@ check_api_char_loc_code(example_data)
 #> 1 api_char_loc_code   PASS
 #>                                                                   message
 #> 1 All location codes are less than or equal to the character limit of 30.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url duration
+#> 1           NA       NA
 ```

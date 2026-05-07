@@ -56,10 +56,14 @@ check_meta_label(example_meta)
 #> 1 meta_label   PASS
 #>                                                        message guidance_url
 #> 1 The label column is completed for every row in the metadata.           NA
+#>   duration
+#> 1       NA
 check_meta_label(example_meta, verbose = TRUE)
 #> ✔ The label column is completed for every row in the metadata.
 #>        check result
 #> 1 meta_label   PASS
 #>                                                        message guidance_url
 #> 1 The label column is completed for every row in the metadata.           NA
+#>   duration
+#> 1       NA
 ```

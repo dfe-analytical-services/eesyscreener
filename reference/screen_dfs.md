@@ -242,83 +242,83 @@ screen_dfs(example_data, example_meta)
 #> 76                                                        All filter items / location names are less than or equal to the character limit of 120.
 #> 77                                                                                         All col_names are consistent with the data dictionary.
 #> 78                                                                                      All filter items are consistent with the data dictionary.
-#>    guidance_url               stage
-#> 1            NA    Precheck columns
-#> 2            NA    Precheck columns
-#> 3            NA    Precheck columns
-#> 4            NA    Precheck columns
-#> 5            NA Precheck cross-file
-#> 6            NA Precheck cross-file
-#> 7            NA       Check columns
-#> 8            NA       Check columns
-#> 9            NA       Check columns
-#> 10           NA       Check columns
-#> 11           NA       Check columns
-#> 12           NA       Precheck meta
-#> 13           NA       Precheck meta
-#> 14           NA       Precheck meta
-#> 15           NA          Check meta
-#> 16           NA          Check meta
-#> 17           NA          Check meta
-#> 18           NA          Check meta
-#> 19           NA          Check meta
-#> 20           NA          Check meta
-#> 21           NA          Check meta
-#> 22           NA          Check meta
-#> 23           NA          Check meta
-#> 24           NA          Check meta
-#> 25           NA          Check meta
-#> 26           NA          Check meta
-#> 27           NA          Check meta
-#> 28           NA          Check meta
-#> 29           NA          Check meta
-#> 30           NA          Check meta
-#> 31           NA          Check meta
-#> 32           NA       Precheck time
-#> 33           NA       Precheck time
-#> 34           NA       Precheck time
-#> 35           NA    Precheck filters
-#> 36           NA  Precheck geography
-#> 37           NA  Precheck geography
-#> 38           NA          Check time
-#> 39           NA          Check time
-#> 40           NA       Check filters
-#> 41           NA       Check filters
-#> 42           NA       Check filters
-#> 43           NA       Check filters
-#> 44           NA       Check filters
-#> 45           NA       Check filters
-#> 46           NA     Check geography
-#> 47           NA     Check geography
-#> 48           NA     Check geography
-#> 49           NA     Check geography
-#> 50           NA     Check geography
-#> 51           NA     Check geography
-#> 52           NA     Check geography
-#> 53           NA     Check geography
-#> 54           NA     Check geography
-#> 55           NA     Check geography
-#> 56           NA     Check geography
-#> 57           NA     Check geography
-#> 58           NA     Check geography
-#> 59           NA     Check geography
-#> 60           NA     Check geography
-#> 61           NA     Check geography
-#> 62           NA     Check geography
-#> 63           NA     Check geography
-#> 64           NA     Check geography
-#> 65           NA     Check geography
-#> 66           NA       Check general
-#> 67           NA       Check general
-#> 68           NA    Check indicators
-#> 69           NA    Check harmonised
-#> 70           NA    Check harmonised
-#> 71           NA    Check harmonised
-#> 72           NA    Check harmonised
-#> 73           NA           Check API
-#> 74           NA           Check API
-#> 75           NA           Check API
-#> 76           NA           Check API
-#> 77           NA           Check API
-#> 78           NA           Check API
+#>    guidance_url     duration               stage
+#> 1            NA           NA    Precheck columns
+#> 2            NA           NA    Precheck columns
+#> 3            NA 5.722046e-05    Precheck columns
+#> 4            NA 2.570152e-04    Precheck columns
+#> 5            NA 9.965897e-05 Precheck cross-file
+#> 6            NA 8.691788e-03 Precheck cross-file
+#> 7            NA           NA       Check columns
+#> 8            NA           NA       Check columns
+#> 9            NA           NA       Check columns
+#> 10           NA           NA       Check columns
+#> 11           NA           NA       Check columns
+#> 12           NA           NA       Precheck meta
+#> 13           NA           NA       Precheck meta
+#> 14           NA           NA       Precheck meta
+#> 15           NA           NA          Check meta
+#> 16           NA           NA          Check meta
+#> 17           NA           NA          Check meta
+#> 18           NA           NA          Check meta
+#> 19           NA           NA          Check meta
+#> 20           NA           NA          Check meta
+#> 21           NA           NA          Check meta
+#> 22           NA           NA          Check meta
+#> 23           NA           NA          Check meta
+#> 24           NA           NA          Check meta
+#> 25           NA           NA          Check meta
+#> 26           NA           NA          Check meta
+#> 27           NA           NA          Check meta
+#> 28           NA           NA          Check meta
+#> 29           NA           NA          Check meta
+#> 30           NA           NA          Check meta
+#> 31           NA           NA          Check meta
+#> 32           NA 3.366947e-03       Precheck time
+#> 33           NA 7.404804e-03       Precheck time
+#> 34           NA 5.779028e-03       Precheck time
+#> 35           NA 5.996943e-03    Precheck filters
+#> 36           NA 1.400232e-03  Precheck geography
+#> 37           NA 2.689838e-03  Precheck geography
+#> 38           NA 5.538464e-03          Check time
+#> 39           NA 2.744675e-03          Check time
+#> 40           NA 7.361889e-03       Check filters
+#> 41           NA 1.475310e-02       Check filters
+#> 42           NA 5.707264e-03       Check filters
+#> 43           NA 7.609367e-03       Check filters
+#> 44           NA 1.736069e-02       Check filters
+#> 45           NA 2.362704e-02       Check filters
+#> 46           NA 1.162291e-02     Check geography
+#> 47           NA 1.318455e-04     Check geography
+#> 48           NA 9.799004e-05     Check geography
+#> 49           NA 9.584427e-05     Check geography
+#> 50           NA 8.773804e-05     Check geography
+#> 51           NA 8.773804e-05     Check geography
+#> 52           NA 8.773804e-05     Check geography
+#> 53           NA 8.463860e-05     Check geography
+#> 54           NA 9.131432e-05     Check geography
+#> 55           NA 4.370975e-02     Check geography
+#> 56           NA 4.417777e-02     Check geography
+#> 57           NA 2.506757e-02     Check geography
+#> 58           NA 2.877712e-04     Check geography
+#> 59           NA 2.520084e-04     Check geography
+#> 60           NA 8.105993e-03     Check geography
+#> 61           NA 8.089066e-03     Check geography
+#> 62           NA 2.912521e-03     Check geography
+#> 63           NA 7.446170e-02     Check geography
+#> 64           NA 2.543497e-02     Check geography
+#> 65           NA 2.397060e-03     Check geography
+#> 66           NA 3.652501e-02       Check general
+#> 67           NA 4.770772e-01       Check general
+#> 68           NA 1.031518e-02    Check indicators
+#> 69           NA           NA    Check harmonised
+#> 70           NA           NA    Check harmonised
+#> 71           NA           NA    Check harmonised
+#> 72           NA           NA    Check harmonised
+#> 73           NA           NA           Check API
+#> 74           NA           NA           Check API
+#> 75           NA           NA           Check API
+#> 76           NA           NA           Check API
+#> 77           NA           NA           Check API
+#> 78           NA           NA           Check API
 ```

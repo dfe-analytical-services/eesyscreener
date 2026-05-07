@@ -43,10 +43,14 @@ precheck_meta_ob_unit(example_meta)
 #> 1 meta_ob_unit   PASS
 #>                                                           message guidance_url
 #> 1 No observational units have been included in the metadata file.           NA
+#>   duration
+#> 1       NA
 precheck_meta_ob_unit(example_meta, verbose = TRUE)
 #> ✔ No observational units have been included in the metadata file.
 #>          check result
 #> 1 meta_ob_unit   PASS
 #>                                                           message guidance_url
 #> 1 No observational units have been included in the metadata file.           NA
+#>   duration
+#> 1       NA
 ```

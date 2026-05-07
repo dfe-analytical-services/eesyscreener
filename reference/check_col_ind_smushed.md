@@ -45,12 +45,12 @@ Other check_col:
 check_col_ind_smushed(example_meta)
 #>             check result                                                message
 #> 1 col_ind_smushed   PASS No indicators found containing typical filter entries.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url duration
+#> 1           NA       NA
 check_col_ind_smushed(example_meta, verbose = TRUE)
 #> ✔ No indicators found containing typical filter entries.
 #>             check result                                                message
 #> 1 col_ind_smushed   PASS No indicators found containing typical filter entries.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url duration
+#> 1           NA       NA
 ```

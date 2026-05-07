@@ -184,43 +184,43 @@ screen_csv(data_path, meta_path)
 #> 34                                                                   No filters have an indicator_unit value.
 #> 35                                                                       The indicator_unit values are valid.
 #> 36                                                               No filters have an indicator_grouping value.
-#>    guidance_url               stage
-#> 1            NA            filename
-#> 2            NA            filename
-#> 3            NA            filename
-#> 4            NA            filename
-#> 5            NA            filename
-#> 6            NA    Precheck columns
-#> 7            NA    Precheck columns
-#> 8            NA    Precheck columns
-#> 9            NA    Precheck columns
-#> 10           NA Precheck cross-file
-#> 11           NA Precheck cross-file
-#> 12           NA       Check columns
-#> 13           NA       Check columns
-#> 14           NA       Check columns
-#> 15           NA       Check columns
-#> 16           NA       Check columns
-#> 17           NA       Precheck meta
-#> 18           NA       Precheck meta
-#> 19           NA       Precheck meta
-#> 20           NA          Check meta
-#> 21           NA          Check meta
-#> 22           NA          Check meta
-#> 23           NA          Check meta
-#> 24           NA          Check meta
-#> 25           NA          Check meta
-#> 26           NA          Check meta
-#> 27           NA          Check meta
-#> 28           NA          Check meta
-#> 29           NA          Check meta
-#> 30           NA          Check meta
-#> 31           NA          Check meta
-#> 32           NA          Check meta
-#> 33           NA          Check meta
-#> 34           NA          Check meta
-#> 35           NA          Check meta
-#> 36           NA          Check meta
+#>    guidance_url     duration               stage
+#> 1            NA           NA            filename
+#> 2            NA           NA            filename
+#> 3            NA           NA            filename
+#> 4            NA           NA            filename
+#> 5            NA           NA            filename
+#> 6            NA           NA    Precheck columns
+#> 7            NA           NA    Precheck columns
+#> 8            NA 5.459785e-05    Precheck columns
+#> 9            NA 3.798008e-04    Precheck columns
+#> 10           NA 1.506805e-04 Precheck cross-file
+#> 11           NA 2.750635e-03 Precheck cross-file
+#> 12           NA           NA       Check columns
+#> 13           NA           NA       Check columns
+#> 14           NA           NA       Check columns
+#> 15           NA           NA       Check columns
+#> 16           NA           NA       Check columns
+#> 17           NA           NA       Precheck meta
+#> 18           NA           NA       Precheck meta
+#> 19           NA           NA       Precheck meta
+#> 20           NA           NA          Check meta
+#> 21           NA           NA          Check meta
+#> 22           NA           NA          Check meta
+#> 23           NA           NA          Check meta
+#> 24           NA           NA          Check meta
+#> 25           NA           NA          Check meta
+#> 26           NA           NA          Check meta
+#> 27           NA           NA          Check meta
+#> 28           NA           NA          Check meta
+#> 29           NA           NA          Check meta
+#> 30           NA           NA          Check meta
+#> 31           NA           NA          Check meta
+#> 32           NA           NA          Check meta
+#> 33           NA           NA          Check meta
+#> 34           NA           NA          Check meta
+#> 35           NA           NA          Check meta
+#> 36           NA           NA          Check meta
 #> 
 #> $overall_stage
 #> [1] "Check meta checks"
@@ -351,43 +351,43 @@ screen_csv(
 #> 34                                                                   No filters have an indicator_unit value.
 #> 35                                                                       The indicator_unit values are valid.
 #> 36                                                               No filters have an indicator_grouping value.
-#>    guidance_url               stage
-#> 1            NA            filename
-#> 2            NA            filename
-#> 3            NA            filename
-#> 4            NA            filename
-#> 5            NA            filename
-#> 6            NA    Precheck columns
-#> 7            NA    Precheck columns
-#> 8            NA    Precheck columns
-#> 9            NA    Precheck columns
-#> 10           NA Precheck cross-file
-#> 11           NA Precheck cross-file
-#> 12           NA       Check columns
-#> 13           NA       Check columns
-#> 14           NA       Check columns
-#> 15           NA       Check columns
-#> 16           NA       Check columns
-#> 17           NA       Precheck meta
-#> 18           NA       Precheck meta
-#> 19           NA       Precheck meta
-#> 20           NA          Check meta
-#> 21           NA          Check meta
-#> 22           NA          Check meta
-#> 23           NA          Check meta
-#> 24           NA          Check meta
-#> 25           NA          Check meta
-#> 26           NA          Check meta
-#> 27           NA          Check meta
-#> 28           NA          Check meta
-#> 29           NA          Check meta
-#> 30           NA          Check meta
-#> 31           NA          Check meta
-#> 32           NA          Check meta
-#> 33           NA          Check meta
-#> 34           NA          Check meta
-#> 35           NA          Check meta
-#> 36           NA          Check meta
+#>    guidance_url    duration               stage
+#> 1            NA          NA            filename
+#> 2            NA          NA            filename
+#> 3            NA          NA            filename
+#> 4            NA          NA            filename
+#> 5            NA          NA            filename
+#> 6            NA          NA    Precheck columns
+#> 7            NA          NA    Precheck columns
+#> 8            NA 0.001608610    Precheck columns
+#> 9            NA 0.001926422    Precheck columns
+#> 10           NA 0.001699448 Precheck cross-file
+#> 11           NA 0.004283190 Precheck cross-file
+#> 12           NA          NA       Check columns
+#> 13           NA          NA       Check columns
+#> 14           NA          NA       Check columns
+#> 15           NA          NA       Check columns
+#> 16           NA          NA       Check columns
+#> 17           NA          NA       Precheck meta
+#> 18           NA          NA       Precheck meta
+#> 19           NA          NA       Precheck meta
+#> 20           NA          NA          Check meta
+#> 21           NA          NA          Check meta
+#> 22           NA          NA          Check meta
+#> 23           NA          NA          Check meta
+#> 24           NA          NA          Check meta
+#> 25           NA          NA          Check meta
+#> 26           NA          NA          Check meta
+#> 27           NA          NA          Check meta
+#> 28           NA          NA          Check meta
+#> 29           NA          NA          Check meta
+#> 30           NA          NA          Check meta
+#> 31           NA          NA          Check meta
+#> 32           NA          NA          Check meta
+#> 33           NA          NA          Check meta
+#> 34           NA          NA          Check meta
+#> 35           NA          NA          Check meta
+#> 36           NA          NA          Check meta
 #> 
 #> $overall_stage
 #> [1] "Check meta checks"

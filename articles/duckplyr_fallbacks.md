@@ -54,13 +54,13 @@ so re-lint after each change.
 
 ## Common patterns that cause fallbacks
 
-| Pattern                                                                                                                                         | Error / symptom                                                                              |
-|-------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|
-| `dplyr::mutate(col = local_var)` bare symbol RHS                                                                                                | “object of type ‘symbol’ is not subsettable”                                                 |
-| `dplyr::arrange(.data$col)`                                                                                                                     | same bare-symbol error via `` `$` `` operator                                                |
-| `dplyr::count(.data$col)`                                                                                                                       | “Cannot process: `count()` requires columns in `...`”; cascades into `group_by()` fallback   |
-| `spec_tbl_df` without [`tibble::as_tibble()`](https://tibble.tidyverse.org/reference/as_tibble.html) conversion                                 | “Must pass a plain data frame or a tibble”                                                   |
-| [`utils::stack()`](https://rdrr.io/r/utils/stack.html) output passed to dplyr verbs                                                             | factor columns — duckplyr can’t build a relation                                             |
+| Pattern | Error / symptom |
+|----|----|
+| `dplyr::mutate(col = local_var)` bare symbol RHS | “object of type ‘symbol’ is not subsettable” |
+| `dplyr::arrange(.data$col)` | same bare-symbol error via `` `$` `` operator |
+| `dplyr::count(.data$col)` | “Cannot process: `count()` requires columns in `...`”; cascades into `group_by()` fallback |
+| `spec_tbl_df` without [`tibble::as_tibble()`](https://tibble.tidyverse.org/reference/as_tibble.html) conversion | “Must pass a plain data frame or a tibble” |
+| [`utils::stack()`](https://rdrr.io/r/utils/stack.html) output passed to dplyr verbs | factor columns — duckplyr can’t build a relation |
 | [`vapply()`](https://rdrr.io/r/base/lapply.html) result used directly in [`dplyr::mutate()`](https://dplyr.tidyverse.org/reference/mutate.html) | named/multi-element vector → “length(val) == 1 is not TRUE” or “Can’t convert named vectors” |
 
 ## Patterns that work fine with duckplyr

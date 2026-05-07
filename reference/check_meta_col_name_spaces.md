@@ -48,12 +48,12 @@ Other precheck_col:
 check_meta_col_name_spaces(example_meta)
 #>                  check result                                     message
 #> 1 meta_col_name_spaces   PASS There are no spaces in the col_name values.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url duration
+#> 1           NA       NA
 check_meta_col_name_spaces(example_meta, verbose = TRUE)
 #> ✔ There are no spaces in the col_name values.
 #>                  check result                                     message
 #> 1 meta_col_name_spaces   PASS There are no spaces in the col_name values.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url duration
+#> 1           NA       NA
 ```

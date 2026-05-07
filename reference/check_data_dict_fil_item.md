@@ -53,10 +53,14 @@ check_data_dict_fil_item(example_data, example_meta)
 #> 1 data_dict_fil_item   PASS
 #>                                                     message guidance_url
 #> 1 All filter items are consistent with the data dictionary.           NA
+#>   duration
+#> 1       NA
 check_data_dict_fil_item(example_data, example_meta, verbose = TRUE)
 #> ✔ All filter items are consistent with the data dictionary.
 #>                check result
 #> 1 data_dict_fil_item   PASS
 #>                                                     message guidance_url
 #> 1 All filter items are consistent with the data dictionary.           NA
+#>   duration
+#> 1       NA
 ```

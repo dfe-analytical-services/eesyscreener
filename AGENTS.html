@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="index.html">eesyscreener</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,7 +35,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="logo.png" class="logo" alt=""><h1>AGENTS.md</h1>
-      <small class="dont-index">Source: <a href="https://github.com/dfe-analytical-services/eesyscreener/blob/v0.3.0/AGENTS.md" class="external-link"><code>AGENTS.md</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/dfe-analytical-services/eesyscreener/blob/main/AGENTS.md" class="external-link"><code>AGENTS.md</code></a></small>
     </div>
 
 <div id="agentsmd" class="section level1">
@@ -225,7 +225,7 @@
 <div class="section level2">
 <h2 id="debugging-a-check">Debugging a check<a class="anchor" aria-label="anchor" href="#debugging-a-check"></a></h2>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/load_all.html" class="external-link">load_all</a></span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">load_all</span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Run the whole pipeline with verbose output</span></span>
 <span><span class="fu">eesyscreener</span><span class="fu">::</span><span class="fu"><a href="reference/screen_dfs.html">screen_dfs</a></span><span class="op">(</span><span class="va">example_data</span>, <span class="va">example_meta</span>, verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -262,22 +262,22 @@
 </ul></div>
 <div class="section level2">
 <h2 id="key-files">Key files<a class="anchor" aria-label="anchor" href="#key-files"></a></h2>
-<table class="table"><colgroup><col width="40%"><col width="60%"></colgroup><thead><tr class="header"><th>File</th>
+<table class="table"><colgroup><col width="40%"><col width="60%"></colgroup><thead><tr><th>File</th>
 <th>Purpose</th>
-</tr></thead><tbody><tr class="odd"><td><code>DESCRIPTION</code></td>
+</tr></thead><tbody><tr><td><code>DESCRIPTION</code></td>
 <td>Package metadata, dependencies, version</td>
-</tr><tr class="even"><td><code>NAMESPACE</code></td>
+</tr><tr><td><code>NAMESPACE</code></td>
 <td>Export declarations (auto-generated from roxygen2)</td>
-</tr><tr class="odd"><td><code>_pkgdown.yml</code></td>
+</tr><tr><td><code>_pkgdown.yml</code></td>
 <td>pkgdown site configuration and check groupings</td>
-</tr><tr class="even"><td><code>.github/CONTRIBUTING.md</code></td>
+</tr><tr><td><code>.github/CONTRIBUTING.md</code></td>
 <td>Authoritative contributor guide — conventions, testing, geography, style</td>
-</tr><tr class="odd"><td><code>.github/workflows/</code></td>
+</tr><tr><td><code>.github/workflows/</code></td>
 <td>CI/CD pipelines (R-CMD-check, coverage, pkgdown, integration)</td>
-</tr><tr class="even"><td><code>vignettes/assumptions_in_checks.Rmd</code></td>
+</tr><tr><td><code>vignettes/assumptions_in_checks.Rmd</code></td>
 <td>Explains check ordering and inter-check assumptions</td>
-</tr><tr class="odd"><td><code>README.Rmd</code></td>
-<td>Source for README.md — always edit the <code>.Rmd</code> and regenerate with <code><a href="https://devtools.r-lib.org/reference/build_readme.html" class="external-link">devtools::build_readme()</a></code>
+</tr><tr><td><code>README.Rmd</code></td>
+<td>Source for README.md — always edit the <code>.Rmd</code> and regenerate with <code>devtools::build_readme()</code>
 </td>
 </tr></tbody></table></div>
 </div>

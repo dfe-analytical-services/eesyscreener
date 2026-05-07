@@ -40,8 +40,12 @@ Other precheck_meta:
 precheck_meta_col_type(example_meta)
 #>           check result                                     message guidance_url
 #> 1 meta_col_type   PASS col_type is always 'Filter' or 'Indicator'.           NA
+#>   duration
+#> 1       NA
 precheck_meta_col_type(example_meta, verbose = TRUE)
 #> ✔ col_type is always 'Filter' or 'Indicator'.
 #>           check result                                     message guidance_url
 #> 1 meta_col_type   PASS col_type is always 'Filter' or 'Indicator'.           NA
+#>   duration
+#> 1       NA
 ```

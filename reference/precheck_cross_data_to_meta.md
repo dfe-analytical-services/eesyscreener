@@ -47,14 +47,14 @@ precheck_cross_data_to_meta(example_data, example_meta)
 #> 1 cross_data_to_meta   PASS
 #>                                                                                           message
 #> 1 All variables in the data file are observational units or are represented in the metadata file.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url         duration
+#> 1           NA 0.002846003 secs
 precheck_cross_data_to_meta(example_data, example_meta, verbose = TRUE)
 #> ✔ All variables in the data file are observational units or are represented in the metadata file.
 #>                check result
 #> 1 cross_data_to_meta   PASS
 #>                                                                                           message
 #> 1 All variables in the data file are observational units or are represented in the metadata file.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url         duration
+#> 1           NA 0.004237652 secs
 ```

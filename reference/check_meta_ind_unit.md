@@ -54,8 +54,12 @@ Other check_meta:
 check_meta_ind_unit(example_meta)
 #>           check result                                  message guidance_url
 #> 1 meta_ind_unit   PASS No filters have an indicator_unit value.           NA
+#>   duration
+#> 1       NA
 check_meta_ind_unit(example_meta, verbose = TRUE)
 #> ✔ No filters have an indicator_unit value.
 #>           check result                                  message guidance_url
 #> 1 meta_ind_unit   PASS No filters have an indicator_unit value.           NA
+#>   duration
+#> 1       NA
 ```

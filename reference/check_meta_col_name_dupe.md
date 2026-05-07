@@ -54,8 +54,12 @@ Other check_meta:
 check_meta_col_name_dupe(example_meta)
 #>                check result                         message guidance_url
 #> 1 meta_col_name_dupe   PASS All col_name values are unique.           NA
+#>   duration
+#> 1       NA
 check_meta_col_name_dupe(example_meta, verbose = TRUE)
 #> ✔ All col_name values are unique.
 #>                check result                         message guidance_url
 #> 1 meta_col_name_dupe   PASS All col_name values are unique.           NA
+#>   duration
+#> 1       NA
 ```

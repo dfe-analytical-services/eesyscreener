@@ -51,10 +51,10 @@ Other check_meta:
 
 ``` r
 check_meta_dupe_label(example_meta)
-#>             check result                message guidance_url
-#> 1 meta_dupe_label   PASS All labels are unique.           NA
+#>             check result                message guidance_url duration
+#> 1 meta_dupe_label   PASS All labels are unique.           NA       NA
 check_meta_dupe_label(example_meta, verbose = TRUE)
 #> ✔ All labels are unique.
-#>             check result                message guidance_url
-#> 1 meta_dupe_label   PASS All labels are unique.           NA
+#>             check result                message guidance_url duration
+#> 1 meta_dupe_label   PASS All labels are unique.           NA       NA
 ```

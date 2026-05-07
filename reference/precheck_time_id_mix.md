@@ -41,6 +41,6 @@ Other precheck_time:
 precheck_time_id_mix(example_data)
 #>         check result                                              message
 #> 1 time_id_mix   PASS There is only one time_identifier value in the data.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url         duration
+#> 1           NA 0.001824617 secs
 ```

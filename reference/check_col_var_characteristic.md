@@ -45,14 +45,14 @@ check_col_var_characteristic(example_meta)
 #> 1 col_var_characteristic   PASS
 #>                                                                                                 message
 #> 1 Neither 'characteristic' nor 'characteristic_group' were found as listed fields in the metadata file.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url duration
+#> 1           NA       NA
 check_col_var_characteristic(example_meta, verbose = TRUE)
 #> ✔ Neither 'characteristic' nor 'characteristic_group' were found as listed fields in the metadata file.
 #>                    check result
 #> 1 col_var_characteristic   PASS
 #>                                                                                                 message
 #> 1 Neither 'characteristic' nor 'characteristic_group' were found as listed fields in the metadata file.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url duration
+#> 1           NA       NA
 ```

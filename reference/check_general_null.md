@@ -53,6 +53,6 @@ check_general_null(example_data, example_meta)
 #> 1 general_null   PASS
 #>                                                                                   message
 #> 1 No problematic null or legacy no-data symbols were found in the data or metadata files.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url         duration
+#> 1           NA 0.007341623 secs
 ```

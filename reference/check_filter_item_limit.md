@@ -63,4 +63,6 @@ check_filter_item_limit(example_data, example_meta)
 #> 1 filter_item_limit   PASS
 #>                                                       message guidance_url
 #> 1 All filters and groups have less than 25000 unique entries.           NA
+#>           duration
+#> 1 0.002878428 secs
 ```

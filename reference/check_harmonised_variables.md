@@ -45,12 +45,12 @@ Other check_harmonised:
 check_harmonised_variables(example_meta)
 #>                  check result                                   message
 #> 1 harmonised_variables   PASS No standardised column name issues found.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url duration
+#> 1           NA       NA
 check_harmonised_variables(example_meta, verbose = TRUE)
 #> ✔ No standardised column name issues found.
 #>                  check result                                   message
 #> 1 harmonised_variables   PASS No standardised column name issues found.
-#>   guidance_url
-#> 1           NA
+#>   guidance_url duration
+#> 1           NA       NA
 ```

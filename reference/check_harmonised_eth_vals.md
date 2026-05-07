@@ -47,10 +47,10 @@ Other check_harmonised:
 
 ``` r
 check_harmonised_eth_vals(example_data)
-#>                 check result                     message guidance_url
-#> 1 harmonised_eth_vals   PASS No ethnicity columns found.           NA
+#>                 check result                     message guidance_url duration
+#> 1 harmonised_eth_vals   PASS No ethnicity columns found.           NA       NA
 check_harmonised_eth_vals(example_data, verbose = TRUE)
 #> ✔ No ethnicity columns found.
-#>                 check result                     message guidance_url
-#> 1 harmonised_eth_vals   PASS No ethnicity columns found.           NA
+#>                 check result                     message guidance_url duration
+#> 1 harmonised_eth_vals   PASS No ethnicity columns found.           NA       NA
 ```
