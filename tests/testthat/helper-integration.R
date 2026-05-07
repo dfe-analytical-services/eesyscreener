@@ -4,11 +4,20 @@ skip_integration_tests <- function() {
     identical(Sys.getenv("SKIP_INTEGRATION_TESTS"), "true"),
     "Set SKIP_INTEGRATION_TESTS=false or unset to run integration tests"
   )
+  required_dirs <- c("pass", "fail", "pass-warn-api")
+  missing_dirs <- required_dirs[
+    !vapply(required_dirs, function(d) dir.exists(test_path(d)), logical(1))
+  ]
   skip_if(
-    !dir.exists(test_path("pass")),
-    "Test fixtures excluded from package build"
+    length(missing_dirs) > 0,
+    paste(
+      "Skipping integration tests as test fixtures not found (missing:",
+      paste(missing_dirs, collapse = ", "),
+      ")"
+    )
   )
 }
+
 
 # Helper: screens all data / meta CSV pairs in a local folder.
 # expected_passed       = TRUE/FALSE -> asserts screener_output$passed
