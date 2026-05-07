@@ -38,10 +38,10 @@ check_zip_flat_structure <- function(
     return(test_output(
       test_name,
       "FAIL",
-      paste0(
+      format_file_list(
+        nested_files,
         "ZIP contains files in subdirectories: ",
-        paste(nested_files, collapse = ", "),
-        "."
+        suffix = ""
       ),
       verbose = verbose,
       stop_on_error = stop_on_error

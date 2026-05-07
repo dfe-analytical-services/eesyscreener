@@ -42,12 +42,9 @@ check_zip_names_file_presence <- function(
     ))
   }
 
-  data_files <- file_entries[
-    grepl("\\.csv$", file_entries) & !grepl("\\.meta\\.csv$", file_entries)
-  ]
-  meta_files <- file_entries[grepl("\\.meta\\.csv$", file_entries)]
+  csvs <- split_csv_entries(file_entries)
 
-  if (length(data_files) == 1 && length(meta_files) == 1) {
+  if (length(csvs$data) == 1 && length(csvs$meta) == 1) {
     return(test_output(
       test_name,
       "PASS",

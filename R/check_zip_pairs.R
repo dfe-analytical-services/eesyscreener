@@ -49,14 +49,10 @@ check_zip_pairs <- function(
 ) {
   test_name <- get_check_name()
 
-  data_files_in_zip <- file_entries[
-    grepl("\\.csv$", file_entries) &
-      !grepl("\\.meta\\.csv$", file_entries) &
-      file_entries != "dataset_names.csv"
-  ]
+  csvs <- split_csv_entries(file_entries)
+  data_files_in_zip <- csvs$data[csvs$data != "dataset_names.csv"]
   data_stems_in_zip <- sub("\\.csv$", "", data_files_in_zip)
-  meta_files_in_zip <- file_entries[grepl("\\.meta\\.csv$", file_entries)]
-  meta_stems_in_zip <- sub("\\.meta\\.csv$", "", meta_files_in_zip)
+  meta_stems_in_zip <- sub("\\.meta\\.csv$", "", csvs$meta)
 
   if (is.null(names_file_df)) {
     stems <- union(data_stems_in_zip, meta_stems_in_zip)
@@ -83,33 +79,18 @@ check_zip_pairs <- function(
   ) {
     msgs <- character(0)
     if (length(missing_data) > 0) {
-      msgs <- c(
-        msgs,
-        paste0(
-          missing_data_label,
-          paste(paste0(missing_data, ".csv"), collapse = ", "),
-          "."
-        )
-      )
+      msgs <- c(msgs, format_file_list(missing_data, missing_data_label))
     }
     if (length(missing_meta) > 0) {
       msgs <- c(
         msgs,
-        paste0(
-          missing_meta_label,
-          paste(paste0(missing_meta, ".meta.csv"), collapse = ", "),
-          "."
-        )
+        format_file_list(missing_meta, missing_meta_label, suffix = ".meta.csv")
       )
     }
     if (length(unlisted) > 0) {
       msgs <- c(
         msgs,
-        paste0(
-          "Data files not listed in names file: ",
-          paste(paste0(unlisted, ".csv"), collapse = ", "),
-          "."
-        )
+        format_file_list(unlisted, "Data files not listed in names file: ")
       )
     }
     return(test_output(

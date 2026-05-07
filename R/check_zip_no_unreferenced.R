@@ -42,11 +42,8 @@ check_zip_no_unreferenced <- function(
   test_name <- get_check_name()
 
   if (is.null(names_file_df)) {
-    data_files <- file_entries[
-      grepl("\\.csv$", file_entries) & !grepl("\\.meta\\.csv$", file_entries)
-    ]
-    meta_files <- file_entries[grepl("\\.meta\\.csv$", file_entries)]
-    allowed <- c(data_files, meta_files)
+    csvs <- split_csv_entries(file_entries)
+    allowed <- c(csvs$data, csvs$meta)
   } else {
     stems <- names_file_df$file_name
     allowed <- c(
@@ -66,10 +63,10 @@ check_zip_no_unreferenced <- function(
     return(test_output(
       test_name,
       "FAIL",
-      paste0(
+      format_file_list(
+        unreferenced,
         "ZIP contains unreferenced files: ",
-        paste(unreferenced, collapse = ", "),
-        "."
+        suffix = ""
       ),
       verbose = verbose,
       stop_on_error = stop_on_error

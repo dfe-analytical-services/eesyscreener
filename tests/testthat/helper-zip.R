@@ -33,6 +33,14 @@ fail_file <- function(stem, ext = ".csv") {
   test_path("fail", paste0(stem, ext))
 }
 
+# Helper: create an empty ZIP at a temp path and return the path.
+# Caller is responsible for cleanup via on.exit(unlink(tmp)).
+with_empty_zip <- function(ext = ".zip") {
+  tmp <- tempfile(fileext = ext)
+  zip::zip(tmp, character(0))
+  tmp
+}
+
 # Helper: assert screen_zip() result matches expectations.
 zip_fixture <- function(
   zippath,
