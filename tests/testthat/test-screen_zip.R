@@ -285,6 +285,76 @@ test_that("path-traversal entry is rejected by flat structure check", {
   expect_equal(length(setdiff(names(result), "zip_structure")), 0)
 })
 
+test_that("verbose = TRUE propagates to inner screen_csv calls", {
+  skip_integration_tests()
+
+  d <- make_zip(
+    files = c(
+      pass_file("passes_everything"),
+      pass_file("passes_everything", ".meta.csv")
+    ),
+    names_in_zip = c("passes_everything.csv", "passes_everything.meta.csv")
+  )
+  on.exit({
+    unlink(d$zippath)
+    unlink(d$staging, recursive = TRUE)
+  })
+
+  # Zip-structure checks alone produce a handful of messages. If verbose
+  # reaches the inner screen_csv calls, we see one per check inside it
+  # (dozens), so a comfortably-above-the-floor threshold proves propagation.
+  msgs <- testthat::capture_messages(screen_zip(d$zippath, verbose = TRUE))
+  expect_gt(length(msgs), 10)
+})
+
+test_that("stop_on_error = TRUE aborts on a structure FAIL", {
+  expect_error(screen_zip("does_not_exist.zip", stop_on_error = TRUE))
+})
+
+test_that("malformed dataset_names.csv produces FAIL row, not thrown error", {
+  skip_integration_tests()
+
+  # Empty names file — read.csv throws "no lines available in input",
+  # which screen_zip should convert into a structured FAIL row rather
+  # than letting it escape.
+  bad_names <- tempfile()
+  on.exit(unlink(bad_names))
+  file.create(bad_names)
+
+  d <- make_zip(
+    files = c(
+      pass_file("passes_everything"),
+      pass_file("passes_everything", ".meta.csv"),
+      pass_file("noFilters"),
+      pass_file("noFilters", ".meta.csv"),
+      bad_names
+    ),
+    names_in_zip = c(
+      "passes_everything.csv",
+      "passes_everything.meta.csv",
+      "noFilters.csv",
+      "noFilters.meta.csv",
+      "dataset_names.csv"
+    )
+  )
+  on.exit(
+    {
+      unlink(d$zippath)
+      unlink(d$staging, recursive = TRUE)
+    },
+    add = TRUE
+  )
+
+  result <- expect_no_error(screen_zip(d$zippath))
+
+  format_row <- result$zip_structure[
+    result$zip_structure$check == "zip_names_file_format",
+  ]
+  expect_equal(format_row$result, "FAIL")
+  expect_true(grepl("could not be read", format_row$message))
+  expect_equal(length(setdiff(names(result), "zip_structure")), 0)
+})
+
 test_that("ZIP with only dataset_names.csv and no pairs fails pairs check", {
   skip_integration_tests()
 

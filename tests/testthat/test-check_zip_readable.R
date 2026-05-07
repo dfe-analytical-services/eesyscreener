@@ -65,3 +65,27 @@ test_that("no error with stop_on_error on PASS", {
   zip::zip(tmp, character(0))
   expect_no_error(check_zip_readable(tmp, stop_on_error = TRUE))
 })
+
+test_that("accepts capitalised .ZIP extension", {
+  skip_integration_tests()
+  tmp <- tempfile(fileext = ".ZIP")
+  on.exit(unlink(tmp))
+  zip::zip(tmp, character(0))
+  result <- check_zip_readable(tmp)
+  expect_equal(result$result, "PASS")
+})
+
+test_that("attaches file_entries attribute on PASS", {
+  skip_integration_tests()
+  staging <- tempfile()
+  dir.create(staging)
+  writeLines("x", file.path(staging, "a.csv"))
+  tmp <- tempfile(fileext = ".zip")
+  on.exit({
+    unlink(tmp)
+    unlink(staging, recursive = TRUE)
+  })
+  zip::zip(tmp, files = "a.csv", root = staging)
+  result <- check_zip_readable(tmp)
+  expect_equal(attr(result, "file_entries"), "a.csv")
+})

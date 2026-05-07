@@ -41,17 +41,18 @@ screen_zip <- function(
     df
   }
 
-  readable_result <- attach_stage(check_zip_readable(
+  readable_raw <- check_zip_readable(
     zippath,
     verbose = verbose,
     stop_on_error = stop_on_error
-  ))
+  )
+  file_entries <- attr(readable_raw, "file_entries")
+  readable_result <- attach_stage(readable_raw)
 
   if (readable_result$result == "FAIL") {
     return(list(zip_structure = readable_result))
   }
 
-  file_entries <- zip::zip_list(zippath)$filename
   has_names_file <- "dataset_names.csv" %in% file_entries
 
   structure_checks <- list(
@@ -75,17 +76,42 @@ screen_zip <- function(
     dir.create(tmp_names_file)
     on.exit(unlink(tmp_names_file, recursive = TRUE), add = TRUE)
     zip::unzip(zippath, files = "dataset_names.csv", exdir = tmp_names_file)
-    names_file_df <- utils::read.csv(
-      file.path(tmp_names_file, "dataset_names.csv"),
-      stringsAsFactors = FALSE
+
+    # read.csv can throw on malformed CSVs (unterminated quotes, bad
+    # encoding, etc.). Catch so screen_zip's "every failure surfaces as a
+    # FAIL row" contract holds.
+    names_file_df <- tryCatch(
+      utils::read.csv(
+        file.path(tmp_names_file, "dataset_names.csv"),
+        stringsAsFactors = FALSE
+      ),
+      error = function(e) e
     )
-    format_result <- attach_stage(check_zip_names_file_format(
-      names_file_df,
-      verbose = verbose,
-      stop_on_error = stop_on_error
-    ))
-    structure_checks <- c(structure_checks, list(format_result))
-    format_passed <- format_result$result == "PASS"
+
+    if (inherits(names_file_df, "error")) {
+      read_fail <- attach_stage(test_output(
+        "zip_names_file_format",
+        "FAIL",
+        paste0(
+          "dataset_names.csv could not be read: ",
+          conditionMessage(names_file_df),
+          "."
+        ),
+        verbose = verbose,
+        stop_on_error = stop_on_error
+      ))
+      structure_checks <- c(structure_checks, list(read_fail))
+      names_file_df <- NULL
+      format_passed <- FALSE
+    } else {
+      format_result <- attach_stage(check_zip_names_file_format(
+        names_file_df,
+        verbose = verbose,
+        stop_on_error = stop_on_error
+      ))
+      structure_checks <- c(structure_checks, list(format_result))
+      format_passed <- format_result$result == "PASS"
+    }
   }
 
   # Skip pair / unreferenced checks when the names file is malformed — their
@@ -130,6 +156,10 @@ screen_zip <- function(
     sub("\\.csv$", "", extracted[!grepl("\\.meta\\.csv$", extracted)])
   }
 
+  # Stems can come from user-controlled dataset_names.csv content. Path
+  # traversal is blocked upstream: check_zip_pairs requires
+  # paste0(stem, ".csv") to exist as a zip entry, and check_zip_flat_structure
+  # rejects any entry containing "/", so a "../foo" stem cannot reach here.
   pair_results <- list()
   for (stem in stems) {
     pair_results[[stem]] <- screen_csv(

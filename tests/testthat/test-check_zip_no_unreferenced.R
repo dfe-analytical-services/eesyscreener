@@ -44,8 +44,9 @@ test_that("fails for unreferenced CSV in names_file path", {
 })
 
 test_that("does not fail on directory-only entries", {
-  # Some ZIP tools add directory entries with trailing slash
-  entries <- c("a.csv", "a.meta.csv", "dataset_names.csv")
+  # Some ZIP tools add directory entries with trailing slash; these are
+  # ignored by the unreferenced check via the is_dir_entry branch.
+  entries <- c("a.csv", "a.meta.csv", "dataset_names.csv", "emptydir/")
   names_file <- data.frame(file_name = "a", dataset_name = "A")
   result <- check_zip_no_unreferenced(entries, names_file)
   expect_equal(result$result, "PASS")

@@ -61,6 +61,8 @@ The return value is a named list:
 
 If any structure check fails, the function returns early with only `zip_structure` present.
 
+The structure-check failure modes you are most likely to hit are nested folders or OS junk such as `__MACOSX/` (`zip_flat_structure`), a missing `dataset_names.csv` when the ZIP contains more than one pair (`zip_names_file_presence`), pairs whose data and metadata stems don't match what the names file lists (`zip_pairs`), and stray files at the root that aren't part of any pair (`zip_no_unreferenced`). The failing row's `message` field describes the offending entries.
+
 ### `screen_filenames()`
 
 Runs all of the filename screening checks in one go. Exported so it can be used in its own right to check file name pairings. Used within `screen_csv()`.

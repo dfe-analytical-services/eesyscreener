@@ -66,11 +66,16 @@ check_zip_readable <- function(
     ))
   }
 
-  test_output(
+  result <- test_output(
     test_name,
     "PASS",
     paste0("ZIP file is readable: '", basename(zippath), "'."),
     verbose = verbose,
     stop_on_error = stop_on_error
   )
+
+  # Attach the file listing so callers (screen_zip) don't have to call
+  # zip::zip_list() a second time.
+  attr(result, "file_entries") <- zip_contents$filename
+  result
 }

@@ -31,6 +31,9 @@ check_zip_names_file_format <- function(
   required_cols <- c("file_name", "dataset_name")
   actual_cols <- names(names_file_df)
 
+  # The length check guards against duplicate column names like
+  # c("file_name", "file_name"), which setequal() would treat as equal to
+  # the required set.
   if (!setequal(actual_cols, required_cols) || length(actual_cols) != 2) {
     return(test_output(
       test_name,

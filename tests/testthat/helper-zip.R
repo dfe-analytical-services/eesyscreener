@@ -3,7 +3,7 @@
 
 # Helper: build a ZIP fixture and return its path.
 # The caller is responsible for cleanup (use withr::defer or on.exit).
-make_zip <- function(files, names_in_zip = NULL, extra_files = list()) {
+make_zip <- function(files, names_in_zip = NULL) {
   if (is.null(names_in_zip)) {
     names_in_zip <- basename(files)
   }
@@ -12,12 +12,6 @@ make_zip <- function(files, names_in_zip = NULL, extra_files = list()) {
   dir.create(staging)
   for (i in seq_along(files)) {
     file.copy(files[[i]], file.path(staging, names_in_zip[[i]]))
-  }
-
-  if (length(extra_files) > 0) {
-    for (nm in names(extra_files)) {
-      writeLines(extra_files[[nm]], file.path(staging, nm))
-    }
   }
 
   zippath <- tempfile(fileext = ".zip")
