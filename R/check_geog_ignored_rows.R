@@ -22,6 +22,7 @@ check_geog_ignored_rows <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  start_time <- Sys.time()
   test_name <- get_check_name()
 
   # Count rows visible to the EES table tool
@@ -44,6 +45,7 @@ check_geog_ignored_rows <- function(
         "an ancillary file without the metadata."
       ),
       guidance_url = render_url("statistics-production/ud.html"),
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     ))
@@ -61,6 +63,7 @@ check_geog_ignored_rows <- function(
       test_name,
       "PASS",
       "No rows in the file will be ignored by the EES table tool.",
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     ))
@@ -79,6 +82,7 @@ check_geog_ignored_rows <- function(
       test_name,
       "PASS",
       "No rows in the file will be ignored by the EES table tool.",
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     ))
@@ -94,6 +98,7 @@ check_geog_ignored_rows <- function(
         "Explore education statistics platforms team."
       ),
       guidance_url = render_url("statistics-production/ud.html"),
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     ))
@@ -107,6 +112,7 @@ check_geog_ignored_rows <- function(
       "{potential_ignored_rows} row{?s} will be ignored by the EES table ",
       "tool, at School, Provider, Institution, or Planning area level."
     ),
+    duration = Sys.time() - start_time,
     verbose = verbose,
     stop_on_error = stop_on_error
   )

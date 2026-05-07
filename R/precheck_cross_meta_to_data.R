@@ -20,6 +20,7 @@ precheck_cross_meta_to_data <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  start_time <- Sys.time()
   check_name <- get_check_name()
 
   filters <- get_filters(meta, include_filter_groups = TRUE)
@@ -31,6 +32,7 @@ precheck_cross_meta_to_data <- function(
       check_name,
       "PASS",
       "All variables from the metadata were found in the data file.",
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )
@@ -45,6 +47,7 @@ precheck_cross_meta_to_data <- function(
         paste0(missing_variables, collapse = "', '"),
         "'."
       ),
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )

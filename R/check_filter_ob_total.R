@@ -26,6 +26,7 @@ check_filter_ob_total <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  start_time <- Sys.time()
   test_name <- get_check_name()
 
   # school_name and provider_name are acceptable as filters in school / provider
@@ -68,6 +69,7 @@ check_filter_ob_total <- function(
       test_name,
       "PASS",
       "No observational unit columns were found in this data to check.",
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     ))
@@ -92,6 +94,7 @@ check_filter_ob_total <- function(
       test_name,
       "PASS",
       "There are no Total or All values in the observational unit columns.",
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )
@@ -105,6 +108,7 @@ check_filter_ob_total <- function(
         paste0(cols_with_total, collapse = "', '"),
         "'. These cells should be blank."
       ),
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )

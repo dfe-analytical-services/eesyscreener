@@ -15,6 +15,7 @@ precheck_time_id_mix <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  start_time <- Sys.time()
   # Grab the first time identifier to use as a base for checking rest of file
   base_identifier <- data |>
     dplyr::distinct(.data$time_identifier) |>
@@ -63,5 +64,13 @@ precheck_time_id_mix <- function(
     message <- "The time_identifier values are mixed appropriately."
   }
 
-  test_output(test_name, result, message, guidance_url, verbose, stop_on_error)
+  test_output(
+    test_name,
+    result,
+    message,
+    guidance_url,
+    duration = Sys.time() - start_time,
+    verbose,
+    stop_on_error
+  )
 }

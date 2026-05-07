@@ -15,6 +15,7 @@ precheck_time_period_num <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  start_time <- Sys.time()
   raw_time_periods <- data |>
     dplyr::distinct(.data$time_period) |>
     dplyr::pull("time_period")
@@ -51,6 +52,7 @@ precheck_time_period_num <- function(
     result,
     message,
     guidance_url,
+    duration = Sys.time() - start_time,
     verbose = verbose,
     stop_on_error = stop_on_error
   )

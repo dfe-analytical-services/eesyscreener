@@ -16,6 +16,7 @@ check_time_period <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  start_time <- Sys.time()
   base_identifier <- data |>
     dplyr::distinct(.data$time_identifier) |>
     dplyr::pull("time_identifier") |>
@@ -76,6 +77,7 @@ check_time_period <- function(
     result,
     message,
     guidance_url,
+    duration = Sys.time() - start_time,
     verbose = verbose,
     stop_on_error = stop_on_error
   )

@@ -32,6 +32,7 @@
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  start_time <- Sys.time()
   test_name <- get_check_name()
   check <- match.arg(check)
 
@@ -59,6 +60,7 @@
       test_name,
       "PASS",
       "Lower-level geography data is not present in this data file.",
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     ))
@@ -123,6 +125,7 @@
       test_name,
       "PASS",
       pass_msg,
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )
@@ -148,6 +151,7 @@
       test_name,
       "FAIL",
       fail_msg,
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )

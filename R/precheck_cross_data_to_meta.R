@@ -20,6 +20,7 @@ precheck_cross_data_to_meta <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  start_time <- Sys.time()
   check_name <- get_check_name()
 
   ob_units <- get_acceptable_ob_units()
@@ -51,6 +52,7 @@ precheck_cross_data_to_meta <- function(
         "All variables in the data file are observational units or are",
         " represented in the metadata file."
       ),
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )
@@ -67,6 +69,7 @@ precheck_cross_data_to_meta <- function(
         paste0(not_in_meta, collapse = "', '"),
         "'."
       ),
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )
