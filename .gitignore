@@ -8,5 +8,6 @@ inst/doc
 /doc/
 /Meta/
 /*.csv
+/*.zip
 eesyscreener_log*json
 .claude/settings.local.json

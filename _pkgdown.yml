@@ -117,3 +117,12 @@ reference:
   contents:
   - starts_with("check_api_")
   - starts_with("check_data_dict_")
+
+- title: ZIP screening
+  description: |
+    Functions for screening ZIP archives for upload to EES. `screen_zip()`
+    runs the `check_zip_*` structure checks then calls `screen_csv()` on every
+    data / meta pair inside the archive.
+  contents:
+  - screen_zip
+  - starts_with("check_zip_")
