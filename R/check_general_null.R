@@ -34,37 +34,47 @@ check_general_null <- function(
     "symbols-in-tables-definitions-and-help/"
   )
 
-  # Check data columns in two queries (one per symbol family) rather than one
-  # query per column. Character column names are pre-computed in R from the
-  # schema — string symbols cannot appear in numeric columns, so numeric columns
-  # are safely skipped.
-  char_cols <- names(dplyr::select(data, dplyr::where(is.character)))
-
-  if (length(char_cols) > 0) {
-    has_null_in_data <- data |>
-      dplyr::summarise(dplyr::across(
-        dplyr::all_of(char_cols),
-        ~ sum(. %in% null_symbols) > 0
-      )) |>
-      dplyr::collect() |>
-      any(na.rm = TRUE)
-
-    has_legacy_in_data <- data |>
-      dplyr::summarise(dplyr::across(
-        dplyr::all_of(char_cols),
-        ~ sum(. %in% legacy_symbols) > 0
-      )) |>
-      dplyr::collect() |>
-      any(na.rm = TRUE)
-  } else {
-    has_null_in_data <- FALSE
-    has_legacy_in_data <- FALSE
-  }
-
-  # Check for null symbols in meta (already in memory)
+  # Check meta first — in-memory, so effectively free.
   null_in_meta <- null_symbols[
     null_symbols %in% unlist(meta, use.names = FALSE)
   ]
+
+  # Character column names pre-computed outside the pipeline (schema only, no
+  # data read). String symbols cannot appear in numeric columns, so numeric
+  # columns are safely skipped.
+  char_cols <- names(dplyr::select(data, dplyr::where(is.character)))
+
+  has_null_in_data <- FALSE
+  has_legacy_in_data <- FALSE
+
+  if (length(char_cols) > 0) {
+    # Single scan: find which columns contain *any* bad symbol (null or legacy).
+    # For clean files (the common case) this is the only data query needed.
+    combined_scan <- data |>
+      dplyr::summarise(dplyr::across(
+        dplyr::all_of(char_cols),
+        ~ sum(. %in% c(null_symbols, legacy_symbols)) > 0
+      )) |>
+      dplyr::collect()
+
+    cols_with_bad <- names(combined_scan)[unlist(combined_scan, use.names = FALSE)]
+
+    if (length(cols_with_bad) > 0) {
+      # Second, targeted scan restricted to columns that actually contain bad
+      # values. Determines whether the bad values are null or legacy symbols.
+      null_scan <- data |>
+        dplyr::summarise(dplyr::across(
+          dplyr::all_of(cols_with_bad),
+          ~ sum(. %in% null_symbols) > 0
+        )) |>
+        dplyr::collect()
+
+      has_null_in_data <- any(unlist(null_scan, use.names = FALSE), na.rm = TRUE)
+      # If none of the bad-value columns contain null symbols, the bad values
+      # must be legacy symbols (the two sets are disjoint).
+      has_legacy_in_data <- !has_null_in_data
+    }
+  }
 
   if (has_null_in_data || length(null_in_meta) > 0) {
     parts <- character(0)
