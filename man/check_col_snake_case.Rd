@@ -28,9 +28,9 @@ check_col_snake_case(example_data)
 check_col_snake_case(example_data, verbose = TRUE)
 }
 \seealso{
-Other check_col: 
-\code{\link{check_col_ind_smushed}()},
-\code{\link{check_col_var_characteristic}()},
-\code{\link{check_col_var_start}()}
+Other check_col:
+\code{\link[=check_col_ind_smushed]{check_col_ind_smushed()}},
+\code{\link[=check_col_var_characteristic]{check_col_var_characteristic()}},
+\code{\link[=check_col_var_start]{check_col_var_start()}}
 }
 \concept{check_col}

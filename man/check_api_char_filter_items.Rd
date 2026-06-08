@@ -29,9 +29,9 @@ character limit specified in the \code{api_char_limits} data frame, using the
 check_api_char_filter_items(example_data, example_meta)
 }
 \seealso{
-Other check_api: 
-\code{\link{check_api_char_col_label}()},
-\code{\link{check_api_char_col_name}()},
-\code{\link{check_api_char_loc_code}()}
+Other check_api:
+\code{\link[=check_api_char_col_label]{check_api_char_col_label()}},
+\code{\link[=check_api_char_col_name]{check_api_char_col_name()}},
+\code{\link[=check_api_char_loc_code]{check_api_char_loc_code()}}
 }
 \concept{check_api}

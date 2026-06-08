@@ -28,7 +28,7 @@ check_data_dict_col_name(example_meta)
 check_data_dict_col_name(example_meta, verbose = TRUE)
 }
 \seealso{
-Other check_data_dict: 
-\code{\link{check_data_dict_fil_item}()}
+Other check_data_dict:
+\code{\link[=check_data_dict_fil_item]{check_data_dict_fil_item()}}
 }
 \concept{check_data_dict}

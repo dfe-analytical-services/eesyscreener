@@ -27,21 +27,21 @@ check_meta_ind_dp_values(example_meta)
 check_meta_ind_dp_values(example_meta, verbose = TRUE)
 }
 \seealso{
-Other check_meta: 
-\code{\link{check_meta_col_name_dupe}()},
-\code{\link{check_meta_dupe_label}()},
-\code{\link{check_meta_fil_grp}()},
-\code{\link{check_meta_fil_grp_dupe}()},
-\code{\link{check_meta_fil_grp_is_fil}()},
-\code{\link{check_meta_fil_grp_match}()},
-\code{\link{check_meta_fil_grp_stripped}()},
-\code{\link{check_meta_filter_hint}()},
-\code{\link{check_meta_geog_catch}()},
-\code{\link{check_meta_ind_dp_set}()},
-\code{\link{check_meta_ind_unit}()},
-\code{\link{check_meta_ind_unit_validation}()},
-\code{\link{check_meta_indicator_dp}()},
-\code{\link{check_meta_indicator_grouping}()},
-\code{\link{check_meta_label}()}
+Other check_meta:
+\code{\link[=check_meta_col_name_dupe]{check_meta_col_name_dupe()}},
+\code{\link[=check_meta_dupe_label]{check_meta_dupe_label()}},
+\code{\link[=check_meta_fil_grp]{check_meta_fil_grp()}},
+\code{\link[=check_meta_fil_grp_dupe]{check_meta_fil_grp_dupe()}},
+\code{\link[=check_meta_fil_grp_is_fil]{check_meta_fil_grp_is_fil()}},
+\code{\link[=check_meta_fil_grp_match]{check_meta_fil_grp_match()}},
+\code{\link[=check_meta_fil_grp_stripped]{check_meta_fil_grp_stripped()}},
+\code{\link[=check_meta_filter_hint]{check_meta_filter_hint()}},
+\code{\link[=check_meta_geog_catch]{check_meta_geog_catch()}},
+\code{\link[=check_meta_ind_dp_set]{check_meta_ind_dp_set()}},
+\code{\link[=check_meta_ind_unit]{check_meta_ind_unit()}},
+\code{\link[=check_meta_ind_unit_validation]{check_meta_ind_unit_validation()}},
+\code{\link[=check_meta_indicator_dp]{check_meta_indicator_dp()}},
+\code{\link[=check_meta_indicator_grouping]{check_meta_indicator_grouping()}},
+\code{\link[=check_meta_label]{check_meta_label()}}
 }
 \concept{check_meta}

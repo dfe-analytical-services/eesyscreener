@@ -27,7 +27,7 @@ precheck_geog_level_present(example_data, verbose = TRUE)
 precheck_geog_level_present(example_comma_data, verbose = TRUE)
 }
 \seealso{
-Other precheck_geog: 
-\code{\link{precheck_geog_level}()}
+Other precheck_geog:
+\code{\link[=precheck_geog_level]{precheck_geog_level()}}
 }
 \concept{precheck_geog}
