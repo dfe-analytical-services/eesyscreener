@@ -34,7 +34,7 @@ check_general_null <- function(
     "symbols-in-tables-definitions-and-help/"
   )
 
-  # Check meta first — in-memory, so effectively free.
+  # Check meta first - in-memory, so effectively free.
   null_in_meta <- null_symbols[
     null_symbols %in% unlist(meta, use.names = FALSE)
   ]
@@ -48,32 +48,27 @@ check_general_null <- function(
   has_legacy_in_data <- FALSE
 
   if (length(char_cols) > 0) {
-    # Single scan: find which columns contain *any* bad symbol (null or legacy).
-    # For clean files (the common case) this is the only data query needed.
-    combined_scan <- data |>
+    # Single scan: check both symbol families in one DuckDB pass.
+    # across() with a named list produces columns {col}_null and {col}_legacy.
+    scan <- data |>
       dplyr::summarise(dplyr::across(
         dplyr::all_of(char_cols),
-        ~ sum(. %in% c(null_symbols, legacy_symbols)) > 0
+        list(
+          null = ~ sum(. %in% null_symbols) > 0,
+          legacy = ~ sum(. %in% legacy_symbols) > 0
+        )
       )) |>
       dplyr::collect()
 
-    cols_with_bad <- names(combined_scan)[unlist(combined_scan, use.names = FALSE)]
-
-    if (length(cols_with_bad) > 0) {
-      # Second, targeted scan restricted to columns that actually contain bad
-      # values. Determines whether the bad values are null or legacy symbols.
-      null_scan <- data |>
-        dplyr::summarise(dplyr::across(
-          dplyr::all_of(cols_with_bad),
-          ~ sum(. %in% null_symbols) > 0
-        )) |>
-        dplyr::collect()
-
-      has_null_in_data <- any(unlist(null_scan, use.names = FALSE), na.rm = TRUE)
-      # If none of the bad-value columns contain null symbols, the bad values
-      # must be legacy symbols (the two sets are disjoint).
-      has_legacy_in_data <- !has_null_in_data
-    }
+    scan_names <- names(scan)
+    has_null_in_data <- any(
+      unlist(scan[endsWith(scan_names, "_null")], use.names = FALSE),
+      na.rm = TRUE
+    )
+    has_legacy_in_data <- any(
+      unlist(scan[endsWith(scan_names, "_legacy")], use.names = FALSE),
+      na.rm = TRUE
+    )
   }
 
   if (has_null_in_data || length(null_in_meta) > 0) {
