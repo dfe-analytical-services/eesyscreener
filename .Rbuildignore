@@ -20,7 +20,7 @@
 ^.claude$
 ^AGENTS\.md$
 ^docker$
-
 ^tests/testthat/fail$
 ^tests/testthat/pass$
 ^tests/testthat/pass-warn-api$
+^\.positai$
