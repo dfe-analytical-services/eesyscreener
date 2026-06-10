@@ -18,6 +18,7 @@
 ^tests/utils/copy_check_data\.R$
 ^vignettes/*_files$
 ^.claude$
+^.positai$
 ^AGENTS\.md$
 ^docker$
 
