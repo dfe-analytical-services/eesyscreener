@@ -72,7 +72,7 @@ check_geog_country_combos(example_data)
 #>                                                   message guidance_url
 #> 1 All country_code / country_name combinations are valid.           NA
 #>           duration
-#> 1 0.002836943 secs
+#> 1 0.003461599 secs
 check_geog_country_combos(example_data, verbose = TRUE)
 #> ✔ All country_code / country_name combinations are valid.
 #>                 check result
@@ -80,5 +80,5 @@ check_geog_country_combos(example_data, verbose = TRUE)
 #>                                                   message guidance_url
 #> 1 All country_code / country_name combinations are valid.           NA
 #>           duration
-#> 1 0.003254652 secs
+#> 1 0.004135847 secs
 ```

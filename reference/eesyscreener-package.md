@@ -21,6 +21,8 @@ Useful links:
 
 Authors:
 
+- Cam Race <cameron.race@education.gov.uk>
+
 - Rich Bielby <richard.bielby@education.gov.uk>
   ([ORCID](https://orcid.org/0000-0001-9070-9969))
 
