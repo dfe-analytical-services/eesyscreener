@@ -53,7 +53,7 @@ check_filter_blanks(example_data, example_meta)
 #>                                                            message guidance_url
 #> 1 There are no blank values in any filter or filter group columns.           NA
 #>           duration
-#> 1 0.004208803 secs
+#> 1 0.004069567 secs
 check_filter_blanks(example_data, example_meta, verbose = TRUE)
 #> ✔ There are no blank values in any filter or filter group columns.
 #>           check result
@@ -61,5 +61,5 @@ check_filter_blanks(example_data, example_meta, verbose = TRUE)
 #>                                                            message guidance_url
 #> 1 There are no blank values in any filter or filter group columns.           NA
 #>           duration
-#> 1 0.003890991 secs
+#> 1 0.003856659 secs
 ```

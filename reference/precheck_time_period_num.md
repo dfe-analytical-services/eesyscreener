@@ -41,5 +41,5 @@ precheck_time_period_num(example_data)
 #>             check result                                              message
 #> 1 time_period_num   PASS The time_period column only contains numeric values.
 #>   guidance_url         duration
-#> 1           NA 0.001131535 secs
+#> 1           NA 0.001066208 secs
 ```

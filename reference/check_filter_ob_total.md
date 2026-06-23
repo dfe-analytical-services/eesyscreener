@@ -60,13 +60,13 @@ check_filter_ob_total(example_data, example_meta)
 #>                                                               message
 #> 1 There are no Total or All values in the observational unit columns.
 #>   guidance_url         duration
-#> 1           NA 0.006546974 secs
+#> 1           NA 0.007032394 secs
 check_filter_ob_total(example_data, example_meta, verbose = TRUE)
 #> ✔ There are no Total or All values in the observational unit columns.
 #>             check result
 #> 1 filter_ob_total   PASS
 #>                                                               message
 #> 1 There are no Total or All values in the observational unit columns.
-#>   guidance_url        duration
-#> 1           NA 0.01209545 secs
+#>   guidance_url         duration
+#> 1           NA 0.008292198 secs
 ```

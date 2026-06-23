@@ -69,7 +69,7 @@ check_geog_lsip_combos(example_data)
 #>                                                                               message
 #> 1 At least one of the lsip_code / lsip_name columns is not present in this data file.
 #>   guidance_url          duration
-#> 1           NA 0.0002632141 secs
+#> 1           NA 0.0002391338 secs
 check_geog_lsip_combos(example_data, verbose = TRUE)
 #> ✔ At least one of the lsip_code / lsip_name columns is not present in this data file.
 #>              check result
@@ -77,5 +77,5 @@ check_geog_lsip_combos(example_data, verbose = TRUE)
 #>                                                                               message
 #> 1 At least one of the lsip_code / lsip_name columns is not present in this data file.
 #>   guidance_url         duration
-#> 1           NA 0.001767874 secs
+#> 1           NA 0.001744032 secs
 ```

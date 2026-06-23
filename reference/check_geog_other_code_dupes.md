@@ -68,13 +68,13 @@ check_geog_other_code_dupes(example_data)
 #>                                                        message guidance_url
 #> 1 Lower-level geography data is not present in this data file.           NA
 #>           duration
-#> 1 0.003364563 secs
+#> 1 0.003367901 secs
 check_geog_other_code_dupes(example_data, verbose = TRUE)
 #> ✔ Lower-level geography data is not present in this data file.
 #>                   check result
 #> 1 geog_other_code_dupes   PASS
 #>                                                        message guidance_url
 #> 1 Lower-level geography data is not present in this data file.           NA
-#>           duration
-#> 1 0.004438877 secs
+#>       duration
+#> 1 0.00474 secs
 ```

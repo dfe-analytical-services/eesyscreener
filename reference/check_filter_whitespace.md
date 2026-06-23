@@ -51,7 +51,7 @@ check_filter_whitespace(example_data, example_meta)
 #>                                                    message guidance_url
 #> 1 No filter labels contain leading or trailing whitespace.           NA
 #>           duration
-#> 1 0.003651619 secs
+#> 1 0.003697157 secs
 check_filter_whitespace(example_data, example_meta, verbose = TRUE)
 #> ✔ No filter labels contain leading or trailing whitespace.
 #>               check result
@@ -59,5 +59,5 @@ check_filter_whitespace(example_data, example_meta, verbose = TRUE)
 #>                                                    message guidance_url
 #> 1 No filter labels contain leading or trailing whitespace.           NA
 #>           duration
-#> 1 0.004709959 secs
+#> 1 0.004924774 secs
 ```

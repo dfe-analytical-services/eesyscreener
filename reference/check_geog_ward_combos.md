@@ -68,8 +68,8 @@ check_geog_ward_combos(example_data)
 #> 1 geog_ward_combos   PASS
 #>                                                                               message
 #> 1 At least one of the ward_code / ward_name columns is not present in this data file.
-#>   guidance_url          duration
-#> 1           NA 0.0002689362 secs
+#>   guidance_url         duration
+#> 1           NA 0.000282526 secs
 check_geog_ward_combos(example_data, verbose = TRUE)
 #> ✔ At least one of the ward_code / ward_name columns is not present in this data file.
 #>              check result
@@ -77,5 +77,5 @@ check_geog_ward_combos(example_data, verbose = TRUE)
 #>                                                                               message
 #> 1 At least one of the ward_code / ward_name columns is not present in this data file.
 #>   guidance_url         duration
-#> 1           NA 0.001765966 secs
+#> 1           NA 0.001766205 secs
 ```

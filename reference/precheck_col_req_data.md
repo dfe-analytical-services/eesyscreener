@@ -43,11 +43,11 @@ precheck_col_req_data(example_data)
 #>          check result                                                   message
 #> 1 col_req_data   PASS All of the required columns are present in the data file.
 #>   guidance_url          duration
-#> 1           NA 8.392334e-05 secs
+#> 1           NA 8.034706e-05 secs
 precheck_col_req_data(example_data, verbose = TRUE)
 #> ✔ All of the required columns are present in the data file.
 #>          check result                                                   message
 #> 1 col_req_data   PASS All of the required columns are present in the data file.
 #>   guidance_url         duration
-#> 1           NA 0.001682043 secs
+#> 1           NA 0.001710653 secs
 ```

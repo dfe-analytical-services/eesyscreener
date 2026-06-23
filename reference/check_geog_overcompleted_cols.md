@@ -97,7 +97,7 @@ check_geog_overcompleted_cols(example_data, example_meta)
 #>                                            message guidance_url
 #> 1 All geographic columns are empty where expected.           NA
 #>           duration
-#> 1 0.001522064 secs
+#> 1 0.001736641 secs
 check_geog_overcompleted_cols(example_data, example_meta, verbose = TRUE)
 #> ✔ All geographic columns are empty where expected.
 #>                     check result
@@ -105,5 +105,5 @@ check_geog_overcompleted_cols(example_data, example_meta, verbose = TRUE)
 #>                                            message guidance_url
 #> 1 All geographic columns are empty where expected.           NA
 #>           duration
-#> 1 0.008250713 secs
+#> 1 0.002894878 secs
 ```

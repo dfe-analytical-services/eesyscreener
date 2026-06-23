@@ -47,5 +47,5 @@ check_time_period_six(example_data)
 #>                                                        message guidance_url
 #> 1 The six digit time_period values refer to consecutive years.           NA
 #>           duration
-#> 1 0.001194239 secs
+#> 1 0.001096249 secs
 ```

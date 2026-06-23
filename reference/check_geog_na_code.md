@@ -69,8 +69,8 @@ check_geog_na_code(example_data)
 #> 1 geog_na_code   PASS
 #>                                                               message
 #> 1 No applicable geographic levels to check for 'Not available' codes.
-#>   guidance_url         duration
-#> 1           NA 0.002118349 secs
+#>   guidance_url        duration
+#> 1           NA 0.00211978 secs
 check_geog_na_code(example_data, verbose = TRUE)
 #> ✔ No applicable geographic levels to check for 'Not available' codes.
 #>          check result
@@ -78,5 +78,5 @@ check_geog_na_code(example_data, verbose = TRUE)
 #>                                                               message
 #> 1 No applicable geographic levels to check for 'Not available' codes.
 #>   guidance_url         duration
-#> 1           NA 0.003401279 secs
+#> 1           NA 0.003369093 secs
 ```
