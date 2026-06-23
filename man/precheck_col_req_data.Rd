@@ -27,10 +27,10 @@ precheck_col_req_data(example_data, verbose = TRUE)
 
 }
 \seealso{
-Other precheck_col: 
-\code{\link{check_meta_col_name_spaces}()},
-\code{\link{precheck_col_invalid_meta}()},
-\code{\link{precheck_col_req_meta}()},
-\code{\link{precheck_col_to_rows}()}
+Other precheck_col:
+\code{\link[=check_meta_col_name_spaces]{check_meta_col_name_spaces()}},
+\code{\link[=precheck_col_invalid_meta]{precheck_col_invalid_meta()}},
+\code{\link[=precheck_col_req_meta]{precheck_col_req_meta()}},
+\code{\link[=precheck_col_to_rows]{precheck_col_to_rows()}}
 }
 \concept{precheck_col}
