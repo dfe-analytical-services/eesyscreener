@@ -30,11 +30,11 @@ check_filter_defaults(example_data, example_meta)
 check_filter_defaults(example_filter_group, example_filter_group_meta)
 }
 \seealso{
-Other check_filter: 
-\code{\link{check_filter_blanks}()},
-\code{\link{check_filter_group_level}()},
-\code{\link{check_filter_item_limit}()},
-\code{\link{check_filter_ob_total}()},
-\code{\link{check_filter_whitespace}()}
+Other check_filter:
+\code{\link[=check_filter_blanks]{check_filter_blanks()}},
+\code{\link[=check_filter_group_level]{check_filter_group_level()}},
+\code{\link[=check_filter_item_limit]{check_filter_item_limit()}},
+\code{\link[=check_filter_ob_total]{check_filter_ob_total()}},
+\code{\link[=check_filter_whitespace]{check_filter_whitespace()}}
 }
 \concept{check_filter}

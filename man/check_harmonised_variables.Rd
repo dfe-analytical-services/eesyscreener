@@ -29,9 +29,9 @@ check_harmonised_variables(example_meta)
 check_harmonised_variables(example_meta, verbose = TRUE)
 }
 \seealso{
-Other check_harmonised: 
-\code{\link{check_harmonised_eth_char_grp}()},
-\code{\link{check_harmonised_eth_char_vals}()},
-\code{\link{check_harmonised_eth_vals}()}
+Other check_harmonised:
+\code{\link[=check_harmonised_eth_char_grp]{check_harmonised_eth_char_grp()}},
+\code{\link[=check_harmonised_eth_char_vals]{check_harmonised_eth_char_vals()}},
+\code{\link[=check_harmonised_eth_vals]{check_harmonised_eth_vals()}}
 }
 \concept{check_harmonised}

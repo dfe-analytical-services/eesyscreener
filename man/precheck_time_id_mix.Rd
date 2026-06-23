@@ -25,8 +25,8 @@ Check that only compatible time identifiers are together in the same file.
 precheck_time_id_mix(example_data)
 }
 \seealso{
-Other precheck_time: 
-\code{\link{precheck_time_id_valid}()},
-\code{\link{precheck_time_period_num}()}
+Other precheck_time:
+\code{\link[=precheck_time_id_valid]{precheck_time_id_valid()}},
+\code{\link[=precheck_time_period_num]{precheck_time_period_num()}}
 }
 \concept{precheck_time}
