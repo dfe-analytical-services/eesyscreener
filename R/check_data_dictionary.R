@@ -212,6 +212,7 @@ check_data_dict_fil_item <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  start_time <- Sys.time()
   test_name <- get_check_name()
 
   dd_filter_cols <- dd_match_meta_cols(meta) |>
@@ -223,6 +224,7 @@ check_data_dict_fil_item <- function(
       test_name,
       "PASS",
       "No data dictionary filter columns found in the metadata.",
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     ))

@@ -46,6 +46,7 @@ check_general_dupes <- function(
   stop_on_error = FALSE,
   return_dupes = FALSE
 ) {
+  start_time <- Sys.time()
   test_name <- get_check_name()
 
   ob_units <- get_acceptable_ob_units()
@@ -118,6 +119,7 @@ check_general_dupes <- function(
       test_name,
       "PASS",
       paste0("There are no duplicate rows in the data file. ", note),
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )
@@ -133,6 +135,7 @@ check_general_dupes <- function(
         " ",
         note
       ),
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )

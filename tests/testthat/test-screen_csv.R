@@ -28,7 +28,7 @@ test_that("Output structure is as expected", {
 
   expect_equal(
     names(output$results_table),
-    c("check", "result", "message", "guidance_url", "stage")
+    c("check", "result", "message", "guidance_url", "duration", "stage")
   )
 
   expect_gt(dplyr::distinct(output$results_table, stage) |> nrow(), 2)

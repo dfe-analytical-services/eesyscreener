@@ -68,7 +68,8 @@ test_output <- function(
   message,
   guidance_url = NA,
   verbose,
-  stop_on_error
+  stop_on_error,
+  duration = NA
 ) {
   show_message <- (verbose) || (stop_on_error && result != "PASS")
 
@@ -95,6 +96,7 @@ test_output <- function(
     "result" = result,
     "message" = message,
     "guidance_url" = guidance_url,
+    "duration" = duration,
     row.names = NULL
   )
 }

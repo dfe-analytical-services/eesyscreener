@@ -35,8 +35,8 @@ check_filename_spaces("data file.csv", verbose = TRUE)
 check_filename_spaces("datafile.meta.csv", custom_name = "meta")
 }
 \seealso{
-Other filename: 
-\code{\link{check_filename_special}()},
-\code{\link{check_filenames_match}()}
+Other filename:
+\code{\link[=check_filename_special]{check_filename_special()}},
+\code{\link[=check_filenames_match]{check_filenames_match()}}
 }
 \concept{filename}

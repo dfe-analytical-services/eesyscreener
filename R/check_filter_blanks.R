@@ -21,6 +21,7 @@ check_filter_blanks <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  start_time <- Sys.time()
   test_name <- get_check_name()
 
   filter_cols <- get_filters(meta, include_filter_groups = TRUE) |> unique()
@@ -29,6 +30,7 @@ check_filter_blanks <- function(
       test_name,
       "PASS",
       "There are no filter columns to check.",
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     ))
@@ -60,6 +62,7 @@ check_filter_blanks <- function(
       test_name,
       "PASS",
       "There are no blank values in any filter or filter group columns.",
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )
@@ -73,6 +76,7 @@ check_filter_blanks <- function(
         paste0(cols_with_blanks, collapse = "', '"),
         "'. All filter cells must have a value."
       ),
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )

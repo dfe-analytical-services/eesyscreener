@@ -18,6 +18,7 @@ precheck_geog_level <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  start_time <- Sys.time()
   test_name <- get_check_name()
   # Pull all unique geographic levels from the data set
   present_geographic_levels <- data |>
@@ -34,6 +35,7 @@ precheck_geog_level <- function(
       test_name,
       "PASS",
       "The geographic_level values are all valid.",
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )
@@ -47,6 +49,7 @@ precheck_geog_level <- function(
         paste0(invalid_geographic_levels, collapse = "', '"),
         "."
       ),
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )

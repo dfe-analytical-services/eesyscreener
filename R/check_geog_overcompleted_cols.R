@@ -44,6 +44,7 @@ check_geog_overcompleted_cols <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  start_time <- Sys.time()
   test_name <- get_check_name()
 
   low_levels <- c("School", "Provider", "Institution")
@@ -190,6 +191,7 @@ check_geog_overcompleted_cols <- function(
       test_name,
       "PASS",
       "All geographic columns are empty where expected.",
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )
@@ -204,6 +206,7 @@ check_geog_overcompleted_cols <- function(
         paste0("'", paste0(overcomplete, collapse = "', '"), "'"),
         "."
       ),
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )
