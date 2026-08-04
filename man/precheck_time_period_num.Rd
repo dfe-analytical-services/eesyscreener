@@ -25,8 +25,8 @@ Check that all time_period values are numeric.
 precheck_time_period_num(example_data)
 }
 \seealso{
-Other precheck_time: 
-\code{\link{precheck_time_id_mix}()},
-\code{\link{precheck_time_id_valid}()}
+Other precheck_time:
+\code{\link[=precheck_time_id_mix]{precheck_time_id_mix()}},
+\code{\link[=precheck_time_id_valid]{precheck_time_id_valid()}}
 }
 \concept{precheck_time}

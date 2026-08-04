@@ -29,11 +29,11 @@ check_filter_whitespace(example_data, example_meta)
 check_filter_whitespace(example_data, example_meta, verbose = TRUE)
 }
 \seealso{
-Other check_filter: 
-\code{\link{check_filter_blanks}()},
-\code{\link{check_filter_defaults}()},
-\code{\link{check_filter_group_level}()},
-\code{\link{check_filter_item_limit}()},
-\code{\link{check_filter_ob_total}()}
+Other check_filter:
+\code{\link[=check_filter_blanks]{check_filter_blanks()}},
+\code{\link[=check_filter_defaults]{check_filter_defaults()}},
+\code{\link[=check_filter_group_level]{check_filter_group_level()}},
+\code{\link[=check_filter_item_limit]{check_filter_item_limit()}},
+\code{\link[=check_filter_ob_total]{check_filter_ob_total()}}
 }
 \concept{check_filter}

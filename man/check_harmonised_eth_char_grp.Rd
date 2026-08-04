@@ -36,9 +36,9 @@ check_harmonised_eth_char_grp(example_data)
 check_harmonised_eth_char_grp(example_data, verbose = TRUE)
 }
 \seealso{
-Other check_harmonised: 
-\code{\link{check_harmonised_eth_char_vals}()},
-\code{\link{check_harmonised_eth_vals}()},
-\code{\link{check_harmonised_variables}()}
+Other check_harmonised:
+\code{\link[=check_harmonised_eth_char_vals]{check_harmonised_eth_char_vals()}},
+\code{\link[=check_harmonised_eth_vals]{check_harmonised_eth_vals()}},
+\code{\link[=check_harmonised_variables]{check_harmonised_variables()}}
 }
 \concept{check_harmonised}

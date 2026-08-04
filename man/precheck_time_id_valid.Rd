@@ -25,8 +25,8 @@ Checks against the \code{acceptable_time_identifiers} object.
 precheck_time_id_valid(example_data)
 }
 \seealso{
-Other precheck_time: 
-\code{\link{precheck_time_id_mix}()},
-\code{\link{precheck_time_period_num}()}
+Other precheck_time:
+\code{\link[=precheck_time_id_mix]{precheck_time_id_mix()}},
+\code{\link[=precheck_time_period_num]{precheck_time_period_num()}}
 }
 \concept{precheck_time}

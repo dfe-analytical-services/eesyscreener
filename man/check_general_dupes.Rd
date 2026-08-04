@@ -63,7 +63,7 @@ check_general_dupes(example_data, example_meta)
 check_general_dupes(example_data, example_meta, return_dupes = TRUE)
 }
 \seealso{
-Other check_general: 
-\code{\link{check_general_null}()}
+Other check_general:
+\code{\link[=check_general_null]{check_general_null()}}
 }
 \concept{check_general}

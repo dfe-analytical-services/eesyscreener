@@ -27,7 +27,7 @@ precheck_geog_level(example_data)
 precheck_geog_level(example_data, verbose = TRUE)
 }
 \seealso{
-Other precheck_geog: 
-\code{\link{precheck_geog_level_present}()}
+Other precheck_geog:
+\code{\link[=precheck_geog_level_present]{precheck_geog_level_present()}}
 }
 \concept{precheck_geog}

@@ -30,7 +30,7 @@ precheck_cross_data_to_meta(example_data, example_meta)
 precheck_cross_data_to_meta(example_data, example_meta, verbose = TRUE)
 }
 \seealso{
-Other precheck_cross: 
-\code{\link{precheck_cross_meta_to_data}()}
+Other precheck_cross:
+\code{\link[=precheck_cross_meta_to_data]{precheck_cross_meta_to_data()}}
 }
 \concept{precheck_cross}

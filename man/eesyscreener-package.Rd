@@ -24,6 +24,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Cam Race \email{cameron.race@education.gov.uk}
   \item Rich Bielby \email{richard.bielby@education.gov.uk} (\href{https://orcid.org/0000-0001-9070-9969}{ORCID})
 }
 
