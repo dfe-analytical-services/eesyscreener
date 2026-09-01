@@ -117,3 +117,7 @@ reference:
   contents:
   - starts_with("check_api_")
   - starts_with("check_data_dict_")
+
+- title: Package helpers
+  contents:
+  - list_checks
