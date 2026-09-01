@@ -29,7 +29,7 @@ For example, 202122 is valid but 202120 is not.
 check_time_period_six(example_data)
 }
 \seealso{
-Other check_time: 
-\code{\link{check_time_period}()}
+Other check_time:
+\code{\link[=check_time_period]{check_time_period()}}
 }
 \concept{check_time}

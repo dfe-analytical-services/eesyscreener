@@ -21,6 +21,7 @@ check_filter_group_level <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  start_time <- Sys.time()
   filters_and_groups <- meta |>
     dplyr::filter(
       .data$col_type == "Filter",
@@ -36,6 +37,7 @@ check_filter_group_level <- function(
       test_name,
       "PASS",
       "There are no filter groups present.",
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     ))
@@ -79,6 +81,7 @@ check_filter_group_level <- function(
         "All filter groups have an equal or lower number of",
         " levels than their corresponding filter."
       ),
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )
@@ -99,6 +102,7 @@ check_filter_group_level <- function(
           "). This suggests that the hierarchy is the wrong",
           " way around in the metadata."
         ),
+        duration = Sys.time() - start_time,
         verbose = verbose,
         stop_on_error = stop_on_error
       )
@@ -113,6 +117,7 @@ check_filter_group_level <- function(
           paste0(failed_pairs$filter_grouping_column, collapse = "', '"),
           "'."
         ),
+        duration = Sys.time() - start_time,
         verbose = verbose,
         stop_on_error = stop_on_error
       )

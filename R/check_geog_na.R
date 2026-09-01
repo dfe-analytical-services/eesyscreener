@@ -17,6 +17,7 @@
 #' check_geog_na(example_data, verbose = TRUE)
 #' @export
 check_geog_na <- function(data, verbose = FALSE, stop_on_error = FALSE) {
+  start_time <- Sys.time()
   test_name <- get_check_name()
 
   # Levels excluded from this check:
@@ -57,6 +58,7 @@ check_geog_na <- function(data, verbose = FALSE, stop_on_error = FALSE) {
       test_name,
       "PASS",
       "No applicable geographic levels to test.",
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     ))
@@ -96,6 +98,7 @@ check_geog_na <- function(data, verbose = FALSE, stop_on_error = FALSE) {
         "No tested locations have a code of 'x' without the corresponding ",
         "name 'Not available'."
       ),
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )
@@ -111,6 +114,7 @@ check_geog_na <- function(data, verbose = FALSE, stop_on_error = FALSE) {
         paste0(failing_levels, collapse = "', '"),
         "'. The name for 'x' should always be 'Not available'."
       ),
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )

@@ -19,6 +19,7 @@ check_time_period_six <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  start_time <- Sys.time()
   test_name <- get_check_name()
   unique_periods <- data |>
     dplyr::distinct(.data$time_period) |>
@@ -35,6 +36,7 @@ check_time_period_six <- function(
         test_name,
         result,
         message,
+        duration = Sys.time() - start_time,
         verbose = verbose,
         stop_on_error = stop_on_error
       )
@@ -80,6 +82,7 @@ check_time_period_six <- function(
     test_name,
     result,
     message,
+    duration = Sys.time() - start_time,
     verbose = verbose,
     stop_on_error = stop_on_error
   )

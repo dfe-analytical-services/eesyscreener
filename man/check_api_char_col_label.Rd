@@ -27,9 +27,9 @@ provided metadata frame exceed the character limit specified in the
 check_api_char_col_label(example_meta)
 }
 \seealso{
-Other check_api: 
-\code{\link{check_api_char_col_name}()},
-\code{\link{check_api_char_filter_items}()},
-\code{\link{check_api_char_loc_code}()}
+Other check_api:
+\code{\link[=check_api_char_col_name]{check_api_char_col_name()}},
+\code{\link[=check_api_char_filter_items]{check_api_char_filter_items()}},
+\code{\link[=check_api_char_loc_code]{check_api_char_loc_code()}}
 }
 \concept{check_api}

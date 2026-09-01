@@ -30,10 +30,10 @@ check_meta_col_name_spaces(example_meta)
 check_meta_col_name_spaces(example_meta, verbose = TRUE)
 }
 \seealso{
-Other precheck_col: 
-\code{\link{precheck_col_invalid_meta}()},
-\code{\link{precheck_col_req_data}()},
-\code{\link{precheck_col_req_meta}()},
-\code{\link{precheck_col_to_rows}()}
+Other precheck_col:
+\code{\link[=precheck_col_invalid_meta]{precheck_col_invalid_meta()}},
+\code{\link[=precheck_col_req_data]{precheck_col_req_data()}},
+\code{\link[=precheck_col_req_meta]{precheck_col_req_meta()}},
+\code{\link[=precheck_col_to_rows]{precheck_col_to_rows()}}
 }
 \concept{precheck_col}

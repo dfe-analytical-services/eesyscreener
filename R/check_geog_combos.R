@@ -61,6 +61,8 @@
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  start_time <- Sys.time()
+
   test_name <- get_check_name()
 
   all_cols <- c(extra_code_col, code_col, name_col)
@@ -74,6 +76,7 @@
         paste(all_cols, collapse = " / "),
         " columns is not present in this data file."
       ),
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     ))
@@ -142,11 +145,13 @@
 
   cols_label <- paste(all_cols, collapse = " / ")
 
+  duration <- Sys.time() - start_time
   if (length(invalid_combos) == 0) {
     test_output(
       test_name,
       "PASS",
       paste0("All ", cols_label, " combinations are valid."),
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )
@@ -166,6 +171,7 @@
         "code combinations against this lookup."
       ),
       guidance_url = guidance_url,
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )

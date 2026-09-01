@@ -24,6 +24,8 @@
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  start_time <- Sys.time()
+
   test_name <- get_check_name()
   level_label <- tolower(geographic_level)
 
@@ -37,6 +39,7 @@
       test_name,
       "PASS",
       paste0("No ", level_label, " columns are present in this data file."),
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     ))
@@ -47,6 +50,7 @@
       test_name,
       "PASS",
       paste0("All ", level_label, " columns are present in the data file."),
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     ))
@@ -66,6 +70,7 @@
       level_label,
       " column is present, all should be included."
     ),
+    duration = Sys.time() - start_time,
     verbose = verbose,
     stop_on_error = stop_on_error
   )

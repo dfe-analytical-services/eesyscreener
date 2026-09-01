@@ -20,6 +20,7 @@ precheck_filter_not_singular <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  start_time <- Sys.time()
   check_name <- get_check_name()
 
   filter_cols <- get_filters(meta)
@@ -29,6 +30,7 @@ precheck_filter_not_singular <- function(
       check_name,
       "PASS",
       "There are no filters in the data to test.",
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     ))
@@ -47,6 +49,7 @@ precheck_filter_not_singular <- function(
       check_name,
       "PASS",
       "All filters have two or more levels.",
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )
@@ -61,6 +64,7 @@ precheck_filter_not_singular <- function(
         paste0(singular_filters, collapse = "', '"),
         "'."
       ),
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )

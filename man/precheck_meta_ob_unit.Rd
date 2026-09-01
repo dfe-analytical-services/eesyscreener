@@ -27,8 +27,8 @@ precheck_meta_ob_unit(example_meta)
 precheck_meta_ob_unit(example_meta, verbose = TRUE)
 }
 \seealso{
-Other precheck_meta: 
-\code{\link{precheck_meta_col_name}()},
-\code{\link{precheck_meta_col_type}()}
+Other precheck_meta:
+\code{\link[=precheck_meta_col_name]{precheck_meta_col_name()}},
+\code{\link[=precheck_meta_col_type]{precheck_meta_col_type()}}
 }
 \concept{precheck_meta}

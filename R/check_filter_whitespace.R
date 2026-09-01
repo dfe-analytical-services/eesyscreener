@@ -19,6 +19,7 @@ check_filter_whitespace <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  start_time <- Sys.time()
   test_name <- get_check_name()
   filters <- get_filters(meta)
 
@@ -27,6 +28,7 @@ check_filter_whitespace <- function(
       test_name,
       "PASS",
       "No filters present.",
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )
@@ -54,6 +56,7 @@ check_filter_whitespace <- function(
         test_name,
         "PASS",
         "No filter labels contain leading or trailing whitespace.",
+        duration = Sys.time() - start_time,
         verbose = verbose,
         stop_on_error = stop_on_error
       )
@@ -68,6 +71,7 @@ check_filter_whitespace <- function(
           " filter label(s) contain leading or trailing whitespace: ",
           paste0("'", white_spaces, "'", collapse = ", ")
         ),
+        duration = Sys.time() - start_time,
         verbose = verbose,
         stop_on_error = stop_on_error
       )

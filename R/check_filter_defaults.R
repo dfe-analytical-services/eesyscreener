@@ -25,6 +25,7 @@ check_filter_defaults <- function(
   verbose = FALSE,
   stop_on_error = FALSE
 ) {
+  start_time <- Sys.time()
   test_name <- get_check_name()
   guidance_url <- render_url(
     "statistics-production/ud.html#aggregates-and-default-filters"
@@ -38,6 +39,7 @@ check_filter_defaults <- function(
       test_name,
       "PASS",
       "There are no filters in the data file.",
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     ))
@@ -86,6 +88,7 @@ check_filter_defaults <- function(
       test_name,
       "PASS",
       "All filters and groups have a default filter item present.",
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )
@@ -102,6 +105,7 @@ check_filter_defaults <- function(
         "'."
       ),
       guidance_url = guidance_url,
+      duration = Sys.time() - start_time,
       verbose = verbose,
       stop_on_error = stop_on_error
     )
