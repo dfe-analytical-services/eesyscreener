@@ -23,6 +23,7 @@ This package contains the checks used to enforce our [open data standards](https
 The package contains:
 
 - A core `screen_csv()` function, built from `screen_dfs()` and `screen_filenames()` plus the constituent individual checks
+- A `screen_zip()` function for bulk uploads: validates the ZIP structure then runs `screen_csv()` on every data / meta pair inside it
 - Functions to generate test data
 - Example datasets to aid testing and demonstration
 - Additional functions to aid in screening / preparing data for EES
@@ -34,6 +35,33 @@ If you've come here because your data is failing the screening and you want help
 `screen_csv()` is the core function that reads the CSV files and then runs all checks from `screen_filenames()` and `screen_dfs()`, providing full screening for a given pair of CSV files.
 
 This function is the key function used in both the plumber API and the R Shiny app. It returns a structured list containing a data frame of results, the stage the screening reached, and booleans for overall pass and API suitability. With `verbose = TRUE` it also prints messages to the console, and with `stop_on_error = TRUE` it throws on the first FAIL — useful inside analyst pipelines as a hard QA gate.
+
+### `screen_zip()`
+
+EES accepts bulk uploads as ZIP archives containing one or more data / meta CSV pairs plus an optional `dataset_names.csv` names file (required when more than one pair is present). `screen_zip()` validates the ZIP structure via the `check_zip_*` family of checks, then extracts the archive and calls `screen_csv()` on every pair it finds. All pairs are always screened — there is no early exit once the structure checks pass.
+
+```r
+tmp_zip <- tempfile(fileext = ".zip")
+d <- tempfile()
+dir.create(d)
+write.csv(eesyscreener::example_data, file.path(d, "ex.csv"), row.names = FALSE)
+write.csv(eesyscreener::example_meta, file.path(d, "ex.meta.csv"), row.names = FALSE)
+zip::zip(tmp_zip, c("ex.csv", "ex.meta.csv"), root = d)
+
+res <- eesyscreener::screen_zip(tmp_zip, verbose = TRUE)
+res$zip_structure  # data frame of ZIP structure check results
+res$ex             # screen_csv() result for the "ex" data / meta pair
+res$ex$passed      # TRUE
+```
+
+The return value is a named list:
+
+- `zip_structure` — data frame of ZIP structure check results (one row per `check_zip_*` check)
+- One entry per data file stem — each is a `screen_csv()` result (e.g. `res$my_data`)
+
+If any structure check fails, the function returns early with only `zip_structure` present.
+
+The structure-check failure modes you are most likely to hit are nested folders or OS junk such as `__MACOSX/` (`zip_flat_structure`), a missing `dataset_names.csv` when the ZIP contains more than one pair (`zip_names_file_presence`), pairs whose data and metadata stems don't match what the names file lists (`zip_pairs`), and stray files at the root that aren't part of any pair (`zip_no_unreferenced`). The failing row's `message` field describes the offending entries.
 
 ### `screen_filenames()`
 

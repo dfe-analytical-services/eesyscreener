@@ -35,7 +35,8 @@ Imports:
     stats,
     stringr,
     tidyr,
-    utils
+    utils,
+    zip
 Suggests:
     dfeR,
     knitr,

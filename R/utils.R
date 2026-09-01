@@ -1,3 +1,30 @@
+#' Split ZIP file entries into data and meta CSVs
+#'
+#' @param file_entries character vector of zip entry filenames
+#' @keywords internal
+#' @noRd
+#' @returns list with $data and $meta character vectors
+split_csv_entries <- function(file_entries) {
+  is_meta <- grepl("\\.meta\\.csv$", file_entries)
+  is_csv <- grepl("\\.csv$", file_entries)
+  list(
+    data = file_entries[is_csv & !is_meta],
+    meta = file_entries[is_meta]
+  )
+}
+
+#' Format a labelled, comma-joined, period-terminated list of filenames
+#'
+#' @param stems character vector of stems (or full filenames when suffix = "")
+#' @param label string prepended to the list
+#' @param suffix string appended to each stem (default ".csv")
+#' @keywords internal
+#' @noRd
+#' @returns single character string
+format_file_list <- function(stems, label, suffix = ".csv") {
+  paste0(label, paste(paste0(stems, suffix), collapse = ", "), ".")
+}
+
 #' Get the check name from the calling function
 #'
 #' Derives the check name by getting the name of the function that called this
